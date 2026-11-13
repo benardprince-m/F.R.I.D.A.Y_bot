@@ -241,3 +241,6 @@ extensions/discord/assets/embedded-app-sdk.mjs
 
 # FRIDAY: generated spec text extract (reproducible from the source PDFs)
 .friday_extract/
+
+# FRIDAY: confidential source specifications (kept local; repo is private)
+FRIDAY_*.pdf
