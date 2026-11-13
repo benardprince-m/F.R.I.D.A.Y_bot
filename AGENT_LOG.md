@@ -6,6 +6,36 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-13T22:40Z — WS-F: compose the FRIDAY turn pipeline at one seam
+
+**Goal:** Reduce the Phase 0 engine wiring from four separate hooks to one, by composing the soul-layer policies into a single pure function the engine calls per inbound message.
+
+**Scope:** `src/friday/turn.ts` (new), `src/friday/turn.test.ts` (new). No engine internals modified.
+
+**Plan:** Compose admission → trust label → egress scrub → egress gate in the spec's order (§6.3, §7.15, §9), failing closed at every stage, and prove the composition (not just each module) with tests.
+
+**Execution:**
+
+- Wrote `prepareTurn(inbound, ctx)` → `PreparedTurn`. Order: `decideAdmission` → `guardContent` → `redactForEgress` → `decideEgress`.
+- Fail-closed outcomes: non-owner sender → `accepted:false`, no tools, no memory; lockdown → non-essential egress blocked; a detected hard credential → turn refused, `modelText:""`, never sent to a model.
+- The model only ever sees `modelText` (trust-labelled + scrubbed). Reasons never echo raw sender ids or secret values.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test src/friday/turn.test.ts --maxWorkers=1` → **9 tests passed**.
+- `pnpm test src/friday --maxWorkers=1` → **8 files, 48 tests passed** (2.0s) — the whole soul layer, green.
+- `pnpm tsgo:core` → **exit 0** (after clearing a stale `.artifacts/dist-artifacts.lock` left by the OOM-killed build). FRIDAY modules typecheck under the engine's strict config.
+
+**Side effects:** Two new files; commits `6c91d742` (turn pipeline), `8b36ecf4` (board). Repository still private.
+
+**Outcome:** Completed — one wiring seam exists and is proven; the engine-wiring step is now a single surgical change.
+
+**Known risks:** Full `pnpm build` still not run this session (host OOMs on the ~7-minute monorepo build). Wiring into the engine's real model-egress path is unstarted and unproven at that entry point. Blocked inputs unchanged.
+
+**Next action:** Wire `prepareTurn` into the engine's inbound model-egress path and prove it at that entry point (the remaining work for WS-F/A-01). Continue unblocked workstreams (WS-B five-layer map, WS-E resume wiring).
+
+---
+
 ## 2026-11-13T22:34Z — Build-vs-reuse: OSS adoption decisions + soul-layer proof
 
 **Goal:** Act on the owner's direction — "if something already exists, don't blindly copy it; use it as inspiration and refine" — by recording a build-vs-reuse decision for every named OSS candidate, proving the existing `src/friday/` soul layer works, and keeping every blocked component isolated behind a contract.
