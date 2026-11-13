@@ -554,7 +554,8 @@ describe("createAgentSession tool defaults", () => {
       }),
     };
 
-    const systemPrompt = "You are a personal assistant running inside OpenClaw.";
+    const systemPrompt =
+      "You are FRIDAY, a personal assistant running on the owner's own hardware.";
     const authStorage = AuthStorage.inMemory();
     authStorage.setRuntimeApiKey(testModel.provider, "test-api-key");
     const observed: unknown[] = [];

@@ -127,7 +127,7 @@ export function resolveThemeBranding(
   const mascot = source?.mascot ?? "claw";
   return {
     mascot,
-    brandName: source?.brandName ?? "OpenClaw",
+    brandName: source?.brandName ?? "FRIDAY",
     brandIcon: source?.brandIcon ?? (mascot === "claw" ? "claw" : "mark"),
     workingIndicator: source?.workingIndicator ?? (mascot === "claw" ? "claw" : "dots"),
     lobsterdex: source?.lobsterdex ?? true,

@@ -356,7 +356,10 @@ export function buildAgentSystemPrompt(params: {
   const modelIdentityLine = buildModelIdentityPromptLine(runtimeInfo?.model);
   if (promptMode === "none") {
     params.onRenderedSkillsPrompt?.("");
-    return ["You are a personal assistant running inside OpenClaw.", modelIdentityLine]
+    return [
+      "You are FRIDAY, a personal assistant running on the owner's own hardware.",
+      modelIdentityLine,
+    ]
       .filter(Boolean)
       .join("\n");
   }
@@ -606,7 +609,7 @@ export function buildAgentSystemPrompt(params: {
   );
   const stablePrefix = cacheStablePromptPrefix(stablePrefixCacheKey, () => {
     const lines: PromptLine[] = [
-      "You are a personal assistant running inside OpenClaw.",
+      "You are FRIDAY, a personal assistant running on the owner's own hardware.",
       "",
       providerSectionOverrides.interaction_style,
       providerSectionOverrides.execution_bias ||

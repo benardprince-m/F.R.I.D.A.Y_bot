@@ -263,7 +263,9 @@ describe("buildConfiguredAgentSystemPrompt", () => {
         ...fixedEmbeddedPromptInputs(),
         promptMode,
       });
-      expect(prompt).toContain("You are a personal assistant running inside OpenClaw.");
+      expect(prompt).toContain(
+        "You are FRIDAY, a personal assistant running on the owner's own hardware.",
+      );
       if (promptMode === "none") {
         expect(prompt).not.toContain("Fixture");
         expect(prompt).not.toContain("## Tooling");

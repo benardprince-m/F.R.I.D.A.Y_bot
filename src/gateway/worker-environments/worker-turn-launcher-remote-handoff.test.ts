@@ -318,7 +318,9 @@ describe("worker turn launcher remote handoff", () => {
       },
     });
     const systemPrompt = assignment.systemPrompt;
-    expect(systemPrompt).toContain("You are a personal assistant running inside OpenClaw.");
+    expect(systemPrompt).toContain(
+      "You are FRIDAY, a personal assistant running on the owner's own hardware.",
+    );
     expect(systemPrompt).toContain("Keep the worker guidance.");
     expect(systemPrompt).toContain("active_node=active-mac");
     expect(systemPrompt).toContain("active_node_identity=unknown");
@@ -464,7 +466,7 @@ describe("worker turn launcher remote handoff", () => {
     expect(JSON.stringify(assignment.prompt)).toContain("media/inbound/openclaw-staged-");
     expect(tunnel.stageAttachments).toHaveBeenCalledOnce();
     expect(assignment.systemPrompt).toContain(
-      "You are a personal assistant running inside OpenClaw.",
+      "You are FRIDAY, a personal assistant running on the owner's own hardware.",
     );
     expect(assignment.systemPrompt).toContain("active_node=unknown");
     expect(assignment.systemPrompt).toContain("active_node_identity=unknown");

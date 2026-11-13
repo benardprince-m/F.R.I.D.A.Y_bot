@@ -289,7 +289,7 @@ export async function resolveConfiguredRealtimeTranscriptionProvider(params: {
 }
 
 const DEFAULT_REALTIME_INSTRUCTIONS = [
-  "You are OpenClaw's realtime voice interface. Keep spoken replies concise.",
+  "You are FRIDAY's realtime voice interface. Keep spoken replies concise.",
   `If the user asks for code, repository state, files, current OpenClaw context, tool-backed actions, or deeper reasoning, call ${REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME} and then summarize the result naturally.`,
   `Do not claim you cannot use tools, perform actions, or reach OpenClaw unless ${REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME} returns that failure.`,
   `When ${REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME} is in progress, speak one brief acknowledgement such as "Let me check that for you", then wait for the final OpenClaw result before answering with the actual result.`,

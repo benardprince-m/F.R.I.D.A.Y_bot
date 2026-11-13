@@ -1,14 +1,9 @@
 import { visibleWidth } from "../../packages/terminal-core/src/ansi.js";
-import {
-  decorativeEmoji,
-  decorativePrefix,
-  stripDecorativeEmojiForTerminal,
-} from "../../packages/terminal-core/src/decorative-emoji.js";
+import { stripDecorativeEmojiForTerminal } from "../../packages/terminal-core/src/decorative-emoji.js";
 import { isRich, theme } from "../../packages/terminal-core/src/theme.js";
 import { resolveCommitHash } from "../infra/git-commit.js";
 import { hasRootVersionAlias } from "./argv.js";
 import { parseTaglineMode } from "./banner-config-lite.js";
-import { pickCliLobsterArt } from "./lobster-art.js";
 import { pickTagline, type TaglineOptions } from "./tagline.js";
 
 type BannerOptions = TaglineOptions & {
@@ -37,9 +32,7 @@ export function formatCliBannerLine(version: string, options: BannerOptions = {}
     options,
   );
   const rich = options.richTty ?? isRich();
-  const title = decorativePrefix("🦞", "OpenClaw", options);
-  const prefix = decorativeEmoji("🦞", options);
-  const indent = prefix ? `${prefix} ` : "";
+  const title = "FRIDAY";
   const columns = options.columns ?? process.stdout.columns ?? 120;
   const plainBaseLine = `${title} ${version} (${commitLabel})`;
   const plainFullLine = tagline ? `${plainBaseLine} — ${tagline}` : plainBaseLine;
@@ -53,22 +46,14 @@ export function formatCliBannerLine(version: string, options: BannerOptions = {}
   const taglineText = rich ? theme.accentDim(tagline) : tagline;
   return fitsOnOneLine
     ? `${baseLine} ${rich ? theme.muted("—") : "—"} ${taglineText}`
-    : `${baseLine}\n${" ".repeat(indent.length)}${taglineText}`;
+    : `${baseLine}\n${taglineText}`;
 }
 
-// Rare day-seeded ASCII lobster above the banner: random-tagline mode only,
-// rich terminals only, never in CI (see lobster-art.ts for the odds).
-function resolveLobsterArt(options: BannerOptions): string | null {
-  const mode = parseTaglineMode(options.mode);
-  if (mode === "off" || mode === "default") {
-    return null;
-  }
-  if (!(options.richTty ?? isRich())) {
-    return null;
-  }
-  const now = options.now ? options.now() : new Date();
-  const art = pickCliLobsterArt(now, options.env ?? process.env);
-  return art ? theme.accentDim(art) : null;
+// FRIDAY spec law #3: clean, functional appearance. No mascot or decorative art.
+// Decorative banner art is intentionally disabled; the hook remains so callers
+// and tests keep a stable shape.
+function resolveLobsterArt(_options: BannerOptions): string | null {
+  return null;
 }
 
 export function emitCliBanner(version: string, options: BannerOptions = {}) {

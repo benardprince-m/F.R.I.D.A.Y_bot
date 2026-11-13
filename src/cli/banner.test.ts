@@ -57,7 +57,7 @@ describe("formatCliBannerLine", () => {
       mode: "default",
     });
 
-    expect(line).toBe("🦞 OpenClaw 2026.3.7 (abc1234) — All your chats, one OpenClaw.");
+    expect(line).toBe("FRIDAY 2026.3.7 (abc1234) — Your second brain, on your own hardware.");
   });
 
   it("drops decorative emoji for generic Linux terminals", () => {
@@ -66,7 +66,7 @@ describe("formatCliBannerLine", () => {
       ...bannerOptions,
     });
 
-    expect(line).toBe("OpenClaw 2026.3.7 (abc1234)");
+    expect(line).toBe("FRIDAY 2026.3.7 (abc1234)");
   });
 });
 
@@ -84,7 +84,7 @@ describe("emitCliBanner", () => {
     expect(hasEmittedCliBanner()).toBe(false);
   });
 
-  it("adds the ASCII lobster on lobster days for rich random-mode terminals", async () => {
+  it("never adds the retired ASCII mascot on rich random-mode terminals", async () => {
     const { emitCliBanner } = await importFreshBannerModule();
     setStdoutIsTty(true);
     const writeSpy = vi.spyOn(process.stdout, "write").mockImplementation(() => true);
@@ -97,7 +97,9 @@ describe("emitCliBanner", () => {
     });
 
     const written = writeSpy.mock.calls.map(([chunk]) => String(chunk)).join("");
-    expect(written).toContain("( o.o )");
+    // FRIDAY spec law #3: clean appearance, no mascot art.
+    expect(written).not.toContain("( o.o )");
+    expect(written).toContain("FRIDAY 2026.3.7");
   });
 
   it.each([{ label: "plain terminals", mode: "random" as const, richTty: false }])(

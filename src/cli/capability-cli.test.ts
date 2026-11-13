@@ -915,7 +915,7 @@ describe("capability cli", () => {
       expect(call?.context?.messages?.[0]?.role).toBe("user");
       if (chatGpt) {
         expect(call?.context?.systemPrompt).toBe(
-          "You are a personal assistant running inside OpenClaw.",
+          "You are FRIDAY, a personal assistant running on the owner's own hardware.",
         );
         expect(call?.context?.messages?.[0]?.content).toBe("hello");
       } else {
