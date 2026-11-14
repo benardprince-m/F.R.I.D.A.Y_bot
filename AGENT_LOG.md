@@ -6,6 +6,34 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-14T09:34Z — WS-B/WS-F: correction path + protected-file integrity check
+
+**Goal:** Close two unblocked, spec-mandated soul-layer gaps that need no credentials: the memory correction path (§7.4) and the Constitution/persona integrity check (§7.5).
+
+**Scope:** `src/friday/memory/correction.ts` + test, `src/friday/policy/integrity.ts` + test. No engine internals modified.
+
+**Plan:** Implement each as a pure module with its invariant proven by test, then wire later.
+
+**Execution:**
+
+- `correction.ts`: `correct(record, newText, newProvenance, now, reason)` replaces the current value, appends the superseded value to an append-only `history`, and returns an audit entry. `currentValue()` reads only the current field, so the old value is never revived as truth.
+- `integrity.ts`: `buildBaseline()` / `checkIntegrity()` / `renderIntegrityReport()` over sha256 content hashes. Flags changed / missing / unexpected protected files; the alert contains hashes only, never file contents.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test src/friday --maxWorkers=1` → **11 files, 67 tests passed** (2.1s).
+- `pnpm tsgo:core` → **exit 0**.
+
+**Side effects:** Four new files; board updated (B-05, F-05 → DONE-PROOF). Repository still private.
+
+**Outcome:** Completed — both modules implemented and proven.
+
+**Known risks:** Integrity baseline is not yet stored anywhere (owner-approved baseline file is a wiring task). Correction history is not yet persisted. Engine wiring for both unstarted.
+
+**Next action:** Continue unblocked soul-layer work; then wire the turn pipeline, secret intake, integrity check, and correction into the engine entry points.
+
+---
+
 ## 2026-11-14T09:32Z — Phone-only constraint baked in + secret intake from chat
 
 **Goal:** Act on a new binding constraint — the owner is phone-only (no laptop, no desktop) — and implement the one phone-only requirement that needs no host: ingesting a credential pasted into chat, storing it, and deleting the message.

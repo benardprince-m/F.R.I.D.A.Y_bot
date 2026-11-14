@@ -34,7 +34,7 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 | B-02 | Librarian classify: ADD / UPDATE / MERGE / NOOP with importance×recency×use   | §7.4      | OpenHands | DONE-PROOF (unit)            | `src/friday/memory/librarian.ts` · commit b7ae3617 · tests pass   |
 | B-03 | Provenance on every memory (source + date); confidence labels                 | §7.4      | OpenHands | DONE-PROOF (unit)            | `Provenance`/`Confidence` types · `docs/contracts/friday-core.md` |
 | B-04 | "Forget X" purge across all layers + verifiable evidence report               | §7.4, §14 | OpenHands | DONE-PROOF (unit)            | `src/friday/memory/forget.ts` · commit b7ae3617 · tests pass      |
-| B-05 | Correction path: update fact, keep audit trail, no revival                    | §7.4      | OpenHands | TODO                         | —                                                                 |
+| B-05 | Correction path: update fact, keep audit trail, no revival                    | §7.4      | OpenHands | DONE-PROOF (unit)            | `src/friday/memory/correction.ts` · tests pass                    |
 | B-06 | Nightly consolidation: merge/compress/decay, idempotent                       | §7.4      | OpenHands | DEFERRED (Phase 1 heartbeat) | —                                                                 |
 
 ### WS-C · Model Router — free-tier chain, failover, cost tracking
@@ -72,7 +72,7 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 | F-02 | Prompt-injection scrubber + label untrusted content                                     | §7.15       | OpenHands | DONE-PROOF (unit)             | `src/friday/policy/injection-guard.ts` · commit b7ae3617 · tests pass |
 | F-03 | `/lockdown` kill switch: stop non-essential egress, keep owner messaging                | §7.15       | OpenHands | DONE-PROOF (unit)             | `src/friday/policy/kill-switch.ts` · commit b7ae3617 · tests pass     |
 | F-04 | Secret store: just-in-time fetch, never in memory/logs/prompts/Git                      | §7.11, §6.3 | OpenHands | TODO (engine provides store)  | —                                                                     |
-| F-05 | Constitution/persona integrity check vs owner-approved baseline                         | §7.5        | OpenHands | TODO                          | —                                                                     |
+| F-05 | Constitution/persona integrity check vs owner-approved baseline                         | §7.5        | OpenHands | DONE-PROOF (unit)             | `src/friday/policy/integrity.ts` · tests pass                         |
 | F-06 | Vault dual-auth + $10 unattended cap at the enforcement layer                           | §7.11       | OpenHands | BLOCKED-INPUT (vault factors) | —                                                                     |
 | F-07 | Turn pipeline: compose admission → trust label → egress scrub → egress gate at one seam | §6.3, §7.15 | OpenHands | DONE-PROOF (unit)             | `src/friday/turn.ts` · commit 6c91d742 · 9 tests pass                 |
 
