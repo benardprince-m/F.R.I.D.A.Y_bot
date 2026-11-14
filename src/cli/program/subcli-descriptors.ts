@@ -143,7 +143,7 @@ const subCliCommands = [
   ),
   command(
     "connect",
-    "Connect this machine to an OpenClaw Gateway as a node",
+    "Connect this machine to an FRIDAY Gateway as a node",
     async (program) => (await import("../connect-cli.js")).registerConnectCli(program),
     { hasSubcommands: false },
   ),
@@ -196,7 +196,7 @@ const subCliCommands = [
   ),
   command(
     "docs",
-    "Search the live OpenClaw docs",
+    "Search the live FRIDAY docs",
     async (program) => (await import("../docs-cli.js")).registerDocsCli(program),
     { hasSubcommands: false },
   ),
@@ -210,7 +210,7 @@ const subCliCommands = [
   }),
   command(
     "proxy",
-    "Run the OpenClaw debug proxy and inspect captured traffic",
+    "Run the FRIDAY debug proxy and inspect captured traffic",
     async (program) => (await import("../proxy-cli.js")).registerProxyCli(program),
     { machineOutput: ({ argv }) => isProxyMachineOutput(argv) },
   ),
@@ -236,7 +236,7 @@ const subCliCommands = [
   }),
   command(
     "plugins",
-    "Manage OpenClaw plugins and extensions",
+    "Manage FRIDAY plugins and extensions",
     async (program, argv) => {
       (await import("../plugins-cli.js")).registerPluginsCli(program);
       await registerPluginCommandsIfNeeded(program, argv);
@@ -271,7 +271,7 @@ const subCliCommands = [
     async (program) => (await import("../skills-cli.js")).registerSkillsCli(program),
     { machineOutput: ({ argv }) => isSkillsMachineOutput(argv) },
   ),
-  command("update", "Update OpenClaw and inspect update channel status", async (program) =>
+  command("update", "Update FRIDAY and inspect update channel status", async (program) =>
     (await import("../update-cli.js")).registerUpdateCli(program),
   ),
   command(

@@ -93,8 +93,8 @@ it("shows connected requester principals in list and status output", async () =>
   );
   const listing = mockLog.mock.calls.map(([line]) => String(line)).join("\n");
   expect(listing).toContain("- context7");
-  expect(listing).toContain("OpenClaw-managed MCP servers (");
-  expect(listing).toContain("OpenClaw-managed mcp.servers entries");
+  expect(listing).toContain("FRIDAY-managed MCP servers (");
+  expect(listing).toContain("FRIDAY-managed mcp.servers entries");
   expect(listing).toContain("does not include mcporter servers from config/mcporter.json");
 
   mockLog.mockClear();

@@ -40,8 +40,8 @@ function formatCliMachineOutput(humanOutput: string): string {
 
 function formatUnknownCommandMessage(command: string, commandPath: readonly string[]): string {
   return commandPath.length > 0
-    ? `OpenClaw ${commandPath.join(" ")} has no command "${command}".`
-    : `OpenClaw does not know the command "${command}".`;
+    ? `FRIDAY ${commandPath.join(" ")} has no command "${command}".`
+    : `FRIDAY does not know the command "${command}".`;
 }
 
 function formatCliUnknownCommandOutput(
@@ -97,7 +97,7 @@ export function createCliUnknownCommandError(
 
 function formatOrdinaryCliParseErrorMessage(message: string): string {
   for (const [pattern, prefix] of [
-    [/^unknown option ['"`](.+?)['"`]/i, "OpenClaw does not recognize option"],
+    [/^unknown option ['"`](.+?)['"`]/i, "FRIDAY does not recognize option"],
     [/^missing required argument ['"`](.+?)['"`]/i, "Missing required argument"],
     [/^required option ['"`](.+?)['"`] not specified/i, "Missing required option"],
   ] as const) {
@@ -111,7 +111,7 @@ function formatOrdinaryCliParseErrorMessage(message: string): string {
     return "Too many arguments for this command.";
   }
 
-  return `OpenClaw could not parse this command: ${message}`;
+  return `FRIDAY could not parse this command: ${message}`;
 }
 
 export function formatCliParseErrorOutput(

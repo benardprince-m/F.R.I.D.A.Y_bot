@@ -232,7 +232,7 @@ function registerBackupGitCommands(backup: Command): void {
 
   git
     .command("create")
-    .description("Dump selected OpenClaw databases and commit one Git revision")
+    .description("Dump selected FRIDAY databases and commit one Git revision")
     .requiredOption("--repository <path>", "Git backup repository directory")
     .option(
       "--all",
@@ -310,7 +310,7 @@ function registerBackupSqliteCommands(backup: Command): void {
 
   sqlite
     .command("create")
-    .description("Create a compact, verified snapshot of an OpenClaw SQLite database")
+    .description("Create a compact, verified snapshot of an FRIDAY SQLite database")
     .action(
       backupAction(
         async () => (await import("../../commands/backup-sqlite.js")).backupSqliteCreateCommand,

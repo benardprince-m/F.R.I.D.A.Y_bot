@@ -20,7 +20,7 @@ export type ClawsAddOptions = ClawsDevOptions & {
   acknowledgeClawhubRisk?: boolean;
 };
 export function registerClawsCli(program: Command) {
-  const claws = program.command("claws").description("Author and add OpenClaw Claws");
+  const claws = program.command("claws").description("Author and add FRIDAY Claws");
 
   claws
     .command("create")

@@ -14,7 +14,7 @@ function command(
 }
 
 export const CORE_CLI_COMMAND_DESCRIPTORS: readonly NamedCommandDescriptor[] = [
-  command("setup", "Chat with OpenClaw; onboard when setup is incomplete", false),
+  command("setup", "Chat with FRIDAY; onboard when setup is incomplete", false),
   command("crestodian", "Deprecated: use openclaw setup", false, { hidden: true }),
   command(
     "onboard",
@@ -32,7 +32,7 @@ export const CORE_CLI_COMMAND_DESCRIPTORS: readonly NamedCommandDescriptor[] = [
     true,
     { machineOutput: ({ argv }) => isConfigMachineOutput(argv) },
   ),
-  command("claws", "Author and add OpenClaw Claws", true, {
+  command("claws", "Author and add FRIDAY Claws", true, {
     parentDefaultHelp: true,
   }),
   command("backup", "Create, verify, and restore backup archives and SQLite snapshots", true),
@@ -65,7 +65,7 @@ export const CORE_CLI_COMMAND_DESCRIPTORS: readonly NamedCommandDescriptor[] = [
   command("reset", "Reset local config/state (keeps the CLI installed)", false),
   command("uninstall", "Uninstall the gateway service + local data", false),
   command("message", "Send, read, and manage messages and channel actions", true),
-  command("mcp", "Manage OpenClaw mcp.servers config and channel bridge", true, {
+  command("mcp", "Manage FRIDAY mcp.servers config and channel bridge", true, {
     parentDefaultHelp: true,
   }),
   command("transcripts", "Inspect stored transcripts", true),

@@ -154,7 +154,7 @@ export function registerMigrateCommand(program: Command) {
   addMigrationOptions(
     migrate
       .command("plan <provider>")
-      .description("Preview a migration without changing OpenClaw state"),
+      .description("Preview a migration without changing FRIDAY state"),
   ).action(async (provider, opts, command) => {
     await runCommandWithRuntime(defaultRuntime, async () => {
       await migratePlanCommand(defaultRuntime, {

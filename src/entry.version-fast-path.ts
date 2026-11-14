@@ -30,7 +30,7 @@ export function tryHandleRootVersionFastPath(argv: string[]): boolean {
   Promise.all([import("./version.js"), import("./infra/git-commit.js")])
     .then(([{ VERSION }, { resolveCommitHash }]) => {
       const commit = resolveCommitHash({ moduleUrl: import.meta.url });
-      console.log(commit ? `OpenClaw ${VERSION} (${commit})` : `OpenClaw ${VERSION}`);
+      console.log(commit ? `FRIDAY ${VERSION} (${commit})` : `FRIDAY ${VERSION}`);
       process.exitCode = 0;
     })
     .catch(onError);

@@ -411,7 +411,7 @@ export function registerStatusHealthSessionsCommands(program: Command) {
   registerSessionsLifecycleCommand(sessionsCmd, "delete");
 
   addSessionsGatewayOptions(sessionsCmd.command("import [catalogId] [threadId]"))
-    .description("Preserve native catalog transcripts in ordinary OpenClaw sessions")
+    .description("Preserve native catalog transcripts in ordinary FRIDAY sessions")
     .option("--all", "Import every visible catalog session, paging each source", false)
     .option("--catalog <id>", "Catalog to import with --all (for example: claude or codex)")
     .option("--host <hostId>", "Source host (single transcript default: discover the Gateway host)")

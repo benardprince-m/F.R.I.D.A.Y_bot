@@ -143,7 +143,7 @@ export function registerUpdateCli(program: Command) {
   program.enablePositionalOptions();
   const update = program
     .command("update")
-    .description("Update OpenClaw and inspect update channel status");
+    .description("Update FRIDAY and inspect update channel status");
   for (const [flags, description, defaultValue] of UPDATE_OPTION_SPECS) {
     update.option(flags, description, defaultValue);
   }

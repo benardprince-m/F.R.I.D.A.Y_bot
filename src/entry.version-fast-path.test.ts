@@ -44,8 +44,8 @@ describe("entry root version fast path", () => {
   });
 
   it.each([
-    { commit: "abc1234", expected: "OpenClaw 9.9.9-test (abc1234)" },
-    { commit: null, expected: "OpenClaw 9.9.9-test" },
+    { commit: "abc1234", expected: "FRIDAY 9.9.9-test (abc1234)" },
+    { commit: null, expected: "FRIDAY 9.9.9-test" },
   ])("prints version output with commit $commit", async ({ commit, expected }) => {
     const printed = createDeferred();
     const output = vi.spyOn(console, "log").mockImplementation(() => printed.resolve());

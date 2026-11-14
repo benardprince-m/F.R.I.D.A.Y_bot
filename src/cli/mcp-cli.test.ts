@@ -567,7 +567,7 @@ it("removes pure disabled tombstones when enabling MCP servers", async () => {
   mockLog.mockClear();
   await mcp("list");
   const output = logOutput();
-  expect(output).toContain("No OpenClaw-managed MCP servers configured in ");
+  expect(output).toContain("No FRIDAY-managed MCP servers configured in ");
   expect(output).toContain("does not include mcporter servers from config/mcporter.json");
 });
 

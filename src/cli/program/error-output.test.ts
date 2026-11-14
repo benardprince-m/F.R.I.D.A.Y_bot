@@ -161,7 +161,7 @@ describe("formatCliParseErrorOutput", () => {
       args: ["system", "heartbeat", "last", "--unknown"],
       root: "system",
       children: ["heartbeat", "last"],
-      message: 'OpenClaw does not recognize option "--unknown".',
+      message: 'FRIDAY does not recognize option "--unknown".',
       machineOutput: isSystemMachineOutput,
     },
   ])("keeps $name parse failures machine-readable by default", async (testCase) => {
@@ -303,9 +303,9 @@ describe("formatCliParseErrorOutput", () => {
       argv: ["node", "openclaw", "pairng", "--json"],
     });
 
-    expect(error.message).toBe('OpenClaw does not know the command "pairng".');
+    expect(error.message).toBe('FRIDAY does not know the command "pairng".');
     expect(error.humanOutput).toBe(
-      'OpenClaw does not know the command "pairng".\nDid you mean this?\n  openclaw pairing\nTry: openclaw --help\nPlugin command? openclaw plugins list\nDocs: https://docs.openclaw.ai/cli\n',
+      'FRIDAY does not know the command "pairng".\nDid you mean this?\n  openclaw pairing\nTry: openclaw --help\nPlugin command? openclaw plugins list\nDocs: https://docs.openclaw.ai/cli\n',
     );
   });
 
@@ -316,7 +316,7 @@ describe("formatCliParseErrorOutput", () => {
       commandNames: ["list"],
     });
 
-    expect(error.message).toBe('OpenClaw sessions has no command "lst".');
+    expect(error.message).toBe('FRIDAY sessions has no command "lst".');
     expect(error.message).not.toMatch(/^error:/i);
     expect(error.humanOutput).toContain("Did you mean this?\n  openclaw sessions list\n");
   });
@@ -328,7 +328,7 @@ describe("formatCliParseErrorOutput", () => {
     });
 
     expect(output).toBe(
-      'OpenClaw webhooks has no command "list".\nTry: openclaw webhooks --help\nDocs: https://docs.openclaw.ai/cli\n',
+      'FRIDAY webhooks has no command "list".\nTry: openclaw webhooks --help\nDocs: https://docs.openclaw.ai/cli\n',
     );
   });
 
@@ -341,7 +341,7 @@ describe("formatCliParseErrorOutput", () => {
 
     expect(error.code).toBe("commander.unknownCommand");
     expect(output).toBe(
-      'OpenClaw sessions has no command "lst".\nDid you mean this?\n  openclaw sessions list\nTry: openclaw sessions --help\nDocs: https://docs.openclaw.ai/cli\n',
+      'FRIDAY sessions has no command "lst".\nDid you mean this?\n  openclaw sessions list\nTry: openclaw sessions --help\nDocs: https://docs.openclaw.ai/cli\n',
     );
   });
 
@@ -356,7 +356,7 @@ describe("formatCliParseErrorOutput", () => {
     expect(error.exitCode).toBe(1);
     expect(stdout).toBe("");
     expect(output).toBe(
-      'OpenClaw sessions has no command "lst".\nDid you mean this?\n  openclaw sessions list\nTry: openclaw sessions --help\nDocs: https://docs.openclaw.ai/cli\n',
+      'FRIDAY sessions has no command "lst".\nDid you mean this?\n  openclaw sessions list\nTry: openclaw sessions --help\nDocs: https://docs.openclaw.ai/cli\n',
     );
   });
 
@@ -401,7 +401,7 @@ describe("formatCliParseErrorOutput", () => {
     });
 
     expect(output).toBe(
-      'OpenClaw does not recognize option "--wat".\nTry: openclaw channels status --help\n',
+      'FRIDAY does not recognize option "--wat".\nTry: openclaw channels status --help\n',
     );
   });
 });

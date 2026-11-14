@@ -46,7 +46,7 @@ const authoringAction = createLazyRuntimeMethodBinder(
 export function registerPluginsCli(program: Command) {
   const plugins = program
     .command("plugins")
-    .description("Manage OpenClaw plugins and extensions")
+    .description("Manage FRIDAY plugins and extensions")
     .addHelpText(
       "after",
       () =>
@@ -248,7 +248,7 @@ export function registerPluginsCli(program: Command) {
 
   marketplace
     .command("entries")
-    .description("List entries from the configured OpenClaw marketplace feed")
+    .description("List entries from the configured FRIDAY marketplace feed")
     .option("--feed-profile <name>", "Configured marketplace feed profile to list")
     .option("--feed-url <url>", "Explicit hosted marketplace feed URL")
     .option("--offline", "Read the latest accepted snapshot without fetching the feed", false)
@@ -257,7 +257,7 @@ export function registerPluginsCli(program: Command) {
 
   marketplace
     .command("refresh")
-    .description("Refresh the configured OpenClaw marketplace feed snapshot")
+    .description("Refresh the configured FRIDAY marketplace feed snapshot")
     .option("--feed-profile <name>", "Configured marketplace feed profile to refresh")
     .option("--feed-url <url>", "Explicit hosted marketplace feed URL")
     .option("--expected-sha256 <hash>", "Expected hosted feed SHA-256 payload checksum")
