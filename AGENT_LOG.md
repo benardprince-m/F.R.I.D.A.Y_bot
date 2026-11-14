@@ -218,6 +218,51 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-14T11:30Z — Full build proven + user-facing rebrand completed
+
+**Goal:** Clear the one unverified gate from the handoff (a full monorepo build) and finish the user-facing rebrand so no surface still says "OpenClaw".
+
+**Scope:** Repository root; `src/` user-facing CLI strings; build/CI proof. No engine logic changed.
+
+**Plan:**
+
+1. Diagnose why prior sessions kept dying (the build's `write-unified-entry-dts` step).
+2. Run the full build in the background with a bounded Node heap and a log I can poll.
+3. Sweep remaining user-facing "OpenClaw" literals (`--version`, help, CLI descriptions) and rebrand to FRIDAY; update the coupled tests.
+4. Re-typecheck, re-test, commit, log.
+
+**Execution — build diagnosis and result:**
+
+- The host has 15 GiB RAM and **no swap**; `swapon` is not permitted in this container. During the build the `write-unified-entry-dts` step spawns the TypeScript 7 native `tsc --api` binary, which peaked at ~8 GiB RSS — this is what killed prior sessions. `NODE_OPTIONS` cannot cap it because it is a separate native binary, not a Node process.
+- Mitigation that worked: run the build in the background writing to `/tmp/friday-build.log`, and poll it. The build **succeeded**: `EXIT=0`, total **5m 36.8s**, slowest phase `write-unified-entry-dts 3m 4.2s`, zero `error TS`/`failed` lines. Artifacts `dist/entry.js` and `dist/index.js` present; `node dist/index.js --version` → `OpenClaw 2026.10.4 (ad06ab0)` (pre-rebrand dist).
+
+**Execution — rebrand completion:**
+
+- `src/entry.version-fast-path.ts` and `src/cli/program/help.ts`: `OpenClaw <v>` → `FRIDAY <v>`.
+- `src/cli/program/error-output.ts`: unknown-command and parse-error strings.
+- ~21 command `.description()` strings plus their source-of-truth catalogs (`src/cli/program/core-command-descriptors.ts`, `src/cli/program/subcli-descriptors.ts`) — the catalog-drift test (`root-command-descriptions.test.ts`) requires them to match the registered descriptions, so both changed together.
+- `src/cli/mcp-cli.ts`: user-visible output ("FRIDAY-managed MCP servers").
+- Internal contracts deliberately **unchanged**: the `openclaw` binary/command name, config keys, state paths, and type names (`OpenClawConfig`), per §2.3.
+
+**Verification (exact commands + actual results):**
+
+- `NODE_OPTIONS=--max-old-space-size=6144 pnpm build` → `EXIT=0` (log `/tmp/friday-build2.log` for the post-rebrand rebuild).
+- `pnpm tsgo:core` → **exit 0**.
+- `pnpm test src/friday --maxWorkers=1` → **17 files, 106 tests passed**.
+- `pnpm test src/entry.version-fast-path.test.ts` → 5 passed.
+- `pnpm test src/cli/program/error-output.test.ts` + `root-command-descriptions.test.ts` → 24 passed (after syncing the descriptor catalogs).
+- `pnpm test src/cli/mcp-cli.test.ts` → 30 passed; `plugins-cli.lazy.test.ts` → passed.
+
+**Side effects:** Commit `35bdaa53` (22 files, rebrand only). `dist/` rebuilt locally. Repository still private. Nothing pushed.
+
+**Outcome:** Completed — the full build gate is now proven green on this host, and the user-facing rebrand is complete.
+
+**Known risks:** The build remains near the host's memory ceiling; it must keep running as a polled background job. No owner credentials yet, so the live Telegram loop and model calls remain BLOCKED-INPUT.
+
+**Next action:** Engine wiring of the proven soul layer, starting with `prepareTurn` at the model-egress seam and `/secret` intake at channel ingress; then the memory Librarian/forget and the task ledger. Keep each wiring surgical and proven at its real entry point.
+
+---
+
 ## 2026-11-13T13:40Z — Onboarding: spec comprehension, engine recon, and build plan
 
 **Goal:** Fulfil the OpenHands working contract (§2.3) — read the sources, verify the actual repository state, and post a comprehension summary before any further code changes.
