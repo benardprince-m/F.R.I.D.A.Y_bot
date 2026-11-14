@@ -8,7 +8,9 @@ describe("parseSecretIntake", () => {
   it("captures a simple name and value, and asks for message deletion", () => {
     const r = parseSecretIntake("/secret TELEGRAM_BOT_TOKEN 123456:ABC-DEF");
     expect(r.kind).toBe("store");
-    if (r.kind !== "store") return;
+    if (r.kind !== "store") {
+      return;
+    }
     expect(r.name).toBe("TELEGRAM_BOT_TOKEN");
     expect(r.value).toBe("123456:ABC-DEF");
     expect(r.deleteMessage).toBe(true);
@@ -18,7 +20,9 @@ describe("parseSecretIntake", () => {
     const secret = "123456:ABC-DEF_very_secret";
     const r = parseSecretIntake(`/secret TELEGRAM_BOT_TOKEN ${secret}`);
     expect(r.kind).toBe("store");
-    if (r.kind !== "store") return;
+    if (r.kind !== "store") {
+      return;
+    }
     expect(r.reply).not.toContain(secret);
     expect(r.reply).toContain("TELEGRAM_BOT_TOKEN");
   });
@@ -27,14 +31,18 @@ describe("parseSecretIntake", () => {
     const pem = "-----BEGIN KEY-----\nabc\n-----END KEY-----";
     const r = parseSecretIntake(`/secret MY_KEY ${pem}`);
     expect(r.kind).toBe("store");
-    if (r.kind !== "store") return;
+    if (r.kind !== "store") {
+      return;
+    }
     expect(r.value).toBe(pem);
   });
 
   it("accepts the 'set' keyword", () => {
     const r = parseSecretIntake("/secret set OPENAI_API_KEY sk-abc");
     expect(r.kind).toBe("store");
-    if (r.kind !== "store") return;
+    if (r.kind !== "store") {
+      return;
+    }
     expect(r.name).toBe("OPENAI_API_KEY");
     expect(r.value).toBe("sk-abc");
   });
@@ -51,7 +59,9 @@ describe("parseSecretIntake", () => {
   it("asks for a value when only a name is given", () => {
     const r = parseSecretIntake("/secret TELEGRAM_BOT_TOKEN");
     expect(r.kind).toBe("help");
-    if (r.kind !== "help") return;
+    if (r.kind !== "help") {
+      return;
+    }
     expect(r.reply).toContain("TELEGRAM_BOT_TOKEN");
   });
 
