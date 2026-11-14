@@ -2,9 +2,11 @@
 
 **Status:** contracts-first. Other workstreams build against these shapes, not against each other's internals. Change a contract here before changing an implementation.
 
-**Placement decision.** FRIDAY is a thin policy/persona layer over the OpenClaw engine, not a parallel stack (§6.1, §11). The engine already provides channels, memory storage, secrets, scheduling, doctor, and the provider extensions. FRIDAY adds the _policy_ the engine does not have: owner-only access, pre-egress PII/secret filtering, prompt-injection labelling, the memory Librarian, forget-with-evidence, the durable task ledger, and the debrief. These live in `src/friday/` as pure, dependency-light modules so they are unit-testable without credentials, network, or a running Gateway.
+**Placement decision.** FRIDAY is a thin policy/persona layer over the OpenClaw engine, not a parallel stack (§6.1, §11). The engine already provides channels, memory storage, secrets, scheduling, doctor, and the provider extensions. FRIDAY adds the _policy_ the engine does not have: owner-only access, pre-egress PII/secret filtering, prompt-injection labelling, the memory Librarian, forget-with-evidence, the durable task ledger, and the debrief. These live in `extensions/friday/src/` as pure, dependency-light modules so they are unit-testable without credentials, network, or a running Gateway.
 
-**Wiring rule.** Nothing in `src/friday/` reaches into engine internals. Each module is a pure function or a small class with explicit inputs. Wiring into engine entry points (model egress, channel admission, memory writes) is a separate, surgical change per workstream, proven by its own test.
+**Packaging.** FRIDAY ships as a bundled OpenClaw plugin (`extensions/friday/`, id `friday`), not as core `src/` code. `index.ts` is the thin wiring layer; `src/` holds the pure policy. This keeps the engine core unchanged and follows the engine's own "small core, capable plugins" doctrine. The plugin is disabled by default (`enabledByDefault: false`) and admits no one until `ownerIds` is configured (fail-closed).
+
+**Wiring rule.** Nothing in `extensions/friday/src/` reaches into engine internals. Each module is a pure function or a small class with explicit inputs. Wiring into engine entry points (model egress, channel admission, memory writes) happens only in `index.ts` through the documented plugin SDK hooks, proven by `index.test.ts` at those hook boundaries.
 
 ---
 
@@ -27,7 +29,7 @@ interface Provenance {
 
 ---
 
-## F-01 · PII & secret filter (`src/friday/policy/redaction.ts`)
+## F-01 · PII & secret filter (`extensions/friday/src/policy/redaction.ts`)
 
 Runs **before** content leaves for any third-party model (§7.15, §6.3, §9).
 
@@ -59,7 +61,7 @@ Contract: deterministic; same input → same tokens; tokens are stable within a 
 
 ---
 
-## F-02 · Prompt-injection guard (`src/friday/policy/injection-guard.ts`)
+## F-02 · Prompt-injection guard (`extensions/friday/src/policy/injection-guard.ts`)
 
 Untrusted content is labelled, never executed as instructions (§4.1 law 5, §7.15).
 
@@ -77,7 +79,7 @@ Contract: never mutates meaning for `owner` content; wraps and annotates `untrus
 
 ---
 
-## A-01 · Owner admission (`src/friday/policy/owner-auth.ts`)
+## A-01 · Owner admission (`extensions/friday/src/policy/owner-auth.ts`)
 
 Owner-only access; unknown senders get no tools and no memory (§9, MSG-01).
 
@@ -100,7 +102,7 @@ Contract: fail-closed — anything not an exact owner match is `denied` with `al
 
 ---
 
-## F-03 · Lockdown kill switch (`src/friday/policy/kill-switch.ts`)
+## F-03 · Lockdown kill switch (`extensions/friday/src/policy/kill-switch.ts`)
 
 Stop non-essential egress; keep owner messaging (§7.15).
 
@@ -114,7 +116,7 @@ Contract: when `lockedDown`, `non-essential` is blocked, `owner-messaging` and `
 
 ---
 
-## B-02 · Librarian classify (`src/friday/memory/librarian.ts`)
+## B-02 · Librarian classify (`extensions/friday/src/memory/librarian.ts`)
 
 ADD / UPDATE / MERGE / NOOP with an importance×recency×use score (§7.4).
 
@@ -149,7 +151,7 @@ Contract: an ambiguous statement is never promoted to certain fact — the calle
 
 ---
 
-## B-04 · Forget with evidence (`src/friday/memory/forget.ts`)
+## B-04 · Forget with evidence (`extensions/friday/src/memory/forget.ts`)
 
 Purge across every layer and prove it (§7.4, §14).
 
@@ -175,7 +177,7 @@ Contract: `complete` is true only when `remainingMatches` is empty across all la
 
 ---
 
-## E-01 / E-04 · Task ledger & debrief (`src/friday/tasks/ledger.ts`)
+## E-01 / E-04 · Task ledger & debrief (`extensions/friday/src/tasks/ledger.ts`)
 
 Durable record + honest debrief (§6.2, §5.1).
 
@@ -215,13 +217,13 @@ Contract: `renderDebrief` never claims success without at least one `evidence` e
 
 ## Engine wiring points (per workstream, surgical)
 
-| Contract             | Engine entry point                                  | Workstream |
-| -------------------- | --------------------------------------------------- | ---------- |
-| F-01 redactForEgress | model egress path (before provider call)            | WS-F       |
-| F-02 guardContent    | untrusted-content ingestion (tool/file/web results) | WS-F       |
-| A-01 decideAdmission | channel admission / allowlist                       | WS-A       |
-| F-03 decideEgress    | outbound non-essential traffic                      | WS-F       |
-| B-02/B-04            | memory write + forget commands                      | WS-B       |
-| E-01/E-04            | task start / completion + chat reply                | WS-E       |
+| Contract             | Engine entry point                                  | Workstream | Status                                                                 |
+| -------------------- | --------------------------------------------------- | ---------- | ---------------------------------------------------------------------- |
+| F-01 redactForEgress | `before_message_write` hook (pre-model user text)   | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                          |
+| F-02 guardContent    | untrusted-content ingestion (tool/file/web results) | WS-F       | PENDING — pure fn ready; no ingestion hook yet                         |
+| A-01 decideAdmission | `before_agent_run` hook (channel admission)         | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                          |
+| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)      | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test    |
+| B-02/B-04            | memory write + forget commands                      | WS-B       | PENDING — no plugin-facing purge surface yet (see TASKBOARD F-04/B-04) |
+| E-01/E-04            | task start / completion + chat reply                | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                     |
 
 Each wiring is proven by a test that exercises the real entry point, not just the pure function.

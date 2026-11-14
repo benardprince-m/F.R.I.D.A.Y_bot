@@ -1,0 +1,42 @@
+{
+  "id": "friday",
+  "name": "FRIDAY",
+  "description": "Soul layer: owner-only admission, PII/secret egress safety, prompt-injection labelling, lockdown kill switch, and chat command intake.",
+  "categories": ["other"],
+  "activation": { "onStartup": true },
+  "enabledByDefault": false,
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "ownerIds": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "description": "Owner sender identities (channel user ids). Only these may reach tools and memory. Empty means no one is admitted (fail-closed)."
+      },
+      "lockedDown": {
+        "type": "boolean",
+        "default": false,
+        "description": "When true, non-essential model egress is blocked (the /lockdown kill switch)."
+      },
+      "personaDir": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Owner-controlled directory holding PERSONA.md and CONSTITUTION.md. Defaults to the process working directory."
+      }
+    }
+  },
+  "uiHints": {
+    "ownerIds": {
+      "label": "Owner IDs",
+      "help": "Only these exact sender ids are admitted. Leave empty to admit no one."
+    },
+    "lockedDown": { "label": "Lockdown", "help": "Block non-essential outbound traffic." },
+    "personaDir": {
+      "label": "Persona directory",
+      "placeholder": "/srv/friday",
+      "help": "Holds PERSONA.md and CONSTITUTION.md. Keep it outside agent-writable workspaces."
+    }
+  }
+}
