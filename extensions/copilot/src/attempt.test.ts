@@ -1381,7 +1381,7 @@ describe("runCopilotAttempt", () => {
     expect(result.feedback).toContain("no permission policy installed");
   });
 
-  it("registers ask_user and resolves it from the active FRIDAY queue", async () => {
+  it("registers ask_user and resolves it from the active OpenClaw queue", async () => {
     const controller = new AbortController();
     const onBlockReply = vi.fn();
     const sdk = makeFakeSdk((session, cfg) => {
@@ -1675,7 +1675,7 @@ describe("runCopilotAttempt", () => {
       expect(content).toContain(
         `${rendered}\n\n## Conversation Context\nOnly answer in the current group thread.`,
       );
-      expect(content).toContain("You are a personal agent running inside FRIDAY.");
+      expect(content).toContain("You are a personal agent running inside OpenClaw.");
       expect(content).toContain("## Skill Workshop");
       expect(content).toContain("## Delegation");
       expect(content).toContain("spawn `sessions_spawn` with `visible=true`");

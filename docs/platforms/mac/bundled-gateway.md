@@ -1,14 +1,14 @@
 ---
 summary: "Bundled Gateway runtime, app hosting, and background services on macOS"
 read_when:
-  - Packaging FRIDAY.app
+  - Packaging OpenClaw.app
   - Debugging the macOS gateway launchd service
   - Installing the gateway CLI for macOS
 title: "Gateway on macOS"
 ---
 
-FRIDAY.app bundles a private runtime built from the FRIDAY Bun fork, a signed
-SQLite library with extension loading, and the full matching FRIDAY package
+OpenClaw.app bundles a private runtime built from the OpenClaw Bun fork, a signed
+SQLite library with extension loading, and the full matching OpenClaw package
 (CLI, Gateway, and Control UI). Its app-owned `node worker` helper and fixed local
 Chrome-extension setup entry point run on this Bun runtime. The app bundle
 contains no Node executable.
@@ -51,9 +51,9 @@ The app retains the current and previous builds; older copies are removed only
 after Gateway health succeeds and no process runs from them.
 
 For an app-owned full Gateway payload, packaging writes
-`openclaw-install-owner.json` at the FRIDAY package root with `schemaVersion: 1`,
-`owner: "macos-app"`, `displayName: "FRIDAY.app"`, and
-`updateHint: "Update FRIDAY.app to update this Gateway."`. This contract keeps
+`openclaw-install-owner.json` at the OpenClaw package root with `schemaVersion: 1`,
+`owner: "macos-app"`, `displayName: "OpenClaw.app"`, and
+`updateHint: "Update OpenClaw.app to update this Gateway."`. This contract keeps
 payload and runtime updates with the app updater (Sparkle): core reports the
 owner, skips package-registry update checks, and refuses self-update and runtime
 migration. A launching host can set `OPENCLAW_GATEWAY_HOST_LIFELINE=stdin` and
@@ -120,7 +120,7 @@ retries setup when needed. See
 
 ## Manual recovery
 
-Read the version to install from the app: choose **About FRIDAY** in the
+Read the version to install from the app: choose **About OpenClaw** in the
 menu bar, or run `openclaw-mac status --json`, which reports the app version
 and build.
 
@@ -135,7 +135,7 @@ npm install -g openclaw@<version> --allow-scripts=openclaw
 ```
 
 Use **Retry setup** after a failed bundled setup. If the runtime payload is
-missing or incompatible, reinstall FRIDAY.app. Installing a global CLI does
+missing or incompatible, reinstall OpenClaw.app. Installing a global CLI does
 not repair the app's bundled payload. The manual Node installation above is for
 an independently managed Gateway or unbundled development setup.
 
@@ -153,7 +153,7 @@ Plist location (per-user): `~/Library/LaunchAgents/ai.openclaw.gateway.plist`
 (or `ai.openclaw.<profile>.plist`).
 
 The macOS app can manage the Gateway as a background service instead of a
-child process. Turn on **Keep FRIDAY running when the app is closed** next to
+child process. Turn on **Keep OpenClaw running when the app is closed** next to
 **Launch at login** in Dashboard device settings, or during bundled onboarding.
 It is off for fresh setups. Enabling it stops the child and starts the background
 service; disabling it removes the service and starts an app-owned child. The
@@ -202,7 +202,7 @@ unchanged, including an unpinned executable. The update window reports
 
 Behavior:
 
-- In service mode, "FRIDAY Active" enables/disables the LaunchAgent.
+- In service mode, "OpenClaw Active" enables/disables the LaunchAgent.
 - In service mode, quitting the app does **not** stop the Gateway (launchd keeps it alive).
 - If a Gateway is already running on the configured port, the app attaches to
   it instead of starting a new one.
@@ -240,7 +240,7 @@ namespace, including jobs submitted without a plist. The report shows each
 label, program, KeepAlive flag, and detected `openclaw gateway restart`,
 `start`, or `stop` invocation. Plain-text status shows the list as a warning when
 at least one job has KeepAlive or a verified lifecycle invocation. Otherwise,
-the list appears informationally under "Other FRIDAY launchd jobs (macOS)".
+the list appears informationally under "Other OpenClaw launchd jobs (macOS)".
 Status JSON includes all these jobs under
 `service.foreignLaunchdJobs`. For warnings, recent external forced restarts in
 the lifecycle log provide a possible correlation; the count alone does not
@@ -258,7 +258,7 @@ openclaw health
 ```
 
 Doctor removes a foreign job only when its literal, straight-line script or
-direct arguments invoke an absolute FRIDAY path with a Gateway lifecycle
+direct arguments invoke an absolute OpenClaw path with a Gateway lifecycle
 subcommand. Shell jobs must also have no launchd environment entries that alter
 shell execution. Everything outside this contract is reported and left unchanged.
 This is command-metadata verification; it does not check binary executability,
@@ -336,7 +336,7 @@ If Doctor cleanup cannot be confirmed, the app keeps the Gateway stopped and rec
 pending; preserve the reported custody diagnostics before retrying.
 Conditional plugin warnings remain visible, with their pending repair records retained.
 It verifies health before removing old builds. A paused Gateway stays paused.
-Seeded installations never run npm self-update; update FRIDAY.app to update
+Seeded installations never run npm self-update; update OpenClaw.app to update
 their Gateway. A paused legacy app-managed Node installation keeps background-service
 hosting even when the old app removed its LaunchAgent. While paused, the app records
 that preference without checking or changing the runtime. On resume it recovers the
@@ -391,7 +391,7 @@ same runtime-intent observation. The installer restores the retained package's
 runtime and entrypoint, and its SQLite library for Bun, rather than its own.
 Recovery does not require the failed replacement service to be running. An
 operator change is preserved and reported without retry. If the app's bundled
-runtime is missing or incompatible, recovery stops; reinstall FRIDAY.app.
+runtime is missing or incompatible, recovery stops; reinstall OpenClaw.app.
 The core updater step still runs the installed CLI and is not covered by this
 installation fence.
 
@@ -427,7 +427,7 @@ a global CLI does not repair this private payload. Unbundled Swift development
 builds can use the checkout's freshness-aware source runner instead.
 
 If a Gateway update advances the shared state database schema beyond the private
-worker's supported version, update and relaunch FRIDAY.app too. Restarting the
+worker's supported version, update and relaunch OpenClaw.app too. Restarting the
 external Gateway does not replace the app-owned worker. A schema-version error
 from that older reader does not mean the upgraded Gateway's database is corrupt.
 
@@ -442,7 +442,7 @@ the Dashboard cannot reach the Gateway.
 
 ## State directory on macOS
 
-Keep FRIDAY state on a local, non-synced disk. Avoid iCloud Drive and other
+Keep OpenClaw state on a local, non-synced disk. Avoid iCloud Drive and other
 cloud-synced folders; sync latency and file locks can affect sessions,
 credentials, and Gateway state.
 
@@ -464,7 +464,7 @@ openclaw-mac gateway list --json
 
 The app's CLI installer links `openclaw-mac` beside its profile-managed
 `openclaw` command. You can also run
-`/Applications/FRIDAY.app/Contents/MacOS/openclaw-mac` directly. See
+`/Applications/OpenClaw.app/Contents/MacOS/openclaw-mac` directly. See
 [remote control](/platforms/mac/remote#macos-app-setup) for `primary set`,
 saved-Gateway commands, profiles, and credential input.
 

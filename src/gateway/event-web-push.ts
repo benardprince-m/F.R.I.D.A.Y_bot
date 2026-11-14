@@ -72,7 +72,7 @@ function resolveEventWebPushNotification(
     const questionId = normalizeOptionalString(value.id);
     return {
       category: "agent-question",
-      title: "FRIDAY needs an answer",
+      title: "OpenClaw needs an answer",
       body: "An agent has a question for you.",
       tag: `openclaw-question-${id}`,
       ...(questionId ? { path: `ask/${encodeURIComponent(questionId)}` } : {}),
@@ -87,7 +87,7 @@ function resolveEventWebPushNotification(
     const runId = normalizeWebPushDisplayLabel(value.runId) ?? "finished";
     return {
       category: "agent-finished",
-      title: "FRIDAY agent finished",
+      title: "OpenClaw agent finished",
       body: "An agent completed its response.",
       tag: `openclaw-agent-finished-${runId}`,
     };
@@ -113,7 +113,7 @@ function resolveEventWebPushNotification(
     }
     return {
       category: "scheduled-task-failed",
-      title: "FRIDAY scheduled task failed",
+      title: "OpenClaw scheduled task failed",
       body: "A scheduled task needs attention.",
       ...(jobName ? { identifiedBody: `${jobName} needs attention.` } : {}),
       tag: `openclaw-cron-failed-${jobTag}`,
@@ -315,7 +315,7 @@ export function createEventWebPushDelivery(params: {
       deliver(
         {
           category: "human-mentioned",
-          title: "FRIDAY mention",
+          title: "OpenClaw mention",
           body: "Someone mentioned you in a conversation.",
           identifiedBody: `${senderLabel} mentioned you${sessionTitle ? ` in ${sessionTitle}` : ""}.`,
           tag: `openclaw-mention-${id}`,

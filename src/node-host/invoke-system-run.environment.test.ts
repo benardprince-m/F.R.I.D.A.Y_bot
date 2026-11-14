@@ -28,7 +28,7 @@ describe("node command service identity", () => {
         OPENCLAW_SERVICE_KIND: "node",
         OPENCLAW_LAUNCHD_LABEL: "ai.openclaw.node",
         OPENCLAW_SYSTEMD_UNIT: "openclaw-node",
-        OPENCLAW_WINDOWS_TASK_NAME: "FRIDAY Node",
+        OPENCLAW_WINDOWS_TASK_NAME: "OpenClaw Node",
         OPENCLAW_WINDOWS_TASK_HIDDEN_LAUNCHER: "1",
         OPENCLAW_TASK_SCRIPT_NAME: "node.cmd",
         OPENCLAW_LOG_PREFIX: "node",

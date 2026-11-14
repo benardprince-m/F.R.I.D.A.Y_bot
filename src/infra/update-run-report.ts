@@ -27,7 +27,7 @@ import { formatUpdateSnapshotCapacity } from "./update-snapshot-capacity.js";
 
 export type UpdateRunReport = { headline: string; lines: string[]; markdown: string };
 
-const IN_PROGRESS_REPORT_PREFIX = "⬆️ FRIDAY update in progress: ";
+const IN_PROGRESS_REPORT_PREFIX = "⬆️ OpenClaw update in progress: ";
 const FAILURE_RECOVERY_HINTS: Readonly<Record<string, string>> = {
   "preflight-insufficient-space":
     "Free space on the preflight staging and package-manager store filesystems, then rerun the update.",
@@ -279,31 +279,31 @@ export function renderUpdateRunReport(
           ? `; ${warnings.length} warning${warnings.length === 1 ? " needs" : "s need"} attention`
           : "";
       headline = after
-        ? `✅ FRIDAY updated to ${after}${before ? ` (from ${before})` : ""}${attention}.`
-        : `✅ FRIDAY updated${attention}.`;
+        ? `✅ OpenClaw updated to ${after}${before ? ` (from ${before})` : ""}${attention}.`
+        : `✅ OpenClaw updated${attention}.`;
       break;
     }
     case "failed":
       headline = reconciled
-        ? "ℹ️ FRIDAY abandoned update reconciled."
+        ? "ℹ️ OpenClaw abandoned update reconciled."
         : run.reason === LEGACY_UPDATE_RUN_EXPIRED_REASON
-          ? `ℹ️ FRIDAY update abandoned: ${reason}.`
+          ? `ℹ️ OpenClaw update abandoned: ${reason}.`
           : runtimeCheckFailed
-            ? "⚠️ FRIDAY could not complete the update. A required system check failed."
-            : `⚠️ FRIDAY ${run.reason === "repair-failed" ? "repair" : "update"} failed: ${reason}.`;
+            ? "⚠️ OpenClaw could not complete the update. A required system check failed."
+            : `⚠️ OpenClaw ${run.reason === "repair-failed" ? "repair" : "update"} failed: ${reason}.`;
       break;
     case "skipped":
       headline =
         run.reason === "still-starting"
-          ? `ℹ️ FRIDAY${after ? ` ${after}` : ""} installed; Gateway still starting; readiness unverified; recovery backups retained.`
+          ? `ℹ️ OpenClaw${after ? ` ${after}` : ""} installed; Gateway still starting; readiness unverified; recovery backups retained.`
           : run.reason === "gateway-readiness-unverified"
-            ? `ℹ️ FRIDAY${after ? ` ${after}` : ""} installed; Gateway readiness unverified; recovery backups retained.`
+            ? `ℹ️ OpenClaw${after ? ` ${after}` : ""} installed; Gateway readiness unverified; recovery backups retained.`
             : run.reason === "doctor-maintenance-pending"
-              ? "ℹ️ FRIDAY repair pending: Doctor maintenance remains unfinished."
-              : `ℹ️ FRIDAY update skipped: ${reason}.`;
+              ? "ℹ️ OpenClaw repair pending: Doctor maintenance remains unfinished."
+              : `ℹ️ OpenClaw update skipped: ${reason}.`;
       break;
     case "rolled-back":
-      headline = `↩️ FRIDAY update rolled back to ${after ?? running ?? before ?? "the previous version"}: ${reason}.`;
+      headline = `↩️ OpenClaw update rolled back to ${after ?? running ?? before ?? "the previous version"}: ${reason}.`;
       break;
     case "running":
       headline = `${IN_PROGRESS_REPORT_PREFIX}${run.target?.installationMethod === "ocm" ? "managed by OCM" : run.phase}.`;

@@ -1,15 +1,15 @@
 ---
-summary: "CLI reference and security model for the inference-backed FRIDAY setup and repair helper"
+summary: "CLI reference and security model for the inference-backed OpenClaw setup and repair helper"
 read_when:
-  - You finished inference setup and want FRIDAY to configure the rest
-  - You need to inspect or repair FRIDAY with the local setup agent
+  - You finished inference setup and want OpenClaw to configure the rest
+  - You need to inspect or repair OpenClaw with the local setup agent
   - You are designing or enabling message-channel rescue mode
-title: "FRIDAY setup agent"
+title: "OpenClaw setup agent"
 ---
 
 # `openclaw setup`
 
-FRIDAY ships with a built-in system agent — it speaks as "FRIDAY" — for
+OpenClaw ships with a built-in system agent — it speaks as "OpenClaw" — for
 local setup, repair, and configuration (formerly called Crestodian). It starts only after the effective default model completes a real turn.
 Fresh installs establish inference first; malformed config stays on the
 classic doctor path.
@@ -22,23 +22,23 @@ Running `openclaw` with no subcommand routes based on config state:
 - Config exists but fails validation: starts classic onboarding, which reports the issues and directs you to `openclaw doctor`.
 - Config exists and is valid: opens the normal agent TUI. A reachable
   configured Gateway whose default agent has a model goes directly to that UI
-  without onboarding or FRIDAY. Use `/openclaw` inside the TUI, or run
-  `openclaw setup` directly, to reach FRIDAY later.
+  without onboarding or OpenClaw. Use `/openclaw` inside the TUI, or run
+  `openclaw setup` directly, to reach OpenClaw later.
 
-Running `openclaw setup` first live-tests the configured default model. A passing turn starts FRIDAY. An interactive failure opens guided inference setup and hands off to FRIDAY after a candidate passes. One-shot, JSON, and other noninteractive requests fail with instructions to run [`openclaw onboard`](/cli/onboard) when inference is unavailable. `openclaw --help` and `openclaw --version` keep their normal fast paths.
+Running `openclaw setup` first live-tests the configured default model. A passing turn starts OpenClaw. An interactive failure opens guided inference setup and hands off to OpenClaw after a candidate passes. One-shot, JSON, and other noninteractive requests fail with instructions to run [`openclaw onboard`](/cli/onboard) when inference is unavailable. `openclaw --help` and `openclaw --version` keep their normal fast paths.
 
-If inference plugin loading or owner verification fails, the error includes the underlying cause after applying FRIDAY's error redaction. One-shot text and JSON output retain that detail alongside onboarding guidance.
+If inference plugin loading or owner verification fails, the error includes the underlying cause after applying OpenClaw's error redaction. One-shot text and JSON output retain that detail alongside onboarding guidance.
 
 Noninteractive bare `openclaw` (no TTY) exits with a short message instead of printing root help: it points to non-interactive onboarding on a fresh or invalid install, or to `openclaw agent --local ...` when config is valid.
 
-`openclaw onboard --modern` remains a compatibility alias for FRIDAY, but uses the same inference gate: working inference opens the chat, interactive failures start guided inference setup, and noninteractive failures exit with onboarding guidance. `openclaw onboard --classic` opens the full step-by-step wizard.
+`openclaw onboard --modern` remains a compatibility alias for OpenClaw, but uses the same inference gate: working inference opens the chat, interactive failures start guided inference setup, and noninteractive failures exit with onboarding guidance. `openclaw onboard --classic` opens the full step-by-step wizard.
 
-## What FRIDAY shows
+## What OpenClaw shows
 
-Interactive FRIDAY opens the same TUI shell as `openclaw tui`, with an FRIDAY chat backend. The startup greeting covers:
+Interactive OpenClaw opens the same TUI shell as `openclaw tui`, with an OpenClaw chat backend. The startup greeting covers:
 
 - config validity and the default agent
-- the verified model FRIDAY is using
+- the verified model OpenClaw is using
 - Gateway reachability from the first startup check
 - the next recommended debug action
 
@@ -46,7 +46,7 @@ It does not dump secrets or load plugin CLI commands just to start.
 
 Use `status` for the detailed inventory: config path, docs/source paths, local CLI checks, key/token presence, agents, model, and Gateway details.
 
-FRIDAY uses the same reference discovery as regular agents: in a Git checkout it points at local `docs/` and the source tree; in an npm install it uses bundled docs and links to [https://github.com/openclaw/openclaw](https://github.com/openclaw/openclaw), with guidance to check source when docs are not enough.
+OpenClaw uses the same reference discovery as regular agents: in a Git checkout it points at local `docs/` and the source tree; in an npm install it uses bundled docs and links to [https://github.com/openclaw/openclaw](https://github.com/openclaw/openclaw), with guidance to check source when docs are not enough.
 
 ## Examples
 
@@ -61,7 +61,7 @@ openclaw setup --message "set default model openai/gpt-5.6" --yes
 openclaw onboard --modern
 ```
 
-Inside the FRIDAY TUI:
+Inside the OpenClaw TUI:
 
 ```text
 status
@@ -101,7 +101,7 @@ quit
 
 ## Operations and approval
 
-FRIDAY uses typed operations instead of editing config ad hoc.
+OpenClaw uses typed operations instead of editing config ad hoc.
 
 For `config get`, quote record keys that contain dots or brackets, such as
 `config get channels.modelByChannel.telegram["team.ops[west]"]`.
@@ -115,7 +115,7 @@ Starting a guided setup flow also runs immediately: channel setup (`connect tele
 
 `import memory` is copy-only rather than a config write. It detects supported local agent homes, lets you choose the available sources, and copies new memory files into the existing default agent workspace without importing config, credentials, or skills. It requires completed onboarding and reports confirmed imports, nothing-to-import results, provider failures, and failures where some files may already have been copied. No Gateway restart is needed. Use the Control UI's [Import Memory page](/web/control-ui/settings#import-assistant-memory) when you need to target another agent or replace an existing import.
 
-In direct FRIDAY chat, persistent operations require conversational approval (or `--yes` for a one-shot command): write config, `config set`, `config unset`, `config set-ref`, setup/onboarding bootstrap, change the default model, start/stop/restart the Gateway, create agents, and install plugins.
+In direct OpenClaw chat, persistent operations require conversational approval (or `--yes` for a one-shot command): write config, `config set`, `config unset`, `config set-ref`, setup/onboarding bootstrap, change the default model, start/stop/restart the Gateway, create agents, and install plugins.
 
 Changes delegated by a regular agent, including requests from messaging channels,
 follow the requesting run's effective [session permission policy](/gateway/permission-modes).
@@ -125,11 +125,11 @@ mode. Restricted runs from messaging channels ask for approval in the chat that
 made the request: channels with native approval cards show **Allow once** and
 **Deny** buttons, and other messaging chats receive the change summary with a
 `/approve <id> allow-once|deny` reply. Webchat and terminal runs decide in the
-Control UI or the FRIDAY apps, which can also decide any chat's approval.
+Control UI or the OpenClaw apps, which can also decide any chat's approval.
 Replying "yes" in the delegated chat cannot authorize a change; the button or
 `/approve` command does.
 Channels with their own approver settings decide who may approve; elsewhere only
-a current owner (`commands.ownerAllowFrom`) can approve an FRIDAY change.
+a current owner (`commands.ownerAllowFrom`) can approve an OpenClaw change.
 Independent filesystem and sandbox boundaries,
 tool policy, and the operation restrictions below still apply. The host also checks
 that the requesting run and verified inference route remain valid. Interactive
@@ -146,23 +146,23 @@ not grant approval.
 
 Stopping the requesting run cancels its approval. A late approval cannot restart
 a closed run. If an approved change fails to complete, check the current settings
-and FRIDAY status before retrying; approval alone does not confirm that the
+and OpenClaw status before retrying; approval alone does not confirm that the
 change was applied.
 
-Configured agents can ask FRIDAY to create another agent through their
+Configured agents can ask OpenClaw to create another agent through their
 `openclaw` tool. The request enters the same typed create-agent operation and
 host authorization flow; any approval summary names the requesting agent.
-FRIDAY remains the executor, and authorized creation records that requesting
+OpenClaw remains the executor, and authorized creation records that requesting
 agent as the new agent's creator.
 
 Delegated creation remains tied to the requesting run. If that run ends or loses
-authority during preparation, FRIDAY stops before starting the next persistent
+authority during preparation, OpenClaw stops before starting the next persistent
 write. A write already in progress may finish, and workspace files created earlier
 are not automatically removed. Check `openclaw agents list` before retrying from
 an active run; an agent whose creation already completed is not removed when its
 requesting run ends.
 
-Doctor repairs are unavailable inside FRIDAY because they can rewrite the provider, authentication, or default-agent inference route powering the session. Exit FRIDAY and run `openclaw doctor --fix` in a terminal. Read-only `doctor` remains available inside FRIDAY.
+Doctor repairs are unavailable inside OpenClaw because they can rewrite the provider, authentication, or default-agent inference route powering the session. Exit OpenClaw and run `openclaw doctor --fix` in a terminal. Read-only `doctor` remains available inside OpenClaw.
 
 New agents inherit the live-verified default inference route. The agent ids `openclaw` and `crestodian` are reserved for the system agent and cannot be created as normal agents. The retired id remains blocked so an old config cannot claim it.
 
@@ -174,15 +174,15 @@ writes use the existing config validator and writer. Validation or write errors
 return to the assistant for one corrective proposal, which needs fresh approval.
 A failure after saving is reported as such. Config writes do not test whether a
 model route or API key works. Masked setup flows keep keys out of the model's
-context. If you paste an API key or token in chat anyway, FRIDAY saves it in the
+context. If you paste an API key or token in chat anyway, OpenClaw saves it in the
 [shared secret store](/gateway/secrets/secret-store-and-egress#shared-secret-store),
 points the config key at it with a `store` SecretRef, and does not echo it back.
 The pasted message itself already reached the model provider and the transcript;
-FRIDAY masks the value in later logs and output from that point on. Each save
+OpenClaw masks the value in later logs and output from that point on. Each save
 creates a new entry named after the config key plus a random suffix (for example
 `GATEWAY_REMOTE_TOKEN_3F9A0C1B7D2E4A68`), so it can never take over a name that
 another config key, an auth profile, or a stale reference to a removed entry
-still uses. FRIDAY never overwrites or deletes an existing entry: replacing a
+still uses. OpenClaw never overwrites or deletes an existing entry: replacing a
 key leaves its previous entry in the store. If the config write fails after the
 key was saved, the error names the saved entry and says whether the config key
 points at it. The entry is kept either way, since another config key or auth
@@ -193,17 +193,17 @@ only once nothing uses it. For environment storage, use
 `set default model <provider/model>` still live-tests the route before saving it.
 
 Plugin installation keeps its source restrictions. Plugin uninstall refuses a
-plugin that backs the active inference route; exit FRIDAY and run
+plugin that backs the active inference route; exit OpenClaw and run
 `openclaw plugins uninstall <id>` from a terminal.
 
 Approval is given in your own words: unambiguous replies ("yes", "sure", "go ahead", "not now") resolve from a fixed list. When the configured route supports a separate completion call, other replies can be classified from only your message and the pending proposal — never by the conversation model itself, which cannot self-approve. Unclassified or ambiguous replies keep the proposal pending and the conversation asks again.
 
 ### Change history
 
-The Ask FRIDAY page can show recent applied system-agent operations, Doctor
+The Ask OpenClaw page can show recent applied system-agent operations, Doctor
 migrations, Settings and CLI config writes, and manual edits to
 `openclaw.json`. The config journal detects external edits while the Gateway
-is watching, during an FRIDAY-owned write, or at the next startup after an
+is watching, during an OpenClaw-owned write, or at the next startup after an
 offline edit.
 
 History is stored in the `diagnostic_events` table of the shared
@@ -219,7 +219,7 @@ runtime snapshot refresh are suppressed. Existing unlabeled records are not
 backfilled.
 
 Channel, web-search, and local Gateway setup can run as hosted conversations
-until they reach a secret. The local FRIDAY TUI does not accept sensitive wizard answers
+until they reach a secret. The local OpenClaw TUI does not accept sensitive wizard answers
 because terminal chat input is visible. It offers `open channel wizard`
 (carrying the selected channel), `open search wizard`, or `open gateway wizard`
 immediately, handing off to the masked terminal wizard; you can also run
@@ -266,7 +266,7 @@ replace inference.
 
 Delegated setup remains tied to the requesting run through configuration,
 workspace, and session preparation. If that run ends or loses authority,
-FRIDAY stops before starting the next persistent effect. Earlier completed
+OpenClaw stops before starting the next persistent effect. Earlier completed
 effects remain, including an agent whose creation already finished; setup may
 still be incomplete. Check `openclaw agents list` and `status`, then request
 setup again from an active run and approve the new request, or finish directly
@@ -274,7 +274,7 @@ with `openclaw setup` on the Gateway host. If cancellation deferred legacy
 history migration for a newly named agent, the next Gateway startup retries it;
 use `openclaw doctor --fix` on the same state/config to finish it sooner.
 
-If inference is missing or its live check fails, leave FRIDAY and run `openclaw onboard`. Guided onboarding tries the configured model first, then authenticated subscription CLIs, API keys, and remaining supported CLIs; it asks each candidate for a real reply and persists only a passing route. FRIDAY starts immediately after that boundary and can then configure the workspace, Gateway, channels, agents, plugins, and other optional features.
+If inference is missing or its live check fails, leave OpenClaw and run `openclaw onboard`. Guided onboarding tries the configured model first, then authenticated subscription CLIs, API keys, and remaining supported CLIs; it asks each candidate for a real reply and persists only a passing route. OpenClaw starts immediately after that boundary and can then configure the workspace, Gateway, channels, agents, plugins, and other optional features.
 
 The macOS app skips this ladder entirely when it reaches a configured Gateway
 whose default agent already has a configured model; it opens the normal agent
@@ -283,7 +283,7 @@ For a fresh or incomplete Gateway, the app drives the inference ladder through
 the `openclaw.setup.detect` and `openclaw.setup.activate` Gateway methods:
 detect lists every candidate backend it finds, activate live-tests one
 candidate (a real "reply with OK" completion), and only persists the model,
-credential, and provider/runtime state needed for that route after the test passes. Workspace and Gateway defaults remain for FRIDAY. A failing candidate
+credential, and provider/runtime state needed for that route after the test passes. Workspace and Gateway defaults remain for OpenClaw. A failing candidate
 never changes config; the app automatically walks down the ladder and finally
 offers a manual key/token step populated from the Gateway's active
 text-inference provider plugins. The selected provider owns its starter model
@@ -291,12 +291,12 @@ and config, and the credential is verified the same way before it is saved.
 
 Codex supervision and other optional plugin features stay outside this
 inference activation transaction. Configure them only after inference is
-working and FRIDAY has started; existing plugin policy and explicit
+working and OpenClaw has started; existing plugin policy and explicit
 supervision opt-outs remain untouched during inference setup.
 
 ## AI conversation
 
-Interactive FRIDAY's free-form conversation runs through the same agent loop as regular FRIDAY agents, restricted to one ring-zero FRIDAY authority tool, `openclaw`, that wraps the typed operations. Read actions run freely, mutations require your conversational approval for that exact operation (see Operations and approval), and every applied write is audited and re-validated. The agent session persists, so FRIDAY has real multi-turn memory. If the verified inference route later stops working, return to `openclaw onboard` and repair it before continuing.
+Interactive OpenClaw's free-form conversation runs through the same agent loop as regular OpenClaw agents, restricted to one ring-zero OpenClaw authority tool, `openclaw`, that wraps the typed operations. Read actions run freely, mutations require your conversational approval for that exact operation (see Operations and approval), and every applied write is audited and re-validated. The agent session persists, so OpenClaw has real multi-turn memory. If the verified inference route later stops working, return to `openclaw onboard` and repair it before continuing.
 
 A failed or timed-out turn ends that setup conversation with a visible error.
 Retrying starts a fresh conversation and live-checks the inference route again.
@@ -331,27 +331,27 @@ Message-channel rescue mode never uses the model-assisted planner. Remote rescue
 ### CLI harness trust model
 
 Embedded runtimes and the Codex app-server harness enforce the ring-zero
-restriction directly: the run carries an FRIDAY tool allow-list with only
-the `openclaw` tool. For Codex, FRIDAY also disables environments, native
+restriction directly: the run carries an OpenClaw tool allow-list with only
+the `openclaw` tool. For Codex, OpenClaw also disables environments, native
 execution, multi-agent, goal, app/plugin, skill/MCP, web-search,
 `request_user_input`, and its native planning utility for that run. CLI
-harnesses do not consume FRIDAY's allow-list,
-so FRIDAY admits only backends whose own tool-selection contract can prove
+harnesses do not consume OpenClaw's allow-list,
+so OpenClaw admits only backends whose own tool-selection contract can prove
 the same restriction:
 
 - Selectable backends, including Claude Code, launch with an empty native-tool
   selection and one MCP tool, `openclaw`. Claude's generated MCP config is
   applied with `--strict-mcp-config`, so no other MCP servers are loaded.
-- Backends that declare no native tools receive the same dedicated FRIDAY
+- Backends that declare no native tools receive the same dedicated OpenClaw
   MCP server.
 - Always-on or unknown native-tool backends are rejected before inference; they
-  cannot host an FRIDAY session.
+  cannot host an OpenClaw session.
 
-Only FRIDAY sessions get the openclaw MCP server; normal agent runs
+Only OpenClaw sessions get the openclaw MCP server; normal agent runs
 never see this tool. Selectable/no-native CLI backends and API-key models
 therefore enforce the literal single-tool loop. Codex app-server models enforce
-a single FRIDAY authority tool plus the inert native planning utility. In all
-three cases, setup writes remain confined to FRIDAY's audited approval
+a single OpenClaw authority tool plus the inert native planning utility. In all
+three cases, setup writes remain confined to OpenClaw's audited approval
 contract.
 
 Gemini CLI remains available as an explicitly configured runtime for normal
@@ -361,7 +361,7 @@ CLI runtime specifically requires an AI Studio API-key profile.
 
 ## Switching to an agent
 
-Use a natural-language selector to leave FRIDAY and open the normal TUI:
+Use a natural-language selector to leave OpenClaw and open the normal TUI:
 
 ```text
 talk to agent
@@ -369,7 +369,7 @@ talk to work agent
 switch to main agent
 ```
 
-`openclaw tui`, `openclaw chat`, and `openclaw terminal` open the normal agent TUI directly; they do not start FRIDAY. After switching into the normal TUI, `/openclaw` returns to FRIDAY, optionally with a follow-up request:
+`openclaw tui`, `openclaw chat`, and `openclaw terminal` open the normal agent TUI directly; they do not start OpenClaw. After switching into the normal TUI, `/openclaw` returns to OpenClaw, optionally with a follow-up request:
 
 ```text
 /openclaw
@@ -378,21 +378,21 @@ switch to main agent
 
 ## Message rescue mode
 
-Message rescue mode is the message-channel entrypoint for FRIDAY: use it when your normal agent is dead but a trusted channel (for example WhatsApp) still receives commands.
+Message rescue mode is the message-channel entrypoint for OpenClaw: use it when your normal agent is dead but a trusted channel (for example WhatsApp) still receives commands.
 
 This is an emergency command handler based on fixed rules, not the conversational
-FRIDAY agent. It does not bootstrap a fresh setup or relax the inference
-gate for FRIDAY chat.
+OpenClaw agent. It does not bootstrap a fresh setup or relax the inference
+gate for OpenClaw chat.
 
 Supported command: `/openclaw <request>`. Rescue accepts the exact typed command grammar only — natural language is rejected with a hint, never guessed into an operation, and no model is ever consulted.
 
 ```text
 You, in a trusted owner DM: /openclaw status
-FRIDAY: FRIDAY rescue mode. Gateway reachable: no. Config valid: no.
+OpenClaw: OpenClaw rescue mode. Gateway reachable: no. Config valid: no.
 You: /openclaw restart gateway
-FRIDAY: Plan: restart the Gateway. Reply /openclaw yes to apply.
+OpenClaw: Plan: restart the Gateway. Reply /openclaw yes to apply.
 You: /openclaw yes
-FRIDAY: Applied. Audit entry written.
+OpenClaw: Applied. Audit entry written.
 ```
 
 Agent creation can also be queued locally or via rescue:
@@ -414,11 +414,11 @@ Remote rescue is an admin surface and must be treated like remote config repair,
 
 Security contract for remote rescue:
 
-- Disabled when sandboxing is active for the agent/session; FRIDAY refuses remote rescue and points to local CLI repair.
+- Disabled when sandboxing is active for the agent/session; OpenClaw refuses remote rescue and points to local CLI repair.
 - Default effective state is `auto`: allow remote rescue only in trusted YOLO operation, where the runtime already has unsandboxed local authority (`tools.exec.security` resolves to `full` and `tools.exec.ask` resolves to `off`, with sandbox mode `off`).
 - Requires an explicit owner identity; no wildcard sender rules, open group policy, unauthenticated webhooks, or anonymous channels.
 - Rescue is limited to owner DMs.
-- Plugin search and list are read-only. Plugin install is always local-only (blocked in rescue, even when otherwise enabled) because it downloads executable code. Plugin uninstall is refused in both local FRIDAY and rescue; run `openclaw plugins uninstall <id>` from a terminal.
+- Plugin search and list are read-only. Plugin install is always local-only (blocked in rescue, even when otherwise enabled) because it downloads executable code. Plugin uninstall is refused in both local OpenClaw and rescue; run `openclaw plugins uninstall <id>` from a terminal.
 - Remote rescue cannot open the local TUI or switch into an interactive agent session; use local `openclaw` for agent handoff.
 - `config unset` is unavailable in remote rescue because that path cannot revalidate owner policy at the final write. Ask your regular agent to remove the setting through the setup helper, or run `openclaw config unset <path>` locally.
 - Persistent writes still require approval, even in rescue mode.
@@ -450,14 +450,14 @@ Inference-gated packaged one-shot setup is covered by:
 pnpm test:docker:system-agent-first-run
 ```
 
-That packaged-CLI lane starts with an empty state dir and proves FRIDAY
+That packaged-CLI lane starts with an empty state dir and proves OpenClaw
 refuses to run setup without inference. It then tests and activates fake Claude through
 the packaged activation module. Only afterward does a fuzzy request reach the
 planner and resolve to typed setup, followed by one-shot commands that create an
 additional agent, configure Discord through a plugin enablement plus token
 SecretRef, validate config, and check the audit log. This lane is supporting
 gate/operation evidence; it does not exercise interactive onboarding or the
-FRIDAY agent/tool/approval conversation. The QA Lab scenario below redirects
+OpenClaw agent/tool/approval conversation. The QA Lab scenario below redirects
 to the same Docker lane:
 
 ```bash

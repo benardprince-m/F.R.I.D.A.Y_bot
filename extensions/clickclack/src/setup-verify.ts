@@ -15,10 +15,10 @@ type ClickClackSetupConnectionResult =
   | { status: "skipped-env-token" }
   | { status: "skipped-unconfigured" };
 
-const GATEWAY_RUNNING_MESSAGE = "FRIDAY is running — ClickClack will connect automatically.";
-const GATEWAY_NOT_RUNNING_MESSAGE = "Start FRIDAY to connect: openclaw gateway";
+const GATEWAY_RUNNING_MESSAGE = "OpenClaw is running — ClickClack will connect automatically.";
+const GATEWAY_NOT_RUNNING_MESSAGE = "Start OpenClaw to connect: openclaw gateway";
 const GATEWAY_UNKNOWN_MESSAGE =
-  "If FRIDAY is running it connects automatically; otherwise start it with: openclaw gateway";
+  "If OpenClaw is running it connects automatically; otherwise start it with: openclaw gateway";
 
 function isHttpStatus(error: unknown, status: number): boolean {
   return (

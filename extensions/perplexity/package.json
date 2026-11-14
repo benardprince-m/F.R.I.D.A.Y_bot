@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/perplexity-plugin",
   "version": "2026.10.4",
-  "description": "FRIDAY Perplexity plugin.",
+  "description": "OpenClaw Perplexity plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

@@ -233,7 +233,7 @@ pub fn build(
     let menu_builder = menu_builder.item(&runtime_action);
     let menu = menu_builder
         .separator()
-        .text(QUIT_ID, "Quit FRIDAY")
+        .text(QUIT_ID, "Quit OpenClaw")
         .build()?;
 
     // macOS draws menu bar icons from the alpha channel alone (see
@@ -356,7 +356,7 @@ pub fn open_dashboard(app: &AppHandle) {
                     .submit_connect(),
                 Err(error) => {
                     eprintln!("{error}");
-                    crate::notify::notify(&current_app, "FRIDAY", &error);
+                    crate::notify::notify(&current_app, "OpenClaw", &error);
                 }
             }
         }) {

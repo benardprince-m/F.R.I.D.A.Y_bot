@@ -87,7 +87,7 @@ async function loginAttempt(ctx: ProviderAuthContext, binaryPath: string): Promi
   };
   child.stdout.on("data", observe);
   child.stderr.on("data", observe);
-  // FRIDAY handles the browser handoff. EOF skips Muse's interactive Enter prompt.
+  // OpenClaw handles the browser handoff. EOF skips Muse's interactive Enter prompt.
   child.stdin.end();
   child.once("error", () => {
     failure ??= new Error(`Could not start Muse Code. Install it with: ${INSTALL_COMMAND}`);

@@ -1,1 +1,1 @@
-Deploying FRIDAY on Fly.io
+Deploying OpenClaw on Fly.io

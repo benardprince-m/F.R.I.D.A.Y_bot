@@ -617,7 +617,7 @@ describe("failed update recovery restart", () => {
       expect(report).toContain("update repair");
       expect(report).not.toContain("remains stopped");
       expect(renderUpdateRunNotice(recorded, "finished")).toBe(
-        "⚠️ FRIDAY couldn't finish updating.\nFor details, open Settings → Updates in the Control UI or run `openclaw update status` in your terminal.",
+        "⚠️ OpenClaw couldn't finish updating.\nFor details, open Settings → Updates in the Control UI or run `openclaw update status` in your terminal.",
       );
     },
   );
@@ -841,7 +841,7 @@ describe("failed package update recovery safety", () => {
       // Cleanup is pre-terminal; rollback is recorded only after completion settles.
       expect(cleanupStatus).toBe("running");
       expect(recorded.status).toBe("rolled-back");
-      expect(renderUpdateRunReport(recorded).headline).toContain("↩️ FRIDAY update rolled back");
+      expect(renderUpdateRunReport(recorded).headline).toContain("↩️ OpenClaw update rolled back");
       expect(await fs.readFile(configPath, "utf8")).toBe(original);
       if (process.platform !== "win32") {
         expect((await fs.stat(configPath)).mode & 0o777).toBe(0o600);

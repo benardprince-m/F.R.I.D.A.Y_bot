@@ -138,7 +138,7 @@ describe("CodexAppServerEventProjector dynamic tool projection", () => {
     },
   );
 
-  it("records dynamic FRIDAY tool calls in mirrored transcript snapshots", async () => {
+  it("records dynamic OpenClaw tool calls in mirrored transcript snapshots", async () => {
     const { projector, events } = await createProjection(undefined, {
       resolveDynamicToolResultContentSource: (toolName) =>
         toolName === "browser" ? "network" : undefined,
@@ -422,11 +422,11 @@ describe("CodexAppServerEventProjector dynamic tool projection", () => {
         arguments: call.arguments,
         executionStarted: false,
         outcome: "failure",
-        failure: { error: "Unknown FRIDAY tool: message" },
+        failure: { error: "Unknown OpenClaw tool: message" },
       }),
       success: false,
       terminalType: "error",
-      contentItems: [{ type: "inputText", text: "Unknown FRIDAY tool: message" }],
+      contentItems: [{ type: "inputText", text: "Unknown OpenClaw tool: message" }],
     });
 
     const result = events.result();

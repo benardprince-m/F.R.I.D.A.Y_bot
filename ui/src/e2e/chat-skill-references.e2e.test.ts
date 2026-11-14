@@ -70,7 +70,7 @@ suite.define(() => {
           methodResponses: {
             "chat.startup": {
               agentsList: {
-                agents: [{ id: "main", name: "FRIDAY" }],
+                agents: [{ id: "main", name: "OpenClaw" }],
                 defaultId: "main",
                 mainKey: "main",
                 scope: "agent",

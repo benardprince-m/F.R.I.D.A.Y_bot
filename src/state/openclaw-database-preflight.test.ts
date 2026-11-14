@@ -59,7 +59,7 @@ function createState() {
   return { env, statePath };
 }
 
-describe("FRIDAY database schema preflight", () => {
+describe("OpenClaw database schema preflight", () => {
   it("keeps package schema support metadata aligned", () => {
     expect(packageJson.openclaw.schemaVersions).toEqual({
       state: OPENCLAW_STATE_SCHEMA_VERSION,

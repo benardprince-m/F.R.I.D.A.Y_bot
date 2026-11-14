@@ -3,7 +3,7 @@ import type { CronJob, CronStoredJob } from "./types.js";
 
 type CronToolRuntimeSpec = Pick<CronJob, "payload" | "trigger">;
 
-/** Returns whether a cron job can construct or execute FRIDAY agent tools. */
+/** Returns whether a cron job can construct or execute OpenClaw agent tools. */
 export function cronJobUsesToolRuntime(job: {
   payload?: { kind?: unknown };
   trigger?: { script?: unknown };

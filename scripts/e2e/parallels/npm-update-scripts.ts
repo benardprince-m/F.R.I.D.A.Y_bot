@@ -28,7 +28,7 @@ interface NpmUpdateScriptInput {
 
 const windowsStalePostSwapImportRegex = String.raw`node_modules\\openclaw\\dist\\[^\\]+-[A-Za-z0-9_-]+\.m?js`;
 const startupMigrationRestartPrefix =
-  "FRIDAY plugin migration inputs changed during startup convergence;";
+  "OpenClaw plugin migration inputs changed during startup convergence;";
 const macosGuestPath =
   "/opt/homebrew/bin:/opt/homebrew/opt/node/bin:/usr/local/bin:/usr/local/sbin:/opt/homebrew/sbin:/usr/bin:/bin:/usr/sbin:/sbin";
 const macosOpenClawCommand = '"$OPENCLAW_BIN"';
@@ -153,7 +153,7 @@ function windowsUpdateWithScopedEnv(input: NpmUpdateScriptInput): string {
     : "";
   return `${registryScript}$script:OpenClawUpdateExit = 0
 $updateOutput = Invoke-WithScopedEnv @{ OPENCLAW_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS = '1' } {
-  Invoke-FRIDAY update --tag ${psSingleQuote(input.updateTarget)} --yes --json --no-restart 2>&1
+  Invoke-OpenClaw update --tag ${psSingleQuote(input.updateTarget)} --yes --json --no-restart 2>&1
   $script:OpenClawUpdateExit = $LASTEXITCODE
 }
 $updateExit = $script:OpenClawUpdateExit
@@ -200,7 +200,7 @@ function Test-CurrentGatewayStartupMigrationRefusal {
 function Wait-OpenClawGateway {
   $deadline = (Get-Date).AddSeconds(180)
   while ((Get-Date) -lt $deadline) {
-    Invoke-FRIDAY gateway status --deep --require-rpc --timeout 15000
+    Invoke-OpenClaw gateway status --deep --require-rpc --timeout 15000
     if ($LASTEXITCODE -eq 0) { return }
     if ($script:gatewayProcess.HasExited) {
       $script:gatewayProcess.WaitForExit()
@@ -230,7 +230,7 @@ Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
 ${windowsAgentWorkspaceScript("Parallels npm update smoke test assistant.")}
 Set-Item -Path ('Env:' + ${psSingleQuote(input.auth.apiKeyEnv)}) -Value ${psSingleQuote(input.auth.apiKeyValue)}
 ${windowsAgentTurnScript({
-  command: `  $output = Invoke-FRIDAY agent --local --agent main --session-id $sessionId --model ${psSingleQuote(input.auth.modelId)} --message 'Reply with exact ASCII text OK only.' --thinking off --timeout ${resolveParallelsModelTimeoutSeconds("windows")} --json 2>&1`,
+  command: `  $output = Invoke-OpenClaw agent --local --agent main --session-id $sessionId --model ${psSingleQuote(input.auth.modelId)} --message 'Reply with exact ASCII text OK only.' --thinking off --timeout ${resolveParallelsModelTimeoutSeconds("windows")} --json 2>&1`,
   sessionId: "parallels-npm-update-windows",
   retryOnCommandFailure: false,
 })}`;
@@ -381,7 +381,7 @@ if (changed) {
   }
 }
 function Stop-OpenClawGatewayProcesses {
-  Invoke-FRIDAY gateway stop *>&1 | Out-Host
+  Invoke-OpenClaw gateway stop *>&1 | Out-Host
   Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
     Where-Object { $_.CommandLine -match 'openclaw.*gateway' } |
     ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
@@ -489,7 +489,7 @@ function windowsVersionCheck(expectedNeedle: string): string {
     : '{ throw "openclaw --version failed with exit code $LASTEXITCODE" }';
   return `$versionDeadline = (Get-Date).AddSeconds(60)
 while ($true) {
-  $version = Invoke-FRIDAY --version
+  $version = Invoke-OpenClaw --version
   $version
   if ($LASTEXITCODE -eq 0${expectedCondition}) { break }
   if ((Get-Date) -ge $versionDeadline) ${failure}

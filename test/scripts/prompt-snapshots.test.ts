@@ -258,7 +258,7 @@ describe("happy path prompt snapshots", () => {
       const entry = turn.additionalContext[key]!;
       const role = entry.kind === "application" ? "Developer" : "User";
       const tag = entry.kind === "application" ? key : `external_${key}`;
-      const index = telegram.indexOf(`### ${role}: FRIDAY Additional Context (${key})`);
+      const index = telegram.indexOf(`### ${role}: OpenClaw Additional Context (${key})`);
       expect(index).toBeGreaterThan(previous);
       expect(index).toBeLessThan(userInput);
       const text = `<${tag}>${entry.value}</${tag}>`;
@@ -291,16 +291,16 @@ describe("happy path prompt snapshots", () => {
       expect(turn.collaborationMode.settings.developer_instructions).toBeNull();
       const parentLocal = renderedPromptSection(
         snapshot,
-        "### Request Instructions: FRIDAY Parent-Local Context",
+        "### Request Instructions: OpenClaw Parent-Local Context",
         "### Developer: Codex Permission Instructions",
       );
-      expect(parentLocal).toContain("## FRIDAY Agent Soul");
+      expect(parentLocal).toContain("## OpenClaw Agent Soul");
       for (const name of ["SOUL.md", "IDENTITY.md", "USER.md"]) {
         expect(parentLocal).toContain("<" + name + " contents will be here>");
       }
       const shared = renderedPromptSection(
         snapshot,
-        "### Developer: FRIDAY Runtime Instructions",
+        "### Developer: OpenClaw Runtime Instructions",
         "### Developer: Codex Collaboration Mode Instructions",
       );
       const collaboration = renderedPromptSection(
@@ -320,7 +320,7 @@ describe("happy path prompt snapshots", () => {
       }
       expect(collaboration).not.toContain("HEARTBEAT.md");
       expect(snapshot).not.toContain("Heartbeat = useful proactive progress");
-      expect(snapshot).not.toContain("This is an FRIDAY heartbeat turn.");
+      expect(snapshot).not.toContain("This is an OpenClaw heartbeat turn.");
       expect(snapshot).not.toContain("simulatedHeartbeatWorkspaceFile");
     }
   });

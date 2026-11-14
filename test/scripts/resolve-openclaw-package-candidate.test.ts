@@ -265,7 +265,7 @@ describe("resolve-openclaw-package-candidate", () => {
     expect(refPackageBuild).toContain('"--allow-unreleased-changelog"');
   });
 
-  it("accepts only FRIDAY release package specs for npm candidates", () => {
+  it("accepts only OpenClaw release package specs for npm candidates", () => {
     for (const spec of [
       "openclaw@beta",
       "openclaw@extended-stable",
@@ -449,7 +449,7 @@ printf '[{"filename":"openclaw-%s.tgz"}]\\n' "$version"
     for (const filename of unsafeFilenames) {
       await expect(
         moveNewestPackedTarballForTest(dir, JSON.stringify([{ filename }]), "openclaw-current.tgz"),
-      ).rejects.toThrow("npm pack reported unsafe FRIDAY tarball filename");
+      ).rejects.toThrow("npm pack reported unsafe OpenClaw tarball filename");
     }
   });
 
@@ -464,7 +464,7 @@ printf '[{"filename":"openclaw-%s.tgz"}]\\n' "$version"
           ["npm notice", filename].join("\n"),
           "openclaw-current.tgz",
         ),
-      ).rejects.toThrow("npm pack reported unsafe FRIDAY tarball filename");
+      ).rejects.toThrow("npm pack reported unsafe OpenClaw tarball filename");
     }
   });
 
@@ -1331,7 +1331,7 @@ esac
           '["@openclaw/codex"]',
         ]),
       ).rejects.toThrow(
-        `package_ref ${sourceSha} resolved to ${sourceSha}, which is not reachable from an FRIDAY branch or release tag`,
+        `package_ref ${sourceSha} resolved to ${sourceSha}, which is not reachable from an OpenClaw branch or release tag`,
       );
     } finally {
       process.env.PATH = previousPath;

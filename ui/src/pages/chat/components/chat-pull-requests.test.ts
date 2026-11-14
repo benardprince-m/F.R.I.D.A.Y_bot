@@ -512,7 +512,7 @@ describe("dismissed pull request storage", () => {
   it("keeps branches that differ only in case distinct", () => {
     const ids = dismissChatPullRequest(
       "agent:main:main",
-      chatBranchId(sessionBranch({ owner: "FRIDAY", branch: "Feature" })),
+      chatBranchId(sessionBranch({ owner: "OpenClaw", branch: "Feature" })),
     );
 
     expect(ids.has(chatBranchId(sessionBranch({ owner: "openclaw", branch: "Feature" })))).toBe(

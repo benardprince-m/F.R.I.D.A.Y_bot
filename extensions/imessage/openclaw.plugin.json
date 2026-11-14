@@ -2,7 +2,7 @@
   "id": "imessage",
   "categories": ["channels"],
   "name": "iMessage",
-  "description": "FRIDAY iMessage channel plugin using imsg on a signed-in Mac.",
+  "description": "OpenClaw iMessage channel plugin using imsg on a signed-in Mac.",
   "doctorContract": {
     "configRepair": true,
     "stateMigrations": [{ "id": "imessage-retired-state" }]

@@ -68,7 +68,7 @@ describe("operator browser chat document navigation", () => {
     const worker = navigationWorker(basePath);
     const path = `${basePath}/chat/main/dashboard/12345678-aaaa-4000-8000-000000000001?dashboard=expanded&openclaw_mount_recovery=1791731984160`;
     const app = new Response("app", {
-      headers: { "Content-Type": "text/html", "X-FRIDAY-Session-Entry": "1" },
+      headers: { "Content-Type": "text/html", "X-OpenClaw-Session-Entry": "1" },
     });
     worker.fetch.mockResolvedValueOnce(app);
     expect(await worker.navigate(path)).toBe(app);

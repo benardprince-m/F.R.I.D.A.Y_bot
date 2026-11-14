@@ -30,7 +30,7 @@ const defaults = {
 function preflight({
   output = defaults.output,
   profiler = JSON.stringify({
-    SPAudioDataType: [{ _items: [{ _name: "FRIDAY-Mic" }, { _name: "FRIDAY-Feed" }] }],
+    SPAudioDataType: [{ _items: [{ _name: "OpenClaw-Mic" }, { _name: "OpenClaw-Feed" }] }],
   }),
   ...overrides
 }: Partial<Parameters<typeof runFaceTimePreflight>[0]> & {
@@ -92,7 +92,7 @@ describe("FaceTime preflight", () => {
 
   afterEach(() => vi.unstubAllEnvs());
 
-  it.each(["{invalid", "        FRIDAY-Mic:\n        FRIDAY-Feed:\n"])(
+  it.each(["{invalid", "        OpenClaw-Mic:\n        OpenClaw-Feed:\n"])(
     "reports missing driver devices when system_profiler violates its JSON contract: %s",
     async (profiler) => {
       const result = await preflight({ profiler });
@@ -152,7 +152,7 @@ describe("FaceTime preflight", () => {
     },
     {
       name: "virtual output",
-      output: { isAggregate: false, name: "FRIDAY-Feed", uid: "feed" },
+      output: { isAggregate: false, name: "OpenClaw-Feed", uid: "feed" },
       message: "virtual",
     },
   ])("rejects $name at the preflight boundary", async ({ output, message }) => {
@@ -172,7 +172,7 @@ describe("FaceTime preflight", () => {
         SPAudioDataType: [
           {
             _name: "coreaudio_device",
-            _items: ["FRIDAY-Mic", "FRIDAY-Feed", output.name].map((_name) => ({
+            _items: ["OpenClaw-Mic", "OpenClaw-Feed", output.name].map((_name) => ({
               _name,
               coreaudio_device_transport: "coreaudio_device_type_virtual",
             })),

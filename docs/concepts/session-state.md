@@ -18,7 +18,7 @@ Three pieces work together:
 
 ## The signal log
 
-FRIDAY appends a typed event to the shared state database (`session_state_events`) when a watched session materially changes. Events carry metadata and a one-line summary — never message content.
+OpenClaw appends a typed event to the shared state database (`session_state_events`) when a watched session materially changes. Events carry metadata and a one-line summary — never message content.
 
 | Kind                   | Recorded when                                            | Notifies watchers |
 | ---------------------- | -------------------------------------------------------- | ----------------- |
@@ -30,7 +30,7 @@ FRIDAY appends a typed event to the shared state database (`session_state_events
 | `run_completed`        | A child run ends successfully                            | No (log only)     |
 | `run_failed`           | A child run fails, times out, or is cancelled            | No (log only)     |
 | `compacted`            | The session's history is compacted                       | No (log only)     |
-| `adopted`              | A catalog session is adopted into FRIDAY                 | No (log only)     |
+| `adopted`              | A catalog session is adopted into OpenClaw               | No (log only)     |
 
 Each event names its actor (`human`, `agent`, or `system`). Cancelled and timed-out child runs are recorded as failures with the precise outcome (`cancelled`, `timeout`, or `error`) preserved in the event payload.
 
@@ -76,7 +76,7 @@ retention expiry still applies. There is no unwatch verb in v1.
 
 Watched Claude, Codex, OpenCode, and Pi sessions adopted from a session catalog are checked for direct upstream human activity on a fixed cadence. Pi monitoring starts after the session is in its append-only v3 format. Detected activity enters the same signal log and watcher flow as other direct human turns.
 
-Recent user text used to recognize FRIDAY-origin prompts comes from one transcript
+Recent user text used to recognize OpenClaw-origin prompts comes from one transcript
 snapshot, including long histories. Concurrent replies or transcript resets cannot
 repeat a page or combine messages from different history windows.
 
@@ -139,7 +139,7 @@ Current limits:
 - Notice delivery assumes one gateway process owns the shared state database. Multiple gateways share the durable log and `changesSince`, but v1 does not push notices across processes.
 - Compaction events cover the embedded runtime's compaction owners. Native-harness-only compaction is not fully logged.
 - Cancelled-outcome payload detail is currently produced by ACP child runs. Native sub-agent cancellations surface as generic failures.
-- Upstream self-echo detection compares normalized user text. An external prompt matching one of the session's 10 most recent FRIDAY-side user messages is treated as self-echo.
+- Upstream self-echo detection compares normalized user text. An external prompt matching one of the session's 10 most recent OpenClaw-side user messages is treated as self-echo.
 - A single local Claude JSONL row larger than the 1 MiB per-cadence scan cap blocks that session's cursor in v1. Unclassified bytes are never skipped.
 - A single Pi JSONL row larger than the 1 MiB per-cadence scan cap blocks that session's cursor in v1. Unclassified bytes are never skipped.
 - Legacy Pi sessions are adopted without an upstream link. Resume once to migrate the file to v3, then continue it from the catalog again to start monitoring.

@@ -3,7 +3,7 @@
 This test-only profile retains Moby/Docker 28.0.4's default seccomp rules and
 adds the operations Codex's native Bubblewrap sandbox needs during setup.
 The live Codex wrapper uses it with a nonroot user and `no-new-privileges`.
-It grants no container capabilities and does not change FRIDAY's Docker
+It grants no container capabilities and does not change OpenClaw's Docker
 backend or Codex's inner filesystem and network policies.
 
 Upstream: https://github.com/moby/moby/blob/v28.0.4/profiles/seccomp/default.json

@@ -417,7 +417,7 @@ describe("google gemini cli backend auth bridge", () => {
     },
   );
 
-  it("rejects native tools because Gemini exact policy only exposes FRIDAY MCP", async () => {
+  it("rejects native tools because Gemini exact policy only exposes OpenClaw MCP", async () => {
     await withTempDir("openclaw-test-workspace-", async (workspaceDir) => {
       const inheritedSettingsPath = path.join(workspaceDir, "generated-mcp-settings.json");
       await fs.writeFile(
@@ -440,7 +440,7 @@ describe("google gemini cli backend auth bridge", () => {
     });
   });
 
-  it("materializes selected FRIDAY OAuth credentials into a persistent profile-scoped Gemini CLI home", async () => {
+  it("materializes selected OpenClaw OAuth credentials into a persistent profile-scoped Gemini CLI home", async () => {
     const backend = buildGoogleGeminiCliBackend();
     const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-test-workspace-"));
     let home: string | undefined;
@@ -851,7 +851,7 @@ describe("google gemini cli backend auth bridge", () => {
       } as never);
       await expect(preparation).rejects.toBeInstanceOf(CliBackendAuthProfilePreparationError);
       await expect(preparation).rejects.toThrow(
-        /OAuth profile is incomplete and cannot be repaired by FRIDAY.*AI Studio API key/,
+        /OAuth profile is incomplete and cannot be repaired by OpenClaw.*AI Studio API key/,
       );
     } finally {
       await fs.rm(workspaceDir, { recursive: true, force: true });

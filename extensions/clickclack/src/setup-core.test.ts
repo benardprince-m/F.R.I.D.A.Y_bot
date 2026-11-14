@@ -41,7 +41,7 @@ function claimResponse(
 ): ClickClackSetupCodeClaim {
   return {
     token: "test-token",
-    bot: { id: "usr_bot", handle: "openclaw", display_name: "FRIDAY" },
+    bot: { id: "usr_bot", handle: "openclaw", display_name: "OpenClaw" },
     workspace: { id: "wsp_1", route_id: "clickclack", slug: "default", name: "ClickClack" },
     defaults: {},
     ...overrides,

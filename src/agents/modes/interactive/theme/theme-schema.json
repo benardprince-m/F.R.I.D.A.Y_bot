@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
-	"title": "FRIDAY Agent Theme",
-	"description": "Theme schema for FRIDAY agent",
+	"title": "OpenClaw Agent Theme",
+	"description": "Theme schema for OpenClaw agent",
 	"type": "object",
 	"required": ["name", "colors"],
 	"properties": {

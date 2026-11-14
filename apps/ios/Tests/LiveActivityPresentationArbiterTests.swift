@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct LiveActivityPresentationArbiterTests {
     @Test func `voice sample buffer quantizes clamps and stays bounded`() {

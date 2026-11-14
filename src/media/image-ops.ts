@@ -16,7 +16,7 @@ export { readImageProbeFromHeader };
 
 export type { ImageMetadata, ImageProbe };
 
-/** FRIDAY-facing image backend availability error, preserving the failed operation and causes. */
+/** OpenClaw-facing image backend availability error, preserving the failed operation and causes. */
 class ImageProcessorUnavailableError extends Error {
   readonly code = "IMAGE_PROCESSOR_UNAVAILABLE";
   readonly operation: string;

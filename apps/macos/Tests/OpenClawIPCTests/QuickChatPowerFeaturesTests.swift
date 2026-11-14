@@ -2,7 +2,7 @@ import Foundation
 import OpenClawChatUI
 import OpenClawProtocol
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 extension QuickChatModelControlSnapshot {
     static let testThinkingOptions = ["off", "minimal", "low", "medium", "high"].map {
@@ -86,7 +86,7 @@ struct QuickChatPowerFeaturesTests {
             pendingRunCount: 1) == nil)
     }
 
-    @Test func `paste rejects a stale assistant and the FRIDAY process`() {
+    @Test func `paste rejects a stale assistant and the OpenClaw process`() {
         let messages = [
             Self.message(role: "user", text: "Question", idempotencyKey: "send-1"),
             Self.message(role: "assistant", text: "Answer"),

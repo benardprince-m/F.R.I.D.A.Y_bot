@@ -71,7 +71,7 @@ describe("resolveUtilityCompletionRuntimeForAgent", () => {
       pin: { agentRuntime: { id: "claude-cli" } },
       expected: { id: "claude-cli", kind: "cli", label: "Claude CLI" },
     },
-    { pin: undefined, expected: { id: "openclaw", kind: "api", label: "FRIDAY Default" } },
+    { pin: undefined, expected: { id: "openclaw", kind: "api", label: "OpenClaw Default" } },
   ])("reports the selected $expected.kind owner", async ({ pin, expected }) => {
     await expect(resolveUtilityCompletionRuntimeForAgent(prepared(pin))).resolves.toEqual(expected);
   });

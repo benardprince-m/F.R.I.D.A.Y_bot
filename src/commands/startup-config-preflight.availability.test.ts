@@ -115,7 +115,7 @@ it.each(["unavailable", "no-home", "EACCES"])(
           expect(warning).toContain("Could not inspect retired runtime state:");
           expect(warning).toContain("; run openclaw doctor");
           expect(warning).toContain(
-            fault === "no-home" ? "Unable to resolve an FRIDAY home" : denied,
+            fault === "no-home" ? "Unable to resolve an OpenClaw home" : denied,
           );
         }
       } finally {

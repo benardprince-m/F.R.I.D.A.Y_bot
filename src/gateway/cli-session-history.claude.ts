@@ -1,5 +1,5 @@
 // Claude CLI session history importer.
-// Converts Claude project JSONL into FRIDAY transcript-compatible messages.
+// Converts Claude project JSONL into OpenClaw transcript-compatible messages.
 import fs from "node:fs";
 import path from "node:path";
 import {
@@ -168,7 +168,7 @@ function normalizeClaudeCliContent(
     const block = { ...item };
     const type = typeof block.type === "string" ? block.type : "";
     if (type === "tool_use") {
-      // Claude stores tool calls as `tool_use` with `input`; FRIDAY history
+      // Claude stores tool calls as `tool_use` with `input`; OpenClaw history
       // expects `toolcall` plus `arguments` so replay remains provider-neutral.
       const id = normalizeOptionalString(block.id) ?? "";
       const name = normalizeOptionalString(block.name) ?? "";
@@ -349,7 +349,7 @@ export function cleanClaudeCliImportedUserDisplay(message: unknown): unknown {
 
 function resolveClaudeCliInternalSourceTool(text: string): string | undefined {
   // Claude records Gateway SDK input and native commands as ordinary user rows,
-  // without FRIDAY provenance. Recover only complete producer-owned frames at
+  // without OpenClaw provenance. Recover only complete producer-owned frames at
   // this adapter; a matching canonical human row still wins during history merge.
   if (stripCliSessionDriftNote(`${text}\n\n`) === "") {
     return "cli_session_resume";
@@ -376,7 +376,7 @@ function resolveClaudeCliInternalSourceTool(text: string): string | undefined {
       .replace(/^\[[A-Z][a-z]{2} \d{4}-\d{2}-\d{2} \d{2}:\d{2}[^\]\n]*\] /u, "")
       .startsWith(
         formatSystemTurnPrompt(
-          "Your previous turn was interrupted by a gateway restart while FRIDAY was waiting on tool/model work. ",
+          "Your previous turn was interrupted by a gateway restart while OpenClaw was waiting on tool/model work. ",
         ),
       )
   ) {

@@ -92,7 +92,7 @@ suite.define(() => {
                             type: "progress",
                             executor: "gateway",
                             title: "OpenAI device code",
-                            message: "Sign in to connect OpenAI to FRIDAY.",
+                            message: "Sign in to connect OpenAI to OpenClaw.",
                             externalUrl: "https://example.com/device",
                             deviceCode: {
                               code: "DEMO-1234",

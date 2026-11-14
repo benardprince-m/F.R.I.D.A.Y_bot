@@ -740,7 +740,7 @@ describe("post-activation failure settlement without inference", () => {
             stderrTail: currentCore
               ? "Doctor refused a maintenance step."
               : migration
-                ? "Doctor config promotion refused: authority-check-failed: FRIDAY state is undergoing offline maintenance; retry when it finishes."
+                ? "Doctor config promotion refused: authority-check-failed: OpenClaw state is undergoing offline maintenance; retry when it finishes."
                 : "Doctor timed out while repairing state.",
             failureFacts: currentCore
               ? [{ check: "maintenance", code: "step-refused" }]

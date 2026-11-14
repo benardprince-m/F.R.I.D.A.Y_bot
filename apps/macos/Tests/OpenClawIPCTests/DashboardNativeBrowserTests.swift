@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import Testing
 import WebKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct DashboardNativeBrowserContractTests {
     @Test func `navigation messages admit only reading surface URLs`() throws {

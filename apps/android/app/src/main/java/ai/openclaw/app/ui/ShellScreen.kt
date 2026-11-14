@@ -548,7 +548,7 @@ private fun OverviewScreen(
           item {
             ClawEmptyState(
               title = nativeString("No recent threads"),
-              body = nativeString("Start a chat and your active FRIDAY conversations will appear here."),
+              body = nativeString("Start a chat and your active OpenClaw conversations will appear here."),
               action = { ClawSecondaryButton(text = nativeString("Start Chat"), onClick = { onSelectTab(Tab.Chat) }) },
             )
           }
@@ -601,7 +601,7 @@ private fun OverviewHeader(
     }
     OpenClawMascot(modifier = Modifier.size(25.dp))
     Text(
-      text = nativeString("FRIDAY"),
+      text = nativeString("OpenClaw"),
       style = ClawTheme.type.title,
       color = ClawTheme.colors.text,
       modifier = Modifier.weight(1f),
@@ -935,7 +935,7 @@ internal fun overviewAgentName(
   defaultAgentId: String?,
 ): String {
   val agent = overviewAgent(agents = agents, defaultAgentId = defaultAgentId)
-  return agent?.name?.takeIf { it.isNotBlank() } ?: agent?.id?.takeIf { it.isNotBlank() } ?: nativeString("FRIDAY")
+  return agent?.name?.takeIf { it.isNotBlank() } ?: agent?.id?.takeIf { it.isNotBlank() } ?: nativeString("OpenClaw")
 }
 
 internal fun overviewAgentBadgeText(
@@ -949,7 +949,7 @@ internal fun overviewAgentBadgeText(
     ?.takeIf { it.isNotEmpty() }
     ?.let { return it }
   if (agent == null) return "OC"
-  val source = agent.name?.takeIf { it.isNotBlank() } ?: agent.id.takeIf { it.isNotBlank() } ?: nativeString("FRIDAY")
+  val source = agent.name?.takeIf { it.isNotBlank() } ?: agent.id.takeIf { it.isNotBlank() } ?: nativeString("OpenClaw")
   return agentInitials(source)
 }
 
@@ -1012,7 +1012,7 @@ internal fun sessionSourceLabel(
     } else {
       normalized
     }
-  if (!scopedKey.contains(':') && !scopedKey.contains('#')) return nativeString("FRIDAY")
+  if (!scopedKey.contains(':') && !scopedKey.contains('#')) return nativeString("OpenClaw")
   val source = scopedKey.substringBefore(':').substringBefore('#').lowercase()
   val channelLabel =
     channelsSummary
@@ -1022,7 +1022,7 @@ internal fun sessionSourceLabel(
       }?.label
       ?.takeIf { it.isNotBlank() }
   if (channelLabel != null) return channelLabel
-  return nativeString(sessionSourceLabels[source] ?: "FRIDAY")
+  return nativeString(sessionSourceLabels[source] ?: "OpenClaw")
 }
 
 internal data class HomeAttentionRow(
@@ -1314,7 +1314,7 @@ private fun SettingsShellScreen(
       }
       item {
         SettingsListRow(
-          title = verbatimText(displayName.ifBlank { "FRIDAY" }),
+          title = verbatimText(displayName.ifBlank { "OpenClaw" }),
           value = nativeText("Device name and identity"),
           icon = SettingsRoute.Profile.icon,
           actionDescription = nativeString("Open profile"),
@@ -1366,7 +1366,7 @@ private fun SettingsShellScreen(
       item {
         Text(
           modifier = Modifier.fillMaxWidth().padding(top = ClawTheme.spacing.lg),
-          text = nativeString("FRIDAY \${BuildConfig.VERSION_NAME} (\${BuildConfig.VERSION_CODE})", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE),
+          text = nativeString("OpenClaw \${BuildConfig.VERSION_NAME} (\${BuildConfig.VERSION_CODE})", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE),
           style = ClawTheme.type.caption,
           color = ClawTheme.colors.textMuted,
           textAlign = TextAlign.Center,

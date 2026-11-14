@@ -546,7 +546,7 @@ describe("native Slack progress stream chunks", () => {
         lines: [toolLine("src/native-card.ts", "Write")],
         diffStat: { files: 1, added: 3, removed: 1 },
         sessionLinks: [
-          { url: "https://team.openclaw.ai/openclaw/chat/main", text: "Open in FRIDAY" },
+          { url: "https://team.openclaw.ai/openclaw/chat/main", text: "Open in OpenClaw" },
         ],
       }),
     ).toEqual([
@@ -558,7 +558,7 @@ describe("native Slack progress stream chunks", () => {
           {
             type: "url_source",
             url: "https://team.openclaw.ai/openclaw/chat/main",
-            text: "Open in FRIDAY",
+            text: "Open in OpenClaw",
           },
         ],
       }),

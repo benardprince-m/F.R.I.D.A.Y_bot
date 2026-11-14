@@ -62,7 +62,7 @@ export function resolveModelExtraParamSources(params: {
   return { defaultParams, modelParams, agentModelParams, agentParams: agent?.params };
 }
 
-/** Returns whether embedded FRIDAY would apply authored provider request parameters. */
+/** Returns whether embedded OpenClaw would apply authored provider request parameters. */
 export function hasAuthoredProviderRequestParams(
   params: Parameters<typeof resolveModelExtraParamSources>[0],
   options?: { nativeContextManagement?: boolean },

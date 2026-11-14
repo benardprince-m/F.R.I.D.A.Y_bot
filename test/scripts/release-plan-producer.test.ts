@@ -64,7 +64,7 @@ function commit(root: string, message: string, options: { allowEmpty?: boolean }
     "git",
     [
       "-c",
-      "user.name=FRIDAY Test",
+      "user.name=OpenClaw Test",
       "-c",
       "user.email=test@example.invalid",
       "commit",
@@ -816,7 +816,7 @@ describe("release plan producer", () => {
     const git = (args: string[], input?: string) =>
       execFileSync(
         "git",
-        ["-c", "user.name=FRIDAY Test", "-c", "user.email=test@example.invalid", ...args],
+        ["-c", "user.name=OpenClaw Test", "-c", "user.email=test@example.invalid", ...args],
         { cwd: fixture.root, encoding: "utf8", input },
       ).trim();
     const blob = git(["hash-object", "-w", "--stdin"], "");
@@ -906,7 +906,7 @@ describe("release plan producer", () => {
         "git",
         [
           "-c",
-          "user.name=FRIDAY Test",
+          "user.name=OpenClaw Test",
           "-c",
           "user.email=test@example.invalid",
           "commit-tree",

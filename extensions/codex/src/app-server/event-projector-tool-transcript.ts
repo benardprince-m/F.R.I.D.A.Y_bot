@@ -58,7 +58,7 @@ import type { CodexTranscriptCheckpointEntry } from "./transcript-checkpoint.js"
 import { attachCodexMirrorIdentity } from "./upstream-prompt-provenance.js";
 
 const MISSING_TOOL_RESULT_ERROR =
-  "FRIDAY recorded a native Codex tool.call without a matching tool.result before the turn completed.";
+  "OpenClaw recorded a native Codex tool.call without a matching tool.result before the turn completed.";
 const NATIVE_PATCH_REJECTION_RE =
   /^\s*patch rejected:\s*writing outside of the project;\s*rejected by user approval settings\s*$/iu;
 const NATIVE_COMMAND_WORKSPACE_REJECTION_RE =

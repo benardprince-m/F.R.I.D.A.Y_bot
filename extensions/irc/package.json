@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/irc",
   "version": "2026.10.4",
-  "description": "FRIDAY IRC channel plugin",
+  "description": "OpenClaw IRC channel plugin",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*"

@@ -20,7 +20,7 @@ registration still refresh the channel.
 
 ### Group bot identity
 
-In groups and forum topics, an explicit mention of the configured bot handle addresses the selected FRIDAY agent. An example handle is `@my_bot`. This holds even when the agent persona name differs from the Telegram username. Group silence policy still applies to unrelated traffic, but the bot handle itself is never "someone else."
+In groups and forum topics, an explicit mention of the configured bot handle addresses the selected OpenClaw agent. An example handle is `@my_bot`. This holds even when the agent persona name differs from the Telegram username. Group silence policy still applies to unrelated traffic, but the bot handle itself is never "someone else."
 
 <Tabs>
   <Tab title="DM policy">
@@ -59,7 +59,7 @@ In groups and forum topics, an explicit mention of the configured bot handle add
 }
 ```
 
-    A matching `toolsBySender` entry replaces `tools` for that DM. An exact chat entry replaces the whole `"*"` entry; it does not inherit wildcard fields. Account-level `direct` replaces the root `direct` map when present and inherits it only when omitted. The selected direct policy, global policy, per-agent policy, `tools.toolsBySender`, and `agents.<id>.tools.toolsBySender` apply as intersecting layers; a deny in any layer still blocks the tool. Codex uses policy-filtered FRIDAY tools for explicitly restricted turns and keeps its native tool surface for default profile narrowing. ACP-bound sessions reject a restrictive direct policy when their runtime cannot enforce it.
+    A matching `toolsBySender` entry replaces `tools` for that DM. An exact chat entry replaces the whole `"*"` entry; it does not inherit wildcard fields. Account-level `direct` replaces the root `direct` map when present and inherits it only when omitted. The selected direct policy, global policy, per-agent policy, `tools.toolsBySender`, and `agents.<id>.tools.toolsBySender` apply as intersecting layers; a deny in any layer still blocks the tool. Codex uses policy-filtered OpenClaw tools for explicitly restricted turns and keeps its native tool surface for default profile narrowing. ACP-bound sessions reject a restrictive direct policy when their runtime cannot enforce it.
 
     ### Finding your Telegram user ID
 
@@ -198,7 +198,7 @@ curl "https://api.telegram.org/bot<bot_token>/getUpdates"
 }
 ```
 
-    This option applies only when FRIDAY knows that the receiving bot created the forum topic. A topic's `requireMentionInBotThreads` overrides the selected group setting. Set it to `true` to require a mention in those topics, even when ordinary `requireMention` is `false` or the message replies to the bot. Native and authorized control commands keep their existing behavior. Omit the option to preserve the existing mention policy.
+    This option applies only when OpenClaw knows that the receiving bot created the forum topic. A topic's `requireMentionInBotThreads` overrides the selected group setting. Set it to `true` to require a mention in those topics, even when ordinary `requireMention` is `false` or the message replies to the bot. Native and authorized control commands keep their existing behavior. Omit the option to preserve the existing mention policy.
 
     Telegram must deliver ordinary group messages for `false` to work: disable privacy mode or make the bot a group admin. See [Privacy mode and group visibility](/channels/telegram/setup#privacy-mode-and-group-visibility). Group and sender authorization, group silence policy, and visible-reply policy still apply. See [Bot-created forum topics](/channels/telegram/threads-and-sessions#bot-created-forum-topics) for ownership tracking and its limits.
 

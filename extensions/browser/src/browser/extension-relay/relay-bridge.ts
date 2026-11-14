@@ -382,7 +382,7 @@ export class ExtensionRelayBridge {
 
   private sendToExtension(msg: RelayToExtensionMessage): void {
     if (!this.extension) {
-      throw new Error("FRIDAY Chrome extension is not connected to the relay");
+      throw new Error("OpenClaw Chrome extension is not connected to the relay");
     }
     this.extension.socket.send(JSON.stringify(msg));
   }
@@ -477,7 +477,7 @@ export class ExtensionRelayBridge {
     const tab = this.tabs.get(tabId);
     const extension = this.extension;
     if (!tab) {
-      throw new Error(`tab ${tabId} is not available to FRIDAY`);
+      throw new Error(`tab ${tabId} is not available to OpenClaw`);
     }
     // A pending claimant keeps the physical acquisition alive through announcement.
     // Use a distinct token even for concurrent acquisitions by the same client.
@@ -506,7 +506,7 @@ export class ExtensionRelayBridge {
     const extension = this.extension;
     const tab = this.tabs.get(tabId);
     if (!tab) {
-      throw new Error(`tab ${tabId} is not available to FRIDAY`);
+      throw new Error(`tab ${tabId} is not available to OpenClaw`);
     }
     if (tab.retiring) {
       await tab.retiring;
@@ -1069,7 +1069,7 @@ export class ExtensionRelayBridge {
             targetInfo: {
               targetId: BROWSER_TARGET_ID,
               type: "browser",
-              title: "FRIDAY Extension Relay",
+              title: "OpenClaw Extension Relay",
               url: "",
               attached: true,
               canAccessOpener: false,
@@ -1216,7 +1216,7 @@ export class ExtensionRelayBridge {
         this.respondError(
           client,
           request,
-          "The FRIDAY extension relay drives the user's real browser profile; isolated browser contexts are not supported.",
+          "The OpenClaw extension relay drives the user's real browser profile; isolated browser contexts are not supported.",
         );
         return;
       }

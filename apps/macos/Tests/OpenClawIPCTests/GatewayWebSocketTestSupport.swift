@@ -1,5 +1,5 @@
 import Foundation
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawKit
 
 extension WebSocketTasking {
@@ -30,7 +30,7 @@ enum GatewayWebSocketTestSupport {
         permissions: [:],
         clientId: "openclaw-macos",
         clientMode: "ui",
-        clientDisplayName: "FRIDAY macOS Test",
+        clientDisplayName: "OpenClaw macOS Test",
         includeDeviceIdentity: false)
 
     static func connectChallengeData(

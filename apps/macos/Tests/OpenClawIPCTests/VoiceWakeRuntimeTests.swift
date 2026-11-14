@@ -1,6 +1,6 @@
 import SwabbleKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct VoiceWakeRuntimeTests {
     @Test(arguments: ["hey openclaw", "tell me about openclaw"])

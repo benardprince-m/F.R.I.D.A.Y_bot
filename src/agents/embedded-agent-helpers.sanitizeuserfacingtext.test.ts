@@ -95,7 +95,7 @@ describe("sanitizeUserFacingText", () => {
 
   it.each(["disk full"])("rewrites disk-space failures with errorContext: %s", (input) => {
     expect(renderUserFacingText(input, { errorContext: true })).toBe(
-      "FRIDAY could not write local session data because the disk is full. Free some disk space and try again.",
+      "OpenClaw could not write local session data because the disk is full. Free some disk space and try again.",
     );
   });
 
@@ -150,12 +150,12 @@ describe("sanitizeUserFacingText", () => {
     const input = [
       markInboundContextLabel("Conversation info:"),
       "```json",
-      '{"chat_id":"channel:123","sender":"FRIDAY"}',
+      '{"chat_id":"channel:123","sender":"OpenClaw"}',
       "```",
       "",
       markInboundContextLabel("Sender:"),
       "```json",
-      '{"label":"FRIDAY (123)"}',
+      '{"label":"OpenClaw (123)"}',
       "```",
       "",
       "Pong",
@@ -225,7 +225,7 @@ describe("sanitizeUserFacingText", () => {
 
   it("drops an undelimited current runtime header when it leaks into user-facing text", () => {
     const input = [
-      "FRIDAY runtime context (internal):",
+      "OpenClaw runtime context (internal):",
       "This context is runtime-generated, not user-authored. Keep internal details private.",
       "",
       "[Internal task completion event]",
@@ -237,7 +237,7 @@ describe("sanitizeUserFacingText", () => {
 
   it("strips copied next-turn runtime context prefaces from user-facing text", () => {
     const input = [
-      "FRIDAY runtime context for the immediately preceding user message.",
+      "OpenClaw runtime context for the immediately preceding user message.",
       "This context is runtime-generated, not user-authored. Keep internal details private.",
       "",
       "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",

@@ -4,7 +4,7 @@ import OpenClawProtocol
 import SwiftUI
 import Testing
 import UIKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 struct RootTabsPresentationTests {
@@ -388,22 +388,22 @@ struct RootTabsPresentationTests {
     }
 
     @Test func `app launch defaults to chat destination`() {
-        #expect(RootTabs.initialDestination(arguments: ["FRIDAY"]) == .chat)
-        #expect(RootTabs.initialDestination(arguments: ["FRIDAY", "--openclaw-initial-tab"]) == .chat)
-        #expect(RootTabs.initialDestination(arguments: ["FRIDAY", "--openclaw-initial-tab", "unknown"]) == .chat)
+        #expect(RootTabs.initialDestination(arguments: ["OpenClaw"]) == .chat)
+        #expect(RootTabs.initialDestination(arguments: ["OpenClaw", "--openclaw-initial-tab"]) == .chat)
+        #expect(RootTabs.initialDestination(arguments: ["OpenClaw", "--openclaw-initial-tab", "unknown"]) == .chat)
     }
 
     @Test func `app launch uses requested destination before chat fallback`() {
         #expect(RootTabs
-            .initialDestination(arguments: ["FRIDAY", "--openclaw-initial-destination", "overview"]) == .overview)
-        #expect(RootTabs.initialDestination(arguments: ["FRIDAY", "--openclaw-initial-destination", "chat"]) == .chat)
+            .initialDestination(arguments: ["OpenClaw", "--openclaw-initial-destination", "overview"]) == .overview)
+        #expect(RootTabs.initialDestination(arguments: ["OpenClaw", "--openclaw-initial-destination", "chat"]) == .chat)
         #expect(RootTabs
-            .initialDestination(arguments: ["FRIDAY", "--openclaw-initial-destination", "agents"]) == .agents)
+            .initialDestination(arguments: ["OpenClaw", "--openclaw-initial-destination", "agents"]) == .agents)
         #expect(RootTabs
-            .initialDestination(arguments: ["FRIDAY", "--openclaw-initial-destination", "gateway"]) == .gateway)
+            .initialDestination(arguments: ["OpenClaw", "--openclaw-initial-destination", "gateway"]) == .gateway)
         #expect(
             RootTabs.initialDestination(arguments: [
-                "FRIDAY",
+                "OpenClaw",
                 "--openclaw-initial-tab",
                 "unknown",
                 "--openclaw-initial-destination",
@@ -412,13 +412,13 @@ struct RootTabsPresentationTests {
     }
 
     @Test func `legacy initial tab aliases map directly to sidebar destinations`() {
-        #expect(RootTabs.initialDestination(arguments: ["FRIDAY", "--openclaw-initial-tab", "control"]) == .overview)
-        #expect(RootTabs.initialDestination(arguments: ["FRIDAY", "--openclaw-initial-tab", "overview"]) == .overview)
-        #expect(RootTabs.initialDestination(arguments: ["FRIDAY", "--openclaw-initial-tab", "chat"]) == .chat)
-        #expect(RootTabs.initialDestination(arguments: ["FRIDAY", "--openclaw-initial-tab", "talk"]) == .chat)
-        #expect(RootTabs.initialDestination(arguments: ["FRIDAY", "--openclaw-initial-tab", "voice"]) == .chat)
-        #expect(RootTabs.initialDestination(arguments: ["FRIDAY", "--openclaw-initial-tab", "agents"]) == .agents)
-        #expect(RootTabs.initialDestination(arguments: ["FRIDAY", "--openclaw-initial-tab", "settings"]) == .settings)
+        #expect(RootTabs.initialDestination(arguments: ["OpenClaw", "--openclaw-initial-tab", "control"]) == .overview)
+        #expect(RootTabs.initialDestination(arguments: ["OpenClaw", "--openclaw-initial-tab", "overview"]) == .overview)
+        #expect(RootTabs.initialDestination(arguments: ["OpenClaw", "--openclaw-initial-tab", "chat"]) == .chat)
+        #expect(RootTabs.initialDestination(arguments: ["OpenClaw", "--openclaw-initial-tab", "talk"]) == .chat)
+        #expect(RootTabs.initialDestination(arguments: ["OpenClaw", "--openclaw-initial-tab", "voice"]) == .chat)
+        #expect(RootTabs.initialDestination(arguments: ["OpenClaw", "--openclaw-initial-tab", "agents"]) == .agents)
+        #expect(RootTabs.initialDestination(arguments: ["OpenClaw", "--openclaw-initial-tab", "settings"]) == .settings)
     }
 
     @Test func `chat transport identity distinguishes unresolved and resolved agents`() {
@@ -535,19 +535,19 @@ struct RootTabsPresentationTests {
     @Test func `initial sidebar visibility parses launch argument`() {
         #expect(
             RootTabs.requestedInitialSidebarVisibility(arguments: [
-                "FRIDAY",
+                "OpenClaw",
                 "--openclaw-sidebar-visibility",
                 "hidden",
             ]) == false)
         #expect(
             RootTabs.requestedInitialSidebarVisibility(arguments: [
-                "FRIDAY",
+                "OpenClaw",
                 "--openclaw-sidebar-visibility",
                 "visible",
             ]) == true)
         #expect(
             RootTabs.requestedInitialSidebarVisibility(arguments: [
-                "FRIDAY",
+                "OpenClaw",
                 "--openclaw-sidebar-visibility",
                 "unknown",
             ]) == nil)

@@ -8,7 +8,7 @@ import Photos
 import Speech
 import Testing
 import UserNotifications
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 struct IOSDeviceSettingsSnapshotTests {

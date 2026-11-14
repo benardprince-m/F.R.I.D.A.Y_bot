@@ -53,7 +53,7 @@ Ordinary network failures keep the admitted local shell visible while retries
 continue. Authentication or pairing rejection retires cached admission instead
 of silently restoring it after a later network error. **Forget this browser**
 and explicit credential replacement also retire admission. A proxy sign-out
-performed outside FRIDAY cannot be observed while disconnected; the Gateway's
+performed outside OpenClaw cannot be observed while disconnected; the Gateway's
 next authentication result applies when contact resumes.
 
 Transcripts, roster data, text drafts, and queued input are separated by Gateway
@@ -489,7 +489,7 @@ opens a fresh connection automatically. Recovery storage errors appear above the
 they do not mean that messages have lost their destinations or that browser storage is full. Reload to retry if
 the error persists, keeping site data intact.
 
-First opens and reloads without usable warm state show a small animated FRIDAY mark while the Gateway resolves the initial
+First opens and reloads without usable warm state show a small animated OpenClaw mark while the Gateway resolves the initial
 connection, including when authentication comes from a trusted proxy or Tailscale instead of a
 browser-stored credential. The login gate appears only after the initial connection fails or the
 Gateway actively rejects authentication (bad token/password, missing trusted identity, revoked

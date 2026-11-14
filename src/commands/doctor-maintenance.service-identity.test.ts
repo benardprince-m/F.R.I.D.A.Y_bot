@@ -84,8 +84,8 @@ it.each([
         JSON.stringify({
           schemaVersion: 1,
           owner: "macos-app",
-          displayName: "FRIDAY.app",
-          updateHint: "Update FRIDAY.app to update this Gateway.",
+          displayName: "OpenClaw.app",
+          updateHint: "Update OpenClaw.app to update this Gateway.",
         }),
       );
     }
@@ -108,7 +108,7 @@ it.each([
         runtime: { log: vi.fn(), error: vi.fn(), exit: vi.fn() },
       });
     if (running) {
-      await expect(begin()).rejects.toThrow("Managed by FRIDAY.app");
+      await expect(begin()).rejects.toThrow("Managed by OpenClaw.app");
       expect(fs.readFileSync(sourcePath, "utf8")).toBe(source);
       for (const operation of [
         "stage",

@@ -92,7 +92,7 @@ async function fixture(state: NodePermissionRequest["state"], ids = ["screenReco
 it.each([
   ["not-determined", "Grant Screen Recording"],
   ["denied", "Open System Settings"],
-  ["restart-required", "Relaunch FRIDAY"],
+  ["restart-required", "Relaunch OpenClaw"],
   ["stale-grant", "Open System Settings"],
   ["disabled-in-openclaw", "Enable Computer Control"],
 ] satisfies [NodePermissionRequest["state"], string][])(
@@ -175,7 +175,7 @@ it("keeps a multi-permission request blocked until both the toggle and OS grants
   expect(f.view.queryByRole("button", { name: "Try again" })).toBeNull();
   f.snapshot.permissions.entries[0] = { id: "accessibility", status: "granted" };
   f.publish();
-  f.view.getByRole("button", { name: "Relaunch FRIDAY" }).click();
+  f.view.getByRole("button", { name: "Relaunch OpenClaw" }).click();
   await waitForSolid(() =>
     expect(f.post).toHaveBeenCalledWith({
       type: "resolve-permission",
@@ -194,7 +194,7 @@ it("keeps a multi-permission request blocked until both the toggle and OS grants
   expect(f.view.getByRole("button", { name: "Try again" })).toBeTruthy();
 });
 
-it("does not treat camera and location OS grants as enabling their FRIDAY toggles", async () => {
+it("does not treat camera and location OS grants as enabling their OpenClaw toggles", async () => {
   const f = await fixture("disabled-in-openclaw", ["cameraEnabled", "camera", "location"]);
   f.snapshot.permissions.entries = [
     { id: "camera", status: "granted" },
@@ -206,7 +206,7 @@ it("does not treat camera and location OS grants as enabling their FRIDAY toggle
   expect(f.view.queryByRole("button", { name: "Try again" })).toBeNull();
 });
 
-it("opens Settings for denied Location while its FRIDAY mode is off", async () => {
+it("opens Settings for denied Location while its OpenClaw mode is off", async () => {
   const f = await fixture("disabled-in-openclaw", ["location"]);
   f.snapshot.permissions.location.mode = "off";
   f.snapshot.permissions.entries = [{ id: "location", status: "denied", state: "denied" }];
@@ -297,7 +297,7 @@ it.each(
       if (outcome === "granted") {
         expect(f.view.getByRole("button", { name: "Try again" })).toBeTruthy();
       } else if (outcome === "restart-required") {
-        expect(f.view.getByRole("button", { name: "Relaunch FRIDAY" })).toBeTruthy();
+        expect(f.view.getByRole("button", { name: "Relaunch OpenClaw" })).toBeTruthy();
       } else {
         expect(f.view.getByRole("button", { name: "Open System Settings" })).toBeTruthy();
       }

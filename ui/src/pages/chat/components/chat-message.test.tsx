@@ -190,7 +190,7 @@ function renderTestMessageGroup(
   return renderMessageGroup(group, {
     showReasoning: true,
     showToolCalls: true,
-    assistantName: "FRIDAY",
+    assistantName: "OpenClaw",
     assistantAvatar: null,
     ...opts,
   });
@@ -2115,7 +2115,7 @@ describe("grouped chat rendering", () => {
         {
           type: "openclaw_pairing_qr",
           image_url: "data:image/png;base64,cXJwbmc=",
-          alt: "FRIDAY pairing QR code",
+          alt: "OpenClaw pairing QR code",
           expiresAtMs: Date.now() + 1_000,
         },
       ]),
@@ -2124,7 +2124,7 @@ describe("grouped chat rendering", () => {
 
     const image = view.querySelector<HTMLImageElement>(".chat-message-image");
     expect(image?.getAttribute("src")).toBe("data:image/png;base64,cXJwbmc=");
-    expect(image?.getAttribute("alt")).toBe("FRIDAY pairing QR code");
+    expect(image?.getAttribute("alt")).toBe("OpenClaw pairing QR code");
     const bubble = view.querySelector(".chat-bubble");
     expect(bubble).not.toBeNull();
     await vi.advanceTimersByTimeAsync(999);
@@ -2139,7 +2139,7 @@ describe("grouped chat rendering", () => {
         {
           type: "openclaw_pairing_qr",
           image_url: "data:image/png;base64,ZXhwaXJlZA==",
-          alt: "FRIDAY pairing QR code",
+          alt: "OpenClaw pairing QR code",
           expiresAtMs: Date.now() - 1,
         },
       ]),
@@ -2661,7 +2661,7 @@ describe("grouped chat rendering", () => {
       ?.click();
     expect(onReply).toHaveBeenCalledWith({
       messageId: "assistant-message",
-      senderLabel: "FRIDAY",
+      senderLabel: "OpenClaw",
       sourceMessageId: "assistant-disclosure-actions",
       text: "a".repeat(499),
     });

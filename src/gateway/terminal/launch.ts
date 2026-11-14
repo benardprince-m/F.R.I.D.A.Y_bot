@@ -215,7 +215,7 @@ export function buildTerminalEnv(
   if (resolveEnvironmentValue(env, "COLORTERM", platform) === undefined) {
     env.COLORTERM = "truecolor";
   }
-  // Lets shells and prompts detect that they are inside an FRIDAY terminal.
+  // Lets shells and prompts detect that they are inside an OpenClaw terminal.
   env.OPENCLAW_TERMINAL = "1";
   return env;
 }

@@ -48,11 +48,11 @@ export type AgentHarnessSelectionDecision = {
   selectedReason:
     | "forced_openclaw"
     | "forced_plugin"
-    // Implicit Codex preference found no registered Codex harness, so FRIDAY handled the run.
+    // Implicit Codex preference found no registered Codex harness, so OpenClaw handled the run.
     | "implicit_plugin_unavailable_openclaw"
-    // Implicit Codex preference cannot reproduce the prepared transport, so FRIDAY handled it.
+    // Implicit Codex preference cannot reproduce the prepared transport, so OpenClaw handled it.
     | "implicit_plugin_unsupported_openclaw"
-    // The requested plugin declared FRIDAY as a lossless fallback for this prepared request.
+    // The requested plugin declared OpenClaw as a lossless fallback for this prepared request.
     | "plugin_declared_fallback_openclaw"
     // Provider-owned CLI runtime aliases have no agent harness plugin counterpart.
     | "cli_runtime_passthrough_openclaw"
@@ -99,8 +99,8 @@ export function resolveAgentHarnessSelectionDecision(
       selectedReason,
       candidates: listHarnessCandidates(pluginHarnesses),
     });
-  // FRIDAY's built-in harness is intentionally not part of the plugin candidate list. Explicit plugin
-  // runtimes fail closed unless the selected plugin declares FRIDAY as a lossless fallback.
+  // OpenClaw's built-in harness is intentionally not part of the plugin candidate list. Explicit plugin
+  // runtimes fail closed unless the selected plugin declares OpenClaw as a lossless fallback.
   const runtime = policy.runtime;
   if (runtime === "openclaw") {
     const selectedReason =

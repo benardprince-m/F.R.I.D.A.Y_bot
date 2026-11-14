@@ -209,7 +209,7 @@ export async function runConfigGet(opts: { path: string; json?: boolean; runtime
       );
       const message = isConfigSchemaPath(schema, parsedPath)
         ? autoManaged
-          ? `Config path is valid but unset: ${opts.path}. This path contains metadata managed automatically by FRIDAY on config writes; it cannot be authored with config set.`
+          ? `Config path is valid but unset: ${opts.path}. This path contains metadata managed automatically by OpenClaw on config writes; it cannot be authored with config set.`
           : `Config path is valid but unset: ${opts.path}. The runtime default applies until you set an authored value with ${formatCliCommand(`openclaw config set ${quoteCliArg(opts.path)} <value>`)}.`
         : `Unknown config path: ${opts.path}. Run ${formatCliCommand("openclaw config schema")} to inspect valid paths.`;
       if (opts.json) {
@@ -341,7 +341,7 @@ async function runConfigValidate(opts: { json?: boolean; runtime?: RuntimeEnv } 
       const issues = normalizeConfigIssues(snapshot.issues);
       if (opts.json) {
         writeRuntimeJson(runtime, {
-          ...formatCliJsonFailure(`FRIDAY config is invalid: ${shortPath}`),
+          ...formatCliJsonFailure(`OpenClaw config is invalid: ${shortPath}`),
           valid: false,
           path: outputPath,
           issues,

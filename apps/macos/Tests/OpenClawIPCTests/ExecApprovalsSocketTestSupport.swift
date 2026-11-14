@@ -1,7 +1,7 @@
 import Darwin
 import Dispatch
 import Foundation
-@testable import FRIDAY
+@testable import OpenClaw
 
 enum ExecApprovalsSocketTestSupport {
     private static let blockingSocketQueue = DispatchQueue(label: "exec-approvals-test.socket", attributes: .concurrent)
@@ -23,7 +23,7 @@ enum ExecApprovalsSocketTestSupport {
         let template = base.appendingPathComponent("XXXXXX", isDirectory: true).path
         // CuaDriverHostCoordinator.createSocketDirectory adds this 39-byte suffix.
         // Reserve its full sun_path budget before mkdtemp creates any fixture state.
-        let longestSocketPath = template + "/FRIDAY/cua/0000000000000000/cua.sock"
+        let longestSocketPath = template + "/OpenClaw/cua/0000000000000000/cua.sock"
         guard longestSocketPath.utf8.count < MemoryLayout.size(ofValue: sockaddr_un().sun_path) else {
             throw NSError(domain: NSPOSIXErrorDomain, code: Int(ENAMETOOLONG), userInfo: [
                 NSLocalizedDescriptionKey:

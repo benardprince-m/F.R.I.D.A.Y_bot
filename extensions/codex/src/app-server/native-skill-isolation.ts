@@ -200,7 +200,7 @@ async function collectPersonalSkillRealPaths(
   return { complete, skillPaths };
 }
 
-/** Resolves native skill rules required by the FRIDAY thread boundary. */
+/** Resolves native skill rules required by the OpenClaw thread boundary. */
 export async function resolveCodexNativeSkillIsolation(params: {
   client: CodexAppServerClient;
   codexHome?: string;

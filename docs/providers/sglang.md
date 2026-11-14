@@ -1,12 +1,12 @@
 ---
-summary: "Run FRIDAY with SGLang (OpenAI-compatible self-hosted server)"
+summary: "Run OpenClaw with SGLang (OpenAI-compatible self-hosted server)"
 read_when:
-  - You want to run FRIDAY against a local SGLang server
+  - You want to run OpenClaw against a local SGLang server
   - You want OpenAI-compatible /v1 endpoints with your own models
 title: "SGLang"
 ---
 
-SGLang serves open-weight models via an OpenAI-compatible HTTP API. FRIDAY connects to SGLang using the `openai-completions` provider family with auto-discovery of available models.
+SGLang serves open-weight models via an OpenAI-compatible HTTP API. OpenClaw connects to SGLang using the `openai-completions` provider family with auto-discovery of available models.
 
 | Property                  | Value                                                        |
 | ------------------------- | ------------------------------------------------------------ |
@@ -20,7 +20,7 @@ SGLang serves open-weight models via an OpenAI-compatible HTTP API. FRIDAY conne
 | Streaming usage           | Yes (`supportsStreamingUsage: true`)                         |
 | Pricing                   | Marked external-free (`modelPricing.external: false`)        |
 
-FRIDAY also **auto-discovers** available models from SGLang when you opt in with `SGLANG_API_KEY`. Use `sglang/*` in `agents.defaults.models` to keep discovery dynamic when you also configure a custom SGLang base URL. See [Model discovery (implicit provider)](#model-discovery-implicit-provider) below.
+OpenClaw also **auto-discovers** available models from SGLang when you opt in with `SGLANG_API_KEY`. Use `sglang/*` in `agents.defaults.models` to keep discovery dynamic when you also configure a custom SGLang base URL. See [Model discovery (implicit provider)](#model-discovery-implicit-provider) below.
 
 ## Getting started
 
@@ -64,16 +64,16 @@ FRIDAY also **auto-discovers** available models from SGLang when you opt in with
 ## Model discovery (implicit provider)
 
 When `SGLANG_API_KEY` is set (or an auth profile exists) and you **do not**
-define `models.providers.sglang`, FRIDAY queries:
+define `models.providers.sglang`, OpenClaw queries:
 
 - `GET http://127.0.0.1:30000/v1/models`
 
 and converts the returned IDs into model entries.
 
 <Note>
-If you set `models.providers.sglang` explicitly, FRIDAY uses your declared
+If you set `models.providers.sglang` explicitly, OpenClaw uses your declared
 models by default. Add `"sglang/*": {}` to `agents.defaults.models` when you
-want FRIDAY to query that configured provider's `/models` endpoint and include
+want OpenClaw to query that configured provider's `/models` endpoint and include
 all advertised SGLang models.
 </Note>
 

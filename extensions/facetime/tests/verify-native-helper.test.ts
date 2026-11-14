@@ -24,7 +24,7 @@ describe("FaceTime native helper verification", () => {
 
     await expect(execFileAsync("/bin/bash", [verifier, helper])).rejects.toMatchObject({
       stderr: expect.stringContaining(
-        "not signed by Developer ID Application: FRIDAY Foundation (FWJYW4S8P8)",
+        "not signed by Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)",
       ),
     });
   });

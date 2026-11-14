@@ -103,7 +103,7 @@ sequenceDiagram
   for subsequent connects.
 - Direct local loopback connects can be auto-approved to keep same-host UX
   smooth.
-- FRIDAY also has a narrow backend/container-local self-connect path for
+- OpenClaw also has a narrow backend/container-local self-connect path for
   trusted shared-secret helper flows.
 - Tailnet and LAN connects, including same-host tailnet binds, still require
   explicit pairing approval.
@@ -180,4 +180,4 @@ closure and durable flushes. See [Service scheduling](/plugins/sdk-runtime/gatew
 - [Gateway Protocol](/gateway/protocol) — WebSocket protocol contract
 - [Queue](/concepts/queue) — command queue and concurrency
 - [Security](/gateway/security) — trust model and hardening
-- [Network](/network) — the hub for how FRIDAY connects, pairs, and secures devices across localhost, LAN, and tailnet
+- [Network](/network) — the hub for how OpenClaw connects, pairs, and secures devices across localhost, LAN, and tailnet

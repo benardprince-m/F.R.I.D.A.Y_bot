@@ -208,17 +208,17 @@ describe("operator key handoff scenario assertions", () => {
     [
       "final predates config",
       { reply: "late-edited-final" },
-      "The assistant did not update the FRIDAY embeddings API key before the final reply.",
+      "The assistant did not update the OpenClaw embeddings API key before the final reply.",
     ],
     [
       "final predates key file",
       { file: { mtimeMs: 250 } },
-      "The assistant did not update the FRIDAY embeddings API key before the final reply.",
+      "The assistant did not update the OpenClaw embeddings API key before the final reply.",
     ],
     [
       "unrelated migration",
       { unrelatedMigration: true },
-      "The assistant changed unrelated FRIDAY configuration while rotating the key.",
+      "The assistant changed unrelated OpenClaw configuration while rotating the key.",
     ],
     [
       "escaped file",

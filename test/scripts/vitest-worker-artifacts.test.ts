@@ -1424,7 +1424,7 @@ export default class {
         );
         expect(cli.code, cli.stderr + cli.stdout).toBe(0);
         expect(cli.stdout).toContain(
-          `FRIDAY ${JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8")).version}`,
+          `OpenClaw ${JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8")).version}`,
         );
         const launcher = path.join(initialDirectory, "node-host-launcher.mjs");
         const capturedLauncher = fs.readFileSync(launcher);

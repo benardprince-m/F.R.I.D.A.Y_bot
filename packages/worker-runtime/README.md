@@ -1,6 +1,6 @@
 # Worker runtime
 
-`@openclaw/worker-runtime` is FRIDAY's private worker execution package. One
+`@openclaw/worker-runtime` is OpenClaw's private worker execution package. One
 scheduler serves ordinary computation and retained tasks: admission, input
 preparation, dispatch, host exchanges, completion, and retirement share the same
 implementation. Resource owners retain their authority and cleanup contracts
@@ -17,10 +17,10 @@ dependency on this private package.
 [Piscina](https://github.com/piscinajs/piscina) and
 [Tinypool](https://github.com/tinylibs/tinypool) provide useful worker-pool
 mechanisms: bounded admission, ready handshakes, direct task channels, explicit
-transfers, and task-scoped async context. FRIDAY applies those ideas within its
+transfers, and task-scoped async context. OpenClaw applies those ideas within its
 existing ownership model.
 
-FRIDAY also has tasks whose result becomes available before their owner can
+OpenClaw also has tasks whose result becomes available before their owner can
 release the worker, input, or database resources. Those owners need execution
 and cleanup receipts that remain observable even when the caller cannot run
 Promise reactions. Cancellation must respect protected native operations, and
@@ -83,20 +83,20 @@ adopting a polling optimization.
 
 Worker entrypoints use `/worker`; code that only needs retained operations or
 lifecycle types uses `/lifecycle`. Keep those entrypoints independent of the host
-scheduler and FRIDAY's application state. Package source depends on its host
+scheduler and OpenClaw's application state. Package source depends on its host
 contracts rather than importing `src/infra` or database owners.
 
 ## Host adapter
 
 `WorkerTaskHost` supplies process-specific capabilities before a pool admits
-work. The FRIDAY adapter in `src/infra/worker-task-host.ts` owns native worker
+work. The OpenClaw adapter in `src/infra/worker-task-host.ts` owns native worker
 creation, runtime entrypoint options, temporary-directory cleanup, database fence
 capture, worker accounting, the live-pool registry, and shared compute capacity.
 The package controls when those operations run and holds admission until their
 required settlement receipts arrive.
 
 Each synchronous pool or rotation pass captures its native workers and asks the
-host to service them. FRIDAY's host binds a pool to one native source, so one
+host to service them. OpenClaw's host binds a pool to one native source, so one
 service call advances that shared source. Nested calls capture a fresh pass;
 individual stop and resource operations retain their own servicing. Reference
 changes still check current transport availability and refresh native liveness,
@@ -172,7 +172,7 @@ queue and I/O owners so cancellation removes waiting work before admission.
 
 ### Async context lifetime
 
-Each task captures its caller with an `FRIDAY.WorkerTask` `AsyncResource`.
+Each task captures its caller with an `OpenClaw.WorkerTask` `AsyncResource`.
 Preparation, host exchanges, cancellation observers, and settlement callbacks
 run in that task's scope. Worker creation, idle timers, and retirement use the
 pool scope so a warm worker does not retain its first caller.

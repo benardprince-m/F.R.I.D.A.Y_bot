@@ -49,7 +49,7 @@ describe("resolveGatewayNativeServiceIdentityConflict", () => {
     {
       platform: "win32" as const,
       envKey: "OPENCLAW_WINDOWS_TASK_NAME",
-      value: "\\FRIDAY Gateway (other)",
+      value: "\\OpenClaw Gateway (other)",
     },
   ])("rejects $envKey overrides for named profiles on $platform", ({ platform, envKey, value }) => {
     expect(
@@ -71,7 +71,7 @@ describe("resolveGatewayNativeServiceIdentityConflict", () => {
       platform: "linux",
       env: { OPENCLAW_SYSTEMD_UNIT: "custom-gateway.service" },
     },
-    ...["FRIDAY Gateway (work)"].map((taskName) => ({
+    ...["OpenClaw Gateway (work)"].map((taskName) => ({
       name: `native Windows identity ${taskName}`,
       platform: "win32" as const,
       env: { OPENCLAW_PROFILE: "work", OPENCLAW_WINDOWS_TASK_NAME: taskName },
@@ -90,13 +90,13 @@ describe("resolveGatewayProfileSuffix", () => {
 describe("resolveGatewayServiceDescription", () => {
   it("includes profile when set", () => {
     expect(resolveGatewayServiceDescription({ env: { OPENCLAW_PROFILE: "work" } })).toBe(
-      "FRIDAY Gateway (profile: work)",
+      "OpenClaw Gateway (profile: work)",
     );
   });
 
   it("ignores legacy install-time version metadata", () => {
     expect(
       resolveGatewayServiceDescription({ env: { OPENCLAW_SERVICE_VERSION: "2026.1.10" } }),
-    ).toBe("FRIDAY Gateway");
+    ).toBe("OpenClaw Gateway");
   });
 });

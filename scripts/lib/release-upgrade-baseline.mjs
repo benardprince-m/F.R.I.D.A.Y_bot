@@ -17,7 +17,7 @@ function parseVersion(version) {
 function compareOpenClawVersions(leftVersion, rightVersion) {
   const comparison = compareReleaseVersions(leftVersion, rightVersion);
   if (comparison === null) {
-    throw new Error(`cannot compare FRIDAY versions: ${leftVersion} ${rightVersion}`);
+    throw new Error(`cannot compare OpenClaw versions: ${leftVersion} ${rightVersion}`);
   }
   return comparison;
 }
@@ -65,7 +65,7 @@ export function resolveReleaseUpgradeBaseline(candidateVersion, publishedVersion
   const targetContextRef = normalizeTargetContextRef(context.targetContextRef);
   const candidate = parseVersion(candidateVersion);
   if (!candidate) {
-    throw new Error(`invalid candidate FRIDAY version: ${String(candidateVersion ?? "").trim()}`);
+    throw new Error(`invalid candidate OpenClaw version: ${String(candidateVersion ?? "").trim()}`);
   }
   const allPublished = [
     ...new Set(
@@ -101,7 +101,7 @@ export function resolveReleaseUpgradeBaseline(candidateVersion, publishedVersion
       throw new Error(
         requestedBaseline
           ? `previous_version ${requestedBaseline.version} is not a published stable predecessor of ${candidate.version}`
-          : `no published stable FRIDAY baseline predates candidate ${candidate.version}`,
+          : `no published stable OpenClaw baseline predates candidate ${candidate.version}`,
       );
     }
     return `openclaw@${baseline}`;
@@ -186,7 +186,7 @@ export function validateQualificationBaselines(value, context = {}) {
   const versions = specs.map((spec) => {
     const version = typeof spec === "string" && spec.startsWith("openclaw@") ? spec.slice(9) : "";
     if (parseVersion(version)?.channel !== "stable" || parseVersion(version)?.version !== version) {
-      throw new Error("qualification baselines must be exact stable FRIDAY versions");
+      throw new Error("qualification baselines must be exact stable OpenClaw versions");
     }
     return version;
   });

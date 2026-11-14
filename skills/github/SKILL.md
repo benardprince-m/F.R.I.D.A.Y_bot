@@ -48,7 +48,7 @@ When creating or refreshing a PR body, append this final footer only when the Ru
 
 ```text
 ---
-[View the FRIDAY team session](<sessionUrl>)
+[View the OpenClaw team session](<sessionUrl>)
 ```
 
 URLs work directly: `gh pr view https://github.com/owner/repo/pull/55`.

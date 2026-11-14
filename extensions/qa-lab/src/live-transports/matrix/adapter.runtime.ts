@@ -37,7 +37,7 @@ const MATRIX_SHARED_FLOW_TOPOLOGY = {
       key: "main",
       kind: "group",
       members: ["driver", "observer", "sut"],
-      name: "FRIDAY Matrix QA",
+      name: "OpenClaw Matrix QA",
       requireMention: true,
     },
     {
@@ -154,7 +154,7 @@ export async function createMatrixQaTransportAdapter(
       driverLocalpart: `qa-driver-${suffix}`,
       observerLocalpart: `qa-observer-${suffix}`,
       registrationToken: harness.registrationToken,
-      roomName: `FRIDAY Matrix QA ${suffix}`,
+      roomName: `OpenClaw Matrix QA ${suffix}`,
       sutLocalpart: `qa-sut-${suffix}`,
       topology: resolveMatrixQaAdapterTopology(options.scenarioIds),
     });

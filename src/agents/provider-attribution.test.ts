@@ -261,45 +261,48 @@ describe("provider attribution", () => {
       "https://opencode.ai/zen/v1",
     ],
     ["opencode", "https://opencode.ai/zen/v1", "opencode-native", "https://opencode.ai/zen/go/v1"],
-  ])("identifies FRIDAY only on %s native routes", (provider, baseUrl, endpointClass, otherUrl) => {
-    const nativeGo = requestPolicy({
-      provider,
-      api: "openai-completions",
-      baseUrl,
-    });
-
-    expectRecordFields(nativeGo, {
-      endpointClass,
-      attributionProvider: provider,
-      allowsHiddenAttribution: false,
-    });
-    expect(nativeGo.attributionHeaders).toEqual({
-      "User-Agent": "openclaw/2026.3.22",
-    });
-
-    expect(
-      resolveProviderRequestPolicy({
+  ])(
+    "identifies OpenClaw only on %s native routes",
+    (provider, baseUrl, endpointClass, otherUrl) => {
+      const nativeGo = requestPolicy({
         provider,
         api: "openai-completions",
-        baseUrl: "https://proxy.example.com/v1",
-        transport: "stream",
-        capability: "llm",
-      }).attributionHeaders,
-    ).toBeUndefined();
-    expectRecordFields(
-      resolveProviderRequestPolicy({
-        provider,
-        api: "openai-completions",
-        baseUrl: otherUrl,
-        transport: "stream",
-        capability: "llm",
-      }),
-      {
-        attributionProvider: undefined,
-        attributionHeaders: undefined,
-      },
-    );
-  });
+        baseUrl,
+      });
+
+      expectRecordFields(nativeGo, {
+        endpointClass,
+        attributionProvider: provider,
+        allowsHiddenAttribution: false,
+      });
+      expect(nativeGo.attributionHeaders).toEqual({
+        "User-Agent": "openclaw/2026.3.22",
+      });
+
+      expect(
+        resolveProviderRequestPolicy({
+          provider,
+          api: "openai-completions",
+          baseUrl: "https://proxy.example.com/v1",
+          transport: "stream",
+          capability: "llm",
+        }).attributionHeaders,
+      ).toBeUndefined();
+      expectRecordFields(
+        resolveProviderRequestPolicy({
+          provider,
+          api: "openai-completions",
+          baseUrl: otherUrl,
+          transport: "stream",
+          capability: "llm",
+        }),
+        {
+          attributionProvider: undefined,
+          attributionHeaders: undefined,
+        },
+      );
+    },
+  );
 
   it("authorizes hidden xAI attribution on api.x.ai and the default xAI route", () => {
     const native = requestPolicy({ provider: "xai", baseUrl: "https://api.x.ai/v1" });
@@ -385,7 +388,7 @@ describe("provider attribution", () => {
       }).attributionHeaders,
     ).toEqual({
       "HTTP-Referer": "https://openclaw.ai",
-      "X-OpenRouter-Title": "FRIDAY",
+      "X-OpenRouter-Title": "OpenClaw",
       "X-OpenRouter-Categories": "personal-agent,cli-agent",
     });
 
@@ -410,7 +413,7 @@ describe("provider attribution", () => {
       }).attributionHeaders,
     ).toEqual({
       "HTTP-Referer": "https://openclaw.ai",
-      "X-Title": "FRIDAY",
+      "X-Title": "OpenClaw",
     });
 
     expect(

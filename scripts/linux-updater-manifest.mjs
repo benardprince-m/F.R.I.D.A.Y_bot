@@ -124,7 +124,7 @@ function readManifest(repository, carrier, allowDraftTag, name = "latest.json") 
   }
   const sourceTag = `v${version}`;
   const platform = isRecord(value?.platforms) ? value.platforms["linux-x86_64"] : undefined;
-  const assetName = `FRIDAY-${version}-amd64.AppImage`;
+  const assetName = `OpenClaw-${version}-amd64.AppImage`;
   const url = `https://github.com/${repository}/releases/download/${sourceTag}/${assetName}`;
   const canonicalChannel =
     carrier.tagName === "linux-stable" && !carrier.isDraft && carrier.isPrerelease;
@@ -134,7 +134,7 @@ function readManifest(repository, carrier, allowDraftTag, name = "latest.json") 
       (!regularStable(carrier.tagName) ||
         compareReleaseVersions(version, carrier.tagName.slice(1)) > 0)) ||
     (name !== "latest.json" &&
-      (name !== `FRIDAY-${version}-linux.json` || carrier.tagName !== sourceTag)) ||
+      (name !== `OpenClaw-${version}-linux.json` || carrier.tagName !== sourceTag)) ||
     !isRecord(platform) ||
     Object.keys(value.platforms).length !== 1 ||
     typeof platform.signature !== "string" ||
@@ -150,7 +150,7 @@ function readManifest(repository, carrier, allowDraftTag, name = "latest.json") 
 }
 
 function readImmutableManifest(repository, source) {
-  const name = `FRIDAY-${source.tagName.slice(1)}-linux.json`;
+  const name = `OpenClaw-${source.tagName.slice(1)}-linux.json`;
   const manifest = readManifest(repository, source, undefined, name);
   if (!manifest) {
     return null;
@@ -174,16 +174,16 @@ function readImmutableManifest(repository, source) {
   const companionAssets =
     proof?.assets?.length === 6
       ? [
-          `FRIDAY-${manifest.version}-darwin-aarch64.dmg`,
-          `FRIDAY-${manifest.version}-darwin-aarch64.app.tar.gz`,
-          `FRIDAY-${manifest.version}-windows-x86_64.exe`,
+          `OpenClaw-${manifest.version}-darwin-aarch64.dmg`,
+          `OpenClaw-${manifest.version}-darwin-aarch64.app.tar.gz`,
+          `OpenClaw-${manifest.version}-windows-x86_64.exe`,
         ]
       : proof?.assets?.length === 4
-        ? [`FRIDAY-${manifest.version}-windows-x86_64.exe`]
+        ? [`OpenClaw-${manifest.version}-windows-x86_64.exe`]
         : [];
   const expected = [
     manifest.assetName,
-    `FRIDAY-${manifest.version}-amd64.deb`,
+    `OpenClaw-${manifest.version}-amd64.deb`,
     "SHA256SUMS.linux-app.txt",
     ...companionAssets,
   ];
@@ -249,7 +249,7 @@ function readImmutableManifest(repository, source) {
 
 function immutableObservation(immutable) {
   return {
-    name: `FRIDAY-${immutable.version}-linux.json`,
+    name: `OpenClaw-${immutable.version}-linux.json`,
     sha256: hash(immutable.bytes),
     ...(immutable.withdrawnCompanionAssets.length > 0
       ? { withdrawnCompanionAssets: immutable.withdrawnCompanionAssets }
@@ -431,13 +431,13 @@ function carry(options, record) {
 
 function inspectLinuxSourceAssets(repository, source, manifest) {
   const version = source.tagName.slice(1);
-  const appimage = `FRIDAY-${version}-amd64.AppImage`;
-  const deb = `FRIDAY-${version}-amd64.deb`;
+  const appimage = `OpenClaw-${version}-amd64.AppImage`;
+  const deb = `OpenClaw-${version}-amd64.deb`;
   const checksumsName = "SHA256SUMS.linux-app.txt";
   const nativeAssets = source.assets.filter(
     (asset) =>
       asset.name === checksumsName ||
-      (asset.name.startsWith(`FRIDAY-${version}-`) && /\.(?:AppImage|deb)$/u.test(asset.name)),
+      (asset.name.startsWith(`OpenClaw-${version}-`) && /\.(?:AppImage|deb)$/u.test(asset.name)),
   );
   if (nativeAssets.length === 0 && (!manifest || manifest.sourceTag !== source.tagName)) {
     return null;

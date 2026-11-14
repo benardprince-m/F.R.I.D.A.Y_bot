@@ -56,7 +56,7 @@ export const validateApiKeyInput = (value: string) => {
     return "Required";
   }
   if (isMalformedApiKeyInput(normalized)) {
-    return "Paste the API key value, not an FRIDAY onboarding command.";
+    return "Paste the API key value, not an OpenClaw onboarding command.";
   }
   return undefined;
 };

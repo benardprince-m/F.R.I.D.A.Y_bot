@@ -209,7 +209,7 @@ try {
   );
 } catch (error) {
   console.error(
-    `Cannot start immutable FRIDAY Gateway: ${error instanceof Error ? error.message : String(error)}`,
+    `Cannot start immutable OpenClaw Gateway: ${error instanceof Error ? error.message : String(error)}`,
   );
   process.exitCode = 78;
 }

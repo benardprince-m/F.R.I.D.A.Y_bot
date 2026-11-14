@@ -38,7 +38,7 @@ For a disposable Linux VM lane without bringing Docker into the QA path, run:
 pnpm openclaw qa suite --runner multipass --scenario channel-chat-baseline
 ```
 
-This boots a fresh Multipass guest, installs dependencies, builds FRIDAY
+This boots a fresh Multipass guest, installs dependencies, builds OpenClaw
 inside the guest, and runs `qa suite`. The guest writes the normal QA report
 and summary through the mounted workspace into `.artifacts/qa-e2e/...` on
 the host, including when a scenario fails. It reuses the same

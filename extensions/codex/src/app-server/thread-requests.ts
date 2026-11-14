@@ -43,12 +43,12 @@ import { resolveCodexWebSearchPlan, type CodexNativeWebSearchSupport } from "./w
 export const CODEX_RING_ZERO_BASE_INSTRUCTIONS = "";
 
 // Stream structured patch snapshots so large generated edits keep the turn active.
-// FRIDAY opts into these under-development features deliberately, so silence
+// OpenClaw opts into these under-development features deliberately, so silence
 // Codex's chat warning that tells operators to edit the managed codex-home config.
 const CODEX_CODE_MODE_THREAD_CONFIG: JsonObject = {
   "features.code_mode": true,
   "features.code_mode_only": false,
-  // Native code mode replaces FRIDAY's own exec/read/write/edit tools with the
+  // Native code mode replaces OpenClaw's own exec/read/write/edit tools with the
   // Codex shell, and cron creator caps project read/exec on the same premise, so
   // request the shell explicitly instead of relying on the codex-home default.
   "features.shell_tool": true,
@@ -204,7 +204,7 @@ export async function buildThreadStartParams(
       ? { baseInstructions: CODEX_RING_ZERO_BASE_INSTRUCTIONS }
       : {}),
     personality: CODEX_NATIVE_PERSONALITY_NONE,
-    serviceName: "FRIDAY",
+    serviceName: "OpenClaw",
     threadSource: "openclaw",
     ...(params.requireWorkspaceOnly === true || options.nativeCodeModeEnabled === false
       ? { environments: [] }
@@ -277,7 +277,7 @@ export function buildCodexRuntimeThreadConfig(
         : undefined,
       buildCodexProjectDocThreadConfig(config),
       {
-        // Native goals start autonomous turns; FRIDAY owns both continuation and progress cards.
+        // Native goals start autonomous turns; OpenClaw owns both continuation and progress cards.
         "features.goals": false,
         "tools.update_plan.enabled": false,
         ...(!enabled

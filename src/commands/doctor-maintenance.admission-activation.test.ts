@@ -13,7 +13,7 @@ const native = vi.hoisted(() => ({
   ownerReads: 0,
 }));
 
-// Only the external systemd transport is synthetic. FRIDAY's queue, deadlines,
+// Only the external systemd transport is synthetic. OpenClaw's queue, deadlines,
 // identity checks, service authority, and every Doctor ledger read remain real.
 vi.mock("@openclaw/proc-safe/systemd", () => ({
   SystemdBus: {

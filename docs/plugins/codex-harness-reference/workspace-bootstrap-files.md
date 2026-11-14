@@ -15,8 +15,8 @@ How `AGENTS.md`, persona, skills, and memory files reach a native Codex turn. Pa
 The full generic developer policy, including a `before_prompt_build.systemPrompt`
 replacement, remains native session configuration for compaction and native-child
 inheritance. Ordinary persistent cold or changed-configuration resumes require an
-uninterrupted app-server client and observed native unload before FRIDAY injects
-the full current policy. FRIDAY must be the sole lifecycle owner of the native
+uninterrupted app-server client and observed native unload before OpenClaw injects
+the full current policy. OpenClaw must be the sole lifecycle owner of the native
 conversation, including when its app-server runs remotely. Independent clients
 that can reload the same conversation during the handoff are outside this contract;
 observed unload does not reserve the conversation against a competing resume.
@@ -31,25 +31,25 @@ conversation. Parent-local model-request instructions remain a separate surface.
 See [Hook boundaries](/plugins/codex-harness-runtime#hook-boundaries) for recovery.
 
 Codex normally handles `AGENTS.md` itself through native project-doc discovery.
-FRIDAY does not write synthetic Codex project-doc files or depend on Codex
+OpenClaw does not write synthetic Codex project-doc files or depend on Codex
 fallback filenames for persona files, because Codex fallbacks only apply when
 `AGENTS.md` is missing. Ordinary policy-restricted turns have no native
-filesystem environment, so FRIDAY instead sends the bounded workspace
+filesystem environment, so OpenClaw instead sends the bounded workspace
 `AGENTS.md` snapshot as thread-level developer instructions. Ring-zero,
 lightweight, message-only, and tool-disabled internal turns suppress that
 carrier.
 
-For FRIDAY workspace parity, local tool notes live in the `## Tools` section
+For OpenClaw workspace parity, local tool notes live in the `## Tools` section
 of `AGENTS.md` and normally ride Codex's native project-doc discovery. The
 Codex harness forwards the other bootstrap files as developer instructions:
 
 - On managed direct stdio app-servers, including Desktop executables launched
-  by FRIDAY for Computer Use, `SOUL.md`, `IDENTITY.md`, and
+  by OpenClaw for Computer Use, `SOUL.md`, `IDENTITY.md`, and
   `USER.md` are added to **parent-only model request instructions**. The
   private relay leaves native base/catalog instructions and history intact,
   so newly delivered persona and user-profile context are not automatically
   inherited by native Codex subagents.
-- The compact loaded FRIDAY skills list uses the same parent-local layer.
+- The compact loaded OpenClaw skills list uses the same parent-local layer.
 - The selected memory plugin's prompt builder receives the complete available
   tool set, including deferred plugin tools. Its guidance uses the same
   parent-local layer independently of `MEMORY.md` file routing.
@@ -86,13 +86,13 @@ compression on HTTP. Requests with parent-local instructions still receive the
 same bounded instruction injection.
 
 Desktop executable selection and Computer Use permissions stay unchanged. The
-relay belongs to the direct stdio process FRIDAY starts, not to the Desktop
+relay belongs to the direct stdio process OpenClaw starts, not to the Desktop
 application's other conversations.
 
 Custom commands, Desktop proxy attachments, external Unix/WebSocket connections,
 non-OpenAI native providers, custom upstream endpoints, unsupported native account
 modes, locked upstream configuration, and native `features.respect_system_proxy` profiles
-use the thread developer carrier below. FRIDAY does not reroute their inference
+use the thread developer carrier below. OpenClaw does not reroute their inference
 or change their native account configuration.
 Previously embedded persona, conversation text, and explicit task handoffs are
 not removed from existing histories or full-history forks.
@@ -122,7 +122,7 @@ the complete current section through an injected developer message without chang
 its immutable creation configuration. Missing sections are explicitly withdrawn.
 
 Incognito has two limitations: automatic compaction can restore creation-time
-instructions for the immediate continuation before FRIDAY re-delivers the current
+instructions for the immediate continuation before OpenClaw re-delivers the current
 section; restoration applies to the following request. A fresh native child without
 inherited history can also receive creation-time instructions rather than subsequent
 injected edits. A full-history child can inherit the later handoff. Standalone

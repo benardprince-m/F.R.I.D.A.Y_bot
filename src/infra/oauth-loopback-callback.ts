@@ -254,7 +254,7 @@ export async function startOAuthLoopbackCallbackServer(params: {
       body: renderOAuthPage({
         title: "Authorization received",
         heading: "Authorization received",
-        message: "Return to the terminal while FRIDAY finishes.",
+        message: "Return to the terminal while OpenClaw finishes.",
       }),
       contentType: "text/html; charset=utf-8",
     }));

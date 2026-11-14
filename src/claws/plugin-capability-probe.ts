@@ -112,7 +112,7 @@ export async function sourceHostPluginConflict(
       return undefined;
     }
   }
-  return `Plugin ${pkg.ref}@${pkg.version} cannot become active because this source build prioritizes its bundled plugin ${pluginId}. Use a packaged FRIDAY build or a plugin with a distinct ID.`;
+  return `Plugin ${pkg.ref}@${pkg.version} cannot become active because this source build prioritizes its bundled plugin ${pluginId}. Use a packaged OpenClaw build or a plugin with a distinct ID.`;
 }
 
 export async function probeClawPluginArtifact(

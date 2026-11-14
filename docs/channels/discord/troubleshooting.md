@@ -78,14 +78,14 @@ openclaw logs --follow
   </Accordion>
 
   <Accordion title="Gateway metadata lookup timeout warnings">
-    FRIDAY fetches Discord `/gateway/bot` metadata before connecting. Transient failures fall back to Discord's default gateway URL and are rate-limited in logs.
+    OpenClaw fetches Discord `/gateway/bot` metadata before connecting. Transient failures fall back to Discord's default gateway URL and are rate-limited in logs.
 
     The metadata timeout defaults to 30 seconds. `OPENCLAW_DISCORD_GATEWAY_INFO_TIMEOUT_MS` can override it for unusual host environments.
 
   </Accordion>
 
   <Accordion title="Gateway READY timeout restarts">
-    FRIDAY waits for Discord's gateway `READY` event during startup and after runtime reconnects. Multi-account setups with startup staggering can need a longer startup READY window than the default.
+    OpenClaw waits for Discord's gateway `READY` event during startup and after runtime reconnects. Multi-account setups with startup staggering can need a longer startup READY window than the default.
 
     Startup waits 15 seconds and runtime reconnects wait 30 seconds. `OPENCLAW_DISCORD_READY_TIMEOUT_MS` and `OPENCLAW_DISCORD_RUNTIME_READY_TIMEOUT_MS` remain available for unusual host environments.
 
@@ -112,7 +112,7 @@ openclaw logs --follow
     Keep mention and allowlist rules appropriate for the room. Set `channels.discord.allowBots=false` to disable bot-triggered turns, or `channels.discord.allowBots="mentions"` to only accept bot messages that mention the bot. These settings do not hide accessible bot-authored history or human-selected reply context.
     In `"mentions"` mode, reply-ping metadata alone does not count. Bot replies need an active native mention or a configured text/transcript mention outside Markdown code.
 
-    FRIDAY also ships shared [bot loop protection](/channels/bot-loop-protection). Whenever `allowBots` lets bot-authored messages reach dispatch, Discord maps the inbound event to `(account, channel, bot pair)` facts and the generic pair guard suppresses the pair after it crosses the configured event budget. The guard bounds rapid two-bot loops; exchanges below the budget can continue. It does not affect human messages or one-shot bot replies that stay under the budget.
+    OpenClaw also ships shared [bot loop protection](/channels/bot-loop-protection). Whenever `allowBots` lets bot-authored messages reach dispatch, Discord maps the inbound event to `(account, channel, bot pair)` facts and the generic pair guard suppresses the pair after it crosses the configured event budget. The guard bounds rapid two-bot loops; exchanges below the budget can continue. It does not affect human messages or one-shot bot replies that stay under the budget.
 
     Default settings (active whenever bot-authored messages are admitted):
 
@@ -174,7 +174,7 @@ openclaw logs --follow
 
   <Accordion title="Voice STT drops with DecryptionFailed(...)">
 
-    - run FRIDAY 2026.2.24 or newer (`openclaw update`), the release that added the Discord voice receive recovery logic ([#25861](https://github.com/openclaw/openclaw/pull/25861))
+    - run OpenClaw 2026.2.24 or newer (`openclaw update`), the release that added the Discord voice receive recovery logic ([#25861](https://github.com/openclaw/openclaw/pull/25861))
     - confirm `channels.discord.voice.daveEncryption=true` (default)
     - start from `channels.discord.voice.decryptionFailureTolerance=24` (upstream default) and tune only if needed
     - watch logs for:

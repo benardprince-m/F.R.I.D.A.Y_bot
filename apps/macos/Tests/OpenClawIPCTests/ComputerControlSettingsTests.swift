@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct ComputerControlSettingsTests {
     @Test func `computer control defaults on while preserving explicit choices`() throws {
@@ -34,8 +34,8 @@ struct ComputerControlSettingsTests {
         let suiteName = "ComputerControlElevationHostTests.\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }
-        let interactivePlan = AppLaunchRuntimePlan(arguments: ["FRIDAY"])
-        let elevationPlan = AppLaunchRuntimePlan(arguments: ["FRIDAY", "--elevation-host"])
+        let interactivePlan = AppLaunchRuntimePlan(arguments: ["OpenClaw"])
+        let elevationPlan = AppLaunchRuntimePlan(arguments: ["OpenClaw", "--elevation-host"])
         defaults.set(true, forKey: computerControlEnabledKey)
         defaults.set(ComputerControlProvider.cua.rawValue, forKey: computerControlProviderKey)
 
@@ -75,7 +75,7 @@ struct ComputerControlSettingsTests {
     @Test func `CUA worker endpoint uses versioned JSON with escaped paths`() throws {
         let endpoint = CuaDriverWorkerEndpoint(
             socketPath: #"/tmp/openclaw-"quoted"/cua.sock"#,
-            binaryPath: #"/Applications/FRIDAY\Test.app/Contents/Resources/cua-driver"#)
+            binaryPath: #"/Applications/OpenClaw\Test.app/Contents/Resources/cua-driver"#)
 
         let value = try endpoint.environmentValue()
         let decoded = try #require(

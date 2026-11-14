@@ -12,7 +12,7 @@ descriptions, and source metadata. No chat model is used to synthesize an answer
 
 ## Setup
 
-The `moonshot` plugin does not ship with FRIDAY; install it first.
+The `moonshot` plugin does not ship with OpenClaw; install it first.
 
 <Steps>
   <Step title="Install the plugin">
@@ -92,7 +92,7 @@ Kimi `baseUrl` to override this inheritance.
 
 ## Search results
 
-FRIDAY sends `{ "text_query": "your query", "limit": 5 }` to
+OpenClaw sends `{ "text_query": "your query", "limit": 5 }` to
 `<baseUrl>/tools/search`. The requested `count` becomes `limit`. Results expose
 `title`, `url`, `description` (from the search snippet), `siteName`, and
 `published` when available. Titles and descriptions are wrapped as untrusted

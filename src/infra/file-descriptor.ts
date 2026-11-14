@@ -106,7 +106,7 @@ export function hashFileMutationSnapshotSync(
   }
 }
 
-/** Maps the borrowed-descriptor digest to FRIDAY's persisted artifact fields. */
+/** Maps the borrowed-descriptor digest to OpenClaw's persisted artifact fields. */
 export function hashFileDescriptorSync(
   fd: number,
   maxBytes?: number,

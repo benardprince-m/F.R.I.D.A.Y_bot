@@ -281,7 +281,7 @@ describe("update CLI shared helpers", () => {
         name: "UpdatePreMutationError",
         reason: "unmanaged-package-install",
         message:
-          "This FRIDAY installation is managed by Homebrew. To update FRIDAY, run:\n\n  brew upgrade openclaw-cli\n\nThen restart the gateway:\n\n  openclaw gateway restart",
+          "This OpenClaw installation is managed by Homebrew. To update OpenClaw, run:\n\n  brew upgrade openclaw-cli\n\nThen restart the gateway:\n\n  openclaw gateway restart",
       });
     },
   );

@@ -1,5 +1,5 @@
 [Unit]
-Description=FRIDAY Auth Expiry Monitor
+Description=OpenClaw Auth Expiry Monitor
 After=network.target
 
 [Service]

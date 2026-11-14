@@ -1,11 +1,11 @@
-# FRIDAY Google Chat
+# OpenClaw Google Chat
 
-Official FRIDAY channel plugin for Google Chat spaces and direct messages.
+Official OpenClaw channel plugin for Google Chat spaces and direct messages.
 
-Install from FRIDAY:
+Install from OpenClaw:
 
 ```bash
 openclaw plugins install @openclaw/googlechat
 ```
 
-Configure the Google Chat app credentials and allowed spaces in FRIDAY. The plugin lets agents receive Google Chat events and reply through the configured app.
+Configure the Google Chat app credentials and allowed spaces in OpenClaw. The plugin lets agents receive Google Chat events and reply through the configured app.

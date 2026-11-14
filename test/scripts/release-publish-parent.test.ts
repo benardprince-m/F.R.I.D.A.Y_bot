@@ -325,7 +325,7 @@ append_clawhub_dispatch_args() { clawhub_dispatch_args=(); }
         completedBeforeSweep: false,
         overrides: {
           path: ".github/workflows/openclaw-npm-release.yml",
-          display_title: "FRIDAY NPM Release",
+          display_title: "OpenClaw NPM Release",
         },
       },
     ];
@@ -355,7 +355,7 @@ append_clawhub_dispatch_args() { clawhub_dispatch_args=(); }
                 child({
                   id: 80,
                   path: ".github/workflows/openclaw-release-publish.yml",
-                  display_title: "FRIDAY Release Publish",
+                  display_title: "OpenClaw Release Publish",
                   status: "in_progress",
                 }),
               ]

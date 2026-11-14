@@ -169,7 +169,7 @@ createInterface({ input: process.stdin }).on("line", (line) => {
     active = {
       sessionId: params.sessionId,
       turnId: params.commandId,
-      // Gateway turns wrap the user text in FRIDAY context, so Docker prompts
+      // Gateway turns wrap the user text in OpenClaw context, so Docker prompts
       // carry an explicit `fixture:<keyword>` marker; direct tests send the bare keyword.
       prompt:
         /\bfixture:([a-z]+)\b/u.exec(params.input[0].text)?.[1] ?? params.input[0].text.trim(),

@@ -89,7 +89,7 @@ export async function runPostActivationInspections(params: {
     step.command = args.map(quote).join(" ");
     const entryPath = await resolveGatewayInstallEntrypoint(params.root);
     if (!entryPath) {
-      return incomplete("updated FRIDAY entrypoint not found");
+      return incomplete("updated OpenClaw entrypoint not found");
     }
     const execution = await withOwnedManagedUpdateEnv(params.ownedManagedUpdateEnv, () => {
       // An operator lint against the running install, not another update phase.

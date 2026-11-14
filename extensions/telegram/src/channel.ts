@@ -508,7 +508,7 @@ function resolveTelegramNativeTopicThreadId(
   if (nativeTopicId !== undefined) {
     return nativeTopicId;
   }
-  // Keep the chat-scoped canonical id inside FRIDAY state; translate it back
+  // Keep the chat-scoped canonical id inside OpenClaw state; translate it back
   // only when returning Telegram route metadata used by send/typing paths.
   if (threadId === undefined) {
     return undefined;

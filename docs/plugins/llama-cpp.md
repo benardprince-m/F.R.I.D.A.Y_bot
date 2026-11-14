@@ -1,16 +1,16 @@
 ---
 summary: "Run GGUF chat with managed or existing llama.cpp servers and managed local embeddings"
 read_when:
-  - You want FRIDAY to install and manage a local llama.cpp server
+  - You want OpenClaw to install and manage a local llama.cpp server
   - You want a local model recommendation for your Gateway hardware
-  - You want FRIDAY to connect to an existing llama-server
+  - You want OpenClaw to connect to an existing llama-server
   - You want memory search embeddings from a local GGUF model
   - You are configuring memory.search.provider = "local"
 title: "llama.cpp Provider"
 sidebarTitle: "llama.cpp Provider"
 ---
 
-The `llama-cpp` plugin provides one `llama-cpp` model provider. FRIDAY can
+The `llama-cpp` plugin provides one `llama-cpp` model provider. OpenClaw can
 manage a local `llama-server` or connect to one that you operate. Both choices
 use `llama-cpp/<model>` references and the OpenAI-compatible transport.
 
@@ -23,11 +23,11 @@ openclaw onboard
 
 | Setup choice          | Process owner                 | Local embeddings |
 | --------------------- | ----------------------------- | ---------------- |
-| Managed local server  | FRIDAY                        | Yes              |
+| Managed local server  | OpenClaw                      | Yes              |
 | Existing llama-server | You or an external supervisor | No               |
 
 `models.providers.llama-cpp.localService` is the ownership discriminator. If
-it exists, FRIDAY manages the process. Without it, `baseUrl` identifies an
+it exists, OpenClaw manages the process. Without it, `baseUrl` identifies an
 existing endpoint. Switching choices rewrites ownership-specific state on the
 same provider. It never creates another provider namespace.
 
@@ -44,7 +44,7 @@ unset; the provider supplies its non-secret authentication marker at runtime.
 Existing configured credentials are preserved for Doctor and explicit secret
 migration, and external servers retain their own authentication requirements.
 
-Choose **Managed local server** when FRIDAY should install, start, and stop
+Choose **Managed local server** when OpenClaw should install, start, and stop
 the server. Setup reads the **Gateway host's** hardware and recommends a model
 from its available memory, GPU capability, and free disk space. A browser
 connected to a remote Gateway installs and runs the model on that Gateway,
@@ -54,13 +54,13 @@ Review the named host, execution backend, model, and download size, then confirm
 the download. Setup verifies pinned model files and the llama.cpp build,
 prepares a loopback endpoint, and checks inference before saving the new
 default. Guided activation also asks the model to read a temporary file through
-an FRIDAY tool and return its contents. The tool check uses an isolated
+an OpenClaw tool and return its contents. The tool check uses an isolated
 workspace without your agent's bootstrap instructions. A plain text reply alone
 does not pass that check. Each verification check has a 90-second deadline.
 Changing `agents.defaults.timeoutSeconds` does not extend setup verification.
 Failures identify whether the response check or tool-use check timed out.
 
-If the configured server executable is missing from FRIDAY's current managed
+If the configured server executable is missing from OpenClaw's current managed
 installation, chat and local embeddings restore the same verified build before
 starting it. Custom server paths and installations from older releases still
 require manual repair or rerunning setup.
@@ -154,7 +154,7 @@ embedding output buffer to one input; the context bound avoids reserving a custo
 model's full training context for short memory chunks.
 
 Existing context, batch, and slot settings in the embedding section, `[*]`, or
-the managed service's arguments or environment remain authoritative. FRIDAY adds
+the managed service's arguments or environment remain authoritative. OpenClaw adds
 the context bound only when no slot count or per-slot context is configured,
 because llama.cpp can divide total context across slots. If you choose a different
 slot count, size its context too. Long queries or direct embedding requests may
@@ -164,7 +164,7 @@ Missing defaults are added on the next managed preset preparation.
 ### Set up only local embeddings
 
 When `memory.search.provider` is `local` and chat setup cannot proceed or is
-declined, FRIDAY offers a separate embedding-only setup. It installs only the
+declined, OpenClaw offers a separate embedding-only setup. It installs only the
 managed server and the configured embedding model after explicit consent. It
 does not add a llama.cpp chat model or change the current chat model. Setup discovery remains
 read-only and never installs or downloads anything.
@@ -183,7 +183,7 @@ If you use `--profile`, use the same profile for both commands.
 If the llama.cpp provider has any configured chat models, embedding-only setup
 leaves it unchanged. Move any chat routes to another provider and remove those
 model entries before retrying. An existing external llama.cpp server config
-must also be removed before FRIDAY can manage embeddings.
+must also be removed before OpenClaw can manage embeddings.
 
 ### Use another managed GGUF
 
@@ -237,7 +237,7 @@ The initial automatic media setup scope is **Linux x64 with CPU execution**. Oth
 managed backends remain available for chat and embeddings, but automatic OCR and
 vision activation on those hosts waits for matching end-to-end verification.
 Use a Linux x64 Gateway for this setup, or configure another image provider.
-Updating FRIDAY never activates these routes; setup requires explicit consent.
+Updating OpenClaw never activates these routes; setup requires explicit consent.
 
 The curated recipes use pinned repository revisions, sizes and SHA-256 checksums
 for **both** the model and multimodal projector. The existing managed installer
@@ -341,7 +341,7 @@ manager, or machine owns the process.
     ```
 
   </Step>
-  <Step title="Configure FRIDAY">
+  <Step title="Configure OpenClaw">
     Run `openclaw onboard`, choose **Existing llama-server**, and enter the
     endpoint. Enable API-key authentication only when the server or proxy
     requires it.
@@ -359,7 +359,7 @@ manager, or machine owns the process.
   </Step>
 </Steps>
 
-FRIDAY reads `/health`, `/models` (falling back to `/v1/models`), and
+OpenClaw reads `/health`, `/models` (falling back to `/v1/models`), and
 `/props`. Router property checks use `autoload=false`. Discovery never loads,
 wakes, unloads, downloads, or reloads models.
 
@@ -372,7 +372,7 @@ Setting it to `false` disables private-network and configured-origin trust
 for both discovery and inference. Discovery has no separate retry or redirect
 exception.
 
-For discovered models, FRIDAY advertises reasoning and effort controls only
+For discovered models, OpenClaw advertises reasoning and effort controls only
 when `/props` sets `chat_template_caps.supports_reasoning_effort` to `true`.
 Missing or false values leave those capabilities unadvertised. Explicit
 configured context and tool values remain authoritative over discovery.
@@ -464,7 +464,7 @@ declarations](/gateway/config-tools#custom-provider-capability-declarations).
 
 ## Requests and local embeddings
 
-Both ownership choices use FRIDAY's normal chat, image, streaming, and tool
+Both ownership choices use OpenClaw's normal chat, image, streaming, and tool
 transport. The llama.cpp compatibility family cleans unsupported tool-schema
 constraints. Agent turns and standalone completions also map thinking-off
 requests to the server's chat-template flag and adapt JSON Schema requests
@@ -534,7 +534,7 @@ model.
   instead. It relaunches a dead backend on the next request, and the Gateway
   manages no child process.
 
-FRIDAY does not auto-select ROCm, SYCL, OpenVINO, or Vulkan archives.
+OpenClaw does not auto-select ROCm, SYCL, OpenVINO, or Vulkan archives.
 
 ## Related
 

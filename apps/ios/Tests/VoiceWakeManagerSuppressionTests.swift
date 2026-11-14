@@ -1,7 +1,7 @@
 import Foundation
 import SwabbleKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite("Voice Wake manager suppression", .serialized)
 struct VoiceWakeManagerSuppressionTests {

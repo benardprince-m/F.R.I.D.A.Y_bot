@@ -139,8 +139,8 @@ export async function noteChromeMcpBrowserReadiness(
   if (missingExecutableProfiles.length > 0) {
     noteFn(
       [
-        `- FRIDAY-managed browser profile(s) are configured: ${missingExecutableProfiles.map((profile) => profile.name).join(", ")}.`,
-        "- No Chromium-based browser executable was found on this host for FRIDAY-managed launch.",
+        `- OpenClaw-managed browser profile(s) are configured: ${missingExecutableProfiles.map((profile) => profile.name).join(", ")}.`,
+        "- No Chromium-based browser executable was found on this host for OpenClaw-managed launch.",
         "- Install Chrome, Chromium, Brave, Edge, or set browser.executablePath explicitly.",
       ].join("\n"),
       "Browser",
@@ -148,7 +148,7 @@ export async function noteChromeMcpBrowserReadiness(
   }
 
   if (missingDisplay.length > 0 || shouldWarnRootNoSandbox) {
-    const lines = [`- FRIDAY-managed browser profile(s) are configured: ${managedProfileLabel}.`];
+    const lines = [`- OpenClaw-managed browser profile(s) are configured: ${managedProfileLabel}.`];
     if (missingDisplay.length > 0) {
       lines.push(
         ...(missingDisplay.every((error) => error.headlessSource === "config")
@@ -185,7 +185,7 @@ export async function noteChromeMcpBrowserReadiness(
   } else if (!chrome) {
     const autoProfileLabel = autoConnectProfiles.map((profile) => profile.name).join(", ");
     lines.push(
-      `- Google Chrome was not found on this host for auto-connect profile(s): ${autoProfileLabel}. FRIDAY does not bundle Chrome.`,
+      `- Google Chrome was not found on this host for auto-connect profile(s): ${autoProfileLabel}. OpenClaw does not bundle Chrome.`,
       `- Install Google Chrome ${CHROME_MCP_MIN_MAJOR}+ on the same host as the Gateway or node, or set browser.profiles.<name>.userDataDir for a different Chromium-based browser.`,
     );
   } else {
@@ -207,7 +207,7 @@ export async function noteChromeMcpBrowserReadiness(
 
   lines.push(
     `- Enable remote debugging in ${autoConnect ? "the browser inspect page" : "that browser's inspect page"} (${REMOTE_DEBUGGING_PAGES}).`,
-    "- Keep the browser running and accept the attach consent prompt the first time FRIDAY connects.",
+    "- Keep the browser running and accept the attach consent prompt the first time OpenClaw connects.",
   );
   if (autoConnect && !chrome) {
     lines.push(

@@ -230,7 +230,7 @@ class CommandPaletteLogicTest {
           .map { it.text },
       )
       licensesRow.performScrollTo().performClick()
-      composeRule.onNodeWithText(nativeString("FRIDAY appreciates its partners in the open-source community.")).assertIsDisplayed()
+      composeRule.onNodeWithText(nativeString("OpenClaw appreciates its partners in the open-source community.")).assertIsDisplayed()
       assertRuntimeUnchanged()
     }
   }
@@ -245,7 +245,7 @@ class CommandPaletteLogicTest {
         "Open Chat",
         "Start or continue a conversation",
         "Start Voice",
-        "Talk or dictate with FRIDAY",
+        "Talk or dictate with OpenClaw",
         "Browse Threads",
         "Find previous conversations",
         "Providers & Models",
@@ -480,7 +480,7 @@ class CommandPaletteLogicTest {
 
         fun assertResultActivity() {
           val labels =
-            listOf("Activity active" to if (queued) "Waiting for a concurrency slot" else "Assistant working", "Activity idle" to "FRIDAY thread", "Activity finished" to "FRIDAY thread") +
+            listOf("Activity active" to if (queued) "Waiting for a concurrency slot" else "Assistant working", "Activity idle" to "OpenClaw thread", "Activity finished" to "OpenClaw thread") +
               if (queued) listOf("Activity queued" to "Waiting for a concurrency slot") else emptyList()
           for ((title, subtitle) in labels) {
             composeRule

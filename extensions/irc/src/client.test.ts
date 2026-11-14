@@ -91,7 +91,7 @@ async function connectAndCollectRegistration(params: {
       tls: false,
       nick: "bot",
       username: "bot",
-      realname: "FRIDAY Bot",
+      realname: "OpenClaw Bot",
       password: params.password,
       nickserv: params.nickserv,
       onError: (error) => errors.push(error),
@@ -116,7 +116,7 @@ async function connectAfterNickCollision(nick: string): Promise<string> {
       tls: false,
       nick,
       username: "bot",
-      realname: "FRIDAY Bot",
+      realname: "OpenClaw Bot",
     });
     const nickLines = server.lines.filter((line) => line.startsWith("NICK "));
     expect(nickLines).toHaveLength(2);
@@ -213,7 +213,7 @@ describe("irc client readiness timeout", () => {
           tls: false,
           nick: "bot",
           username: "bot",
-          realname: "FRIDAY Bot",
+          realname: "OpenClaw Bot",
           connectTimeoutMs: 50,
         }),
       ).rejects.toThrow(/IRC connect/);
@@ -263,7 +263,7 @@ async function collectPrivmsgBodies(
     tls: false,
     nick: "bot",
     username: "bot",
-    realname: "FRIDAY Bot",
+    realname: "OpenClaw Bot",
     connectTimeoutMs: 5000,
     messageChunkMaxChars,
   });
@@ -331,7 +331,7 @@ describe("irc client PRIVMSG chunking on the wire", () => {
       tls: false,
       nick: "bot",
       username: "bot",
-      realname: "FRIDAY Bot",
+      realname: "OpenClaw Bot",
       messageChunkMaxChars: 3,
     });
     try {
@@ -361,7 +361,7 @@ describe("irc client PRIVMSG chunking on the wire", () => {
         tls: false,
         nick: "bot",
         username: "bot",
-        realname: "FRIDAY Bot",
+        realname: "OpenClaw Bot",
         messageChunkMaxChars: 3,
       });
       const failure = new Error("socket write failed");
@@ -496,7 +496,7 @@ describe("irc client inbound line bound", () => {
       tls: false,
       nick: "bot",
       username: "bot",
-      realname: "FRIDAY Bot",
+      realname: "OpenClaw Bot",
       onError: (error) => errors.push(error),
       onLine: (line) => {
         lines.push(line);
@@ -596,7 +596,7 @@ describe("irc client liveness", () => {
       tls: false,
       nick: "bot",
       username: "bot",
-      realname: "FRIDAY Bot",
+      realname: "OpenClaw Bot",
       abortSignal: abort.signal,
       onError,
       onDisconnect,
@@ -707,7 +707,7 @@ describe("irc client inbound CTCP", () => {
         tls: false,
         nick: "bot",
         username: "bot",
-        realname: "FRIDAY Bot",
+        realname: "OpenClaw Bot",
         onPrivmsg: (event) => {
           dispatched.push(event.rawLine);
         },

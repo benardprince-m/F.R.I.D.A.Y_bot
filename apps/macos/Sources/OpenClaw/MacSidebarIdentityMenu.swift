@@ -44,7 +44,7 @@ struct MacSidebarIdentityMenu: ViewModifier {
                         Button("Usage") { self.openRoute(DashboardRouteMap.usagePagePath, target: target) }
                     }
                 }
-                Button("About FRIDAY") { AppNavigationActions.openAbout() }
+                Button("About OpenClaw") { AppNavigationActions.openAbout() }
             })
             .task(id: self.target) {
                 guard self.target != nil else { return }

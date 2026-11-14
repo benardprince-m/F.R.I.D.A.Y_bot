@@ -1,14 +1,14 @@
 import AppKit
 import SwiftUI
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized)
 @MainActor
 struct StatusMenuRecoveryPresentationTests {
     @Test func `worker recovery row renders guidance and only offers a callable update`() async throws {
         _ = AppKitTestSupport.application
-        let diagnostic = "FRIDAY state database uses newer schema version 18; this build supports 17."
+        let diagnostic = "OpenClaw state database uses newer schema version 18; this build supports 17."
         let mismatch = MacNodeChannelState.connected(
             workerUnavailableReason: "worker exited with status exited(1)",
             diagnostic: diagnostic)

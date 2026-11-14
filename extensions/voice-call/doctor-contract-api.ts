@@ -71,7 +71,7 @@ const schemaMigrationDescriptions = {
   "predicate-columns-v21":
     "meeting transcripts and delivery retention -> derived predicate columns",
   "worker-placement-execution-mode-v8": "cloud worker placements -> execution-mode claims",
-  "operator-approvals-system-agent": "operator approvals -> FRIDAY system changes",
+  "operator-approvals-system-agent": "operator approvals -> OpenClaw system changes",
   "session-watch-cursor-provenance-v4": "session watch cursors -> provenance column",
   "strict-tables-v3": "tables -> SQLite STRICT typing",
 } satisfies Record<OpenClawStateDatabaseSchemaMigration["kind"], string>;

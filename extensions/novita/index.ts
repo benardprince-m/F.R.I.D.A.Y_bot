@@ -1,4 +1,4 @@
-// Novita plugin entrypoint registers its FRIDAY integration.
+// Novita plugin entrypoint registers its OpenClaw integration.
 import { readConfiguredProviderCatalogEntries } from "openclaw/plugin-sdk/provider-catalog-shared";
 import { defineSingleProviderPluginEntry } from "openclaw/plugin-sdk/provider-entry";
 import { buildProviderReplayFamilyHooks } from "openclaw/plugin-sdk/provider-model-shared";
@@ -11,7 +11,7 @@ const PROVIDER_ID = "novita";
 export default defineSingleProviderPluginEntry({
   id: PROVIDER_ID,
   name: "NovitaAI Provider",
-  description: "Official FRIDAY NovitaAI provider plugin",
+  description: "Official OpenClaw NovitaAI provider plugin",
   manifest,
   provider: {
     label: "NovitaAI",

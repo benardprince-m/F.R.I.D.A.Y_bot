@@ -33,8 +33,8 @@ unexpectedly. Check the selected `tools.codeMode.executor` and its plugin
 availability; the `quickjs` executor requires the bundled `code-mode-quickjs`
 runtime. Explicit selection activates that bundle despite generic plugin disable
 or allowlist settings, but an explicit deny or disabled entry still blocks it.
-FRIDAY does not switch executors automatically.
-`aborted` means the caller cancelled an active `exec` or `wait`; FRIDAY
+OpenClaw does not switch executors automatically.
+`aborted` means the caller cancelled an active `exec` or `wait`; OpenClaw
 terminates the worker or drops the suspended run, so that `runId` cannot be
 resumed. It is distinct from `timeout`, which means an execution deadline was
 exceeded.
@@ -45,7 +45,7 @@ remain successful.
 JavaScript syntax errors are rejected during source preparation, before any
 nested tool dispatch. The bounded diagnostic includes a one-based source line
 and column. Malformed JavaScript reports its syntax error before module-access
-checks. Correct the source and submit a new `exec`; FRIDAY does not repair
+checks. Correct the source and submit a new `exec`; OpenClaw does not repair
 or replay it automatically. This no-dispatch outcome does not enable
 `restartSafe` or change the result's `replaySafe` flag. Exceptions thrown by valid
 guest code, including `SyntaxError`, remain runtime failures.
@@ -94,11 +94,11 @@ The run metadata (`meta.agentMeta` in `openclaw agent --json`, mirrored on the
 - `codeModeEngaged`: `true` only when code mode actually owned the model tool
   surface. This is the reliable engagement signal — do not infer engagement
   from config or tool names: the shell tool is also named `exec`, and the
-  `"auto"` tier engages per model capability. Harnesses that bridge FRIDAY's
+  `"auto"` tier engages per model capability. Harnesses that bridge OpenClaw's
   tool surface (Copilot) report their resolved gate, so
   `codeModeEngaged: false` with `tools.codeMode.enabled=true` makes a silent
   no-op observable. Harnesses that run their own native tool surface (Codex)
-  never engage FRIDAY code mode, so they always read `false`; an attempt that
+  never engage OpenClaw code mode, so they always read `false`; an attempt that
   reports nothing is normalized to `false` for the same reason. Codex's own
   `codeModeOnly` is a separate native feature that this field does not track.
 - `assistantTurns`: completed assistant/provider round trips across the run.
@@ -110,7 +110,7 @@ The run metadata (`meta.agentMeta` in `openclaw agent --json`, mirrored on the
   model has no cost data.
 
 Telemetry must not include secrets, raw environment values, or unredacted
-tool inputs beyond existing FRIDAY trajectory policy.
+tool inputs beyond existing OpenClaw trajectory policy.
 
 ## Debugging
 

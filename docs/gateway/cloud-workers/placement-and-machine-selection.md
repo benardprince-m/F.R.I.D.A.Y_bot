@@ -7,11 +7,11 @@ read_when: "You are choosing where a session runs, or overriding its operating s
 
 Choosing the machine a session runs on: an explicitly authorized paired device, a Crabbox cloud profile for either harness, and per-placement operating-system and machine-class overrides.
 
-## A deployment-required FRIDAY destination
+## A deployment-required OpenClaw destination
 
 An operator can set
 [`cloudWorkers.requiredProfile`](/gateway/config-cloud-workers#required-worker-profile)
-when every session must use one FRIDAY worker profile. Control UI displays that
+when every session must use one OpenClaw worker profile. Control UI displays that
 destination without a chooser; it is not a user-selected cloud worker. The
 Gateway owns placement, including an empty managed workspace for a chat without
 a repository, and rejects attempts to select a local or different execution
@@ -31,10 +31,10 @@ machine uses a plugin allowlist. It also requires a connected session-capable
 node that advertises `codex.exec-server`, and an explicit
 `gateway.nodes.commands.allow` entry for `codex.exec-server.stdio.v1`. Approve
 the node's updated pairing surface if needed. Before each exec-server launch,
-FRIDAY also requires the normal node invocation approval; denying that
+OpenClaw also requires the normal node invocation approval; denying that
 request does not start a process.
 
-Codex launches its exec-server directly, so paired-device and cloud-node placement do not consume an FRIDAY worker slot and remain eligible when those slots are full. FRIDAY `worker-turn` placement still requires an available worker slot.
+Codex launches its exec-server directly, so paired-device and cloud-node placement do not consume an OpenClaw worker slot and remain eligible when those slots are full. OpenClaw `worker-turn` placement still requires an available worker slot.
 
 Approval permits process execution and filesystem access anywhere the node's
 operating system account allows. The exact placement workspace controls the
@@ -55,7 +55,7 @@ The Codex app-server, model connection, provider credentials, and transcript
 remain on the Gateway. The paired node runs the managed Codex exec-server in
 the transferred workspace and receives only sanitized process, filesystem,
 capability-discovery, and HTTP operations over the existing node channel. It
-does not launch an FRIDAY worker child. Credential-bearing HTTP requests are
+does not launch an OpenClaw worker child. Credential-bearing HTTP requests are
 rejected before they reach the paired device; run authenticated requests on the
 Gateway or use an intentionally credential-free endpoint. Normal Codex turns
 are supported, but `/btw` side questions are not yet placement-bound and fail
@@ -64,9 +64,9 @@ reconciliation as worker turns. See
 [Run Codex on a paired device](/plugins/codex-harness/placement#run-codex-on-a-paired-device)
 for the exact allowlist configuration and lifecycle.
 
-## Codex or FRIDAY on a cloud profile
+## Codex or OpenClaw on a cloud profile
 
-The same configured Crabbox profile can host either harness. Select its profile row under **Cloud** after choosing an FRIDAY or Codex model; the selected runtime determines whether provisioning prepares a worker child or the managed Codex exec-server. Codex cloud-node execution requires the same explicit Gateway command allowlist and placement-scoped approval as paired-device execution. It never falls back to Gateway-local or SSH execution if the node command is missing, denied, or disconnected.
+The same configured Crabbox profile can host either harness. Select its profile row under **Cloud** after choosing an OpenClaw or Codex model; the selected runtime determines whether provisioning prepares a worker child or the managed Codex exec-server. Codex cloud-node execution requires the same explicit Gateway command allowlist and placement-scoped approval as paired-device execution. It never falls back to Gateway-local or SSH execution if the node command is missing, denied, or disconnected.
 
 For cloud-profile placement, the equivalent RPC flow is:
 
@@ -89,7 +89,7 @@ Repository preparation pins immutable source metadata before eligible cloud allo
 
 Ordinary checkout and repository restoration to the Gateway use the same identity admission: a configured identity that cannot be read or verified stops the operation before Git runs. Reconnect or refresh that GitHub identity in Settings, then retry the dispatch or move.
 
-Repository preparation and prepared checkout adoption do not transfer GitHub credentials to workers. Subsequent FRIDAY worker turns use the effective shared or native GitHub identity through the existing [per-turn credential binding](/gateway/config-tools/github-identity), when one is available.
+Repository preparation and prepared checkout adoption do not transfer GitHub credentials to workers. Subsequent OpenClaw worker turns use the effective shared or native GitHub identity through the existing [per-turn credential binding](/gateway/config-tools/github-identity), when one is available.
 
 Private repository fetches use the effective shared [`tools.github`](/gateway/config-tools#tools-github) identity. Access through the Control UI repository picker does not by itself authorize that worker identity, and personal publication credentials are never used for the checkout.
 
@@ -136,4 +136,4 @@ for catalog filtering, limits, and dimension formats.
 
 Successful catalogs, including valid empty catalogs, are cached for the Gateway lifetime. Failed checks are retried by the next discovery request; a Gateway restart is not needed to recover.
 
-Mapped Machine0 classes appear even when Crabbox omits the legacy `classes` summary. These static mappings describe class choices, not current capacity or availability. FRIDAY does not translate provider-native size catalogs into classes. Keep native size selection in Crabbox's configuration: an explicitly configured native size still takes precedence over a class, so the picker cannot override that pin or promise a resize. Acceptance of native server types through `machineClass` is backend-specific, not a universal Crabbox contract. An admitted machine choice remains fixed for that placement and is reused by provisioning retries; catalog changes do not rewrite it. `os` and `machineClass` are valid only with `profileId`, not `deviceId` or `autoDevice`. Omitting either field uses the corresponding profile default.
+Mapped Machine0 classes appear even when Crabbox omits the legacy `classes` summary. These static mappings describe class choices, not current capacity or availability. OpenClaw does not translate provider-native size catalogs into classes. Keep native size selection in Crabbox's configuration: an explicitly configured native size still takes precedence over a class, so the picker cannot override that pin or promise a resize. Acceptance of native server types through `machineClass` is backend-specific, not a universal Crabbox contract. An admitted machine choice remains fixed for that placement and is reused by provisioning retries; catalog changes do not rewrite it. `os` and `machineClass` are valid only with `profileId`, not `deviceId` or `autoDevice`. Omitting either field uses the corresponding profile default.

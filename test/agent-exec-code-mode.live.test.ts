@@ -113,7 +113,7 @@ describeLive("agent exec Codex runtime with environment authentication", () => {
       status: "ok",
       provider: "openai",
       model: "gpt-5.6-luna",
-      // FRIDAY Code Mode is not the Codex harness's tool surface.
+      // OpenClaw Code Mode is not the Codex harness's tool surface.
       codeModeEngaged: false,
       final: "DONE",
     });

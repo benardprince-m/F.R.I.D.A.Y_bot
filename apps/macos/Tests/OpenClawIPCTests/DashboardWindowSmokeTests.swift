@@ -3,7 +3,7 @@ import Foundation
 import OpenClawKit
 import Testing
 import WebKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 private actor DashboardRouteAuthGate {
     private var token: String?
@@ -759,7 +759,7 @@ extension DashboardWindowSmokeTests {
             message: "Delete 1 session?",
             host: "127.0.0.1")
 
-        #expect(alert.messageText == "FRIDAY Dashboard")
+        #expect(alert.messageText == "OpenClaw Dashboard")
         #expect(alert.informativeText.contains("127.0.0.1 is asking:"))
         #expect(alert.informativeText.contains("Delete 1 session?"))
         #expect(alert.buttons.map(\.title) == ["OK", "Cancel"])

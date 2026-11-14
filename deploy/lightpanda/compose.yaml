@@ -1,4 +1,4 @@
-# Use with compose.host.yaml for a host-native FRIDAY Gateway, or merge with
+# Use with compose.host.yaml for a host-native OpenClaw Gateway, or merge with
 # the repository's docker-compose.yml for an unpublished container-only endpoint.
 services:
   lightpanda:

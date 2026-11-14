@@ -78,7 +78,7 @@ describe("Slack edits", () => {
     "renders authored Markdown with the configured default account's $mode table mode",
     async ({ mode, expected }) => {
       await edit(
-        "**bold** and [FRIDAY](https://example.com)\n\n| Name | Value |\n| --- | --- |\n| Beta | 2 |",
+        "**bold** and [OpenClaw](https://example.com)\n\n| Name | Value |\n| --- | --- |\n| Beta | 2 |",
         {
           cfg: {
             channels: {
@@ -91,7 +91,7 @@ describe("Slack edits", () => {
           },
         },
       );
-      expectUpdate("*bold* and <https://example.com|FRIDAY>\n\n" + expected);
+      expectUpdate("*bold* and <https://example.com|OpenClaw>\n\n" + expected);
     },
   );
 

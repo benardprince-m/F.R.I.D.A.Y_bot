@@ -346,8 +346,8 @@ export function createCodexDynamicToolBridge(params: {
       if (!toolEntry) {
         const executedArguments = asNonArrayRecord(call.arguments);
         const message = registeredToolNames.has(call.tool)
-          ? `FRIDAY tool is not available for this turn: ${call.tool}`
-          : `Unknown FRIDAY tool: ${call.tool}`;
+          ? `OpenClaw tool is not available for this turn: ${call.tool}`
+          : `Unknown OpenClaw tool: ${call.tool}`;
         const result = failedToolResult(message);
         presentTerminal(call.tool, result, true);
         notifyAgentToolResult(options?.onAgentToolResult, call.tool, result, true);
@@ -670,7 +670,7 @@ export function createCodexDynamicToolBridge(params: {
               : resolveToolExecutionErrorKind(error));
           const errorMessage = formatToolExecutionErrorMessage(
             error,
-            "FRIDAY dynamic tool call failed.",
+            "OpenClaw dynamic tool call failed.",
           );
           const operatorHint = readToolOperatorHint(error);
           if (operatorHint) {

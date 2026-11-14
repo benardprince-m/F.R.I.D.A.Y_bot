@@ -1,5 +1,5 @@
 ---
-summary: "FRIDAY admin HTTP RPC endpoint."
+summary: "OpenClaw admin HTTP RPC endpoint."
 read_when:
   - You are installing, configuring, or auditing the admin-http-rpc plugin
 title: "Admin Http Rpc plugin reference"
@@ -10,12 +10,12 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-FRIDAY admin HTTP RPC endpoint.
+OpenClaw admin HTTP RPC endpoint.
 
 ## Distribution
 
 - Package: `@openclaw/admin-http-rpc`
-- Install route: included in FRIDAY
+- Install route: included in OpenClaw
 
 ## Surface
 

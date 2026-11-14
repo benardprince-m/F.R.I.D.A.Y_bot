@@ -3,7 +3,7 @@ import Network
 import OpenClawKit
 import os
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized) struct GatewayConnectionSecurityTests {
     @MainActor

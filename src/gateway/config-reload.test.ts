@@ -1475,7 +1475,7 @@ describe("startGatewayConfigReloader", () => {
     },
   );
 
-  it("does not duplicate another FRIDAY process's journaled write", async () => {
+  it("does not duplicate another OpenClaw process's journaled write", async () => {
     const initialConfig = makeGatewayPortConfig(18789);
     const nextConfig = makeGatewayPortConfig(18790);
     const harness = createReloaderHarness(

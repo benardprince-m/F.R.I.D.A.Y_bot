@@ -2,7 +2,7 @@
   "id": "baseten",
   "categories": ["models"],
   "name": "Baseten",
-  "description": "FRIDAY Baseten provider plugin.",
+  "description": "OpenClaw Baseten provider plugin.",
   "activation": {
     "onStartup": false
   },

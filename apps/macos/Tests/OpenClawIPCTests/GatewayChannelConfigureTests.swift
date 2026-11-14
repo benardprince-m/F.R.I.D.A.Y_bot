@@ -3,7 +3,7 @@ import OpenClawChatUI
 import OpenClawKit
 import os
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct GatewayConnectionTests {
     private func makeConnection(

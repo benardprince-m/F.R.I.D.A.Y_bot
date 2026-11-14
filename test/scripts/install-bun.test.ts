@@ -59,7 +59,7 @@ case "$1" in
     shift
     printf 'cli:%s\\n' "$*" >> "$FIXTURE_ROOT/effects"
     case "$1" in
-      --version) echo "FRIDAY \${CLI_VERSION:-${version}}" ;;
+      --version) echo "OpenClaw \${CLI_VERSION:-${version}}" ;;
       daemon) printf '{"service":{"loaded":%s}}\\n' "\${SERVICE_LOADED:-false}" ;;
       gateway) printf '%s' "\${TMPDIR-unset}" > "$FIXTURE_ROOT/service-tmpdir" ;;
     esac

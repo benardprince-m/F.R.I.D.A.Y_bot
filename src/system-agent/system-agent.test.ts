@@ -304,7 +304,7 @@ describe("runSystemAgent", () => {
     } else {
       await expect(run).rejects.toThrow("exit 1");
       expect(lines.join("\n")).toContain(
-        "FRIDAY needs an interactive TTY. Use --message for one command.",
+        "OpenClaw needs an interactive TTY. Use --message for one command.",
       );
     }
     expect(runInteractiveTui).toHaveBeenCalledTimes(isTTY ? 1 : 0);

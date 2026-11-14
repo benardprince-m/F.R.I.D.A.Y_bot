@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Builds the canonical FRIDAY package artifact used by Docker E2E.
+// Builds the canonical OpenClaw package artifact used by Docker E2E.
 import { spawn } from "node:child_process";
 import { closeSync, openSync } from "node:fs";
 import fs from "node:fs/promises";
@@ -183,7 +183,7 @@ function resolvePackedOpenClawFileName(value: string) {
     filename !== path.basename(filename) ||
     filename !== path.win32.basename(filename)
   ) {
-    throw new Error(`npm pack reported unsafe FRIDAY tarball filename: ${filename}`);
+    throw new Error(`npm pack reported unsafe OpenClaw tarball filename: ${filename}`);
   }
   return filename;
 }
@@ -432,11 +432,11 @@ export async function buildPackageArtifacts(
   );
   const distDir = path.join(sourceDir, "dist");
   assertRealOutputRoot(distDir);
-  console.error("==> Cleaning FRIDAY package artifacts");
+  console.error("==> Cleaning OpenClaw package artifacts");
   await fs.rm(distDir, { force: true, recursive: true });
 
   // Frozen sources own their build entrypoint and may predate clean:dist.
-  console.error("==> Building FRIDAY package artifacts");
+  console.error("==> Building OpenClaw package artifacts");
   await runImpl("pnpm", ["run", "build"], sourceDir, { env: buildEnv, timeoutMs });
 }
 
@@ -470,7 +470,7 @@ async function newestOpenClawTarball(outputDir: string, packOutput: string) {
     .toSorted()
     .at(-1);
   if (!packed) {
-    throw new Error(`missing packed FRIDAY tarball in ${outputDir}`);
+    throw new Error(`missing packed OpenClaw tarball in ${outputDir}`);
   }
   return path.join(outputDir, packed);
 }
@@ -762,7 +762,7 @@ async function normalizeOpenClawTarballModes(tarballPath: string) {
     };
     await normalizeStagedModes(stageDir);
     if (stagedFileCount === 0) {
-      throw new Error(`packed FRIDAY tarball has no file entries: ${tarballPath}`);
+      throw new Error(`packed OpenClaw tarball has no file entries: ${tarballPath}`);
     }
     const stageRootEntries = await fs.readdir(stageDir);
     const normalizedPath = `${tarballPath}.modes-tmp`;
@@ -888,7 +888,7 @@ export async function packOpenClawPackageForDocker(
   if (packageOptions.packJsonPath && packageOptions.pnpmPack) {
     throw new Error("packJsonPath cannot be combined with pnpmPack");
   }
-  console.error("==> Packing FRIDAY package");
+  console.error("==> Packing OpenClaw package");
   // This receipt is the package lifecycle lock; acquire it before touching CHANGELOG.md.
   await prepareDocsMap(sourcePath);
   const deferSignalExit: KillChild = () => {};
@@ -901,7 +901,7 @@ export async function packOpenClawPackageForDocker(
   };
   try {
     await prepareWorkerBundle(sourcePath);
-    console.error("==> Writing FRIDAY package inventory");
+    console.error("==> Writing OpenClaw package inventory");
     await writePackageInventoryForDocker(sourcePath, packageOptions.runImpl ?? run);
 
     await prepareManifest(sourcePath);
@@ -1113,7 +1113,7 @@ async function main() {
     pnpmPack: options.pnpmPack,
   });
 
-  console.error("==> Checking FRIDAY package tarball");
+  console.error("==> Checking OpenClaw package tarball");
   const checkStartedAt = Date.now();
   await run(
     "node",
@@ -1131,7 +1131,7 @@ async function main() {
     },
   );
   console.error(
-    `==> FRIDAY package tarball check finished in ${Math.round((Date.now() - checkStartedAt) / 1000)}s`,
+    `==> OpenClaw package tarball check finished in ${Math.round((Date.now() - checkStartedAt) / 1000)}s`,
   );
 
   process.stdout.write(`${tarball}\n`);

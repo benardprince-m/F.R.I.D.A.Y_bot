@@ -1,4 +1,4 @@
-title: FRIDAY change approved from the requesting chat
+title: OpenClaw change approved from the requesting chat
 
 scenario:
   id: system-agent-chat-approval
@@ -8,7 +8,7 @@ scenario:
       - agent-runtime.delegated-tool-access
     secondary:
       - channels.qa-channel-outbound
-  objective: Verify a restricted channel turn that asks FRIDAY for a config change receives the approval in the same chat and applies it after a /approve reply.
+  objective: Verify a restricted channel turn that asks OpenClaw for a config change receives the approval in the same chat and applies it after a /approve reply.
   gatewayConfigPatch:
     commands:
       ownerAllowFrom: [qa-channel:alice]
@@ -25,7 +25,7 @@ scenario:
   successCriteria:
     - The delegated config change posts an approval prompt with an /approve reply in the requesting conversation.
     - A command-authorized non-owner's /approve is refused and leaves the change pending and unapplied.
-    - The owner's /approve reply resolves the pending FRIDAY change from chat.
+    - The owner's /approve reply resolves the pending OpenClaw change from chat.
     - The Gateway config shows the approved change and the agent finishes its turn with one visible reply.
   docsRefs:
     - docs/channels/qa-channel.md
@@ -46,7 +46,7 @@ scenario:
 
 flow:
   steps:
-    - name: approves a delegated FRIDAY change from the requesting chat
+    - name: approves a delegated OpenClaw change from the requesting chat
       actions:
         - assert:
             expr: "env.providerMode === 'mock-openai'"
@@ -109,7 +109,7 @@ flow:
             - ref: state
             - lambda:
                 params: [candidate]
-                expr: "candidate.direction === 'outbound' && candidate.conversation.id === conversation.id && String(candidate.text ?? '').includes('Only the owner can approve FRIDAY changes')"
+                expr: "candidate.direction === 'outbound' && candidate.conversation.id === conversation.id && String(candidate.text ?? '').includes('Only the owner can approve OpenClaw changes')"
             - 60000
         - set: levelAfterNonOwner
           value:

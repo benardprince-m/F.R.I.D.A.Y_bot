@@ -51,7 +51,7 @@ export async function prepareDoctorSessionSqliteTargets(
     const statePath = resolveOpenClawStateSqlitePath(params.env);
     if (hasOrphanedSqliteSidecars(statePath)) {
       throw new Error(
-        `FRIDAY state database ${statePath} is unavailable: SQLite sidecars remain without the database. Restore its matching database before retrying Doctor; keep the sidecars intact.`,
+        `OpenClaw state database ${statePath} is unavailable: SQLite sidecars remain without the database. Restore its matching database before retrying Doctor; keep the sidecars intact.`,
       );
     }
   }

@@ -3,7 +3,7 @@ summary: "Discover, import, and continue native session transcripts on the Gatew
 read_when:
   - Browsing Codex or Claude sessions that live on another computer
   - Resuming a native CLI session in its owning terminal
-  - Preserving native transcripts in FRIDAY before source cleanup
+  - Preserving native transcripts in OpenClaw before source cleanup
   - Configuring session catalog visibility or off-switches
 title: "Node session catalogs"
 sidebarTitle: "Session catalogs"
@@ -42,9 +42,9 @@ without logging session content.
 
 ## Import transcripts
 
-Import a native transcript into FRIDAY's durable session store to keep it after
+Import a native transcript into OpenClaw's durable session store to keep it after
 the source tool cleans up its history or the source computer becomes unavailable.
-In the sessions sidebar, open a catalog row's menu and choose **Import to FRIDAY**.
+In the sessions sidebar, open a catalog row's menu and choose **Import to OpenClaw**.
 The success notification offers **Open imported session** when the copy is ready.
 
 From the CLI, import one transcript or all visible catalog rows:
@@ -63,7 +63,7 @@ to select an individual transcript from a particular source home. See
 
 Import works with any readable catalog, including sources on the Gateway,
 headless paired nodes, the macOS app, and the Linux app. The source must be
-reachable during import. The imported copy is an ordinary FRIDAY session owned
+reachable during import. The imported copy is an ordinary OpenClaw session owned
 by the selected agent, with source provenance and an untrusted-reference notice.
 Imported copies start as [drafts](/concepts/multi-user#drafts), visible only to
 their creator and Gateway admins. Publish the copy through the existing session
@@ -79,7 +79,7 @@ importing does not resume or fork the native session. The source transcript
 remains unchanged.
 
 Re-importing the same catalog, host, source home, and thread for that agent
-updates the same FRIDAY session. Only previously unseen transcript items are
+updates the same OpenClaw session. Only previously unseen transcript items are
 appended; an unchanged source adds zero items. This is an explicit sync: later
 native messages are preserved when you import again.
 
@@ -167,7 +167,7 @@ when those commands first appear.
 A native node host with the Claude CLI available also advertises
 `anthropic.claude.terminal.resume.v1`. Eligible CLI and Desktop rows can open
 `claude --resume <session-id>` in the operator terminal on their owning host.
-This is a takeover of the native session; unlike FRIDAY adoption, it does not
+This is a takeover of the native session; unlike OpenClaw adoption, it does not
 fork the Claude session first.
 
 The catalog combines valid Claude CLI project-index records with a bounded
@@ -197,7 +197,7 @@ when people must not share access to files, credentials, or tools. See
 [Multi-user mode](/concepts/multi-user).
 
 A Gateway-local Claude CLI row can be adopted from the normal Chat composer:
-FRIDAY imports bounded visible history, resumes with `--fork-session` on the
+OpenClaw imports bounded visible history, resumes with `--fork-session` on the
 first turn, and leaves the source transcript untouched.
 
 A headless node host can opt into the same continuation flow:
@@ -217,7 +217,7 @@ is enabled and the `claude` executable resolves on that node. The Gateway cannot
 enable it remotely. The command also passes through the node's existing exec
 approval policy. When all three Claude commands are advertised and permitted by
 the Gateway's node command policy, a Claude CLI
-row on that node becomes continuable: FRIDAY imports bounded history, binds
+row on that node becomes continuable: OpenClaw imports bounded history, binds
 the adopted session to the node and its catalog-reported working directory, and
 runs each one-shot `claude -p` turn there. The first turn still uses
 `--fork-session`, preserving the source transcript.
@@ -250,16 +250,16 @@ Terminal resume uses the stored session working directory and the same
 allowlisted duplex PTY relay as Codex and Claude. It does not expose arbitrary
 node command execution.
 
-## FRIDAY sessions and transcripts
+## OpenClaw sessions and transcripts
 
 The bundled [Session Share plugin](/plugins/session-share) publishes selected
-native FRIDAY sessions from a source Gateway to a paired receiver Gateway.
+native OpenClaw sessions from a source Gateway to a paired receiver Gateway.
 The source node host runs as the same user with the source Gateway's state
 directory. Enable the plugin on both sides, choose source session groups, and
 connect with only `openclaw.sessions.list.v1` and
 `openclaw.sessions.read.v1` in `--commands`.
 
-The receiver shows read-only rows under the source node in **FRIDAY sessions**.
+The receiver shows read-only rows under the source node in **OpenClaw sessions**.
 Viewers need permission to view others' sessions on role-restricted Gateways.
 This does not permit continuation, terminal access, or worker execution on the
 source. It is separate from hosting new sessions on a node, described in [Session hosting](/nodes/session-hosting).

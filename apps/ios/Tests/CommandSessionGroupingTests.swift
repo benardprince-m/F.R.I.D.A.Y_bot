@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawChatUI
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct CommandSessionGroupingTests {
     @Test func `groups pinned categories and ungrouped in display order`() {

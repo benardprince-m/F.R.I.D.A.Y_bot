@@ -35,7 +35,7 @@ import {
 } from "./extension-native-host.constants.js";
 import { isValidProfileName } from "./profiles.js";
 
-const OWNED_LAUNCHER_MARKER = "# FRIDAY native messaging bootstrap v1";
+const OWNED_LAUNCHER_MARKER = "# OpenClaw native messaging bootstrap v1";
 
 function nativeMessagingRoot(): string {
   return path.join(resolveInstallStateDir(), "browser", "native-messaging");
@@ -72,7 +72,7 @@ function versionedLauncherPath(basePath: string, content: string): string {
 
 function expectedExtensionIds(extensionIds: string[]): string[] {
   // The Store ID also authorizes trusted unpacked builds that preserve it;
-  // it never proves that an arbitrary extension path is FRIDAY-owned.
+  // it never proves that an arbitrary extension path is OpenClaw-owned.
   return [...new Set([...extensionIds, FOUNDATION_CHROME_WEB_STORE_EXTENSION_ID])].toSorted();
 }
 
@@ -507,7 +507,7 @@ export async function repairChromeExtensionNativeHosts(params: {
         const installed = stableChromeExtensionDir();
         if (!(await inspectInstalledCopy(installed)).owned) {
           throw new Error(
-            "stable extension copy is not FRIDAY-owned; run browser extension install explicitly",
+            "stable extension copy is not OpenClaw-owned; run browser extension install explicitly",
           );
         }
         const extensionIds = (await approvedInstallRealpaths(installed, params.bundledDir)).map(
@@ -531,7 +531,7 @@ export async function repairChromeExtensionNativeHosts(params: {
             pluginRoot: params.pluginRoot,
             expectedNativeHostPath: fromNativeHostPath,
           });
-          changes.push(`Repaired ${root.label} FRIDAY native messaging registration.`);
+          changes.push(`Repaired ${root.label} OpenClaw native messaging registration.`);
         }
       } catch (error) {
         warnings.push(`${root.label} native host repair failed: ${String(error)}`);
@@ -567,7 +567,7 @@ export async function repairChromeExtensionNativeHosts(params: {
   };
 }
 
-/** Remove only registrations and launchers that carry FRIDAY ownership. */
+/** Remove only registrations and launchers that carry OpenClaw ownership. */
 export async function uninstallChromeExtensionNativeHosts(
   params: {
     pluginRoot?: string;

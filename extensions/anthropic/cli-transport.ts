@@ -220,7 +220,7 @@ export async function createClaudeCliTransport(params: {
         response = () => ({
           subtype: "error",
           request_id: id,
-          error: "FRIDAY could not handle this Claude control request.",
+          error: "OpenClaw could not handle this Claude control request.",
         });
       }
       if (!closed) {

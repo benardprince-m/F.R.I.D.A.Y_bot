@@ -37,7 +37,7 @@ extension QuickChatCatalogPresentationTests {
                 contentRect: NSRect(x: 60, y: 60, width: 900, height: 560),
                 styleMask: [], backing: .buffered, defer: false)
             window.isReleasedWhenClosed = false
-            window.title = "FRIDAY — History recovery fixture"
+            window.title = "OpenClaw — History recovery fixture"
             window.appearance = NSAppearance(named: .aqua)
             window.contentView = hosting
             defer { window.close() }

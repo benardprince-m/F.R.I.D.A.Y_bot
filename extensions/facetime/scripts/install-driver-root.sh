@@ -54,15 +54,15 @@ verify_driver() {
   test -d "$driver"
   test ! -L "$driver"
   if /usr/bin/find "$driver" ! -type d ! -type f -print -quit | /usr/bin/grep -q .; then
-    echo "FRIDAY paired audio driver contains a non-file entry." >&2
+    echo "OpenClaw paired audio driver contains a non-file entry." >&2
     exit 1
   fi
   if /usr/bin/find "$driver" ! -user root -print -quit | /usr/bin/grep -q .; then
-    echo "FRIDAY paired audio driver is not owned by root." >&2
+    echo "OpenClaw paired audio driver is not owned by root." >&2
     exit 1
   fi
   if /usr/bin/find "$driver" \( -perm -020 -o -perm -002 \) -print -quit | /usr/bin/grep -q .; then
-    echo "FRIDAY paired audio driver is group/world writable." >&2
+    echo "OpenClaw paired audio driver is group/world writable." >&2
     exit 1
   fi
   plist="$driver/Contents/Info.plist"
@@ -123,7 +123,7 @@ build_and_install() {
     LD="$clang" \
     LDPLUSPLUS="$clangxx" \
     LIBTOOL="$libtool" \
-    'GCC_PREPROCESSOR_DEFINITIONS=$GCC_PREPROCESSOR_DEFINITIONS kNumber_Of_Channels=2 kPlugIn_BundleID=\"ai.openclaw.BlackHoleBridge\" kDriver_Name=\"OpenClawBridge\" kHas_Driver_Name_Format=false kDevice_Name=\"FRIDAY-Mic\" kDevice2_Name=\"FRIDAY-Feed\" kDevice_IsHidden=false kDevice2_IsHidden=false kDevice_HasInput=true kDevice_HasOutput=false kDevice2_HasInput=false kDevice2_HasOutput=true'
+    'GCC_PREPROCESSOR_DEFINITIONS=$GCC_PREPROCESSOR_DEFINITIONS kNumber_Of_Channels=2 kPlugIn_BundleID=\"ai.openclaw.BlackHoleBridge\" kDriver_Name=\"OpenClawBridge\" kHas_Driver_Name_Format=false kDevice_Name=\"OpenClaw-Mic\" kDevice2_Name=\"OpenClaw-Feed\" kDevice_IsHidden=false kDevice2_IsHidden=false kDevice_HasInput=true kDevice_HasOutput=false kDevice2_HasInput=false kDevice2_HasOutput=true'
 
   /usr/libexec/PlistBuddy -c "Add :OpenClawDriverRecipe string $recipe" \
     "$driver/Contents/Info.plist"

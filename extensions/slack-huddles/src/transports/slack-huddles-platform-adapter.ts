@@ -48,7 +48,7 @@ export const SLACK_HUDDLES_PLATFORM_ADAPTER = MeetingPlatformAdapter.create<
     participantIdentity: (transport) =>
       transport === "chrome-node"
         ? "Slack user in Chrome on a paired node"
-        : "Slack user in the FRIDAY Chrome profile",
+        : "Slack user in the OpenClaw Chrome profile",
   },
   nodeCommandName: "slackhuddles.chrome",
   nodeConfigPath: "plugins.entries.slack-huddles.config.chromeNode.node",
@@ -67,7 +67,7 @@ export const SLACK_HUDDLES_PLATFORM_ADAPTER = MeetingPlatformAdapter.create<
     manualActionReasonPrefix: "slack",
     retryCaptions: false,
     unavailableMessage:
-      "Open the FRIDAY browser profile, finish Slack sign-in, admission, or permission prompt, then retry.",
+      "Open the OpenClaw browser profile, finish Slack sign-in, admission, or permission prompt, then retry.",
     origin: slackHuddleOrigin,
     scripts: slackHuddlePageScripts,
   }),

@@ -30,7 +30,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describeNonWin("exec live FRIDAY state SQLite guard", () => {
+describeNonWin("exec live OpenClaw state SQLite guard", () => {
   it("detects direct and carrier-wrapped SQLite targets under the active state directory", async () => {
     await withTempDir("openclaw-exec-live-sqlite-", async (root) => {
       const stateDir = path.join(root, "state with spaces");
@@ -277,7 +277,7 @@ describeNonWin("exec live FRIDAY state SQLite guard", () => {
               workdir: root,
             }),
           ).rejects.toThrow(
-            /external sqlite3 cannot open databases under the active FRIDAY state directory/,
+            /external sqlite3 cannot open databases under the active OpenClaw state directory/,
           );
         },
       );
@@ -322,7 +322,7 @@ describeNonWin("exec live FRIDAY state SQLite guard", () => {
               workdir: root,
             }),
           ).rejects.toThrow(
-            /external sqlite3 cannot open databases under the active FRIDAY state directory/,
+            /external sqlite3 cannot open databases under the active OpenClaw state directory/,
           );
           await expect(fs.stat(liveMarkerPath)).rejects.toMatchObject({ code: "ENOENT" });
 

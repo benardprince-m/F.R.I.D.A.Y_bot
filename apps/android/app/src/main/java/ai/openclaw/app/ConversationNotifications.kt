@@ -368,7 +368,7 @@ internal class ConversationReplyNotifier(
         val style =
           NotificationCompat
             .MessagingStyle(Person.Builder().setName(nativeString("You")).build())
-            .setConversationTitle(nativeString("FRIDAY"))
+            .setConversationTitle(nativeString("OpenClaw"))
             .setGroupConversation(false)
             .addMessage(text, System.currentTimeMillis(), assistant)
         post(
@@ -462,7 +462,7 @@ internal class ConversationReplyNotifier(
       .setCategory(NotificationCompat.CATEGORY_MESSAGE)
       .setPriority(NotificationCompat.PRIORITY_HIGH)
       .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
-      .setContentTitle(nativeString("FRIDAY"))
+      .setContentTitle(nativeString("OpenClaw"))
       .setContentIntent(contentIntent)
       .setPublicVersion(publicVersion(contentIntent))
       .addExtras(Bundle().apply { putParcelable(extraPublicationGeneration, generation) })
@@ -477,7 +477,7 @@ internal class ConversationReplyNotifier(
     NotificationCompat
       .Builder(context, conversationChannelId)
       .setSmallIcon(R.mipmap.ic_launcher)
-      .setContentTitle(nativeString("FRIDAY"))
+      .setContentTitle(nativeString("OpenClaw"))
       .setContentText(nativeString("Chat"))
       .setContentIntent(contentIntent)
       .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -502,7 +502,7 @@ internal class ConversationReplyNotifier(
     val remoteInput =
       RemoteInput
         .Builder(remoteInputReply)
-        .setLabel(nativeString("Reply to FRIDAY…"))
+        .setLabel(nativeString("Reply to OpenClaw…"))
         .build()
     return NotificationCompat.Action
       .Builder(0, nativeString("Reply"), pendingIntent)
@@ -524,7 +524,7 @@ internal class ConversationReplyNotifier(
     val shortcut =
       ShortcutInfoCompat
         .Builder(context, target.shortcutId)
-        .setShortLabel(nativeString("FRIDAY"))
+        .setShortLabel(nativeString("OpenClaw"))
         .setLongLived(true)
         .setPerson(assistantPerson())
         .setLocusId(LocusIdCompat(target.shortcutId))
@@ -537,7 +537,7 @@ internal class ConversationReplyNotifier(
   private fun assistantPerson(): Person =
     Person
       .Builder()
-      .setName(nativeString("FRIDAY"))
+      .setName(nativeString("OpenClaw"))
       .setBot(true)
       .build()
 
@@ -618,10 +618,10 @@ class ConversationReplyReceiver : BroadcastReceiver() {
         val notifier = ConversationReplyNotifier(context.applicationContext)
         runCatching {
           if (!notifier.completeReply(notificationReply, reply, outcome, isCurrent)) {
-            Log.i("FRIDAY", "Inline Reply ${outcome.name}: notification update skipped")
+            Log.i("OpenClaw", "Inline Reply ${outcome.name}: notification update skipped")
           }
         }.onFailure {
-          Log.w("FRIDAY", "Inline Reply notification update failed")
+          Log.w("OpenClaw", "Inline Reply notification update failed")
         }
       } finally {
         pendingResult.finish()

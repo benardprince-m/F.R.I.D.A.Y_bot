@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 import XCTest
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawChatUI
 
 @MainActor

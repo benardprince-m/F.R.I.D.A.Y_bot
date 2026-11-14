@@ -661,7 +661,7 @@ async function scanGatewayServices(
             recordDeadline();
             break;
           }
-          // Native liveness alone does not make a foreign task an FRIDAY owner.
+          // Native liveness alone does not make a foreign task an OpenClaw owner.
           if (knownTask || recognizableLauncher) {
             errors.push({
               source: name,

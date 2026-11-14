@@ -260,7 +260,7 @@ export function* loadRuntimePluginCandidate(params: {
     // A broad pluginApi range cannot prove lazy SDK imports from an older runtime still work.
     record.activated = false;
     pushPluginLoadError(
-      `Official runtime plugin ${pluginId} ${packageVersion} is incompatible with FRIDAY ${hostVersion} ` +
+      `Official runtime plugin ${pluginId} ${packageVersion} is incompatible with OpenClaw ${hostVersion} ` +
         `(minimum compatible plugin version is ${minimumCompatibleVersion}); it is unavailable until repaired. ` +
         `Run \`openclaw update repair\` or \`openclaw plugins update ${pluginId}\`, then restart the Gateway. ` +
         "For a linked plugin, update the linked source or remove its load-path override before retrying.",

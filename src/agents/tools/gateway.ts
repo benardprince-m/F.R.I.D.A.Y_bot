@@ -364,7 +364,7 @@ async function resolveApprovalRequesterDeviceIdentityForGatewayTool(params: {
       throw new Error(
         [
           "approved node gateway calls require a stable device identity.",
-          "Fix the FRIDAY state directory permissions and retry the approval.",
+          "Fix the OpenClaw state directory permissions and retry the approval.",
         ].join(" "),
         { cause: error },
       );
@@ -372,7 +372,7 @@ async function resolveApprovalRequesterDeviceIdentityForGatewayTool(params: {
     throw new Error(
       [
         "remote approval gateway calls require a stable device identity.",
-        "Fix the FRIDAY state directory permissions or use the local approval-runtime gateway.",
+        "Fix the OpenClaw state directory permissions or use the local approval-runtime gateway.",
       ].join(" "),
       { cause: error },
     );

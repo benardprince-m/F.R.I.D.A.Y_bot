@@ -311,9 +311,9 @@ async function seed(ctx, packageRoot) {
     GIT_CONFIG_VALUE_0: "/dev/null",
     GIT_CONFIG_KEY_1: "commit.gpgsign",
     GIT_CONFIG_VALUE_1: "false",
-    GIT_AUTHOR_NAME: "FRIDAY Synthetic Proof",
+    GIT_AUTHOR_NAME: "OpenClaw Synthetic Proof",
     GIT_AUTHOR_EMAIL: "proof@example.invalid",
-    GIT_COMMITTER_NAME: "FRIDAY Synthetic Proof",
+    GIT_COMMITTER_NAME: "OpenClaw Synthetic Proof",
     GIT_COMMITTER_EMAIL: "proof@example.invalid",
   };
   // Published worktree Git helpers read the one-shot process environment.

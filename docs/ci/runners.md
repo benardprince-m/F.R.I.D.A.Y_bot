@@ -105,7 +105,7 @@ operating choice; remeasure after the 15-minute idle cap is deployed before
 making 30 minutes or 8-class the general default.
 
 These controls cover dispatches using the updated workflows in this repository.
-The FRIDAY wrapper selects the workflow from `main` for Testbox `run` and
+The OpenClaw wrapper selects the workflow from `main` for Testbox `run` and
 `warmup`, overriding configured refs and rejecting explicit historical refs.
 Its source capsule still reconstructs the checkout being tested. Old wrappers,
 direct historical-ref dispatches, other repositories, alternate workflows, and Windows check
@@ -232,7 +232,7 @@ the same class for test types, core type stripes, and runtime-topology checks
 to compensate for smaller delivered machines.
 In the [2026-09-01 capacity check](https://github.com/openclaw/openclaw/actions/runs/33538827388),
 that label was the first measured class meeting the eight-CPU/24-GiB threshold
-used by FRIDAY's parallel-check policy:
+used by OpenClaw's parallel-check policy:
 
 | Requested x64 Ubuntu 24.04 label | Observed CPUs | Observed RAM |
 | -------------------------------- | ------------: | -----------: |

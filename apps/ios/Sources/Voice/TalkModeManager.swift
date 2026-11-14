@@ -3624,12 +3624,12 @@ extension TalkModeManager {
             (String(localized: "Thinking"), .thinking, .phase)
         case "Thinking…":
             (String(localized: "Thinking…"), .thinking, .phase)
-        case "Asking FRIDAY":
-            (String(localized: "Asking FRIDAY"), .thinking, .phase)
-        case "Still asking FRIDAY":
-            (String(localized: "Still asking FRIDAY"), .thinking, .phase)
-        case "Updating FRIDAY":
-            (String(localized: "Updating FRIDAY"), .thinking, .phase)
+        case "Asking OpenClaw":
+            (String(localized: "Asking OpenClaw"), .thinking, .phase)
+        case "Still asking OpenClaw":
+            (String(localized: "Still asking OpenClaw"), .thinking, .phase)
+        case "Updating OpenClaw":
+            (String(localized: "Updating OpenClaw"), .thinking, .phase)
         case "Speaking":
             (String(localized: "Speaking"), .speaking, .phase)
         case "Speaking…":
@@ -3653,8 +3653,8 @@ extension TalkModeManager {
                 .localized("Realtime failed before connecting"))
         case "Realtime disconnected":
             (String(localized: "Realtime disconnected"), .idle, .localized("Realtime disconnected"))
-        case "FRIDAY unavailable":
-            (String(localized: "FRIDAY unavailable"), .idle, .localized("FRIDAY unavailable"))
+        case "OpenClaw unavailable":
+            (String(localized: "OpenClaw unavailable"), .idle, .localized("OpenClaw unavailable"))
         case "Confirmation needed":
             (String(localized: "Confirmation needed"), .idle, .localized("Confirmation needed"))
         default:

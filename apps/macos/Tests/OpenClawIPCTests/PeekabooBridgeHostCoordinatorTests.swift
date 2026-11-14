@@ -1,7 +1,7 @@
 import Foundation
 import PeekabooBridge
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized)
 @MainActor

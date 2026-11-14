@@ -761,7 +761,7 @@ end
 rows = %w[capture result success].map do |scenario|
   Dir.mktmpdir("openclaw-capture-") do |root|
     @scenario, @calls, @checks, @uninstalls = scenario, 0, 0, []
-    app = File.join(root, "Build", "Products", "Debug-iphonesimulator", "FRIDAY.app")
+    app = File.join(root, "Build", "Products", "Debug-iphonesimulator", "OpenClaw.app")
     FileUtils.mkdir_p(app)
     File.write(File.join(app, "Info.plist"), "fixture.capture.debug")
     @result_path = File.join(root, "current.xcresult")

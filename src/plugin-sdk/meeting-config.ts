@@ -59,7 +59,7 @@ export function resolveMeetingChromeConfig(
     audioBufferBytes,
     launch: typeof chrome.launch === "boolean" ? chrome.launch : true,
     browserProfile: normalizeOptionalString(chrome.browserProfile),
-    guestName: normalizeOptionalString(chrome.guestName) ?? "FRIDAY Agent",
+    guestName: normalizeOptionalString(chrome.guestName) ?? "OpenClaw Agent",
     reuseExistingTab: typeof chrome.reuseExistingTab === "boolean" ? chrome.reuseExistingTab : true,
     autoJoin: typeof chrome.autoJoin === "boolean" ? chrome.autoJoin : true,
     joinTimeoutMs: resolvePositiveTimerTimeoutMs(chrome.joinTimeoutMs, 30_000),

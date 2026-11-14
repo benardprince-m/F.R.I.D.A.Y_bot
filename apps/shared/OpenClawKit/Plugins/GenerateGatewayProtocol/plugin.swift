@@ -50,7 +50,7 @@ struct GenerateGatewayProtocol: BuildToolPlugin {
         }
         var message = "Node.js is required to build the Gateway protocol models."
         if let required {
-            message += " FRIDAY requires \(required); found \(unsupported.joined(separator: ", "))."
+            message += " OpenClaw requires \(required); found \(unsupported.joined(separator: ", "))."
         }
         if !unusable.isEmpty {
             message += " Could not run \(unusable.joined(separator: ", ")) in \(root.path)."

@@ -34,7 +34,7 @@ const overview: SystemAgentOverview = {
   },
 };
 
-const greetingText = "I'm FRIDAY. Channel health is unavailable.";
+const greetingText = "I'm OpenClaw. Channel health is unavailable.";
 const engines = vi.hoisted(() => [] as Array<ReturnType<typeof makeEngine>>);
 
 function makeEngine() {

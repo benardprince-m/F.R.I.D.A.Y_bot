@@ -453,10 +453,10 @@ describe("Telegram registered SQLite offset repair", () => {
       const migration = await registeredMigration();
       const input = { ...migrationInput(env, stateDir, context), config };
       expect(() => migration.detectLegacyState(input)).toThrow(
-        "Update FRIDAY before inspecting Telegram SQLite offsets",
+        "Update OpenClaw before inspecting Telegram SQLite offsets",
       );
       await expect(migration.migrateLegacyState(input)).rejects.toThrow(
-        "Update FRIDAY before inspecting Telegram SQLite offsets",
+        "Update OpenClaw before inspecting Telegram SQLite offsets",
       );
     }),
   );

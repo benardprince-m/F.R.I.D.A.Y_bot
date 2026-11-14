@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/linux-node",
   "version": "2026.10.4",
-  "description": "FRIDAY Linux node device capabilities",
+  "description": "OpenClaw Linux node device capabilities",
   "type": "module",
   "dependencies": {
     "zod": "4.6.5"

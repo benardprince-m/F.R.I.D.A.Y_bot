@@ -2,7 +2,7 @@
   "id": "longcat",
   "categories": ["models"],
   "name": "LongCat",
-  "description": "FRIDAY LongCat provider plugin.",
+  "description": "OpenClaw LongCat provider plugin.",
   "doctorContract": {
     "configRepair": true
   },

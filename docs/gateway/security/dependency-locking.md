@@ -1,5 +1,5 @@
 ---
-summary: "How FRIDAY reviews dependency changes and packages plugin runtime dependencies"
+summary: "How OpenClaw reviews dependency changes and packages plugin runtime dependencies"
 read_when:
   - You are reviewing dependency changes or supply-chain risk
   - You are validating root or plugin npm packages before publishing
@@ -9,11 +9,11 @@ title: "Dependency locking"
 
 Read this page as a dependency reviewer or a release engineer: it covers reviewing dependency changes for supply-chain risk, and validating root and plugin npm packages before publishing.
 
-FRIDAY uses `pnpm-lock.yaml` as its committed product dependency review boundary. It records the resolved dependency graph used by source checkouts and CI, so transitive changes remain visible in code review.
+OpenClaw uses `pnpm-lock.yaml` as its committed product dependency review boundary. It records the resolved dependency graph used by source checkouts and CI, so transitive changes remain visible in code review.
 
-FRIDAY does not commit npm-format locks for product packages or publish them in package tarballs. [npm 12 removed shrinkwrap support](https://github.com/npm/cli/releases/tag/v12.0.0), including the `npm shrinkwrap` command and loading `npm-shrinkwrap.json` from package roots or dependency tarballs.
+OpenClaw does not commit npm-format locks for product packages or publish them in package tarballs. [npm 12 removed shrinkwrap support](https://github.com/npm/cli/releases/tag/v12.0.0), including the `npm shrinkwrap` command and loading `npm-shrinkwrap.json` from package roots or dependency tarballs.
 
-The trusted ClawHub and Vercel release toolchains are separate exceptions: `.github/release/clawhub-cli/package-lock.json` and `.github/release/vercel-cli/package-lock.json` are committed npm project locks used by release automation. Neither is shipped in an FRIDAY package.
+The trusted ClawHub and Vercel release toolchains are separate exceptions: `.github/release/clawhub-cli/package-lock.json` and `.github/release/vercel-cli/package-lock.json` are committed npm project locks used by release automation. Neither is shipped in an OpenClaw package.
 
 These projects do not inherit root pnpm overrides. The Vercel project uses approved, version-scoped npm overrides for vulnerable upstream pins; remove each override when its owning dependency accepts a fixed version. Lock audits cover resolved package identities, not code already bundled into upstream CLI artifacts.
 
@@ -27,7 +27,7 @@ The separate daily [Dependency Audit workflow](/ci/scheduled-workflows#dependenc
 
 Known malware is the only blocking class: a malware advisory anywhere in any audited lockfile fails the gate and stops publication, because it marks a compromised package rather than a vulnerability report. Vulnerability advisories of every severity, in every graph, are recorded without blocking: the gate prints each one as a GitHub Actions warning annotation, and the release dependency evidence summary lists them under "Non-blocking advisory findings". A newly published advisory never delays a release; fix it with a normal dependency bump on `main` after publication. GitHub's `medium` severity maps to `moderate` in these reports. Upstream findings match the npm package identity and affected-version range against exact locked versions; only matches absent from the npm result for the corresponding lockfile and graph are added. Reports retain the source lockfile, so a release-tool finding does not imply product runtime exposure. Missing or invalid locks for declared dependency graphs fail the gate.
 
-Release automation reuses its existing standard `GH_TOKEN` only for GitHub API requests, never for npm registry requests. Local runs without that token use anonymous GitHub requests and their rate limits. No new FRIDAY configuration or operator credential setup is required.
+Release automation reuses its existing standard `GH_TOKEN` only for GitHub API requests, never for npm registry requests. Local runs without that token use anonymous GitHub requests and their rate limits. No new OpenClaw configuration or operator credential setup is required.
 
 ### Interpret coverage
 
@@ -41,19 +41,19 @@ Missing or unsupported repository metadata, malformed affected-version ranges, e
 
 ## Published package behavior
 
-Published FRIDAY plugin packages bundle their runtime dependency files in the tarball by default. Those bytes ship with the plugin and work the same way regardless of whether the operator uses npm, pnpm, or Bun.
+Published OpenClaw plugin packages bundle their runtime dependency files in the tarball by default. Those bytes ship with the plugin and work the same way regardless of whether the operator uses npm, pnpm, or Bun.
 
 Native-heavy plugins opt out of runtime dependency bundling because their dependency trees contain platform-specific or large native artifacts. Those plugins resolve dependencies at install time from exact-pinned direct dependencies. The root `openclaw` package also resolves dependencies at install time and does not bundle its full dependency tree.
 
-When preparing a package that carries bundled dependencies, FRIDAY also declares its hoisted optional platform packages as root `optionalDependencies`, using the validated npm dependency graph. This preserves platform filtering on npm 10 global installs, including installs with lifecycle scripts disabled, without removing the patched bundled runtimes.
+When preparing a package that carries bundled dependencies, OpenClaw also declares its hoisted optional platform packages as root `optionalDependencies`, using the validated npm dependency graph. This preserves platform filtering on npm 10 global installs, including installs with lifecycle scripts disabled, without removing the patched bundled runtimes.
 
-The bundled Anthropic plugin communicates directly with the separately installed `claude` executable. It does not depend on or copy the Claude Agent SDK into FRIDAY's package. The external ACPX plugin independently declares an ACP adapter that depends on the SDK; ACPX leaves those dependencies to installation from npm instead of bundling them into its published package.
+The bundled Anthropic plugin communicates directly with the separately installed `claude` executable. It does not depend on or copy the Claude Agent SDK into OpenClaw's package. The external ACPX plugin independently declares an ACP adapter that depends on the SDK; ACPX leaves those dependencies to installation from npm instead of bundling them into its published package.
 
 Neither path publishes a lockfile:
 
 - root and plugin tarballs contain neither `npm-shrinkwrap.json` nor `package-lock.json`;
 - `pnpm-lock.yaml` remains the reviewed source dependency graph;
-- npm package locks exist only transiently while FRIDAY validates package graphs or runs `npm ci` to assemble a bundled plugin.
+- npm package locks exist only transiently while OpenClaw validates package graphs or runs `npm ci` to assemble a bundled plugin.
 
 ## Validate npm dependency graphs
 

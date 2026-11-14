@@ -9,7 +9,7 @@ title: "Browser"
 
 # `openclaw browser`
 
-Manage FRIDAY's browser control surface and run browser actions: lifecycle, profiles, tabs, snapshots, screenshots, navigation, input, state emulation, and debugging.
+Manage OpenClaw's browser control surface and run browser actions: lifecycle, profiles, tabs, snapshots, screenshots, navigation, input, state emulation, and debugging.
 
 Related: [Browser tool](/tools/browser)
 
@@ -73,8 +73,8 @@ openclaw browser --browser-profile openclaw reset-profile
   backend, device/driver, feature and disabled-status details, and accelerated
   video capabilities. `openclaw browser --json status` returns the full structured payload.
   Passive status never launches Chrome just to collect these facts.
-- `stop` closes the active control session and clears temporary emulation overrides. This applies even to `attachOnly` and remote CDP profiles, where FRIDAY did not launch the browser process itself. For local managed profiles, `stop` also stops the spawned browser process.
-- `start --headless` applies only to that start request, and only when FRIDAY launches a local managed browser. It does not rewrite `browser.headless` or profile config, and is a no-op for an already-running browser.
+- `stop` closes the active control session and clears temporary emulation overrides. This applies even to `attachOnly` and remote CDP profiles, where OpenClaw did not launch the browser process itself. For local managed profiles, `stop` also stops the spawned browser process.
+- `start --headless` applies only to that start request, and only when OpenClaw launches a local managed browser. It does not rewrite `browser.headless` or profile config, and is a no-op for an already-running browser.
 - Local managed profiles run headless by default on every platform. `OPENCLAW_BROWSER_HEADLESS=0`, `browser.headless=false`, or `browser.profiles.<name>.headless=false` explicitly requests a visible browser; Linux then needs `DISPLAY` or `WAYLAND_DISPLAY`. Externally owned browsers keep their current mode.
 
 ## If the command is missing
@@ -97,7 +97,7 @@ Related: [Browser tool](/tools/browser/setup#missing-browser-command-or-tool)
 
 Profiles are named browser routing configs:
 
-- `openclaw` (default): launches or attaches to a dedicated FRIDAY-managed Chrome instance (isolated user data dir).
+- `openclaw` (default): launches or attaches to a dedicated OpenClaw-managed Chrome instance (isolated user data dir).
 - `user`: controls your existing signed-in Chrome session via Chrome DevTools MCP.
 - custom CDP profiles: point at a local or remote CDP endpoint.
 
@@ -115,7 +115,7 @@ openclaw browser delete-profile --name work
 
 Use a specific profile with `--browser-profile <name>` on any subcommand, for example `openclaw browser --browser-profile work tabs`.
 
-On macOS, `system-profiles` lists real Chrome, Brave, Edge, or Chromium profiles available on the host. `import-profile` decrypts their cookies after one macOS Keychain/Touch ID consent prompt and injects them into a fresh FRIDAY-managed profile. It imports cookies only. Local storage and IndexedDB are unchanged. Some Google sessions use device-bound session credentials (DBSC) and can still require re-authentication after import.
+On macOS, `system-profiles` lists real Chrome, Brave, Edge, or Chromium profiles available on the host. `import-profile` decrypts their cookies after one macOS Keychain/Touch ID consent prompt and injects them into a fresh OpenClaw-managed profile. It imports cookies only. Local storage and IndexedDB are unchanged. Some Google sessions use device-bound session credentials (DBSC) and can still require re-authentication after import.
 
 When the macOS app uses a local Gateway, it can offer this import once and make the isolated imported profile the default for agent browsing. Import always requires an explicit click. Successful import or dismissal suppresses later automatic prompts, and **Settings → General → Browser login** remains available for re-import.
 
@@ -123,7 +123,7 @@ System-profile import is enabled by default. Set `browser.allowSystemProfileImpo
 
 ### Cookie sync to a remote Gateway
 
-`import-profile` targets a managed profile on the same host. When your FRIDAY Gateway and agent browser run on a separate computer, use `cookie-sync` instead. It decrypts cookies on this Mac and pushes them into a managed profile on that remote Gateway over the operator connection:
+`import-profile` targets a managed profile on the same host. When your OpenClaw Gateway and agent browser run on a separate computer, use `cookie-sync` instead. It decrypts cookies on this Mac and pushes them into a managed profile on that remote Gateway over the operator connection:
 
 ```bash
 openclaw browser cookie-sync --domains github.com,news.ycombinator.com --into work
@@ -169,11 +169,11 @@ openclaw browser extension cdp --json
   browsers need an existing user-data directory. On macOS, setup then requests
   the official Store installation in Google Chrome for all profiles in that directory.
   Chrome discovers this at startup. Fully quit and reopen Chrome when convenient,
-  then approve or enable FRIDAY. The command never restarts Chrome or bypasses
+  then approve or enable OpenClaw. The command never restarts Chrome or bypasses
   approval. For other browsers and platforms,
-  [add FRIDAY from the Chrome Web Store](https://chromewebstore.google.com/detail/openclaw/kcdjddhmeafeomebliikmbpblkmkfoig).
+  [add OpenClaw from the Chrome Web Store](https://chromewebstore.google.com/detail/openclaw/kcdjddhmeafeomebliikmbpblkmkfoig).
   Linux supports automatic native pairing. Windows uses the self-contained
-  `FRIDAY.BrowserBootstrap.exe` from the packaged CLI or Windows companion.
+  `OpenClaw.BrowserBootstrap.exe` from the packaged CLI or Windows companion.
   A portable/local installer can pass `--native-host-executable <absolute-path>`
   to `extension setup --action install` or `extension install`. Setup checks owned
   context/ACLs and actual framed subprocess responses before user-level registry
@@ -190,12 +190,12 @@ openclaw browser extension cdp --json
   fields (`enabled`, `awaitingApproval`), approved unpacked IDs and paths, and
   native-host registration health. Local installation status does not prove a
   live relay connection. JSON output never includes a pairing string or relay key.
-- `extension uninstall-host` removes only verified FRIDAY-owned native-host
+- `extension uninstall-host` removes only verified OpenClaw-owned native-host
   manifests and launchers. It does not remove the extension from Chrome. On
   Windows it delegates to the same registration service; `--remove-store` removes
   verified owned Store requests first. `--native-host-executable` and
   `--browser-profile` select the same explicit local context for status/removal.
-- `extension uninstall-store` removes only FRIDAY-owned macOS Chrome Store
+- `extension uninstall-store` removes only OpenClaw-owned macOS Chrome Store
   requests (macOS only). Windows uses `uninstall-host --remove-store` rather than
   a separate Store writer. Chrome may remove an externally installed extension at its next
   startup. Native-host registration and the development copy remain intact.
@@ -216,7 +216,7 @@ Automatic local bootstrap connects through the local Gateway's exact
 `/browser/extension` route so the first authenticated extension connection
 starts the lazy browser-control service. Keep `openclaw gateway run` or the
 managed Gateway service running. No separate browser request or prewarm is
-needed. Local FRIDAY and mcporter calls still use the profile relay port
+needed. Local OpenClaw and mcporter calls still use the profile relay port
 reported by `extension pair` or `extension cdp` after that wakeup. Browser-node
 pairings continue to use the relay on the browser-node host, while explicit
 `--gateway-url` pairings remain direct-remote and manual-only.
@@ -229,7 +229,7 @@ wake-up, reconnecting can start a standalone relay on the saved pairing's
 configured port. This does not start Gateway browser control: authenticated CDP
 clients can use the standalone relay without a Gateway, but `openclaw browser`
 actions still require one. For source-checkout testing, load the managed unpacked
-copy from the same FRIDAY installation.
+copy from the same OpenClaw installation.
 
 `extension cdp --legacy-bearer` is a temporary migration escape hatch. It
 prints the old Bearer header with a warning only while
@@ -268,10 +268,10 @@ Profiles configured with `driver: "extension"` can additionally return a numeric
 `webExtensionTabId`. It is scoped to the current browser runtime and is intended
 only for calls into Chrome's WebExtensions API. It can change after the browser
 or extension reconnects and is omitted for other drivers or when extension
-metadata is unavailable. Do not pass it to FRIDAY browser commands; keep using
+metadata is unavailable. Do not pass it to OpenClaw browser commands; keep using
 `suggestedTargetId` or `tabId` there.
 
-Raw target ids are volatile diagnostic handles, not durable agent memory. Chromium can replace the underlying raw target during a navigation or form submit. FRIDAY then keeps the stable `tabId` or label attached to the replacement tab, when it can prove the match. Prefer `suggestedTargetId`.
+Raw target ids are volatile diagnostic handles, not durable agent memory. Chromium can replace the underlying raw target during a navigation or form submit. OpenClaw then keeps the stable `tabId` or label attached to the replacement tab, when it can prove the match. Prefer `suggestedTargetId`.
 
 ## Snapshot / screenshot / actions
 
@@ -322,7 +322,7 @@ For managed browser profiles, `select` preserves option values exactly. Quote em
 
 `evaluate --fn` accepts a function source, an expression, or a statement body. Statement bodies are wrapped as async functions, so use `return` for the value you want back. Use `--timeout-ms` when the page-side function may need longer than the default evaluate timeout. `browser.evaluateEnabled=false` (default: `true`) disables both `evaluate` and `wait --fn`.
 
-Action responses return the current raw `targetId` after action-triggered page replacement when FRIDAY can prove the replacement tab. Scripts should still store and pass `suggestedTargetId`/labels for long-lived workflows.
+Action responses return the current raw `targetId` after action-triggered page replacement when OpenClaw can prove the replacement tab. Scripts should still store and pass `suggestedTargetId`/labels for long-lived workflows.
 
 File + dialog helpers:
 
@@ -335,13 +335,13 @@ openclaw browser dialog --accept
 openclaw browser dialog --dismiss --dialog-id d1
 ```
 
-Managed Chrome profiles save ordinary click-triggered downloads into the FRIDAY downloads directory (`/tmp/openclaw/downloads` by default, or the configured temp root). Use `waitfordownload` or `download` when the agent needs to wait for a specific file and return its path. Those explicit waiters own the next download. Uploads accept files from the FRIDAY temp uploads root and FRIDAY-managed inbound media, including `media://inbound/<id>` and sandbox-relative `media/inbound/<id>` references. Nested media refs, traversal, and arbitrary local paths are rejected.
+Managed Chrome profiles save ordinary click-triggered downloads into the OpenClaw downloads directory (`/tmp/openclaw/downloads` by default, or the configured temp root). Use `waitfordownload` or `download` when the agent needs to wait for a specific file and return its path. Those explicit waiters own the next download. Uploads accept files from the OpenClaw temp uploads root and OpenClaw-managed inbound media, including `media://inbound/<id>` and sandbox-relative `media/inbound/<id>` references. Nested media refs, traversal, and arbitrary local paths are rejected.
 
-For remote browser nodes, FRIDAY stages private copies and normalizes filenames for portability, including Windows device names and trailing dots or spaces. File bytes remain unchanged.
+For remote browser nodes, OpenClaw stages private copies and normalizes filenames for portability, including Windows device names and trailing dots or spaces. File bytes remain unchanged.
 
-If saving a download fails, FRIDAY requests cancellation of the transfer and reports the original save error. Correct the output path or filesystem problem before starting a new download.
+If saving a download fails, OpenClaw requests cancellation of the transfer and reports the original save error. Correct the output path or filesystem problem before starting a new download.
 
-When an action opens a modal dialog, text output reports the block and pending dialog IDs. The JSON response returns `blockedByDialog` with `browserState.dialogs.pending`. Pass `--dialog-id` to answer it directly. Dialogs handled outside FRIDAY appear under `browserState.dialogs.recent`.
+When an action opens a modal dialog, text output reports the block and pending dialog IDs. The JSON response returns `blockedByDialog` with `browserState.dialogs.pending`. Pass `--dialog-id` to answer it directly. Dialogs handled outside OpenClaw appear under `browserState.dialogs.recent`.
 
 Batch actions:
 

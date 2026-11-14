@@ -116,7 +116,7 @@ function createCrabboxCloudWorkerProfileCheck(openclawRoot: string): HealthCheck
           checkId: CRABBOX_CLOUD_WORKER_PROFILE_CHECK_ID,
           severity: "warning",
           source: "crabbox",
-          message: `${target.label} ${reason}. FRIDAY will install its managed Crabbox before use.`,
+          message: `${target.label} ${reason}. OpenClaw will install its managed Crabbox before use.`,
           ...((binary ?? explicitBinary) ? { path: binary ?? explicitBinary } : {}),
           ocPath: target.ocPath,
           target: target.id,

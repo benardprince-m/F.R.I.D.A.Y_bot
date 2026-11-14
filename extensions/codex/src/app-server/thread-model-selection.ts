@@ -119,7 +119,7 @@ export async function resolveCodexAppServerModelProvider(
     return CODEX_RESPONSES_OAUTH_PROVIDER;
   }
   if (!normalized || normalizedLower === "codex") {
-    // `codex` is FRIDAY's virtual provider; let Codex app-server keep its
+    // `codex` is OpenClaw's virtual provider; let Codex app-server keep its
     // native provider/auth selection instead of forcing the legacy OpenAI path.
     return undefined;
   }

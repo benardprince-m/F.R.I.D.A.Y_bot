@@ -61,7 +61,7 @@ describe("dynamic tool execution helpers", () => {
     });
     expect(response.success).toBe(true);
     expect(operationSignal?.aborted).toBe(true);
-    expect(String(operationSignal?.reason)).toContain("FRIDAY dynamic tool call finished.");
+    expect(String(operationSignal?.reason)).toContain("OpenClaw dynamic tool call finished.");
     expect(remove).toHaveBeenCalledWith("abort", expect.any(Function));
     expect(runController.signal.aborted).toBe(false);
   });
@@ -261,7 +261,7 @@ describe("dynamic tool execution helpers", () => {
       contentItems: [
         {
           type: "inputText",
-          text: "FRIDAY dynamic tool call timed out after 1ms while running tool message.",
+          text: "OpenClaw dynamic tool call timed out after 1ms while running tool message.",
         },
       ],
     });
@@ -276,12 +276,12 @@ describe("dynamic tool execution helpers", () => {
         content: [
           {
             type: "text",
-            text: "FRIDAY dynamic tool call timed out after 1ms while running tool message.",
+            text: "OpenClaw dynamic tool call timed out after 1ms while running tool message.",
           },
         ],
         details: {
           status: "timed_out",
-          error: "FRIDAY dynamic tool call timed out after 1ms while running tool message.",
+          error: "OpenClaw dynamic tool call timed out after 1ms while running tool message.",
         },
       },
       isError: true,
@@ -406,7 +406,7 @@ describe("dynamic tool execution helpers", () => {
     expect(toCodexDynamicToolProtocolResponse(result)).toEqual({
       success: false,
       contentItems: [
-        { type: "inputText", text: "FRIDAY dynamic tool call aborted before execution." },
+        { type: "inputText", text: "OpenClaw dynamic tool call aborted before execution." },
       ],
     });
     expect(result.diagnosticTerminalReason).toBe("cancelled");
@@ -416,10 +416,10 @@ describe("dynamic tool execution helpers", () => {
     expect(onAgentToolResult).toHaveBeenCalledWith({
       toolName: "memory_search",
       result: {
-        content: [{ type: "text", text: "FRIDAY dynamic tool call aborted before execution." }],
+        content: [{ type: "text", text: "OpenClaw dynamic tool call aborted before execution." }],
         details: {
           status: "cancelled",
-          error: "FRIDAY dynamic tool call aborted before execution.",
+          error: "OpenClaw dynamic tool call aborted before execution.",
         },
       },
       isError: true,
@@ -707,7 +707,7 @@ describe("dynamic tool execution helpers", () => {
       contentItems: [
         {
           type: "inputText",
-          text: "FRIDAY dynamic tool call timed out after 1ms while waiting for process action=poll sessionId=process-session. This is a tool RPC timeout, not a session idle timeout.",
+          text: "OpenClaw dynamic tool call timed out after 1ms while waiting for process action=poll sessionId=process-session. This is a tool RPC timeout, not a session idle timeout.",
         },
       ],
     });

@@ -17,11 +17,11 @@ read_when:
   debugging and compatibility. Profiles configured with `driver: "extension"`
   can also return a runtime-scoped numeric `webExtensionTabId` for Chrome
   WebExtensions API calls. It is omitted for other drivers and must not replace
-  `suggestedTargetId` or `tabId` in FRIDAY browser actions.
+  `suggestedTargetId` or `tabId` in OpenClaw browser actions.
 
 ## Browser selection
 
-When launching locally, FRIDAY picks the first available:
+When launching locally, OpenClaw picks the first available:
 
 1. Chrome
 2. Brave

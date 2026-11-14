@@ -47,7 +47,7 @@ promptOverride: "You are a memory search agent. Return NONE or one compact user 
 ## Transcript persistence
 
 Blocking sub-agent runs keep their runtime transcript in the agent's SQLite
-store. By default, FRIDAY removes the temporary sub-agent session rows after
+store. By default, OpenClaw removes the temporary sub-agent session rows after
 the run finishes and does not create a JSONL file.
 
 Recall helpers for incognito conversations stay in the same private session
@@ -80,7 +80,7 @@ To export those transcripts as JSONL artifacts for debugging:
 }
 ```
 
-Exported transcript artifacts go under the FRIDAY state directory, in a
+Exported transcript artifacts go under the OpenClaw state directory, in a
 plugin-owned, per-agent directory separate from active runtime state:
 
 ```text

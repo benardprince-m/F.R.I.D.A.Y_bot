@@ -1,8 +1,8 @@
-# FRIDAY DeepSeek Provider
+# OpenClaw DeepSeek Provider
 
-Official FRIDAY provider plugin for DeepSeek.
+Official OpenClaw provider plugin for DeepSeek.
 
-Install from FRIDAY:
+Install from OpenClaw:
 
 ```bash
 openclaw plugins install @openclaw/deepseek-provider

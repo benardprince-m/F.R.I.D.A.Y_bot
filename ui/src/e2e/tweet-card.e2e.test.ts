@@ -6,7 +6,7 @@ import { createControlUiE2eSuite } from "./control-ui-e2e-suite.test-support.ts"
 
 const suite = createControlUiE2eSuite({ name: "Tweet browser cards" });
 const url = "https://x.com/openclaw/status/1234567890123456789";
-const title = "FRIDAY (@openclaw) on X";
+const title = "OpenClaw (@openclaw) on X";
 const description =
   "Small details make a big difference. A readable preview keeps the conversation in context, so you can understand the post without opening another tab.";
 
@@ -23,7 +23,7 @@ suite.define(() => {
       await suite.withPage({ viewport: { width, height }, colorScheme }, async ({ page }) => {
         const postTitle =
           state === "long"
-            ? "FRIDAY contributors building thoughtful and accessible interfaces (@openclaw) on X"
+            ? "OpenClaw contributors building thoughtful and accessible interfaces (@openclaw) on X"
             : title;
         const postText =
           state === "long"

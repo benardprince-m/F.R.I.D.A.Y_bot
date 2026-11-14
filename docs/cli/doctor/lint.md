@@ -165,13 +165,13 @@ owner. Non-OAuth MCP schema checks still run.
 
 The checks also warn with `plugin.version_drift` when an enabled official plugin
 in the installed index belongs to a different release cohort than the upgraded
-FRIDAY CLI. Follow the reported plugin update command, then restart the
+OpenClaw CLI. Follow the reported plugin update command, then restart the
 Gateway. Exact npm pins receive an update command only after the registry
 confirms that target exists. Independently versioned community plugins and
 disabled plugins are excluded; version drift alone does not change the exit code.
 
 Container image startup is the exception to the usual "run doctor after
-updating" flow. When `openclaw gateway run` starts on a new FRIDAY version, it
+updating" flow. When `openclaw gateway run` starts on a new OpenClaw version, it
 runs safe state and plugin repairs before reporting ready. If repair cannot
 finish safely, startup exits and tells you to run the same image once with
 `openclaw doctor --fix` against the same mounted state/config before restarting

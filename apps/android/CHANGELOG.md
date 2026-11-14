@@ -1,4 +1,4 @@
-# FRIDAY Android Changelog
+# OpenClaw Android Changelog
 
 ## Unreleased
 
@@ -66,6 +66,6 @@ Refreshes native Android localization coverage, including Swedish app naming and
 
 ## 2026.6.2 - 2026-06-02
 
-FRIDAY is now available on Android.
+OpenClaw is now available on Android.
 
-Connect to your FRIDAY Gateway to chat with your assistant, use realtime Talk mode, review approvals, and bring Android device capabilities like camera, location, screen, and notifications into your private automation workflows.
+Connect to your OpenClaw Gateway to chat with your assistant, use realtime Talk mode, review approvals, and bring Android device capabilities like camera, location, screen, and notifications into your private automation workflows.

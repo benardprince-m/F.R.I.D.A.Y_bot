@@ -255,7 +255,7 @@ describe("Control UI service worker notification scope", () => {
       let data: { url: string; explicitUrl?: boolean } = { url: target ?? "./" };
       if (!legacy) {
         const payload: ServiceWorkerPushPayload = {
-          title: "FRIDAY",
+          title: "OpenClaw",
           body: "Scoped notification",
         };
         if (target !== null) {
@@ -302,13 +302,13 @@ describe("Control UI service worker notification scope", () => {
     const tag = "openclaw-approval-exec:replacement";
 
     const requested = await worker.dispatchPush({
-      title: "FRIDAY approval requested",
-      body: "Open FRIDAY to review this request.",
+      title: "OpenClaw approval requested",
+      body: "Open OpenClaw to review this request.",
       tag,
       renotify: false,
     });
     const terminal = await worker.dispatchPush({
-      title: "FRIDAY approval updated",
+      title: "OpenClaw approval updated",
       body: "This approval is no longer pending.",
       tag,
       renotify: false,

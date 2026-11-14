@@ -44,7 +44,7 @@ describe("Git ref mutation ownership", () => {
     await requireGit(root, ["init", "--quiet", "-b", "main"]);
     await requireGit(root, [
       "-c",
-      "user.name=FRIDAY Test",
+      "user.name=OpenClaw Test",
       "-c",
       "user.email=test@localhost",
       "-c",
@@ -569,7 +569,7 @@ describe("Git checkout discovery", () => {
         context.skip("Installed Git does not support reftable repositories");
       }
       expect(initialized.code, initialized.stderr).toBe(0);
-      await requireGit(repo, ["config", "user.name", "FRIDAY Test"]);
+      await requireGit(repo, ["config", "user.name", "OpenClaw Test"]);
       await requireGit(repo, ["config", "user.email", "openclaw-test@example.invalid"]);
       await requireGit(repo, ["config", "commit.gpgSign", "false"]);
       await fs.writeFile(path.join(repo, "README.md"), "base\n");

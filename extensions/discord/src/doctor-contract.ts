@@ -86,7 +86,7 @@ function normalizeUnsupportedRealtimeWakeNames(
 
   if (wakeNames.length === 0) {
     changes.push(
-      `Removed empty ${pathPrefix}.voice.realtime.wakeNames; unset wake names use the default agent/FRIDAY fallback.`,
+      `Removed empty ${pathPrefix}.voice.realtime.wakeNames; unset wake names use the default agent/OpenClaw fallback.`,
     );
   }
   const nextRealtime = { ...realtime };

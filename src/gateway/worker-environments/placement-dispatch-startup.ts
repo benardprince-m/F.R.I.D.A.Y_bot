@@ -242,7 +242,7 @@ export function createWorkerPlacementDispatchStartup(options: {
         request.deviceId !== params.workspace.deviceId ||
         request.executionMode !== "worker-turn")
     ) {
-      throw new Error("Device folders require an FRIDAY worker on their original paired device");
+      throw new Error("Device folders require an OpenClaw worker on their original paired device");
     }
     params.signal?.throwIfAborted();
     const provisioned = requireProvisionedEnvironment(

@@ -84,7 +84,7 @@ impl Portal {
         assert_eq!(flags, 8, "must not inhibit manual suspend/logout");
         assert_eq!(
             options.get("reason").and_then(|v| <&str>::try_from(v).ok()),
-            Some("FRIDAY: Keep computer awake")
+            Some("OpenClaw: Keep computer awake")
         );
         let token = options
             .get("handle_token")
@@ -145,7 +145,7 @@ impl GnomeSession {
     ) -> zbus::fdo::Result<u32> {
         assert_eq!(
             (app_id, window, reason, flags),
-            ("FRIDAY", 0, "FRIDAY: Keep computer awake", 8)
+            ("OpenClaw", 0, "OpenClaw: Keep computer awake", 8)
         );
         self.events
             .send(header.sender().unwrap().to_string())

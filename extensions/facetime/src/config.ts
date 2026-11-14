@@ -18,7 +18,7 @@ export type FaceTimeConfig = Omit<ProducedFaceTimeConfig, "realtime"> & {
 };
 
 const DEFAULT_INSTRUCTIONS = [
-  "You are the realtime voice surface for the configured FRIDAY agent during a private 1:1 FaceTime call.",
+  "You are the realtime voice surface for the configured OpenClaw agent during a private 1:1 FaceTime call.",
   "Keep replies concise, natural, and useful for a hands-free voice conversation.",
 ].join(" ");
 

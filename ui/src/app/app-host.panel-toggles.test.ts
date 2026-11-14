@@ -77,7 +77,7 @@ afterEach(() => {
   resetAppHostTestGlobals();
 });
 
-describe("FRIDAY shell panel toggles", () => {
+describe("OpenClaw shell panel toggles", () => {
   it("captures the terminal chord once before a consuming target", async () => {
     const { element, owner } = configurePanelShell("keyboard terminal");
     await element.loadModule();

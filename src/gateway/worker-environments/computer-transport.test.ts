@@ -140,7 +140,7 @@ describe("session computer transport", () => {
       const details = { capabilities: ["screenRecording"], state: "restart-required" };
       h.publicInvoke.mockResolvedValueOnce({
         ok: false,
-        error: { code: "PERMISSION_MISSING", message: "Relaunch FRIDAY", details },
+        error: { code: "PERMISSION_MISSING", message: "Relaunch OpenClaw", details },
       });
       const events: AgentEventPayload[] = [];
       const stop = onAgentEvent((event) => {

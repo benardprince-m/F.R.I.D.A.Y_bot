@@ -183,7 +183,7 @@ describe("formatAssistantErrorText", () => {
           model: "test-model",
         }),
       ).toBe(
-        "⚠️ FRIDAY couldn't finish this reply. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal.",
+        "⚠️ OpenClaw couldn't finish this reply. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal.",
       );
     },
   );
@@ -360,7 +360,7 @@ describe("formatAssistantErrorText", () => {
     (errorMessage) => {
       const msg = makeAssistantError(errorMessage);
       expect(formatAssistantErrorText(msg)).toBe(
-        "FRIDAY could not write local session data because the disk is full. Free some disk space and try again.",
+        "OpenClaw could not write local session data because the disk is full. Free some disk space and try again.",
       );
     },
   );
@@ -370,7 +370,7 @@ describe("formatAssistantErrorText", () => {
       '{"type":"error","error":{"type":"permission_error","message":"Missing scopes: api.responses.write model.request"},"code":401}',
     );
     expect(formatAssistantErrorText(msg, { provider: "openai" })).toBe(
-      "This login doesn't have the access FRIDAY needs. Sign in again under Models in the Control UI.",
+      "This login doesn't have the access OpenClaw needs. Sign in again under Models in the Control UI.",
     );
   });
 

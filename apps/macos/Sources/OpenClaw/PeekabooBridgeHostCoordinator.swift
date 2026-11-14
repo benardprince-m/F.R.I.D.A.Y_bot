@@ -83,7 +83,7 @@ final class PeekabooBridgeHostCoordinator {
         let fileManager = FileManager.default
         let base = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
             ?? fileManager.homeDirectoryForCurrentUser.appendingPathComponent("Library/Application Support")
-        let socketPath = Self.makeSocketPath(for: "FRIDAY", in: base)
+        let socketPath = Self.makeSocketPath(for: "OpenClaw", in: base)
         self.runtimeFactory = {
             PeekabooEmbeddedBridgeRuntime.make(
                 configuration: .init(
@@ -178,7 +178,7 @@ final class PeekabooBridgeHostCoordinator {
     private func logSocketServedElsewhere(_ path: String) {
         self.logger.info(
             "PeekabooBridge host not started: \(path, privacy: .public) is already served by another host; " +
-                "this per-user socket is shared by all FRIDAY profiles")
+                "this per-user socket is shared by all OpenClaw profiles")
     }
 
     private func ensureStopped() async {

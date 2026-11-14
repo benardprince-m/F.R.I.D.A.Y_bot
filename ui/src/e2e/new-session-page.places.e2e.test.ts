@@ -552,7 +552,7 @@ suite.define(() => {
             },
             {
               id: "recorded-openclaw",
-              displayName: "Recorded FRIDAY",
+              displayName: "Recorded OpenClaw",
               repoRoot: "/recorded/openclaw",
               source: "registered",
             },
@@ -568,8 +568,8 @@ suite.define(() => {
     const trigger = page.locator("#new-session-project-trigger");
     const place = page.locator(".oc-popover.new-session-page__project-popover");
     await trigger.click();
-    await button(place, "Recorded FRIDAY", true).click();
-    await expectLabel(trigger, "Recorded FRIDAY");
+    await button(place, "Recorded OpenClaw", true).click();
+    await expectLabel(trigger, "Recorded OpenClaw");
     expect(await trigger.getAttribute("data-project-id")).toBe("recorded-openclaw");
     await expect
       .poll(async () => (await gateway.getRequests("worktrees.branches")).at(-1)?.params)

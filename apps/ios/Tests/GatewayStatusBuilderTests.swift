@@ -1,6 +1,6 @@
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct GatewayStatusBuilderTests {
     @Test @MainActor func `connected node does not report disconnected operator chat as connected`() {

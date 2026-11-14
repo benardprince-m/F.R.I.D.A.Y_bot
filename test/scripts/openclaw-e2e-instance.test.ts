@@ -370,7 +370,7 @@ function timedCommandFixture(command: string, timeout: string, output: string[] 
 }
 
 it.each([
-  ["invalid base64", "@@@", "Invalid FRIDAY test-state base64 payload"],
+  ["invalid base64", "@@@", "Invalid OpenClaw test-state base64 payload"],
   ["empty script", Buffer.from("\n").toString("base64"), "decoded to an empty script"],
 ])("rejects test-state payload: %s", (_name, payload, error) => {
   const result = runSourcedHelper(
@@ -631,7 +631,7 @@ it("bounds commands with the Node watchdog when timeout is unavailable", () => {
   expect(result.status).toBe(124);
   expect(elapsedMs).toBeLessThan(4_000);
   expect(result.stderr).toContain("using Node watchdog");
-  expect(result.stderr).toContain("FRIDAY E2E command timed out after 200ms");
+  expect(result.stderr).toContain("OpenClaw E2E command timed out after 200ms");
 });
 
 it("preserves child stdin, arguments, and exit status through the Node watchdog", () => {
@@ -929,7 +929,7 @@ it("detects gateway ready markers split across incremental log reads", () => {
   expect(result.status).toBe(0);
 });
 
-it("wraps logged FRIDAY E2E commands with the configured timeout", () => {
+it("wraps logged OpenClaw E2E commands with the configured timeout", () => {
   const fixture = timedCommandFixture("fixture-command", "17s", ['printf "fixture output\\n"']);
   const logLabel = path.basename(fixture.root);
   const logDir = path.join(fixture.root, "logs");
@@ -1002,7 +1002,7 @@ it("installs the trash shim under isolated test state", () => {
   expect(fs.existsSync(path.join(binDir, "trash"))).toBe(true);
 });
 
-it("wraps package-installed FRIDAY CLI calls with the configured timeout", () => {
+it("wraps package-installed OpenClaw CLI calls with the configured timeout", () => {
   const fixture = timedCommandFixture("openclaw", "23s");
   const result = fixture.run([
     "openclaw_e2e_enable_openclaw_cli_timeout",

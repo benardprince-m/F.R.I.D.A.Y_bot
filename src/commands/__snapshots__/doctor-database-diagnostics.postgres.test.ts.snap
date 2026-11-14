@@ -1798,7 +1798,7 @@ exports[`Doctor physical PostgreSQL output > reports keyword-only capability and
     "mismatch": false,
     "namespace": "<namespace>",
     "nextSteps": [
-      "Ask the database administrator to run CREATE EXTENSION vector; grant USAGE on its schema to the FRIDAY role.",
+      "Ask the database administrator to run CREATE EXTENSION vector; grant USAGE on its schema to the OpenClaw role.",
       "Inspect the store owner's custody and lease before offline maintenance.",
       "No matching backup outcome was observed; run openclaw backup create and verify its result.",
     ],
@@ -2197,7 +2197,7 @@ exports[`Doctor physical PostgreSQL output > reports keyword-only capability and
       },
     ],
   },
-  "text": "agent (<state>/agents/main/agent/openclaw-agent.sqlite); default=sqlite, override=postgres, effective=postgres; observed=postgres; schema=<current-agent-schema>, expected=<current-agent-schema>, pending=0; connectivity=reachable; namespace=<namespace>; storeId=<store-id>; database=<database>; extensions=pg_trgm, plpgsql, unaccent; admittedExtensions=none; degraded=vector search unavailable: pgvector is not installed; custody=unverifiable, lease=unverifiable; backup=unknown; legacy=none; Next: Ask the database administrator to run CREATE EXTENSION vector; grant USAGE on its schema to the FRIDAY role. Inspect the store owner's custody and lease before offline maintenance. No matching backup outcome was observed; run openclaw backup create and verify its result.",
+  "text": "agent (<state>/agents/main/agent/openclaw-agent.sqlite); default=sqlite, override=postgres, effective=postgres; observed=postgres; schema=<current-agent-schema>, expected=<current-agent-schema>, pending=0; connectivity=reachable; namespace=<namespace>; storeId=<store-id>; database=<database>; extensions=pg_trgm, plpgsql, unaccent; admittedExtensions=none; degraded=vector search unavailable: pgvector is not installed; custody=unverifiable, lease=unverifiable; backup=unknown; legacy=none; Next: Ask the database administrator to run CREATE EXTENSION vector; grant USAGE on its schema to the OpenClaw role. Inspect the store owner's custody and lease before offline maintenance. No matching backup outcome was observed; run openclaw backup create and verify its result.",
 }
 `;
 

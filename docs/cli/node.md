@@ -222,7 +222,7 @@ instead of silently selecting another runtime. Quote paths containing spaces.
 
 Set `OPENCLAW_WRAPPER` to an executable wrapper file to use it instead of the
 selected runtime and CLI entrypoint. The wrapper receives `node run` and the
-connection arguments; it must launch FRIDAY and forward those arguments.
+connection arguments; it must launch OpenClaw and forward those arguments.
 
 If installation reports a runtime check failure, check the executable and
 working directory named in the error. For example, when switching users with
@@ -366,7 +366,7 @@ Run `openclaw devices list` again before approval.
 
 The headless node separates its client instance ID from the signed device
 identity that the Gateway uses for pairing and routing. This state lives in the
-FRIDAY state directory (`~/.openclaw` by default, or `$OPENCLAW_STATE_DIR`
+OpenClaw state directory (`~/.openclaw` by default, or `$OPENCLAW_STATE_DIR`
 when set):
 
 | State                                                                   | Purpose                                                                                                                          |
@@ -404,7 +404,7 @@ The two request IDs are distinct. An applicable trusted-CIDR policy can
 auto-approve the first-time device-pairing step; command-surface approval remains
 a separate check.
 
-Older FRIDAY releases stored node-host state in `node.json`, the signed
+Older OpenClaw releases stored node-host state in `node.json`, the signed
 identity in `identity/device.json`, and paired auth in
 `identity/device-auth.json`. Stop the node host and run
 `openclaw doctor --fix` once; Doctor validates the retired inputs, imports and
@@ -428,7 +428,7 @@ it contains the device keypair and auth tokens.
   replace with `openclaw approvals set --node <id|name|ip> --file <path>`; see the
   [Approvals CLI](/cli/approvals).
 
-For approved async node exec, FRIDAY prepares a `systemRunPlan`
+For approved async node exec, OpenClaw prepares a `systemRunPlan`
 before prompting. The later approved `system.run` forward reuses that stored
 plan, so edits to command/cwd/session fields after the approval request was
 created are rejected instead of changing what the node executes.

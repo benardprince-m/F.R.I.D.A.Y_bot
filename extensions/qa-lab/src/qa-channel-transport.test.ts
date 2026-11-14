@@ -28,7 +28,7 @@ describe("qa channel transport", () => {
           enabled: true,
           baseUrl: "http://127.0.0.1:43123",
           botUserId: "openclaw",
-          botDisplayName: "FRIDAY QA",
+          botDisplayName: "OpenClaw QA",
           allowFrom: ["*"],
           pollTimeoutMs: 250,
         },

@@ -173,7 +173,7 @@ const CONFIGURED_PLUGIN_INSTALL_ISSUE_DETAILS = {
     action: "would-repair-configured-plugin-install",
   },
   "stale-version-bound-runtime": {
-    message: "is older than this FRIDAY version.",
+    message: "is older than this OpenClaw version.",
     fixHint: "Run `openclaw doctor --fix` to refresh the configured runtime plugin.",
     action: "would-refresh-configured-runtime-plugin",
   },

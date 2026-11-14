@@ -388,7 +388,7 @@ it.each([true, false])(
       expect(result).not.toHaveProperty("abandonedRun");
     } else {
       expectOutput(
-        "FRIDAY update status",
+        "OpenClaw update status",
         "Update run status unavailable:",
         "SQLite 3.51.2",
         "nvm install 26",
@@ -510,7 +510,7 @@ it.each([true, false])("unreadable migration preserves availability (JSON: %s)",
     expect(result.migrationWarningsError).toEqual(expect.any(String));
     expect(result).not.toHaveProperty("migrationWarnings");
   } else {
-    expectOutput("FRIDAY update status", "Pending migration status unavailable:");
+    expectOutput("OpenClaw update status", "Pending migration status unavailable:");
   }
 });
 

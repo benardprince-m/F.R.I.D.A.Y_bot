@@ -12,7 +12,7 @@ function usage(): string {
   return [
     "Usage: node --import tsx scripts/test-force.ts",
     "",
-    "Clears the configured FRIDAY gateway port, then runs the local test suite.",
+    "Clears the configured OpenClaw gateway port, then runs the local test suite.",
     "",
     "Options:",
     "  -h, --help    Show this help.",

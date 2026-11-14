@@ -206,7 +206,7 @@ it.each(["recovery-key.json", "storage-meta.json"])(
     const sourcePath = path.join(storage.rootDir, filename);
     const source = Buffer.from(JSON.stringify({ retained: true }));
     fs.writeFileSync(sourcePath, source);
-    await expect(createMatrixClient(clientAuth)).rejects.toThrow("Install FRIDAY 2026.9.5");
+    await expect(createMatrixClient(clientAuth)).rejects.toThrow("Install OpenClaw 2026.9.5");
     expect(fs.readFileSync(sourcePath)).toEqual(source);
     expect(fs.existsSync(path.join(storage.rootDir, "state"))).toBe(false);
   },

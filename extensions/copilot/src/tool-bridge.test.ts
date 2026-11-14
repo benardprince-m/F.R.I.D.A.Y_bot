@@ -599,7 +599,7 @@ describe("createCopilotToolBridge tool conversion", () => {
     expect(terminal.lastError()).not.toHaveProperty("ownerKey");
   });
 
-  it("reports returned FRIDAY error results to both tool observers", async () => {
+  it("reports returned OpenClaw error results to both tool observers", async () => {
     const onAgentToolResult = vi.fn();
     const onToolCompleted = vi.fn();
     const sourceResult = {

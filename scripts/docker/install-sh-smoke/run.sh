@@ -358,7 +358,7 @@ verify_historical_self_update_warning() {
   local line warning_count=0
   while IFS= read -r line; do
     [[ "$line" == *"config was written by version"* ]] || continue
-    [[ "$line" == "Your FRIDAY config was written by version 2026.9.5, but this command is running 2026.9.4." ]] || return 1
+    [[ "$line" == "Your OpenClaw config was written by version 2026.9.5, but this command is running 2026.9.4." ]] || return 1
     warning_count=$((warning_count + 1))
   done <<<"$stderr"
   [[ "$warning_count" == "1" ]] || return 1

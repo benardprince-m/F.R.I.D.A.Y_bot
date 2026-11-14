@@ -45,7 +45,7 @@ function buildStore(kind: StoredProfileKind): AuthProfileStore {
 }
 
 /**
- * Expected handoff per cell. `prepared` names the auth material FRIDAY hands to the
+ * Expected handoff per cell. `prepared` names the auth material OpenClaw hands to the
  * app-server; `native` means the connection keeps whatever account its Codex home owns.
  */
 type ExpectedHandoff =
@@ -138,7 +138,7 @@ describe("Codex app-server auth requirement matrix", () => {
 
 /**
  * A native-home connection reaches `applyCodexAppServerAuthProfile` with a null profile:
- * FRIDAY verifies the account it found instead of logging in over it.
+ * OpenClaw verifies the account it found instead of logging in over it.
  */
 describe("native Codex account verification", () => {
   const NATIVE_ACCOUNT_MATRIX: {

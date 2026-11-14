@@ -78,7 +78,7 @@ async function createConnectedSessionShell() {
   return { ...harness, shell, context, active, background, deletion, replace };
 }
 
-describe("FRIDAY shell document title", () => {
+describe("OpenClaw shell document title", () => {
   function createShell(context?: ApplicationContext): ShellDocumentTitleState {
     const shell = createShellOwner() as unknown as ShellDocumentTitleState;
     if (context) {
@@ -131,10 +131,10 @@ describe("FRIDAY shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("Chat — FRIDAY");
+    expect(document.title).toBe("Chat — OpenClaw");
   });
 
-  it.each(["FRIDAY", "Northstar"])(
+  it.each(["OpenClaw", "Northstar"])(
     "uses %s and the environment in route and custodian titles",
     (brandName) => {
       const shell = createShell(
@@ -163,7 +163,7 @@ describe("FRIDAY shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("Quarterly launch plan — FRIDAY");
+    expect(document.title).toBe("Quarterly launch plan — OpenClaw");
   });
 
   it("updates the active title without rendering the shell for session publications", async () => {
@@ -182,7 +182,7 @@ describe("FRIDAY shell document title", () => {
       await settleShell(shell);
     }
 
-    expect(document.title).toBe("Revised launch plan — FRIDAY");
+    expect(document.title).toBe("Revised launch plan — OpenClaw");
     expect(renderShell).not.toHaveBeenCalled();
   });
 
@@ -214,7 +214,7 @@ describe("FRIDAY shell document title", () => {
     replacement.sessions.patchRowLocal(background.key, { derivedTitle: "Replacement title" });
     await vi.advanceTimersByTimeAsync(20);
     await settleShell(shell);
-    expect(document.title).toBe("Replacement title — FRIDAY");
+    expect(document.title).toBe("Replacement title — OpenClaw");
 
     shell.disconnect();
     shell.element.remove();
@@ -237,7 +237,7 @@ describe("FRIDAY shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("Molty — FRIDAY");
+    expect(document.title).toBe("Molty — OpenClaw");
   });
 
   it("falls back to the session display name when the main agent is missing", () => {
@@ -255,7 +255,7 @@ describe("FRIDAY shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("Fallback thread — FRIDAY");
+    expect(document.title).toBe("Fallback thread — OpenClaw");
   });
 
   it("prefixes the pending approval count", () => {
@@ -264,7 +264,7 @@ describe("FRIDAY shell document title", () => {
 
     shell.syncDocumentTitle();
 
-    expect(document.title).toBe("(2) Usage — FRIDAY");
+    expect(document.title).toBe("(2) Usage — OpenClaw");
   });
 
   it.each(["reconnecting", "offline", "reload-required"] as const)(
@@ -276,12 +276,12 @@ describe("FRIDAY shell document title", () => {
 
       shell.syncDocumentTitle();
 
-      expect(document.title).toBe("Usage — FRIDAY");
+      expect(document.title).toBe("Usage — OpenClaw");
 
       context.gateway.snapshot.phase = "connected";
       shell.syncDocumentTitle();
 
-      expect(document.title).toBe("(2) Usage — FRIDAY");
+      expect(document.title).toBe("(2) Usage — OpenClaw");
     },
   );
 });

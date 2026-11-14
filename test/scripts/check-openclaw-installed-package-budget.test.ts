@@ -71,7 +71,7 @@ describe("installed package tree budget", () => {
         writeFileSync(path.join(root, "package.json"), manifest);
       }
       await expect(measureInstalledPackageTree(root)).rejects.toThrow(
-        "an installed FRIDAY package root such as <prefix>/lib/node_modules/openclaw",
+        "an installed OpenClaw package root such as <prefix>/lib/node_modules/openclaw",
       );
     },
   );

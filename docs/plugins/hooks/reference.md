@@ -34,15 +34,15 @@ modifications explicitly instead of relying on in-place mutation.
 
 `api.on(name, handler, opts?)` accepts:
 
-| Option                  | Effect                                                                                                                                                                                                                                              |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `matcher`               | Non-empty list of standard FRIDAY tool ids handled by `before_tool_call` or `after_tool_call`, such as `exec`, `apply_patch`, or `spawn_agent`. Omit to match all tools. Empty lists, wildcards, blanks, and provider-specific aliases are invalid. |
-| `priority`              | Ordering; higher runs first.                                                                                                                                                                                                                        |
-| `registrationId`        | Stable identity for one registration inside a plugin. Skill evaluators use it as `evaluatorId`; otherwise the plugin id is used.                                                                                                                    |
-| `timeoutMs`             | Per-handler asynchronous await budget. Expiry applies the hook's failure policy below; it does not cancel the handler or its side effects. Omit to use the runner's default, if any.                                                                |
-| `eligibleTriggers`      | For `before_agent_reply` only, limits host dispatch to one or more of `cron`, `heartbeat`, or `user`.                                                                                                                                               |
-| `eligibleDispatchKinds` | For `reply_dispatch` only, limits host dispatch to `agent`, `acp`, or both. Omit to handle all dispatch kinds.                                                                                                                                      |
-| `requiresToolAuthority` | For `before_prompt_build` only, runs the handler after the host finalizes the current turn's tool surface and supplies ephemeral `ctx.toolAuthority`. Use this for context retrieval that must follow tool policy.                                  |
+| Option                  | Effect                                                                                                                                                                                                                                                |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `matcher`               | Non-empty list of standard OpenClaw tool ids handled by `before_tool_call` or `after_tool_call`, such as `exec`, `apply_patch`, or `spawn_agent`. Omit to match all tools. Empty lists, wildcards, blanks, and provider-specific aliases are invalid. |
+| `priority`              | Ordering; higher runs first.                                                                                                                                                                                                                          |
+| `registrationId`        | Stable identity for one registration inside a plugin. Skill evaluators use it as `evaluatorId`; otherwise the plugin id is used.                                                                                                                      |
+| `timeoutMs`             | Per-handler asynchronous await budget. Expiry applies the hook's failure policy below; it does not cancel the handler or its side effects. Omit to use the runner's default, if any.                                                                  |
+| `eligibleTriggers`      | For `before_agent_reply` only, limits host dispatch to one or more of `cron`, `heartbeat`, or `user`.                                                                                                                                                 |
+| `eligibleDispatchKinds` | For `reply_dispatch` only, limits host dispatch to `agent`, `acp`, or both. Omit to handle all dispatch kinds.                                                                                                                                        |
+| `requiresToolAuthority` | For `before_prompt_build` only, runs the handler after the host finalizes the current turn's tool surface and supplies ephemeral `ctx.toolAuthority`. Use this for context retrieval that must follow tool policy.                                    |
 
 Trigger eligibility is enforced by the host before it invokes the handler. A
 hook registered with `eligibleTriggers: ["heartbeat", "cron"]` is therefore
@@ -163,7 +163,7 @@ contracts above; a modifying hook is not an observation hook.
 | `before_dispatch`           | Claim         | Handle an inbound message before the normal model dispatch                 |
 | `reply_dispatch`            | Claim         | Own reply generation and dispatch instead of the default model path        |
 
-`inbound_claim` is not a global pre-routing broadcast. FRIDAY invokes it only
+`inbound_claim` is not a global pre-routing broadcast. OpenClaw invokes it only
 for the plugin that owns the message's core-managed conversation binding. To
 suppress an ordinary agent turn before model input without retaining the
 original prompt in transcript, use `before_agent_run` on a supported runner.
@@ -206,9 +206,9 @@ Gateway finalizer for active sessions, so plugins can close session state
 before the process exits.
 
 On current hosts, `session_end` context includes `endedTranscript`. Plugins
-with conversation access receive `{ available: true, readTail }` when FRIDAY
+with conversation access receive `{ available: true, readTail }` when OpenClaw
 has an immutable ended-session source. Calls must supply positive
-`maxMessages` and `maxBytes`; FRIDAY enforces host caps and returns
+`maxMessages` and `maxBytes`; OpenClaw enforces host caps and returns
 `{ messages, totalMessages, truncated }`. The reader remains valid while the
 admitted handler is active. Retained or still-pending reads reject after the
 handler settles, its configured hook timeout, forced retirement of the owning
@@ -235,7 +235,7 @@ Predecessor drain and successor publication may overlap.
 Shutdown and restart share one **2-second total `session_end` drain budget**
 across all active sessions and plugin handlers; the budget is not per handler.
 Return quickly or keep finalization bounded and persistence crash-consistent.
-If the budget expires, FRIDAY logs `shutdown session-end drain timed out`
+If the budget expires, OpenClaw logs `shutdown session-end drain timed out`
 and continues shutdown, so unfinished plugin work can be interrupted.
 
 For `sessions.create` calls with `parentSessionKey` and `emitCommandHooks: true`, a distinct child always receives `session_start`. Callers declare whether the parent also receives terminal `session_end` with `succeedsParent`: `true` means successor, `false` means parallel child. Omission preserves the legacy parent-rollover behavior. The `command:new` and `before_reset` hooks still describe the requested `/new` action in both cases.
@@ -245,7 +245,7 @@ For `sessions.create` calls with `parentSessionKey` and `emitCommandHooks: true`
 - `subagent_spawned` / `subagent_ended` - observe subagent launch and completion.
 - `subagent_progress` - observe portable `started` / `ended` progress for a background child run; includes `runId`, `childSessionKey`, optional requester route, and an outcome on `ended`.
 - `subagent_delivery_target` - modifying compatibility hook for completion delivery when no core session binding can project a route. The first returned `origin` wins.
-- `subagent_spawned` includes `resolvedModel` and `resolvedProvider` when FRIDAY has resolved the child session's native model before launch.
+- `subagent_spawned` includes `resolvedModel` and `resolvedProvider` when OpenClaw has resolved the child session's native model before launch.
 - `subagent_ended` carries `targetSessionKey` (identity - matches `subagent_spawned.childSessionKey`), `targetKind` (`"subagent"` or `"acp"`), `reason`, optional `outcome` (`"ok"`, `"error"`, `"timeout"`, `"killed"`, `"reset"`, or `"deleted"`), optional `error`, `runId`, `endedAt`, `accountId`, and `sendFarewell`. It does **not** include `agentId` or `childSessionKey`; use `targetSessionKey` to correlate with the matching `subagent_spawned` event.
 
 **Lifecycle**

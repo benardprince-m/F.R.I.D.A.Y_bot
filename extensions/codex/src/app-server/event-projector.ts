@@ -335,7 +335,7 @@ export class CodexAppServerEventProjector extends CodexTurnProjection {
     this.toolTranscriptProjection.recordDynamicToolCall(params);
   }
 
-  /** Projects a successful FRIDAY progress_card call through the native plan stream. */
+  /** Projects a successful OpenClaw progress_card call through the native plan stream. */
   async recordDynamicProgressCardUpdate(params: unknown): Promise<void> {
     const update = projectProgressCardChannelUpdate(params);
     if (update) {

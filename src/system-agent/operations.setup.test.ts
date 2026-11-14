@@ -444,7 +444,7 @@ describe("setup inference", () => {
 
   it("rejects a setup model switch before writing", async () => {
     await expect(setup({}, { model: "acme/different" })).rejects.toThrow(
-      "`openclaw onboard` on the machine running FRIDAY",
+      "`openclaw onboard` on the machine running OpenClaw",
     );
     expect(applySetup).not.toHaveBeenCalled();
   });

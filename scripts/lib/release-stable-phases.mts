@@ -245,7 +245,7 @@ async function ensureFinalTag(ctx: ReleaseContext): Promise<void> {
   }
   const tagged = await ctx.run(
     "git",
-    ["tag", "-s", state.tag, sha, "-m", `FRIDAY ${state.release}`],
+    ["tag", "-s", state.tag, sha, "-m", `OpenClaw ${state.release}`],
     { allowFailure: true },
   );
   if (tagged.exitCode !== 0) {
@@ -258,7 +258,7 @@ async function ensureFinalTag(ctx: ReleaseContext): Promise<void> {
     }
     const resigned = await ctx.run(
       "git",
-      ["tag", "-s", "-f", state.tag, sha, "-m", `FRIDAY ${state.release}`],
+      ["tag", "-s", "-f", state.tag, sha, "-m", `OpenClaw ${state.release}`],
       {
         allowFailure: true,
       },

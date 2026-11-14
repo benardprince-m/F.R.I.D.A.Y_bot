@@ -1,8 +1,8 @@
-# FRIDAY Firecrawl Plugin
+# OpenClaw Firecrawl Plugin
 
-Official FRIDAY plugin for Firecrawl.
+Official OpenClaw plugin for Firecrawl.
 
-Install from FRIDAY:
+Install from OpenClaw:
 
 ```bash
 openclaw plugins install @openclaw/firecrawl-plugin

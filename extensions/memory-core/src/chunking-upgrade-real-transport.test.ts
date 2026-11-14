@@ -179,7 +179,7 @@ describe("memory format upgrade fallback over a real embedding transport", () =>
   }
 
   // Seeds a published index, then reopens its metadata as an older runtime's
-  // index so the next search sees a pending FRIDAY format upgrade.
+  // index so the next search sees a pending OpenClaw format upgrade.
   async function seedPriorFormatIndex(
     cfg: OpenClawConfig,
     version: "chunkingVersion" | "embeddingInputFormatVersion" = "chunkingVersion",

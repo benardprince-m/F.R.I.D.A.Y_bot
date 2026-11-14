@@ -605,7 +605,7 @@ private fun SessionRow(
     collapsedDescendantState?.presentationLabel()
       ?: sessionListSubtitle(
         session,
-        fallback = if (active) nativeString("Current thread") else nativeString("FRIDAY thread"),
+        fallback = if (active) nativeString("Current thread") else nativeString("OpenClaw thread"),
         nowMs = nowMs,
       )
   val metadata =
@@ -750,7 +750,7 @@ private fun SessionRow(
               Text(text = subtitle, style = ClawTheme.type.caption, color = ClawTheme.colors.textMuted, maxLines = 1)
               Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                 SessionMiniTag(text = nativeString("Workspace"))
-                SessionMiniTag(text = if (active) nativeString("Current") else nativeString("FRIDAY"))
+                SessionMiniTag(text = if (active) nativeString("Current") else nativeString("OpenClaw"))
               }
             }
           }

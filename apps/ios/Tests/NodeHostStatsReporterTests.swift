@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawProtocol
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct NodeHostStatsReporterTests {
     @Test func `snapshot matches the wire payload contract`() throws {

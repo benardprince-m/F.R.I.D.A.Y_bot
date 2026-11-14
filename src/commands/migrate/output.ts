@@ -113,8 +113,8 @@ const REASON_CODE_MESSAGES: Record<string, string> = {
   disabled: "Plugin is disabled in Codex",
   refresh_failed: "Failed to refresh the Codex plugin marketplace",
   auth_required: "Plugin requires additional authentication",
-  already_active: "Plugin is already active in FRIDAY",
-  installed: "Plugin is already installed in FRIDAY",
+  already_active: "Plugin is already active in OpenClaw",
+  installed: "Plugin is already installed in OpenClaw",
   plugin_install_failed: "Plugin installation failed",
   codex_subscription_required: "Plugin requires an active Codex subscription",
   "not selected for migration": "Skipped because it was not selected for migration",
@@ -156,8 +156,8 @@ function formatItemMessage(item: MigrationItem, mode: FormatMode): string | unde
   if (installation) {
     if (mode === "preview") {
       return item.kind === "skill"
-        ? "Copy Codex skill into FRIDAY"
-        : "Install Codex plugin into FRIDAY";
+        ? "Copy Codex skill into OpenClaw"
+        : "Install Codex plugin into OpenClaw";
     }
     if (item.status === "migrated") {
       return "Migrated";
@@ -226,7 +226,7 @@ export function writeApplyResult(
   if (result.backupPath) {
     runtime.log(`Backup: ${result.backupPath}`);
   } else if (!opts.noBackup) {
-    runtime.log("Backup: skipped (no existing FRIDAY state found)");
+    runtime.log("Backup: skipped (no existing OpenClaw state found)");
   }
   if (result.reportDir) {
     runtime.log(`Report: ${result.reportDir}`);

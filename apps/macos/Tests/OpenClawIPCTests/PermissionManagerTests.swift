@@ -3,7 +3,7 @@ import OpenClawIPC
 import Speech
 import Testing
 import UserNotifications
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized)
 @MainActor

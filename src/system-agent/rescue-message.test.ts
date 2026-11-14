@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-// FRIDAY rescue message tests cover generated rescue message content.
+// OpenClaw rescue message tests cover generated rescue message content.
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -224,7 +224,7 @@ async function runRescue(commandBody: string, cfg: OpenClawConfig, ctx = command
   });
 }
 
-describe("FRIDAY rescue message", () => {
+describe("OpenClaw rescue message", () => {
   beforeAll(async () => {
     tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "system-agent-rescue-"));
   });
@@ -253,7 +253,7 @@ describe("FRIDAY rescue message", () => {
     resetPluginStateStoreForTests();
   });
 
-  it("recognizes the FRIDAY rescue command", () => {
+  it("recognizes the OpenClaw rescue command", () => {
     expect(extractSystemAgentRescueMessage("/openclaw status")).toBe("status");
     expect(extractSystemAgentRescueMessage("/openclaw")).toBe("");
     expect(extractSystemAgentRescueMessage("/status")).toBeNull();
@@ -306,11 +306,11 @@ describe("FRIDAY rescue message", () => {
       const cfg: OpenClawConfig = {};
 
       const reply = await runRescue("/openclaw doctor fix", cfg, commandContext());
-      expect(reply).toContain("machine running FRIDAY");
-      expect(reply).toContain("with FRIDAY stopped");
+      expect(reply).toContain("machine running OpenClaw");
+      expect(reply).toContain("with OpenClaw stopped");
       expect(reply).toContain("run `openclaw doctor --fix`");
       await expect(runRescue("/openclaw yes", cfg, commandContext())).resolves.toBe(
-        "No pending FRIDAY rescue change is waiting for approval.",
+        "No pending OpenClaw rescue change is waiting for approval.",
       );
     });
   });
@@ -325,7 +325,7 @@ describe("FRIDAY rescue message", () => {
         runRescue("/openclaw config unset agents.defaults.fastModeDefault", cfg),
       ).resolves.toContain("cannot remove configuration settings");
       await expect(runRescue("/openclaw yes", cfg)).resolves.toBe(
-        "No pending FRIDAY rescue change is waiting for approval.",
+        "No pending OpenClaw rescue change is waiting for approval.",
       );
       expect(mockConfig.mutateConfigFile).not.toHaveBeenCalled();
       expect(mockConfig.currentConfig()).toEqual(before);
@@ -341,10 +341,10 @@ describe("FRIDAY rescue message", () => {
         runRescue("/openclaw restart gateway", cfg, commandContext()),
       ).resolves.toContain("Reply /openclaw yes to apply");
       await expect(runRescue("/openclaw no", cfg, commandContext())).resolves.toContain(
-        "Dropped the pending FRIDAY rescue change",
+        "Dropped the pending OpenClaw rescue change",
       );
       await expect(runRescue("/openclaw yes", cfg, commandContext())).resolves.toBe(
-        "No pending FRIDAY rescue change is waiting for approval.",
+        "No pending OpenClaw rescue change is waiting for approval.",
       );
       expect(runDaemonRestart).not.toHaveBeenCalled();
     });
@@ -364,7 +364,7 @@ describe("FRIDAY rescue message", () => {
         "plugin rows",
       );
       await expect(runRescue("/openclaw yes", cfg, commandContext())).resolves.toBe(
-        "No pending FRIDAY rescue change is waiting for approval.",
+        "No pending OpenClaw rescue change is waiting for approval.",
       );
       expect(runDaemonRestart).not.toHaveBeenCalled();
     });
@@ -381,7 +381,7 @@ describe("FRIDAY rescue message", () => {
       ]);
 
       expect(runDaemonRestart).toHaveBeenCalledTimes(1);
-      expect(replies).toContain("No pending FRIDAY rescue change is waiting for approval.");
+      expect(replies).toContain("No pending OpenClaw rescue change is waiting for approval.");
       expect(replies.some((reply) => reply?.includes("[openclaw] done: gateway.restart"))).toBe(
         true,
       );
@@ -400,7 +400,7 @@ describe("FRIDAY rescue message", () => {
         "restart failed",
       );
       await expect(runRescue("/openclaw yes", cfg, commandContext())).resolves.toBe(
-        "No pending FRIDAY rescue change is waiting for approval.",
+        "No pending OpenClaw rescue change is waiting for approval.",
       );
       expect(runDaemonRestart).toHaveBeenCalledTimes(1);
     });
@@ -462,7 +462,7 @@ describe("FRIDAY rescue message", () => {
           runRescue(`/openclaw config set example ${"x".repeat(1_100_000)}`, {}),
         ).rejects.toThrow(/plugin state value/i);
         await expect(runRescue("/openclaw yes", {}, commandContext())).resolves.toContain(
-          "No pending FRIDAY rescue change",
+          "No pending OpenClaw rescue change",
         );
         await runRescue("/openclaw restart gateway", {}, commandContext());
         await expect(runRescue("/openclaw no", {})).resolves.toContain("Dropped the pending");
@@ -534,7 +534,7 @@ describe("FRIDAY rescue message", () => {
         commandContext({ from: "user:other", senderId: "user:other" }),
       ]) {
         await expect(runRescue("/openclaw yes", cfg, isolated)).resolves.toBe(
-          "No pending FRIDAY rescue change is waiting for approval.",
+          "No pending OpenClaw rescue change is waiting for approval.",
         );
       }
       await expect(runRescue("/openclaw yes", cfg, original)).resolves.toContain(
@@ -556,7 +556,7 @@ describe("FRIDAY rescue message", () => {
           cfg,
           commandContext({ accountId: undefined, to: "bot:secondary" }),
         ),
-      ).resolves.toBe("No pending FRIDAY rescue change is waiting for approval.");
+      ).resolves.toBe("No pending OpenClaw rescue change is waiting for approval.");
       await expect(runRescue("/openclaw yes", cfg, original)).resolves.toContain(
         "[openclaw] done: gateway.restart",
       );
@@ -682,7 +682,7 @@ describe("FRIDAY rescue message", () => {
       vi.useRealTimers();
 
       await expect(runRescue("/openclaw yes", cfg, commandContext())).resolves.toBe(
-        "No pending FRIDAY rescue change is waiting for approval.",
+        "No pending OpenClaw rescue change is waiting for approval.",
       );
       expect(runDaemonRestart).not.toHaveBeenCalled();
     });
@@ -703,10 +703,10 @@ describe("FRIDAY rescue message", () => {
       );
 
       await expect(runRescue("/openclaw yes", cfg, commandContext())).resolves.toBe(
-        "No pending FRIDAY rescue change is waiting for approval.",
+        "No pending OpenClaw rescue change is waiting for approval.",
       );
       await expect(runRescue("/openclaw yes", cfg, commandContext())).resolves.toBe(
-        "No pending FRIDAY rescue change is waiting for approval.",
+        "No pending OpenClaw rescue change is waiting for approval.",
       );
       expect(runDaemonRestart).not.toHaveBeenCalled();
     });

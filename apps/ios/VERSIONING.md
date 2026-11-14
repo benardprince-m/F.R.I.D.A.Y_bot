@@ -1,6 +1,6 @@
-# FRIDAY iOS Versioning
+# OpenClaw iOS Versioning
 
-FRIDAY iOS releases retain their gateway association while allowing multiple
+OpenClaw iOS releases retain their gateway association while allowing multiple
 public App Store releases for one gateway version. The release planner derives
 the active release identity from the repository and App Store Connect.
 

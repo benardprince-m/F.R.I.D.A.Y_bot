@@ -24,25 +24,25 @@ background permission polling.
 Native tools check permissions when they need them. A missing permission stops
 the command with `PERMISSION_MISSING`, identifies the affected Mac and capabilities,
 and shows an inline **Grant** card in the Control UI conversation. Computer Control
-reports its missing Accessibility, Event Posting, Screen Recording, and FRIDAY
+reports its missing Accessibility, Event Posting, Screen Recording, and OpenClaw
 capability grants together. The agent waits for your confirmation before retrying.
 
 In the Mac app, the card's primary action follows the current permission state:
 **Grant _permission_** requests access, **Open System Settings** handles denied or
-stale grants, **Relaunch FRIDAY** handles a required restart, and
-**Enable _capability_** turns on a capability that is off in FRIDAY using the
+stale grants, **Relaunch OpenClaw** handles a required restart, and
+**Enable _capability_** turns on a capability that is off in OpenClaw using the
 same native confirmation as **Settings → This Mac**. A stale Accessibility grant
 needs to be removed and re-added. Once the app observes the required grants,
 **Try again** sends a short confirmation to the agent. Granting permission does
 not automatically repeat the command.
 
-For a request that needs both an FRIDAY capability and macOS permissions, the
+For a request that needs both an OpenClaw capability and macOS permissions, the
 **Enable** button names only the disabled capability. The card lists the remaining
 permissions below the explanation, then updates its action after the capability
 is enabled. Each click dispatches only the current step's capabilities; later
 permission grants and relaunches require their own card actions.
 
-Location uses the same capability for its FRIDAY mode and macOS grant. If
+Location uses the same capability for its OpenClaw mode and macOS grant. If
 Location is off and macOS has already denied or restricted access, or system-wide
 Location Services is off, the card offers **Open System Settings** for Location
 Services first, without asking to enable Location. This also applies when the app
@@ -59,25 +59,25 @@ to the app refreshes the card after you change access in System Settings.
 
 Accessibility is explicitly requested before a possibly stale grant is reported.
 If an Event Posting request remains denied, enable access in System Settings,
-then use **Relaunch FRIDAY**: macOS can cache that denial until the app restarts.
+then use **Relaunch OpenClaw**: macOS can cache that denial until the app restarts.
 
-In a browser, or when the command targets another Mac, open the FRIDAY app on
+In a browser, or when the command targets another Mac, open the OpenClaw app on
 that Mac and go to **Settings → This Mac → Permissions**, grant the requested
 access, then confirm in the conversation.
 
 The structured error carries `capabilities` and one remediation `state`:
 `not-determined`, `denied`, `restart-required`, `stale-grant`, or
-`disabled-in-openclaw`. These describe native authorization or an FRIDAY
+`disabled-in-openclaw`. These describe native authorization or an OpenClaw
 capability switch, independently of the agent's tool approvals.
 
-Camera discovery (`camera.list`) requires the FRIDAY camera switch
+Camera discovery (`camera.list`) requires the OpenClaw camera switch
 (`cameraEnabled`), but does not request macOS camera access. Taking a photo,
 recording video, or controlling camera movement also requires the separate
 macOS Camera grant (`camera`).
 
 Screen Recording and Accessibility show **Not granted** until access is confirmed;
 macOS's binary checks do not distinguish a first request from a denial. Click
-**Grant** to request access before looking for FRIDAY in System Settings.
+**Grant** to request access before looking for OpenClaw in System Settings.
 If access was denied or the prompt no longer appears, use the adjacent
 **Open System Settings** action. Permissions with a confirmed denial offer
 that action instead of **Grant**.
@@ -101,7 +101,7 @@ undo the newer choice.
 
 ## Requirements for stable permissions
 
-- Same path: run a release app from `/Applications/FRIDAY.app`; keep development builds at one fixed path such as `dist/FRIDAY.app`.
+- Same path: run a release app from `/Applications/OpenClaw.app`; keep development builds at one fixed path such as `dist/OpenClaw.app`.
 - Same bundle identifier: release builds use `ai.openclaw.mac`; development builds default to `ai.openclaw.mac.debug`. Each has a separate permission identity.
 - Signed app: unsigned or ad-hoc signed builds do not persist permissions.
 - Consistent signature: use a real Apple Development or Developer ID certificate so the signature stays stable across rebuilds.
@@ -112,31 +112,31 @@ Ad-hoc signatures generate a new identity every build. macOS forgets previous gr
 
 If Quick Chat still shows **Needs additional permissions: Screen Recording**:
 
-1. Click **Grant** in FRIDAY.
-2. If macOS opens System Settings, enable the running FRIDAY app under **Privacy & Security -> Screen & System Audio Recording** (called **Screen Recording** on older macOS versions).
-3. Return to FRIDAY and retry the screenshot. **Dashboard → Settings → This Mac → Permissions** shows the refreshed access status.
+1. Click **Grant** in OpenClaw.
+2. If macOS opens System Settings, enable the running OpenClaw app under **Privacy & Security -> Screen & System Audio Recording** (called **Screen Recording** on older macOS versions).
+3. Return to OpenClaw and retry the screenshot. **Dashboard → Settings → This Mac → Permissions** shows the refreshed access status.
 
-After an explicit **Grant** request, FRIDAY checks ScreenCaptureKit as well as the macOS permission preflight. This lets it recognize access when the preflight still reports an old denial. Passive status checks do not initiate this check before you request access.
+After an explicit **Grant** request, OpenClaw checks ScreenCaptureKit as well as the macOS permission preflight. This lets it recognize access when the preflight still reports an old denial. Passive status checks do not initiate this check before you request access.
 
-If access still appears missing, quit and reopen FRIDAY from the same app path. Some macOS permission changes require an app restart before capture works. If both release and development builds are installed, grant access to the build you are actually running: approving `/Applications/FRIDAY.app` does not grant access to a development build with a different bundle identifier.
+If access still appears missing, quit and reopen OpenClaw from the same app path. Some macOS permission changes require an app restart before capture works. If both release and development builds are installed, grant access to the build you are actually running: approving `/Applications/OpenClaw.app` does not grant access to a development build with a different bundle identifier.
 
 ## Accessibility grants for Node and CLI runtimes
 
-Prefer granting Accessibility to FRIDAY.app, Peekaboo.app, or another signed helper with its own bundle identifier instead of a generic `node` binary.
+Prefer granting Accessibility to OpenClaw.app, Peekaboo.app, or another signed helper with its own bundle identifier instead of a generic `node` binary.
 
 macOS TCC grants Accessibility to the code identity of the process it sees. If a Homebrew, nvm, pnpm, or npm workflow causes a shared `node` executable to receive Accessibility, any JavaScript package launched through that same executable may inherit GUI automation privileges.
 
 Treat a `node` entry in System Settings as broad permission for that Node runtime, not as permission for one npm package. Avoid granting Accessibility to `node` unless you trust every script and package launched through that exact Node install.
 
-Basic presence comes from interaction with FRIDAY and needs no Accessibility grant. **Dashboard → Settings → This Mac → Permissions → System-wide presence detection** is a separate, off-by-default control that includes physical activity in other apps. Accessibility approval alone does not enable it. Turning it off clears the system-wide sample and falls back to app-local activity, without revoking Accessibility or disconnecting the node.
+Basic presence comes from interaction with OpenClaw and needs no Accessibility grant. **Dashboard → Settings → This Mac → Permissions → System-wide presence detection** is a separate, off-by-default control that includes physical activity in other apps. Accessibility approval alone does not enable it. Turning it off clears the system-wide sample and falls back to app-local activity, without revoking Accessibility or disconnecting the node.
 
 If you accidentally granted Accessibility to `node`, remove that entry from System Settings -> Privacy & Security -> Accessibility. Then grant the signed app or helper that should own UI automation.
 
 ## Separate Computer Control grants
 
-macOS keeps Accessibility, Event Posting, input listening, and Screen Recording in separate TCC buckets. One successful grant does not prove the others are usable. FRIDAY's Computer Control status checks Accessibility, Event Posting, and Screen Recording separately; this is why screenshots can succeed while clicks and typing fail.
+macOS keeps Accessibility, Event Posting, input listening, and Screen Recording in separate TCC buckets. One successful grant does not prove the others are usable. OpenClaw's Computer Control status checks Accessibility, Event Posting, and Screen Recording separately; this is why screenshots can succeed while clicks and typing fail.
 
-An Accessibility row can also remain visibly enabled while its code requirement is pinned to an older build. When FRIDAY reports **Accessibility grant may be stale**, select FRIDAY under **System Settings -> Privacy & Security -> Accessibility**, remove it with **-**, then re-add `/Applications/FRIDAY.app`. Quit and reopen FRIDAY afterward because Accessibility trust can remain cached in the running process.
+An Accessibility row can also remain visibly enabled while its code requirement is pinned to an older build. When OpenClaw reports **Accessibility grant may be stale**, select OpenClaw under **System Settings -> Privacy & Security -> Accessibility**, remove it with **-**, then re-add `/Applications/OpenClaw.app`. Quit and reopen OpenClaw afterward because Accessibility trust can remain cached in the running process.
 
 ## Desktop availability and keeping awake
 
@@ -146,11 +146,11 @@ state is separate from permission grants and the optional **Active computer
 presence** setting. A connected node or a successful Screen Sharing connection
 does not prove that the desktop is unlocked.
 
-During a Computer execution, FRIDAY uses temporary keep-awake assertions for
+During a Computer execution, OpenClaw uses temporary keep-awake assertions for
 up to one hour from that execution's first action. This includes background
 window and browser actions. Completion, cancellation, disconnect, provider
 replacement, or local Stop releases the execution's keep-awake request. The web
-Desktop viewer does not create an FRIDAY keep-awake execution.
+Desktop viewer does not create an OpenClaw keep-awake execution.
 
 To keep a dedicated Mac awake between jobs, enable **Keep computer awake**
 on the same settings page and accept the native confirmation. It is off by
@@ -158,10 +158,10 @@ default and takes effect only while this Mac is connected and actually hosting.
 It does not change macOS power or lock settings.
 
 Screen Sharing may request an immediate lock when its last viewer disconnects.
-FRIDAY honors that lock even when **Keep computer awake** is enabled.
+OpenClaw honors that lock even when **Keep computer awake** is enabled.
 
 Manual lock, logout, or an unknown desktop state releases keep-awake assertions
-and retires active Computer executions. FRIDAY does not unlock the Mac or
+and retires active Computer executions. OpenClaw does not unlock the Mac or
 resume those executions after sign-in. Use the normal macOS login screen through
 Screen Sharing or locally, then start a new Computer execution. The keep-awake
 option can become active again after a verified unlock while its hosting and
@@ -180,7 +180,7 @@ See [Computer use troubleshooting](/nodes/computer-use#macos-desktop-availabilit
 4. If the prompt still does not appear, reset TCC entries with `tccutil` and try again.
 5. Some permissions only reappear after a full macOS restart.
 
-Example resets (using FRIDAY's bundle ID, `ai.openclaw.mac`):
+Example resets (using OpenClaw's bundle ID, `ai.openclaw.mac`):
 
 ```bash
 sudo tccutil reset Accessibility ai.openclaw.mac
@@ -191,7 +191,7 @@ sudo tccutil reset ScreenCapture ai.openclaw.mac
 
 macOS may also gate Desktop, Documents, and Downloads for terminal/background processes. If file reads or directory listings hang, grant access to the same process context that performs file operations (for example Terminal/iTerm, LaunchAgent-launched app, or SSH process).
 
-Workaround: move files into the FRIDAY workspace (`~/.openclaw/workspace`) if you want to avoid per-folder grants.
+Workaround: move files into the OpenClaw workspace (`~/.openclaw/workspace`) if you want to avoid per-folder grants.
 
 If you are testing permissions, always sign with a real certificate. Ad-hoc builds are only acceptable for quick local runs where permissions do not matter.
 

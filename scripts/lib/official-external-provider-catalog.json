@@ -2,7 +2,7 @@
   "entries": [
     {
       "name": "@openclaw/amazon-bedrock-provider",
-      "description": "FRIDAY Amazon Bedrock provider plugin",
+      "description": "OpenClaw Amazon Bedrock provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -28,7 +28,7 @@
     },
     {
       "name": "@openclaw/amazon-bedrock-mantle-provider",
-      "description": "FRIDAY Amazon Bedrock Mantle provider plugin",
+      "description": "OpenClaw Amazon Bedrock Mantle provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -54,7 +54,7 @@
     },
     {
       "name": "@openclaw/anthropic-vertex-provider",
-      "description": "FRIDAY Anthropic Vertex provider plugin",
+      "description": "OpenClaw Anthropic Vertex provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -80,7 +80,7 @@
     },
     {
       "name": "@openclaw/arcee-provider",
-      "description": "FRIDAY Arcee provider plugin.",
+      "description": "OpenClaw Arcee provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -143,7 +143,7 @@
     },
     {
       "name": "@openclaw/baseten-provider",
-      "description": "FRIDAY Baseten provider plugin.",
+      "description": "OpenClaw Baseten provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -192,7 +192,7 @@
     },
     {
       "name": "@openclaw/byteplus-provider",
-      "description": "FRIDAY BytePlus provider plugin.",
+      "description": "OpenClaw BytePlus provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -249,7 +249,7 @@
     },
     {
       "name": "@openclaw/cerebras-provider",
-      "description": "FRIDAY Cerebras provider plugin.",
+      "description": "OpenClaw Cerebras provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -306,7 +306,7 @@
     },
     {
       "name": "@openclaw/chutes-provider",
-      "description": "FRIDAY Chutes.ai provider plugin.",
+      "description": "OpenClaw Chutes.ai provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -377,7 +377,7 @@
     },
     {
       "name": "@openclaw/cohere-provider",
-      "description": "FRIDAY Cohere provider plugin",
+      "description": "OpenClaw Cohere provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -423,7 +423,7 @@
     },
     {
       "name": "@openclaw/cloudflare-ai-gateway-provider",
-      "description": "FRIDAY Cloudflare AI Gateway provider plugin.",
+      "description": "OpenClaw Cloudflare AI Gateway provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -473,7 +473,7 @@
     },
     {
       "name": "@openclaw/comfy-provider",
-      "description": "FRIDAY ComfyUI provider plugin.",
+      "description": "OpenClaw ComfyUI provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -536,7 +536,7 @@
     },
     {
       "name": "@openclaw/deepinfra-provider",
-      "description": "FRIDAY DeepInfra provider plugin.",
+      "description": "OpenClaw DeepInfra provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -611,7 +611,7 @@
     },
     {
       "name": "@openclaw/deepseek-provider",
-      "description": "FRIDAY DeepSeek provider plugin.",
+      "description": "OpenClaw DeepSeek provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -668,7 +668,7 @@
     },
     {
       "name": "@openclaw/featherless-provider",
-      "description": "FRIDAY Featherless AI provider plugin.",
+      "description": "OpenClaw Featherless AI provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -718,7 +718,7 @@
     },
     {
       "name": "@openclaw/gmi-provider",
-      "description": "FRIDAY GMI Cloud provider plugin",
+      "description": "OpenClaw GMI Cloud provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -769,7 +769,7 @@
     },
     {
       "name": "@openclaw/longcat-provider",
-      "description": "FRIDAY LongCat provider plugin",
+      "description": "OpenClaw LongCat provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -812,7 +812,7 @@
     },
     {
       "name": "@openclaw/meta-provider",
-      "description": "FRIDAY Meta provider plugin.",
+      "description": "OpenClaw Meta provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -861,7 +861,7 @@
     },
     {
       "name": "@openclaw/mistral-provider",
-      "description": "FRIDAY Mistral provider plugin",
+      "description": "OpenClaw Mistral provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -914,7 +914,7 @@
     },
     {
       "name": "@openclaw/novita-provider",
-      "description": "FRIDAY NovitaAI provider plugin",
+      "description": "OpenClaw NovitaAI provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -964,7 +964,7 @@
     },
     {
       "name": "@openclaw/opencode-provider",
-      "description": "FRIDAY OpenCode Zen provider plugin",
+      "description": "OpenClaw OpenCode Zen provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1028,7 +1028,7 @@
     },
     {
       "name": "@openclaw/groq-provider",
-      "description": "FRIDAY Groq media-understanding provider.",
+      "description": "OpenClaw Groq media-understanding provider.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1090,7 +1090,7 @@
     },
     {
       "name": "@openclaw/kilocode-provider",
-      "description": "FRIDAY Kilo Gateway provider plugin.",
+      "description": "OpenClaw Kilo Gateway provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1140,7 +1140,7 @@
     },
     {
       "name": "@openclaw/kimi-provider",
-      "description": "FRIDAY Kimi provider plugin.",
+      "description": "OpenClaw Kimi provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1193,7 +1193,7 @@
     },
     {
       "name": "@openclaw/opencode-go-provider",
-      "description": "FRIDAY OpenCode Go provider plugin",
+      "description": "OpenClaw OpenCode Go provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1257,7 +1257,7 @@
     },
     {
       "name": "@openclaw/pixverse-provider",
-      "description": "FRIDAY PixVerse video provider plugin",
+      "description": "OpenClaw PixVerse video provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1299,7 +1299,7 @@
     },
     {
       "name": "@openclaw/qianfan-provider",
-      "description": "FRIDAY Qianfan provider plugin.",
+      "description": "OpenClaw Qianfan provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1348,7 +1348,7 @@
     },
     {
       "name": "@openclaw/qwen-provider",
-      "description": "FRIDAY Qwen Cloud provider plugin.",
+      "description": "OpenClaw Qwen Cloud provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1541,7 +1541,7 @@
     },
     {
       "name": "@openclaw/radius-provider",
-      "description": "FRIDAY Radius model gateway provider plugin.",
+      "description": "OpenClaw Radius model gateway provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1601,7 +1601,7 @@
     },
     {
       "name": "@openclaw/fireworks-provider",
-      "description": "FRIDAY Fireworks provider plugin",
+      "description": "OpenClaw Fireworks provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1654,7 +1654,7 @@
     },
     {
       "name": "@openclaw/moonshot-provider",
-      "description": "FRIDAY Moonshot provider plugin",
+      "description": "OpenClaw Moonshot provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1762,7 +1762,7 @@
     },
     {
       "name": "@openclaw/tencent-provider",
-      "description": "FRIDAY Tencent Cloud provider plugin (TokenHub + Token Plan)",
+      "description": "OpenClaw Tencent Cloud provider plugin (TokenHub + Token Plan)",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1842,7 +1842,7 @@
     },
     {
       "name": "@telnyx/openclaw-provider",
-      "description": "Official Telnyx AI inference provider plugin for FRIDAY.",
+      "description": "Official Telnyx AI inference provider plugin for OpenClaw.",
       "source": "external",
       "kind": "provider",
       "openclaw": {
@@ -1893,7 +1893,7 @@
     },
     {
       "name": "@openclaw/venice-provider",
-      "description": "FRIDAY Venice provider plugin",
+      "description": "OpenClaw Venice provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -1943,7 +1943,7 @@
     },
     {
       "name": "@openclaw/vercel-ai-gateway-provider",
-      "description": "FRIDAY Vercel AI Gateway provider plugin",
+      "description": "OpenClaw Vercel AI Gateway provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -2001,7 +2001,7 @@
     },
     {
       "name": "@openclaw/vydra-provider",
-      "description": "FRIDAY Vydra media provider plugin.",
+      "description": "OpenClaw Vydra media provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -2061,7 +2061,7 @@
     },
     {
       "name": "@openclaw/xiaomi-provider",
-      "description": "FRIDAY Xiaomi provider plugin.",
+      "description": "OpenClaw Xiaomi provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -2193,7 +2193,7 @@
     },
     {
       "name": "@openclaw/zai-provider",
-      "description": "FRIDAY Z.AI provider plugin",
+      "description": "OpenClaw Z.AI provider plugin",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -2325,7 +2325,7 @@
     },
     {
       "name": "@openclaw/synthetic-provider",
-      "description": "FRIDAY Synthetic provider plugin.",
+      "description": "OpenClaw Synthetic provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -2374,7 +2374,7 @@
     },
     {
       "name": "@openclaw/voyage-provider",
-      "description": "FRIDAY Voyage embedding provider plugin.",
+      "description": "OpenClaw Voyage embedding provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -2410,7 +2410,7 @@
     },
     {
       "name": "@openclaw/volcengine-provider",
-      "description": "FRIDAY Volcengine provider plugin.",
+      "description": "OpenClaw Volcengine provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {
@@ -2479,7 +2479,7 @@
     },
     {
       "name": "@openclaw/stepfun-provider",
-      "description": "FRIDAY StepFun provider plugin.",
+      "description": "OpenClaw StepFun provider plugin.",
       "source": "official",
       "kind": "provider",
       "openclaw": {

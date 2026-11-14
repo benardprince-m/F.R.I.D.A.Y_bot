@@ -152,7 +152,7 @@ function projectJob(
 /** OCM launch metadata selects the manager; an RPC can select only a recorded job ID. */
 export async function resolveOcmUpdateManager() {
   const published = getPublishedConfigRuntimeEnvState();
-  // Config env belongs to FRIDAY; it cannot select the manager or its host tools.
+  // Config env belongs to OpenClaw; it cannot select the manager or its host tools.
   const env = published.sourceConfig
     ? createConfigRuntimeEnvBase(published.sourceConfig, process.env, {
         ownedEnv: published.ownedEnv,
@@ -283,7 +283,7 @@ export async function resolveOcmUpdateManager() {
             id,
             "--if-binding",
             `${capability.bindingKind}:${capability.bindingName}`,
-            // Native source updates read the channel from FRIDAY's configuration.
+            // Native source updates read the channel from OpenClaw's configuration.
             ...(channel && kind === "package" ? ["--channel", channel] : []),
           ]),
           id,

@@ -92,7 +92,7 @@ export function createOperatorManagedPluginUpdateOutcome(
   const shadowed = shadowedInstallRecord
     ? ` It shadows the ${shadowedInstallRecord.source} install ${shadowedInstallRecord.spec ?? pluginId}${shadowedInstallRecord.installPath ? ` at ${shadowedInstallRecord.installPath}` : ""}.`
     : "";
-  const guidance = `This copy was not updated; verify it against ${coreVersion ?? "the updated FRIDAY version"} or remove it from plugins.load.paths.`;
+  const guidance = `This copy was not updated; verify it against ${coreVersion ?? "the updated OpenClaw version"} or remove it from plugins.load.paths.`;
   return {
     pluginId,
     status: "skipped",

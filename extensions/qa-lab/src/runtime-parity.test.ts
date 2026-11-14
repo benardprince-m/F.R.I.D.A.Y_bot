@@ -280,11 +280,11 @@ describe("runtime parity", () => {
       messages: [],
       requests: [],
       trajectoryEvents: [
-        callEvent("search-1", "web_search", { query: "FRIDAY runtime parity fixed query" }),
+        callEvent("search-1", "web_search", { query: "OpenClaw runtime parity fixed query" }),
         resultEvent("search-1", "web_search", {
           status: "completed",
           isError: false,
-          result: { status: "completed", query: "FRIDAY runtime parity fixed query" },
+          result: { status: "completed", query: "OpenClaw runtime parity fixed query" },
         }),
       ],
     });
@@ -311,7 +311,7 @@ describe("runtime parity", () => {
           success: true,
           contentItems: [{ type: "text", text: "/workspace" }],
         }),
-        callEvent("search-1", "web_search", { query: "FRIDAY runtime parity fixed query" }),
+        callEvent("search-1", "web_search", { query: "OpenClaw runtime parity fixed query" }),
         resultEvent("search-1", "web_search", {
           status: "completed",
           result: { status: "completed" },

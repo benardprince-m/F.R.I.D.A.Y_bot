@@ -7,7 +7,7 @@ export {
   throwCapabilityGenerationFailure,
 } from "../media-generation/runtime-shared.js";
 export { getProviderEnvVars } from "./provider-env-vars.js";
-/** @deprecated Retained for plugins built against FRIDAY 2026.10.4 and earlier; tracked by `plugin-sdk-private-runtime-shipped-exports`. */
+/** @deprecated Retained for plugins built against OpenClaw 2026.10.4 and earlier; tracked by `plugin-sdk-private-runtime-shipped-exports`. */
 export { resolveAgentModelPrimaryValue } from "../config/model-input.js";
 
 type ImageGenerationCoreAuthRuntimeModule =
@@ -20,7 +20,7 @@ const loadImageGenerationCoreAuthRuntime = createLazyRuntimeModule(
 /**
  * Resolve image-generation provider API keys through the lazy auth runtime helper.
  *
- * @deprecated Retained for plugins built against FRIDAY 2026.10.4 and earlier; tracked by
+ * @deprecated Retained for plugins built against OpenClaw 2026.10.4 and earlier; tracked by
  * `plugin-sdk-private-runtime-shipped-exports`.
  */
 export async function resolveApiKeyForProvider(

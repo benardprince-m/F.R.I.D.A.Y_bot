@@ -47,7 +47,7 @@ async function withComposer(
   try {
     const page = await context.newPage();
     const gateway = await installMockGateway(page, {
-      assistantName: "FRIDAY",
+      assistantName: "OpenClaw",
       ...(deferred ? { deferredMethods: ["chat.send"] } : {}),
     });
     await page.goto(`${server.baseUrl}chat`);

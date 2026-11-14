@@ -215,7 +215,7 @@ export async function executeRepositoryGitHubPublication(params: {
         value.parents.length !== 1 ||
         objectSha(value.parents[0]) !== (row.previous_head_commit ?? snapshot.baseCommit) ||
         typeof value.message !== "string" ||
-        !value.message.split(/\r?\n/u).includes("FRIDAY-Publication: " + row.request_id)
+        !value.message.split(/\r?\n/u).includes("OpenClaw-Publication: " + row.request_id)
       ) {
         throw new GitHubPublicationWorkspaceChangedError(
           "GitHub publication commit does not match its accepted checkpoint.",
@@ -357,7 +357,7 @@ export async function executeRepositoryGitHubPublication(params: {
       !hasGitHubPublicationMessageFooter(
         preparedCommitMessage ?? "",
         content.trailers,
-        "FRIDAY-Publication: " + row.request_id,
+        "OpenClaw-Publication: " + row.request_id,
       )
     ) {
       throw new GitHubPublicationCreditChangedError();

@@ -1495,7 +1495,7 @@ describe("native hook relay registry", () => {
     expect(await testing.getNativeHookRelayBridgeRecordForTests(relay.relayId)).toBeUndefined();
   });
 
-  it("uses the Codex no-op output when no FRIDAY hook decides", async () => {
+  it("uses the Codex no-op output when no OpenClaw hook decides", async () => {
     const relay = registerRelay();
 
     for (const event of ["pre_tool_use", "post_tool_use", "before_agent_finalize"] as const) {
@@ -1507,7 +1507,7 @@ describe("native hook relay registry", () => {
     }
   });
 
-  it("maps Codex PreToolUse to FRIDAY before_tool_call and blocks before execution", async () => {
+  it("maps Codex PreToolUse to OpenClaw before_tool_call and blocks before execution", async () => {
     const beforeToolCall = vi.fn(async () => ({
       block: true,
       blockReason: "repo policy blocks this command",
@@ -1735,7 +1735,7 @@ describe("native hook relay registry", () => {
           hookEventName: "PreToolUse",
           permissionDecision: "deny",
           permissionDecisionReason:
-            "FRIDAY tool policy rewrote Codex app-server approval params; refusing original request.",
+            "OpenClaw tool policy rewrote Codex app-server approval params; refusing original request.",
         },
       });
       expect(beforeToolCall).toHaveBeenCalledTimes(1);
@@ -1925,7 +1925,7 @@ describe("native hook relay registry", () => {
     });
   });
 
-  it("maps Codex PostToolUse to FRIDAY after_tool_call observation", async () => {
+  it("maps Codex PostToolUse to OpenClaw after_tool_call observation", async () => {
     const afterToolCall = vi.fn();
     initializeGlobalHookRunner(
       createMockPluginRegistry([

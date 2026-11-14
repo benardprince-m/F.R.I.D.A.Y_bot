@@ -2,7 +2,7 @@ import ConcurrencyExtras
 import Foundation
 import Observation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawKit
 
 @Suite(.serialized, .testWaitLimit)

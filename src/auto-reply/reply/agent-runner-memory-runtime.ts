@@ -69,7 +69,7 @@ export function followupOwnsNativeCompaction(
   runtimeId: string,
 ): boolean {
   // Backends that persist resumable native transcripts must remain the sole
-  // compaction owner; FRIDAY maintenance would corrupt that runtime state.
+  // compaction owner; OpenClaw maintenance would corrupt that runtime state.
   return (
     resolveCliBackendConfig(runtimeId, params.cfg, {
       agentId: params.followupRun.run.agentId,

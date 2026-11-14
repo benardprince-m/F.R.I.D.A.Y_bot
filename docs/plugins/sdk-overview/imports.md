@@ -36,7 +36,7 @@ For channel config, publish the channel-owned JSON Schema through
 `openclaw.plugin.json#channelConfigs`. The `plugin-sdk/channel-config-schema`
 subpath is for shared schema primitives and the generic builder. For example,
 `buildChannelAccountSchemaParts` includes a shared `groupDmShape`; compose it
-locally when a channel needs a different group identifier validator. FRIDAY's
+locally when a channel needs a different group identifier validator. OpenClaw's
 bundled plugins use `plugin-sdk/bundled-channel-config-schema` for retained
 bundled-channel schemas. That bundled schema subpath is not a pattern for new
 plugins.
@@ -111,9 +111,9 @@ my-plugin/
 
 Facade-loaded bundled plugin public surfaces (`api.ts`, `runtime-api.ts`,
 `index.ts`, `setup-entry.ts`, and similar public entry files) prefer the
-active runtime config snapshot when FRIDAY is already running. If no runtime
+active runtime config snapshot when OpenClaw is already running. If no runtime
 snapshot exists yet, they fall back to the resolved config file on disk.
-Packaged bundled plugin facades should be loaded through FRIDAY's plugin
+Packaged bundled plugin facades should be loaded through OpenClaw's plugin
 facade loaders; direct imports from `dist/extensions/...` bypass the manifest
 and runtime sidecar checks that packaged installs use for plugin-owned code.
 

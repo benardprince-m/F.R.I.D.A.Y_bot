@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { detectGatewayRespawnSupervisor, detectRespawnSupervisor } from "./supervisor-markers.js";
 
 describe("detectRespawnSupervisor", () => {
-  it("detects launchd from FRIDAY's explicit marker or current gateway launchd job", () => {
+  it("detects launchd from OpenClaw's explicit marker or current gateway launchd job", () => {
     expect(
       detectRespawnSupervisor({ OPENCLAW_LAUNCHD_LABEL: " ai.openclaw.gateway " }, "darwin"),
     ).toBe("launchd");
@@ -29,7 +29,7 @@ describe("detectRespawnSupervisor", () => {
     );
   });
 
-  it("detects Linux FRIDAY gateway service markers only for opt-in callers", () => {
+  it("detects Linux OpenClaw gateway service markers only for opt-in callers", () => {
     const gatewayServiceEnv = {
       OPENCLAW_SERVICE_MARKER: " openclaw ",
       OPENCLAW_SERVICE_KIND: " gateway ",
@@ -63,9 +63,9 @@ describe("detectRespawnSupervisor", () => {
   });
 
   it("detects scheduled-task supervision on Windows from either hint family", () => {
-    expect(detectRespawnSupervisor({ OPENCLAW_WINDOWS_TASK_NAME: "FRIDAY Gateway" }, "win32")).toBe(
-      "schtasks",
-    );
+    expect(
+      detectRespawnSupervisor({ OPENCLAW_WINDOWS_TASK_NAME: "OpenClaw Gateway" }, "win32"),
+    ).toBe("schtasks");
     expect(
       detectRespawnSupervisor(
         {

@@ -227,7 +227,7 @@ describe("connection view rendering", () => {
       .querySelector('input[aria-label="Gateway secret"]')
       ?.closest(".settings-row__control");
     expect(control?.querySelector('[role="status"]')?.textContent).toContain(
-      "device setup code for the FRIDAY mobile app",
+      "device setup code for the OpenClaw mobile app",
     );
     expect(control?.textContent).toContain("openclaw gateway auth-token --show");
     mountConnection(createConnectionProps(), container);

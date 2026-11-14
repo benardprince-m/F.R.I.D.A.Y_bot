@@ -78,9 +78,9 @@ async function createActivityFixture(ownRecentUserTexts: string[] = []) {
 
 describe("Pi session upstream activity", () => {
   it("detects external turns, suppresses own echoes, and confirms deletion", async () => {
-    const { file, probe } = await createActivityFixture(["sent from FRIDAY"]);
+    const { file, probe } = await createActivityFixture(["sent from OpenClaw"]);
 
-    await appendUser(file, "sent  from FRIDAY", "2026-07-13T10:00:05.000Z", {
+    await appendUser(file, "sent  from OpenClaw", "2026-07-13T10:00:05.000Z", {
       id: "user-own",
       parentId: "info-1",
     });

@@ -86,13 +86,13 @@ export function buildBrowserDoctorReport(params: {
       label: "Chrome extension relay",
       status: status.running ? "pass" : "fail",
       summary: status.running
-        ? "FRIDAY Chrome extension is connected"
-        : "FRIDAY Chrome extension is not connected",
+        ? "OpenClaw Chrome extension is connected"
+        : "OpenClaw Chrome extension is not connected",
       ...(status.running
         ? {}
         : {
             fixHint:
-              "Install the FRIDAY Chrome extension (openclaw browser extension path), run openclaw browser extension pair, and paste the pairing string into the extension popup.",
+              "Install the OpenClaw Chrome extension (openclaw browser extension path), run openclaw browser extension pair, and paste the pairing string into the extension popup.",
           }),
     });
 
@@ -119,7 +119,7 @@ export function buildBrowserDoctorReport(params: {
       ...(mismatch
         ? {
             fixHint:
-              "Reload the FRIDAY extension from chrome://extensions. If the versions still differ, fully quit and reopen Chrome.",
+              "Reload the OpenClaw extension from chrome://extensions. If the versions still differ, fully quit and reopen Chrome.",
           }
         : {}),
     });

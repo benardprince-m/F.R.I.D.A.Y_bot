@@ -12,7 +12,7 @@ sidebarTitle: "Image generation"
 The bundled `openai` plugin registers image generation through the
 `image_generate` tool. It supports both OpenAI API-key and Codex OAuth image
 generation through the same `openai/gpt-image-2` model ref. Sign in with
-ChatGPT (SIWC) cannot authorize this tool. Codex OAuth here means an FRIDAY
+ChatGPT (SIWC) cannot authorize this tool. Codex OAuth here means an OpenClaw
 model auth profile; signing in only to a native Codex user home does not supply
 `image_generate` with a credential.
 
@@ -76,7 +76,7 @@ GPT Image 2.5 subscription access is not established by this API-key setup.
 
 Both variants accept `low`, `medium`, `high`, `xhigh`, `max`, or `auto` quality.
 Use PNG or WebP for transparent backgrounds. Edits accept up to 5 reference
-images through FRIDAY.
+images through OpenClaw.
 
 ```bash
 openclaw infer image generate \
@@ -100,7 +100,7 @@ The aspect ratio must be between 1:3 and 3:1.
 For a transparent-background request, call `image_generate` with
 `model: "openai/gpt-image-1.5"`, `outputFormat: "png"` or `"webp"`, and
 `background: "transparent"`; the older `openai.background` provider option is
-still accepted. FRIDAY also protects the public OpenAI and OpenAI Codex OAuth
+still accepted. OpenClaw also protects the public OpenAI and OpenAI Codex OAuth
 routes by rewriting default `openai/gpt-image-2` transparent requests to
 `gpt-image-1.5`; Azure and custom OpenAI-compatible endpoints keep their
 configured deployment/model names.
@@ -126,23 +126,23 @@ ChatGPT/Codex OAuth Responses backend both support moderation for text-to-image
 generation and reference-image edits.
 
 For ChatGPT/Codex OAuth installs, keep the same `openai/gpt-image-2` ref. When
-an `openai` OAuth profile is configured, FRIDAY resolves that stored OAuth
+an `openai` OAuth profile is configured, OpenClaw resolves that stored OAuth
 access token and sends image requests through the Codex Responses backend; it
 does not first try `OPENAI_API_KEY` or silently fall back to an API key.
 That Responses request runs on `gpt-6-astra`. If your ChatGPT plan rejects that
-model, FRIDAY retries with each `openai/*` model in `agents.defaults.model`
+model, OpenClaw retries with each `openai/*` model in `agents.defaults.model`
 (primary, then fallbacks), so configure a model your plan supports there.
 Configure `models.providers.openai` explicitly with an API key, custom base
 URL, or Azure endpoint when you want the direct OpenAI Images API route
 instead. If that custom image endpoint is on a trusted LAN/private address,
-also set `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork: true`; FRIDAY
+also set `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork: true`; OpenClaw
 keeps private/internal OpenAI-compatible image endpoints blocked unless this
 opt-in is present.
 
 Generate:
 
 ```
-/tool image_generate model=openai/gpt-image-2 prompt="A polished launch poster for FRIDAY on macOS" size=3840x2160 count=1
+/tool image_generate model=openai/gpt-image-2 prompt="A polished launch poster for OpenClaw on macOS" size=3840x2160 count=1
 ```
 
 Generate a transparent PNG:

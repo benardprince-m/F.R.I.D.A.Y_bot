@@ -184,7 +184,7 @@ describe("createAgent", () => {
   it("returns validation errors before mutation", async () => {
     await expectError("invalid-name", "  ");
     await expectError("invalid-name", "###");
-    for (const name of ["FRIDAY", "crestodian"]) {
+    for (const name of ["OpenClaw", "crestodian"]) {
       await expectError("reserved-id", name);
     }
     expect(mocks.transformConfigFileWithRetry).not.toHaveBeenCalled();

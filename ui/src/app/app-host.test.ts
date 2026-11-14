@@ -210,7 +210,7 @@ type ShellSessionNavigationState = {
   recoverNotFoundRoute: () => boolean;
 };
 
-describe("FRIDAY shell context lifecycle", () => {
+describe("OpenClaw shell context lifecycle", () => {
   setupSidebarTest();
 
   it("preserves reload intent on disconnect but clears it on context replacement", async () => {
@@ -260,7 +260,7 @@ describe("FRIDAY shell context lifecycle", () => {
   });
 });
 
-describe("FRIDAY shell source initialization", () => {
+describe("OpenClaw shell source initialization", () => {
   it("delegates repeated locale import failures to guarded stale-chunk recovery", () => {
     const scheduleReload = vi.mocked(scheduleStaleChunkReload);
     scheduleReload.mockClear();
@@ -375,7 +375,7 @@ describe("FRIDAY shell source initialization", () => {
   });
 });
 
-describe("FRIDAY shell route session commits", () => {
+describe("OpenClaw shell route session commits", () => {
   it("preserves catalog identity when routing a slash-command draft", () => {
     const navigate = vi.fn();
     const shell = createShellOwner() as unknown as ShellSessionNavigationState;
@@ -479,7 +479,7 @@ describe("FRIDAY shell route session commits", () => {
   });
 });
 
-describe("FRIDAY shell server preferences", () => {
+describe("OpenClaw shell server preferences", () => {
   it("refreshes live navigation from profile preferences rather than shared config", async () => {
     vi.stubGlobal("localStorage", createStorageMock());
     resetServerUiPrefsSync();
@@ -533,7 +533,7 @@ describe("FRIDAY shell server preferences", () => {
   });
 });
 
-describe("FRIDAY shell settings search", () => {
+describe("OpenClaw shell settings search", () => {
   it("does not load schema through a replaced runtime config capability", async () => {
     const loadGate = createDeferred();
     const firstRuntimeConfig = {
@@ -578,7 +578,7 @@ describe("FRIDAY shell settings search", () => {
   });
 });
 
-describe("FRIDAY shell keyboard shortcuts", () => {
+describe("OpenClaw shell keyboard shortcuts", () => {
   it("resolves onboarding mode from the active route search", () => {
     expect(resolveOnboardingMode("?onboarding=1")).toBe(true);
     expect(resolveOnboardingMode("?onboarding=true")).toBe(true);

@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/firecrawl-plugin",
   "version": "2026.10.4",
-  "description": "FRIDAY Firecrawl plugin.",
+  "description": "OpenClaw Firecrawl plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

@@ -590,7 +590,7 @@ describe("Gateway GitHub publication", () => {
             `${NEW_HEAD}\n${WORKSPACE_TREE}\n${OLD_HEAD}\nResume the publication\n\n` +
               "Co-authored-by: alice <7+alice@users.noreply.github.com>\n" +
               (bodyOnlyCredit ? "\nThe line above is quoted attribution.\n\n" : "") +
-              `FRIDAY-Publication: ${requestId}\n`,
+              `OpenClaw-Publication: ${requestId}\n`,
           );
         }
 

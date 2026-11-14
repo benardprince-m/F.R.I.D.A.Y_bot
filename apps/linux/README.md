@@ -1,12 +1,12 @@
-# FRIDAY for Linux and Windows
+# OpenClaw for Linux and Windows
 
-The desktop app is a Tauri v2 shell for Linux and Windows, supporting local and remote FRIDAY Gateways. It discovers nearby Gateways over Bonjour, installs the CLI when local setup needs it, delegates local Gateway service management to `openclaw gateway`, opens the selected Gateway's Control UI, and stays available in the system tray.
+The desktop app is a Tauri v2 shell for Linux and Windows, supporting local and remote OpenClaw Gateways. It discovers nearby Gateways over Bonjour, installs the CLI when local setup needs it, delegates local Gateway service management to `openclaw gateway`, opens the selected Gateway's Control UI, and stays available in the system tray.
 
 On Windows, the native [Windows Hub](https://docs.openclaw.ai/platforms/windows#recommended-windows-hub)
 is the recommended desktop app. This cross-platform Tauri app is the backup,
 with a local Windows Gateway through bundled Bun or a remote Gateway connection.
 
-On macOS, the Tauri build is named **FRIDAY-Tauri** so it can be installed alongside the native **FRIDAY** app. It retains its separate bundle identity when updated.
+On macOS, the Tauri build is named **OpenClaw-Tauri** so it can be installed alongside the native **OpenClaw** app. It retains its separate bundle identity when updated.
 
 Dashboard widgets and browser panels load inside the app. Browser tabs belong to their conversation and support back, forward, reload, stop, snapshots, element inspection, and saving the current page or asset. Opening the same address in a conversation reuses its tab; other conversations keep their own tabs. Popups opened by a browser tab stay in that conversation.
 
@@ -108,13 +108,13 @@ access. Failed actions show the dashboard's native notice.
 
 The optional Omarchy 4 bar plugin provides agents, sessions, and quick prompts.
 With the matching desktop app running, it uses the app’s Primary Gateway and
-keeps a single visible FRIDAY icon. See [Omarchy support](https://docs.openclaw.ai/platforms/omarchy)
+keeps a single visible OpenClaw icon. See [Omarchy support](https://docs.openclaw.ai/platforms/omarchy)
 for installation, app handoff, shortcuts, and troubleshooting.
 
 ## Windows
 
 For the recommended native app, use [Windows Hub](https://docs.openclaw.ai/platforms/windows#recommended-windows-hub).
-The Tauri backup's Windows x64 NSIS installers ship beside Linux bundles in regular FRIDAY
+The Tauri backup's Windows x64 NSIS installers ship beside Linux bundles in regular OpenClaw
 releases. The Windows updater uses the `windows-stable` channel and verifies
 Tauri updater signatures. Installer Authenticode signing is opt-in through the
 release workflow's Foundation Azure signing job; no credentials are needed for
@@ -133,7 +133,7 @@ execute Bun directly, without interpreting arguments in a command shell.
 `OPENCLAW_DESKTOP_CLI` can select an existing development CLI.
 
 Production runtime admission requires a matching Windows entry in the pinned
-FRIDAY Bun release with `authenticodeSigned: true` and `testOnly: false`.
+OpenClaw Bun release with `authenticodeSigned: true` and `testOnly: false`.
 When a pin has no Windows entry, local setup reports an actionable missing-runtime
 error while remote Gateways remain available. The pin must include the signed
 Windows fork release before shipping local setup. Unsigned dry-run binaries
@@ -326,7 +326,7 @@ against a synthetic CLI/service, including explicit runtime activation.
 
 ## First-run setup
 
-On Linux and Windows, a fresh install with no saved FRIDAY configuration or
+On Linux and Windows, a fresh install with no saved OpenClaw configuration or
 Gateway profiles starts local setup automatically. It uses the same CLI installer,
 bundled runtime, and Gateway service owners as **On this computer**, then opens
 the Control UI's custodian onboarding. Release builds select their matching stable
@@ -341,11 +341,11 @@ behavior. If automatic setup fails, the app shows the error alongside the existi
 local and remote choices so you can retry or connect elsewhere. Windows uses
 the bundled Windows runtime and CLI-owned service setup.
 
-The manual setup screen explains what FRIDAY can do and asks where your
+The manual setup screen explains what OpenClaw can do and asks where your
 assistant should live:
 
 - **On this computer** installs the CLI when needed and runs fresh Linux and Windows
-  installations on the bundled FRIDAY Bun fork, then starts the Gateway through
+  installations on the bundled OpenClaw Bun fork, then starts the Gateway through
   the platform's service owner. Release builds install their matching stable
   version; development builds use the staged source package.
 - **On another computer** connects to an existing Gateway without installing or
@@ -423,7 +423,7 @@ After connecting through manual setup, Model Setup discovers AI access available
 Gateway and shows it as a choice. Discovery never imports or copies an account,
 and the companion never selects, tests, installs, or saves a provider until you
 click its action. The list includes supported installed providers and official
-provider plugins available from FRIDAY's managed plugin catalog. Installing a
+provider plugins available from OpenClaw's managed plugin catalog. Installing a
 official provider plugin continues directly to that provider's authentication
 form without a capability approval prompt. Other plugins require capability
 review before installation. Successful verification may require a
@@ -436,7 +436,7 @@ message; custom-provider secrets must be entered on their owning host. The
 desktop companion does not copy remote provider secrets to this computer.
 
 During manual setup, Model Setup also asks whether existing native Claude and Codex
-conversations should appear in FRIDAY. This is discovery only, not an import
+conversations should appear in OpenClaw. This is discovery only, not an import
 or copy. The option starts unchecked; declining disables both native session
 catalogs. Existing installations keep their current catalog behavior during an
 upgrade.
@@ -458,7 +458,7 @@ the additional sign-in options.
 
 ## Gateway runtime
 
-On Linux and Windows, fresh local setup installs the Gateway on the bundled FRIDAY Bun
+On Linux and Windows, fresh local setup installs the Gateway on the bundled OpenClaw Bun
 fork through the CLI. The install carries an `--expected-runtime-pin`
 guard with `definition: null`, so it refuses if a service has appeared since
 setup observed no service. The app records an informational marker; it never uses
@@ -688,7 +688,7 @@ validation does not publish a release.
 ## Releases
 
 Regular stable publication automatically requests Linux and Windows bundles after the
-GitHub release becomes visible. `FRIDAY Release Publish` and `FRIDAY Release
+GitHub release becomes visible. `OpenClaw Release Publish` and `OpenClaw Release
 Button` both use the same Linux release owner; the request can finish before
 the build, signing, and publication do. Their summaries report Linux as pending
 until its own assets verify. Beta prereleases and extended-stable publication do
@@ -713,7 +713,7 @@ publication recovery; the workflow does not rebuild or overwrite them. An
 optional desktop-test run also refuses to replace published Linux bytes, so
 recover missing desktop assets separately when Linux has already published.
 
-The publication helper records an immutable `FRIDAY-<version>-linux.json`
+The publication helper records an immutable `OpenClaw-<version>-linux.json`
 beside the bundles, then advances the fixed `linux-stable` channel and mirrors
 it to the latest Gateway release. Reusing complete public bundles still runs
 unfinished channel publication; it does not rebuild or replace those bundles.

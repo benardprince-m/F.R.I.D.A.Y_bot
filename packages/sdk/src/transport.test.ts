@@ -1,6 +1,6 @@
-// FRIDAY SDK tests cover transport behavior.
+// OpenClaw SDK tests cover transport behavior.
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { FRIDAY } from "./client.js";
+import { OpenClaw } from "./client.js";
 import { createAgentEvent, createChatEvent } from "./client.test-support.js";
 import {
   GatewayClientTransport,
@@ -78,7 +78,7 @@ describe("GatewayClientTransport", () => {
     "retires queued %s baselines across a connection boundary",
     async (stream) => {
       const transport = new GatewayClientTransport();
-      const oc = new FRIDAY({ transport });
+      const oc = new OpenClaw({ transport });
       let rawIterator: AsyncIterator<GatewayEvent> | undefined;
       let freshIterator: AsyncIterator<OpenClawEvent> | undefined;
       let oldIterator: AsyncIterator<OpenClawEvent> | undefined;

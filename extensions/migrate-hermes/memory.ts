@@ -52,7 +52,7 @@ export async function buildHermesMemoryPlan(
           : targetConflict
             ? MIGRATION_REASON_TARGET_EXISTS
             : undefined,
-        message: "Copy Hermes memory into the FRIDAY memory index.",
+        message: "Copy Hermes memory into the OpenClaw memory index.",
         details: {
           sourceType: "hermes-memory",
           sourceLabel: `Hermes ${filename}`,

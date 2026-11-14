@@ -354,7 +354,7 @@ async function download(
       },
     },
     "node:child_process": {
-      spawnSync: () => ({ status: 0, stdout: "FRIDAY 2026.8.1" }),
+      spawnSync: () => ({ status: 0, stdout: "OpenClaw 2026.8.1" }),
       spawn: () => {
         installations.push(Date.now());
         const child = Object.assign(new EventEmitter(), { pid: 1234 });

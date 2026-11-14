@@ -349,7 +349,7 @@ fn service_instance_name(fullname: &str) -> String {
     let instance = strip_ascii_suffix(fullname, GATEWAY_SERVICE_TYPE).trim_end_matches('.');
     let name = prettify_instance_name(&decode_bonjour_name(instance));
     if name.is_empty() {
-        "FRIDAY Gateway".to_string()
+        "OpenClaw Gateway".to_string()
     } else {
         name
     }
@@ -358,7 +358,7 @@ fn service_instance_name(fullname: &str) -> String {
 fn prettify_instance_name(name: &str) -> String {
     let normalized = name.split_whitespace().collect::<Vec<_>>().join(" ");
     let without_conflict = strip_conflict_suffix(&normalized).trim();
-    strip_ascii_suffix(without_conflict, " (FRIDAY)")
+    strip_ascii_suffix(without_conflict, " (OpenClaw)")
         .trim()
         .to_string()
 }
@@ -444,7 +444,7 @@ mod tests {
     fn service() -> ResolvedService {
         let properties = [
             ("transport", "gateway"),
-            ("displayName", "Studio (FRIDAY)"),
+            ("displayName", "Studio (OpenClaw)"),
             ("gatewayTls", "yes"),
             ("gatewayTlsSha256", "A1B2"),
             ("gatewayDirectReachable", "1"),
@@ -452,7 +452,7 @@ mod tests {
         ];
         ServiceInfo::new(
             GATEWAY_SERVICE_TYPE,
-            "studio (FRIDAY)",
+            "studio (OpenClaw)",
             "studio.local.",
             "192.168.1.7,2001:db8::7",
             18789,
@@ -523,7 +523,7 @@ mod tests {
     fn plaintext_dashboard_url_uses_validated_resolved_ipv4_address() {
         let service = ServiceInfo::new(
             GATEWAY_SERVICE_TYPE,
-            "plaintext IPv4 (FRIDAY)",
+            "plaintext IPv4 (OpenClaw)",
             "plaintext-ipv4.local.",
             "192.168.1.9",
             18789,
@@ -550,7 +550,7 @@ mod tests {
     fn plaintext_dashboard_url_brackets_validated_resolved_ipv6_address() {
         let service = ServiceInfo::new(
             GATEWAY_SERVICE_TYPE,
-            "plaintext IPv6 (FRIDAY)",
+            "plaintext IPv6 (OpenClaw)",
             "plaintext-ipv6.local.",
             "fd00::7",
             18789,
@@ -606,7 +606,7 @@ mod tests {
     fn rejects_public_plaintext_resolved_address() {
         let service = ServiceInfo::new(
             GATEWAY_SERVICE_TYPE,
-            "public plaintext (FRIDAY)",
+            "public plaintext (OpenClaw)",
             "public-plaintext.local.",
             "198.51.100.7",
             18789,
@@ -632,7 +632,7 @@ mod tests {
     fn rejects_public_plaintext_hostname_even_with_private_resolution() {
         let service = ServiceInfo::new(
             GATEWAY_SERVICE_TYPE,
-            "public hostname (FRIDAY)",
+            "public hostname (OpenClaw)",
             "dashboard.example.com.",
             "192.168.1.9",
             18789,
@@ -658,7 +658,7 @@ mod tests {
     fn keeps_validated_tls_hostname_with_ipv6_resolution() {
         let service = ServiceInfo::new(
             GATEWAY_SERVICE_TYPE,
-            "ipv6 tls (FRIDAY)",
+            "ipv6 tls (OpenClaw)",
             "ipv6-tls.local.",
             "2001:db8::7",
             443,
@@ -706,7 +706,7 @@ mod tests {
     fn rejects_gateway_without_direct_transport() {
         let service = ServiceInfo::new(
             GATEWAY_SERVICE_TYPE,
-            "relay only (FRIDAY)",
+            "relay only (OpenClaw)",
             "relay-only.local.",
             "192.168.1.8",
             18789,
@@ -786,9 +786,9 @@ mod tests {
     #[test]
     fn decodes_and_prettifies_fallback_name() {
         assert_eq!(
-            service_instance_name("Peter\\032Studio\\032(FRIDAY)._openclaw-gw._tcp.local."),
+            service_instance_name("Peter\\032Studio\\032(OpenClaw)._openclaw-gw._tcp.local."),
             "Peter Studio"
         );
-        assert_eq!(prettify_instance_name("Studio (FRIDAY) (2)"), "Studio");
+        assert_eq!(prettify_instance_name("Studio (OpenClaw) (2)"), "Studio");
     }
 }

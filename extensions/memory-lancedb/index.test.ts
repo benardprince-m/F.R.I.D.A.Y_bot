@@ -89,7 +89,7 @@ vi.mock("./lancedb-runtime.js", async (importOriginal) => {
   };
 });
 
-// Provenance marker FRIDAY appends to every injected inbound-context header.
+// Provenance marker OpenClaw appends to every injected inbound-context header.
 // Detectors key on this marker, not label text. Keep byte-identical with
 // src/auto-reply/reply/inbound-context-marker.ts (extensions cannot import core).
 const CTX = "⟦openclaw:ctx⟧";

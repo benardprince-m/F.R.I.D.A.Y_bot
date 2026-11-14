@@ -225,7 +225,7 @@ describe("native service command inspection", () => {
     const registeredTask = (scriptPath: string, state: number) => ({
       status: 0,
       stdout: JSON.stringify({
-        taskPath: "\\FRIDAY Gateway",
+        taskPath: "\\OpenClaw Gateway",
         state,
         enabled: true,
         actions: [{ type: 0, path: scriptPath, arguments: "", workingDirectory: "" }],

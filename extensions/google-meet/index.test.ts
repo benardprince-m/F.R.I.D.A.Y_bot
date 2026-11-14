@@ -2116,7 +2116,7 @@ describe("google-meet plugin", () => {
               inCall: false,
               manualAction: {
                 reason: "meet-admission-required",
-                message: "Admit the FRIDAY browser participant in Google Meet.",
+                message: "Admit the OpenClaw browser participant in Google Meet.",
               },
               title: "Meet",
               url: "https://meet.google.com/abc-defg-hij?authuser=me%40example.com&hl=en",
@@ -2486,7 +2486,7 @@ describe("google-meet plugin", () => {
           inCall: false,
           manualAction: {
             reason: "google-login-required",
-            message: "Sign in to Google in the FRIDAY browser profile, then retry the Meet join.",
+            message: "Sign in to Google in the OpenClaw browser profile, then retry the Meet join.",
           },
           title: "Sign in - Google Accounts",
           url: "https://accounts.google.com/signin",
@@ -2508,7 +2508,7 @@ describe("google-meet plugin", () => {
 
     expect(result.details.manualAction).toEqual({
       reason: "google-login-required",
-      message: "Sign in to Google in the FRIDAY browser profile, then retry the Meet join.",
+      message: "Sign in to Google in the OpenClaw browser profile, then retry the Meet join.",
     });
     expect(result.details.spoken).toBe(false);
     expect(result.details.speechReady).toBe(false);
@@ -2518,7 +2518,7 @@ describe("google-meet plugin", () => {
     const health = requireRecord(chrome.health, "manual action chrome health");
     expect(health.manualAction).toEqual({
       reason: "google-login-required",
-      message: "Sign in to Google in the FRIDAY browser profile, then retry the Meet join.",
+      message: "Sign in to Google in the OpenClaw browser profile, then retry the Meet join.",
     });
     expect(health.speechReady).toBe(false);
     expect(health.speechBlockedReason).toBe("google-login-required");
@@ -2894,7 +2894,7 @@ describe("google-meet plugin", () => {
               manualAction: {
                 reason: "meet-permission-required",
                 message:
-                  "Allow microphone/camera permissions for Meet in the FRIDAY browser profile, then retry meeting creation.",
+                  "Allow microphone/camera permissions for Meet in the OpenClaw browser profile, then retry meeting creation.",
               },
               browserUrl: "https://meet.google.com/new",
               browserTitle: "Meet",
@@ -2911,12 +2911,12 @@ describe("google-meet plugin", () => {
 
       expect(result.details.source).toBe("browser");
       expect(result.details.error).toBe(
-        "meet-permission-required: Allow microphone/camera permissions for Meet in the FRIDAY browser profile, then retry meeting creation.",
+        "meet-permission-required: Allow microphone/camera permissions for Meet in the OpenClaw browser profile, then retry meeting creation.",
       );
       expect(result.details.manualAction).toEqual({
         reason: "meet-permission-required",
         message:
-          "Allow microphone/camera permissions for Meet in the FRIDAY browser profile, then retry meeting creation.",
+          "Allow microphone/camera permissions for Meet in the OpenClaw browser profile, then retry meeting creation.",
       });
       const browser = requireRecord(result.details.browser, "browser details");
       expect(browser.nodeId).toBe("node-1");

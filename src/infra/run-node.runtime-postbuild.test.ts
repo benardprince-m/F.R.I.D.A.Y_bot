@@ -295,7 +295,7 @@ describe("run-node script", () => {
       checkClean: false,
     },
     {
-      label: "FRIDAY SDK alias outputs",
+      label: "OpenClaw SDK alias outputs",
       setup: {
         files: {
           [ROOT_SRC]: "export const value = 1;\n",
@@ -471,7 +471,7 @@ describe("run-node script", () => {
     removeExtensions: boolean;
   }>([
     {
-      label: "FRIDAY SDK alias outputs when dist extensions are absent",
+      label: "OpenClaw SDK alias outputs when dist extensions are absent",
       setup: {
         files: {
           [DIST_PLUGIN_SDK_CORE]: "export const core = true;\n",
@@ -482,7 +482,7 @@ describe("run-node script", () => {
       removeExtensions: true,
     },
     {
-      label: "private FRIDAY SDK dist files that package exports omit",
+      label: "private OpenClaw SDK dist files that package exports omit",
       setup: {
         files: {
           [ROOT_PACKAGE]: JSON.stringify(

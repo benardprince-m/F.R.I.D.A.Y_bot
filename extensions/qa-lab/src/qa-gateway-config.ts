@@ -159,7 +159,7 @@ export function buildQaGatewayConfig(params: {
     ]),
   ];
   const resolveModelEntry = (modelRef: string) => {
-    // Codex owns its app-server transport. FRIDAY provider params would make
+    // Codex owns its app-server transport. OpenClaw provider params would make
     // the forced parity cell an authored route that Codex correctly rejects.
     if (params.forcedRuntime === "codex") {
       if (params.runtimeSelection === "configured") {

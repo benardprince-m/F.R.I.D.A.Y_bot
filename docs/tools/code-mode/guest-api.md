@@ -137,7 +137,7 @@ handle remains callable.
 the handle's `describe()` when the exact full schema is still needed. Client
 entries use `input: "unknown"` so their untrusted schemas stay deferred until
 `describe()`. `output` is
-present only for a complete compact hint derived from a trusted FRIDAY core
+present only for a complete compact hint derived from a trusted OpenClaw core
 or plugin `outputSchema`. MCP and client output-schema claims are not promoted
 into this trusted catalog hint.
 
@@ -231,11 +231,11 @@ is needed:
 const content = await read({ path: "README.md" });
 
 const [tool] = await catalog.search("...");
-const result = await tool({ query: "FRIDAY" });
+const result = await tool({ query: "OpenClaw" });
 
 const [search] = await catalog.search("search the web", { limit: 1 });
 const schema = await search.describe();
-const hits = await search({ query: "FRIDAY code mode" });
+const hits = await search({ query: "OpenClaw code mode" });
 ```
 
 Calling a native global or native catalog handle returns the normal tool's JSON `details`

@@ -4,7 +4,7 @@ import Synchronization
 import Testing
 import UserNotifications
 import XCTest
-@testable import FRIDAY
+@testable import OpenClaw
 
 private enum NotificationOperationProbeError: LocalizedError {
     case expected
@@ -148,7 +148,7 @@ struct NotificationServingPreferenceTests {
         defer { center.removePendingNotificationRequests(withIdentifiers: [identifier]) }
         let operation = Task { @MainActor in
             let content = UNMutableNotificationContent()
-            content.title = "FRIDAY cancellation test"
+            content.title = "OpenClaw cancellation test"
             let request = UNNotificationRequest(
                 identifier: identifier,
                 content: content,

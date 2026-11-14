@@ -319,7 +319,7 @@ export async function resolveGatewayScopedTools(
     surface === "loopback" ? {} : undefined;
   const shouldInheritEffectiveToolAllowlist = requestedPolicies.some(hasRestrictiveAllowPolicy);
 
-  // CLI backends reach FRIDAY tools through this resolver instead of the
+  // CLI backends reach OpenClaw tools through this resolver instead of the
   // embedded runner, and the loopback grant carries no collector fields, so the
   // subagent registry supplies the collector run contract for this child.
   //
@@ -583,7 +583,7 @@ export async function resolveGatewayScopedTools(
           },
           {
             description:
-              "Execute a shell command on a connected FRIDAY node. This tool is node-only; use the CLI native shell for Gateway-local commands when it is available. Commands run synchronously. The sole connected node that can execute commands is selected automatically; set node when several can.",
+              "Execute a shell command on a connected OpenClaw node. This tool is node-only; use the CLI native shell for Gateway-local commands when it is available. Commands run synchronously. The sole connected node that can execute commands is selected automatically; set node when several can.",
             displaySummary: "Run commands on a connected node",
             parameters: nodeExecSchema,
           },

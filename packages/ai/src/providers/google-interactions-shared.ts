@@ -1,5 +1,5 @@
 /**
- * Gemini Interactions API adapter and lifecycle for FRIDAY.
+ * Gemini Interactions API adapter and lifecycle for OpenClaw.
  * POST /v1beta/interactions
  */
 

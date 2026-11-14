@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct AudioInputDeviceObserverTests {
     @Test func `selected available input wins over system default`() {

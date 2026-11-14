@@ -235,7 +235,7 @@ it("sends the approval from the approved account", async () => {
     "send",
     expect.objectContaining({
       to: "+15551234567",
-      text: "✅ FRIDAY access approved. Send a message to start chatting.",
+      text: "✅ OpenClaw access approved. Send a message to start chatting.",
     }),
     expect.any(Object),
   );

@@ -1,1 +1,1 @@
-FRIDAY - iOS-klient
+OpenClaw - iOS-klient

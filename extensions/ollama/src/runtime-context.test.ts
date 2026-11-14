@@ -6,13 +6,13 @@ describe("Ollama runtime context", () => {
   it("preserves labeled context through the user-role compatibility contract", () => {
     const message: Message = {
       role: "user",
-      content: "FRIDAY runtime context:\ncurrent facts",
+      content: "OpenClaw runtime context:\ncurrent facts",
       timestamp: 0,
       runtimeContext: {},
     };
 
     expect(convertToOllamaMessages([message])).toEqual([
-      { role: "user", content: "FRIDAY runtime context:\ncurrent facts" },
+      { role: "user", content: "OpenClaw runtime context:\ncurrent facts" },
     ]);
   });
 });

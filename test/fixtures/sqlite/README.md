@@ -24,7 +24,7 @@ Golden source contracts:
 Historical fixtures read these sources without deriving old tables from current DDL.
 
 `openclaw-state-v2026.7.1-2.sqlite.gz` is a deterministic fixture for the
-shared state database created by FRIDAY tag `v2026.7.1-2` at commit
+shared state database created by OpenClaw tag `v2026.7.1-2` at commit
 `0790d9f593ad30c940ed93b5872a8cf6d6f3cf8c`.
 
 The tagged runtime, whose package version is `2026.7.1`, created the database

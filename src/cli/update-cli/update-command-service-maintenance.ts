@@ -444,7 +444,7 @@ async function stopManagedServiceBeforeMutableUpdate(
       serviceMutationAllowed: false,
       serviceMutationSkipMessage:
         serviceUpdateVerdict.kind === "foreign"
-          ? "Gateway service management skipped: the service belongs to a different FRIDAY installation and was left untouched."
+          ? "Gateway service management skipped: the service belongs to a different OpenClaw installation and was left untouched."
           : "Gateway restart skipped: no Gateway service or listener is running.",
     };
   }

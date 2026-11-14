@@ -679,16 +679,16 @@ describe("short-term promotion", () => {
       projectResult("path:/Users/alice/repo"),
     ]);
     await recordMemoryRecalls(workspaceDir, "mixed case repository", [
-      projectResult("github.com/FRIDAY/FRIDAY"),
+      projectResult("github.com/OpenClaw/OpenClaw"),
     ]);
     const candidates = await rankAllCandidates(workspaceDir);
     expect(candidates[0]?.projectKey).toBe(
-      "path:/Users/Alice/Repo; path:/Users/alice/repo; github.com/FRIDAY/FRIDAY",
+      "path:/Users/Alice/Repo; path:/Users/alice/repo; github.com/OpenClaw/OpenClaw",
     );
 
     await applyAllCandidates(workspaceDir, candidates);
     await expect(fs.readFile(path.join(workspaceDir, "MEMORY.md"), "utf8")).resolves.toContain(
-      "<!-- project: path:/Users/Alice/Repo; path:/Users/alice/repo; github.com/FRIDAY/FRIDAY -->",
+      "<!-- project: path:/Users/Alice/Repo; path:/Users/alice/repo; github.com/OpenClaw/OpenClaw -->",
     );
   });
 

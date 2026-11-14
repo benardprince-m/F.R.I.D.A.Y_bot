@@ -106,7 +106,7 @@ const threadBindingSchema = z
     cwd: z.string(),
     rolloutPath: optionalNonBlankStringSchema,
     // Private runtime ownership. Only the supervision catalog creates this
-    // marker; public FRIDAY session metadata must never authorize user-home access.
+    // marker; public OpenClaw session metadata must never authorize user-home access.
     connectionScope: z.literal("supervision").optional(),
     supervisionSourceThreadId: z.string().trim().min(1).optional(),
     authProfileId: optionalStringSchema,
@@ -115,9 +115,9 @@ const threadBindingSchema = z
     agentWorkspaceDeveloperInstructions: optionalStringSchema,
     model: optionalStringSchema,
     // Codex App Server owns selection for supervised and adopted threads. Keep
-    // this marker across resumes so FRIDAY never substitutes a default or fallback.
+    // this marker across resumes so OpenClaw never substitutes a default or fallback.
     preserveNativeModel: z.literal(true).optional().catch(undefined),
-    // Continue creates the FRIDAY Chat before native execution. This closed
+    // Continue creates the OpenClaw Chat before native execution. This closed
     // snapshot state is materialized only inside the fully configured harness.
     pendingSupervisionBranch: pendingSupervisionBranchSchema.optional(),
     // Manual attachment records intent; only the harness can attest its native

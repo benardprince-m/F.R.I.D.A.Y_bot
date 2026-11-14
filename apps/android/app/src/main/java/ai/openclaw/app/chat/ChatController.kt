@@ -5839,7 +5839,7 @@ class ChatController internal constructor(
             if (ack.isTerminalSuccess) {
               refreshCurrentHistoryBestEffort(runIdsToReconcile = setOf(actualRunId))
             } else {
-              updateLocalizedErrorText(nativeText("FRIDAY request failed."))
+              updateLocalizedErrorText(nativeText("OpenClaw request failed."))
             }
           }
         }

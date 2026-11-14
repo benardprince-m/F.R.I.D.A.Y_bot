@@ -87,7 +87,7 @@ describe("registerSlackHomeEvents", () => {
     expect(publish.mock.calls[0]?.[0]?.view.blocks[1]).toMatchObject({
       type: "section",
       text: {
-        text: "Send a DM or mention FRIDAY in a channel to start a session.",
+        text: "Send a DM or mention OpenClaw in a channel to start a session.",
       },
     });
   });
@@ -113,7 +113,7 @@ describe("registerSlackHomeEvents", () => {
     expect(publish.mock.calls[0]?.[0]?.view.blocks[1]).toMatchObject({
       type: "section",
       text: {
-        text: "Send a DM, mention FRIDAY in a channel, or use `/acme` to start a session.",
+        text: "Send a DM, mention OpenClaw in a channel, or use `/acme` to start a session.",
       },
     });
   });

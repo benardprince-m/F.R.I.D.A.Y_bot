@@ -223,7 +223,7 @@ describe("sendMessageSlack Enterprise listener scope", () => {
         },
       },
       blocks: [{ type: "divider" }],
-      identity: { username: "FRIDAY" },
+      identity: { username: "OpenClaw" },
     });
     expect(postMessage).toHaveBeenCalledTimes(2);
     for (const [payload] of postMessage.mock.calls) {

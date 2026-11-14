@@ -242,8 +242,8 @@ describe("A2A HTTP agent discovery", () => {
       expect(Object.keys(card.capabilities).toSorted()).toEqual(["pushNotifications", "streaming"]);
       // The card is served unauthenticated, so operator-authored descriptions
       // must never reach it - not the unexposed agent's, not the exposed one's.
-      expect(card.skills[0]?.description).toBe("FRIDAY agent writer.");
-      expect(card.skills[1]?.description).toBe("FRIDAY agent reviewer.");
+      expect(card.skills[0]?.description).toBe("OpenClaw agent writer.");
+      expect(card.skills[1]?.description).toBe("OpenClaw agent reviewer.");
       expect(JSON.stringify(card)).not.toContain(hiddenDescription);
       expect(JSON.stringify(card)).not.toContain("x".repeat(50));
       expect(card).not.toHaveProperty("protocolVersion");

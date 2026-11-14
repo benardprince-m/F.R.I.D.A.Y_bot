@@ -88,10 +88,10 @@ fn credential_error(error: keyring::Error) -> String {
         if let Some(cause) = cause.downcast_ref::<security_framework::base::Error>() {
             return match cause.code() {
                 // Isolated launch environments can hide an existing user keychain.
-                -25307 => "Saved Gateways are unavailable because FRIDAY-Tauri could not find a default keychain in its current launch environment (macOS error -25307). Quit and reopen the app from Finder, then try again.".to_string(),
-                -25294 => "Saved Gateways are unavailable because FRIDAY-Tauri could not find the configured keychain in its current launch environment (macOS error -25294). Quit and reopen the app from Finder. If this persists, check the keychain configuration in Keychain Access.".to_string(),
+                -25307 => "Saved Gateways are unavailable because OpenClaw-Tauri could not find a default keychain in its current launch environment (macOS error -25307). Quit and reopen the app from Finder, then try again.".to_string(),
+                -25294 => "Saved Gateways are unavailable because OpenClaw-Tauri could not find the configured keychain in its current launch environment (macOS error -25294). Quit and reopen the app from Finder. If this persists, check the keychain configuration in Keychain Access.".to_string(),
                 -25291 => "macOS Keychain is unavailable. Try again after your login session is ready.".to_string(),
-                -25308 | -25293 => "macOS denied access to the login keychain. Unlock it in Keychain Access or approve FRIDAY-Tauri access, then try again.".to_string(),
+                -25308 | -25293 => "macOS denied access to the login keychain. Unlock it in Keychain Access or approve OpenClaw-Tauri access, then try again.".to_string(),
                 -128 => "Access to saved Gateways was canceled. Try again and approve Keychain access when prompted.".to_string(),
                 code => format!("Could not access saved Gateways in macOS Keychain (error {code}). Check Keychain Access and try again."),
             };
@@ -101,7 +101,7 @@ fn credential_error(error: keyring::Error) -> String {
     // typed macOS status code above is safe to include in the user message.
     match error {
         keyring::Error::TooLong(_, _) => "These saved Gateways exceed the system credential store's size limit. Shorten or remove an entry, then try again.".to_string(),
-        keyring::Error::NoDefaultStore => "The system credential store is unavailable. Check that your keychain or credential vault is configured, then restart FRIDAY-Tauri.".to_string(),
+        keyring::Error::NoDefaultStore => "The system credential store is unavailable. Check that your keychain or credential vault is configured, then restart OpenClaw-Tauri.".to_string(),
         keyring::Error::BadEncoding(_) | keyring::Error::BadDataFormat(_, _) | keyring::Error::BadStoreFormat(_) => CORRUPT.to_string(),
         _ => "Could not access saved Gateways in the system credential store. Check that your keychain or credential vault is available, then try again.".to_string(),
     }
@@ -285,7 +285,7 @@ impl GatewayProfiles {
                         serde_json::from_slice(&bytes).map_err(|_| CORRUPT)?;
                     if registry.version != 1 {
                         return Err(format!(
-                            "Saved Gateways require a different FRIDAY-Tauri version (registry {}). The existing credential record has been preserved.",
+                            "Saved Gateways require a different OpenClaw-Tauri version (registry {}). The existing credential record has been preserved.",
                             registry.version
                         ));
                     }

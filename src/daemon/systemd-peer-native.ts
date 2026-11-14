@@ -1,4 +1,4 @@
-/** FRIDAY admission and budgets around native-owned systemd connections. */
+/** OpenClaw admission and budgets around native-owned systemd connections. */
 import { ProcSafeError } from "@openclaw/proc-safe/errors";
 import {
   SystemdBus,

@@ -81,7 +81,7 @@ and the history is restored. Search does not restore archived history automatica
 
 ## Index lifecycle
 
-FRIDAY stores a full-text index with the transcript rows in each agent's database.
+OpenClaw stores a full-text index with the transcript rows in each agent's database.
 New user and assistant messages are indexed in the same transaction that persists them, so the
 index never lags live conversations; tool results, reasoning blocks, and images are excluded.
 Only the transcript's active branch is searchable.

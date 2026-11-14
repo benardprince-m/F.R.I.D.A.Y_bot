@@ -426,7 +426,7 @@ async function resumePostCoreUpdateInternal(
                   reason: "doctor-advisory",
                   message: error.message,
                   guidance: [
-                    "After other FRIDAY processes release state, run `openclaw doctor --fix`.",
+                    "After other OpenClaw processes release state, run `openclaw doctor --fix`.",
                   ],
                 },
               ],

@@ -70,7 +70,7 @@ function formatUnsupportedCompactionWarning(params: {
   fixHint: string;
 }): string {
   return [
-    "- Codex runtime uses native server-side compaction and ignores FRIDAY compaction summarizer overrides.",
+    "- Codex runtime uses native server-side compaction and ignores OpenClaw compaction summarizer overrides.",
     ...params.hits.map(
       (hit) => `- ${hit.path}: ${hit.value} is ignored while this agent uses Codex runtime.`,
     ),
@@ -111,8 +111,8 @@ function formatDisabledCodexPluginWarning(params: {
   repairBlocked: boolean;
 }): string {
   const fixHint = params.repairBlocked
-    ? "- Enable plugins.entries.codex and plugin loading, and remove `codex` from plugins.deny; or set the affected OpenAI models to an FRIDAY runtime policy."
-    : "- Run `openclaw doctor --fix`: it enables plugins.entries.codex, or set the affected OpenAI models to an FRIDAY runtime policy.";
+    ? "- Enable plugins.entries.codex and plugin loading, and remove `codex` from plugins.deny; or set the affected OpenAI models to an OpenClaw runtime policy."
+    : "- Run `openclaw doctor --fix`: it enables plugins.entries.codex, or set the affected OpenAI models to an OpenClaw runtime policy.";
   return [
     "- Codex runtime is selected, but the Codex plugin is disabled.",
     ...params.hits.map(
@@ -149,9 +149,9 @@ function collectCodexAppServerCommandWarnings(cfg: OpenClawConfig): string[] {
         ]
       : []),
     [
-      "- Custom Codex app-server command bypasses FRIDAY's managed exact-version binary.",
+      "- Custom Codex app-server command bypasses OpenClaw's managed exact-version binary.",
       "- plugins.entries.codex.config.appServer.command: Doctor did not execute, inspect, or rewrite this command.",
-      "- Remove the override to use managed Codex startup, or verify the custom binary matches the Codex version bundled with this FRIDAY release.",
+      "- Remove the override to use managed Codex startup, or verify the custom binary matches the Codex version bundled with this OpenClaw release.",
     ].join("\n"),
   ];
 }

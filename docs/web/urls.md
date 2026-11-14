@@ -181,16 +181,16 @@ Native catalog threads use the agent path with a source query:
 /chat/<agentId>?catalog=<catalogId>&host=<hostId>&thread=<threadId>
 ```
 
-URL-encode each query value. The agent in the path owns the FRIDAY pane,
+URL-encode each query value. The agent in the path owns the OpenClaw pane,
 including catalog reads and continuation; `catalog`, `host`, and `thread`
 identify the native source. Opening the same source under different agents
 keeps their panes and drafts separate, including in split view. Continuing a
-thread navigates to the adopted FRIDAY session link. The same catalog query
+thread navigates to the adopted OpenClaw session link. The same catalog query
 also works under `/dashboard/<agentId>`.
 
 ## Social previews
 
-Use **Advanced → Copy details → Preview link** in a session's menu to share a link with an FRIDAY
+Use **Advanced → Copy details → Preview link** in a session's menu to share a link with an OpenClaw
 social card. It opens a small public landing page; **Open dashboard** or
 **Open session** then takes the recipient to the normal authenticated view.
 **Copy link** in the root menu still copies the direct link.
@@ -200,7 +200,7 @@ For example, `/share/dashboard/main/deploy-monitor-6db92d48` previews
 prefixes both paths. The preview serves Open Graph metadata and a 1200 × 630 PNG
 at `/share/card.png`, without requiring JavaScript or a Gateway connection.
 
-The card shows generic FRIDAY branding, not the session's title, messages,
+The card shows generic OpenClaw branding, not the session's title, messages,
 dashboard widgets, or screenshots. Preview requests never look up session state,
 so the page does not reveal whether the target exists. The link itself still
 contains the session route and, for catalog sessions, the catalog routing fields.
@@ -217,7 +217,7 @@ access based on their User-Agent.
 For Cloudflare Access, use a separate application matching that public path with
 a Bypass policy; keep the existing authenticated application for the rest of the
 host. See [Cloudflare's application path rules](https://developers.cloudflare.com/cloudflare-one/access-controls/policies/app-paths/).
-This is an operator deployment step; FRIDAY does not change proxy policies.
+This is an operator deployment step; OpenClaw does not change proxy policies.
 
 Set the existing `gateway.publicOrigin` to your external HTTP(S) origin when TLS
 terminates at the proxy, so the image and standard URLs use the public HTTPS
@@ -292,7 +292,7 @@ Public session links include a 1200 × 630 preview card with the session title a
 opening public request. When recorded worktree changes are already available,
 the card shows a work receipt with change counts and recorded PR/check details.
 Cards preserve included text without secret masking and never fetch Git or GitHub
-data; missing facts are omitted. Unavailable sessions use the generic FRIDAY card.
+data; missing facts are omitted. Unavailable sessions use the generic OpenClaw card.
 Preview images may remain cached by a recipient for five minutes after revocation.
 
 Public reads wait for current sharing facts when a session changes during the
@@ -335,7 +335,7 @@ Set `gateway.publicOrigin` to the external HTTPS origin and make the trusted
 proxy overwrite `X-Forwarded-Proto` with the external scheme. Verify public
 threads and the share card without cookies, private-thread non-disclosure,
 login returning to the same thread, and authentication on all protected routes.
-FRIDAY does not change Cloudflare Access or other proxy policies automatically.
+OpenClaw does not change Cloudflare Access or other proxy policies automatically.
 
 ### Reader capacity
 
@@ -518,7 +518,7 @@ no route-specific URL parameters.
 | Dashboard           | `/dashboard`                                   | -                         | Key-backed session forms above; `?draft=<text>`                                   |
 | Beam transcript     | `/beam/<title>-<beam-id>`                      | `/beam/<beam-id>`         | Optional title slug and 12-32 lowercase hexadecimal id characters                 |
 | Dashboards          | `/dashboards`                                  | -                         | -                                                                                 |
-| Ask FRIDAY          | `/custodian`                                   | -                         | `?intent=new-agent`, `?onboarding=1`                                              |
+| Ask OpenClaw        | `/custodian`                                   | -                         | `?intent=new-agent`, `?onboarding=1`                                              |
 | New session         | `/new`                                         | -                         | `?agent=<agentId>`, `?catalog=<catalogId>`                                        |
 | Activity            | `/activity`                                    | -                         | `?view=run&run=<run-id>`, `?view=run&execution=<execution-id>`                    |
 | Person activity     | `/activity/<name>-<profile-id>`                | -                         | Optional name slug and 8-32 lowercase hexadecimal id characters                   |

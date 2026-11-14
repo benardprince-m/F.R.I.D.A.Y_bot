@@ -64,7 +64,7 @@ export const modelCatalogOperations = {
         readConfigMachineStateRowInDatabase(db, LEGACY_REMOTE_MODEL_CATALOG_STATE_KEY)?.value_json;
       let legacy: RemoteModelCatalogSnapshot | undefined;
       if (legacyJson !== undefined) {
-        // SAFETY: Only FRIDAY catalog stores write this key, always as a catalog snapshot.
+        // SAFETY: Only OpenClaw catalog stores write this key, always as a catalog snapshot.
         legacy = JSON.parse(legacyJson) as RemoteModelCatalogSnapshot;
       }
       updateConfigMachineStateInDatabase<RemoteModelCatalogSnapshot>(

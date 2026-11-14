@@ -65,7 +65,7 @@ import {
 } from "./thread-requests.js";
 import { buildTurnStartParams } from "./turn-params.js";
 
-it("uses direct FRIDAY functions and hosted web search for subscription sharing", async () => {
+it("uses direct OpenClaw functions and hosted web search for subscription sharing", async () => {
   const params = createAttemptParams({ provider: "openai", authProfileId: "openai:sharing" });
   const profile = params.authProfileStore!.profiles["openai:sharing"]!;
   params.authProfileStore!.profiles["openai:sharing"] = {
@@ -602,7 +602,7 @@ describe("Codex app-server native code mode config", () => {
     expect(instructions.includes("`openclaw_direct.sessions_yield`")).toBe(true);
     expect(instructions.includes("native `wait_agent`")).toBe(true);
     expect(instructions).toContain(
-      "Deferred searchable FRIDAY dynamic tools available: alpha_tool, skill_workshop, zeta_tool.",
+      "Deferred searchable OpenClaw dynamic tools available: alpha_tool, skill_workshop, zeta_tool.",
     );
     expect(instructions).toContain("## Skill Workshop");
     expect(instructions).toContain(
@@ -614,7 +614,7 @@ describe("Codex app-server native code mode config", () => {
     );
     expect(instructions).not.toContain("On code-mode-only models");
     expect(instructions).toContain(
-      "For new delegated work that needs FRIDAY tools, use `openclaw_direct.sessions_spawn` from the start.",
+      "For new delegated work that needs OpenClaw tools, use `openclaw_direct.sessions_spawn` from the start.",
     );
   });
 
@@ -911,7 +911,7 @@ describe("Codex app-server turn input image sanitizing", () => {
 
 describe("Codex app-server turn params", () => {
   it.each(["user", "cron"] as const)(
-    "builds resume and %s turn params from the selected FRIDAY model",
+    "builds resume and %s turn params from the selected OpenClaw model",
     async (trigger) => {
       const params = createAttemptParams({ provider: "codex" });
       params.modelId = "gpt-5.4-codex";
@@ -995,7 +995,7 @@ describe("Codex app-server turn params", () => {
         expect(collaboration?.settings.model).toBe("gpt-5.4-codex");
         expect(collaboration?.settings.reasoning_effort).toBe("medium");
         for (const instruction of [
-          "This is an FRIDAY cron automation turn",
+          "This is an OpenClaw cron automation turn",
           "If it asks you to run an exact command, run that command before doing any investigation",
           "Use context already provided by the runtime",
         ]) {

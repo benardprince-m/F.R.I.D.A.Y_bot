@@ -8,7 +8,7 @@ import Testing
     }
 
     @Test func decodeSpaces() {
-        #expect(BonjourEscapes.decode("FRIDAY\\032Gateway") == "FRIDAY Gateway")
+        #expect(BonjourEscapes.decode("OpenClaw\\032Gateway") == "OpenClaw Gateway")
     }
 
     @Test func decodeMultipleEscapes() {

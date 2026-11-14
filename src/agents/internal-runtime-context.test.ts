@@ -53,16 +53,16 @@ describe("internal runtime context codec", () => {
   it("strips the current delimiter-free carrier without matching inline mentions", () => {
     expect(
       stripInternalRuntimeContext(
-        "Visible intro\n\nOpenClaw runtime context:\nprivate current-turn facts\nEnd FRIDAY runtime context.\n\nVisible outro",
+        "Visible intro\n\nOpenClaw runtime context:\nprivate current-turn facts\nEnd OpenClaw runtime context.\n\nVisible outro",
       ),
     ).toBe("Visible intro\n\nVisible outro");
     expect(
-      stripInternalRuntimeContext("The phrase FRIDAY runtime context: is ordinary text."),
-    ).toBe("The phrase FRIDAY runtime context: is ordinary text.");
+      stripInternalRuntimeContext("The phrase OpenClaw runtime context: is ordinary text."),
+    ).toBe("The phrase OpenClaw runtime context: is ordinary text.");
   });
 
   it("strips an unfinished current carrier from previews and final output", () => {
-    const text = "FRIDAY runtime context:\nThis phrase is part of the answer.";
+    const text = "OpenClaw runtime context:\nThis phrase is part of the answer.";
     expect(stripInternalRuntimeContext(text)).toBe("");
     expect(stripInternalRuntimeContext(text, { streaming: true })).toBe("");
   });
@@ -111,7 +111,7 @@ describe("internal runtime context codec", () => {
     );
   });
 
-  it.each([["runtime event", "FRIDAY runtime event."]])(
+  it.each([["runtime event", "OpenClaw runtime event."]])(
     "detects and strips the %s prompt preface",
     (_name, header) => {
       const preface = [header, OPENCLAW_RUNTIME_CONTEXT_NOTICE].join("\n");

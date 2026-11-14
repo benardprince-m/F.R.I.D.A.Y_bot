@@ -172,7 +172,7 @@ Options:
                                       Intended publication route. Default: normal; not inferred from a protected ref.
   --repo <owner/repo>                 GitHub repo. Default: ${DEFAULT_REPO}
   --full-release-run <id>             Reuse successful Full Release Validation run.
-  --npm-preflight-run <id>            Reuse successful FRIDAY NPM Release preflight run.
+  --npm-preflight-run <id>            Reuse successful OpenClaw NPM Release preflight run.
   --plugin-sdk-api-acknowledgement <digest>
                                       8-character digest from the Plugin SDK API diff report.
   --windows-node-tag <tag>            Optional exact Windows Node tag for postpublish asset promotion.
@@ -361,7 +361,7 @@ export function parseArgs(argv: string[]) {
   }
   if (options.pluginPublishScope === "selected") {
     throw new Error(
-      "--plugin-publish-scope selected is only for plugin-only repair publishes; release candidates publish FRIDAY with --plugin-publish-scope all-publishable",
+      "--plugin-publish-scope selected is only for plugin-only repair publishes; release candidates publish OpenClaw with --plugin-publish-scope all-publishable",
     );
   }
   if (options.pluginPublishScope === "all-publishable" && options.plugins.trim()) {
@@ -1018,7 +1018,7 @@ export async function validateNpmPreflightRunSource(
     !Number.isSafeInteger(workflowRun.runAttempt) ||
     workflowRun.runAttempt < 1 ||
     workflowRun.repository !== repository ||
-    workflowRun.workflowName !== "FRIDAY NPM Release" ||
+    workflowRun.workflowName !== "OpenClaw NPM Release" ||
     workflowPath !== ".github/workflows/openclaw-npm-release.yml" ||
     workflowRun.event !== "workflow_dispatch" ||
     workflowRun.status !== "completed" ||
@@ -2246,7 +2246,7 @@ async function main() {
         source: { status: "passed", headSha: fullRun.headSha, workflowRef: options.workflowRef },
       }
     : await waitForSuccessfulRun(options.repo, options.npmPreflightRunId, {
-        workflowName: "FRIDAY NPM Release",
+        workflowName: "OpenClaw NPM Release",
         workflowRef: options.workflowRef,
         validateSource: (workflowRun) =>
           validateNpmPreflightRunSource({
@@ -2329,7 +2329,7 @@ async function main() {
       );
   const npmArtifactName = npmArtifact.name;
   if (!Number.isInteger(npmRun.runAttempt) || npmRun.runAttempt < 1) {
-    throw new Error(`FRIDAY npm preflight run ${npmProducerRunId} has invalid attempt.`);
+    throw new Error(`OpenClaw npm preflight run ${npmProducerRunId} has invalid attempt.`);
   }
   downloadArtifact(
     options.repo,
@@ -2630,7 +2630,7 @@ async function main() {
             prepareCommand,
             "```",
             "",
-            "When preparation succeeds, its summary supplies the single input for FRIDAY Release Button.",
+            "When preparation succeeds, its summary supplies the single input for OpenClaw Release Button.",
             "",
           ]
         : []),

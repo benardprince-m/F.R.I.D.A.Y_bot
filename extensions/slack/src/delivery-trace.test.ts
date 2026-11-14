@@ -826,7 +826,7 @@ describe("slack delivery trace goldens", () => {
       expect(posts[1]?.data).toMatchObject({ payload: { text: "The answer." } });
       expect(events.findLast((event) => event.kind === "chat.update")?.data).toMatchObject({
         payload: {
-          text: `${title ? `${title}\n\n` : ""}Read — running\n\nOpen in FRIDAY`,
+          text: `${title ? `${title}\n\n` : ""}Read — running\n\nOpen in OpenClaw`,
         },
       });
       expect(
@@ -885,7 +885,7 @@ describe("slack delivery trace goldens", () => {
                     id: "openclaw_summary",
                     title: "Completed",
                     status: "complete",
-                    sources: [{ type: "url_source", url, text: "Open in FRIDAY" }],
+                    sources: [{ type: "url_source", url, text: "Open in OpenClaw" }],
                   }),
                 ]),
               }),
@@ -1071,7 +1071,7 @@ describe("slack delivery trace goldens", () => {
         (event) =>
           event.kind === "chat.update" &&
           (event.data as { target?: string } | undefined)?.target === secondCardId &&
-          JSON.stringify(event.data).includes("Open in FRIDAY"),
+          JSON.stringify(event.data).includes("Open in OpenClaw"),
       ),
     ).toBe(true);
   });

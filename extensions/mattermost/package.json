@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/mattermost",
   "version": "2026.10.4",
-  "description": "FRIDAY Mattermost channel plugin",
+  "description": "OpenClaw Mattermost channel plugin",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

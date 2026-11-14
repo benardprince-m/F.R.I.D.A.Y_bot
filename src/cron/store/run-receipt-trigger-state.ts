@@ -40,7 +40,7 @@ function ensureRetirementsTable(database: EngineConnection): void {
   // sqlite-allow-raw -- Canonical first-use DDL rolls back with the owning edit.
   database.exec(
     getOpenClawStateFeatureSchemaSql(RETIREMENTS_TABLE, {
-      errorMessage: "FRIDAY cron run trigger-state retirement schema is missing.",
+      errorMessage: "OpenClaw cron run trigger-state retirement schema is missing.",
     }),
   );
 }

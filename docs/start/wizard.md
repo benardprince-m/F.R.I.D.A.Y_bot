@@ -31,7 +31,7 @@ the selected connection passes verification.
 The classic wizard remains available for remote Gateway setup, channel pairing,
 daemon controls, skills, and imports. Run it explicitly
 with `openclaw onboard --classic`; the guided inference picker does not delegate
-into it. After inference passes, FRIDAY can use `open channel wizard for
+into it. After inference passes, OpenClaw can use `open channel wizard for
 <channel>` to hand channel setup that needs secrets to a masked terminal wizard.
 Workspace skills and web search are configured the same conversational way:
 `configure skills` and `configure web search` host those setup flows in the
@@ -47,8 +47,8 @@ After onboarding has created the default agent workspace, `import memory` can
 copy detected local memory into it. This conversational import does not change
 config or import credentials or skills, needs no Gateway restart, and reports
 per-source partial or failed copies honestly.
-To change the model provider or its authentication, exit FRIDAY and run
-`openclaw onboard`; FRIDAY does not open guided or classic provider flows.
+To change the model provider or its authentication, exit OpenClaw and run
+`openclaw onboard`; OpenClaw does not open guided or classic provider flows.
 
 <Info>
 On a fresh install, run `npx openclaw@latest` and choose **Quick start** for the
@@ -96,7 +96,7 @@ The classic wizard includes a web search step where you can pick a provider: Bra
 DuckDuckGo, Exa, Firecrawl, Gemini, Grok, Kimi, MiniMax Search, Ollama Web
 Search, Perplexity, SearXNG, or Tavily. Some need an API key; others are
 key-free. Configure this later with `openclaw configure --section web`, or say
-`configure web search` in the FRIDAY chat to run the same provider setup
+`configure web search` in the OpenClaw chat to run the same provider setup
 conversationally. Docs: [Web tools](/tools/web).
 </Tip>
 
@@ -274,7 +274,7 @@ Local mode (default) walks through these steps:
    `exec`), with a fast preflight check before saving. After model/auth setup,
    the wizard offers an optional live completion test; a failure can return to
    model/auth setup once or be ignored without blocking the rest of the
-   classic wizard. Ignoring it does not unlock FRIDAY; conversational setup
+   classic wizard. Ignoring it does not unlock OpenClaw; conversational setup
    still requires a passing inference check.
 3. **Gateway** - port, bind address, secret storage, and Tailscale exposure.
    Generates a Gateway secret in token mode by default, without asking you to
@@ -323,7 +323,7 @@ run `openclaw doctor` first.
 `--flow import` runs a detected migration flow (for example Hermes) in the
 classic wizard instead of fresh setup; see [Migrate](/cli/migrate) and the migration guides under
 [Install](/install/migrating-hermes). `openclaw onboard --modern` is a
-compatibility alias for [FRIDAY](/cli/openclaw). It uses the same
+compatibility alias for [OpenClaw](/cli/openclaw). It uses the same
 inference gate as `openclaw setup`: verified inference starts the
 assistant, while an interactive failure returns to guided inference setup.
 

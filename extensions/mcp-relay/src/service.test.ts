@@ -146,7 +146,7 @@ describe("MCP relay transport and authority", () => {
 
   it("requires the current principal-bound ingress capability at startup", async () => {
     await expect(fixture(undefined, { controlUiIngress: undefined })).rejects.toThrow(
-      "Update FRIDAY to enable principal-bound MCP and Control UI access.",
+      "Update OpenClaw to enable principal-bound MCP and Control UI access.",
     );
   });
 

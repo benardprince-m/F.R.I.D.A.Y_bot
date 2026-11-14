@@ -15,7 +15,7 @@ function preview(
         : [],
     ),
     {
-      assistantName: "FRIDAY",
+      assistantName: "OpenClaw",
       ...props,
       replyMessageAccess: { read: () => (location === "fetched" ? source : undefined) },
     },
@@ -48,10 +48,10 @@ it.each([
     {
       location,
       source: documentSource,
-      senderLabel: "FRIDAY",
+      senderLabel: "OpenClaw",
       expected: {
         sourceMessageId: "source",
-        senderLabel: "FRIDAY",
+        senderLabel: "OpenClaw",
         text: "report.pdf",
       },
     },

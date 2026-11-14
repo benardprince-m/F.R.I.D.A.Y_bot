@@ -103,7 +103,7 @@ it("exports the terminal-safe update diagnostic writer for installed-runtime fin
   const { options, run, reportPath } = fixture();
   await finishUpdateRun(run.runId, { status: "failed", reason: "post-update-failed" }, options);
   expect(await fs.readFile(reportPath, "utf8")).toContain(
-    "FRIDAY update failed: post-update-failed",
+    "OpenClaw update failed: post-update-failed",
   );
 
   recordUpdateRunDiagnostic(
@@ -162,7 +162,7 @@ it.each(["published driver", "settled child"] as const)(
       verification: {},
     });
     const saved = await fs.readFile(reportPath, "utf8");
-    expect(saved).toContain(`FRIDAY update failed: ${reason}`);
+    expect(saved).toContain(`OpenClaw update failed: ${reason}`);
     expect(saved).toContain("Run openclaw triage");
     expect(saved).toContain("Complete Doctor lint findings (1)");
     expect(saved).toContain(lintMessage);
@@ -261,7 +261,7 @@ it.each(["contention observed", "helper wait exhausted"] as const)(
       expect(stderr).not.toContain("Update report could not be saved:");
     }
     const saved = await fs.readFile(reportPath, "utf8");
-    expect(saved).toContain("FRIDAY update failed: managed-service-handoff-failed");
+    expect(saved).toContain("OpenClaw update failed: managed-service-handoff-failed");
     expect(saved).not.toContain("in progress");
   },
 );
@@ -296,7 +296,7 @@ it.each(["terminal", "captured"] as const)(
     const saved = await fs.readFile(reportPath, "utf8");
     if (kind === "captured") {
       expect(error).not.toHaveBeenCalled();
-      expect(saved).toContain("FRIDAY update failed: helper-first-failure");
+      expect(saved).toContain("OpenClaw update failed: helper-first-failure");
       expect(saved).toContain("Captured terminal recovery instructions.");
     } else {
       expect(error).toHaveBeenCalledWith(expect.stringContaining("history unavailable"));

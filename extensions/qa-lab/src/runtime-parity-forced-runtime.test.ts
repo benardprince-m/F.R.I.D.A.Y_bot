@@ -71,7 +71,7 @@ async function captureForcedCodexCell(params: { logs?: () => string; tempRoot: s
 }
 
 describe("runtime parity forced runtime observer", () => {
-  it("ignores Codex mirror records and shared logs without an FRIDAY selection", async () => {
+  it("ignores Codex mirror records and shared logs without an OpenClaw selection", async () => {
     const tempRoot = await seedForcedRuntimeTranscript({
       sessionId: "forced-codex-embedded-runtime",
       messages: [
@@ -96,7 +96,7 @@ describe("runtime parity forced runtime observer", () => {
     expect(cell.runtimeErrorClass).toBeUndefined();
   });
 
-  it("fails a forced-Codex mock cell that selects the FRIDAY fallback", async () => {
+  it("fails a forced-Codex mock cell that selects the OpenClaw fallback", async () => {
     const tempRoot = await seedForcedRuntimeTranscript({
       sessionId: "forced-codex-openclaw-selection",
       messages: [{ role: "user", content: "runtime isolation check" }],

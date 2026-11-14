@@ -1,4 +1,4 @@
-import { FRIDAY } from "./client.js";
+import { OpenClaw } from "./client.js";
 import { EventHub } from "./event-hub.js";
 import type {
   GatewayEvent,
@@ -54,10 +54,10 @@ export class FakeTransport implements OpenClawTransport {
 
 export function createClientFixture(responses: Record<string, FakeResponse> = {}) {
   const transport = new FakeTransport(responses);
-  return { transport, oc: new FRIDAY({ transport }) };
+  return { transport, oc: new OpenClaw({ transport }) };
 }
 
-export async function observeGatewaySequence(oc: FRIDAY, seq: number): Promise<OpenClawEvent> {
+export async function observeGatewaySequence(oc: OpenClaw, seq: number): Promise<OpenClawEvent> {
   for await (const event of oc.events((eventLocal) => eventLocal.raw?.seq === seq)) {
     return event;
   }

@@ -73,7 +73,7 @@ function title(session: Session): string {
 
 function sessionRow(value: unknown): Session {
   if (!isRecord(value) || typeof value.key !== "string" || typeof value.agentId !== "string") {
-    throw new RelayError("unavailable", "Conversation details are unavailable. Retry in FRIDAY.");
+    throw new RelayError("unavailable", "Conversation details are unavailable. Retry in OpenClaw.");
   }
   return {
     key: value.key,
@@ -94,13 +94,13 @@ function sessionRow(value: unknown): Session {
 async function listAgents(request: GatewayRequest) {
   const result = await request("agents.list", {});
   if (!isRecord(result) || !Array.isArray(result.agents)) {
-    throw new RelayError("unavailable", "Agent status is unavailable. Retry in FRIDAY.");
+    throw new RelayError("unavailable", "Agent status is unavailable. Retry in OpenClaw.");
   }
   return {
     defaultId: readStringValue(result.defaultId),
     agents: result.agents.map((agent: unknown) => {
       if (!isRecord(agent) || typeof agent.id !== "string") {
-        throw new RelayError("unavailable", "Agent status is unavailable. Retry in FRIDAY.");
+        throw new RelayError("unavailable", "Agent status is unavailable. Retry in OpenClaw.");
       }
       return { id: agent.id, name: truncateText(readStringValue(agent.name) ?? agent.id) };
     }),
@@ -146,7 +146,7 @@ function conversationMessage(value: unknown): HistoryMessage | undefined {
   if (!id || !timestamp) {
     throw new RelayError(
       "unavailable",
-      "This conversation is missing message metadata. Open it in FRIDAY and retry.",
+      "This conversation is missing message metadata. Open it in OpenClaw and retry.",
     );
   }
   return {
@@ -175,7 +175,7 @@ function historyPage(value: unknown): {
   if (!Array.isArray(value.messages)) {
     throw new RelayError(
       "unavailable",
-      "Conversation history is unavailable. Open it in FRIDAY and retry.",
+      "Conversation history is unavailable. Open it in OpenClaw and retry.",
     );
   }
   return {
@@ -246,7 +246,7 @@ export function createOperations({
       }
       throw new RelayError(
         "unavailable",
-        "Conversation history is unavailable. Open it in FRIDAY and retry.",
+        "Conversation history is unavailable. Open it in OpenClaw and retry.",
       );
     }
   }
@@ -267,7 +267,7 @@ export function createOperations({
       if (!isRecord(result)) {
         throw new RelayError(
           "unavailable",
-          "Run status is unavailable. Open the conversation in FRIDAY.",
+          "Run status is unavailable. Open the conversation in OpenClaw.",
         );
       }
       const terminalTimeout =
@@ -285,7 +285,7 @@ export function createOperations({
           ...base,
           status: "failed",
           error:
-            "The agent run failed. Open the conversation in FRIDAY to inspect the error and retry.",
+            "The agent run failed. Open the conversation in OpenClaw to inspect the error and retry.",
         };
       }
       if (result.status === "timeout" || result.status === "pending") {
@@ -294,7 +294,7 @@ export function createOperations({
       if (result.status !== "ok") {
         throw new RelayError(
           "unavailable",
-          "Run status is unavailable. Open the conversation in FRIDAY.",
+          "Run status is unavailable. Open the conversation in OpenClaw.",
         );
       }
       const terminal = isRecord(result.terminalReply) ? result.terminalReply : undefined;
@@ -351,7 +351,7 @@ export function createOperations({
         if (!isRecord(result) || !Array.isArray(result.sessions)) {
           throw new RelayError(
             "unavailable",
-            "Conversation listing is unavailable. Retry in FRIDAY.",
+            "Conversation listing is unavailable. Retry in OpenClaw.",
           );
         }
         return {
@@ -385,7 +385,7 @@ export function createOperations({
           if (!anchor && tail.hasMore) {
             throw new RelayError(
               "unavailable",
-              "The latest conversation page has no message anchor. Open it in FRIDAY and retry.",
+              "The latest conversation page has no message anchor. Open it in OpenClaw and retry.",
             );
           }
           // Anchor once so subsequent pages use the host's source-bound opaque cursor.
@@ -439,12 +439,12 @@ export function createOperations({
           if (!isRecord(accepted) || typeof accepted.key !== "string") {
             throw new RelayError(
               "unavailable",
-              "Conversation creation did not return a conversation ID. Check FRIDAY before trying again.",
+              "Conversation creation did not return a conversation ID. Check OpenClaw before trying again.",
             );
           }
           if (accepted.runStarted === false || accepted.runError !== undefined) {
             const error =
-              "The conversation was created, but the message did not start. Open it in FRIDAY and retry there.";
+              "The conversation was created, but the message did not start. Open it in OpenClaw and retry there.";
             if (typeof accepted.runId === "string" && accepted.runId) {
               return {
                 conversationId: accepted.key,
@@ -455,7 +455,7 @@ export function createOperations({
             }
             throw new RelayError(
               "unavailable",
-              `Conversation ${accepted.key} was created, but the message did not start. Open it in FRIDAY and retry there.`,
+              `Conversation ${accepted.key} was created, but the message did not start. Open it in OpenClaw and retry there.`,
             );
           }
           resolvedConversationId = accepted.key;
@@ -463,7 +463,7 @@ export function createOperations({
         if (!isRecord(accepted) || typeof accepted.runId !== "string" || !accepted.runId) {
           throw new RelayError(
             "unavailable",
-            "The Gateway did not return a run ID. Check the conversation in FRIDAY before sending again.",
+            "The Gateway did not return a run ID. Check the conversation in OpenClaw before sending again.",
           );
         }
         return await observeRun(resolvedConversationId, accepted.runId, waitMs, request, true);
@@ -498,7 +498,7 @@ export function createOperations({
         if (signal?.aborted) {
           throw new RelayError(
             "timeout",
-            "This request reached its time limit. Check the conversation in FRIDAY before retrying.",
+            "This request reached its time limit. Check the conversation in OpenClaw before retrying.",
           );
         }
         throw error;

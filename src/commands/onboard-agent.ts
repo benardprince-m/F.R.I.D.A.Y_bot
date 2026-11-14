@@ -75,10 +75,10 @@ export async function ensureOnboardingAgent(params: {
   const hasExpectedConfigHash = Object.hasOwn(params, "expectedConfigHash");
   let before = hasExpectedConfigHash ? await readConfigFileSnapshot() : undefined;
   if (before?.exists && !before.valid) {
-    throw new Error("Cannot create the first agent from an invalid FRIDAY config.");
+    throw new Error("Cannot create the first agent from an invalid OpenClaw config.");
   }
   if (before && (resolveConfigSnapshotHash(before) ?? null) !== params.expectedConfigHash) {
-    throw new Error("FRIDAY config changed before first-agent creation. Retry setup.");
+    throw new Error("OpenClaw config changed before first-agent creation. Retry setup.");
   }
   const candidateRoster = listAgentEntries(params.config);
   const firstEntry = candidateRoster[0];
@@ -108,7 +108,7 @@ export async function ensureOnboardingAgent(params: {
   }
   before ??= await readConfigFileSnapshot();
   if (before.exists && !before.valid) {
-    throw new Error("Cannot create the first agent from an invalid FRIDAY config.");
+    throw new Error("Cannot create the first agent from an invalid OpenClaw config.");
   }
   const effective = before.config;
   const candidateBase = params.baseConfig ?? effective;
@@ -156,10 +156,10 @@ export async function ensureOnboardingAgent(params: {
   const createdTeam = "coordinatorId" in created;
   const after = await readConfigFileSnapshot();
   if (!after.valid) {
-    throw new Error("Agent creation wrote an invalid FRIDAY config.");
+    throw new Error("Agent creation wrote an invalid OpenClaw config.");
   }
   if (created.configHash && after.hash !== created.configHash) {
-    throw new Error("FRIDAY config changed after first-agent creation. Retry setup.");
+    throw new Error("OpenClaw config changed after first-agent creation. Retry setup.");
   }
   const config = mergeOnboardingCandidate({
     base: candidateBase,

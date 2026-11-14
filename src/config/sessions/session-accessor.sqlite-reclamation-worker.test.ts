@@ -334,7 +334,7 @@ test.each(["established", "first-created"] as const)(
         }
       });
       await expect(runSqliteSessionReclamation({ plan })).rejects.toThrow(
-        "FRIDAY state database read admission changed",
+        "OpenClaw state database read admission changed",
       );
       expect(revoked).toBe(true);
       expect(admission.assertCurrent).toThrow("read admission changed");

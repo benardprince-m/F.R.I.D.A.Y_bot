@@ -17,7 +17,7 @@ export function parseClawYaml(
       : [
           "invalid_openclaw_profile",
           "unsupported_openclaw_profile_yaml_feature",
-          "FRIDAY profile YAML",
+          "OpenClaw profile YAML",
         ];
   const document = parseDocument(raw, {
     prettyErrors: false,

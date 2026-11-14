@@ -8,7 +8,7 @@ title: "Cloudflare Tunnel and Access"
 ---
 
 Run the Gateway on loopback, publish it through a Cloudflare Tunnel, and let Cloudflare
-Access authenticate every request before it reaches FRIDAY. The Gateway keeps
+Access authenticate every request before it reaches OpenClaw. The Gateway keeps
 `gateway.bind: "loopback"`, so no port is exposed and no inbound firewall rule is
 needed; `cloudflared` dials out from the host.
 
@@ -58,7 +58,7 @@ users. Note the two headers Access adds to authenticated requests, because the G
 consumes them in the next step:
 
 - `cf-access-authenticated-user-email` — the authenticated identity.
-- `cf-access-jwt-assertion` — Access's signed assertion. FRIDAY checks only that this
+- `cf-access-jwt-assertion` — Access's signed assertion. OpenClaw checks only that this
   header is present and non-blank; it does not verify the JWT signature.
 
 ### OIDC sign-in and existing people
@@ -68,7 +68,7 @@ that identity provider. For example, use a signed role claim maintained by the
 provider. A GitHub organization policy applies to the GitHub identity provider;
 it does not grant access through a separate OIDC provider.
 
-FRIDAY verifies the OIDC identity through Cloudflare Access's identity endpoint
+OpenClaw verifies the OIDC identity through Cloudflare Access's identity endpoint
 and requires its email to match the authenticated user header. It then resolves
 that email through the existing person profile. Using the same email retains the
 person's profile and role; a different email requires an existing linked alias to
@@ -76,7 +76,7 @@ resolve to that person. GitHub sign-in continues to verify the immutable GitHub
 account ID. Failed identity verification does not fall back to email matching.
 
 Keep the identity provider responsible for verifying email ownership. Creating an
-FRIDAY person profile does not grant access through Cloudflare Access.
+OpenClaw person profile does not grant access through Cloudflare Access.
 
 ### Verified GitHub credit through OIDC
 
@@ -109,18 +109,18 @@ The provider must verify ownership of the GitHub account and bind it to the
 verified sign-in email. Its ID token must contain a positive
 decimal-string account ID with no leading zeros, such as `"12345"`, within JavaScript's safe-integer
 range. Configure Access to forward that exact [custom OIDC claim](https://developers.cloudflare.com/cloudflare-one/integrations/identity-providers/generic-oidc/#custom-oidc-claims).
-FRIDAY reads it from `oidc_fields` in the authenticated
+OpenClaw reads it from `oidc_fields` in the authenticated
 `/cdn-cgi/access/get-identity` response, or from `custom` when `oidc_fields` is
 absent, then verifies the numeric account through GitHub to obtain its current
-public login. A present `oidc_fields` container takes precedence: FRIDAY does
+public login. A present `oidc_fields` container takes precedence: OpenClaw does
 not retry `custom` if the preferred container lacks the claim or its value is
 invalid. The identity-provider **Test** preview uses `oidc_fields`; inspect the
 authenticated identity endpoint after a fresh sign-in to verify the response
-FRIDAY consumes.
+OpenClaw consumes.
 
 A missing or malformed optional claim, or an unselected issuer/provider, keeps
 ordinary email-only resolution. Malformed claims are never sent to GitHub or
-used to create an association or public credit. If the optional GitHub account lookup fails, FRIDAY resolves the
+used to create an association or public credit. If the optional GitHub account lookup fails, OpenClaw resolves the
 authenticated email through the normal profile and access-policy checks. An
 existing authorized profile or valid email invitation can still sign in. A
 GitHub-only access requirement is not satisfied by an email fallback.
@@ -219,7 +219,7 @@ while new image and file requests require renewed website access. The Control UI
 first attempts automatic renewal through a hidden, sandboxed browser navigation.
 If your global Cloudflare Access session is still valid and your browser permits
 its cookies, Access can issue a fresh application cookie without another login.
-FRIDAY verifies access before retrying failed attachments, keeping your
+OpenClaw verifies access before retrying failed attachments, keeping your
 conversation and unsent draft open.
 
 If renewal still requires sign-in, the Control UI opens one **Sign in to continue

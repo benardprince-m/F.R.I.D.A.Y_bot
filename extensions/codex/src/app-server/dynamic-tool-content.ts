@@ -45,7 +45,7 @@ export function convertToolContents(
   if (totalTextBudget <= maxChars) {
     return content.map(convertToolContent);
   }
-  const noticeText = `...(FRIDAY truncated dynamic tool result: original ${totalTextChars} chars, weighted budget ${maxChars}; rerun with narrower args.)`;
+  const noticeText = `...(OpenClaw truncated dynamic tool result: original ${totalTextChars} chars, weighted budget ${maxChars}; rerun with narrower args.)`;
   const notice = `\n${noticeText}`;
   const noticeChars = estimateToolResultTextChars(notice);
   const textBudget = Math.max(0, maxChars - noticeChars);

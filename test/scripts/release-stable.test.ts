@@ -284,11 +284,11 @@ describe("release:stable CLI", () => {
     const result = release.run([
       step("pnpm", ["release:candidate", "--", "--tag", `v${RELEASE}`]),
       step("git", ["ls-remote", "--tags", "origin", `v${RELEASE}`, `v${RELEASE}^{}`]),
-      step("git", ["tag", "-s", `v${RELEASE}`, CUT_SHA, "-m", `FRIDAY ${RELEASE}`], "", {
+      step("git", ["tag", "-s", `v${RELEASE}`, CUT_SHA, "-m", `OpenClaw ${RELEASE}`], "", {
         exit: 1,
       }),
       step("git", ["rev-parse", `v${RELEASE}^{}`], CUT_SHA),
-      step("git", ["tag", "-s", "-f", `v${RELEASE}`, CUT_SHA, "-m", `FRIDAY ${RELEASE}`], "", {
+      step("git", ["tag", "-s", "-f", `v${RELEASE}`, CUT_SHA, "-m", `OpenClaw ${RELEASE}`], "", {
         exit: resigned ? 0 : 1,
       }),
       ...(resigned ? [step("git", ["push", "origin", `refs/tags/v${RELEASE}`])] : []),
@@ -337,7 +337,7 @@ describe("release:stable CLI", () => {
     const liveChildren = [
       child(701),
       child(702, "Plugin ClawHub Release", "plugin-clawhub-release.yml"),
-      child(703, "FRIDAY NPM Release", "openclaw-npm-release.yml"),
+      child(703, "OpenClaw NPM Release", "openclaw-npm-release.yml"),
       ...ignored,
     ];
     const childGateReads = () => [

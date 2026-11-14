@@ -1,7 +1,7 @@
 import OpenClawKit
 import OpenClawProtocol
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct TalkModeConfigParsingTests {
     @Test func `rejects normalized talk provider payload without resolved`() {

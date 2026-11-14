@@ -166,7 +166,7 @@ function resolveGatewayOwnerStatusSync(
       : "alive";
   }
   // Embedded agents cover every state-writing command; maintenance roles require
-  // an FRIDAY command. Gateway classification also recognizes retitled processes.
+  // an OpenClaw command. Gateway classification also recognizes retitled processes.
   const command =
     role === "agent-embedded" || role === "sqlite-maintenance"
       ? undefined
@@ -579,7 +579,7 @@ export async function acquireGatewayLock(
           }
           if (!waited && deadlineMs > startedAt && role === "gateway") {
             log.warn(
-              `waiting for Gateway state ownership held by another FRIDAY process, up to ${Math.ceil((deadlineMs - startedAt) / 1000)} s`,
+              `waiting for Gateway state ownership held by another OpenClaw process, up to ${Math.ceil((deadlineMs - startedAt) / 1000)} s`,
             );
           }
           waited = true;
@@ -591,7 +591,7 @@ export async function acquireGatewayLock(
     const message = `failed to acquire gateway state ownership${waited ? `; waited ${Math.round(now() - startedAt)}ms for Gateway state ownership` : ""}`;
     const detail =
       error instanceof GatewayStateOwnerContentionError
-        ? `${message}: ${error.message}. ${captureStalledGatewayStartup(env)?.description ?? "Stop the Gateway or wait for the current FRIDAY operation to finish"}. Run \`openclaw gateway stop\`, then retry.`
+        ? `${message}: ${error.message}. ${captureStalledGatewayStartup(env)?.description ?? "Stop the Gateway or wait for the current OpenClaw operation to finish"}. Run \`openclaw gateway stop\`, then retry.`
         : error instanceof GatewayLockNamespaceError
           ? error.message
           : error instanceof DatabasePortRecoveryError
@@ -608,7 +608,7 @@ export async function acquireGatewayLock(
     }
     stateOwner.assertCurrent();
     if (projection && !projection.verifyStillHeld()) {
-      throw new Error("FRIDAY Gateway ownership projection is no longer current");
+      throw new Error("OpenClaw Gateway ownership projection is no longer current");
     }
     if (assertPolicy) {
       // Synchronous policy reads borrow storage custody without transferring resource ownership.

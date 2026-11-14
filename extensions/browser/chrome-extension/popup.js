@@ -12,7 +12,7 @@ function unpairedLabel(nativeBootstrap) {
   if (nativeBootstrap?.state === "manual_required") {
     return "Manual setup required";
   }
-  return "Waiting for local FRIDAY";
+  return "Waiting for local OpenClaw";
 }
 
 async function refresh() {
@@ -35,7 +35,7 @@ async function refresh() {
       ? "Connected"
       : status.state === "connecting"
         ? "Connecting…"
-        : "FRIDAY relay unavailable";
+        : "OpenClaw relay unavailable";
   accessMode.textContent = status.accessMode === "selected" ? "Selected tabs" : "All tabs";
   const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
   if (tab?.id === undefined) {

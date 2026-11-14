@@ -1,4 +1,4 @@
-// Durable rolling transcript for the machine-wide FRIDAY conversation.
+// Durable rolling transcript for the machine-wide OpenClaw conversation.
 import { randomUUID } from "node:crypto";
 import {
   createSqliteAuditRecordReader,

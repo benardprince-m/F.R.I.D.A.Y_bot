@@ -26,7 +26,7 @@ Managed and external llama.cpp servers for GGUF chat, embeddings and local image
 
 ## Managed text models
 
-During interactive setup, FRIDAY installs a pinned, verified `llama-server`
+During interactive setup, OpenClaw installs a pinned, verified `llama-server`
 and recommends a model for the Gateway host's available memory, GPU, and disk
 space. Recommendations start with Qwen3.5 4B (about 2.7 GB) on eligible 8 GiB
 hosts and scale up as hardware permits. See the current

@@ -14,7 +14,7 @@ export function isLegacyToolOutputUnavailable(card: ToolCard): boolean {
     !card.outputTruncated &&
     (card.toolOutput?.captureTruncated === true ||
       (!card.toolOutput &&
-        /\n\.\.\.\(FRIDAY truncated Codex native tool output: original \d+ chars, showing \d+; rerun with narrower args\.\)\s*$/u.test(
+        /\n\.\.\.\(OpenClaw truncated Codex native tool output: original \d+ chars, showing \d+; rerun with narrower args\.\)\s*$/u.test(
           card.outputText ?? "",
         )))
   );

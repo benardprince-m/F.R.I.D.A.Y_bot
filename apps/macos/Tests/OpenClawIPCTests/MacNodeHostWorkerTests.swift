@@ -4,7 +4,7 @@ import OpenClawKit
 import OpenClawProtocol
 import os
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 private actor StubMacNodeHostWorker: MacNodeHostWorking {
     let manifest: MacNodeHostManifest
@@ -501,7 +501,7 @@ struct MacNodeHostWorkerTests {
         let provider = ComputerControlProvider.current(
             defaults: defaults,
             cuaAvailable: true,
-            launchPlan: AppLaunchRuntimePlan(arguments: ["FRIDAY", "--elevation-host"]))
+            launchPlan: AppLaunchRuntimePlan(arguments: ["OpenClaw", "--elevation-host"]))
         #expect(provider == .peekaboo)
 
         let cuaDescriptor = OpenClawProtocol.AnyCodable(["provider": "cua"])
@@ -593,7 +593,7 @@ struct MacNodeHostWorkerTests {
     @Test func `worker strips inherited CUA values and receives only the app-provided endpoint`() async throws {
         let endpoint = CuaDriverWorkerEndpoint(
             socketPath: "/private/test/cua.sock",
-            binaryPath: "/Applications/FRIDAY.app/Contents/Resources/cua-driver")
+            binaryPath: "/Applications/OpenClaw.app/Contents/Resources/cua-driver")
         let endpointValue = try endpoint.environmentValue()
         let inheritedKeys = [CuaDriverWorkerEnvironment.endpoint] +
             CuaDriverWorkerEnvironment.inheritedFamilyPrefixes.flatMap {

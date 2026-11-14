@@ -219,7 +219,7 @@ async function withPluginMigrationEligibility(params: {
         ...plugin,
         migratable: false,
         migrationBlock: { code: "plugin_disabled" },
-        message: `Codex plugin "${plugin.pluginName ?? plugin.name}" is installed in Codex but disabled; enable it in Codex before migrating it to FRIDAY.`,
+        message: `Codex plugin "${plugin.pluginName ?? plugin.name}" is installed in Codex but disabled; enable it in Codex before migrating it to OpenClaw.`,
       });
       continue;
     }
@@ -415,12 +415,12 @@ function appInventoryMigrationBlock(
       : "missing";
   return {
     migrationBlock: { code, apps },
-    message: `Codex plugin "${plugin.pluginName ?? plugin.name}" owns app "${blocking.name}" but the source app inventory reports it is ${status}; authenticate or enable the app in Codex before migrating it to FRIDAY.`,
+    message: `Codex plugin "${plugin.pluginName ?? plugin.name}" owns app "${blocking.name}" but the source app inventory reports it is ${status}; authenticate or enable the app in Codex before migrating it to OpenClaw.`,
   };
 }
 
 export function codexPluginMigrationSubscriptionWarning(): string {
-  return "Codex app-backed plugin migration requires the Codex app-server source account to be logged in with a ChatGPT subscription account. Log in to the Codex app with subscription auth; FRIDAY auth or API-key auth does not satisfy Codex app connector access.";
+  return "Codex app-backed plugin migration requires the Codex app-server source account to be logged in with a ChatGPT subscription account. Log in to the Codex app with subscription auth; OpenClaw auth or API-key auth does not satisfy Codex app connector access.";
 }
 
 function pluginNameFromSummary(summary: v2.PluginSummary): string | undefined {

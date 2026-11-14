@@ -222,20 +222,20 @@ const commandSignalHandlers = new Map(
 function usage() {
   return `Usage: node --import tsx scripts/e2e/kitchen-sink-rpc-walk.mts
 
-Runs the external Kitchen Sink plugin RPC walk against a built FRIDAY entry.
+Runs the external Kitchen Sink plugin RPC walk against a built OpenClaw entry.
 
   --resource-profile <path>  Compare empty/conformance Gateway phase resources.
                             Node on Linux only; requires npm-pack:<local.tgz>,
                             built dist in cwd, and a secretless isolated runner.
 
 Environment:
-  OPENCLAW_ENTRY                         Built FRIDAY entrypoint. Defaults to dist/index.mjs or dist/index.js.
+  OPENCLAW_ENTRY                         Built OpenClaw entrypoint. Defaults to dist/index.mjs or dist/index.js.
   OPENCLAW_KITCHEN_SINK_NPM_SPEC         Plugin package spec. Default: npm:@openclaw/kitchen-sink@latest.
   OPENCLAW_KITCHEN_SINK_PLUGIN_ID        Plugin id. Default: openclaw-kitchen-sink-fixture.
   OPENCLAW_KITCHEN_SINK_PERSONALITY      Plugin fixture personality. Default: conformance.
   OPENCLAW_KITCHEN_SINK_RPC_PORT         Gateway loopback port. Default: OS-selected free port.
   OPENCLAW_KITCHEN_SINK_RPC_READY_MS     Gateway readiness timeout.
-  OPENCLAW_KITCHEN_SINK_RPC_COMMAND_MS   FRIDAY command timeout.
+  OPENCLAW_KITCHEN_SINK_RPC_COMMAND_MS   OpenClaw command timeout.
   OPENCLAW_KITCHEN_SINK_RPC_INSTALL_MS   Plugin install timeout.
   OPENCLAW_KITCHEN_SINK_RPC_CALL_MS      RPC call timeout.
   OPENCLAW_KITCHEN_SINK_RPC_FETCH_MS     HTTP readiness probe timeout.
@@ -2544,7 +2544,7 @@ function tailText(text: string) {
 
 export function kitchenSinkResourceEnv(env: ProcessEnv = process.env): ProcessEnv {
   // The runner owns network/resource isolation. Do not carry developer secrets,
-  // loader flags, proxy credentials, or unrelated FRIDAY state into the child.
+  // loader flags, proxy credentials, or unrelated OpenClaw state into the child.
   return {
     PATH: env.PATH,
     LANG: "C.UTF-8",
@@ -2614,7 +2614,7 @@ export function resolveResourceGatewayRuntime() {
   );
   if (runner.pnpm || !allowedEntries.includes(path.resolve(runner.baseArgs[0] ?? ""))) {
     throw new Error(
-      "Resource comparison requires a built FRIDAY entry in the current package root",
+      "Resource comparison requires a built OpenClaw entry in the current package root",
     );
   }
   const buildInfo = asRecord(readJson(path.resolve("dist/build-info.json")));

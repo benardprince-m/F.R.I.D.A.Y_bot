@@ -508,7 +508,7 @@ async function inspectUpdateStatus(
     },
   ];
 
-  defaultRuntime.log(theme.heading("FRIDAY update status"));
+  defaultRuntime.log(theme.heading("OpenClaw update status"));
   defaultRuntime.log("");
   for (const finding of runtimeFindings) {
     const color =

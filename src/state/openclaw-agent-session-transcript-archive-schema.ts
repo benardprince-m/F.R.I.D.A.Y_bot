@@ -10,7 +10,7 @@ export const ensureSessionTranscriptArchiveSchema = createSqliteSchemaEnsurer(
     extractSqliteTableSchema(OPENCLAW_AGENT_SCHEMA_SQL, SESSION_TRANSCRIPT_ARCHIVES_TABLE, {
       endMarker: "CREATE TABLE IF NOT EXISTS transcript_rewrite_watermarks (",
       includeEndMarker: false,
-      errorMessage: "FRIDAY session transcript archive schema markers are missing.",
+      errorMessage: "OpenClaw session transcript archive schema markers are missing.",
     }),
   {
     tables: [SESSION_TRANSCRIPT_ARCHIVES_TABLE, "session_transcript_cold_archives"],

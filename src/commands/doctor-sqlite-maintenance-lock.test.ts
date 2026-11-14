@@ -98,7 +98,7 @@ async function createLockFixture() {
 async function expectPathRefused(
   fixture: Awaited<ReturnType<typeof createLockFixture>>,
   target: string,
-  reason = /outside the active FRIDAY state directory/,
+  reason = /outside the active OpenClaw state directory/,
 ) {
   const run = vi.fn();
   await expect(fixture.maintain(run, [target])).rejects.toThrow(reason);
@@ -173,7 +173,7 @@ describe("doctor SQLite maintenance lock", () => {
     try {
       const result = fixture.maintain(run);
       await expect(result).rejects.toBeInstanceOf(DoctorSqliteMaintenanceLockUnavailableError);
-      await expect(result).rejects.toThrow(/FRIDAY state database is busy/);
+      await expect(result).rejects.toThrow(/OpenClaw state database is busy/);
       expect(run).not.toHaveBeenCalled();
     } finally {
       await gatewayLock.release();
@@ -355,7 +355,7 @@ describe("doctor SQLite maintenance lock", () => {
     });
 
     try {
-      await expect(fixture.maintain(run)).rejects.toThrow(/FRIDAY state database is busy/);
+      await expect(fixture.maintain(run)).rejects.toThrow(/OpenClaw state database is busy/);
       expect(run).not.toHaveBeenCalled();
     } finally {
       await gatewayLock.release();

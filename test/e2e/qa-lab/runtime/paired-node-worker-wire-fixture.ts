@@ -151,7 +151,7 @@ export async function createPublishedWireWorkspace(root: string): Promise<Publis
   await fs.mkdir(source, { recursive: true });
   await execFileAsync("git", ["init", "--bare", bare]);
   await git(source, "init", "-b", "main");
-  await git(source, "config", "user.name", "FRIDAY QA");
+  await git(source, "config", "user.name", "OpenClaw QA");
   await git(source, "config", "user.email", "openclaw-qa@example.invalid");
   await fs.mkdir(path.join(source, "nested"));
   await fs.writeFile(path.join(source, "launch-wire.txt"), "local-install launch wire\n");

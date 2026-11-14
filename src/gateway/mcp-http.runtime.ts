@@ -313,7 +313,7 @@ async function constructMcpLoopbackTools(
   if (webSearchDisabled) {
     excludeToolNames.add("web_search");
   }
-  // Restricted CLI grants use FRIDAY's implementations for coding tools;
+  // Restricted CLI grants use OpenClaw's implementations for coding tools;
   // native CLI tools bypass path, approval, sandbox, and exec policy.
   const mediatedNativeTools =
     context.trustedInternalHandoff ||

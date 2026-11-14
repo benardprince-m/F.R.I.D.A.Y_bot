@@ -349,7 +349,7 @@ struct WatchInboxView: View {
                     self.directNode.endpointText ?? String(localized: "Enable from iPhone")),
                 subtitle: .localized(
                     self.directNode.isConfigured
-                        ? "Uses Wi-Fi or cellular while FRIDAY is active"
+                        ? "Uses Wi-Fi or cellular while OpenClaw is active"
                         : "Open iPhone Settings → Apple Watch"),
                 accessory: .verbatim(self.directNode.isConnected
                     ? String(localized: "Online")
@@ -941,7 +941,7 @@ private struct WatchActionCard: View {
     var body: some View {
         Button(action: self.action) {
             WatchStackCard(
-                label: .localized("FRIDAY"),
+                label: .localized("OpenClaw"),
                 title: .verbatim(self.title),
                 subtitle: .verbatim(self.subtitle),
                 badge: nil)
@@ -1098,7 +1098,7 @@ extension WatchChatItem {
         case "system":
             String(localized: "System")
         default:
-            "FRIDAY"
+            "OpenClaw"
         }
     }
 }
@@ -1324,7 +1324,7 @@ private struct WatchChatComposer: View {
                 self.onComposeMessage()
             } label: {
                 HStack(spacing: 5) {
-                    Text("Message FRIDAY")
+                    Text("Message OpenClaw")
                         .font(WatchClawType.body(size: 12, weight: .semibold))
                         .foregroundStyle(.secondary)
                         .lineLimit(1)

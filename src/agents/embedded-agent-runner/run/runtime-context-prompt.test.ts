@@ -44,9 +44,9 @@ describe("runtime context prompt submission", () => {
     expect(
       resolveRuntimeContextPromptParts({
         effectivePrompt: "Check the deployment.",
-        transcriptPrompt: "[FRIDAY heartbeat poll]",
+        transcriptPrompt: "[OpenClaw heartbeat poll]",
       }),
-    ).toEqual({ prompt: "[FRIDAY heartbeat poll]", modelPrompt: "Check the deployment." });
+    ).toEqual({ prompt: "[OpenClaw heartbeat poll]", modelPrompt: "Check the deployment." });
   });
 
   it("requires producer context for the runtime-only continuation prompt", () => {
@@ -58,7 +58,7 @@ describe("runtime context prompt submission", () => {
       transcriptPrompt: "",
       fragments,
     });
-    expect(parts.prompt).toBe("Continue the FRIDAY runtime event.");
+    expect(parts.prompt).toBe("Continue the OpenClaw runtime event.");
     expect(parts.runtimeOnly).toBe(true);
     expect(
       resolveRuntimeContextPromptParts({ effectivePrompt: "ordinary input", transcriptPrompt: "" }),
@@ -156,7 +156,7 @@ describe("runtime context prompt submission", () => {
   it("binds steering context to its generic user turn without changing user bytes", () => {
     const user = {
       role: "user" as const,
-      content: "Continue the FRIDAY runtime event.",
+      content: "Continue the OpenClaw runtime event.",
       timestamp: 1,
     };
     attachSteeringRuntimeContext(user, {
@@ -172,7 +172,7 @@ describe("runtime context prompt submission", () => {
       display: false,
     });
     expect(projected[1]).toBe(user);
-    expect(user.content).toBe("Continue the FRIDAY runtime event.");
+    expect(user.content).toBe("Continue the OpenClaw runtime event.");
   });
 });
 
@@ -186,10 +186,10 @@ describe("per-request runtime instructions", () => {
         ? [
             {
               type: "text",
-              text: `FRIDAY runtime context:\n${body}\nEnd FRIDAY runtime context.`,
+              text: `OpenClaw runtime context:\n${body}\nEnd OpenClaw runtime context.`,
             },
           ]
-        : `FRIDAY runtime context:\n${body}\nEnd FRIDAY runtime context.`,
+        : `OpenClaw runtime context:\n${body}\nEnd OpenClaw runtime context.`,
       runtimeContext: {},
     };
     const messages: Context["messages"] = [
@@ -200,7 +200,7 @@ describe("per-request runtime instructions", () => {
     const nested = "Date B\nRuntime event";
     const projected = prependRuntimeContextForModel(messages, nested);
     const expected =
-      "FRIDAY runtime context:\nDate B\nRuntime event\n\nCurrent facts\nEnd FRIDAY runtime context.";
+      "OpenClaw runtime context:\nDate B\nRuntime event\n\nCurrent facts\nEnd OpenClaw runtime context.";
     expect(projected).toEqual([
       messages[0],
       { ...carrier, content: arrayContent ? [{ type: "text", text: expected }] : expected },
@@ -213,10 +213,10 @@ describe("per-request runtime instructions", () => {
         ? [
             {
               type: "text",
-              text: `FRIDAY runtime context:\n${body}\nEnd FRIDAY runtime context.`,
+              text: `OpenClaw runtime context:\n${body}\nEnd OpenClaw runtime context.`,
             },
           ]
-        : `FRIDAY runtime context:\n${body}\nEnd FRIDAY runtime context.`,
+        : `OpenClaw runtime context:\n${body}\nEnd OpenClaw runtime context.`,
     );
     expect(prependRuntimeContextForModel(messages, nested)).toEqual(projected);
   });
@@ -228,7 +228,7 @@ describe("per-request runtime instructions", () => {
       {
         role: "user",
         timestamp: 1,
-        content: "FRIDAY runtime context:\nDate A\nEnd FRIDAY runtime context.",
+        content: "OpenClaw runtime context:\nDate A\nEnd OpenClaw runtime context.",
         runtimeContext: {},
       },
     ]);
@@ -261,7 +261,7 @@ describe("per-request runtime instructions", () => {
         content: [
           {
             type: "text",
-            text: "FRIDAY runtime context:\nDate B\n\nExisting facts\nEnd FRIDAY runtime context.",
+            text: "OpenClaw runtime context:\nDate B\n\nExisting facts\nEnd OpenClaw runtime context.",
           },
           carrier.content[1],
         ],

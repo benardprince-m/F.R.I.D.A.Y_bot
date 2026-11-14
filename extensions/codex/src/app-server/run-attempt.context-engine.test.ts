@@ -205,7 +205,7 @@ describe("runCodexAppServerAttempt context-engine lifecycle", () => {
     expect(readStringValue(threadStartParams.developerInstructions) ?? "").toContain(
       "context-engine system",
     );
-    expectRequestInputTextContains(harness, "FRIDAY assembled context for this turn:");
+    expectRequestInputTextContains(harness, "OpenClaw assembled context for this turn:");
     expectRequestInputTextContains(harness, `[${summaryRole}]\n${summary}`);
     expect(getRequestInputText(harness).trim().startsWith("Current inbound reply context")).toBe(
       true,
@@ -570,10 +570,10 @@ describe("runCodexAppServerAttempt context-engine lifecycle", () => {
         expect(inputText).toBe("hello");
         expect(assemble).toHaveBeenCalledWith(expect.objectContaining({ tokenBudget: 258_400 }));
       } else if (active) {
-        expect(inputText).toContain("FRIDAY assembled context for this turn:");
+        expect(inputText).toContain("OpenClaw assembled context for this turn:");
         expect(inputText).toContain("reprojected context");
       } else {
-        expect(inputText).not.toContain("FRIDAY assembled context for this turn:");
+        expect(inputText).not.toContain("OpenClaw assembled context for this turn:");
         expect(inputText).not.toContain("previous stale-bootstrap request");
         expect(inputText).not.toContain("previous stale-bootstrap answer");
         expect(inputText).not.toContain("Current user request:");
@@ -624,7 +624,7 @@ describe("runCodexAppServerAttempt context-engine lifecycle", () => {
       "turn/start",
     ]);
     const inputText = getRequestInputText(harness);
-    expect(inputText).toContain("FRIDAY assembled context for this turn:");
+    expect(inputText).toContain("OpenClaw assembled context for this turn:");
     expect(inputText).toContain("previous per-turn request");
     expect(inputText).toContain("previous per-turn answer");
     expect(inputText).toContain("Current user request:");
@@ -686,7 +686,7 @@ describe("runCodexAppServerAttempt context-engine lifecycle", () => {
         "thread/start",
         "turn/start",
       ]);
-      expectRequestInputTextContains(harness, "FRIDAY assembled context for this turn:");
+      expectRequestInputTextContains(harness, "OpenClaw assembled context for this turn:");
       expectRequestInputTextContains(harness, "reprojected context");
       await harness.completeTurn("completed", "thread-new");
       await run;
@@ -784,7 +784,7 @@ describe("runCodexAppServerAttempt context-engine lifecycle", () => {
         "thread/start",
         "turn/start",
       ]);
-      expectRequestInputTextContains(harness, "FRIDAY assembled context for this turn:");
+      expectRequestInputTextContains(harness, "OpenClaw assembled context for this turn:");
       expectRequestInputTextContains(harness, "native-disabled context");
 
       await harness.completeTurn("completed", "thread-transient");

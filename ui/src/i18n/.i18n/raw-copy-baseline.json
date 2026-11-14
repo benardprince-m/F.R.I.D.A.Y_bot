@@ -132,14 +132,14 @@
       "kind": "html-attribute",
       "name": "aria-label",
       "path": "ui/src/components/app-topbar-solid.tsx",
-      "text": "FRIDAY"
+      "text": "OpenClaw"
     },
     {
       "count": 1,
       "kind": "html-text",
       "name": "text",
       "path": "ui/src/components/app-topbar-solid.tsx",
-      "text": "FRIDAY"
+      "text": "OpenClaw"
     },
     {
       "count": 1,

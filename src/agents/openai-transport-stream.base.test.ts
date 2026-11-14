@@ -205,7 +205,7 @@ describe("openai transport stream", () => {
     ]);
   });
 
-  it("adds FRIDAY attribution to native OpenAI Codex transport headers", () => {
+  it("adds OpenClaw attribution to native OpenAI Codex transport headers", () => {
     vi.stubEnv("OPENCLAW_VERSION", "2026.3.22");
     const headers = testing.buildOpenAIClientHeaders(
       makeResponsesModel({

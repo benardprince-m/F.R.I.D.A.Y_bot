@@ -506,8 +506,8 @@ final class ControlChannel {
             case .notConnectedToInternet:
                 if Self.isLikelyLocalNetworkPermissionBlock(configRoot: configRoot) {
                     return """
-                    macOS is blocking FRIDAY Local Network access.
-                    Allow FRIDAY in System Settings → Privacy & Security → Local Network, then relaunch the app.
+                    macOS is blocking OpenClaw Local Network access.
+                    Allow OpenClaw in System Settings → Privacy & Security → Local Network, then relaunch the app.
                     """
                 }
                 return "No network connectivity; cannot reach gateway."

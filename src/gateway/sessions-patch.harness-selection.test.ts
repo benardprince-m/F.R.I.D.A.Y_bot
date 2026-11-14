@@ -16,7 +16,7 @@ const loadGatewayModelCatalog = async () =>
   ["gpt-5.6-sol", "gpt-5.6-luna"].map((id) => ({ provider: "openai", id, name: id }));
 
 test("accepts an OpenAI model whose implicit Codex harness has no enabled owner", async () => {
-  // A turn runs this selection on FRIDAY, so selecting it must not fail.
+  // A turn runs this selection on OpenClaw, so selecting it must not fail.
   const entry = expectPatchOk(await runPatch({ cfg, patch, loadGatewayModelCatalog }));
   expect(entry.providerOverride).toBe("openai");
   expect(entry.modelOverride).toBe("gpt-5.6-luna");

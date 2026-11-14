@@ -41,7 +41,7 @@ async function assertNoPendingSupervisionBranch(params: {
   for (const adopted of adoptedEntries) {
     if (adopted.entry.initializationPending === true) {
       throw new CatalogParamsError(
-        "Codex session cannot be archived while its FRIDAY branch is initializing",
+        "Codex session cannot be archived while its OpenClaw branch is initializing",
       );
     }
     const sessionId = adopted.entry.sessionId?.trim();
@@ -61,7 +61,7 @@ async function assertNoPendingSupervisionBranch(params: {
       binding.pendingSupervisionBranch?.sourceThreadId === params.threadId
     ) {
       throw new CatalogParamsError(
-        "Codex session cannot be archived until its FRIDAY branch starts",
+        "Codex session cannot be archived until its OpenClaw branch starts",
       );
     }
   }
@@ -94,7 +94,7 @@ export async function archiveLocalCodexSession(params: {
           requireIdleThread(thread, "archive");
           if (await params.bindingStore.hasOtherThreadOwner(params.threadId)) {
             throw new CatalogParamsError(
-              "Codex session cannot be archived while it is attached to an FRIDAY session",
+              "Codex session cannot be archived while it is attached to an OpenClaw session",
             );
           }
           await assertCodexArchiveDescendantsUnowned({

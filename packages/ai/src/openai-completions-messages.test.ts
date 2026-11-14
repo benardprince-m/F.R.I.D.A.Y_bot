@@ -31,7 +31,7 @@ function user(content: UserMessage["content"], overrides: Partial<UserMessage> =
   return { role: "user", content, timestamp: 1, ...overrides };
 }
 const runtimeNotice = (text: string, timestamp: number) =>
-  user(`FRIDAY runtime context:\n${text}`, { runtimeContext: {}, timestamp });
+  user(`OpenClaw runtime context:\n${text}`, { runtimeContext: {}, timestamp });
 function assistant(
   content: AssistantMessage["content"],
   overrides: Partial<AssistantMessage> = {},
@@ -288,7 +288,7 @@ describe("convertMessages relocatable region", () => {
           { type: "text", text: "Runtime facts" },
         ],
       },
-      { role: "developer", content: "FRIDAY runtime context:\nlater context" },
+      { role: "developer", content: "OpenClaw runtime context:\nlater context" },
     ]);
     expect(cacheOptOutIndexes).toEqual(new Set([3, 4]));
   });
@@ -367,7 +367,7 @@ describe("convertMessages relocatable region", () => {
         JSON.stringify(beforeFollowUp),
       );
       expect(afterFollowUp.slice(-2)).toEqual([
-        { role: noticeRole, content: "FRIDAY runtime context:\nnotice" },
+        { role: noticeRole, content: "OpenClaw runtime context:\nnotice" },
         { role: "user", content: "user2" },
       ]);
       expect(cacheOptOutIndexes).toEqual(new Set([1, 4]));

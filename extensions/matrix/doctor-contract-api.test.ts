@@ -566,7 +566,7 @@ describe("matrix doctor contract state migrations", () => {
     const migration = migrationById("matrix-inbound-dedupe-to-claimable-dedupe");
 
     for (const run of [migration.detectLegacyState, migration.migrateLegacyState]) {
-      await expect(run(params)).rejects.toThrow("Install FRIDAY 2026.9.5");
+      await expect(run(params)).rejects.toThrow("Install OpenClaw 2026.9.5");
     }
     expect(openStore).not.toHaveBeenCalled();
     expect(fs.readFileSync(jsonPath, "utf8")).toBe(source);

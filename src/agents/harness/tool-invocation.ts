@@ -50,7 +50,7 @@ export async function runAgentHarnessToolInvocation<TResult>(params: {
     const tool = params.tool;
     if (!tool) {
       throw new Error(
-        params.unavailableToolMessage ?? `FRIDAY tool is unavailable: ${params.call.toolName}`,
+        params.unavailableToolMessage ?? `OpenClaw tool is unavailable: ${params.call.toolName}`,
       );
     }
     const prepare = tool.prepareArguments;

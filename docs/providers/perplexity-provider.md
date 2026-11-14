@@ -107,13 +107,13 @@ Native-only filters return a descriptive error on the chat-completions path.
 
   <Accordion title="OpenRouter proxy setup">
     To route Perplexity searches through OpenRouter, set an `OPENROUTER_API_KEY`
-    (prefix `sk-or-`) instead of a native Perplexity key. FRIDAY detects the
+    (prefix `sk-or-`) instead of a native Perplexity key. OpenClaw detects the
     key and switches to the Sonar transport automatically. Useful if you already
     have OpenRouter billing set up and want to consolidate providers there.
   </Accordion>
 
   <Accordion title="Integration header">
-    Requests to the Perplexity API (`api.perplexity.ai`) identify FRIDAY with
+    Requests to the Perplexity API (`api.perplexity.ai`) identify OpenClaw with
     `X-Pplx-Integration: openclaw/<version>`. Searches routed through OpenRouter
     send OpenRouter's app-attribution headers instead. A custom proxy `baseUrl`
     gets neither.

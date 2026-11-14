@@ -242,7 +242,7 @@ export function buildTrajectoryRunMetadata(
     capturedAt: new Date().toISOString(),
     harness: {
       type: "openclaw",
-      name: "FRIDAY",
+      name: "OpenClaw",
       version: VERSION,
       gitSha:
         resolveCommitHash({ cwd: params.workspaceDir, env, moduleUrl: import.meta.url }) ??

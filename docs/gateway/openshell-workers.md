@@ -11,7 +11,7 @@ read_when:
 The OpenShell plugin can prepare and run a dedicated node for
 [worker-local inference](/gateway/cloud-workers/native-inference). Unlike its
 [sandbox-only backend](/gateway/openshell), the native agent loop and coding
-tools run inside OpenShell. The FRIDAY Gateway keeps session authority,
+tools run inside OpenShell. The OpenClaw Gateway keeps session authority,
 transcripts, and placement. **OCE and Kubernetes are not required.**
 
 The commands use OpenShell's shared gateway API through its CLI. Select a
@@ -31,8 +31,8 @@ plugin package’s general host/API version bounds are not a guarantee that an
 older host or image implements native worker inference, required profiles, or
 the private pairing-file command. Follow the selected build’s
 [Node requirements](/install/node-compatibility); a generic image containing an
-older Node or FRIDAY executable is not sufficient. For example, the released
-FRIDAY `v2026.10.1` does not include the native worker-inference stack or
+older Node or OpenClaw executable is not sufficient. For example, the released
+OpenClaw `v2026.10.1` does not include the native worker-inference stack or
 `cloudWorkers.requiredProfile`. Installing this plugin alone on that release
 does not backport those features.
 
@@ -49,16 +49,16 @@ downgrade compatibility.
 
 ## Prerequisites
 
-- OpenShell **v0.1.3 or newer**, configured for the OS user running FRIDAY. This
+- OpenShell **v0.1.3 or newer**, configured for the OS user running OpenClaw. This
   minimum applies to the new worker commands, not a new version check on the
   existing sandbox-only backend.
 - A Linux sandbox workload on a host whose kernel supports complete OpenShell
   enforcement, including Landlock. Docker or Podman alone does not provide those
   kernel capabilities. Native Windows worker-local inference is unsupported; a
   container-engine choice is not a platform-compatibility guarantee.
-- Compatible FRIDAY Gateway and node builds supporting native worker inference,
+- Compatible OpenClaw Gateway and node builds supporting native worker inference,
   required profiles, and `connect --target-file`.
-- An OpenShell source image with Node, FRIDAY, Git, `ps`, and `sleep` on
+- An OpenShell source image with Node, OpenClaw, Git, `ps`, and `sleep` on
   `PATH`. Git backs managed workspaces; process tooling verifies workspace
   quiescence. The image owns these installations; the plugin does not download
   an unpinned node runtime.
@@ -68,7 +68,7 @@ downgrade compatibility.
 - A sandbox policy permitting the node's outbound Gateway connection, DNS/TLS,
   workspace writes, and a private node-state directory.
 
-Complete package installation during the image build, including FRIDAY lifecycle
+Complete package installation during the image build, including OpenClaw lifecycle
 scripts, and check `openclaw --version` as the intended non-root runtime user.
 Do not rely on first-run package repair inside a read-only sandbox.
 
@@ -266,7 +266,7 @@ identity and rejects a mismatch. The canonical config writer saves the existing
 `provider: "device"` and `settings.inference: "worker"` profile. No new pairing
 owner or inference transport is introduced; conflicting profiles are not replaced.
 
-`--worker-profile` selects the worker profile. FRIDAY's global `--profile` flag
+`--worker-profile` selects the worker profile. OpenClaw's global `--profile` flag
 selects a configuration profile and is not a worker selector.
 
 **`--required` affects every session on this Gateway:** unavailable workers
@@ -274,7 +274,7 @@ block turns. Omit it for optional administrator-selected dispatch. No config is
 written without `--apply`; other required destinations and unrelated settings
 are preserved. Existing placement snapshots do not change.
 
-Select the same model reference and the FRIDAY runtime in the Gateway agent
+Select the same model reference and the OpenClaw runtime in the Gateway agent
 configuration. A custom model needs matching **non-secret catalog metadata**,
 not node endpoints or credentials. Follow
 [model configuration and dispatch](/gateway/cloud-workers/native-inference#select-the-placement-on-the-gateway).
@@ -306,7 +306,7 @@ Stop the old node and deliberately prepare a new private state directory and
 pairing, or reconcile its canonical configuration yourself. Never use another
 application's state directory.
 
-Reclaim active FRIDAY placements before removing profiles or deleting sandboxes.
+Reclaim active OpenClaw placements before removing profiles or deleting sandboxes.
 Reclaim releases the device worker's logical lease, **not** its sandbox or pairing.
 Remove the paired node through the Gateway and retire the sandbox/providers through
 OpenShell when no longer needed. Failed or uncertain creation never blindly deletes

@@ -1,14 +1,14 @@
 ---
-summary: "Expose FRIDAY diagnostics as Prometheus text metrics through the diagnostics-prometheus plugin"
+summary: "Expose OpenClaw diagnostics as Prometheus text metrics through the diagnostics-prometheus plugin"
 title: "Prometheus metrics"
 sidebarTitle: "Prometheus"
 read_when:
-  - You want Prometheus, Grafana, VictoriaMetrics, or another scraper to collect FRIDAY Gateway metrics
+  - You want Prometheus, Grafana, VictoriaMetrics, or another scraper to collect OpenClaw Gateway metrics
   - You need the Prometheus metric names and label policy for dashboards or alerts
   - You want metrics without running an OpenTelemetry collector
 ---
 
-FRIDAY can expose diagnostics metrics through the official
+OpenClaw can expose diagnostics metrics through the official
 `diagnostics-prometheus` plugin. It listens to trusted diagnostics plus
 internally tagged, dispatcher-owned diagnostic events (queue, memory, and
 session-recovery signals), and renders a Prometheus text endpoint at:
@@ -760,7 +760,7 @@ live Workers. Direct Workers contribute to `workerCount` without a pool entry.
 These are JavaScript Worker counts, not an operating-system thread census.
 
 `openclaw_child_process_spawn_total{family="...",operation="..."}` counts successful launches
-through FRIDAY's shared spawn and exec owners, including brokered and native
+through OpenClaw's shared spawn and exec owners, including brokered and native
 PTY launches, and the streaming workspace inventory runner. Windows PTYs are
 attributed at their first output or exit after their asynchronous PID publication.
 Diagnostics must be enabled. The existing heartbeat publishes accumulated
@@ -902,7 +902,7 @@ attributes.
   <Accordion title="Bounded, low-cardinality labels">
     Prometheus labels stay bounded and low-cardinality. The exporter does not emit raw diagnostic identifiers such as `runId`, `sessionKey`, `sessionId`, `callId`, `toolCallId`, message IDs, chat IDs, or provider request IDs.
 
-    Label values are redacted and must match FRIDAY's low-cardinality character policy. Values that fail the policy are replaced with `unknown`, `other`, or `none`, depending on the metric. Labels that look like scoped agent session keys are also replaced with `unknown`.
+    Label values are redacted and must match OpenClaw's low-cardinality character policy. Values that fail the policy are replaced with `unknown`, `other`, or `none`, depending on the metric. Labels that look like scoped agent session keys are also replaced with `unknown`.
 
   </Accordion>
   <Accordion title="Series cap and overflow accounting">
@@ -1003,12 +1003,12 @@ different bucket layouts, and use a query window containing only samples from
 the new layout when evaluating long-run percentiles.
 
 <Tip>
-Prefer `gen_ai_client_token_usage` for cross-provider dashboards: it follows the OpenTelemetry GenAI semantic conventions and is consistent with metrics from non-FRIDAY GenAI services.
+Prefer `gen_ai_client_token_usage` for cross-provider dashboards: it follows the OpenTelemetry GenAI semantic conventions and is consistent with metrics from non-OpenClaw GenAI services.
 </Tip>
 
 ## Choosing between Prometheus and OpenTelemetry export
 
-FRIDAY supports both surfaces independently. You can run either, both, or neither.
+OpenClaw supports both surfaces independently. You can run either, both, or neither.
 
 <Tabs>
   <Tab title="diagnostics-prometheus">
@@ -1020,7 +1020,7 @@ FRIDAY supports both surfaces independently. You can run either, both, or neithe
 
   </Tab>
   <Tab title="diagnostics-otel">
-    - **Push** model: FRIDAY sends OTLP/HTTP to a collector or OTLP-compatible backend.
+    - **Push** model: OpenClaw sends OTLP/HTTP to a collector or OTLP-compatible backend.
     - Surface includes metrics, traces, and logs.
     - Bridges to Prometheus through an OpenTelemetry Collector (`prometheus` or `prometheusremotewrite` exporter) when you need both.
     - See [OpenTelemetry export](/gateway/opentelemetry) for the full catalog.

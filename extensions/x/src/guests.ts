@@ -12,7 +12,7 @@ export function resolveXGuestContainmentError(
 ): string | undefined {
   const agent = resolveAgentConfig(cfg, agentId);
   if ((agent?.tools?.fs?.workspaceOnly ?? cfg.tools?.fs?.workspaceOnly) !== true) {
-    return `X guest mode requires agents.entries.${agentId}.tools.fs.workspaceOnly=true (or tools.fs.workspaceOnly=true) and the FRIDAY clone as the agent working directory.`;
+    return `X guest mode requires agents.entries.${agentId}.tools.fs.workspaceOnly=true (or tools.fs.workspaceOnly=true) and the OpenClaw clone as the agent working directory.`;
   }
   const skills = agent?.skills ?? cfg.agents?.defaults?.skills;
   if (!skills || skills.length !== 0) {

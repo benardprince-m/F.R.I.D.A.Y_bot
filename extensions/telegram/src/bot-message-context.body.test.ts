@@ -474,7 +474,7 @@ describe("Telegram admitted model input", () => {
           ],
         },
         { type: "mathematical_expression", expression: "a^2+b^2=c^2" },
-        { type: "photo", photo, caption: { text: "Chart", credit: "FRIDAY" } },
+        { type: "photo", photo, caption: { text: "Chart", credit: "OpenClaw" } },
         {
           type: "table",
           caption: ["Total ", { type: "bold", text: "Q1" }],

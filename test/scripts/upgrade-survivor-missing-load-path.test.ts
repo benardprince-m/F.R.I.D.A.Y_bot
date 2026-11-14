@@ -207,7 +207,7 @@ it.each(["source", "compiled"])("dispatches missing-path stages with the %s fixt
 });
 
 const convergenceRestartMessage =
-  "FRIDAY plugin migration inputs changed during startup convergence; refusing to report the gateway ready. Restart FRIDAY so state migrations run against the final config and plugin inventory.";
+  "OpenClaw plugin migration inputs changed during startup convergence; refusing to report the gateway ready. Restart OpenClaw so state migrations run against the final config and plugin inventory.";
 
 it.skipIf(process.platform === "win32").each([
   { version: "2026.8.1-1", companionVersion: "2026.8.1", provision: true, installExit: 0 },
@@ -311,7 +311,7 @@ if ((mode === "convergence-once" && attempt === 1) || mode === "convergence-repe
   process.stdout.write(env.FIXTURE_RESTART_MESSAGE + "\\n");
   if (mode !== "live-refusal") process.exit(mode === "other-exit" ? 2 : 1);
 } else if (mode === "unrelated" || mode === "partial-diagnostic") {
-  process.stdout.write(mode === "unrelated" ? "unrelated startup failure\\n" : "FRIDAY plugin migration inputs changed during startup convergence\\n");
+  process.stdout.write(mode === "unrelated" ? "unrelated startup failure\\n" : "OpenClaw plugin migration inputs changed during startup convergence\\n");
   process.exit(1);
 } else if (mode !== "timeout") {
   fs.writeFileSync(env.FIXTURE_READY, "ready");

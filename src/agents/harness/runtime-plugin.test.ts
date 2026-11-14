@@ -292,7 +292,7 @@ describe("harness runtime plugins", () => {
     expect(error).toContain("Enable or reinstall the plugin that provides this runtime");
   });
 
-  it("keeps the built-in FRIDAY harness independent from plugin registration", async () => {
+  it("keeps the built-in OpenClaw harness independent from plugin registration", async () => {
     await expect(
       ensureHarness({
         provider: "openai",

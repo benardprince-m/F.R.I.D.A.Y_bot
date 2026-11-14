@@ -164,7 +164,7 @@ export class CodexSandboxExecSession {
       default:
         throw new JsonRpcProtocolError(
           JSON_RPC_METHOD_NOT_FOUND,
-          `Unsupported FRIDAY sandbox exec-server method: ${method}`,
+          `Unsupported OpenClaw sandbox exec-server method: ${method}`,
         );
     }
   }

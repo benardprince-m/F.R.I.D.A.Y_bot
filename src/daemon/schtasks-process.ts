@@ -455,7 +455,7 @@ export async function terminateScheduledTaskNodeHost(
   if (!snapshot) {
     return [];
   }
-  // Match full persisted argv so a same-port FRIDAY process cannot impersonate this task.
+  // Match full persisted argv so a same-port OpenClaw process cannot impersonate this task.
   const pid = findInstalledProcessPid(snapshot, port, installedArguments, isNodeHostArgv);
   if (!pid) {
     return [];

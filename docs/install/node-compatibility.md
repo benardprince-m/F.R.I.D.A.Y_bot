@@ -2,11 +2,11 @@
 summary: "Supported Node.js versions, SQLite requirements, platform limits, and release history"
 title: "Node.js compatibility"
 read_when:
-  - You need to check which Node.js versions FRIDAY supports
+  - You need to check which Node.js versions OpenClaw supports
   - You want to understand a Node.js minimum version or platform support change
 ---
 
-This reference covers supported Node.js lines, why the minimum versions exist, and how they changed across FRIDAY releases. For installation steps, see [Node.js](/install/node); for macOS companion app requirements, see [macOS](/platforms/macos).
+This reference covers supported Node.js lines, why the minimum versions exist, and how they changed across OpenClaw releases. For installation steps, see [Node.js](/install/node); for macOS companion app requirements, see [macOS](/platforms/macos).
 
 ## Supported versions
 
@@ -20,7 +20,7 @@ This reference covers supported Node.js lines, why the minimum versions exist, a
 
 The exact engines expression is `>=24.16.0 <25 || >=26.1.0`. It remains the documented support policy and the `package.json` engine range used by package managers.
 
-The Bun opt-in runtime requires **Bun 1.4.3+** or the pinned FRIDAY fork; see [Bun compatibility](/install/bun-compatibility).
+The Bun opt-in runtime requires **Bun 1.4.3+** or the pinned OpenClaw fork; see [Bun compatibility](/install/bun-compatibility).
 
 ## How the gate decides
 
@@ -41,23 +41,23 @@ the updater rechecks prefix and service ownership before installation; follow th
 
 ## Why the floors exist
 
-The **SQLite WAL-reset corruption bug** requires a safe loaded library: SQLite **3.51.3+**, **3.50.7+ within 3.50.x**, or **3.44.6+ within 3.44.x**. FRIDAY validates the library actually loaded because Node builds linked to shared system SQLite can use a different version from Node's own metadata.
+The **SQLite WAL-reset corruption bug** requires a safe loaded library: SQLite **3.51.3+**, **3.50.7+ within 3.50.x**, or **3.44.6+ within 3.44.x**. OpenClaw validates the library actually loaded because Node builds linked to shared system SQLite can use a different version from Node's own metadata.
 
 Separately, the **`node:sqlite` TEXT decoder** in Node 22.23.x, 24.15.0, 25.9.0, and 26.0.0 silently truncates values at embedded NUL characters. The first fixed releases are Node 24.16.0 and 26.1.0; a WAL-safe SQLite library does not fix this decoder. Node 23 was excluded earlier for incompatible `node:sqlite` behavior.
 
 ## V8 compiler settings
 
-FRIDAY keeps Node's default V8 compiler settings, including Maglev and concurrent Sparkplug. Its executable entrypoints close their owned resources, await accepted work, and record `process.exitCode` before returning. They do not force normal termination with `process.exit()`.
+OpenClaw keeps Node's default V8 compiler settings, including Maglev and concurrent Sparkplug. Its executable entrypoints close their owned resources, await accepted work, and record `process.exitCode` before returning. They do not force normal termination with `process.exit()`.
 
 On affected Node 24 and 26 releases, forced exit can join a compiler worker that is waiting for main-thread garbage collection, deadlocking after output has already appeared ([nodejs/node#64274](https://github.com/nodejs/node/issues/64274)). Natural shutdown lets Node tear down the isolate before joining the platform workers. The runtime boundary linter rejects `process.exit()` and `process.reallyExit()` so new entrypoints retain this lifecycle. This does not fix unrelated native shutdown stalls, including macOS system-certificate enumeration; system certificate trust remains enabled.
 
 ## Platform consequences
 
-Official Node 24+ macOS binaries are built for **macOS 13.5+**, the oldest release Node supports. macOS does not block them on older releases, and the CLI and Gateway have been observed running on macOS 12 with official Node 24. FRIDAY does not test or support macOS 11 through 13.4, so features that ship their own native binaries can still fail there. The companion app has separate [macOS requirements](/platforms/macos).
+Official Node 24+ macOS binaries are built for **macOS 13.5+**, the oldest release Node supports. macOS does not block them on older releases, and the CLI and Gateway have been observed running on macOS 12 with official Node 24. OpenClaw does not test or support macOS 11 through 13.4, so features that ship their own native binaries can still fail there. The companion app has separate [macOS requirements](/platforms/macos).
 
 Supported Node lines have no official **Linux ARMv7** builds. Use a 64-bit operating system on compatible ARM hardware, or another supported host.
 
-On RPM-based distributions, the installer preserves a supported distro-owned Node package that links unsafe system SQLite and provisions a separate user-space runtime for FRIDAY.
+On RPM-based distributions, the installer preserves a supported distro-owned Node package that links unsafe system SQLite and provisions a separate user-space runtime for OpenClaw.
 
 ## What the installer provisions
 

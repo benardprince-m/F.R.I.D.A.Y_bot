@@ -83,7 +83,7 @@ describe("ClickClack post-write setup verification", () => {
       );
       expect(runtime.log).toHaveBeenNthCalledWith(
         2,
-        "FRIDAY is running — ClickClack will connect automatically.",
+        "OpenClaw is running — ClickClack will connect automatically.",
       );
     },
   );
@@ -116,7 +116,7 @@ describe("ClickClack post-write setup verification", () => {
     expect(runtime.log).toHaveBeenNthCalledWith(1, expected);
     expect(runtime.log).toHaveBeenNthCalledWith(
       2,
-      "FRIDAY is running — ClickClack will connect automatically.",
+      "OpenClaw is running — ClickClack will connect automatically.",
     );
   });
 
@@ -150,13 +150,13 @@ describe("ClickClack post-write setup verification", () => {
             connectionDetails: { url: "ws://127.0.0.1:18789", message: "Local Gateway" },
           }),
         ),
-      expected: "Start FRIDAY to connect: openclaw gateway",
+      expected: "Start OpenClaw to connect: openclaw gateway",
     },
     {
       name: "unavailable",
       arrange: () => mocks.callGatewayFromCli.mockRejectedValue(new Error("probe failed")),
       expected:
-        "If FRIDAY is running it connects automatically; otherwise start it with: openclaw gateway",
+        "If OpenClaw is running it connects automatically; otherwise start it with: openclaw gateway",
     },
   ])("prints the gateway next step when status is $name", async ({ arrange, expected }) => {
     arrange();

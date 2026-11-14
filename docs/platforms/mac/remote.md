@@ -1,12 +1,12 @@
 ---
-summary: "macOS app flow for controlling a remote FRIDAY Gateway"
+summary: "macOS app flow for controlling a remote OpenClaw Gateway"
 read_when:
   - Setting up or debugging remote mac control
   - Signing in to a Gateway from the Mac app or opening it from a website
 title: "Remote control"
 ---
 
-This flow lets the macOS app act as a full remote control for an FRIDAY Gateway running on another host (desktop/server). The app connects directly to trusted LAN/Tailnet Gateway URLs, or manages an SSH tunnel when the remote Gateway is loopback-only. Health checks, Voice Wake forwarding, and WebChat reuse the same remote configuration from the native **Connection** window.
+This flow lets the macOS app act as a full remote control for an OpenClaw Gateway running on another host (desktop/server). The app connects directly to trusted LAN/Tailnet Gateway URLs, or manages an SSH tunnel when the remote Gateway is loopback-only. Health checks, Voice Wake forwarding, and WebChat reuse the same remote configuration from the native **Connection** window.
 
 ## Connect with your browser
 
@@ -28,7 +28,7 @@ Mac node capabilities and Talk Mode.
    The recovery action launches your default browser normally, allowing the
    browser to select its profile instead of reusing an invisible automation
    process. Check the account shown in the browser before approving sign-in.
-4. Return to FRIDAY. The saved Gateway's dashboard opens; check the account
+4. Return to OpenClaw. The saved Gateway's dashboard opens; check the account
    name in its sidebar footer. You can open more windows from
    **File → New Gateway Window…** or the **Gateways** menu. The app reopens your selected Gateway after
    restart, including when a separate primary Gateway supplies Mac capabilities.
@@ -44,7 +44,7 @@ Dashboard apps embedded over HTTPS can also sign in when they use the same
 Cloudflare Access team and account as the Gateway. Embedded apps must also be
 on the same site as the Gateway under WebKit's rules, because WebKit blocks
 other sites' cookies inside frames. Other sites fall back to the tab's own
-sign-in link. FRIDAY opens the same browser sign-in
+sign-in link. OpenClaw opens the same browser sign-in
 flow for each app; an existing browser session can complete
 that round trip automatically. Each app receives its own application cookie.
 Cookies stay limited to the Gateway's exact origin and validated embedded app
@@ -61,7 +61,7 @@ A signed-in native operator device may still need a one-time approval on the
 Gateway. The Gateway's existing [automatic device approval policy](/gateway/trusted-proxy-auth#automatic-device-approval)
 determines whether verified proxy identities can enroll automatically.
 
-While FRIDAY is active and you are present, it automatically renews browser sign-in for saved Gateways in use during the last quarter of the session lifetime (at least 15 minutes, up to 7 days); a failed attempt retries after half that window, at most daily. The default browser may open to finish sign-in.
+While OpenClaw is active and you are present, it automatically renews browser sign-in for saved Gateways in use during the last quarter of the session lifetime (at least 15 minutes, up to 7 days); a failed attempt retries after half that window, at most daily. The default browser may open to finish sign-in.
 Renewing the same account quietly reconnects the native connection and keeps the current dashboard in place; a failed automatic attempt leaves the existing session usable until it expires.
 
 When the browser session expires, opening the saved Gateway shows a sign-in
@@ -95,7 +95,7 @@ also allows a new request.
 
 In the browser dashboard, open **Get the apps** from the account menu, then
 choose **Open in Mac app** on the macOS card. The link uses the connected
-Gateway's HTTPS address. FRIDAY shows **Add Gateway** with that address filled
+Gateway's HTTPS address. OpenClaw shows **Add Gateway** with that address filled
 in; review it and click **Connect** to complete the same sign-in flow.
 
 Websites can launch this editor with the registered `openclaw` URL scheme:
@@ -117,7 +117,7 @@ the primary connection.
 ## Modes
 
 - **Local (this Mac)**: everything runs on the laptop; no SSH involved.
-- **Remote over SSH (default)**: FRIDAY commands run on the remote host. The app opens an SSH connection with `-o BatchMode`, your chosen identity/key, and a local port-forward.
+- **Remote over SSH (default)**: OpenClaw commands run on the remote host. The app opens an SSH connection with `-o BatchMode`, your chosen identity/key, and a local port-forward.
 - **Remote direct (ws/wss)**: no SSH tunnel; the app connects to the Gateway URL directly (LAN, Tailscale, Tailscale Serve, or a public HTTPS reverse proxy).
 
 ## Remote transports
@@ -178,7 +178,7 @@ into agent shell environments.
 
 ## Prereqs on the remote host
 
-1. Install the packaged FRIDAY CLI with `npm install -g openclaw@latest --allow-scripts=openclaw` (omit `--allow-scripts=openclaw` on npm 11.15 and earlier).
+1. Install the packaged OpenClaw CLI with `npm install -g openclaw@latest --allow-scripts=openclaw` (omit `--allow-scripts=openclaw` on npm 11.15 and earlier).
 2. Put `openclaw` on PATH for non-interactive shells (symlink into `/usr/local/bin` or `/opt/homebrew/bin` if needed).
 3. For SSH transport: set up key-based SSH auth. Tailscale IPs are recommended for stable reachability off-LAN.
 
@@ -187,7 +187,7 @@ into agent shell environments.
 Use the bundled `openclaw-mac` command to inspect or change the running app's
 connections from Terminal or over SSH. The app's CLI installer links it beside
 its profile-managed `openclaw` command. You can also call it directly at
-`/Applications/FRIDAY.app/Contents/MacOS/openclaw-mac`.
+`/Applications/OpenClaw.app/Contents/MacOS/openclaw-mac`.
 
 Inspect the primary connection, saved Gateways, and app version:
 
@@ -278,7 +278,7 @@ openclaw-mac --no-launch status --json
 ```
 
 The CLI starts its containing app bundle in the background when needed,
-falling back to `/Applications/FRIDAY.app`. Use `--no-launch` to require an
+falling back to `/Applications/OpenClaw.app`. Use `--no-launch` to require an
 already-running app. `--timeout <ms>` bounds waiting for the app and operation.
 The default is 15 seconds, or 310 seconds for `gateway add` and
 `gateway reconnect` to allow browser sign-in to finish. Global flags can appear
@@ -336,7 +336,7 @@ its full reference.
 To configure from the UI instead:
 
 1. Choose **Connection…** from the menu bar and select the **Connection** tab.
-2. Under **FRIDAY runs**, pick **Remote (another host)** to open **Connect to a Gateway**. If you already use a remote Gateway, choose **Change connection…**. Selecting a **Nearby Gateways** row opens the same editor. The listing is only a hint: it does not fill in an advertised address, SSH target, or certificate pin, and it does not change your saved connection.
+2. Under **OpenClaw runs**, pick **Remote (another host)** to open **Connect to a Gateway**. If you already use a remote Gateway, choose **Change connection…**. Selecting a **Nearby Gateways** row opens the same editor. The listing is only a hint: it does not fill in an advertised address, SSH target, or certificate pin, and it does not change your saved connection.
 3. Choose the connection and supply details from the Gateway owner through a source you trust:
    - **Gateway address or setup code**: paste a trusted URL, such as `wss://gateway.example.ts.net`, or a setup code into **Address or setup code**. Local/LAN `ws://` URLs remain supported.
    - **SSH tunnel**: enter **SSH target** as `user@host` (optional `:port`) and **Gateway port on the remote host**. Under **SSH details**, you can set **Identity file**, **Project root**, and **CLI path**. Discovery does not supply these values.

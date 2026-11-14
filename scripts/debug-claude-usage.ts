@@ -90,7 +90,7 @@ function printUsage(): void {
   console.log(`Usage: node --import tsx scripts/debug-claude-usage.ts [options]
 
 Options:
-  --agent <id>          FRIDAY agent id to inspect (default: main)
+  --agent <id>          OpenClaw agent id to inspect (default: main)
   --session-key <key>   Claude web session key override
   --reveal              Print token/session values instead of masked identifiers
   --help, -h            Show this help message`);

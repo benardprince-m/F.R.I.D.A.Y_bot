@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawChatUI
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct SessionDataTests {
     @Test func `session kinds follow authoritative gateway metadata`() throws {

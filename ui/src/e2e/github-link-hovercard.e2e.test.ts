@@ -282,7 +282,7 @@ suite.define(() => {
               "Synthetic cross-repository reproduction",
               `Original ${projectName} PR **#1558 merged**`,
               `Follow-up ${projectName} PR **#1576 opened**`,
-              "Same checkout: FRIDAY PR #1576.",
+              "Same checkout: OpenClaw PR #1576.",
             ].join("\n\n"),
           ),
         ],
@@ -290,7 +290,7 @@ suite.define(() => {
           [SESSION_PULL_REQUESTS_SUBSCRIBE_METHOD]: { subscribed: true },
           "projects.list": {
             projects: [
-              ["openclaw", "FRIDAY"],
+              ["openclaw", "OpenClaw"],
               ["clawsweeper", "ClawSweeper"],
             ].map(([id, displayName]) => ({
               id,
@@ -307,7 +307,7 @@ suite.define(() => {
                   `${repo.owner}/${repo.repo} #${number}`,
                   repo.repo === "clawsweeper"
                     ? "Synthetic ClawSweeper pull request"
-                    : "Synthetic FRIDAY pull request",
+                    : "Synthetic OpenClaw pull request",
                 ),
               ),
             ),
@@ -355,7 +355,7 @@ suite.define(() => {
           card,
           repo.repo === "clawsweeper"
             ? "Synthetic ClawSweeper pull request"
-            : "Synthetic FRIDAY pull request",
+            : "Synthetic OpenClaw pull request",
         );
       }
       const requests = (await gateway.getRequests("forge.preview")).map(({ params }) => {

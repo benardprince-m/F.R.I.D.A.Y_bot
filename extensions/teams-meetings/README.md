@@ -1,6 +1,6 @@
 # @openclaw/teams-meetings
 
-Official Microsoft Teams browser meeting participant plugin for FRIDAY.
+Official Microsoft Teams browser meeting participant plugin for OpenClaw.
 
 This plugin registers the `teams_meetings` tool so agents can join Microsoft
 Teams meetings as a Chrome browser guest.
@@ -25,4 +25,4 @@ routing, and guest join setup:
 - Plugin id: `teams-meetings`
 - Tool: `teams_meetings`
 - Package: `@openclaw/teams-meetings`
-- Minimum FRIDAY host: `2026.7.2`
+- Minimum OpenClaw host: `2026.7.2`

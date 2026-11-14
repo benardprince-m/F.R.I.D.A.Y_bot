@@ -1,4 +1,4 @@
-# FRIDAY macOS app (dev + signing)
+# OpenClaw macOS app (dev + signing)
 
 ## Quick dev run
 
@@ -33,7 +33,7 @@ deferred. See [launch and debugging](https://docs.openclaw.ai/platforms/mac/webc
 Launch a separately configured app instance with the same profile name used by the CLI:
 
 ```bash
-OPENCLAW_PROFILE=work /Applications/FRIDAY.app/Contents/MacOS/FRIDAY
+OPENCLAW_PROFILE=work /Applications/OpenClaw.app/Contents/MacOS/OpenClaw
 ```
 
 Profile names use 1–64 lowercase letters, numbers, underscores, or hyphens and
@@ -49,7 +49,7 @@ Keychain services, duplicate-instance lock, and the CLI-managed Gateway service
 `ai.openclaw.<name>`. Unless config or environment selects a port, each profile
 derives a stable port in the profile `20000...59999` range. The app does not
 install or modify the host-global Mac node
-service or FRIDAY login item while a profile is active. The runtime child node
+service or OpenClaw login item while a profile is active. The runtime child node
 still runs in process as usual. App relocation, Sparkle updates, and post-update
 service repair are disabled in profile mode; update the installed app through
 the normal default-profile workflow.
@@ -96,7 +96,7 @@ Development bundle (signed but not notarized):
 scripts/package-mac-app.sh
 ```
 
-This creates `dist/FRIDAY.app` and signs it via `scripts/codesign-mac-app.sh`.
+This creates `dist/OpenClaw.app` and signs it via `scripts/codesign-mac-app.sh`.
 It is not a distribution artifact. For a notarized app ZIP and DMG, use:
 
 ```bash
@@ -105,14 +105,14 @@ scripts/package-mac-dist.sh
 
 For an unattended Peekaboo elevation host, use the closed Foundation signing
 profile and source-addressed ZIP workflow. `package` is an internal release
-operator command: it requires the FRIDAY Foundation signing identity and
+operator command: it requires the OpenClaw Foundation signing identity and
 notarization credentials, and its archive is not a general-download artifact.
 
 ```bash
 scripts/mac-elevation-host.sh package \
   --peekaboo-source-commit <full-peekaboo-sha>
 cd dist/elevation-host
-export PREFIX="FRIDAY-<full-openclaw-sha>-Peekaboo-<full-peekaboo-sha>-stable"
+export PREFIX="OpenClaw-<full-openclaw-sha>-Peekaboo-<full-peekaboo-sha>-stable"
 export INSTALLER_SHA256="<authenticated-installer-sha256>"
 export RECEIPT_SHA256="<authenticated-receipt-sha256>"
 [[ "$(shasum -a 256 "$PREFIX-installer.sh" | awk '{print $1}')" == "$INSTALLER_SHA256" ]] || exit 1
@@ -133,7 +133,7 @@ shasum -a 256 -c "$PREFIX-installer.sh.sha256"
 ```
 
 The elevation package is ZIP-only, notarized and stapled, contains exactly
-`FRIDAY.app`, omits Apple Events entitlements, records an immutable receipt,
+`OpenClaw.app`, omits Apple Events entitlements, records an immutable receipt,
 and verifies a freshly extracted copy. The same source-addressed artifact set
 includes a portable installer copied from that exact Git commit plus separate
 archive and installer checksum files. Transfer the archive, receipt, portable

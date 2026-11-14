@@ -1,7 +1,7 @@
 <resources>
     <string-array name="ask_openclaw_query_patterns">
-        <item>"demander à FRIDAY %1$s"</item>
-        <item>"demandez à FRIDAY de %1$s"</item>
-        <item>"ouvrir FRIDAY et demander %1$s"</item>
+        <item>"demander à OpenClaw %1$s"</item>
+        <item>"demandez à OpenClaw de %1$s"</item>
+        <item>"ouvrir OpenClaw et demander %1$s"</item>
     </string-array>
 </resources>

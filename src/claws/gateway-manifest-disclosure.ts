@@ -31,7 +31,7 @@ export function projectClawManifestDisclosure(
     ? parseClawOpenClawProfile(source.openClawProfile)
     : undefined;
   if (profile && !profile.ok) {
-    throw new Error("The Claw FRIDAY profile cannot be disclosed safely.");
+    throw new Error("The Claw OpenClaw profile cannot be disclosed safely.");
   }
 
   return {

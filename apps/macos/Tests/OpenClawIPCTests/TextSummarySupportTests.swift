@@ -1,5 +1,5 @@
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct TextSummarySupportTests {
     private static let recoveryDiagnostics: [(String, String)] = [
@@ -8,7 +8,7 @@ struct TextSummarySupportTests {
                 "[openclaw] For help, run `openclaw --profile example doctor`.",
             "Gateway uninstall failed: service inspection unavailable"),
         (
-            "[openclaw] FRIDAY needs a manual recovery step.\n" +
+            "[openclaw] OpenClaw needs a manual recovery step.\n" +
                 "[openclaw] Reason: Agent database schema 2147483646 is newer than supported.\n" +
                 "[openclaw] Help: openclaw --help",
             "[openclaw] Reason: Agent database schema 2147483646 is newer than supported."),

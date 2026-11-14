@@ -3,7 +3,7 @@ type ConfiguredRuntimePluginInstallCandidate = {
   label: string;
   npmSpec: string;
   trustedSourceLinkedOfficialInstall: true;
-  /** Keep this official runtime package on the same release cohort as FRIDAY. */
+  /** Keep this official runtime package on the same release cohort as OpenClaw. */
   versionBoundToOpenClaw?: boolean;
   minimumCompatibleVersion?: string;
 };

@@ -19,7 +19,7 @@ When debugging real providers/models (requires real creds):
   `OPENCLAW_LIVE_TEST=1 OPENCLAW_LIVE_SUBAGENT_STRESS=1 pnpm test:live -- src/agents/subagents/announce/subagent-yield-resume.live.test.ts`
   - Requires `OPENAI_API_KEY` and defaults to `openai/gpt-5.6-luna`; select another
     OpenAI model with `OPENCLAW_LIVE_SUBAGENT_E2E_MODEL`.
-  - Pins the FRIDAY agent harness and uses isolated Gateway state, synthetic
+  - Pins the OpenClaw agent harness and uses isolated Gateway state, synthetic
     files, and externally held HTTP responses. It checks concurrent hidden-result
     fanout, status-only interrogation of a waiting child tree, operator resume
     with preserved task identity and replay without duplicate work, child timeout, a live HTTP
@@ -35,13 +35,13 @@ When debugging real providers/models (requires real creds):
   - Defaults to two batches of three children. Set
     `OPENCLAW_LIVE_SUBAGENT_STRESS_BATCHES` (1–5) and
     `OPENCLAW_LIVE_SUBAGENT_STRESS_CHILDREN` (1–6) to change the bounded workload.
-- Live Gateway concurrency: dispatch `FRIDAY Performance` on `main` with
+- Live Gateway concurrency: dispatch `OpenClaw Performance` on `main` with
   `mode=gateway-concurrency` and `live_openai_candidate=true`. It runs 96 real
   turns across 32 agents with 1,000 seeded sessions, concurrent session activity,
   and load-phase CPU profiles. Dreaming is disabled while ordinary indexing and
   recaps remain enabled. Results stay in Actions artifacts. See
   [Gateway concurrency benchmark](/ci/scheduled-workflows#gateway-concurrency-benchmark).
-- Runtime performance reports: dispatch `FRIDAY Performance` with
+- Runtime performance reports: dispatch `OpenClaw Performance` with
   `live_openai_candidate=true` for a real `openai/gpt-5.6-luna` agent turn or
   `deep_profile=true` for Kova CPU/heap/trace artifacts. Daily scheduled runs
   publish mock-provider, deep-profile, and GPT-5.6 Luna lane reports to
@@ -56,11 +56,11 @@ When debugging real providers/models (requires real creds):
     Models whose metadata advertises `image` input also run a tiny image turn.
     Disable the extra checks with `OPENCLAW_LIVE_MODEL_FILE_PROBE=0` or
     `OPENCLAW_LIVE_MODEL_IMAGE_PROBE=0` when isolating provider failures.
-  - CI coverage: daily `FRIDAY Scheduled Live And E2E Checks` and manual
-    `FRIDAY Release Checks` both call the reusable live/E2E workflow with
+  - CI coverage: daily `OpenClaw Scheduled Live And E2E Checks` and manual
+    `OpenClaw Release Checks` both call the reusable live/E2E workflow with
     `include_live_suites: true`, which includes Docker live model matrix jobs
     sharded by provider.
-  - For focused CI reruns, dispatch `FRIDAY Live And E2E Checks (Reusable)`
+  - For focused CI reruns, dispatch `OpenClaw Live And E2E Checks (Reusable)`
     with `include_live_suites: true` and `live_models_only: true`.
   - Add new high-signal provider secrets to `scripts/ci-hydrate-live-auth.sh`
     plus `.github/workflows/openclaw-live-and-e2e-checks-reusable.yml` and its
@@ -81,11 +81,11 @@ When debugging real providers/models (requires real creds):
     This exits after the sub-agent check unless
     `OPENCLAW_LIVE_CODEX_HARNESS_SUBAGENT_ONLY=0` is set.
 - Codex on-demand install smoke: `pnpm test:docker:codex-on-demand`
-  - Installs the packaged FRIDAY tarball in Docker, runs OpenAI API-key
+  - Installs the packaged OpenClaw tarball in Docker, runs OpenAI API-key
     onboarding, and verifies the Codex plugin plus `@openai/codex` dependency
     were downloaded into the managed npm project root on demand.
 - Codex npm-plugin live package smoke: `pnpm test:docker:live-codex-npm-plugin`
-  - Installs the candidate FRIDAY package and exact Codex plugin into Docker,
+  - Installs the candidate OpenClaw package and exact Codex plugin into Docker,
     then uses a real OpenAI key for CLI preflight and same-session turns.
   - Its zero-retry medium-thinking follow-through turn must send progress, keep
     working through randomized workspace reads and an exact artifact write,
@@ -95,20 +95,20 @@ When debugging real providers/models (requires real creds):
     through `npm-pack:`, verifies the dependency under the managed npm
     project root, then asks a live OpenAI model to call the plugin tool and
     return the hidden slug.
-- FRIDAY rescue command smoke: `pnpm test:live:system-agent-rescue-channel`
+- OpenClaw rescue command smoke: `pnpm test:live:system-agent-rescue-channel`
   - Opt-in belt-and-suspenders check for the message-channel rescue command
     surface. Exercises `/openclaw status`, queues a persistent model
     change, replies `/openclaw yes`, and verifies the audit/config write
     path.
-- FRIDAY first-run Docker smoke: `pnpm test:docker:system-agent-first-run`
-  - Starts from an empty FRIDAY state dir and first proves the packaged
+- OpenClaw first-run Docker smoke: `pnpm test:docker:system-agent-first-run`
+  - Starts from an empty OpenClaw state dir and first proves the packaged
     `openclaw setup` CLI refuses to run without inference. It then
     tests and activates fake Claude through the packaged activation module.
     Only afterward does a fuzzy packaged CLI request reach the planner and
     resolve to typed setup, followed by one-shot model, agent, Discord config,
     and SecretRef operations. It validates config and audit entries. This is
     supporting gate/operation evidence, not an interactive onboarding or
-    FRIDAY agent/tool/approval proof. The same lane is exposed in QA Lab by
+    OpenClaw agent/tool/approval proof. The same lane is exposed in QA Lab by
     `pnpm openclaw qa suite --scenario system-agent-ring-zero-setup`.
 - Moonshot/Kimi cost smoke: with `MOONSHOT_API_KEY` set, run
   `openclaw models list --provider moonshot --json`, then run an isolated

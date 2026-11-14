@@ -66,7 +66,7 @@ pub enum StoredDeviceTokenRetry {
     AvailableForTrustedEndpoint,
 }
 
-/// Deterministic exponential reconnect policy matching `FRIDAY`'s client rules.
+/// Deterministic exponential reconnect policy matching `OpenClaw`'s client rules.
 #[derive(Clone, Debug)]
 pub struct ReconnectPolicy {
     initial_delay: Duration,

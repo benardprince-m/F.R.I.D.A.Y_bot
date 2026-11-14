@@ -136,7 +136,7 @@ async function createGitFixtureSeed(directory: string, manifest: Record<string, 
   const remote = path.join(directory, "remote");
   await fs.mkdir(remote);
   await runFixtureGit(remote, "init", "--initial-branch=main");
-  await runFixtureGit(remote, "config", "user.name", "FRIDAY Test");
+  await runFixtureGit(remote, "config", "user.name", "OpenClaw Test");
   await runFixtureGit(remote, "config", "user.email", "openclaw@example.com");
   await writeGitFixtureManifest(remote, manifest);
   await fs.mkdir(path.join(remote, "packages", "runtime"), { recursive: true });
@@ -149,7 +149,7 @@ async function createGitFixtureSeed(directory: string, manifest: Record<string, 
   await runFixtureGit(remote, "commit", "-m", "base");
   const beforeSha = await runFixtureGit(remote, "rev-parse", "HEAD");
   await runFixtureGit(directory, "clone", "--quiet", remote, root);
-  await runFixtureGit(root, "config", "user.name", "FRIDAY Test");
+  await runFixtureGit(root, "config", "user.name", "OpenClaw Test");
   await runFixtureGit(root, "config", "user.email", "openclaw@example.com");
   return { root, remote, beforeSha };
 }

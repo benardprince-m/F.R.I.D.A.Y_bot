@@ -78,7 +78,7 @@ describe("createNewerSqliteSchemaVersionError", () => {
     );
     // Two builds sharing one release version can support different schemas (#115008).
     expect(error.message).not.toContain("Do not downgrade");
-    expect(error.message).not.toContain("Upgrade FRIDAY");
+    expect(error.message).not.toContain("Upgrade OpenClaw");
     const described = describeRunningOpenClawBuild();
     expect(described).toContain(VERSION);
     expect(described).toContain("installed at ");

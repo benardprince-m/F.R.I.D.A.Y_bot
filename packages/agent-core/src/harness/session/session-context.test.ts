@@ -139,7 +139,7 @@ function compactionEntry(
 
 describe("buildSessionContext", () => {
   it.each(["command", "delivery-mirror", "gateway-injected", "automation-result"])(
-    "keeps the inference model after an FRIDAY %s reply without hiding its history",
+    "keeps the inference model after an OpenClaw %s reply without hiding its history",
     (model) => {
       const answer = assistantEntry("answer", null, "Provider answer");
       const artifact = assistantEntry("artifact", "answer", "Delivered reply");
@@ -352,7 +352,7 @@ describe("buildSessionContext", () => {
       {
         role: "user",
         content:
-          "FRIDAY runtime context:\nModel-visible runtime context\nEnd FRIDAY runtime context.",
+          "OpenClaw runtime context:\nModel-visible runtime context\nEnd OpenClaw runtime context.",
         runtimeContext: {},
       },
       { role: "user", content: "continue" },

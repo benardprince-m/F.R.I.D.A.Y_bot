@@ -295,7 +295,7 @@ describe("SQLite integrity child", () => {
         await expect(reuse ? inScope(run) : run()).rejects.toThrow(
           cancel
             ? "synthetic active maintenance abort"
-            : `SQLite integrity check timed out after ${reuse ? 2 : 301} seconds (budget for 15 B) for ${source}. Stop the Gateway service and other FRIDAY processes using this database, then retry; if already stopped, check storage performance. (lastObservedPhase=checking)`,
+            : `SQLite integrity check timed out after ${reuse ? 2 : 301} seconds (budget for 15 B) for ${source}. Stop the Gateway service and other OpenClaw processes using this database, then retry; if already stopped, check storage performance. (lastObservedPhase=checking)`,
         );
         expect(performance.now() - started).toBeLessThan(8_000);
         expect(fs.readFileSync(ready, "utf8")).toBe("ready");

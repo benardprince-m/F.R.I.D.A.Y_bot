@@ -5,7 +5,7 @@ read_when:
 title: "Telegram"
 ---
 
-This page connects a Telegram bot to FRIDAY and sets who is allowed to message it.
+This page connects a Telegram bot to OpenClaw and sets who is allowed to message it.
 
 Telegram is production-ready for bot DMs and groups via grammY. Long polling is the default transport. Webhook mode is optional.
 
@@ -117,7 +117,7 @@ Primary reference: [Configuration reference - Telegram](/gateway/config-channels
 limit using binary units, so `mediaMaxMb: 0.5` appears as `512KB`.
 
 <Note>
-Multi-account precedence: with two or more account IDs configured, set `channels.telegram.defaultAccount` (or include `channels.telegram.accounts.default`) to make default routing explicit. Otherwise FRIDAY falls back to the first normalized account ID and `openclaw doctor` warns. Omitted account `dmPolicy`, `groupPolicy`, `allowFrom`, and `groupAllowFrom` inherit the channel root, not `accounts.default.*`. Explicit account policies win; if neither scope sets them, DMs use `pairing` and groups use `allowlist`.
+Multi-account precedence: with two or more account IDs configured, set `channels.telegram.defaultAccount` (or include `channels.telegram.accounts.default`) to make default routing explicit. Otherwise OpenClaw falls back to the first normalized account ID and `openclaw doctor` warns. Omitted account `dmPolicy`, `groupPolicy`, `allowFrom`, and `groupAllowFrom` inherit the channel root, not `accounts.default.*`. Explicit account policies win; if neither scope sets them, DMs use `pairing` and groups use `allowlist`.
 </Note>
 
 ## Multi-agent account ownership

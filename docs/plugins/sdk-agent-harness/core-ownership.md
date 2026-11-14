@@ -1,5 +1,5 @@
 ---
-summary: "What FRIDAY core prepares and owns before a harness runs an attempt, and the contracts a harness can declare to take some of it back"
+summary: "What OpenClaw core prepares and owns before a harness runs an attempt, and the contracts a harness can declare to take some of it back"
 read_when:
   - You need to know which attempt inputs core prepares for a harness
   - You are declaring native tool-policy, auth bootstrap, or session ownership
@@ -8,17 +8,17 @@ title: "Agent harness core ownership"
 sidebarTitle: "Core ownership"
 ---
 
-What FRIDAY prepares before it calls `runAttempt`, and the narrow contracts a harness declares to own tool policy, auth bootstrap, a bound native session, or its own request transport. Part of the [Agent harness plugins](/plugins/sdk-agent-harness) reference.
+What OpenClaw prepares before it calls `runAttempt`, and the narrow contracts a harness declares to own tool policy, auth bootstrap, a bound native session, or its own request transport. Part of the [Agent harness plugins](/plugins/sdk-agent-harness) reference.
 
 ## What core still owns
 
-For ordinary concrete-model turns, FRIDAY prepares these inputs before
+For ordinary concrete-model turns, OpenClaw prepares these inputs before
 calling `runAttempt`:
 
 - provider and model, including discovery and concrete request parameters
 - runtime auth state, unless the harness declares that it owns auth bootstrap
 - thinking level and context budget
-- the FRIDAY transcript/session file
+- the OpenClaw transcript/session file
 - workspace, sandbox, and tool policy
 - channel reply callbacks and streaming callbacks
 - model fallback and live model switching policy
@@ -31,7 +31,7 @@ observation, not a native ownership claim. Bound native sessions use the separat
 ownership contract below.
 
 Await `params.hostCapabilities.createToolSurfaceAsync(options)` to construct
-FRIDAY tools with fresh exec policy for each construction. Ordinary exec-approval
+OpenClaw tools with fresh exec policy for each construction. Ordinary exec-approval
 read errors use conservative deny defaults. Migration errors or loss of the
 admitted host authority reject construction. The host captures
 publication availability for the admitted attempt and
@@ -54,7 +54,7 @@ For steering, pass the current `turn: { media, userTurnTranscriptRecorder }`.
 Path metadata must fit the supplied native input budget. When the complete note
 cannot fit, the host omits it and preserves the original request and inline
 attachment context.
-Append the note to the current native input without rewriting FRIDAY's
+Append the note to the current native input without rewriting OpenClaw's
 original prompt, transcript, or media references. This separation does not imply
 that a harness discards its native input after the turn: Codex retains it in its
 native conversation history. Prepared paths do not replace the existing
@@ -114,7 +114,7 @@ configuration and filters. Local workspaces and document-only bindings without
 Once a binding provides `loadSkills`, unavailable remote Skill access fails explicitly.
 
 This binding provides remote document and bootstrap access. It does not enable
-a remote FRIDAY worker or move its agent loop. Memory search and maintenance,
+a remote OpenClaw worker or move its agent loop. Memory search and maintenance,
 skills, attachments, and host provisioning require separate integration and
 verification before removing workspace synchronization.
 
@@ -164,13 +164,13 @@ permission to remove a required sandbox or other configured restrictions.
 ### Native tool-policy enforcement
 
 Set `conversationToolPolicySupport: "exact"` only when `runAttempt` enforces every
-explicit FRIDAY tool-policy layer across native and built-in tools, FRIDAY
+explicit OpenClaw tool-policy layer across native and built-in tools, OpenClaw
 tools, requester and configured MCP servers, apps, delegation, and resumed
 threads. Core passes `params.pluginHarnessToolPolicyRestricted` as the prepared
 decision that the native surface must be isolated.
 
 If the native surface exposes several capabilities together, declare their
-standard FRIDAY tool names in `conversationToolPolicyNativeTools`. Core checks
+standard OpenClaw tool names in `conversationToolPolicyNativeTools`. Core checks
 every requirement against the effective tool profile and provider profile,
 including agent overrides and `alsoAllow`. A missing capability sets the same
 restriction flag. For example, Codex declares its shell and filesystem tools, so
@@ -180,7 +180,7 @@ denylists, sandbox policy, or runtime caps. Omitting it preserves existing
 profile handling for harnesses that enforce native availability independently.
 
 Harnesses with an independently managed native surface can also declare
-`conversationToolPolicySafeDenyTools` using standard FRIDAY tool names. Core
+`conversationToolPolicySafeDenyTools` using standard OpenClaw tool names. Core
 preserves the native surface only when every expanded deny is a known core tool
 in that audited safe list and passes the matching names in
 `params.pluginHarnessToolPolicySafeDeniedTools`. The harness must disable any
@@ -191,7 +191,7 @@ where every explicit restriction isolates the native surface. Because omissions
 retain restrictions, new tools cannot silently relax the policy boundary.
 
 Omit the declaration when any native capability can bypass those layers.
-FRIDAY then visibly rejects explicitly restricted turns before invoking the
+OpenClaw then visibly rejects explicitly restricted turns before invoking the
 harness. The operator can switch the session to the embedded runtime or upgrade
 the harness. Channel `/btw` side questions with a restrictive direct policy are
 rejected by core and are not covered by this declaration.
@@ -210,7 +210,7 @@ then delegate credential bootstrap instead of rejecting a route merely because
 generic provider credentials are absent. Prepared route and explicit profile
 requirements still apply.
 
-Core still forwards a compatible, explicitly selected or ordered FRIDAY auth
+Core still forwards a compatible, explicitly selected or ordered OpenClaw auth
 profile and its scoped store when one exists. The harness must resolve that
 profile or its native credentials before issuing model requests, keep secrets
 scoped to the attempt, and surface actionable authentication failures. Do not
@@ -350,15 +350,15 @@ implementation that completed the check. When
 matching `runtimeArtifact.validate(...)` capability that rechecks that binding
 without loading a different harness or scanning unrelated plugins.
 
-Verified FRIDAY continuations also pass `params.expectedRuntimeArtifact`.
+Verified OpenClaw continuations also pass `params.expectedRuntimeArtifact`.
 The harness must compare it with the exact native process it acquired and fail
 before starting or resuming a native thread if they differ. Ordinary agent
 turns omit both fields, so content hashing stays out of the normal request hot
 path. Remote/WebSocket harnesses need a server attestation contract before
 they can participate; a version string alone is not an artifact identity.
 
-The prepared attempt also includes `params.runtimePlan`, an FRIDAY-owned
-policy bundle for runtime decisions that must stay shared across FRIDAY and
+The prepared attempt also includes `params.runtimePlan`, an OpenClaw-owned
+policy bundle for runtime decisions that must stay shared across OpenClaw and
 native harnesses:
 
 - `runtimePlan.tools.normalize(...)` and `runtimePlan.tools.logDiagnostics(...)`
@@ -369,7 +369,7 @@ native harnesses:
   classification
 - `runtimePlan.observability` for resolved provider/model/harness metadata
 
-Harnesses may use the plan for decisions that need to match FRIDAY behavior,
+Harnesses may use the plan for decisions that need to match OpenClaw behavior,
 but treat it as host-owned attempt state: do not mutate it or use it to switch
 providers/models inside a turn.
 
@@ -439,15 +439,15 @@ retry sets. Leave it absent for provider, route, or authentication failures
 that must still block execution.
 
 When auth preparation yields multiple retry routes, one harness must support
-all of them before dispatch. Implicit selection uses FRIDAY if no plugin can
+all of them before dispatch. Implicit selection uses OpenClaw if no plugin can
 own the full set; an explicit or persisted plugin selection blocks execution unless
-the plugin declares the lossless FRIDAY fallback.
+the plugin declares the lossless OpenClaw fallback.
 
 ### Per-turn temporal context
 
 Native harnesses that own their model prompt can use `buildTemporalContextText`
 from `openclaw/plugin-sdk/agent-harness-runtime`. It renders the same current
-local date and time zone as the built-in FRIDAY runtime. It uses
+local date and time zone as the built-in OpenClaw runtime. It uses
 `agents.defaults.userTimezone` when configured and the host zone otherwise.
 
 Call it for each turn, after the final tool surface is known. Pass

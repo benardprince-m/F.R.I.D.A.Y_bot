@@ -50,7 +50,7 @@ internal fun queryInstalledApps(
     .toList()
 }
 
-/** Merges package sources while excluding FRIDAY from its own forwarding filter. */
+/** Merges package sources while excluding OpenClaw from its own forwarding filter. */
 internal fun resolveNotificationCandidatePackages(
   launcherPackages: Set<String>,
   recentPackages: List<String>,

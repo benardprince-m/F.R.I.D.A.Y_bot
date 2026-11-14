@@ -360,7 +360,7 @@ export function getProviderEnvVarsCore(
   return envVars ? [...envVars] : [];
 }
 
-// OPENCLAW_API_KEY authenticates the local FRIDAY bridge itself and must
+// OPENCLAW_API_KEY authenticates the local OpenClaw bridge itself and must
 // remain available to child bridge/runtime processes.
 /** Lists known provider auth env vars without bridge-only env vars. */
 export function listKnownProviderAuthEnvVarNamesCore(

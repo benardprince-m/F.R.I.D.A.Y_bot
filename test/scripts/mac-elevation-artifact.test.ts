@@ -240,7 +240,7 @@ describe.skipIf(process.platform !== "darwin")(
     );
 
     it.concurrent.for([
-      ["Contents/MacOS/FRIDAY", false],
+      ["Contents/MacOS/OpenClaw", false],
       [`${runtimeRoot}/${addon}`, true],
     ] as const)(
       "rejects generic raw-fat64 signatures at %s",
@@ -504,7 +504,7 @@ describe.skipIf(process.platform !== "darwin")(
         );
         const preserved = [
           ...targets,
-          "Contents/MacOS/FRIDAY",
+          "Contents/MacOS/OpenClaw",
           "Contents/MacOS/openclaw-mlx-tts",
           ...[0o644, 0o700, 0o750].map((mode) => `Contents/Frameworks/thin-${mode}.dylib`),
           ...[
@@ -843,7 +843,7 @@ describe.skipIf(process.platform !== "darwin")(
     );
 
     it.concurrent.for([
-      ["sourceCommit", "FRIDAY source"],
+      ["sourceCommit", "OpenClaw source"],
       ["peekabooCommit", "Peekaboo source"],
       ["version", "version"],
       ["build", "build"],

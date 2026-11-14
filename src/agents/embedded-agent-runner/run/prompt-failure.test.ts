@@ -155,7 +155,7 @@ describe("handleEmbeddedPromptFailure", () => {
 
   it("records local profile absence without an HTTP status in the fallback trace", async () => {
     const code = "selected_auth_profile_unavailable";
-    const message = 'Selected auth profile "openai:work" was not found in FRIDAY.';
+    const message = 'Selected auth profile "openai:work" was not found in OpenClaw.';
     const params = makeParams({
       promptError: Object.assign(new Error(message), { code }),
       failover: {
@@ -510,7 +510,7 @@ describe("handleEmbeddedPromptFailure", () => {
           resolvedVerboseLevel: "off",
         }),
       ).toMatchObject({
-        text: "FRIDAY couldn't read this conversation's history. Ask the Gateway operator to try `openclaw doctor --fix`. If it still fails, preserve the history and contact support with the Gateway logs.",
+        text: "OpenClaw couldn't read this conversation's history. Ask the Gateway operator to try `openclaw doctor --fix`. If it still fails, preserve the history and contact support with the Gateway logs.",
         isError: true,
       });
       const reply = buildExternalRunFailureReply({ message: String(error), error });

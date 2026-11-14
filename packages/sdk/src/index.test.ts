@@ -6,7 +6,7 @@ import {
   observeGatewaySequence,
   type RequestCall,
 } from "./client.test-support.js";
-import { FRIDAY, normalizeGatewayEvent } from "./index.js";
+import { OpenClaw, normalizeGatewayEvent } from "./index.js";
 import type { GatewayEvent, OpenClawEvent, OpenClawTransport, RunResult } from "./types.js";
 
 class DelayedConnectTransport extends FakeTransport {
@@ -90,7 +90,7 @@ function waitForSnapshot(runId: string, fields: Record<string, unknown> = {}) {
   return createClientFixture({ "agent.wait": snapshot }).oc.runs.wait(runId);
 }
 
-describe("FRIDAY SDK", () => {
+describe("OpenClaw SDK", () => {
   it("runs an agent through the Gateway agent method", async () => {
     const { transport, oc } = createClientFixture({
       agent: { status: "accepted", runId: "run_123" },
@@ -296,7 +296,7 @@ describe("FRIDAY SDK", () => {
         approvals: "ask",
       }),
     ).rejects.toThrow(
-      "FRIDAY Gateway does not support per-run SDK options yet: workspace, runtime, environment, approvals",
+      "OpenClaw Gateway does not support per-run SDK options yet: workspace, runtime, environment, approvals",
     );
   });
 
@@ -469,7 +469,7 @@ describe("FRIDAY SDK", () => {
       status: "unavailable",
     });
     await expect(oc.environments.delete("worker_123")).rejects.toThrow(
-      "oc.environments.delete is not supported by the current FRIDAY Gateway yet",
+      "oc.environments.delete is not supported by the current OpenClaw Gateway yet",
     );
     expect(transport.calls).toEqual([
       { method: "environments.list", params: {}, options: undefined },
@@ -546,19 +546,19 @@ describe("FRIDAY SDK", () => {
     const transport = new DelayedConnectTransport({
       "agents.list": { agents: [] },
     });
-    const oc = new FRIDAY({ transport });
+    const oc = new OpenClaw({ transport });
 
     const connect = oc.connect();
     const close = oc.close();
     transport.finishConnect();
 
-    await expect(connect).rejects.toThrow("FRIDAY SDK client is closed");
+    await expect(connect).rejects.toThrow("OpenClaw SDK client is closed");
     await close;
-    await expect(oc.agents.list()).rejects.toThrow("FRIDAY SDK client is closed");
+    await expect(oc.agents.list()).rejects.toThrow("OpenClaw SDK client is closed");
     await expect(oc.events()[Symbol.asyncIterator]().next()).rejects.toThrow(
-      "FRIDAY SDK client is closed",
+      "OpenClaw SDK client is closed",
     );
-    expect(() => oc.rawEvents()).toThrow("FRIDAY SDK client is closed");
+    expect(() => oc.rawEvents()).toThrow("OpenClaw SDK client is closed");
     expect(transport.connectCalls).toBe(1);
     expect(transport.calls).toEqual([]);
   });
@@ -593,13 +593,13 @@ describe("FRIDAY SDK", () => {
     const transport = new ClosingEventPumpTransport({
       "agents.list": { agents: [] },
     });
-    const oc = new FRIDAY({ transport });
+    const oc = new OpenClaw({ transport });
     let closePromise: Promise<void> | undefined;
     transport.onFirstEventPoll = () => {
       closePromise = oc.close();
     };
 
-    await expect(oc.agents.list()).rejects.toThrow("FRIDAY SDK client is closed");
+    await expect(oc.agents.list()).rejects.toThrow("OpenClaw SDK client is closed");
     await closePromise;
     expect(transport.calls).toEqual([]);
   });
@@ -640,7 +640,7 @@ describe("FRIDAY SDK", () => {
         };
       },
     });
-    const oc = new FRIDAY({ transport });
+    const oc = new OpenClaw({ transport });
     const iterator = oc.events()[Symbol.asyncIterator]();
     let futureIterator: AsyncIterator<OpenClawEvent> | undefined;
 
@@ -672,7 +672,7 @@ describe("FRIDAY SDK", () => {
           }
         },
       });
-      const oc = new FRIDAY({ transport });
+      const oc = new OpenClaw({ transport });
       const run = await oc.runs.get("run_pump_failure");
       let iterator: AsyncIterator<OpenClawEvent> | undefined;
 

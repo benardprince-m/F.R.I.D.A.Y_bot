@@ -2,7 +2,7 @@
 set -euo pipefail
 
 expected_team_id="FWJYW4S8P8"
-expected_authority="Developer ID Application: FRIDAY Foundation (${expected_team_id})"
+expected_authority="Developer ID Application: OpenClaw Foundation (${expected_team_id})"
 
 if [[ $# -ne 1 ]]; then
   echo "Usage: $0 <FaceTimeHelper.dylib>" >&2

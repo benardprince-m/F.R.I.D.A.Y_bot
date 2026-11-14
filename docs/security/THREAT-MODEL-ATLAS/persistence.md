@@ -1,8 +1,8 @@
 ---
-summary: "FRIDAY persistence threats (AML.TA0006): T-PERSIST-001, T-PERSIST-002, T-PERSIST-003"
+summary: "OpenClaw persistence threats (AML.TA0006): T-PERSIST-001, T-PERSIST-002, T-PERSIST-003"
 title: "Persistence (AML.TA0006)"
 read_when:
-  - Reviewing persistence threats against an FRIDAY deployment
+  - Reviewing persistence threats against an OpenClaw deployment
   - Working on mitigations for T-PERSIST-001, T-PERSIST-002, T-PERSIST-003
 ---
 

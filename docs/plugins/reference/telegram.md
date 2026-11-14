@@ -1,5 +1,5 @@
 ---
-summary: "FRIDAY Telegram channel plugin."
+summary: "OpenClaw Telegram channel plugin."
 read_when:
   - You are installing, configuring, or auditing the telegram plugin
 title: "Telegram plugin reference"
@@ -10,12 +10,12 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-FRIDAY Telegram channel plugin.
+OpenClaw Telegram channel plugin.
 
 ## Distribution
 
 - Package: `@openclaw/telegram`
-- Install route: included in FRIDAY
+- Install route: included in OpenClaw
 
 ## Surface
 

@@ -223,7 +223,7 @@ export function openEngineStore(ref: {
               .get(schema.id);
           } catch (cause) {
             throw new Error(
-              "Missing PostgreSQL metadata; use the matching FRIDAY version or restore the matching PostgreSQL schema and anchor.",
+              "Missing PostgreSQL metadata; use the matching OpenClaw version or restore the matching PostgreSQL schema and anchor.",
               { cause },
             );
           }

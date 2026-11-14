@@ -1,4 +1,4 @@
-// Test-state exports provide isolated FRIDAY filesystem and environment fixtures.
+// Test-state exports provide isolated OpenClaw filesystem and environment fixtures.
 export {
   createOpenClawTestState,
   withOpenClawTestState,

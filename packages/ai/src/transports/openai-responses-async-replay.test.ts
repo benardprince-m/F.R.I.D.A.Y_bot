@@ -140,7 +140,7 @@ it.each([
       messages: ["first", "second"].flatMap((turn) => [
         user(turn),
         {
-          ...user(`FRIDAY runtime context:\n${turn} context`),
+          ...user(`OpenClaw runtime context:\n${turn} context`),
           timestamp: 0,
           runtimeContext: {},
         },
@@ -158,10 +158,10 @@ it.each([
     expect(withSteering).toMatchObject(
       [
         "first",
-        "FRIDAY runtime context:\nfirst context",
+        "OpenClaw runtime context:\nfirst context",
         "first answer",
         "second",
-        "FRIDAY runtime context:\nsecond context",
+        "OpenClaw runtime context:\nsecond context",
         "second answer",
         "steering",
       ].map((text) => ({ content: [{ text }] })),

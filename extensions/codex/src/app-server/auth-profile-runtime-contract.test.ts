@@ -196,7 +196,7 @@ it("rejects a missing bound auth profile before app-server startup", async () =>
   expect(rejection).toMatchObject({
     code: "selected_auth_profile_unavailable",
     message: expect.stringContaining(
-      'auth profile "openai:missing" was not found in the FRIDAY credential store.',
+      'auth profile "openai:missing" was not found in the OpenClaw credential store.',
     ),
   });
   expect(rejection).not.toHaveProperty("status");

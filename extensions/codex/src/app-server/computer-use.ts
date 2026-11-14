@@ -702,7 +702,7 @@ async function migrateLegacyBundledMarketplaceSource(params: {
   }
 
   // Codex hides a reserved marketplace whose old direct source violates its
-  // managed-root policy. Remove only sources FRIDAY previously provisioned.
+  // managed-root policy. Remove only sources OpenClaw previously provisioned.
   const configuredSource = path.resolve(bundled.source);
   if (configuredSource === path.resolve(params.bundledMarketplacePath)) {
     return;

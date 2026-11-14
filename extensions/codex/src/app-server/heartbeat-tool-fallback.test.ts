@@ -229,7 +229,7 @@ describe("inactive Codex heartbeat endpoint", () => {
     expect(JSON.stringify(result.contentItems)).toContain(
       inactive
         ? "heartbeat_respond cannot send notifications outside a heartbeat turn"
-        : `FRIDAY tool is not available for this turn: ${heartbeatName}`,
+        : `OpenClaw tool is not available for this turn: ${heartbeatName}`,
     );
   });
 });

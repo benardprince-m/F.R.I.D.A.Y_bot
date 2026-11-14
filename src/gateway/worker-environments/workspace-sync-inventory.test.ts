@@ -121,7 +121,7 @@ async function workspace(entries: Record<string, string> = {}, committed = false
 }
 
 async function git(root: string, ...args: string[]): Promise<string> {
-  const identity = ["-c", "user.name=FRIDAY Test", "-c", "user.email=test@openclaw.invalid"];
+  const identity = ["-c", "user.name=OpenClaw Test", "-c", "user.email=test@openclaw.invalid"];
   const result = await runCommandWithTimeout(["git", "-C", root, ...identity, ...args], {
     timeoutMs: 10_000,
   });

@@ -16,9 +16,9 @@ export function buildAgentWorkspaceInstructionSnapshot(
     return { files, instructions: "" };
   }
   const lines = [
-    "## FRIDAY Agent Workspace Instructions",
+    "## OpenClaw Agent Workspace Instructions",
     "",
-    "FRIDAY loaded this bounded snapshot from the configured agent workspace.",
+    "OpenClaw loaded this bounded snapshot from the configured agent workspace.",
     "",
   ];
   for (const file of files) {

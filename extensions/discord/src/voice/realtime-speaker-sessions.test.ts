@@ -294,7 +294,7 @@ defineDiscordVoiceTests(
       try {
         beginSpeakerTurn(entry).close();
         const owner = lastRealtimeBridge();
-        await emitFinalRealtimeUserTranscript(owner.bridgeParams, "FRIDAY");
+        await emitFinalRealtimeUserTranscript(owner.bridgeParams, "OpenClaw");
         beginSpeakerTurn(entry, { senderIsOwner: false }).close();
         const guest = lastRealtimeBridge();
         await emitFinalRealtimeUserTranscript(guest.bridgeParams, "A separate conversation.");

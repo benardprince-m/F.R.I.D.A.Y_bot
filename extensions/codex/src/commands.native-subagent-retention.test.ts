@@ -208,7 +208,7 @@ it.each(["claimed-successor", "retained-successor"] as const)(
         deps: createCodexCommandHost({ bindingStore }),
       });
       const reply = await command.handler(createContext(`resume ${threadId}`, undefined, context));
-      expect(reply.text).toContain("Attached this FRIDAY session");
+      expect(reply.text).toContain("Attached this OpenClaw session");
       expect(readBinding()).toMatchObject({
         threadId,
         clientId: harness.client.getInstanceId(),

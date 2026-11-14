@@ -150,7 +150,7 @@ export function formatCodexUsageLimitErrorMessage(params: {
       if (usageSummary?.blockingPeriod && usageSummary.blockingReason) {
         parts.push(`Your ${usageSummary.blockingReason}.`);
       }
-      parts.push("FRIDAY could not determine a reset time from Codex.");
+      parts.push("OpenClaw could not determine a reset time from Codex.");
     }
   }
   parts.push(

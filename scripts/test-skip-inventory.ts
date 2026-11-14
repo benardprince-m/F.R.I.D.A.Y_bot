@@ -294,7 +294,7 @@ export function renderTestSkipInventoryReport(
       .map(([reason, count]) => `${reason}: ${count}`)
       .join(", ") || "none";
   const lines = [
-    "FRIDAY test skip inventory",
+    "OpenClaw test skip inventory",
     `Scanned files: ${report.summary.scannedFileCount}`,
     `Findings: ${report.summary.findingCount} in ${report.summary.touchedFileCount} file(s)`,
     `Reasons: ${reasonCounts}`,
@@ -319,7 +319,7 @@ export function renderTestSkipInventoryReport(
 }
 
 function printHelp(): void {
-  process.stdout.write(`FRIDAY test skip inventory
+  process.stdout.write(`OpenClaw test skip inventory
 
 Usage:
   pnpm test:skip-inventory:report [options]

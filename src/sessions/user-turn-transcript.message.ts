@@ -152,7 +152,7 @@ export function readModelPromptProjection(message: unknown): string | undefined 
   const projection = asOptionalRecord(metadata.modelPromptProjection);
   if (projection?.version !== 1 || typeof projection.text !== "string") {
     throw new Error(
-      "Unsupported or invalid user-turn model prompt projection; update FRIDAY to a compatible version or start a new session.",
+      "Unsupported or invalid user-turn model prompt projection; update OpenClaw to a compatible version or start a new session.",
     );
   }
   return projection.text;

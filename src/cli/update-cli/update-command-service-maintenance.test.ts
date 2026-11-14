@@ -102,7 +102,7 @@ it.each(["authority-lost", "ordinary"] as const)(
           ),
         ).toBe(true);
       }
-      expect(String(error).includes("Stop the Gateway service and other FRIDAY processes")).toBe(
+      expect(String(error).includes("Stop the Gateway service and other OpenClaw processes")).toBe(
         scenario === "ordinary",
       );
       expect(service.stop).not.toHaveBeenCalled();

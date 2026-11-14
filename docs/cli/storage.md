@@ -41,7 +41,7 @@ a create-only operation. Repeating it with the same encryption configuration
 verifies the existing marker; it does not replace it. A wrong passphrase fails.
 
 For a `filesystem` location, the configured absolute path must already exist
-and be a directory. FRIDAY never creates this root directory. Confirm that an
+and be a directory. OpenClaw never creates this root directory. Confirm that an
 external disk is mounted before initializing its location.
 
 Initialization is explicit so a disconnected disk or an empty mount point cannot

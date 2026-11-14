@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/chutes-provider",
   "version": "2026.10.4",
-  "description": "FRIDAY Chutes.ai provider plugin.",
+  "description": "OpenClaw Chutes.ai provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

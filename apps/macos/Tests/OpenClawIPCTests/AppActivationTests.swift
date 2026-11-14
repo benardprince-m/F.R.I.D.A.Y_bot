@@ -1,14 +1,14 @@
 import AppKit
 import Testing
 import WebKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 struct AppActivationTests {
     @Test(arguments: [false, true])
     func `launch policy owns activation and window ordering`(noActivate: Bool) {
         let owner = AppActivation(launchPlan: AppLaunchRuntimePlan(
-            arguments: noActivate ? ["FRIDAY", "--no-activate"] : ["FRIDAY"]))
+            arguments: noActivate ? ["OpenClaw", "--no-activate"] : ["OpenClaw"]))
         let application = Application()
         let window = Window()
 
@@ -24,7 +24,7 @@ struct AppActivationTests {
 
     @Test(arguments: [false, true])
     func `automation defers media prompts without granting new permission`(noActivate: Bool) {
-        let plan = AppLaunchRuntimePlan(arguments: noActivate ? ["FRIDAY", "--no-activate"] : ["FRIDAY"])
+        let plan = AppLaunchRuntimePlan(arguments: noActivate ? ["OpenClaw", "--no-activate"] : ["OpenClaw"])
         #expect(ControlUIDocumentHost.mediaCaptureDecision(.prompt, launchPlan: plan) ==
             (noActivate ? .deny : .prompt))
         #expect(ControlUIDocumentHost.mediaCaptureDecision(.grant, launchPlan: plan) == .grant)

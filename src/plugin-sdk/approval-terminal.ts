@@ -53,15 +53,15 @@ export function formatChannelApprovalResolvedLabel(
 export function buildSystemAgentApprovalResolvedText(view: SystemAgentResolvedView): string {
   const outcome = interpretApprovalTerminalOutcome(view, "denial");
   return outcome === "cancelled"
-    ? "⚠️ FRIDAY change was cancelled because its run ended. No change was made. Retry."
+    ? "⚠️ OpenClaw change was cancelled because its run ended. No change was made. Retry."
     : outcome === "deny"
-      ? "❌ FRIDAY change denied. No change was made."
+      ? "❌ OpenClaw change denied. No change was made."
       : outcome === "applied"
-        ? `✅ FRIDAY change approved and applied: ${view.operationSummary}`
+        ? `✅ OpenClaw change approved and applied: ${view.operationSummary}`
         : outcome === "not-applied"
-          ? "⚠️ FRIDAY change approved, but completion could not be confirmed. Check the current settings before retrying."
-          : `✅ FRIDAY change approved. Applying: ${view.operationSummary}`;
+          ? "⚠️ OpenClaw change approved, but completion could not be confirmed. Check the current settings before retrying."
+          : `✅ OpenClaw change approved. Applying: ${view.operationSummary}`;
 }
 
 /** Terminal copy for a system change approval that expired before a decision. */
-export const SYSTEM_AGENT_APPROVAL_EXPIRED_TEXT = "⏱️ FRIDAY change expired. No change was made.";
+export const SYSTEM_AGENT_APPROVAL_EXPIRED_TEXT = "⏱️ OpenClaw change expired. No change was made.";

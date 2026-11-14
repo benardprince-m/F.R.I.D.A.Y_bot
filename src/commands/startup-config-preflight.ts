@@ -158,7 +158,7 @@ async function prepareStartupConfig(
           heartbeatError =
             error instanceof Error
               ? error
-              : new Error("FRIDAY startup lease heartbeat failed.", { cause: error });
+              : new Error("OpenClaw startup lease heartbeat failed.", { cause: error });
         }
       }, 60_000);
       heartbeat.unref();

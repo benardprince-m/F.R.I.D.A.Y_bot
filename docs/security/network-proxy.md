@@ -1,14 +1,14 @@
 ---
-summary: "How to route FRIDAY runtime HTTP and WebSocket traffic through an operator-managed filtering proxy"
+summary: "How to route OpenClaw runtime HTTP and WebSocket traffic through an operator-managed filtering proxy"
 title: "Network proxy"
 read_when:
   - You want defense-in-depth against SSRF and DNS rebinding attacks
-  - Configuring an external forward proxy for FRIDAY runtime traffic
+  - Configuring an external forward proxy for OpenClaw runtime traffic
 ---
 
-FRIDAY can route runtime HTTP and WebSocket traffic through an operator-managed forward proxy. This is optional defense in depth: central egress control, stronger SSRF protection, and destination auditability at the network boundary. Because the proxy evaluates the destination at connect time, after DNS resolution and immediately before it opens the upstream connection, it also narrows the gap a DNS-rebinding attack relies on between an earlier application-level DNS check and the actual outbound connection. A single proxy policy also gives operators one place to enforce destination rules, network segmentation, rate limits, or outbound allowlists without rebuilding FRIDAY.
+OpenClaw can route runtime HTTP and WebSocket traffic through an operator-managed forward proxy. This is optional defense in depth: central egress control, stronger SSRF protection, and destination auditability at the network boundary. Because the proxy evaluates the destination at connect time, after DNS resolution and immediately before it opens the upstream connection, it also narrows the gap a DNS-rebinding attack relies on between an earlier application-level DNS check and the actual outbound connection. A single proxy policy also gives operators one place to enforce destination rules, network segmentation, rate limits, or outbound allowlists without rebuilding OpenClaw.
 
-FRIDAY does not ship, download, start, configure, or certify a proxy. You run the proxy technology that fits your environment; FRIDAY routes its own HTTP and WebSocket clients through it.
+OpenClaw does not ship, download, start, configure, or certify a proxy. You run the proxy technology that fits your environment; OpenClaw routes its own HTTP and WebSocket clients through it.
 
 ## Configuration
 
@@ -50,7 +50,7 @@ proxy:
     caFile: /etc/openclaw/proxy-ca.pem
 ```
 
-`proxy.tls.caFile` verifies the proxy endpoint's own TLS certificate. It is not a destination MITM trust setting, a client certificate, or a substitute for the proxy's destination policy. Use `NODE_EXTRA_CA_CERTS` instead only when the entire Node process must trust an additional CA from startup (for example, an enterprise TLS-inspection system re-signing every HTTPS destination certificate) — that variable is process-global and must be set before Node starts, so FRIDAY cannot apply it mid-run the way it applies `proxy.tls.caFile`. Prefer `proxy.tls.caFile` for HTTPS proxy endpoint trust: it is scoped to managed proxy routing instead of the whole process.
+`proxy.tls.caFile` verifies the proxy endpoint's own TLS certificate. It is not a destination MITM trust setting, a client certificate, or a substitute for the proxy's destination policy. Use `NODE_EXTRA_CA_CERTS` instead only when the entire Node process must trust an additional CA from startup (for example, an enterprise TLS-inspection system re-signing every HTTPS destination certificate) — that variable is process-global and must be set before Node starts, so OpenClaw cannot apply it mid-run the way it applies `proxy.tls.caFile`. Prefer `proxy.tls.caFile` for HTTPS proxy endpoint trust: it is scoped to managed proxy routing instead of the whole process.
 
 ```bash
 openclaw config set proxy.proxyUrl https://proxy.corp.example:8443
@@ -63,20 +63,20 @@ openclaw gateway run
 With a valid proxy URL, protected runtime processes (`openclaw gateway run`, `openclaw node run`, `openclaw agent --local`, and the local terminal UI: `openclaw chat`, `openclaw terminal`, `openclaw tui --local`, and bare `openclaw` when it opens onboarding or the local TUI instead of a Gateway) route normal HTTP and WebSocket egress through the proxy:
 
 ```text
-FRIDAY process
+OpenClaw process
   fetch, node:http, node:https, WebSocket clients  -> operator proxy -> destination
 ```
 
-Internally, FRIDAY installs [Proxyline](https://github.com/openclaw/proxyline) as the process-level routing runtime. It covers `fetch`, undici-backed clients, `node:http`/`node:https`, common WebSocket clients, and helper-created `CONNECT` tunnels, and it replaces caller-provided Node HTTP agents so explicit agents (including `axios`, `got`, `node-fetch`, and similar Node-agent-based clients) cannot silently bypass the proxy.
+Internally, OpenClaw installs [Proxyline](https://github.com/openclaw/proxyline) as the process-level routing runtime. It covers `fetch`, undici-backed clients, `node:http`/`node:https`, common WebSocket clients, and helper-created `CONNECT` tunnels, and it replaces caller-provided Node HTTP agents so explicit agents (including `axios`, `got`, `node-fetch`, and similar Node-agent-based clients) cannot silently bypass the proxy.
 
-The proxy URL scheme describes the hop from FRIDAY to the proxy, not to the final destination:
+The proxy URL scheme describes the hop from OpenClaw to the proxy, not to the final destination:
 
-- `http://proxy.example:3128` — plain TCP to the proxy; FRIDAY sends HTTP proxy requests, including `CONNECT` for HTTPS destinations.
-- `https://proxy.example:8443` — FRIDAY opens TLS to the proxy itself (verifying the proxy's certificate), then sends HTTP proxy requests inside that session.
+- `http://proxy.example:3128` — plain TCP to the proxy; OpenClaw sends HTTP proxy requests, including `CONNECT` for HTTPS destinations.
+- `https://proxy.example:8443` — OpenClaw opens TLS to the proxy itself (verifying the proxy's certificate), then sends HTTP proxy requests inside that session.
 
-Destination TLS is independent of proxy-endpoint TLS: for an HTTPS destination, FRIDAY always asks the proxy for a `CONNECT` tunnel and starts destination TLS through that tunnel.
+Destination TLS is independent of proxy-endpoint TLS: for an HTTPS destination, OpenClaw always asks the proxy for a `CONNECT` tunnel and starts destination TLS through that tunnel.
 
-In the default `gateway-only` mode, loopback HTTP and WebSocket requests connect directly. This includes `localhost`, literal IPv4/IPv6 loopback addresses, and ephemeral listeners used by the native Codex inference relay. FRIDAY installs this rule in the shared routing owner and replaces `no_proxy`/`NO_PROXY` with loopback-only entries for native child processes. External destinations still use the proxy; inherited bypasses for other destinations do not apply. On shutdown, FRIDAY restores the prior proxy environment and resets cached routing state. The explicit `proxy` and `block` modes continue to clear `no_proxy`/`NO_PROXY`.
+In the default `gateway-only` mode, loopback HTTP and WebSocket requests connect directly. This includes `localhost`, literal IPv4/IPv6 loopback addresses, and ephemeral listeners used by the native Codex inference relay. OpenClaw installs this rule in the shared routing owner and replaces `no_proxy`/`NO_PROXY` with loopback-only entries for native child processes. External destinations still use the proxy; inherited bypasses for other destinations do not apply. On shutdown, OpenClaw restores the prior proxy environment and resets cached routing state. The explicit `proxy` and `block` modes continue to clear `no_proxy`/`NO_PROXY`.
 
 Some plugins own a custom transport that needs its own proxy wiring even with process-level routing active. Telegram's Bot API client uses its own HTTP/1 undici dispatcher and separately honors process proxy env plus the `OPENCLAW_PROXY_URL` fallback.
 
@@ -98,7 +98,7 @@ without activating it.
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `gateway-only` (default) | Loopback HTTP and WebSocket traffic connects directly, including Gateway, browser CDP, update readiness, and native Codex inference relay listeners. No endpoint registration is required. |
 | `proxy`                  | Loopback traffic goes through the proxy. A remote proxy resolves `127.0.0.1`/`localhost` against itself, so this mode can break local runtime listeners.                                   |
-| `block`                  | FRIDAY denies Gateway control-plane, browser CDP, and guarded local-provider loopback connections before opening a socket. Other requests use the proxy.                                   |
+| `block`                  | OpenClaw denies Gateway control-plane, browser CDP, and guarded local-provider loopback connections before opening a socket. Other requests use the proxy.                                 |
 
 The implicit bypass covers `localhost` and literal loopback IP URLs. LAN, tailnet, private-network, and public hosts continue through the managed proxy. Application-level SSRF checks still apply to untrusted destinations.
 
@@ -126,7 +126,7 @@ For an older installation, the temporary workaround is to set `proxy.enabled` to
 
 ### Containers
 
-For `openclaw --container ...` commands, FRIDAY forwards `OPENCLAW_PROXY_URL` into the container-targeted child CLI when it is set. The URL must be reachable from inside the container — `127.0.0.1` there refers to the container itself, not the host. FRIDAY rejects loopback proxy URLs for container-targeted commands unless you set `OPENCLAW_CONTAINER_ALLOW_LOOPBACK_PROXY_URL=1` to explicitly override that check.
+For `openclaw --container ...` commands, OpenClaw forwards `OPENCLAW_PROXY_URL` into the container-targeted child CLI when it is set. The URL must be reachable from inside the container — `127.0.0.1` there refers to the container itself, not the host. OpenClaw rejects loopback proxy URLs for container-targeted commands unless you set `OPENCLAW_CONTAINER_ALLOW_LOOPBACK_PROXY_URL=1` to explicitly override that check.
 
 ## Related proxy terms
 
@@ -138,16 +138,16 @@ For `openclaw --container ...` commands, FRIDAY forwards `OPENCLAW_PROXY_URL` in
 
 ## Validating the proxy
 
-The proxy's destination policy is the actual security boundary; FRIDAY cannot verify that your proxy blocks the right targets. Configure it to:
+The proxy's destination policy is the actual security boundary; OpenClaw cannot verify that your proxy blocks the right targets. Configure it to:
 
-- Bind only to loopback or a private trusted interface, reachable only by the FRIDAY process/host/container/service account.
+- Bind only to loopback or a private trusted interface, reachable only by the OpenClaw process/host/container/service account.
 - Resolve destinations itself and block by IP after DNS resolution, at connect time, for both plain HTTP and HTTPS `CONNECT` tunnels.
 - Reject destination-based bypasses for loopback, private, link-local, metadata, multicast, reserved, and documentation ranges.
 - Avoid hostname allowlists unless you fully trust the DNS resolution path.
 - Log destination, decision, status, and reason — never request bodies, authorization headers, cookies, or other secrets.
 - Keep the policy under version control and review changes as security-sensitive.
 
-Validate from the same host/container/service account that runs FRIDAY:
+Validate from the same host/container/service account that runs OpenClaw:
 
 ```bash
 openclaw proxy validate --proxy-url http://127.0.0.1:3128
@@ -172,7 +172,7 @@ openclaw proxy validate --proxy-url https://proxy.corp.example:8443 --proxy-ca-f
 
 If no config, environment, or `--proxy-url` value is available, the command reports a config problem; pass `--proxy-url` for a one-off preflight before changing config.
 
-With no `--allowed-url`/`--denied-url`, the default checks are: `https://example.com/` must succeed, and a temporary loopback canary server the proxy must not reach must be blocked. The loopback check passes on a transport failure, or on a non-2xx response that lacks the canary's per-run token; it fails on a 2xx response missing the token (an unexpected success from something other than the canary) and, especially, on any response carrying the matching token, since that proves the proxy actually forwarded a loopback destination it should have denied. Custom `--denied-url` targets have no such canary token, so validation rejects uncertain results: any HTTP response counts as reachable, and a transport error fails the check too, because FRIDAY cannot confirm your proxy denied a reachable origin versus something else going wrong. Only the built-in loopback canary treats a transport error as proof of blocking. See [`openclaw proxy`](/cli/proxy) for the CLI-side statement of the same rule. `--apns-reachable` sends an intentionally invalid provider token, so a `403 InvalidProviderToken` response counts as proof the tunnel reached Apple. The command exits `1` on any validation failure; proxy URL credentials are redacted from both text and JSON output.
+With no `--allowed-url`/`--denied-url`, the default checks are: `https://example.com/` must succeed, and a temporary loopback canary server the proxy must not reach must be blocked. The loopback check passes on a transport failure, or on a non-2xx response that lacks the canary's per-run token; it fails on a 2xx response missing the token (an unexpected success from something other than the canary) and, especially, on any response carrying the matching token, since that proves the proxy actually forwarded a loopback destination it should have denied. Custom `--denied-url` targets have no such canary token, so validation rejects uncertain results: any HTTP response counts as reachable, and a transport error fails the check too, because OpenClaw cannot confirm your proxy denied a reachable origin versus something else going wrong. Only the built-in loopback canary treats a transport error as proof of blocking. See [`openclaw proxy`](/cli/proxy) for the CLI-side statement of the same rule. `--apns-reachable` sends an intentionally invalid provider token, so a `403 InvalidProviderToken` response counts as proof the tunnel reached Apple. The command exits `1` on any validation failure; proxy URL credentials are redacted from both text and JSON output.
 
 ```json
 {
@@ -200,7 +200,7 @@ curl -x http://127.0.0.1:3128 http://169.254.169.254/
 
 ## Recommended blocked destinations
 
-Starting denylist for any forward proxy, firewall, or egress policy. FRIDAY's own SSRF classifier lives in `src/infra/net/ssrf.ts` and `packages/net-policy/src/ip.ts` (`BLOCKED_HOSTNAMES`, `BLOCKED_IPV4_SPECIAL_USE_RANGES`, `BLOCKED_IPV6_SPECIAL_USE_RANGES`, the RFC 2544 benchmark prefix, and embedded-IPv4 handling for NAT64/6to4/Teredo/ISATAP/IPv4-mapped forms) — useful references, but FRIDAY does not export or enforce these rules in your external proxy.
+Starting denylist for any forward proxy, firewall, or egress policy. OpenClaw's own SSRF classifier lives in `src/infra/net/ssrf.ts` and `packages/net-policy/src/ip.ts` (`BLOCKED_HOSTNAMES`, `BLOCKED_IPV4_SPECIAL_USE_RANGES`, `BLOCKED_IPV6_SPECIAL_USE_RANGES`, the RFC 2544 benchmark prefix, and embedded-IPv4 handling for NAT64/6to4/Teredo/ISATAP/IPv4-mapped forms) — useful references, but OpenClaw does not export or enforce these rules in your external proxy.
 
 | Range or host                                                                        | Why to block                                      |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------- |
@@ -235,13 +235,13 @@ Add any additional metadata hosts or reserved ranges your cloud provider or netw
 | Other raw `net`, `tls`, or `http2` client calls              | Must be classified by the raw socket guard before landing.                                                                                               |
 
 - This is process-level coverage for JavaScript HTTP/WebSocket clients, not an OS-level network sandbox.
-- Raw `net`, `tls`, `http2` sockets, native addons, and non-FRIDAY child processes may bypass Node-level routing unless they inherit and respect proxy environment variables. Forked FRIDAY child CLIs inherit the managed proxy URL and `proxy.loopbackMode` state.
+- Raw `net`, `tls`, `http2` sockets, native addons, and non-OpenClaw child processes may bypass Node-level routing unless they inherit and respect proxy environment variables. Forked OpenClaw child CLIs inherit the managed proxy URL and `proxy.loopbackMode` state.
 - Loopback routing is direct in the default mode; this is not a general local-network bypass. LAN, tailnet, private-network, and public model hosts still use the managed proxy. Guarded local providers retain their configured-origin and DNS checks.
 - The local debug proxy's direct upstream forwarding (for proxy requests and `CONNECT` tunnels) is disabled by default while managed proxy mode is active; enable it only for approved local diagnostics.
-- FRIDAY does not inspect, test, or certify your proxy policy. Treat proxy policy changes as security-sensitive operational changes.
+- OpenClaw does not inspect, test, or certify your proxy policy. Treat proxy policy changes as security-sensitive operational changes.
 
 ## Related
 
-- [Threat model](/security/THREAT-MODEL-ATLAS) — adversarial threats to the FRIDAY platform and ClawHub, mapped to MITRE ATLAS
-- [Security](/gateway/security) — the trust model, safe defaults, and hardening guidance for running FRIDAY
+- [Threat model](/security/THREAT-MODEL-ATLAS) — adversarial threats to the OpenClaw platform and ClawHub, mapped to MITRE ATLAS
+- [Security](/gateway/security) — the trust model, safe defaults, and hardening guidance for running OpenClaw
 - [Proxy](/cli/proxy) — `openclaw proxy`, which validates operator-managed proxy routing and runs the local debug capture proxy

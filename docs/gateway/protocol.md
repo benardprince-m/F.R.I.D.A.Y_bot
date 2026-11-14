@@ -9,7 +9,7 @@ doc-schema-version: 1
 ---
 
 The Gateway WS protocol is the single control plane and node transport for
-FRIDAY. Operator and node clients (CLI, web UI, macOS app, iOS/Android nodes,
+OpenClaw. Operator and node clients (CLI, web UI, macOS app, iOS/Android nodes,
 headless nodes) connect over WebSocket and declare a **role** and **scope** at
 handshake time.
 
@@ -90,7 +90,7 @@ Every section heading from the previous single-page version keeps its anchor her
 ## Related
 
 - [Building a Gateway client](/gateway/clients)
-- [Embedding FRIDAY](/gateway/embedding)
+- [Embedding OpenClaw](/gateway/embedding)
 - [Gateway runbook](/gateway)
 - [Operator scopes](/gateway/operator-scopes) — the scopes protocol methods are authorized against
 - [Audit history](/gateway/audit) — metadata-only activity history and decision receipts

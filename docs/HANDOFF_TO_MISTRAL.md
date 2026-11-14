@@ -4,19 +4,19 @@
 **To:** Mistral (independent reviewer — gives the way forward)
 **Owner:** Benard Prince (decisions only)
 **Date:** 2026-11-14
-**Repo:** `F.R.I.D.A.Y_bot` (private fork of FRIDAY), branch `main`, 10 commits ahead of `origin/main`, nothing pushed.
+**Repo:** `F.R.I.D.A.Y_bot` (private fork of OpenClaw), branch `main`, 10 commits ahead of `origin/main`, nothing pushed.
 
 ---
 
 ## 1. What FRIDAY is (one paragraph)
 
-FRIDAY is Benard's persistent, self-hosted second brain: he sends a mission in ordinary chat (Telegram first), goes to class or sleeps, and returns to a concise, honest debrief — what was done, what was verified, what it cost, what remains, what needs his decision. The interface is the chat he already has, never a new dashboard. The body is the FRIDAY engine; FRIDAY is the **soul** layered on top: an owner-locked Constitution, a growing persona, a memory Librarian, a durable task ledger, approval gates, and radical honesty. Binding new constraint: **the owner is phone-only** — no laptop, no desktop.
+FRIDAY is Benard's persistent, self-hosted second brain: he sends a mission in ordinary chat (Telegram first), goes to class or sleeps, and returns to a concise, honest debrief — what was done, what was verified, what it cost, what remains, what needs his decision. The interface is the chat he already has, never a new dashboard. The body is the OpenClaw engine; FRIDAY is the **soul** layered on top: an owner-locked Constitution, a growing persona, a memory Librarian, a durable task ledger, approval gates, and radical honesty. Binding new constraint: **the owner is phone-only** — no laptop, no desktop.
 
 ---
 
 ## 2. Starting state (what I inherited)
 
-- A shallow clone of FRIDAY `2026.10.4` at commit `10cbb85f`.
+- A shallow clone of OpenClaw `2026.10.4` at commit `10cbb85f`.
 - Three source PDFs: Product Specification v1.0 (the baseline), Master Specification, and the Core Operational War Manual.
 - No FRIDAY code, no governance docs.
 

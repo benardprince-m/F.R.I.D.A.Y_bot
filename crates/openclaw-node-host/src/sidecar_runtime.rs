@@ -1231,7 +1231,7 @@ pub enum SidecarRuntimeBridgeError {
     InvalidName(String),
     #[error("duplicate sidecar runtime name: {0}")]
     DuplicateName(String),
-    #[error("FRIDAY-owned system command namespace is reserved: {0}")]
+    #[error("OpenClaw-owned system command namespace is reserved: {0}")]
     ReservedCommand(String),
     #[error(transparent)]
     Runtime(#[from] RuntimeBuildError),

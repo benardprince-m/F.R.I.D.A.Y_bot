@@ -211,7 +211,7 @@ private struct SidebarAttentionFixture: App {
     }
 
     var body: some Scene {
-        WindowGroup("FRIDAY Sidebar Preview") {
+        WindowGroup("OpenClaw Sidebar Preview") {
             SidebarFixtureView(defaults: self.defaults)
                 .frame(minWidth: 1040, minHeight: 700)
                 .onReceive(NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)) { _ in

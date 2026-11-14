@@ -1,11 +1,11 @@
-# FRIDAY Microsoft Teams
+# OpenClaw Microsoft Teams
 
-Official FRIDAY channel plugin for Microsoft Teams bot conversations.
+Official OpenClaw channel plugin for Microsoft Teams bot conversations.
 
-Install from FRIDAY:
+Install from OpenClaw:
 
 ```bash
 openclaw plugins install @openclaw/msteams
 ```
 
-Configure the Teams bot credentials and trusted service URLs in FRIDAY, then connect the bot to the teams or chats where agents should operate.
+Configure the Teams bot credentials and trusted service URLs in OpenClaw, then connect the bot to the teams or chats where agents should operate.

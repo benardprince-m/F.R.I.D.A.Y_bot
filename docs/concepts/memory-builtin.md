@@ -25,7 +25,7 @@ started.
 
 Native sqlite-vec queries run in a separate, read-only process so a slow query
 does not block the Gateway event loop. Cancelling a search terminates its query
-process; FRIDAY does not retry that native query on the Gateway thread.
+process; OpenClaw does not retry that native query on the Gateway thread.
 Queries reuse a process for each database, with at most two processes alive.
 Idle processes retire after 30 minutes or when another database needs capacity.
 Each query reopens the database so committed updates and replaced indexes remain visible.
@@ -119,7 +119,7 @@ openclaw plugins install @openclaw/llama-cpp-provider
 | Gemini            | `gemini`            | Supports multimodal (image + audio) |
 | GitHub Copilot    | `github-copilot`    | Uses your Copilot subscription      |
 | LM Studio         | `lmstudio`          | Local/self-hosted                   |
-| Local             | `local`             | FRIDAY-managed llama.cpp server     |
+| Local             | `local`             | OpenClaw-managed llama.cpp server   |
 | Mistral           | `mistral`           |                                     |
 | Ollama            | `ollama`            | Local/self-hosted                   |
 | OpenAI            | `openai`            | Default: `text-embedding-3-small`   |
@@ -130,9 +130,9 @@ Set `memory.search.provider` to switch away from OpenAI.
 
 ## How indexing works
 
-FRIDAY indexes `MEMORY.md`, an existing root `USER.md`, and `memory/*.md` into
+OpenClaw indexes `MEMORY.md`, an existing root `USER.md`, and `memory/*.md` into
 chunks (400 tokens with 80-token overlap by default) and stores them in a
-per-agent SQLite database. FRIDAY does not create `USER.md` automatically.
+per-agent SQLite database. OpenClaw does not create `USER.md` automatically.
 
 Each chunk can carry nullable importance and trigger metadata. Null values are
 neutral, so older indexes remain usable. Search combines hybrid relevance,
@@ -178,7 +178,7 @@ and schedules their index activation before reporting the previous runtime resto
 Service stop joins pending activation before closing its managers. Memory Core running only as
 another memory plugin's consolidation sidecar does not start these indexes automatically.
 
-When the index identity reports an FRIDAY chunking-implementation change,
+When the index identity reports an OpenClaw chunking-implementation change,
 a normal or CLI search rebuilds it before returning results. The rebuild uses
 the agent's current embedding settings; status inspection remains read-only.
 
@@ -333,7 +333,7 @@ agent's sessions directory and are indexed from those original artifacts.
 
 Doctor removes only empty per-agent QMD directories under
 `~/.openclaw/agents/<agentId>/qmd/`. Nonempty directories stay untouched:
-FRIDAY's retired QMD backend used the same layout as standalone QMD, without
+OpenClaw's retired QMD backend used the same layout as standalone QMD, without
 an ownership marker. Retained directories do not block migration or Gateway
 startup. After backing them up, you can remove old indexes, model downloads,
 collection metadata, and session exports manually if you have confirmed that
@@ -379,7 +379,7 @@ Set `memory.search.provider: "local"` when you want local embeddings.
 **Stale results?** Run `openclaw memory index --force` to rebuild. The watcher
 may miss changes in rare edge cases.
 
-**sqlite-vec not loading?** FRIDAY falls back to in-process cosine
+**sqlite-vec not loading?** OpenClaw falls back to in-process cosine
 similarity automatically. `openclaw memory status --deep` reports the local
 vector store separately from the embedding provider, so `Vector store:
 unavailable` points at sqlite-vec loading while `Embeddings: unavailable`

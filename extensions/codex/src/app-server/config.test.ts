@@ -169,7 +169,7 @@ describe("Codex app-server config", () => {
       perCommandPolicy,
     ],
     [
-      "clamps legacy full exec with ask when an FRIDAY sandbox is active",
+      "clamps legacy full exec with ask when an OpenClaw sandbox is active",
       {
         execPolicy: resolveExecPolicy({ security: "full", ask: "always" }),
         openClawSandboxActive: true,
@@ -828,7 +828,7 @@ describe("Codex app-server config", () => {
   });
 
   it.each(["allowlist"] as const)(
-    "blocks Codex app-server local execution for normalized FRIDAY %s exec mode",
+    "blocks Codex app-server local execution for normalized OpenClaw %s exec mode",
     (execMode) => {
       expect(() => resolveRuntimeForTest({ pluginConfig: {}, execMode })).toThrow(
         `Codex app-server local execution is unavailable because effective tools.exec.mode=${execMode}`,

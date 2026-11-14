@@ -38,7 +38,7 @@ describe("resolveTargetAcpAgentId", () => {
     },
   );
 
-  it("leaves a raw harness without a configured FRIDAY owner id", () => {
+  it("leaves a raw harness without a configured OpenClaw owner id", () => {
     expect(
       resolveTargetAcpAgentId({
         requestedAgentId: "cursor",

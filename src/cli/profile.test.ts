@@ -75,7 +75,7 @@ describe("applyCliProfileEnv", () => {
       OPENCLAW_GATEWAY_PORT: "18789",
       OPENCLAW_LAUNCHD_LABEL: "ai.openclaw.main",
       OPENCLAW_SYSTEMD_UNIT: "openclaw-gateway-main.service",
-      OPENCLAW_WINDOWS_TASK_NAME: "FRIDAY Gateway (main)",
+      OPENCLAW_WINDOWS_TASK_NAME: "OpenClaw Gateway (main)",
       OPENCLAW_SERVICE_MARKER: "openclaw",
       OPENCLAW_SERVICE_KIND: "gateway",
     });
@@ -94,14 +94,14 @@ describe("applyCliProfileEnv", () => {
       OPENCLAW_GATEWAY_PORT: "19999",
       OPENCLAW_LAUNCHD_LABEL: "ai.openclaw.node",
       OPENCLAW_SYSTEMD_UNIT: "openclaw-node.service",
-      OPENCLAW_WINDOWS_TASK_NAME: "FRIDAY Node",
+      OPENCLAW_WINDOWS_TASK_NAME: "OpenClaw Node",
       OPENCLAW_SERVICE_MARKER: "openclaw",
       OPENCLAW_SERVICE_KIND: "node",
     });
 
     selectProfile(env);
     expect(env.OPENCLAW_GATEWAY_PORT).toBe("19999");
-    expectServiceSelectors(env, ["ai.openclaw.node", "openclaw-node.service", "FRIDAY Node"]);
+    expectServiceSelectors(env, ["ai.openclaw.node", "openclaw-node.service", "OpenClaw Node"]);
   });
 
   it("switches inherited canonical state from the default profile without a marker", () => {
@@ -119,7 +119,7 @@ describe("applyCliProfileEnv", () => {
     const env = inheritedEnv("main", {
       OPENCLAW_LAUNCHD_LABEL: "ai.openclaw.main",
       OPENCLAW_SYSTEMD_UNIT: "openclaw-gateway-main",
-      OPENCLAW_WINDOWS_TASK_NAME: "FRIDAY Gateway (main)",
+      OPENCLAW_WINDOWS_TASK_NAME: "OpenClaw Gateway (main)",
     });
     selectProfile(env);
     expectServiceSelectors(env, [undefined, undefined, undefined]);

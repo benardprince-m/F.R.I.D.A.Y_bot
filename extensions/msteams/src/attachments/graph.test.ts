@@ -252,7 +252,7 @@ describe("downloadMSTeamsGraphMedia hosted content $value fallback", () => {
     }
   });
 
-  it("adds the FRIDAY User-Agent to Graph shares downloads for reference attachments", async () => {
+  it("adds the OpenClaw User-Agent to Graph shares downloads for reference attachments", async () => {
     mockGraphMediaFetch({
       messageId: "msg-share",
       messageResponse: {
@@ -290,14 +290,14 @@ describe("downloadMSTeamsGraphMedia hosted content $value fallback", () => {
     expect(fetchParams.requestInit?.headers).toBeInstanceOf(Headers);
     const requestInit = fetchParams.requestInit;
     const headers = requestInit?.headers as Headers;
-    expect(headers.get("User-Agent")).toMatch(/^teams\.ts\[apps\]\/.+ FRIDAY\/.+$/);
+    expect(headers.get("User-Agent")).toMatch(/^teams\.ts\[apps\]\/.+ OpenClaw\/.+$/);
     for (const [call] of vi.mocked(fetchWithSsrFGuard).mock.calls) {
       expect(call.url.endsWith("/attachments")).toBe(false);
       expect(call.timeoutMs).toBe(30_000);
       expect(call.init?.headers).toBeInstanceOf(Headers);
       const graphHeaders = new Headers(call.init?.headers);
       expect(graphHeaders.get("Authorization")).toBe("Bearer test-token");
-      expect(graphHeaders.get("User-Agent")).toMatch(/^teams\.ts\[apps\]\/.+ FRIDAY\/.+$/);
+      expect(graphHeaders.get("User-Agent")).toMatch(/^teams\.ts\[apps\]\/.+ OpenClaw\/.+$/);
     }
   });
 });

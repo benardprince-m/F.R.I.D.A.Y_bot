@@ -2,13 +2,13 @@
 summary: "Together AI setup (auth + model selection)"
 title: "Together AI"
 read_when:
-  - You want to use Together AI with FRIDAY
+  - You want to use Together AI with OpenClaw
   - You need the API key env var or CLI auth choice
 ---
 
 [Together AI](https://together.ai) provides access to leading open-source
 models including Llama, DeepSeek, Kimi, and more through a unified API.
-FRIDAY bundles it as the `together` provider.
+OpenClaw bundles it as the `together` provider.
 
 | Property | Value                            |
 | -------- | -------------------------------- |
@@ -76,10 +76,10 @@ shared `video_generate` tool.
 | Default video model  | `Wan-AI/wan2.7-t2v`                                                                    |
 | Other models         | `Wan-AI/wan2.7-i2v`, `minimax/hailuo-02`                                               |
 | Modes                | text-to-video; image-to-video only with `Wan-AI/wan2.7-i2v` (single first-frame image) |
-| Duration             | Wan 2.7: 2-10 seconds in FRIDAY; Hailuo duration support is model-specific             |
+| Duration             | Wan 2.7: 2-10 seconds in OpenClaw; Hailuo duration support is model-specific           |
 | Supported parameters | `size` (see below); `aspectRatio`/`resolution` are not read                            |
 
-For Wan 2.7, FRIDAY translates `size` into Together's `resolution` and `ratio`
+For Wan 2.7, OpenClaw translates `size` into Together's `resolution` and `ratio`
 fields. Supported sizes follow [Together's Wan 2.7 guide](https://docs.together.ai/docs/wan2.7-quickstart):
 
 | Aspect ratio | 720P size  | 1080P size  |
@@ -118,7 +118,7 @@ provider selection, and failover behavior.
 
 ## Prompt caching
 
-Together automatically reuses matching prompt prefixes. FRIDAY sends a stable
+Together automatically reuses matching prompt prefixes. OpenClaw sends a stable
 `prompt_cache_key` on native Together requests to improve routing across turns.
 Cache usage is read from both `usage.prompt_tokens_details.cached_tokens` and
 `usage.cached_tokens`, depending on the model's response format. Keep the model,

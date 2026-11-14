@@ -1,7 +1,7 @@
 import Foundation
 import os
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized)
 @MainActor
@@ -75,7 +75,7 @@ struct CLIInstallerTests {
             let command = CLIInstaller.installScriptCommand(
                 target: .exact("2026.7.3"),
                 prefix: prefix,
-                scriptPath: "/Applications/FRIDAY.app/Contents/Resources/install-cli.sh")
+                scriptPath: "/Applications/OpenClaw.app/Contents/Resources/install-cli.sh")
             let prefixIndex = command.firstIndex(of: "--prefix")
             #expect(prefixIndex.map { command[$0 + 1] } == expectedPrefix)
         }
@@ -112,12 +112,12 @@ struct CLIInstallerTests {
         let command = CLIInstaller.installScriptCommand(
             target: .exact("2026.7.3-beta.1"),
             prefix: "/Users/Test User/.openclaw",
-            scriptPath: "/Applications/FRIDAY.app/Contents/Resources/install-cli.sh",
+            scriptPath: "/Applications/OpenClaw.app/Contents/Resources/install-cli.sh",
             compatibleWith: "2026.7.4")
 
         #expect(command == [
             "/bin/bash",
-            "/Applications/FRIDAY.app/Contents/Resources/install-cli.sh",
+            "/Applications/OpenClaw.app/Contents/Resources/install-cli.sh",
             "--json",
             "--no-onboard",
             "--prefix",
@@ -133,7 +133,7 @@ struct CLIInstallerTests {
         let command = CLIInstaller.installScriptCommand(
             target: .channel(.stable),
             prefix: "/Users/Test User/.openclaw",
-            scriptPath: "/Applications/FRIDAY.app/Contents/Resources/install-cli.sh",
+            scriptPath: "/Applications/OpenClaw.app/Contents/Resources/install-cli.sh",
             compatibleWith: "2026.7.3-beta.8")
 
         #expect(command.suffix(3) == [
@@ -147,7 +147,7 @@ struct CLIInstallerTests {
         let command = CLIInstaller.installScriptCommand(
             target: .channel(.dev),
             prefix: "/Users/Test User/.openclaw",
-            scriptPath: "/Applications/FRIDAY.app/Contents/Resources/install-cli.sh",
+            scriptPath: "/Applications/OpenClaw.app/Contents/Resources/install-cli.sh",
             compatibleWith: "2026.7.3")
 
         #expect(command.suffix(5) == [
@@ -171,18 +171,18 @@ struct CLIInstallerTests {
             (#"{"event":"step","name":"disk-space","status":"start"}"#, "Checking available disk space…"),
             (#"{"event":"step","name":"node","status":"start"}"#, "Installing Node.js runtime…"),
             (#"{"event":"step","name":"git-tools","status":"start"}"#, "Preparing Git and pnpm…"),
-            (#"{"event":"step","name":"git-clone","status":"start"}"#, "Downloading FRIDAY source…"),
-            (#"{"event":"step","name":"git-update","status":"start"}"#, "Updating FRIDAY source…"),
+            (#"{"event":"step","name":"git-clone","status":"start"}"#, "Downloading OpenClaw source…"),
+            (#"{"event":"step","name":"git-update","status":"start"}"#, "Updating OpenClaw source…"),
             (#"{"event":"step","name":"dependencies","status":"start"}"#, "Installing dependencies…"),
             (#"{"event":"step","name":"control-ui","status":"start"}"#, "Building interface…"),
-            (#"{"event":"step","name":"cli-build","status":"start"}"#, "Building FRIDAY CLI…"),
-            (#"{"event":"step","name":"openclaw","status":"retry"}"#, "Retrying FRIDAY CLI install…"),
+            (#"{"event":"step","name":"cli-build","status":"start"}"#, "Building OpenClaw CLI…"),
+            (#"{"event":"step","name":"openclaw","status":"retry"}"#, "Retrying OpenClaw CLI install…"),
             (
                 #"{"event":"step","name":"disk-space","status":"warn"}"#,
                 "Couldn’t verify free disk space; continuing…"),
             (
                 #"{"event":"step","name":"git-update","status":"warn"}"#,
-                "Using the existing modified FRIDAY source…"),
+                "Using the existing modified OpenClaw source…"),
             (
                 #"{"event":"step","name":"control-ui","status":"warn"}"#,
                 "Interface build did not finish; continuing…"),
@@ -283,9 +283,9 @@ struct CLIInstallerTests {
         #!/bin/sh
         if [ "$1" = "--version" ]; then
           if [ '\(advancesDuringDispatch)' = 'true' ] && [ ! -f '\(dispatched.path)' ]; then
-            echo 'FRIDAY 2026.9.8'
+            echo 'OpenClaw 2026.9.8'
           else
-            echo 'FRIDAY 2026.10.2'
+            echo 'OpenClaw 2026.10.2'
           fi
           exit 0
         fi
@@ -435,11 +435,11 @@ struct CLIInstallerTests {
 
         #expect(CLIInstaller.classifyVersion(
             location: location,
-            output: "FRIDAY 2026.7.3\n",
+            output: "OpenClaw 2026.7.3\n",
             expectedVersion: "2026.7.3") == .ready(location: location, version: "2026.7.3"))
         #expect(CLIInstaller.classifyVersion(
             location: location,
-            output: "FRIDAY\n",
+            output: "OpenClaw\n",
             expectedVersion: "2026.7.3") == .unusable(location: location))
         #expect(CLIInstaller.classifyVersion(
             location: location,
@@ -506,7 +506,7 @@ struct CLIInstallerTests {
         try FileManager().createDirectory(at: root, withIntermediateDirectories: true)
         let executable = root.appendingPathComponent("openclaw")
         let node = root.appendingPathComponent("node")
-        try "#!/bin/sh\necho 'FRIDAY 2026.7.3'\n".write(
+        try "#!/bin/sh\necho 'OpenClaw 2026.7.3'\n".write(
             to: executable,
             atomically: true,
             encoding: .utf8)
@@ -533,7 +533,7 @@ struct CLIInstallerTests {
         try FileManager().createDirectory(at: root, withIntermediateDirectories: true)
         let executable = root.appendingPathComponent("openclaw")
         let node = root.appendingPathComponent("node")
-        try "#!/bin/sh\necho 'FRIDAY 2026.7.3'\n".write(
+        try "#!/bin/sh\necho 'OpenClaw 2026.7.3'\n".write(
             to: executable,
             atomically: true,
             encoding: .utf8)

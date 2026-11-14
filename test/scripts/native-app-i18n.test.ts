@@ -161,7 +161,7 @@ describe("native app i18n inventory", () => {
 
   it("merges independent source-file edits into a fresh combined baseline", async () => {
     const sourceFile = (name: string, strings: string[]) => ({
-      repoPath: `apps/macos/Sources/FRIDAY/${name}.swift`,
+      repoPath: `apps/macos/Sources/OpenClaw/${name}.swift`,
       surface: "apple" as const,
       source: strings.map((source) => `Text(${JSON.stringify(source)})`).join("\n"),
     });
@@ -371,7 +371,7 @@ describe("native app i18n inventory", () => {
     const entries = assignNativeI18nIds(
       extractNativeI18nCandidates(
         "apple",
-        "apps/macos/Sources/FRIDAY/Expiry.swift",
+        "apps/macos/Sources/OpenClaw/Expiry.swift",
         [
           "let minutes: Int = 3",
           'Label(String(format: String(localized: "Expires in %lld minutes"), minutes), systemImage: "clock")',
@@ -542,16 +542,16 @@ describe("native app i18n inventory", () => {
       "apps/ios/Fixture/Info.plist",
       `<plist><dict>
         <key>CFBundleDisplayName</key>
-        <string>FRIDAY Fixture</string>
+        <string>OpenClaw Fixture</string>
         <key>NSCameraUsageDescription</key>
-        <string>FRIDAY uses the camera to scan setup codes &amp; documents.</string>
+        <string>OpenClaw uses the camera to scan setup codes &amp; documents.</string>
         <key>OpenClawFixtureValue</key>
         <string>Runtime configuration value</string>
       </dict></plist>`,
     );
 
     expect(entries.map((entry) => entry.source)).toEqual([
-      "FRIDAY uses the camera to scan setup codes & documents.",
+      "OpenClaw uses the camera to scan setup codes & documents.",
     ]);
   });
 
@@ -680,26 +680,26 @@ describe("native app i18n inventory", () => {
         "Searching…",
         "Loading chat",
         "What would you like to work on?",
-        "Check FRIDAY status",
+        "Check OpenClaw status",
         "What can I control here?",
         "Help me start voice chat",
-        "Summarize the current FRIDAY status and tell me what needs attention.",
+        "Summarize the current OpenClaw status and tell me what needs attention.",
         "Show me which phone controls and device capabilities are available right now.",
         "Help me start a realtime voice session from this phone.",
         "DIARY",
-        "ask FRIDAY $prompt",
-        "FRIDAY is paused",
+        "ask OpenClaw $prompt",
+        "OpenClaw is paused",
         "No threads yet",
         "Don't show this again",
         "Use Manual Gateway",
         "Session target",
-        'FRIDAY uses ${labels.joinToString(", ")} permissions for features that need this access.',
+        'OpenClaw uses ${labels.joinToString(", ")} permissions for features that need this access.',
         "Some channel status checks did not complete.",
         "Use the credential for this destination. Leave both fields empty only if this route already has device pairing or does not require a shared credential. Changing the destination clears this form's saved credentials.",
         "Cron changes require operator.admin. Setup codes intentionally do not grant it. Reconnect with the gateway's shared token or password to request admin access. If this device still lacks it, approve the pending scope upgrade from an existing admin client.",
-        "Writes a rotating, local-only log under ~/Library/Logs/FRIDAY/. Enable only while actively debugging.",
+        "Writes a rotating, local-only log under ~/Library/Logs/OpenClaw/. Enable only while actively debugging.",
         "A setup code supplies the address and available certificate information automatically. For token or password authentication, enter the ordinary Gateway credential below.",
-        "Approve this device on the gateway.\n1) `%1$@`\n2) `/pair approve` in your FRIDAY chat\n%2$@\nOpenClaw will also retry automatically when you return to this app.",
+        "Approve this device on the gateway.\n1) `%1$@`\n2) `/pair approve` in your OpenClaw chat\n%2$@\nOpenClaw will also retry automatically when you return to this app.",
         "The Gateway can capture your screen and interact with apps on this Mac, including clicking and typing, subject to macOS permissions.",
       ]),
     );
@@ -839,11 +839,11 @@ describe("native app i18n inventory", () => {
         (entry) =>
           entry.surface === "apple" &&
           entry.source === "Connection…" &&
-          hasSite(entry, (site) => site.path === "apps/macos/Sources/FRIDAY/MenuBar.swift"),
+          hasSite(entry, (site) => site.path === "apps/macos/Sources/OpenClaw/MenuBar.swift"),
       ),
     ).toBe(true);
     expect(
-      entries.some((entry) => entry.surface === "android" && entry.source === "Search FRIDAY"),
+      entries.some((entry) => entry.surface === "android" && entry.source === "Search OpenClaw"),
     ).toBe(true);
     expect(
       entries.some(
@@ -930,7 +930,7 @@ describe("native app i18n inventory", () => {
         [
           "Use the credential for this destination. Leave both fields empty only if this route ",
           "Cron changes require operator.admin. Setup codes intentionally do not grant it. ",
-          "Writes a rotating, local-only log under ~/Library/Logs/FRIDAY/. ",
+          "Writes a rotating, local-only log under ~/Library/Logs/OpenClaw/. ",
           "A setup code supplies the address and available certificate information automatically. ",
         ].includes(entry.source),
       ),
@@ -967,7 +967,7 @@ describe("native app i18n inventory", () => {
     expect(
       entries.some((entry) =>
         entry.source.startsWith(
-          "Exec approvals can only be reviewed while FRIDAY is open and connected.",
+          "Exec approvals can only be reviewed while OpenClaw is open and connected.",
         ),
       ),
     ).toBe(true);
@@ -1000,7 +1000,7 @@ describe("native app i18n inventory", () => {
           hasSite(
             entry,
             (site) =>
-              site.path === "apps/macos/Sources/FRIDAY/OnboardingAISetupView.swift" &&
+              site.path === "apps/macos/Sources/OpenClaw/OnboardingAISetupView.swift" &&
               site.kind === "ui-localized-call-multiline",
           ) &&
           entry.source ===
@@ -1442,7 +1442,7 @@ describe("native app i18n inventory", () => {
       testEntry(
         "native.android.language-picker",
         "android",
-        "FRIDAY translations · $languageTag",
+        "OpenClaw translations · $languageTag",
         "apps/android/app/src/main/java/ai/openclaw/app/AppLanguage.kt",
         "conditional-branch",
       ),

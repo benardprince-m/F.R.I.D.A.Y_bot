@@ -310,7 +310,7 @@ function renderMessage(
       options: {
         showReasoning: false,
         showToolCalls: false,
-        assistantName: "FRIDAY",
+        assistantName: "OpenClaw",
         assistantAvatar: null,
         ...options,
       },

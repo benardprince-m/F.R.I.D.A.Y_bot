@@ -1,13 +1,13 @@
-# TypeSafe AI for FRIDAY
+# TypeSafe AI for OpenClaw
 
 Official external plugin for typed decisions with hosted TypeSafe AI Jev models
 or a local Kev System One server.
-It provides Choice, Score, and Boolean judgments through FRIDAY's shared
+It provides Choice, Score, and Boolean judgments through OpenClaw's shared
 decision-model API. Core supplies the provider-neutral `decision_evaluate` agent
 tool when the agent has an effective `decisionModel` selection, subject to normal
 tool policy and harness capabilities. No separate tool enablement is required.
 
-Requires FRIDAY and plugin API **2026.9.6 or later**. Released FRIDAY
+Requires OpenClaw and plugin API **2026.9.6 or later**. Released OpenClaw
 2026.9.5 does not include the decision API.
 
 ```sh

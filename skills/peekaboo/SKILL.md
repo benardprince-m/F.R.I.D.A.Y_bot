@@ -29,14 +29,14 @@ Use Peekaboo to inspect macOS UI, act on the intended target, and verify the res
 The examples below use v4 syntax. Check `peekaboo --version` and the installed
 command's `--help`; for older versions, follow that version's help.
 
-## FRIDAY Bridge
+## OpenClaw Bridge
 
-The FRIDAY macOS app hosts Peekaboo Bridge when Computer Control is enabled,
+The OpenClaw macOS app hosts Peekaboo Bridge when Computer Control is enabled,
 its provider is Peekaboo, and Peekaboo Bridge is enabled. Keep the existing
-FRIDAY socket selection when running through that host:
+OpenClaw socket selection when running through that host:
 
 ```bash
-export PEEKABOO_BRIDGE_SOCKET="${PEEKABOO_BRIDGE_SOCKET:-$HOME/Library/Application Support/FRIDAY/bridge.sock}"
+export PEEKABOO_BRIDGE_SOCKET="${PEEKABOO_BRIDGE_SOCKET:-$HOME/Library/Application Support/OpenClaw/bridge.sock}"
 peekaboo bridge status --json
 ```
 

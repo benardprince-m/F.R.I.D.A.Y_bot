@@ -23,7 +23,7 @@ export const CODEX_TOOL_POLICY_SAFE_DENY_NAMES = [
   "heartbeat_respond",
   "automations",
   "gateway",
-  // FRIDAY admin/status tools have no native counterpart. Session and
+  // OpenClaw admin/status tools have no native counterpart. Session and
   // conversation tools remain unsafe until native target isolation is enforced.
   // Leaf-only sessions_spawn/subagents denies intentionally remain unsafe.
   "agents_list",

@@ -837,7 +837,7 @@ describe("registerSlackInteractionEvents", () => {
           presentation: { kind: "system-agent" },
         },
       });
-      const header = section("FRIDAY change approval required", "openclaw_approval_header");
+      const header = section("OpenClaw change approval required", "openclaw_approval_header");
       readSlackMessagesMock.mockResolvedValueOnce({
         messages:
           current === "missing"
@@ -904,7 +904,7 @@ describe("registerSlackInteractionEvents", () => {
       respond,
       body: actionBody(
         {
-          text: "FRIDAY change approval required",
+          text: "OpenClaw change approval required",
           blocks: [
             actions("exec_actions", [
               { type: "button", action_id: "openclaw:approval_button:1:1" },

@@ -1,7 +1,7 @@
 /**
  * Bounded initialize handshake that qualifies a user-installed Codex before
  * selection. The candidate runs privately against a throwaway CODEX_HOME: it is
- * never registered as a Gateway app-server and never opens FRIDAY state.
+ * never registered as a Gateway app-server and never opens OpenClaw state.
  */
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { once } from "node:events";

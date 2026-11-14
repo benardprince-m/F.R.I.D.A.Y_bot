@@ -221,7 +221,7 @@ describe("canonical anonymous HTTP entry", () => {
       `https://example.test/control/share/session/card.png?token=v1.${"a".repeat(96)}`,
     );
     expect(response.getBody()).toContain(
-      'name="twitter:image:alt" content="Public launch notes · FRIDAY public session"',
+      'name="twitter:image:alt" content="Public launch notes · OpenClaw public session"',
     );
     expect(response.getBody()).toContain(
       "/__openclaw__/session-entry?path=%2Fcontrol%2Fchat%2Fmain%2Flaunch-",

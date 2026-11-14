@@ -2,7 +2,7 @@ import Foundation
 import OpenClawKit
 import Testing
 import WebKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 struct IOSDeviceSettingsBridgeTests {

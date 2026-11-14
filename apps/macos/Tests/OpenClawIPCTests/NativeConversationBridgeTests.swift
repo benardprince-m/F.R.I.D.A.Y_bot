@@ -2,7 +2,7 @@ import Foundation
 import OpenClawKit
 import Testing
 import WebKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 /// WebKit fixtures are compiled locally and executed only in the disposable macOS runner.
 @Suite(.serialized, .testWaitLimit)

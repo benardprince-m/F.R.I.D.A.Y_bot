@@ -365,7 +365,7 @@ function resolveNpmProvenanceVerificationPolicy(
     statement.predicate?.runDetails?.builder?.id !== NPM_PROVENANCE_BUILDER_ID
   ) {
     throw new Error(
-      `npm provenance attestation does not bind ${version} to the trusted FRIDAY GitHub release workflow.`,
+      `npm provenance attestation does not bind ${version} to the trusted OpenClaw GitHub release workflow.`,
     );
   }
 

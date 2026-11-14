@@ -63,7 +63,7 @@ extension ControlUIDocumentHost {
         host: String?) -> NSAlert
     {
         let alert = NSAlert()
-        alert.messageText = "FRIDAY Dashboard"
+        alert.messageText = "OpenClaw Dashboard"
         if let host, !host.isEmpty {
             alert.informativeText = "\(host) is asking:\n\n\(message)"
         } else {

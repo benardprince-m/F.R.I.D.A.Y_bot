@@ -24,7 +24,7 @@ ready so it can tell the user and attach the finished audio. The completion
 agent follows the session's visible-reply contract: automatic final reply
 when configured, or `message(action="send")` when the session requires the
 message tool. If the requester session is inactive or its wake fails and
-generated audio is still missing from the reply, FRIDAY sends a
+generated audio is still missing from the reply, OpenClaw sends a
 direct fallback with just the missing audio. Retries do not post the same audio
 again.
 
@@ -175,16 +175,16 @@ shared live sweep:
 <ParamField path="filename" type="string">Output filename hint.</ParamField>
 
 <Note>
-Not all providers support all parameters. FRIDAY still validates hard
+Not all providers support all parameters. OpenClaw still validates hard
 limits such as input counts before submission. When a provider supports
-duration but uses a shorter maximum than the requested value, FRIDAY
+duration but uses a shorter maximum than the requested value, OpenClaw
 clamps to the closest supported duration. Truly unsupported optional hints
 are ignored with a warning when the selected provider or model cannot honor
 them. Tool results report applied settings; `details.normalization`
 captures any requested-to-applied mapping.
 </Note>
 
-Provider request timeouts are operator configuration only. FRIDAY uses
+Provider request timeouts are operator configuration only. OpenClaw uses
 `agents.defaults.mediaModels.music.timeoutMs` when configured, raises
 values below 120000ms to 120000ms, and otherwise defaults provider requests
 to 300000ms.
@@ -203,7 +203,7 @@ Session-backed music generation runs as a background task:
   Direct chats keep separate tasks even when they share the main session
   transcript; completion returns to the requesting peer.
 - **Status lookup:** use `music_generate` with `action: "status"`.
-- **Completion wake:** FRIDAY injects an internal completion event back
+- **Completion wake:** OpenClaw injects an internal completion event back
   into the same session so the model can write the user-facing follow-up
   itself.
 - **Prompt hint:** later user/manual turns in the same session get a small
@@ -244,7 +244,7 @@ The media runtime reports generation progress:
 
 ### Provider selection order
 
-For `music_generate`, FRIDAY tries providers in this order:
+For `music_generate`, OpenClaw tries providers in this order:
 
 1. `model` parameter from the tool call. When set, only this model is tried.
 2. `agents.defaults.mediaModels.music.primary` from config.
@@ -263,7 +263,7 @@ For reference-image requests, candidates that cannot use images or accept
 the supplied reference count are skipped.
 
 Explicit music model configuration limits fallback to the configured list;
-FRIDAY does not append auto-detected providers.
+OpenClaw does not append auto-detected providers.
 
 ## Provider notes
 

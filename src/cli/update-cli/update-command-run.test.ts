@@ -279,7 +279,7 @@ it("prints an unexpected JSON update failure after settlement even if diagnostic
   });
   expect(warn).toHaveBeenCalledWith(expect.stringContaining("fixture diagnostics write refused"));
   expect(savedAtPublication).toContain("Candidate validation unexpectedly stopped.");
-  expect(savedAtPublication).toContain("FRIDAY update failed");
+  expect(savedAtPublication).toContain("OpenClaw update failed");
   expect(output).toHaveBeenCalledExactlyOnceWith(
     expect.objectContaining({ status: "error", runId: run.runId, reportPath }),
   );

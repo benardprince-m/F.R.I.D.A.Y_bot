@@ -1,7 +1,7 @@
 import Darwin
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 struct CloudWorkerHostTests {
@@ -25,7 +25,7 @@ struct CloudWorkerHostTests {
             let bundle = try self.makeBundle(root: root, name: String(index), identifier: identifier, marker: marker)
             var applicationConstructed = false
             let result = OpenClawProcessEntrypoint.run(
-                arguments: ["FRIDAY"] + arguments,
+                arguments: ["OpenClaw"] + arguments,
                 bundle: bundle,
                 launchApplication: { applicationConstructed = true })
             #expect(result == 2)
@@ -34,7 +34,7 @@ struct CloudWorkerHostTests {
         let normal = try self.makeBundle(root: root, name: "normal", identifier: "ai.openclaw.mac", marker: nil)
         var applicationConstructed = false
         #expect(OpenClawProcessEntrypoint.run(
-            arguments: ["FRIDAY"], bundle: normal, launchApplication: { applicationConstructed = true }) == nil)
+            arguments: ["OpenClaw"], bundle: normal, launchApplication: { applicationConstructed = true }) == nil)
         #expect(applicationConstructed)
     }
 
@@ -197,7 +197,7 @@ struct CloudWorkerHostTests {
         let contents = application.appendingPathComponent("Contents", isDirectory: true)
         try FileManager.default.createDirectory(at: contents, withIntermediateDirectories: true)
         var plist: [String: Any] = [
-            "CFBundleIdentifier": identifier, "CFBundleExecutable": "FRIDAY", "CFBundlePackageType": "APPL",
+            "CFBundleIdentifier": identifier, "CFBundleExecutable": "OpenClaw", "CFBundlePackageType": "APPL",
         ]
         if let marker { plist["OpenClawCloudWorkerHostVersion"] = marker }
         try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)

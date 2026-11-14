@@ -15,7 +15,7 @@ Manage Talk voice selection (list/set).
 ## Distribution
 
 - Package: `openclaw`
-- Install route: included in FRIDAY
+- Install route: included in OpenClaw
 
 ## Surface
 

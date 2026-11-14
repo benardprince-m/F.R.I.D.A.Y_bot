@@ -700,7 +700,7 @@ it("routes OAuth login and refresh to the explicit agent", async () => {
     [
       "Scope: System / agent",
       "Agent: coder",
-      "Location: the machine running FRIDAY",
+      "Location: the machine running OpenClaw",
       "For personal model accounts on a Gateway, run openclaw models accounts login --help.",
     ].join("\n"),
     "Provider sign-in",
@@ -903,7 +903,7 @@ it("--force fails before login when purge cannot update the profile store", asyn
   mocks.removeProviderAuthProfilesWithLock.mockResolvedValueOnce(null);
 
   await expect(loginCommand({ provider: "openai", force: true })).rejects.toThrow(
-    'Could not clear cached profiles for "openai" before re-login: auth store is busy; close other FRIDAY commands using this state directory and retry',
+    'Could not clear cached profiles for "openai" before re-login: auth store is busy; close other OpenClaw commands using this state directory and retry',
   );
 
   expect(runtime.error).not.toHaveBeenCalled();
@@ -948,7 +948,7 @@ it("opens the provider picker when a CLI backend has no provider auth method", a
   await loginCommand({ provider: "claude-cli" });
 
   expect(prompter.note).toHaveBeenCalledWith(
-    'Provider "claude-cli" uses its own CLI login. Select a provider with an FRIDAY auth flow.',
+    'Provider "claude-cli" uses its own CLI login. Select a provider with an OpenClaw auth flow.',
     "Provider auth",
   );
   expect(prompter.select).toHaveBeenCalledWith(
@@ -988,12 +988,12 @@ it("writes pasted Anthropic setup-tokens and logs the preference note", async ()
     },
     agentDir: "/tmp/openclaw/agents/main",
   });
-  expect(runtime.log).toHaveBeenCalledWith("Anthropic setup-token auth is supported in FRIDAY.");
+  expect(runtime.log).toHaveBeenCalledWith("Anthropic setup-token auth is supported in OpenClaw.");
   expect(runtime.log).toHaveBeenCalledWith(
-    "FRIDAY prefers Claude CLI reuse when it is available on the host.",
+    "OpenClaw prefers Claude CLI reuse when it is available on the host.",
   );
   expect(runtime.log).toHaveBeenCalledWith(
-    "Anthropic staff told us this FRIDAY path is allowed again.",
+    "Anthropic staff told us this OpenClaw path is allowed again.",
   );
 });
 

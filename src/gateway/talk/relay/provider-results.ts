@@ -120,7 +120,7 @@ export function submitFinalProviderToolResult(params: {
       await params.session.bridge.submitToolResult(
         providerCallId,
         buildRealtimeVoiceAgentCancelProviderResult(
-          "FRIDAY cancelled this consult before completion. Do not restart it.",
+          "OpenClaw cancelled this consult before completion. Do not restart it.",
         ),
         suppressedToolResultOptions(params.session),
       );

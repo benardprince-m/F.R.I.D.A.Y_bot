@@ -35,7 +35,7 @@ const params: Parameters<typeof buildStatusCommandReportLines>[0] = {
 it("renders the full report in section order and trims table output", async () => {
   expect((await buildStatusCommandReportLines(params)).join("\n")).toBe(
     [
-      "# FRIDAY status",
+      "# OpenClaw status",
       "# Overview\ntable:Item+Value:1",
       "# Plugin compatibility\nplugin warning",
       "pairing needed",
@@ -66,7 +66,7 @@ it("renders empty-state messages and omits absent sections", async () => {
   });
   expect(lines.join("\n")).toBe(
     [
-      "# FRIDAY status",
+      "# OpenClaw status",
       "# Overview\ntable:Item+Value:1",
       "# Security audit\naudit line",
       "# Channels\nNo channels configured",

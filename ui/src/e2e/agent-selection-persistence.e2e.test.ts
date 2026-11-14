@@ -32,7 +32,7 @@ beforeEach(() => {
 const agentsList = {
   agents: [
     { id: "dummy", identity: { name: "Dummy" }, kind: "agent", name: "Dummy" },
-    { id: "openclaw", identity: { name: "FRIDAY" }, kind: "agent", name: "FRIDAY" },
+    { id: "openclaw", identity: { name: "OpenClaw" }, kind: "agent", name: "OpenClaw" },
   ],
   defaultId: "dummy",
   mainKey: "main",
@@ -54,7 +54,7 @@ const scenario: ControlUiMockGatewayScenario = {
         },
         {
           match: { agentId: "openclaw" },
-          response: { agentId: "openclaw", avatar: "", emoji: "O", name: "FRIDAY" },
+          response: { agentId: "openclaw", avatar: "", emoji: "O", name: "OpenClaw" },
         },
       ],
     },
@@ -160,12 +160,12 @@ suite.define(() => {
       await sidebar.getByRole("button", { name: /Switch agent/ }).click();
       await sidebar
         .locator(".sidebar-agent-menu")
-        .getByRole("menuitem", { name: "FRIDAY" })
+        .getByRole("menuitem", { name: "OpenClaw" })
         .click();
       await waitForControlUiRoute(firstPage, { pathname: "/chat/openclaw", routeId: "chat" });
-      await expect.poll(() => selectedAgentName(firstPage)).toBe("FRIDAY");
+      await expect.poll(() => selectedAgentName(firstPage)).toBe("OpenClaw");
       await expect
-        .poll(() => firstPage.getByRole("heading", { name: "FRIDAY" }).isVisible())
+        .poll(() => firstPage.getByRole("heading", { name: "OpenClaw" }).isVisible())
         .toBe(true);
       await screenshot(firstPage, "02-selected-openclaw.png");
 
@@ -183,9 +183,9 @@ suite.define(() => {
       });
       await screenshot(reopenedPage, "03-reopened-agent.png");
       await expect.poll(() => hasOpenClawStartup(reopened.gateway)).toBe(true);
-      await expect.poll(() => selectedAgentName(reopenedPage)).toBe("FRIDAY");
+      await expect.poll(() => selectedAgentName(reopenedPage)).toBe("OpenClaw");
       await expect
-        .poll(() => reopenedPage.getByRole("heading", { name: "FRIDAY" }).isVisible())
+        .poll(() => reopenedPage.getByRole("heading", { name: "OpenClaw" }).isVisible())
         .toBe(true);
       await screenshot(reopenedPage, "04-verified-reopened-agent.png");
       await reopenedPage.getByRole("link", { name: "New conversation", exact: true }).click();

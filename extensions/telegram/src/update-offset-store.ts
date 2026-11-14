@@ -160,7 +160,7 @@ export async function prepareTelegramAccount(params: {
       if (rotation.previousBotId !== null && rotation.previousBotId !== rotation.currentBotId) {
         const queue = getTelegramRuntime().state.openChannelIngressQueue({ accountId });
         if (!queue.purge) {
-          throw new Error("The host does not support ingress identity resets; update FRIDAY.");
+          throw new Error("The host does not support ingress identity resets; update OpenClaw.");
         }
         params.abortSignal?.throwIfAborted();
         await queue.purge({ signal: params.abortSignal });

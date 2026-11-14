@@ -387,14 +387,14 @@ export const POLICY_CHECK_METADATA = [
   ),
   defineCheck(
     CHECK_IDS.policySecretsUnmanagedProvider,
-    "FRIDAY config SecretRefs use configured secret providers when policy requires managed providers.",
+    "OpenClaw config SecretRefs use configured secret providers when policy requires managed providers.",
     "manual",
     "Migrate the secret to a managed provider.",
     ["secrets"],
   ),
   defineCheck(
     CHECK_IDS.policySecretsDeniedProviderSource,
-    "FRIDAY config secret providers and SecretRefs do not use sources denied by policy.",
+    "OpenClaw config secret providers and SecretRefs do not use sources denied by policy.",
     "reviewRequired",
     "Move the secret out of the denied source.",
     ["secrets"],
@@ -408,14 +408,14 @@ export const POLICY_CHECK_METADATA = [
   ),
   defineCheck(
     CHECK_IDS.policyAuthProfileInvalidMetadata,
-    "FRIDAY config auth profiles declare required provider and mode metadata.",
+    "OpenClaw config auth profiles declare required provider and mode metadata.",
     "manual",
     "Add required provider and mode metadata to auth profiles.",
     ["auth.profiles"],
   ),
   defineCheck(
     CHECK_IDS.policyAuthProfileUnapprovedMode,
-    "FRIDAY config auth profile modes stay within the policy allowlist.",
+    "OpenClaw config auth profile modes stay within the policy allowlist.",
     "manual",
     "Change auth mode and credentials through the auth owner flow.",
     ["auth.profiles"],

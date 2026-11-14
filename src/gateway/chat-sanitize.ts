@@ -58,7 +58,7 @@ function stripEnvelopeFromContentWithRole(content: unknown[], role: string): unk
   });
 }
 
-/** Strips FRIDAY envelope metadata from one display message without mutating it. */
+/** Strips OpenClaw envelope metadata from one display message without mutating it. */
 function stripEnvelopeFromMessage(message: unknown): unknown {
   if (!message || typeof message !== "object") {
     return message;

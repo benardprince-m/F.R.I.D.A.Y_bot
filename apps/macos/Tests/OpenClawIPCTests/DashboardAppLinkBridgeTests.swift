@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import Testing
 import WebKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 private final class DashboardAppLinkRecorder: NSObject, WKScriptMessageHandler {

@@ -658,7 +658,7 @@ async function verifyAndActivateCandidate(
     try {
       await appendSystemAgentAuditEntry({
         operation: "openclaw.setup",
-        summary: "Verified an AI access candidate through FRIDAY setup",
+        summary: "Verified an AI access candidate through OpenClaw setup",
         configPath: after?.path ?? snapshot.path,
         configHashBefore: hashConfigRaw(snapshot.raw),
         configHashAfter: after ? hashConfigRaw(after.raw) : null,
@@ -669,7 +669,7 @@ async function verifyAndActivateCandidate(
         },
       });
     } catch (error) {
-      const warning = `Inference was verified, but FRIDAY could not record its audit entry: ${formatErrorMessage(error)}`;
+      const warning = `Inference was verified, but OpenClaw could not record its audit entry: ${formatErrorMessage(error)}`;
       params.runtime.error?.(warning);
       lines.push(warning);
     }

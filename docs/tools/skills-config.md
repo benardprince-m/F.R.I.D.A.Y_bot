@@ -67,7 +67,7 @@ Most skills configuration lives under `skills` in
 <ParamField path="skills.load.watch" type="boolean" default="true">
   Enable passive automatic skill discovery. One background worker checks local
   skill roots about once per minute, including nested files under grouped roots.
-  Set to `false` to disable passive rescans. Explicit FRIDAY skill changes,
+  Set to `false` to disable passive rescans. Explicit OpenClaw skill changes,
   relevant configuration changes, and Gateway startup still request an immediate
   rescan. Existing sessions use changed snapshots on their next agent turn.
 </ParamField>
@@ -80,7 +80,7 @@ Most skills configuration lives under `skills` in
 
 <ParamField path="skills.install.nodeManager" type='"npm" | "pnpm" | "yarn" | "bun"' default='"npm"'>
   Node package manager preference for skill installs. This only affects skill
-  installs. Node remains the primary and recommended FRIDAY runtime; Bun 1.4.3+
+  installs. Node remains the primary and recommended OpenClaw runtime; Bun 1.4.3+
   with WAL-reset-safe `node:sqlite` is supported as an explicit runtime opt-in.
   `openclaw setup --node-manager` and `openclaw onboard --node-manager` accept
   `npm`, `pnpm`, or `bun`; set `"yarn"` directly in config for Yarn-backed skill
@@ -98,7 +98,7 @@ Most skills configuration lives under `skills` in
 
 Use `security.installPolicy` when operators need a trusted local command to
 approve or block skill and plugin installs with host-specific policy. The
-policy runs after FRIDAY has staged source material and before the install
+policy runs after OpenClaw has staged source material and before the install
 or update continues. It applies to ClawHub skills, uploaded skills, Git/local
 skills, skill dependency installers, and plugin install/update sources.
 
@@ -136,7 +136,7 @@ skills, skill dependency installers, and plugin install/update sources.
 </ParamField>
 
 <ParamField path="security.installPolicy.exec.command" type="string">
-  Absolute path to the trusted policy executable. FRIDAY runs it without a
+  Absolute path to the trusted policy executable. OpenClaw runs it without a
   shell and validates the path before use.
 </ParamField>
 
@@ -161,7 +161,7 @@ skills, skill dependency installers, and plugin install/update sources.
 </ParamField>
 
 <ParamField path="security.installPolicy.exec.passEnv" type="string[]">
-  Environment variable names copied from the FRIDAY process into the
+  Environment variable names copied from the OpenClaw process into the
   policy process. Only named variables are passed.
 </ParamField>
 
@@ -185,7 +185,7 @@ down and clamped to the safe-integer range from 1 through `Number.MAX_SAFE_INTEG
 Malformed finding entries are ignored, and
 invalid optional fields are omitted. A non-array `findings` value is treated as
 absent. Operator-facing reason and finding text are limited to 1,000 characters.
-FRIDAY retains at most 100 normalized findings for display. Only a `warn`
+OpenClaw retains at most 100 normalized findings for display. Only a `warn`
 response with more than 100 valid findings blocks installation and cannot be
 acknowledged; `allow` and `block` retain the first 100. A warning stops the
 install before commit. A `warn` review whose fully rendered notice, including
@@ -211,7 +211,7 @@ non-zero exit, timeout, invalid JSON, non-object response, missing or invalid
 protocol version or decision, or missing or empty `warn`/`block` reason always
 blocks installation.
 
-FRIDAY does not execute install policy during normal Gateway startup.
+OpenClaw does not execute install policy during normal Gateway startup.
 Installs and updates are blocked when policy is enabled but unavailable.
 `openclaw doctor` performs static validation; `openclaw doctor --deep`
 executes a synthetic install check against the configured command.
@@ -352,7 +352,7 @@ different visible skill set per agent.
 </ParamField>
 
 <Warning>
-  Agent skill allowlists are a visibility and loading filter for FRIDAY
+  Agent skill allowlists are a visibility and loading filter for OpenClaw
   skill discovery, prompts, slash-command discovery, sandbox sync, and skill
   snapshots. They are not a shell-time authorization boundary. If an agent
   can run host `exec`, that shell can still run external clients or read

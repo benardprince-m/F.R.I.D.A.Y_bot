@@ -62,7 +62,7 @@ describeLive("minimax plugin live", () => {
       searchConfig: { apiKey: MINIMAX_SEARCH_KEY, cacheTtlMinutes: 0 },
     } as never);
 
-    const result = await tool?.execute({ query: "FRIDAY GitHub", count: 1 });
+    const result = await tool?.execute({ query: "OpenClaw GitHub", count: 1 });
 
     expect(result?.provider).toBe("minimax");
     expect(result?.count).toBeGreaterThan(0);
@@ -76,7 +76,7 @@ describeTtsLive("minimax tts live", () => {
     const provider = requireRegisteredProvider(speechProviders, "minimax");
 
     const audioFile = await provider.synthesize({
-      text: "FRIDAY MiniMax text to speech integration test OK.",
+      text: "OpenClaw MiniMax text to speech integration test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig: { apiKey: MINIMAX_API_KEY },
       target: "audio-file",
@@ -99,7 +99,7 @@ describeTtsLive("minimax tts live", () => {
     });
 
     const voiceNote = await provider.synthesize({
-      text: "FRIDAY MiniMax voice note test OK.",
+      text: "OpenClaw MiniMax voice note test OK.",
       cfg: { plugins: { enabled: true } } as never,
       providerConfig: { apiKey: MINIMAX_API_KEY },
       target: "voice-note",
@@ -124,7 +124,7 @@ describeTokenPlanTtsLive("minimax token plan tts live", () => {
       });
 
       const audioFile = await provider.synthesize({
-        text: "FRIDAY MiniMax Token Plan text to speech integration test OK.",
+        text: "OpenClaw MiniMax Token Plan text to speech integration test OK.",
         cfg: { plugins: { enabled: true } } as never,
         providerConfig: {},
         target: "audio-file",

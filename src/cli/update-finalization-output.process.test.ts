@@ -36,7 +36,7 @@ const testNodeExecPath = resolveTestNodeExecPath();
 const childTempDir = useAutoCleanupTempDirTracker(afterAll).make("openclaw-update-child-tmp-");
 const fixture = resolveRuntimeWorkerUrl(updateFinalizationOutputEntrypoint);
 const doctorDiagnostics = [
-  "FRIDAY doctor",
+  "OpenClaw doctor",
   "Doctor panel diagnostic",
   "Doctor workspace diagnostic",
   "Doctor console diagnostic",

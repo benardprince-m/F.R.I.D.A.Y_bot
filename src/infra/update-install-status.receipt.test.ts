@@ -33,7 +33,7 @@ it("preserves valid legacy sources without letting unusable receipts veto discov
   const custom = path.join(base, "custom");
   await fs.mkdir(source);
   await git(source, "init", "--initial-branch=main");
-  await git(source, "config", "user.name", "FRIDAY Test");
+  await git(source, "config", "user.name", "OpenClaw Test");
   await git(source, "config", "user.email", "test@openclaw.invalid");
   await git(source, "config", "commit.gpgsign", "false");
   await git(source, "commit", "--allow-empty", "-m", "installed");

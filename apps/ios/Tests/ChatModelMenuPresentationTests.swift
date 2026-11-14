@@ -1,7 +1,7 @@
 import OpenClawChatUI
 import SwiftUI
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct ChatModelMenuPresentationTests {
     @Test func `provider identities resolve to bundled brand marks`() {

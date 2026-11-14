@@ -388,7 +388,7 @@ export async function inspectDisabledDiscoveryTasks(params: {
       const profile: string = ["schtasks-int", params.id, params.cellIndex, role].join("-");
       const taskName: string =
         role === "non-gateway"
-          ? `FRIDAY Helper (${profile})`
+          ? `OpenClaw Helper (${profile})`
           : role === "extra"
             ? `NativeExtra-${params.id}-${params.cellIndex}`
             : resolveGatewayWindowsTaskName(profile);

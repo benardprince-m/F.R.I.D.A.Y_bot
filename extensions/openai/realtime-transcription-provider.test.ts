@@ -165,7 +165,7 @@ describe("buildOpenAIRealtimeTranscriptionProvider", () => {
         apiKey: "sk-test", // pragma: allowlist secret
         language: "en",
         model: "gpt-4o-transcribe",
-        prompt: "expect FRIDAY product names",
+        prompt: "expect OpenClaw product names",
         silenceDurationMs: 900,
         vadThreshold: 0.45,
       },
@@ -190,7 +190,7 @@ describe("buildOpenAIRealtimeTranscriptionProvider", () => {
             transcription: {
               model: "gpt-4o-transcribe",
               language: "en",
-              prompt: "expect FRIDAY product names",
+              prompt: "expect OpenClaw product names",
             },
             turn_detection: {
               type: "server_vad",

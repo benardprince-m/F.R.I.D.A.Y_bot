@@ -113,13 +113,13 @@ it("labels and orders OpenAI authentication choices", () => {
     [
       "openai-device-code",
       "Codex login (device code)",
-      "Use a browser code when FRIDAY runs on a remote VM",
+      "Use a browser code when OpenClaw runs on a remote VM",
     ],
     ["openai-api-key", "OpenAI API Key", "Use your OpenAI API key directly"],
     [
       "openai-token-sharing",
       "Sign in with ChatGPT (Beta)",
-      "Authorize FRIDAY for eligible Responses models using your Codex allowance",
+      "Authorize OpenClaw for eligible Responses models using your Codex allowance",
     ],
   ] as const) {
     expect(choice(id)).toMatchObject({ choiceLabel, choiceHint, ...group });

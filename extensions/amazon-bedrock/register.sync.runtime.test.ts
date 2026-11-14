@@ -31,7 +31,7 @@ describe("Amazon Bedrock registration cache policy", () => {
         {
           role: "user",
           content: [
-            { text: "FRIDAY runtime context:\nTransient context" },
+            { text: "OpenClaw runtime context:\nTransient context" },
             { image: { format: "png" } },
           ],
         },
@@ -50,7 +50,7 @@ describe("Amazon Bedrock registration cache policy", () => {
           {
             role: "user",
             content: [
-              { type: "text", text: "FRIDAY runtime context:\nTransient context" },
+              { type: "text", text: "OpenClaw runtime context:\nTransient context" },
               { type: "image", mimeType: "image/png", data: "AA==" },
             ],
             timestamp: 0,

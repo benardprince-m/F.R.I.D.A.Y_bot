@@ -59,10 +59,10 @@ describeLive("Cloudflare R2 storage live", () => {
       },
     });
     const objects = [
-      { key: "known-size.txt", body: Buffer.from("FRIDAY R2 single upload"), knownSize: true },
+      { key: "known-size.txt", body: Buffer.from("OpenClaw R2 single upload"), knownSize: true },
       {
         key: "unknown-size.txt",
-        body: Buffer.from("FRIDAY R2 multipart upload"),
+        body: Buffer.from("OpenClaw R2 multipart upload"),
         knownSize: false,
       },
     ];

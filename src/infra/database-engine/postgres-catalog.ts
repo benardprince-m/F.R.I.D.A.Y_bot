@@ -77,7 +77,7 @@ export function assertPostgresCatalog(
 ): void {
   if (!isDeepStrictEqual(actual.map(canonical).toSorted(), expected.map(canonical).toSorted())) {
     throw new Error(
-      "PostgreSQL catalog differs from its generated contract; use the matching FRIDAY version or restore the matching PostgreSQL schema and anchor.",
+      "PostgreSQL catalog differs from its generated contract; use the matching OpenClaw version or restore the matching PostgreSQL schema and anchor.",
     );
   }
 }

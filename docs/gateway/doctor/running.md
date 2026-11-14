@@ -6,7 +6,7 @@ read_when:
   - You need a read-only health report for CI or preflight automation
 ---
 
-Run `openclaw doctor` to repair and migrate an FRIDAY install. This page covers the
+Run `openclaw doctor` to repair and migrate an OpenClaw install. This page covers the
 command, its automation flags, and the read-only lint mode.
 
 You can run Doctor after an update without first starting the Gateway. Plugin
@@ -19,7 +19,7 @@ to check all tables and indexes during migration. Explicit verification,
 recovery, and compaction keep their existing checks.
 
 When the System agent runs Doctor, it uses a separate process from the same
-FRIDAY installation. Bulk diagnostic checks can then run without blocking the
+OpenClaw installation. Bulk diagnostic checks can then run without blocking the
 Gateway's event loop. This uses the existing `--non-interactive` behavior,
 including its safe migrations; it does not enable additional repairs. Once
 started, Doctor finishes and releases its resources before a cancelled caller

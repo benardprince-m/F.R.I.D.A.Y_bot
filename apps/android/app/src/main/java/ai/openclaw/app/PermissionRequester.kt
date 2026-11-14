@@ -362,7 +362,7 @@ class PermissionRequester internal constructor(
   private fun buildRationaleMessage(permissions: List<String>): String {
     val labels = permissions.map { permissionLabel(it) }.distinct()
     return nativeString(
-      "FRIDAY uses \${labels.joinToString(\", \")} permissions for features that need this access.",
+      "OpenClaw uses \${labels.joinToString(\", \")} permissions for features that need this access.",
       labels.joinToString(", "),
     )
   }
@@ -371,7 +371,7 @@ class PermissionRequester internal constructor(
     val labels = permissions.map { permissionLabel(it) }.distinct()
     if (permissions.any(::isSmsPermission)) {
       return nativeString(
-        "Not granted: \${labels.joinToString(\", \")}. If you denied access, review it in Android Settings. A missing or disabled SMS option may mean an installer or device-policy restriction. Check your installation source or contact your device administrator; FRIDAY cannot override these restrictions.",
+        "Not granted: \${labels.joinToString(\", \")}. If you denied access, review it in Android Settings. A missing or disabled SMS option may mean an installer or device-policy restriction. Check your installation source or contact your device administrator; OpenClaw cannot override these restrictions.",
         labels.joinToString(", "),
       )
     }

@@ -14,7 +14,7 @@ pnpm openclaw qa slack
 ```
 
 Targets one real private Slack channel with two distinct bots: a driver bot
-controlled by the harness and a SUT bot started by the child FRIDAY gateway
+controlled by the harness and a SUT bot started by the child OpenClaw gateway
 through the bundled Slack plugin.
 
 Once the Slack QA adapter loads, it requires async proxy capture support so write
@@ -202,12 +202,12 @@ then _Install to Workspace_:
 ```json
 {
   "display_information": {
-    "name": "FRIDAY QA Driver",
-    "description": "Test driver bot for FRIDAY QA Slack live lane"
+    "name": "OpenClaw QA Driver",
+    "description": "Test driver bot for OpenClaw QA Slack live lane"
   },
   "features": {
     "bot_user": {
-      "display_name": "FRIDAY QA Driver",
+      "display_name": "OpenClaw QA Driver",
       "always_online": true
     }
   },
@@ -246,12 +246,12 @@ reaction handling yet.
 ```json
 {
   "display_information": {
-    "name": "FRIDAY QA SUT",
-    "description": "FRIDAY QA SUT connector for FRIDAY"
+    "name": "OpenClaw QA SUT",
+    "description": "OpenClaw QA SUT connector for OpenClaw"
   },
   "features": {
     "bot_user": {
-      "display_name": "FRIDAY QA SUT",
+      "display_name": "OpenClaw QA SUT",
       "always_online": true
     },
     "app_home": {
@@ -326,8 +326,8 @@ In the QA workspace, create a channel (e.g. `#openclaw-qa`) and invite both
 bots from inside the channel:
 
 ```text
-/invite @FRIDAY QA Driver
-/invite @FRIDAY QA SUT
+/invite @OpenClaw QA Driver
+/invite @OpenClaw QA SUT
 ```
 
 Copy the `Cxxxxxxxxxx` id from _channel info → About → Channel ID_ - that

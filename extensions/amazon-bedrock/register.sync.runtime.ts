@@ -177,7 +177,7 @@ function isBedrockAppInferenceProfile(modelId: string): boolean {
  * otherwise opaque.
  *
  * Region is extracted from the profile ARN itself to avoid mismatches when
- * the FRIDAY config region differs from the profile's home region.
+ * the OpenClaw config region differs from the profile's home region.
  */
 type BedrockAppProfileTraits = {
   cachePolicy: BedrockPromptCachePolicy | undefined;

@@ -155,7 +155,7 @@ final class LaunchAgentManager {
         }
         let plist: [String: Any] = [
             "Label": "ai.openclaw.mac",
-            "ProgramArguments": ["\(bundlePath)/Contents/MacOS/FRIDAY"],
+            "ProgramArguments": ["\(bundlePath)/Contents/MacOS/OpenClaw"],
             "WorkingDirectory": FileManager().homeDirectoryForCurrentUser.path,
             "RunAtLoad": true,
             "EnvironmentVariables": environment,

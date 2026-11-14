@@ -77,7 +77,7 @@ The chat header’s **Details** panel groups session information into collapsibl
 
 Session details share concurrent reads across the sidebar, chat, and resource panels. Returning to an unchanged session reuses its details on the same connection. Session changes, explicit refreshes, and reconnects fetch current details; failed reads remain retryable.
 
-Sidebar pull-request indicators reuse the last known snapshot. Opening a session, its progress card, or its Git activity requests current checkout facts; sidebar rows alone do not poll Git. Active panels detect branch and staged changes from Git metadata. Tool completion refreshes working-tree stats, with a five-minute fallback for edits made outside FRIDAY.
+Sidebar pull-request indicators reuse the last known snapshot. Opening a session, its progress card, or its Git activity requests current checkout facts; sidebar rows alone do not poll Git. Active panels detect branch and staged changes from Git metadata. Tool completion refreshes working-tree stats, with a five-minute fallback for edits made outside OpenClaw.
 
 In the chat’s **Changes** panel, gutter chevrons fold complete functions, classes, and other language-supported multiline blocks within a file. Everything starts expanded, including edits. A folded placeholder shows the hidden line count and additions/deletions; click it to expand. Split and unified views share the same folds. The file menu offers **Collapse Code**, **Collapse Functions and Classes**, and **Expand Code**, separately from collapsing whole files. Incomplete source, omitted gaps, unsupported languages, and oversized previews stay expanded. Changing the patch resets code folds.
 
@@ -109,7 +109,7 @@ If a narration subscription encounters a retryable failure or times out, it retr
 
 Failed narration releases use the same backoff, including while the tab is hidden. If a session is needed again, its queued release is canceled and its subscription is renewed safely. Closing the Gateway connection cancels release retries.
 
-Closed Terminal, Browser, and Desktop panels initialize when you open them rather than during initial navigation. Home/Ask FRIDAY and System busyness keep lightweight frames ready and defer their conversation or diagnostic contents until opened. Home preserves its saved dock position and size throughout loading. Panels saved as open still restore after a reload. Settings does not automatically reopen Ask FRIDAY; its control and diagnostic actions can still open it explicitly.
+Closed Terminal, Browser, and Desktop panels initialize when you open them rather than during initial navigation. Home/Ask OpenClaw and System busyness keep lightweight frames ready and defer their conversation or diagnostic contents until opened. Home preserves its saved dock position and size throughout loading. Panels saved as open still restore after a reload. Settings does not automatically reopen Ask OpenClaw; its control and diagnostic actions can still open it explicitly.
 
 Minimizing and reopening the Dashboard side panel preserves loaded MCP Apps and their unsaved in-app input while the app lease remains valid.
 
@@ -260,7 +260,7 @@ matching names retain their existing pinned order. Duplicate names show their
 IDs underneath. New-agent, directory, capability, and settings actions stay outside
 the scrolling list. Reopening the menu clears the filter and brings the selected
 agent into view.
-Opening **New agent** keeps your existing Ask FRIDAY conversation. Finish any
+Opening **New agent** keeps your existing Ask OpenClaw conversation. Finish any
 pending wizard or approval before opening the creation choices.
 If team creation stops partway through, the custodian reports the retained
 agents so you can inspect them before creating the missing members.
@@ -314,7 +314,7 @@ This requires a secure context (HTTPS or localhost) and a desktop browser that
 exposes the Document Picture-in-Picture API, including supported Chrome and
 Firefox versions. The control is disabled when the API is unavailable or the
 desktop is not connected. Browser permissions can still deny the request; check
-those permissions and click the control again to retry. FRIDAY does not replace
+those permissions and click the control again to retry. OpenClaw does not replace
 unsupported PiP with an ordinary popup.
 
 PiP mirrors the existing live connection without taking control or opening a
@@ -348,7 +348,7 @@ When a plugin such as [MCP Relay](/plugins/mcp-relay) embeds the Control UI thro
 
 An embedder that supplies linked Gateways adds them to the identity menu's **Gateway** section. Select a Gateway to switch the embedded page, choose **Set as primary** when available, or open **Gateway settings…** in the host. The host owns the list, primary choice, and navigation. Native window actions, native Gateway keyboard shortcuts, and native reconnect actions are unavailable in embedded mode.
 
-If you paste a setup code from **Devices → Pair device → Copy setup code** into **Gateway secret**, the UI shows an inline hint before you connect. Paste that code into **Settings → Gateway** in the FRIDAY mobile app. For the Control UI, run `openclaw gateway auth-token --show` in an interactive terminal on the Gateway host and paste the shared token instead. If a connection with a setup code is rejected for a token or password mismatch, the login screen repeats this guidance.
+If you paste a setup code from **Devices → Pair device → Copy setup code** into **Gateway secret**, the UI shows an inline hint before you connect. Paste that code into **Settings → Gateway** in the OpenClaw mobile app. For the Control UI, run `openclaw gateway auth-token --show` in an interactive terminal on the Gateway host and paste the shared token instead. If a connection with a setup code is rejected for a token or password mismatch, the login screen repeats this guidance.
 
 Local onboarding generates a Gateway secret in token mode by default, without a token/password picker, and preserves existing password mode. Use `--gateway-auth password` or `--gateway-password <value>` for explicit password setup; Tailscale Funnel requires password mode. If the Gateway starts in token mode without a configured token, it generates an ephemeral runtime token for that process instead. The runtime token is not written to config, so it cannot be recovered and a loopback browser without that token is rejected. Run `openclaw doctor --generate-gateway-token`, restart the Gateway, then run `openclaw gateway auth-token --show` in an interactive terminal and paste the output into **Gateway secret**.
 
@@ -372,7 +372,7 @@ switcher. It appears with two or more agents and groups their own avatars: two
 overlap diagonally, three or four form a two-column grid, and five or more show
 three avatars plus a remaining-agent count. This enables **team mode**, a browser
 preference that is off by default. The top row becomes a workspace header with
-the configured Gateway display name, or **FRIDAY**, and a small static FRIDAY mark.
+the configured Gateway display name, or **OpenClaw**, and a small static OpenClaw mark.
 Both modes use the same menu: agent tiles, **New agent**, **See all agents**, then
 a divider before **What can Harbor do?** and **Harbor settings**, named for the
 active agent. **See all agents** opens `/agents`; the named settings action opens
@@ -442,7 +442,7 @@ is absent from the window, its agent's most recent session supplies the preview.
 - [Sessions and sidebar](/web/control-ui/sessions-and-sidebar) — sidebar zones, session menus, and the New session page.
 - [Systems workspace](/web/control-ui/sessions-and-sidebar#systems-workspace) — contextual machine navigation and a desktop-first workspace.
 - [Chat](/web/control-ui/chat) — composer controls, the session rail, transcript rendering, and hosted embeds.
-- [Panels and docks](/web/control-ui/panels) — Ask FRIDAY, the Home dock, the operator terminal, and the browser panel.
+- [Panels and docks](/web/control-ui/panels) — Ask OpenClaw, the Home dock, the operator terminal, and the browser panel.
 - [Settings](/web/control-ui/settings) — identity, appearance, plugins, updates, MCP, activity, and meetings.
 - [Feature and RPC reference](/web/control-ui/feature-reference) — every capability with the Gateway RPC behind it.
 - [Offline and reconnect](/web/control-ui/offline-and-reconnect) — what survives a dropped connection.
@@ -502,7 +502,7 @@ Every section heading from the previous single-page version keeps its anchor her
 - <a id="debug-logs-update" />[debug logs update](/web/control-ui/feature-reference#debug-logs-update)
 - <a id="automations-panel-notes" />[automations panel notes](/web/control-ui/feature-reference#automations-panel-notes)
 - <a id="connection-loss-and-reconnect" />[Connection loss and reconnect](/web/control-ui/offline-and-reconnect#connection-loss-and-reconnect)
-- <a id="openclaw-system-care" />[FRIDAY system care](/web/control-ui/panels#openclaw-system-care)
+- <a id="openclaw-system-care" />[OpenClaw system care](/web/control-ui/panels#openclaw-system-care)
 - <a id="home-dock" />[Home dock](/web/control-ui/panels#home-dock)
 - <a id="operator-terminal" />[Operator terminal](/web/control-ui/panels#operator-terminal)
 - <a id="browser-panel" />[Browser panel](/web/control-ui/panels#browser-panel)
@@ -519,7 +519,7 @@ Every section heading from the previous single-page version keeps its anchor her
 - <a id="session-colors" />[Session colors](/web/control-ui/sessions-and-sidebar#session-colors)
 - <a id="new-session-page" />[New session page](/web/control-ui/sessions-and-sidebar#new-session-page)
 - <a id="start-a-native-coding-cli" />[Start a native coding CLI](/web/control-ui/sessions-and-sidebar#start-a-native-coding-cli)
-- <a id="openclaw-chat-workspace-startup" />[FRIDAY Chat workspace startup](/web/control-ui/sessions-and-sidebar#openclaw-chat-workspace-startup)
+- <a id="openclaw-chat-workspace-startup" />[OpenClaw Chat workspace startup](/web/control-ui/sessions-and-sidebar#openclaw-chat-workspace-startup)
 - <a id="environment-identity" />[Environment identity](/web/control-ui/settings#environment-identity)
 - <a id="community-invitation" />[Community invitation](/web/control-ui/settings#community-invitation)
 - <a id="personal-identity" />[Personal identity](/web/control-ui/settings#personal-identity)

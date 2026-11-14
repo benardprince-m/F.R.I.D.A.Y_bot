@@ -506,7 +506,7 @@ describe("fetchCopilotModelCatalog", () => {
     });
   });
 
-  it("sends adaptive thinking for a listed Claude id FRIDAY does not know", async () => {
+  it("sends adaptive thinking for a listed Claude id OpenClaw does not know", async () => {
     const [listed] = await fetchSelectionFixture([
       {
         id: "claude-novel-9",

@@ -165,12 +165,12 @@ describe("native device settings pages", () => {
         ...snapshot,
         desktopSharing: {
           state: "error",
-          detail: "Install the FRIDAY CLI to share this desktop.",
+          detail: "Install the OpenClaw CLI to share this desktop.",
         },
       });
       flush();
       expect(row(page, "Desktop sharing status").textContent).toContain("Unavailable");
-      expect(page.textContent).toContain("Install the FRIDAY CLI");
+      expect(page.textContent).toContain("Install the OpenClaw CLI");
       const permissions = await mount("openclaw-device-permissions-page", native.capability);
       expect(permissions.querySelector("input.settings-toggle__input")).toBeNull();
       expect(permissions.textContent).not.toContain("Location access");
@@ -208,11 +208,11 @@ describe("native device settings pages", () => {
   it("switches Gateway hosting only when available and follows the native owner's result", async () => {
     const native = createCapability();
     const page = await mount("openclaw-device-page", native.capability);
-    const title = "Keep FRIDAY running when the app is closed";
+    const title = "Keep OpenClaw running when the app is closed";
     const hosting = row(page, title);
     expect(hosting.previousElementSibling).toBe(row(page, "Launch at login"));
     expect(hosting.textContent).toContain(
-      "Runs the Gateway as a background service so channels and automations keep working after you quit FRIDAY.",
+      "Runs the Gateway as a background service so channels and automations keep working after you quit OpenClaw.",
     );
     expect(hosting.querySelector<HTMLInputElement>("input.settings-toggle__input")!.checked).toBe(
       false,
@@ -321,7 +321,7 @@ describe("native device settings pages", () => {
     "shows an app-only state without a bridge and waits for the initial snapshot on %s",
     async (tag) => {
       const browserPage = await mount(tag, null);
-      expect(browserPage.textContent).toContain("only available inside the FRIDAY app");
+      expect(browserPage.textContent).toContain("only available inside the OpenClaw app");
       expect(browserPage.querySelector("input.settings-toggle__input")).toBeNull();
       const { capability } = createCapability(null);
       const waitingPage = await mount(tag, capability);

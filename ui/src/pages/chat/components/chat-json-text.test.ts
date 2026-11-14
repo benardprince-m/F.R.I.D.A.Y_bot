@@ -224,7 +224,7 @@ function renderJsonMessageGroup(
     options: {
       showReasoning: true,
       showToolCalls: true,
-      assistantName: "FRIDAY",
+      assistantName: "OpenClaw",
       assistantAvatar: null,
       ...opts,
     },

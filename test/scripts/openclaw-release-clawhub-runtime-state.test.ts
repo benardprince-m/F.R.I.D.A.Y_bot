@@ -1,4 +1,4 @@
-// FRIDAY release ClawHub runtime-state script tests cover its CLI-only parser.
+// OpenClaw release ClawHub runtime-state script tests cover its CLI-only parser.
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";

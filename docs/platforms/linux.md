@@ -10,21 +10,21 @@ title: "Linux app"
 
 The Gateway is fully supported on Linux. Node is the primary, default, and
 recommended runtime; Bun 1.4.3+ builds with WAL-reset-safe `node:sqlite` can run
-FRIDAY as an explicit opt-in. Use `pnpm` rather than Bun for dependency
+OpenClaw as an explicit opt-in. Use `pnpm` rather than Bun for dependency
 installation.
 
 ## Desktop companion
 
-The FRIDAY Linux companion is a Tauri desktop app for local and remote
+The OpenClaw Linux companion is a Tauri desktop app for local and remote
 Gateways. On Windows, the native [Windows Hub](/platforms/windows#recommended-windows-hub)
 is recommended; this cross-platform [Tauri app](/platforms/windows#backup-tauri-desktop-app)
-is the backup, available in regular FRIDAY releases with bundled Bun for a local
+is the backup, available in regular OpenClaw releases with bundled Bun for a local
 Windows Gateway. On Linux, it:
 
 - automatically sets up a local Gateway for fresh installs, with manual local,
   discovered remote, direct URL, and SSH choices available if setup fails
-- installs the FRIDAY CLI and runs fresh local installations on the bundled
-  FRIDAY Bun fork, without requiring a global CLI install; release builds
+- installs the OpenClaw CLI and runs fresh local installations on the bundled
+  OpenClaw Bun fork, without requiring a global CLI install; release builds
   install their matching stable version, while development builds use
   Development for automatic setup
 - attaches to a healthy Gateway before attempting service changes
@@ -43,7 +43,7 @@ The window controls share the dashboard's top row. Drag empty header space or a
 session title to move the window, and double-click to maximize or restore it.
 The thin strip below the top resize edge also moves the window. Minimize,
 maximize/restore, and close sit at the top right; the window edges remain
-resizable. Closing the main window leaves FRIDAY available in the system tray.
+resizable. Closing the main window leaves OpenClaw available in the system tray.
 When connecting to an older Gateway whose dashboard does not support this layout,
 the companion keeps the system title bar. Update the Gateway to enable the unified
 window controls.
@@ -149,14 +149,14 @@ When a saved Gateway fails to load, the same window returns to its local
 connection editor. Correcting the endpoint updates the remembered selection only
 after the new dashboard loads successfully.
 
-The macOS Tauri build is named **FRIDAY-Tauri** and keeps its saved connections
-separate from the native **FRIDAY** app.
+The macOS Tauri build is named **OpenClaw-Tauri** and keeps its saved connections
+separate from the native **OpenClaw** app.
 
 <a id="adopt-the-bundled-runtime" />
 
 ### Use the bundled runtime
 
-On Linux, fresh local setup installs the Gateway on the bundled FRIDAY Bun
+On Linux, fresh local setup installs the Gateway on the bundled OpenClaw Bun
 fork through the standard CLI. The install guard requires the service to still
 be absent. A service that appears during setup blocks that installation. The app's
 runtime marker is informational and never authorizes automatic service changes.
@@ -198,7 +198,7 @@ enabled; an existing `desktop.host.enabled: false` stays off until you explicitl
 enable it in the app. Your choice persists across app restarts and is independent
 of **Keep computer awake**.
 
-Sharing requires a local FRIDAY CLI, including when your Gateway is remote,
+Sharing requires a local OpenClaw CLI, including when your Gateway is remote,
 and an authenticated local VNC server. On macOS, enable **Screen Sharing** in
 System Settings. Approve the computer's desktop capability on the Primary Gateway
 when requested, then open its desktop from **Systems**. See
@@ -213,7 +213,7 @@ desktop connection. Closing the window to the tray keeps sharing active.
 
 ### First-run setup
 
-With no saved FRIDAY configuration or Gateway profiles, the app starts local
+With no saved OpenClaw configuration or Gateway profiles, the app starts local
 setup automatically and opens custodian onboarding in the Control UI. The
 custodian prepares available AI access and explains the selection and alternatives.
 **Use a different Gateway** opens Manage Gateways, **Review permissions** opens
@@ -269,7 +269,7 @@ started can be retried immediately.
 Model Setup can resume an activation across a Gateway restart or app reopen
 while its temporary recovery record is valid. Recovery stays bound to the same
 Gateway, agent, and authentication. When the known activation target still
-matches the selected model, FRIDAY verifies that exact model before continuing
+matches the selected model, OpenClaw verifies that exact model before continuing
 guided onboarding rather than activating the provider again. For an unresolved
 result, use **Verify & use selected model** to explicitly verify and adopt a
 displayed model, or wait for the setup attempt's bounded window to end before
@@ -298,7 +298,7 @@ variables are not copied into the service.
 Choose **Keep computer awake** in the native tray menu to prevent idle sleep
 while the desktop companion is running, including when its windows are closed.
 The setting is off by default and remembers your choice across app restarts.
-Turning it off or quitting FRIDAY releases the keep-awake request. It does not
+Turning it off or quitting OpenClaw releases the keep-awake request. It does not
 change your permanent power settings or unlock the computer. If the operating
 system cannot honor a saved request, the menu marks the checked preference
 **inactive** and reports the error. You can still uncheck it to turn the saved
@@ -318,9 +318,9 @@ normally.
 Stable releases built from `main` or their matching `release/YYYY.M.PATCH` branch
 ship `.deb` and AppImage bundles as assets on the
 [GitHub release](https://github.com/openclaw/openclaw/releases) for the tag,
-named `FRIDAY-<version>-amd64.deb` and `FRIDAY-<version>-amd64.AppImage`,
+named `OpenClaw-<version>-amd64.deb` and `OpenClaw-<version>-amd64.AppImage`,
 with a `SHA256SUMS.linux-app.txt` checksum file next to them. Download the
-`.deb` and install it with `sudo apt install ./FRIDAY-<version>-amd64.deb`,
+`.deb` and install it with `sudo apt install ./OpenClaw-<version>-amd64.deb`,
 or mark the AppImage executable and run it directly. The AppImage runtime
 needs FUSE 2 (`sudo apt install libfuse2`, or `libfuse2t64` on Ubuntu 24.04+);
 without it, run the AppImage with `APPIMAGE_EXTRACT_AND_RUN=1`.
@@ -543,7 +543,7 @@ path; systemd ignores relative paths. Write `%%` for a literal percent sign.
 `EnvironmentFile=` also accepts glob patterns, so escape literal glob characters
 with a backslash. Managed working-directory paths must not end in spaces or
 tabs: systemd 255 loses that trailing whitespace when starting the process.
-FRIDAY rejects those paths rather than risk using a different directory;
+OpenClaw rejects those paths rather than risk using a different directory;
 choose a path without trailing whitespace.
 
 Write a unit by hand only for a custom setup. Minimal user-unit example
@@ -551,7 +551,7 @@ Write a unit by hand only for a custom setup. Minimal user-unit example
 
 ```ini
 [Unit]
-Description=FRIDAY Gateway (profile: <profile>)
+Description=OpenClaw Gateway (profile: <profile>)
 After=network-online.target
 Wants=network-online.target
 StartLimitBurst=10
@@ -586,10 +586,10 @@ systemctl --user enable --now openclaw-gateway[-<profile>].service
 
 On Linux, the kernel picks an OOM victim when a host, VM, or container cgroup
 runs out of memory. The Gateway is a poor victim because it owns long-lived
-sessions and channel connections, so FRIDAY biases transient child
+sessions and channel connections, so OpenClaw biases transient child
 processes to be killed first when possible.
 
-For eligible Linux child spawns, FRIDAY wraps the command in a short
+For eligible Linux child spawns, OpenClaw wraps the command in a short
 `/bin/sh` shim that attempts to raise the child's own `oom_score_adj` to
 `1000`, then `exec`s the real command. This is unprivileged: a process may
 always raise its own OOM score.
@@ -606,7 +606,7 @@ Covered child process surfaces:
 - PTY shell children
 - MCP stdio server children
 - Managed local model and embedding service children
-- FRIDAY-launched browser/Chrome processes (via the plugin SDK process runtime)
+- OpenClaw-launched browser/Chrome processes (via the plugin SDK process runtime)
 
 Sandbox backend transports keep their prepared environment and inherited OOM
 score instead of receiving this wrapper. Workload resource policy belongs to
@@ -623,7 +623,7 @@ Managed local model and embedding services fall back to direct spawn when their
 effective environment defines `SHELLOPTS`, `BASHOPTS`, a `BASH_FUNC_*` key, or
 a reserved `OC_INTERNAL_OOM_EXEC_{BASH_ENV,ENV,CDPATH,PS4}` carrier. Exact
 environment fidelity and shell startup safety take precedence in these cases,
-so FRIDAY does not attempt to change `oom_score_adj`; use the verification
+so OpenClaw does not attempt to change `oom_score_adj`; use the verification
 below to check the child's effective value.
 
 Verify a child process:

@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawProtocol
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawKit
 
 @Suite(.testWaitLimit)

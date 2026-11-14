@@ -1,6 +1,6 @@
 # Glass Surfaces
 
-FRIDAY uses two glass tiers to establish visual hierarchy. **Never use flat, fully-opaque backgrounds** in the main chrome — glass creates the lived-in depth that defines the visual language.
+OpenClaw uses two glass tiers to establish visual hierarchy. **Never use flat, fully-opaque backgrounds** in the main chrome — glass creates the lived-in depth that defines the visual language.
 
 ---
 

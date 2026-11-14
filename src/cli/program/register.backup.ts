@@ -239,7 +239,7 @@ function registerBackupGitCommands(backup: Command): void {
       "Back up shared state, every configured agent, and discovered PostgreSQL stores",
       false,
     )
-    .option("--global", "Back up the shared FRIDAY state database", false)
+    .option("--global", "Back up the shared OpenClaw state database", false)
     .option("--agent <id>", "Back up an agent database (repeatable)", collectOption, [])
     .option("--push", "Push the current branch to origin", false)
     .option("--exclude-secrets", "Omit credential-bearing database tables", false)
@@ -316,8 +316,8 @@ function registerBackupSqliteCommands(backup: Command): void {
         async () => (await import("../../commands/backup-sqlite.js")).backupSqliteCreateCommand,
       ),
     )
-    .option("--global", "Snapshot the shared FRIDAY state database", false)
-    .option("--agent <id>", "Snapshot one per-agent FRIDAY database")
+    .option("--global", "Snapshot the shared OpenClaw state database", false)
+    .option("--agent <id>", "Snapshot one per-agent OpenClaw database")
     .requiredOption("--repository <path>", "Snapshot repository directory")
     .option("--json", "Output JSON", false)
     .addHelpText(

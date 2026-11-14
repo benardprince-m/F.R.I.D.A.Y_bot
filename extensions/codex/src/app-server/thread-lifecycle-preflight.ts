@@ -92,7 +92,7 @@ function assertCodexThreadInferenceAuthority(
   const host = params.params.hostCapabilities;
   const unavailable = () =>
     new AgentHarnessPreflightError(
-      "This Codex connection cannot enforce your operator role's model policy. Use an FRIDAY-managed connection with an owned inference route; no turn was sent.",
+      "This Codex connection cannot enforce your operator role's model policy. Use an OpenClaw-managed connection with an owned inference route; no turn was sent.",
     );
   if (!host.retainSourceAuthority) {
     throw unavailable();

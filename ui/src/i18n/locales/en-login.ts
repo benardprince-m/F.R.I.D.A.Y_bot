@@ -5,7 +5,7 @@ import { en } from "./en.ts";
 const enLogin = {
   login: {
     unsupportedBrowser: {
-      title: "Update your browser to use FRIDAY",
+      title: "Update your browser to use OpenClaw",
       description:
         "This browser is missing features the Control UI needs to display menus and dialogs.",
       apple: "Use macOS 26.2 or iOS 26.2 or later, with Safari 26.2 or later.",
@@ -15,13 +15,13 @@ const enLogin = {
       opened: "Opened in your default browser.",
       failed: "Could not open your browser. Copy this page’s address into an up-to-date browser.",
     },
-    heading: "Connect to FRIDAY",
+    heading: "Connect to OpenClaw",
     lede: "Enter the Gateway URL and secret, or open the one-time link that openclaw dashboard prints on the Gateway host.",
     gatewayUrl: "Gateway URL",
     gatewaySettings: "Gateway settings",
     secret: "Gateway secret",
     setupCodeHint:
-      "This is a device setup code for the FRIDAY mobile app, not the Gateway secret. Paste it in the app's Gateway settings instead; the Gateway secret comes from openclaw gateway auth-token --show on the Gateway host.",
+      "This is a device setup code for the OpenClaw mobile app, not the Gateway secret. Paste it in the app's Gateway settings instead; the Gateway secret comes from openclaw gateway auth-token --show on the Gateway host.",
     secretPlaceholder: "Paste the token or type the password",
     runOnHost: "Run on the Gateway host",
     connection: {
@@ -44,9 +44,10 @@ const enLogin = {
       },
       profileUnavailable: {
         title: "Couldn't verify your account",
-        summary: "FRIDAY couldn't check your account right now. Please try again shortly.",
+        summary: "OpenClaw couldn't check your account right now. Please try again shortly.",
         stepRetry: "Retry shortly.",
-        stepAdmin: "If this continues, ask the person who manages FRIDAY to check account access.",
+        stepAdmin:
+          "If this continues, ask the person who manages OpenClaw to check account access.",
       },
       verifiedUserRequired: {
         title: "Verified identity required",
@@ -163,7 +164,8 @@ const enLogin = {
           "Reopen the served dashboard with openclaw dashboard so the UI and Gateway come from the same install.",
         stepDevUi:
           "If using pnpm ui:dev, rebuild or restart the dev UI against the current checkout.",
-        stepRestart: "Restart the Gateway after updating FRIDAY so it serves the current protocol.",
+        stepRestart:
+          "Restart the Gateway after updating OpenClaw so it serves the current protocol.",
       },
       network: {
         title: "Gateway unreachable",

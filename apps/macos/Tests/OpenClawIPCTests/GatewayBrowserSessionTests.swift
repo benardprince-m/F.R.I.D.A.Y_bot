@@ -3,7 +3,7 @@ import Foundation
 import OpenClawChatUI
 import Testing
 import WebKit
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawKit
 
 func gatewayBrowserSessionFixture(

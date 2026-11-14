@@ -19,7 +19,7 @@ examples, and provider-neutral plugin API.
 
 ## Setup
 
-This adapter requires the prepared decision-provider V2 API. Released FRIDAY
+This adapter requires the prepared decision-provider V2 API. Released OpenClaw
 `2026.10.4` exposes V1 only. Use a matching source checkout until a supporting
 paired host/plugin release is available. The normal release process aligns
 plugin API and build versions with the host; the older installation floor alone
@@ -28,7 +28,7 @@ package and is not bundled into core.
 
 ### Current development checkout
 
-Until a supporting release is available, use an FRIDAY source checkout that
+Until a supporting release is available, use an OpenClaw source checkout that
 contains both the prepared decision-provider V2 API and `extensions/onnx`. Build that
 checkout with `pnpm install --frozen-lockfile` and `pnpm build`, then enable the
 plugin and select its model using the configuration below. Run commands from
@@ -100,7 +100,7 @@ The hosted presets use FP32 graphs. Model licenses and conversion sources are
 linked from the original [GLiClass](https://github.com/Knowledgator/GLiClass),
 [GLiNER2](https://github.com/fastino-ai/GLiNER2), and
 [DeBERTa model](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v2.0)
-pages. Downloaded weights remain separate from FRIDAY's package.
+pages. Downloaded weights remain separate from OpenClaw's package.
 
 For Instruct models, use the installed plugin's `dist/scripts/export-gliclass-instruct.py`
 helper with the pinned Python packages listed by `--help`. Supply a local copy of

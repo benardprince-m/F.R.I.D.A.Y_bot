@@ -118,7 +118,7 @@ export class BuzzDirectoryState {
     profileLimit?: number;
   }) {
     this.#publicKey = params.publicKey.trim().toLowerCase();
-    this.#fallbackProfileName = params.fallbackProfileName.trim() || "FRIDAY";
+    this.#fallbackProfileName = params.fallbackProfileName.trim() || "OpenClaw";
     this.#configuredRoomIds = new Set(params.channelIds.map(parseBuzzTarget));
     this.#profileLimit = params.profileLimit ?? DEFAULT_BUZZ_DIRECTORY_PROFILE_LIMIT;
     if (this.#profileLimit > 0) {

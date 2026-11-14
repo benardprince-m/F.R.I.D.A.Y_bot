@@ -253,22 +253,22 @@ describe("parallel web search provider", () => {
   });
   it("returns an error payload when search_queries is missing or empty", async () => {
     const tool = paidTool();
-    expect(await tool.execute({ objective: "Find FRIDAY on GitHub" })).toMatchObject({
+    expect(await tool.execute({ objective: "Find OpenClaw on GitHub" })).toMatchObject({
       error: "invalid_search_queries",
     });
     expect(
-      await tool.execute({ objective: "Find FRIDAY on GitHub", search_queries: [] }),
+      await tool.execute({ objective: "Find OpenClaw on GitHub", search_queries: [] }),
     ).toMatchObject({ error: "invalid_search_queries" });
     expect(endpointMockState.calls).toHaveLength(0);
   });
   it("promotes a generic `query` arg into search_queries when search_queries is absent (no synthesized objective)", async () => {
     enqueueJson();
-    const result = await paidTool().execute({ query: "FRIDAY GitHub", count: 3 });
+    const result = await paidTool().execute({ query: "OpenClaw GitHub", count: 3 });
     expect(endpointMockState.calls).toHaveLength(1);
     const body = readBody();
     expect(body).not.toHaveProperty("objective");
     expect(body).toMatchObject({
-      search_queries: ["FRIDAY GitHub"],
+      search_queries: ["OpenClaw GitHub"],
       advanced_settings: { max_results: 3 },
     });
     expect(result).not.toHaveProperty("objective");
@@ -285,7 +285,7 @@ describe("parallel web search provider", () => {
       maxResults: 3,
       timeoutSeconds: 5,
     }).execute({
-      objective: "Find the FRIDAY repository on GitHub",
+      objective: "Find the OpenClaw repository on GitHub",
       search_queries: ["openclaw github", "openclaw repository"],
     });
     expect(endpointMockState.calls).toHaveLength(1);
@@ -293,7 +293,7 @@ describe("parallel web search provider", () => {
     expect(call.url).toBe("https://api.parallel.ai/v1/search");
     expect(call.timeoutSeconds).toBe(5);
     expect(readBody(call)).toEqual({
-      objective: "Find the FRIDAY repository on GitHub",
+      objective: "Find the OpenClaw repository on GitHub",
       search_queries: ["openclaw github", "openclaw repository"],
       advanced_settings: { max_results: 3 },
     });

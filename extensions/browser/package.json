@@ -2,7 +2,7 @@
   "name": "@openclaw/browser-plugin",
   "version": "2026.10.4",
   "private": true,
-  "description": "FRIDAY browser tool plugin",
+  "description": "OpenClaw browser tool plugin",
   "type": "module",
   "dependencies": {
     "@modelcontextprotocol/client": "2.3.1",

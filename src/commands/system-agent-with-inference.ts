@@ -1,4 +1,4 @@
-// FRIDAY command gate: prove inference before starting conversational setup.
+// OpenClaw command gate: prove inference before starting conversational setup.
 
 import { requestExitAfterOneShotOutput } from "../cli/one-shot-exit.js";
 import { formatErrorMessage } from "../infra/errors.js";
@@ -41,7 +41,7 @@ function failOneShotExecution(
 }
 
 /**
- * Start FRIDAY only after the configured default model completes a real
+ * Start OpenClaw only after the configured default model completes a real
  * turn. Interactive failures return to inference onboarding; automation fails
  * closed with a stable command operators can run to repair the prerequisite.
  */
@@ -54,13 +54,13 @@ export async function runSystemAgentWithInference(
     failOneShotExecution(
       opts,
       runtime,
-      new Error("FRIDAY --yes requires --message so approval is limited to one request."),
+      new Error("OpenClaw --yes requires --message so approval is limited to one request."),
     );
     return;
   }
   const oneShot = isOneShotRequest(opts);
   if (!oneShot && !hasInteractiveTty(opts)) {
-    runtime.error("FRIDAY needs an interactive TTY. Use --message for one command.");
+    runtime.error("OpenClaw needs an interactive TTY. Use --message for one command.");
     runtime.exit(1);
     return;
   }
@@ -92,11 +92,13 @@ export async function runSystemAgentWithInference(
       writeRuntimeJson(runtime, {
         ok: false,
         status: inference.status,
-        error: `FRIDAY requires working inference: ${inference.error}`,
+        error: `OpenClaw requires working inference: ${inference.error}`,
         guidance,
       });
     } else {
-      runtime.error([`FRIDAY requires working inference: ${inference.error}`, guidance].join("\n"));
+      runtime.error(
+        [`OpenClaw requires working inference: ${inference.error}`, guidance].join("\n"),
+      );
     }
     if (!requestExitAfterOneShotOutput(runtime, 1)) {
       runtime.exit(1);
@@ -104,7 +106,7 @@ export async function runSystemAgentWithInference(
     return;
   }
 
-  runtime.log("FRIDAY requires working inference. Starting guided AI setup…");
+  runtime.log("OpenClaw requires working inference. Starting guided AI setup…");
   const { runGuidedOnboarding } = await import("./onboard-guided.js");
   await runGuidedOnboarding(onboardingOptions, runtime, { handoffMode: "chat" });
 }

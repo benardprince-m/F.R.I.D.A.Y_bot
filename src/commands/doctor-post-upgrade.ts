@@ -92,7 +92,7 @@ export async function runPostUpgradeProbes(params: {
       level: "warn",
       code: "plugin.version_drift",
       plugin: entry.pluginId,
-      message: `Plugin ${entry.pluginId} is ${entry.installedVersion}, but FRIDAY is ${VERSION}. ${repair}`,
+      message: `Plugin ${entry.pluginId} is ${entry.installedVersion}, but OpenClaw is ${VERSION}. ${repair}`,
     });
   }
 

@@ -373,7 +373,7 @@ final class DashboardManager {
                 auth: .unauthenticated,
                 tlsParams: nil,
                 mode: .unconfigured,
-                displayName: "FRIDAY"),
+                displayName: "OpenClaw"),
             target: .primary,
             present: false)
         replacement?.showFailure(
@@ -588,7 +588,7 @@ final class DashboardManager {
                 auth: .unauthenticated,
                 tlsParams: nil,
                 mode: .unconfigured,
-                displayName: "FRIDAY"),
+                displayName: "OpenClaw"),
             target: .primary,
             windowAutosaveName: self.mainWindowAutosaveName,
             auxiliary: false)

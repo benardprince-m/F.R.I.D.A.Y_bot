@@ -704,7 +704,7 @@ describe("candidate update admission", () => {
     {
       kind: "retired format",
       config: { heartbeat: { every: "private-invalid-value" } },
-      nextAction: /Install FRIDAY 2026\.9\.5[\s\S]*openclaw doctor --fix/,
+      nextAction: /Install OpenClaw 2026\.9\.5[\s\S]*openclaw doctor --fix/,
     },
   ])(
     "refuses $kind without repairing or quoting rejected config values",
@@ -823,7 +823,7 @@ module.exports = {
           {
             code: "invalid-config",
             message: expect.stringContaining("channels.whatsapp.exposeErrorText"),
-            nextAction: expect.stringContaining("Install FRIDAY 2026.9.5"),
+            nextAction: expect.stringContaining("Install OpenClaw 2026.9.5"),
           },
         ],
         facts: {

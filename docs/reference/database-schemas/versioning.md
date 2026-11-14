@@ -1,6 +1,6 @@
 ---
 doc-schema-version: 1
-summary: "How FRIDAY records schema versions, when a bump is required, and how updaters cross one"
+summary: "How OpenClaw records schema versions, when a bump is required, and how updaters cross one"
 read_when:
   - "Deciding whether a storage change needs a schema-version bump"
   - "Diagnosing a refused update or a newer schema version error"
@@ -19,9 +19,9 @@ catalog SQL and first-use table policy.
 Each database records its published schema in two places:
 
 - `PRAGMA user_version` is the SQLite schema version.
-- The primary `schema_meta` row records `role`, `agent_id`, `schema_version`, and `app_version`. `app_version` is the FRIDAY build that last wrote the schema metadata.
+- The primary `schema_meta` row records `role`, `agent_id`, `schema_version`, and `app_version`. `app_version` is the OpenClaw build that last wrote the schema metadata.
 
-FRIDAY applies forward-only migrations when it opens an older supported database. It refuses a database whose `user_version` is newer than the running build and reports a `newer schema version` error. The Gateway checks all registered databases before startup. [`openclaw update`](/cli/update) also refuses a package or source target whose declared schema support is older than an on-disk database. Known stable releases published before schema metadata was added are checked against their shipped schema-1 contract. Updates driven by the 2026.9.2 release line can temporarily defer publication of a shared-state schema version while the old updater finishes; see [Schema bumps and older updaters](#schema-bumps-and-older-updaters).
+OpenClaw applies forward-only migrations when it opens an older supported database. It refuses a database whose `user_version` is newer than the running build and reports a `newer schema version` error. The Gateway checks all registered databases before startup. [`openclaw update`](/cli/update) also refuses a package or source target whose declared schema support is older than an on-disk database. Known stable releases published before schema metadata was added are checked against their shipped schema-1 contract. Updates driven by the 2026.9.2 release line can temporarily defer publication of a shared-state schema version while the old updater finishes; see [Schema bumps and older updaters](#schema-bumps-and-older-updaters).
 
 Native clients make a narrow exception for their local `device_identities` and
 `device_auth_tokens` tables. Connecting to a remote Gateway must not depend on
@@ -172,7 +172,7 @@ certificate as an older proof. Existing rows are not backfilled or reinterpreted
 The companion row is pruned with its launch under the same retention policy; the
 schema version is unchanged.
 
-Matching numeric versions are necessary but not sufficient. A release can add a lazy or startup-repairable table, column, index, or trigger without advancing `user_version`, so two databases at the same version can still have different shapes. FRIDAY validates the required table definitions, constraints, indexes, triggers, virtual tables, and table options owned by the running release.
+Matching numeric versions are necessary but not sufficient. A release can add a lazy or startup-repairable table, column, index, or trigger without advancing `user_version`, so two databases at the same version can still have different shapes. OpenClaw validates the required table definitions, constraints, indexes, triggers, virtual tables, and table options owned by the running release.
 
 The per-agent companion table `session_reactions` stores message reaction rows
 at the same schema version. The shared database-open additive schema installs it on
@@ -611,7 +611,7 @@ current subscription still has that binding. The table is lazily created on
 first use, rows cascade away with their approval or subscription, and older
 readers ignore it safely.
 
-Installing FRIDAY manually through npm bypasses the updater guard. Database open checks still refuse an incompatible build.
+Installing OpenClaw manually through npm bypasses the updater guard. Database open checks still refuse an incompatible build.
 
 Structured [Goal controls](/tools/goal#gateway-requests-and-retries) use a lazy
 per-agent `session_goal_operations` table without changing the schema version.
@@ -636,7 +636,7 @@ cannot make a downgrade and re-upgrade safe.
 
 ### Schema bumps and older updaters
 
-FRIDAY 2026.9.2 introduced the update ledger but reopens it with old code after
+OpenClaw 2026.9.2 introduced the update ledger but reopens it with old code after
 running the target's Doctor, including a final read after recording its terminal
 outcome. The shared state database runner lets this updater finish by applying
 migration content first and publishing the new schema version later. This rule

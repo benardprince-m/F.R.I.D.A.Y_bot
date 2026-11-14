@@ -2,7 +2,7 @@
 doc-schema-version: 1
 summary: "Session goals: durable per-session objectives, /goal controls, model goal tools, token budgets, and TUI status"
 read_when:
-  - You want FRIDAY to keep one objective visible across a long session
+  - You want OpenClaw to keep one objective visible across a long session
   - You need to pause, resume, block, complete, or clear a session goal
   - You want to understand the get_goal, create_goal, and update_goal tools
   - You want to use the Goal composer in the Control UI or see goals in the TUI
@@ -11,9 +11,9 @@ title: "Goal"
 
 <a id="goal" />
 
-A **goal** is one durable objective attached to the current FRIDAY session.
+A **goal** is one durable objective attached to the current OpenClaw session.
 It gives the agent and the operator a shared target for long-running work.
-In built-in chat runs, FRIDAY continues pursuing an active goal after a normal
+In built-in chat runs, OpenClaw continues pursuing an active goal after a normal
 turn finishes, even when the model ends with a final reply instead of calling
 another tool. A goal is not a reminder, cron job, or standing order.
 
@@ -38,7 +38,7 @@ a separate sandbox policy session.
 ```
 
 `start` is optional: `/goal get CI green for PR 87469` also creates a goal,
-FRIDAY treats any text after `/goal` that is not a known action word as a
+OpenClaw treats any text after `/goal` that is not a known action word as a
 new objective.
 
 Explicit actions such as `start` and `edit` preserve line breaks, indentation,
@@ -126,7 +126,7 @@ start fresh session context.
 Goals can have an optional positive token budget, set through the
 `create_goal` tool's `token_budget` parameter. The budget is measured from the
 session's fresh token count at goal-creation time. If the session only has a
-stale or unknown token snapshot when the goal starts, FRIDAY waits for the
+stale or unknown token snapshot when the goal starts, OpenClaw waits for the
 next fresh snapshot and uses that as the baseline, so tokens spent before the
 goal existed are not charged to it.
 
@@ -141,11 +141,11 @@ count.
 
 Token budgets are a session-goal guardrail, not a billing cap. Provider
 quota, cost reporting, and context-window behavior still use the normal
-FRIDAY usage and model controls.
+OpenClaw usage and model controls.
 
 ## Model tools
 
-FRIDAY exposes three goal tools to agent harnesses:
+OpenClaw exposes three goal tools to agent harnesses:
 
 | Tool          | Purpose                                                                                                                  |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
@@ -176,13 +176,13 @@ Every user/chat turn with an active goal includes this user-role context line:
 Active goal: <objective> — advance; keep active until fully achieved; block only after the same blocker on 3 consecutive turns; after update_goal, provide the requested visible final.
 ```
 
-FRIDAY keeps the line compact by truncating long objectives. Paused,
+OpenClaw keeps the line compact by truncating long objectives. Paused,
 blocked, budget-limited, usage-limited, and complete goals are not injected,
 so an operator stop remains in effect until the goal is resumed.
 
 ## Automatic continuation
 
-After a built-in chat or auto-reply turn finishes normally, FRIDAY checks the
+After a built-in chat or auto-reply turn finishes normally, OpenClaw checks the
 current goal and its token usage. If the same goal is still active, it queues a
 hidden internal nudge: **Advance the active goal; keep it active until fully
 achieved.** Each successfully settled continuation makes the same check; this
@@ -226,7 +226,7 @@ the objective as a normal chat draft. Complete pasted commands such as
 Starting a Goal saves the Goal, its user turn, and the run admission together
 before acknowledging Send. A failed admission leaves the draft intact and
 does not create a Goal. A failed older chat send stays separate from a newly opened
-Goal draft instead of filling its empty objective. Start and Resume require the built-in FRIDAY runtime
+Goal draft instead of filling its empty objective. Start and Resume require the built-in OpenClaw runtime
 and an idle local session with recoverable history. They are unavailable for
 native Codex and other external runtimes, and are not queued or steered into
 another run. The UI reports unsupported or busy sessions rather than creating
@@ -336,7 +336,7 @@ note, token budget, and available commands.
 
 ## Channel behavior
 
-`/goal` works in command-capable FRIDAY sessions, including the TUI and
+`/goal` works in command-capable OpenClaw sessions, including the TUI and
 chat surfaces that permit text commands. Goal state attaches to the
 session key, not the transport, so two surfaces sharing a session key see the
 same goal.
@@ -355,7 +355,7 @@ a cron schedule or bypass an existing continuation owner.
 | `Goal error: goal is already complete` | The goal must be explicitly resumed before editing, pausing, or blocking it. Clear it to start a different objective.                        |
 
 If token usage shows `0` or looks stale, the active session may not have a
-fresh token snapshot yet. Usage refreshes as FRIDAY records session usage
+fresh token snapshot yet. Usage refreshes as OpenClaw records session usage
 and transcript-derived totals.
 
 ## Related

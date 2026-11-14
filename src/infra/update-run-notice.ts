@@ -3,17 +3,17 @@ import type { UpdateRunRecord } from "./update-run-record.js";
 export type UpdateRunNoticeKind = "ack" | "parking" | "activating" | "verifying" | "finished";
 
 const UPDATE_RUN_HEADLINES = new Map<UpdateRunRecord["status"], string>([
-  ["succeeded", "✅ FRIDAY updated."],
-  ["failed", "⚠️ FRIDAY couldn't finish updating."],
-  ["rolled-back", "↩️ The update couldn't finish. FRIDAY returned to the previous version."],
-  ["running", "⬆️ FRIDAY is updating."],
+  ["succeeded", "✅ OpenClaw updated."],
+  ["failed", "⚠️ OpenClaw couldn't finish updating."],
+  ["rolled-back", "↩️ The update couldn't finish. OpenClaw returned to the previous version."],
+  ["running", "⬆️ OpenClaw is updating."],
 ]);
 
 const SKIPPED_UPDATE_RUN_HEADLINES = new Map<string | null, string>([
-  ["already-current", "✅ FRIDAY is already up to date."],
-  ["still-starting", "⏳ FRIDAY is installed and still starting."],
-  ["gateway-readiness-unverified", "⚠️ FRIDAY is installed, but we couldn't confirm it's ready."],
-  ["managed-service-handoff-already-running", "⬆️ FRIDAY is already updating."],
+  ["already-current", "✅ OpenClaw is already up to date."],
+  ["still-starting", "⏳ OpenClaw is installed and still starting."],
+  ["gateway-readiness-unverified", "⚠️ OpenClaw is installed, but we couldn't confirm it's ready."],
+  ["managed-service-handoff-already-running", "⬆️ OpenClaw is already updating."],
 ]);
 
 /** Chat shows the outcome; the update views keep diagnostics and recovery instructions. */
@@ -24,7 +24,7 @@ export function renderUpdateRunSummary(
   const headline =
     run.status !== "skipped"
       ? UPDATE_RUN_HEADLINES.get(run.status)
-      : (SKIPPED_UPDATE_RUN_HEADLINES.get(run.reason) ?? "ℹ️ FRIDAY wasn't updated.");
+      : (SKIPPED_UPDATE_RUN_HEADLINES.get(run.reason) ?? "ℹ️ OpenClaw wasn't updated.");
   const nextStep = options.manualCommand
     ? `Open Settings → Updates in the Control UI for details. To continue, run \`${options.manualCommand}\` in your terminal.`
     : "For details, open Settings → Updates in the Control UI or run `openclaw update status` in your terminal.";
@@ -45,10 +45,10 @@ export function renderUpdateRunNotice(
     return null;
   }
   if (kind === "ack") {
-    return "⬆️ Updating FRIDAY… You'll get a message here when it's done.";
+    return "⬆️ Updating OpenClaw… You'll get a message here when it's done.";
   }
   if (kind === "activating" || kind === "parking") {
-    return "⏳ Restarting FRIDAY…";
+    return "⏳ Restarting OpenClaw…";
   }
-  return "🔁 Checking that FRIDAY is ready…";
+  return "🔁 Checking that OpenClaw is ready…";
 }

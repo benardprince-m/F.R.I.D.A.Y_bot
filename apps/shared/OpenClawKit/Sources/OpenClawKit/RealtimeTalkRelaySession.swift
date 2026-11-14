@@ -923,8 +923,8 @@ extension RealtimeTalkRelaySession {
                     stream: completionStream)
                 try await self.ensureCurrentLifecycle(lifecycleGeneration)
                 result = completion.failed
-                    ? ["error": AnyCodable("FRIDAY tool call failed")]
-                    : ["text": AnyCodable(completion.text ?? "FRIDAY finished with no text.")]
+                    ? ["error": AnyCodable("OpenClaw tool call failed")]
+                    : ["text": AnyCodable(completion.text ?? "OpenClaw finished with no text.")]
             }
             try await self.submitToolResult(
                 callId: callId,

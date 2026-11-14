@@ -1,9 +1,9 @@
 ---
-summary: "Schema-accurate configuration examples for common FRIDAY setups"
+summary: "Schema-accurate configuration examples for common OpenClaw setups"
 read_when:
-  - Learning how to configure FRIDAY
+  - Learning how to configure OpenClaw
   - Looking for configuration examples
-  - Setting up FRIDAY for the first time
+  - Setting up OpenClaw for the first time
 title: "Configuration examples"
 ---
 

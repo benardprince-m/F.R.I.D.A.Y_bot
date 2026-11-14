@@ -27,7 +27,7 @@ const REPOSITORY = "openclaw/openclaw";
 const PARENT_WORKFLOW = ".github/workflows/openclaw-release-publish.yml";
 const CHILD_WORKFLOW = ".github/workflows/plugin-clawhub-release.yml";
 const MAX_RECEIPT_BYTES = 64 * 1024;
-const DISPATCH_JOBS = new Set(["Publish plugins, then FRIDAY", "record_docker_only_scope"]);
+const DISPATCH_JOBS = new Set(["Publish plugins, then OpenClaw", "record_docker_only_scope"]);
 const DISPATCH_UPLOAD_STEP = "Upload exact release child dispatch record";
 const MAX_DISPATCH_RECORDS = 32;
 
@@ -194,7 +194,7 @@ async function downloadArtifact(artifact, run, context, maxArchiveBytes, produce
                 consumerRunAttempt: structuredProducer?.consumerRunAttempt ?? run.run_attempt,
               }
             : {}),
-          producerJobName: structuredProducer?.jobName ?? "Publish plugins, then FRIDAY",
+          producerJobName: structuredProducer?.jobName ?? "Publish plugins, then OpenClaw",
           ...(producerStepName ? { producerStepName } : {}),
         }
       : {}),

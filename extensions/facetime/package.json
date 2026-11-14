@@ -1,9 +1,9 @@
 {
   "name": "@openclaw/facetime",
   "version": "2026.10.4",
-  "description": "Experimental FaceTime realtime voice carrier for FRIDAY agents",
+  "description": "Experimental FaceTime realtime voice carrier for OpenClaw agents",
   "license": "MIT",
-  "author": "FRIDAY contributors",
+  "author": "OpenClaw contributors",
   "homepage": "https://docs.openclaw.ai/plugins/facetime",
   "bugs": {
     "url": "https://github.com/openclaw/openclaw/issues"

@@ -558,7 +558,7 @@ describe("Codex app inventory across physical process restart", () => {
         destructiveApprovalMode: "ask",
       });
       // A native client can add a higher-precedence link reviewer without changing
-      // the FRIDAY policy fingerprint or invalidating its cached app inventory.
+      // the OpenClaw policy fingerprint or invalidating its cached app inventory.
       f.nativeLinkPolicy.approvals_reviewer = "auto_review";
       if (lifecycle === "warm") {
         f.process.reloadUserConfig();

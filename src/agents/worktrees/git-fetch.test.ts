@@ -52,7 +52,7 @@ beforeEach(async () => {
   source = path.join(root, "source");
   clone = path.join(root, "clone");
   await git(root, ["init", "-b", "main", source]);
-  await config(source, "user.name", "FRIDAY Test");
+  await config(source, "user.name", "OpenClaw Test");
   await config(source, "user.email", "test@example.invalid");
   await config(source, "commit.gpgSign", "false");
   await config(source, "uploadpack.allowFilter", "true");

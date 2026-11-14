@@ -146,7 +146,7 @@ describe("DiscordMessageListener", () => {
 describe("discord allowlist helpers", () => {
   it("matches ids by default and names only when enabled", () => {
     const allow = expectNormalizedAllowList(
-      ["123", "steipete", "Friends of FRIDAY"],
+      ["123", "steipete", "Friends of OpenClaw"],
       ["discord:", "user:", "guild:", "channel:"],
     );
     expect(allowListMatches(allow, { id: "123" }, { allowNameMatching: false })).toBe(true);
@@ -252,7 +252,7 @@ it("discord groupPolicy gating: applies open/disabled/allowlist policy rules", (
 
 it("discord group DM gating: matches group DM allowlist", () => {
   for (const [channelName, channelSlug, allowed] of [
-    ["FRIDAY DM", "openclaw-dm", true],
+    ["OpenClaw DM", "openclaw-dm", true],
     ["Other", "other", false],
   ] as const) {
     expect(

@@ -114,6 +114,6 @@ describe("Codex remote workspace paths", () => {
         localWorkspaceRoot,
         remoteWorkspaceRoot,
       }),
-    ).toThrow("outside FRIDAY workspace root");
+    ).toThrow("outside OpenClaw workspace root");
   });
 });

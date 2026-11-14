@@ -2,7 +2,7 @@
 summary: "Shared-state compaction plus targeted session SQLite inspection, import, and recovery"
 title: "SQLite maintenance and session migration"
 read_when:
-  - You are compacting or verifying an FRIDAY SQLite database
+  - You are compacting or verifying an OpenClaw SQLite database
   - You are importing, validating, or recovering legacy session history
 ---
 
@@ -11,7 +11,7 @@ shared-state compaction and the targeted session SQLite modes.
 
 SQLite keeps pages freed by deletes available for reuse inside the database file.
 Older databases created with `auto_vacuum=NONE` cannot release those pages through
-FRIDAY's routine incremental reclamation. A plain `VACUUM` shrinks the file once
+OpenClaw's routine incremental reclamation. A plain `VACUUM` shrinks the file once
 but leaves that mode unchanged. Use the matching Doctor `compact` command below
 with the Gateway stopped: it also enables `auto_vacuum=INCREMENTAL`, so routine
 maintenance can reclaim pages from later deletes. Compaction preserves retained
@@ -73,7 +73,7 @@ The command:
    database is reported as `skipped` and exits successfully.
 2. Validates the current supported schema version and
    `schema_meta.role = "global"` before checkpointing or changing the file.
-3. Requires a non-busy `wal_checkpoint(TRUNCATE)`. Stop any remaining FRIDAY
+3. Requires a non-busy `wal_checkpoint(TRUNCATE)`. Stop any remaining OpenClaw
    process and retry if the checkpoint is busy.
 4. Sets `auto_vacuum` to `INCREMENTAL`, runs a full `VACUUM`, and checkpoints
    again.
@@ -86,9 +86,9 @@ JSON output reports the database and WAL sizes, freelist pages, page size, and
 `0` for none, `1` for full, and `2` for incremental.
 
 Compaction fails without mutation when the schema is old, newer than the
-running FRIDAY build, or belongs to an agent database. Run
+running OpenClaw build, or belongs to an agent database. Run
 `openclaw doctor --fix` first for an older shared-state schema. Restore a
-compatible backup or upgrade FRIDAY for a newer schema.
+compatible backup or upgrade OpenClaw for a newer schema.
 
 ## Session SQLite migration
 
@@ -326,7 +326,7 @@ copy and a rewritten intermediate file.
 
 For large histories, plan space for the original JSON/JSONL files, the temporary
 SQLite spool, and the destination database and WAL at the same time. Keep free
-space on both the system temporary volume and the volume holding FRIDAY state;
+space on both the system temporary volume and the volume holding OpenClaw state;
 the resulting SQLite database can be larger than the original JSONL. Streaming
 reduces whole-history memory pressure, but individual records are still parsed
 in memory and SQLite also uses native memory. Do not size a host from the JSONL

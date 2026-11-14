@@ -144,7 +144,7 @@ describe("release preparation", () => {
     try {
       git(["init", "-q"]);
       git(["config", "user.email", "release-test@openclaw.invalid"]);
-      git(["config", "user.name", "FRIDAY Release Test"]);
+      git(["config", "user.name", "OpenClaw Release Test"]);
       writeFileSync(path.join(rootDir, "package.json"), '{"version":"2026.7.2"}\n');
       writeFileSync(path.join(rootDir, "generated.txt"), `${"a".repeat(33 * 1024 * 1024)}\n`);
       git(["add", "."]);

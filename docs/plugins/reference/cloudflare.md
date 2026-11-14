@@ -1,5 +1,5 @@
 ---
-summary: "Cloudflare R2 storage for named FRIDAY storage locations."
+summary: "Cloudflare R2 storage for named OpenClaw storage locations."
 read_when:
   - You are installing, configuring, or auditing the cloudflare plugin
 title: "Cloudflare plugin reference"
@@ -10,12 +10,12 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Cloudflare R2 storage for named FRIDAY storage locations.
+Cloudflare R2 storage for named OpenClaw storage locations.
 
 ## Distribution
 
 - Package: `@openclaw/cloudflare`
-- Install route: included in FRIDAY, and also from npm or ClawHub: `@openclaw/cloudflare`
+- Install route: included in OpenClaw, and also from npm or ClawHub: `@openclaw/cloudflare`
 
 ## Surface
 

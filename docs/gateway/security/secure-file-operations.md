@@ -1,19 +1,19 @@
 ---
-summary: "How FRIDAY handles local file access safely, including native Windows credential checks"
+summary: "How OpenClaw handles local file access safely, including native Windows credential checks"
 read_when:
   - Changing file access, archive extraction, workspace storage, or plugin filesystem helpers
 title: "Secure file operations"
 ---
 
-FRIDAY uses [`@openclaw/fs-safe`](https://github.com/openclaw/fs-safe) for security-sensitive local file operations: root-bounded reads/writes, atomic replacement, archive extraction, temp workspaces, JSON state, and secret-file handling.
+OpenClaw uses [`@openclaw/fs-safe`](https://github.com/openclaw/fs-safe) for security-sensitive local file operations: root-bounded reads/writes, atomic replacement, archive extraction, temp workspaces, JSON state, and secret-file handling.
 
-It is a **library guardrail** for trusted FRIDAY code that receives untrusted path names, not a sandbox. Host filesystem permissions, OS users, containers, and the agent/tool policy still define the potential damage.
+It is a **library guardrail** for trusted OpenClaw code that receives untrusted path names, not a sandbox. Host filesystem permissions, OS users, containers, and the agent/tool policy still define the potential damage.
 
 <a id="default-javascript-fallback" />
 
 ## Platform defaults
 
-FRIDAY retains fs-safe's **auto** native mode on macOS, Linux, and Windows. Supported operations use the installed native helper; operations with documented JavaScript fallbacks can use those paths when native support is unavailable.
+OpenClaw retains fs-safe's **auto** native mode on macOS, Linux, and Windows. Supported operations use the installed native helper; operations with documented JavaScript fallbacks can use those paths when native support is unavailable.
 
 No-clobber `Root.move()` calls, including the default and `{ overwrite: false }`, require an installed native helper. On Linux, fs-safe 0.24 uses guarded fallbacks in `auto` mode when the filesystem rejects no-replace rename: files use identity-checked hardlink publication and unlink, while directories use plain rename. File destinations are never overwritten; the directory fallback can replace a concurrently created empty directory, but rejects nonempty directories and non-directory competitors. These moves do not promise crash durability. Native mode `require` refuses the unsupported primitive. With native mode `off` or a missing helper, moving to an absent destination still fails with `helper-unavailable` and leaves the source in place. A failed identity check after dispatch can reject after publication.
 
@@ -21,9 +21,9 @@ Doctor retains verified same-directory hardlink publication for a missing or dis
 
 On Windows, secure credential reads need the matching native helper to verify ownership and ACLs on the same open file descriptor that supplies the bytes.
 
-fs-safe publishes prebuilt native helpers as optional platform packages for Linux x64/arm64 (glibc and musl), macOS x64/arm64, and Windows x64. A normal package install selects the matching package without a compiler. FRIDAY loads it through fs-safe's own dependency scope, including nested pnpm installs. Windows secure reads fail with `permission-unverified` when the helper is missing, outdated, disabled, or unsupported; there is no pathname-based permission fallback. This includes installs that omit optional dependencies and native Windows ARM64 runtimes. File SecretRef providers and GitHub identity credentials require these secure reads.
+fs-safe publishes prebuilt native helpers as optional platform packages for Linux x64/arm64 (glibc and musl), macOS x64/arm64, and Windows x64. A normal package install selects the matching package without a compiler. OpenClaw loads it through fs-safe's own dependency scope, including nested pnpm installs. Windows secure reads fail with `permission-unverified` when the helper is missing, outdated, disabled, or unsupported; there is no pathname-based permission fallback. This includes installs that omit optional dependencies and native Windows ARM64 runtimes. File SecretRef providers and GitHub identity credentials require these secure reads.
 
-FRIDAY leaves fs-safe's explicit environment settings and programmatic `configureFsSafeNative()` precedence unchanged:
+OpenClaw leaves fs-safe's explicit environment settings and programmatic `configureFsSafeNative()` precedence unchanged:
 
 ```bash
 # Guarded JavaScript paths; no-clobber moves and Windows secure reads are unavailable.
@@ -40,7 +40,7 @@ The generic fs-safe environment name also works: `FS_SAFE_NATIVE_MODE`.
 
 [Managed worktree acceleration](/concepts/managed-worktrees#filesystem-acceleration) uses isolated native operations for APFS and Btrfs cloning and metadata reads. Those operations retain automatic native selection without changing the Gateway process's configuration. An explicit native mode applies to the isolated operations too; `off` selects normal Git checkout. Native writes remain owned by a supervised child until it exits, so cancellation cannot release the destination for cleanup while the child is still writing.
 
-fs-safe 0.23 removes the Python bridge. FRIDAY keeps `FS_SAFE_PYTHON_MODE` and `OPENCLAW_FS_SAFE_PYTHON_MODE` as deprecated mode aliases when loading its runtime environment, with a deprecation warning. Explicit native settings and programmatic `configureFsSafeNative()` still take precedence. Replace the old names with `FS_SAFE_NATIVE_MODE` or `OPENCLAW_FS_SAFE_NATIVE_MODE`.
+fs-safe 0.23 removes the Python bridge. OpenClaw keeps `FS_SAFE_PYTHON_MODE` and `OPENCLAW_FS_SAFE_PYTHON_MODE` as deprecated mode aliases when loading its runtime environment, with a deprecation warning. Explicit native settings and programmatic `configureFsSafeNative()` still take precedence. Replace the old names with `FS_SAFE_NATIVE_MODE` or `OPENCLAW_FS_SAFE_NATIVE_MODE`.
 
 Python interpreter paths are not used. Remove `FS_SAFE_PYTHON`, `OPENCLAW_FS_SAFE_PYTHON`, `OPENCLAW_PINNED_PYTHON`, and `OPENCLAW_PINNED_WRITE_PYTHON` from deployments. Code that directly uses fs-safe must replace `configureFsSafePython` / `FsSafePythonConfig` with `configureFsSafeNative` / `FsSafeNativeConfig` and omit `pythonPath`.
 
@@ -73,7 +73,7 @@ that boundary's own share. A foreign UNC share or device namespace is rejected
 before lookup, even if a filesystem alias could point back inside the boundary.
 Use a relative path or the admitted root's host and share spelling. Host and
 share comparisons ignore ASCII case; Unicode lookalikes do not identify the same
-host. FRIDAY preserves valid local plugin aliases, including short names and
+host. OpenClaw preserves valid local plugin aliases, including short names and
 trusted roots whose resolved filesystem location is a network share.
 
 Do not strip `\\?\` or `\\.\` indiscriminately to work around a rejection.
@@ -81,7 +81,7 @@ Ambiguous namespace spellings can change which host or device Windows reaches.
 
 ## What stays protected without native acceleration
 
-With the helper off, FRIDAY still gets fs-safe's Node-only guardrails:
+With the helper off, OpenClaw still gets fs-safe's Node-only guardrails:
 
 - rejects relative-path escapes (`..`), absolute paths, and path separators where only bare names are allowed.
 - resolves operations through a trusted root handle instead of ad-hoc `path.resolve(...).startsWith(...)` checks.
@@ -91,7 +91,7 @@ With the helper off, FRIDAY still gets fs-safe's Node-only guardrails:
 - enforces byte limits for reads and archive extraction.
 - applies private file modes for secrets and state files where the API requires them.
 
-This covers FRIDAY's normal threat model: trusted gateway code handling untrusted model/plugin/channel path input inside a single trusted operator boundary.
+This covers OpenClaw's normal threat model: trusted gateway code handling untrusted model/plugin/channel path input inside a single trusted operator boundary.
 
 Ordinary reads return bytes from an admitted file handle without freezing the file
 against in-place writes. Writers should use atomic replacement when readers need
@@ -115,11 +115,11 @@ In `require` mode, an unavailable or unloadable helper normally causes `helper-u
 ## Plugin and core guidance
 
 - Plugin-facing file access should use `openclaw/plugin-sdk/*` helpers when a path comes from a message, model output, config, or plugin input. Plugins can use reviewed fs-safe primitives directly when they declare their own fs-safe dependency and retain the applicable path policy.
-- Core code should import fs-safe primitives from their focused package entry points. Keep FRIDAY adapters where they own behavior, including secret-directory mode repair, archive durability, producer isolation, and public SDK compatibility. Pure re-exports are unnecessary: fs-safe owns its process defaults.
-- FRIDAY's Plugin SDK retains the deprecated `nonBlockingRead` input hint for existing callers; omit it in new code. Safe reads always use nonblocking admission where supported, including when the old hint is `false`. Direct fs-safe calls no longer accept this option.
+- Core code should import fs-safe primitives from their focused package entry points. Keep OpenClaw adapters where they own behavior, including secret-directory mode repair, archive durability, producer isolation, and public SDK compatibility. Pure re-exports are unnecessary: fs-safe owns its process defaults.
+- OpenClaw's Plugin SDK retains the deprecated `nonBlockingRead` input hint for existing callers; omit it in new code. Safe reads always use nonblocking admission where supported, including when the old hint is `false`. Direct fs-safe calls no longer accept this option.
 - The SDK's atomic replacement helper also retains the ignored adapter `chmod` member for source compatibility. Direct fs-safe adapters must omit it; permissions use the retained file handle.
 - Archive extraction should use the fs-safe archive helpers with explicit size, entry-count, link, and destination limits.
-- Secrets should use FRIDAY secret helpers or fs-safe secret/private-state helpers. Do not hand-roll mode checks around `fs.writeFile`.
+- Secrets should use OpenClaw secret helpers or fs-safe secret/private-state helpers. Do not hand-roll mode checks around `fs.writeFile`.
 - For hostile local-user isolation, do not rely on fs-safe alone. Run separate gateways under separate OS users/hosts, or use sandboxing.
 
 Related: [Security](/gateway/security), [Sandboxing](/gateway/sandboxing), [Exec approvals](/tools/exec-approvals), [Secrets](/gateway/secrets).

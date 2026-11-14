@@ -122,7 +122,7 @@ export function createNewSessionTitle(
   function readInput(): DraftTitleInput | null {
     const { context, data, place, submission, dictating } = read();
     const snapshot = context?.gateway.snapshot;
-    // Native prompts belong to the selected CLI, never FRIDAY title inference.
+    // Native prompts belong to the selected CLI, never OpenClaw title inference.
     if (
       disposed ||
       isTarget(data) ||

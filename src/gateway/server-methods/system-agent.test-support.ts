@@ -175,7 +175,7 @@ export function useSystemAgentGatewayTestFixture() {
       auditSequence: 0,
     });
     greetingMocks.resolveSystemAgentGreeting.mockReset().mockResolvedValue({
-      text: "I'm FRIDAY. All systems nominal.",
+      text: "I'm OpenClaw. All systems nominal.",
       source: "model",
     });
     onboardingWelcomeMocks.buildOnboardingWelcome.mockReset().mockResolvedValue({

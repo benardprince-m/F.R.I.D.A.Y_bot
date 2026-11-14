@@ -41,7 +41,7 @@
     {
       "key": "releaseChecksIndependent",
       "workflow": "openclaw-release-checks.yml",
-      "name": "FRIDAY Release Checks",
+      "name": "OpenClaw Release Checks",
       "parentJobName": "Run release checks independent validation",
       "dispatchName": "Dispatch release checks independent phase",
       "suffix": "-release-checks-independent",
@@ -52,7 +52,7 @@
     {
       "key": "releaseChecksCandidate",
       "workflow": "openclaw-release-checks.yml",
-      "name": "FRIDAY Release Checks",
+      "name": "OpenClaw Release Checks",
       "parentJobName": "Run release checks candidate validation",
       "dispatchName": "Dispatch release checks candidate phase",
       "suffix": "-release-checks-candidate",
@@ -63,13 +63,13 @@
     {
       "key": "productPerformance",
       "workflow": "openclaw-performance.yml",
-      "name": "FRIDAY Performance",
+      "name": "OpenClaw Performance",
       "parentJobName": "Run product performance evidence",
-      "dispatchName": "Dispatch FRIDAY Performance",
+      "dispatchName": "Dispatch OpenClaw Performance",
       "suffix": "",
       "requiredJobs": [
         "Resolve target ref",
-        "FRIDAY source performance probes",
+        "OpenClaw source performance probes",
         "Kova mock provider performance",
         "Kova mock provider deep profile",
         "Kova live OpenAI GPT 5.6 agent turn",

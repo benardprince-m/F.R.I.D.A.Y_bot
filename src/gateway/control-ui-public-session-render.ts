@@ -65,7 +65,7 @@ const PUBLIC_SESSION_ENTRY_SCRIPT = `(()=>{
   function showUnavailable(main){
     if(!main?.hasAttribute("data-entry-pending"))return;
     main.removeAttribute("data-entry-pending");
-    document.title=main.querySelector(".entry-result h1").textContent+" · FRIDAY";
+    document.title=main.querySelector(".entry-result h1").textContent+" · OpenClaw";
   }
   function probeFailed(){
     if(!pending)return;
@@ -128,7 +128,7 @@ const PUBLIC_SESSION_ENTRY_SCRIPT = `(()=>{
       if(document.hidden||!current)return;
       if(!main){
         // Legacy token links return a plain 404 rather than a reader document.
-        if(response.status===404){current.textContent="This conversation is no longer publicly available.";current.dataset.publicRefresh="false";document.title="Conversation unavailable · FRIDAY";observer?.disconnect();updateControls();return}
+        if(response.status===404){current.textContent="This conversation is no longer publicly available.";current.dataset.publicRefresh="false";document.title="Conversation unavailable · OpenClaw";observer?.disconnect();updateControls();return}
         throw new Error("Refresh failed");
       }
       const y=window.scrollY;
@@ -193,7 +193,7 @@ for (const rule of ["fence", "code_block"] as const) {
 // The Control UI lobster mark; its gradient is declared once per document in `svg.defs`.
 const LOBSTER_MARK = `<svg class="mark" viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path class="shell" d="M60 10C30 10 15 35 15 55C15 75 30 95 45 100L45 110L55 110L55 100C55 100 60 102 65 100L65 110L75 110L75 100C90 95 105 75 105 55C105 35 90 10 60 10ZM20 45C5 40 0 50 5 60C10 70 20 65 25 55C28 48 25 45 20 45ZM100 45C115 40 120 50 115 60C110 70 100 65 95 55C92 48 95 45 100 45Z"/><path class="feeler" d="M45 15Q35 5 30 8M75 15Q85 5 90 8"/><circle class="eye" cx="45" cy="35" r="6"/><circle class="eye" cx="75" cy="35" r="6"/><circle class="pupil" cx="46" cy="34" r="2.5"/><circle class="pupil" cx="76" cy="34" r="2.5"/></svg>`;
 
-const PUBLIC_SESSION_PITCH_HTML = `<section class="colophon" aria-labelledby="openclaw-pitch"><div class="fleuron" aria-hidden="true">${LOBSTER_MARK}</div><p class="kicker">Made with FRIDAY</p><h2 id="openclaw-pitch">Your assistant, on your devices, in your chats.</h2><p>FRIDAY is an open-source AI assistant that runs on your own computer and meets you in the channels you already use: Discord, iMessage, Slack, Teams, Telegram, WhatsApp, and 20+ more. State, memory, and credentials stay on your hardware, and models are plugins you can swap without changing anything else. No paid tier, no hosted service, no token: MIT-licensed and stewarded by the independent FRIDAY Foundation.</p><div class="code install"><pre><code>curl -fsSL https://openclaw.ai/install.sh | bash</code></pre></div><p class="links"><a class="button primary" href="https://docs.openclaw.ai/start/getting-started" rel="noreferrer noopener">Get started <span aria-hidden="true">→</span></a><a href="https://docs.openclaw.ai/start/why-openclaw" rel="noreferrer noopener">Why FRIDAY</a><a href="https://github.com/openclaw/openclaw" rel="noreferrer noopener">GitHub</a></p></section>`;
+const PUBLIC_SESSION_PITCH_HTML = `<section class="colophon" aria-labelledby="openclaw-pitch"><div class="fleuron" aria-hidden="true">${LOBSTER_MARK}</div><p class="kicker">Made with OpenClaw</p><h2 id="openclaw-pitch">Your assistant, on your devices, in your chats.</h2><p>OpenClaw is an open-source AI assistant that runs on your own computer and meets you in the channels you already use: Discord, iMessage, Slack, Teams, Telegram, WhatsApp, and 20+ more. State, memory, and credentials stay on your hardware, and models are plugins you can swap without changing anything else. No paid tier, no hosted service, no token: MIT-licensed and stewarded by the independent OpenClaw Foundation.</p><div class="code install"><pre><code>curl -fsSL https://openclaw.ai/install.sh | bash</code></pre></div><p class="links"><a class="button primary" href="https://docs.openclaw.ai/start/getting-started" rel="noreferrer noopener">Get started <span aria-hidden="true">→</span></a><a href="https://docs.openclaw.ai/start/why-openclaw" rel="noreferrer noopener">Why OpenClaw</a><a href="https://github.com/openclaw/openclaw" rel="noreferrer noopener">GitHub</a></p></section>`;
 
 // Tokens and element styles mirror the Control UI's built-in themes and chat text
 // (ui/src/styles/base.css, chat/text.css). Instrument Sans is the
@@ -320,11 +320,11 @@ export function renderPublicSessionDocument(params: {
       );
     }
     const continued = ordered[index - 1]?.role === entry.role;
-    return `<article class="message ${entry.role}${continued ? " continued" : ""}" data-public-item="${key}" aria-label="${entry.role === "user" ? "User" : "Assistant"} message"><h2 class="speaker">${entry.role === "user" ? "User" : "FRIDAY"}</h2>${entry.role === "assistant" && !continued ? `<span class="avatar" aria-hidden="true">${LOBSTER_MARK}</span>` : ""}<div class="content">${entry.html}</div></article>`;
+    return `<article class="message ${entry.role}${continued ? " continued" : ""}" data-public-item="${key}" aria-label="${entry.role === "user" ? "User" : "Assistant"} message"><h2 class="speaker">${entry.role === "user" ? "User" : "OpenClaw"}</h2>${entry.role === "assistant" && !continued ? `<span class="avatar" aria-hidden="true">${LOBSTER_MARK}</span>` : ""}<div class="content">${entry.html}</div></article>`;
   });
   const description = params.unavailable
     ? "Log in to open conversations you have access to."
-    : "A public, read-only FRIDAY conversation. No login required.";
+    : "A public, read-only OpenClaw conversation. No login required.";
   const canonicalMetadata = params.canonicalUrl
     ? `<link rel="canonical" href="${escapeHtml(params.canonicalUrl)}">
 <meta property="og:url" content="${escapeHtml(params.canonicalUrl)}">`
@@ -344,21 +344,21 @@ export function renderPublicSessionDocument(params: {
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer"><meta name="robots" content="noindex, nofollow">
 ${isLatest ? '<noscript><meta http-equiv="refresh" content="15"></noscript>' : ""}
-<title>${entryPending ? "FRIDAY" : `${title} · FRIDAY`}</title>${canonicalMetadata}
-<meta property="og:type" content="website"><meta property="og:site_name" content="FRIDAY">
+<title>${entryPending ? "OpenClaw" : `${title} · OpenClaw`}</title>${canonicalMetadata}
+<meta property="og:type" content="website"><meta property="og:site_name" content="OpenClaw">
 <meta property="og:title" content="${title}"><meta property="og:description" content="${description}">
 <meta property="og:image" content="${escapeHtml(params.cardUrl)}">
 <meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="${title} · FRIDAY public session">
+<meta property="og:image:alt" content="${title} · OpenClaw public session">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="${escapeHtml(params.cardUrl)}"><meta name="twitter:image:alt" content="${title} · FRIDAY public session">
+<meta name="twitter:image" content="${escapeHtml(params.cardUrl)}"><meta name="twitter:image:alt" content="${title} · OpenClaw public session">
 <link rel="stylesheet" href="${escapeHtml(params.assetBasePath)}/fonts/instrument-sans.css">
 <style>
 ${PUBLIC_SESSION_STYLES}
 </style>${entryPending ? "<noscript><style>[data-entry-pending] .entry-result{display:block}[data-entry-pending] .entry-status{display:none}[data-entry-pending] .login{visibility:visible}</style></noscript>" : ""}</head><body><main data-public-session${entryPending ? " data-entry-pending" : ""} data-public-refresh="${isLatest ? "true" : "false"}">
 <svg class="defs" aria-hidden="true" focusable="false"><linearGradient id="openclaw-shell" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="shell-light"/><stop offset="1" class="shell-dark"/></linearGradient></svg>
 <div class="page">
-<header class="topbar"><a class="brand" href="https://openclaw.ai" rel="noreferrer noopener">${LOBSTER_MARK}<span>FRIDAY</span></a>${entryLink}</header>
+<header class="topbar"><a class="brand" href="https://openclaw.ai" rel="noreferrer noopener">${LOBSTER_MARK}<span>OpenClaw</span></a>${entryLink}</header>
 <header class="article-head">${entryPending ? '<div class="entry-status" role="status"><h1>Loading conversation</h1><p class="intro">Checking access…</p></div><div class="entry-result">' : ""}${eyebrow}<h1>${title}</h1><p class="intro">${
     params.unavailable
       ? "This conversation is not publicly available. Log in to open conversations you have access to."

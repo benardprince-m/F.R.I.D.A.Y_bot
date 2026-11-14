@@ -631,7 +631,7 @@ describe("runSetupWizard", () => {
 
     expect(persistedWizardConfigs().at(-1)?.telemetry).toBeUndefined();
     expect(prompter.select).not.toHaveBeenCalledWith(
-      expect.objectContaining({ message: "Help make FRIDAY better?" }),
+      expect.objectContaining({ message: "Help make OpenClaw better?" }),
     );
   });
 
@@ -770,7 +770,7 @@ describe("runSetupWizard", () => {
     );
     expect(prompter.select).toHaveBeenCalledOnce();
     expect(prompter.select).toHaveBeenCalledWith(
-      expect.objectContaining({ message: "Help make FRIDAY better?", initialValue: false }),
+      expect.objectContaining({ message: "Help make OpenClaw better?", initialValue: false }),
     );
   });
 

@@ -87,7 +87,7 @@ class ChatModelPickerTest {
     assertTrue(catalog.first().supportsDocuments)
     assertFalse(catalog.first().supportsVision)
     assertEquals(false, catalog.first().supportsTools)
-    assertEquals("FRIDAY", catalog.first().runtimeName)
+    assertEquals("OpenClaw", catalog.first().runtimeName)
     assertEquals(ChatModelPickerAction.Disabled, chatModelPickerAction(catalog[0]))
     assertEquals(ChatModelPickerAction.Disabled, chatModelPickerAction(catalog[1]))
     assertEquals(ChatModelPickerAction.Select, chatModelPickerAction(catalog[2]))

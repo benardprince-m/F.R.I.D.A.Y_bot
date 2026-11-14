@@ -1,4 +1,4 @@
-// Covers locating FRIDAY docs and source paths from package roots.
+// Covers locating OpenClaw docs and source paths from package roots.
 import fs from "node:fs/promises";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";

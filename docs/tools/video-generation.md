@@ -8,7 +8,7 @@ title: "Video generation"
 sidebarTitle: "Video generation"
 ---
 
-FRIDAY agents generate videos from text prompts, reference images, or
+OpenClaw agents generate videos from text prompts, reference images, or
 existing videos through `video_generate`. Eighteen provider backends are
 supported; the agent picks the right one automatically based on config and
 available API keys. The 18 provider IDs span 17 plugins; MiniMax registers
@@ -59,13 +59,13 @@ active mode before submission and reports supported modes in `action=list`.
 
 Video generation is asynchronous:
 
-1. FRIDAY submits the request to the provider and immediately returns a task id.
+1. OpenClaw submits the request to the provider and immediately returns a task id.
 2. The provider processes the job in the background (typically 30 seconds to several minutes depending on the provider and resolution; slow queue-backed providers can run up to the configured timeout).
-3. When the video is ready, FRIDAY wakes the same session with an internal completion event.
+3. When the video is ready, OpenClaw wakes the same session with an internal completion event.
 4. The agent reports it through the session's normal visible-reply mode:
    automatic final reply, or `message(action="send")` when the session requires
    the message tool. If the requester session is inactive, or its wake fails and
-   generated media is still missing from the completion reply, FRIDAY sends
+   generated media is still missing from the completion reply, OpenClaw sends
    a direct fallback with the media, without duplicate sends on retries.
 
 While a job is in flight, duplicate `video_generate` calls in the same
@@ -78,10 +78,10 @@ Outside of session-backed agent runs (for example, direct tool invocations),
 the tool falls back to inline generation and returns the final media path
 in the same turn.
 
-Generated video files save under FRIDAY-managed media storage when the
+Generated video files save under OpenClaw-managed media storage when the
 provider returns bytes. The default cap is 16MB (the shared video media
 limit); `agents.defaults.mediaMaxMb` raises it for larger renders. When a
-provider also returns a hosted output URL, FRIDAY delivers that URL instead
+provider also returns a hosted output URL, OpenClaw delivers that URL instead
 of failing the task if local persistence rejects an oversized file.
 
 ### Task lifecycle
@@ -195,9 +195,9 @@ Repeated references keep their positions, so the same image can supply both
 ### Style controls
 
 <ParamField path="aspectRatio" type="string">
-  Aspect-ratio hint such as `1:1`, `16:9`, `9:16`, `adaptive`, or a provider-specific value. FRIDAY normalizes or ignores unsupported values per provider.
+  Aspect-ratio hint such as `1:1`, `16:9`, `9:16`, `adaptive`, or a provider-specific value. OpenClaw normalizes or ignores unsupported values per provider.
 </ParamField>
-<ParamField path="resolution" type="string">Resolution hint such as `360P`, `480P`, `540P`, `720P`, `768P`, `1080P`, `4K`, or a provider-specific value. FRIDAY normalizes or ignores unsupported values per provider.</ParamField>
+<ParamField path="resolution" type="string">Resolution hint such as `360P`, `480P`, `540P`, `720P`, `768P`, `1080P`, `4K`, or a provider-specific value. OpenClaw normalizes or ignores unsupported values per provider.</ParamField>
 <ParamField path="durationSeconds" type="number">
   Target duration in seconds (rounded to nearest provider-supported value).
   Explicit values must round to a positive safe integer (1–9007199254740991 seconds);
@@ -223,7 +223,7 @@ dimensions). Providers that do not declare it surface the value via
 </ParamField>
 <ParamField path="model" type="string">Provider/model override (e.g. `runway/gen4.5`).</ParamField>
 <ParamField path="filename" type="string">Output filename hint.</ParamField>
-<ParamField path="timeoutMs" type="number">Optional provider operation timeout in milliseconds. When omitted, FRIDAY uses `agents.defaults.mediaModels.video.timeoutMs` if configured, otherwise the plugin-authored provider default when one exists.</ParamField>
+<ParamField path="timeoutMs" type="number">Optional provider operation timeout in milliseconds. When omitted, OpenClaw uses `agents.defaults.mediaModels.video.timeoutMs` if configured, otherwise the plugin-authored provider default when one exists.</ParamField>
 
 For Runway and Together, an explicit timeout covers submission, polling, and
 downloading together. Individual HTTP requests retain a 120-second limit.
@@ -240,7 +240,7 @@ limits remain separate.
 </ParamField>
 
 <Note>
-Not all providers support all parameters. FRIDAY normalizes duration to
+Not all providers support all parameters. OpenClaw normalizes duration to
 the closest provider-supported value, and remaps translated geometry hints
 such as size-to-aspect-ratio when a fallback provider exposes a different
 control surface. Truly unsupported overrides are ignored on a best-effort
@@ -299,7 +299,7 @@ If a candidate fails during generation, its provider, model, and error log at
 
 ## Model selection
 
-For `video_generate`, FRIDAY resolves the model in this order:
+For `video_generate`, OpenClaw resolves the model in this order:
 
 1. **`model` tool parameter** - when set, only this model is tried.
 2. **`agents.defaults.mediaModels.video.primary`** from config.
@@ -312,7 +312,7 @@ If a provider fails, the next candidate is tried automatically. If all
 candidates fail, the error includes details from each attempt.
 
 Explicit video model configuration limits fallback to the configured list;
-FRIDAY does not append auto-detected providers.
+OpenClaw does not append auto-detected providers.
 
 ```json5
 {
@@ -395,7 +395,7 @@ FRIDAY does not append auto-detected providers.
     image-to-video through the configured graph.
   </Accordion>
   <Accordion title="fal">
-    Uses a queue-backed flow for long-running jobs. FRIDAY waits up to 20
+    Uses a queue-backed flow for long-running jobs. OpenClaw waits up to 20
     minutes by default before treating an in-progress fal queue job as timed
     out. Most fal video models
     accept a single image reference. Seedance 2.0 reference-to-video
@@ -428,7 +428,7 @@ FRIDAY does not append auto-detected providers.
     See [NovitaAI](/providers/novita) for model IDs and provider options.
   </Accordion>
   <Accordion title="OpenRouter">
-    Uses OpenRouter's asynchronous `/videos` API. FRIDAY submits the
+    Uses OpenRouter's asynchronous `/videos` API. OpenClaw submits the
     job, polls `polling_url`, and downloads either `unsigned_urls` or the
     documented job content endpoint. The bundled `google/veo-3.1-fast` default
     advertises 4/6/8 second durations, `720P`/`1080P` resolutions, and
@@ -448,7 +448,7 @@ FRIDAY does not append auto-detected providers.
   </Accordion>
   <Accordion title="Together">
     Single first-frame image only with `Wan-AI/wan2.7-i2v`. Wan 2.7 requests
-    use 2-10 seconds in FRIDAY. See [Together AI](/providers/together) for
+    use 2-10 seconds in OpenClaw. See [Together AI](/providers/together) for
     supported sizes and request parameters.
   </Accordion>
   <Accordion title="Vydra">
@@ -562,7 +562,7 @@ In the shared sweep, buffer-backed `videoToVideo` runs for `runway` only with
 
 ## Configuration
 
-Set the default video-generation model in your FRIDAY config:
+Set the default video-generation model in your OpenClaw config:
 
 ```json5
 {

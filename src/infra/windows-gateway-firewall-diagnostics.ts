@@ -568,7 +568,7 @@ export async function inspectWindowsGatewayFirewall(
   );
   if (quickJson === null) {
     return firewallInspectionFailed(
-      "FRIDAY could not quickly inspect Windows Firewall LAN Gateway policy.",
+      "OpenClaw could not quickly inspect Windows Firewall LAN Gateway policy.",
     );
   }
   const quickPayload = safeParseJson(quickJson.trim()) as QuickFirewallPayload | null;
@@ -578,7 +578,9 @@ export async function inspectWindowsGatewayFirewall(
     Array.isArray(quickPayload) ||
     !quickPayload.State
   ) {
-    return firewallInspectionFailed("FRIDAY could not parse Windows Firewall LAN Gateway policy.");
+    return firewallInspectionFailed(
+      "OpenClaw could not parse Windows Firewall LAN Gateway policy.",
+    );
   }
   const state = quickPayload.State as FirewallStatePayload;
   const managedActiveRules = parseFirewallRules(quickPayload.ActiveRules);

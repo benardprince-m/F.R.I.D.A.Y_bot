@@ -189,7 +189,7 @@ describe("user turn transcript persistence", () => {
           content: "original",
           __openclaw: { modelPromptProjection },
         }),
-      ).toThrow("update FRIDAY to a compatible version or start a new session");
+      ).toThrow("update OpenClaw to a compatible version or start a new session");
     },
   );
 

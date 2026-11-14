@@ -79,7 +79,7 @@ Proof: `src/channels/message/ingress-drain.test.ts`,
 
 - Do not reintroduce `sendMessageDraft` for answer streaming. Telegram drafts
   are ephemeral 30-second previews in private chats; final delivery still
-  requires a separate `sendMessage`. FRIDAY uses `sendMessage` plus
+  requires a separate `sendMessage`. OpenClaw uses `sendMessage` plus
   `editMessageText`, then finalizes in place so the user sees one persistent
   answer.
 - Streaming owns one visible preview message. Edit it forward. Do not send an
@@ -103,7 +103,7 @@ Proof: `src/channels/message/ingress-drain.test.ts`,
 
 ## Context And Authorization
 
-- Reply context comes from FRIDAY-observed messages. Bot API updates expose
+- Reply context comes from OpenClaw-observed messages. Bot API updates expose
   `reply_to_message`, but there is no arbitrary `getMessage(chat, id)`
   hydration path later.
 - Current local chat context must outrank stale reply ancestry in the prompt.

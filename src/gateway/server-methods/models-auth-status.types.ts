@@ -15,7 +15,7 @@ export type ModelAuthStatusProfile = Pick<
   expiry?: ModelAuthExpiry;
   /** True only for saved OAuth/token profiles this gateway can remove. */
   logoutSupported?: boolean;
-  /** Credential refresh is owned by an external CLI rather than FRIDAY. */
+  /** Credential refresh is owned by an external CLI rather than OpenClaw. */
   externallyManaged?: boolean;
   /** Where the effective credential came from. */
   source?: "config" | "external" | "inherited" | "saved";

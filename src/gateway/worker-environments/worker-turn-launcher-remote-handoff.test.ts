@@ -127,7 +127,7 @@ describe("worker turn launcher remote handoff", () => {
     await manager.appendMessageAsync(toolResult);
     let descriptor: WorkerLaunchDescriptor | undefined;
     const environment = browserEnvironment();
-    environment.desktop!.apps![0]!.args = ["-File", "C:\\ProgramData\\FRIDAY\\browser.ps1"];
+    environment.desktop!.apps![0]!.args = ["-File", "C:\\ProgramData\\OpenClaw\\browser.ps1"];
     const bootstrapReceipt = expectDefined(environment.bootstrapReceipt, "bootstrap receipt");
     const acknowledgeCredentialDelivery = vi.fn(async () => true);
     const reconcileWorkspace = vi.fn(
@@ -352,7 +352,7 @@ describe("worker turn launcher remote handoff", () => {
     expect(assignment.browser).toEqual({
       cdpUrl: "http://127.0.0.1:9222",
       launcherPath: "/usr/local/bin/openclaw-worker-browser",
-      launcherArgs: ["-File", "C:\\ProgramData\\FRIDAY\\browser.ps1"],
+      launcherArgs: ["-File", "C:\\ProgramData\\OpenClaw\\browser.ps1"],
     });
     expect(assignment.initialMessages).toEqual([
       wireUser(expect.stringContaining("Compacted durable context"), expect.any(Number)),

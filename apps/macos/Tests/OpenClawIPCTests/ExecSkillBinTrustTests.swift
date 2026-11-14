@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct ExecSkillBinTrustTests {
     @Test func `build trust index resolves skill bin paths`() throws {

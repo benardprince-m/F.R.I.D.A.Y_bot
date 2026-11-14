@@ -523,7 +523,7 @@ internal object AndroidScreenshotFixture {
       if (message == null) {
         putJsonObject("question") {
           put("id", JsonPrimitive("help"))
-          put("header", JsonPrimitive("FRIDAY"))
+          put("header", JsonPrimitive("OpenClaw"))
           put("question", JsonPrimitive("What should we look at first?"))
           putJsonArray("options") {
             addJsonObject {

@@ -1,7 +1,7 @@
 // Anthropic's /v1/models rows advertise each model's thinking and effort contract.
 // Request shaping reads those facts from the catalog row (`params.claudeCapabilities`
 // and `thinkingLevelMap`), so a newly listed model is selectable and shaped
-// correctly before FRIDAY learns its id. Rows without them keep the id rules.
+// correctly before OpenClaw learns its id. Rows without them keep the id rules.
 import {
   buildOpenAICompatibleLiveModels,
   type LiveModelRowProjection,

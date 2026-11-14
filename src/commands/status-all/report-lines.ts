@@ -48,7 +48,7 @@ export async function buildStatusAllReportLines(params: {
       "",
     );
   }
-  lines.push(heading("FRIDAY status --all"));
+  lines.push(heading("OpenClaw status --all"));
   const report = { lines, heading, width: tableWidth };
   const overviewColumns = [...statusOverviewTableColumns];
   const overviewRows = params.overviewRows;

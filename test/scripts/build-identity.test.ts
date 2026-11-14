@@ -52,7 +52,7 @@ describe("readCurrentGitCommit", () => {
       "git",
       [
         "-c",
-        "user.name=FRIDAY Tests",
+        "user.name=OpenClaw Tests",
         "-c",
         "user.email=openclaw-tests@example.invalid",
         "commit",

@@ -157,10 +157,10 @@ Interactive `memory_search` keeps three attempts and at most eight seconds of
 total retry sleep within the agent tool's 30-second deadline. A cancelled caller
 interrupts its retry wait.
 
-After an FRIDAY index-format upgrade, the first search rebuilds the index before
+After an OpenClaw index-format upgrade, the first search rebuilds the index before
 returning results. Rebuilding can take longer, and the search result discloses
 possible costs from the configured embedding provider. An index written by a
-newer FRIDAY version remains paused; upgrade FRIDAY or reindex explicitly.
+newer OpenClaw version remains paused; upgrade OpenClaw or reindex explicitly.
 Later searches reuse the repaired index;
 status inspection alone does not rebuild it.
 Concurrent searches wait for the active repair. A slow repair can exceed the

@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/longcat-provider",
   "version": "2026.10.4",
-  "description": "FRIDAY LongCat provider plugin.",
+  "description": "OpenClaw LongCat provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

@@ -227,7 +227,7 @@ actor PortGuardian {
         // ppid 1 means the owner died. A current-app child is reapable only after
         // its exact receipt was relinquished; planTunnelReap protects active ones.
         if process.parentPid == 1 || process.parentPid == currentAppPID { return .reap }
-        // Any other live parent may be a concurrent FRIDAY instance (prod + dev).
+        // Any other live parent may be a concurrent OpenClaw instance (prod + dev).
         return .keep
     }
 
@@ -568,7 +568,7 @@ actor PortGuardian {
     private nonisolated static func openRecordStore() throws -> PortGuardianRecordStore {
         if let application = self.legacyOpenClawAppProcess() {
             throw PortGuardianStoreError(
-                "Quit older FRIDAY app copies (pid \(application.processIdentifier), " +
+                "Quit older OpenClaw app copies (pid \(application.processIdentifier), " +
                     "\(application.bundleIdentifier ?? "unknown")) before opening the SQLite PortGuardian ledger")
         }
         let legacyURL = PortGuardianRecordStore.liveLegacyRecordURL
@@ -590,13 +590,13 @@ actor PortGuardian {
     private nonisolated static func requirePostSpawnCompatibility() throws {
         if let application = self.legacyOpenClawAppProcess() {
             throw PortGuardianStoreError(
-                "Older FRIDAY app (pid \(application.processIdentifier), " +
+                "Older OpenClaw app (pid \(application.processIdentifier), " +
                     "\(application.bundleIdentifier ?? "unknown")) appeared after tunnel preflight; " +
                     "SSH launch cancelled")
         }
         guard !FileManager.default.fileExists(atPath: PortGuardianRecordStore.liveLegacyRecordURL.path) else {
             throw PortGuardianStoreError(
-                "Older FRIDAY storage appeared after tunnel preflight; SSH launch cancelled")
+                "Older OpenClaw storage appeared after tunnel preflight; SSH launch cancelled")
         }
     }
 

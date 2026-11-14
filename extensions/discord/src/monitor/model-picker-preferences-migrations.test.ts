@@ -56,7 +56,7 @@ describe("Discord retired state admission", () => {
       await fs.writeFile(sourcePath, bytes);
 
       const advice = expect.stringContaining(
-        "Install FRIDAY 2026.9.5. Run openclaw doctor --fix before upgrading to latest.",
+        "Install OpenClaw 2026.9.5. Run openclaw doctor --fix before upgrading to latest.",
       );
       const result = await migration.migrateLegacyState(input);
       expect(result).toEqual({ changes: [], warnings: [advice] });

@@ -28,7 +28,7 @@ async function initializeRemoteBackedGitSeed(root: string): Promise<void> {
   const remote = path.join(root, "remote.git");
   await fs.mkdir(workspace, { recursive: true });
   await execFileAsync("git", ["-C", workspace, "init", "-b", "main"]);
-  await execFileAsync("git", ["-C", workspace, "config", "user.name", "FRIDAY Test"]);
+  await execFileAsync("git", ["-C", workspace, "config", "user.name", "OpenClaw Test"]);
   await execFileAsync("git", [
     "-C",
     workspace,

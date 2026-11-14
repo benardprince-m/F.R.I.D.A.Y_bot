@@ -8,7 +8,7 @@ title: "Agent Guidance"
 
 # Agent Guidance
 
-Agent Guidance shares instruction files across selected agents. FRIDAY adds
+Agent Guidance shares instruction files across selected agents. OpenClaw adds
 their text directly to the prompt sent to the model, before or after its normal
 instructions. The plugin does not edit `AGENTS.md`, `SOUL.md`, or other workspace
 files. Each agent keeps its own instructions, personality, and memory.
@@ -130,7 +130,7 @@ existing sessions before updates when stable session prompts are required.
 
 A file-load error prevents registration of the entire contribution. Diagnostics
 identify the file's configured position without printing paths or content.
-FRIDAY can continue without a failed plugin: guidance is **not a fail-closed
+OpenClaw can continue without a failed plugin: guidance is **not a fail-closed
 policy gate**, tool authorization or a guarantee of model obedience.
 
 Failed reload does not guarantee that the previous instructions stay active.

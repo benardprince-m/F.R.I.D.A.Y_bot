@@ -2,7 +2,7 @@ import Darwin
 import Foundation
 import Subprocess
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.testWaitLimit)
 struct BoundedProcessTests {

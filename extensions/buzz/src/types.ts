@@ -138,7 +138,7 @@ export function resolveBuzzAccount(params: {
   }
   return {
     accountId,
-    name: normalizeOptionalString(config.name) ?? "FRIDAY",
+    name: normalizeOptionalString(config.name) ?? "OpenClaw",
     enabled: config.enabled !== false,
     configured: Boolean(relayUrl && (privateKey || privateKeyResolution.ref)),
     relayUrl,

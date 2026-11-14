@@ -244,7 +244,7 @@ timeline for current status.
     **Old**: `tool()` factory from `openclaw/plugin-sdk/provider-web-search`.
 
     **New**: implement `createTool(...)` directly on the provider plugin.
-    FRIDAY no longer needs the SDK helper to register the tool wrapper.
+    OpenClaw no longer needs the SDK helper to register the tool wrapper.
 
   </Accordion>
 
@@ -317,7 +317,7 @@ timeline for current status.
 
     **New**: a single `resolveThinkingProfile(ctx)` that returns a
     `ProviderThinkingProfile` with the standard `id`, optional `label`, and a
-    ranked level list. FRIDAY clamps unsupported requests by profile rank
+    ranked level list. OpenClaw clamps unsupported requests by profile rank
     during execution, preserving the stored preference across model switches.
 
     The context includes `provider`, `modelId`, optional merged `reasoning`,
@@ -441,7 +441,7 @@ timeline for current status.
     former October 12 deadline. The supported-plugin cutoff excludes that
     release and any other package still importing the
     bridge. Upgrade affected plugins to versions using the replacements before
-    upgrading FRIDAY. A newer version number alone is not evidence of migration.
+    upgrading OpenClaw. A newer version number alone is not evidence of migration.
 
     `openclaw/plugin-sdk/session-store-runtime` and `resolveStorePath(...)`
     remain supported. Pass the selected `agentId` explicitly to scoped row

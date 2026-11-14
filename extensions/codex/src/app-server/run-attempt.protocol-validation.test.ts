@@ -90,7 +90,7 @@ describe("Codex submitted prompt provenance", () => {
       const sentText = sentInput
         .flatMap((item) => (item.type === "text" ? [item.text] : []))
         .join("\n");
-      expect(sentText).toContain('[FRIDAY conversation info: sender={"id":"profile-fork-test"');
+      expect(sentText).toContain('[OpenClaw conversation info: sender={"id":"profile-fork-test"');
       expect(sentText).toContain(params.prompt);
       stage = "wait-for-prompt-annotation";
       await vi.waitFor(() => {

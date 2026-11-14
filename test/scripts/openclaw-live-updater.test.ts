@@ -1125,7 +1125,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
     const output = await run({
       runCommand: commands.runCommand,
       verifyMacTarget: () => ({
-        executable: path.join(mirror, "dist/FRIDAY.app/Contents/MacOS/FRIDAY"),
+        executable: path.join(mirror, "dist/OpenClaw.app/Contents/MacOS/OpenClaw"),
         pid: 123,
       }),
     });
@@ -1387,7 +1387,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
 
   test("restores the signed Mac bundle and redacts the build failure", async () => {
     const { mirror, run } = makeFixture({ dependencies: true });
-    const marker = path.join(mirror, "dist/FRIDAY.app/Contents/signature-marker");
+    const marker = path.join(mirror, "dist/OpenClaw.app/Contents/signature-marker");
     mkdirSync(path.dirname(marker), { recursive: true });
     writeFileSync(marker, "signed\n");
     const failure = await run({
@@ -1410,7 +1410,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
 
   test("preserves a build failure after a delayed external restore of the exact Mac bundle", async () => {
     const { root, mirror, run } = makeFixture({ dependencies: true });
-    const appBundle = path.join(mirror, "dist/FRIDAY.app");
+    const appBundle = path.join(mirror, "dist/OpenClaw.app");
     const appMarker = path.join(appBundle, "Contents/signature-marker");
     mkdirSync(path.dirname(appMarker), { recursive: true });
     writeFileSync(appMarker, "signed\n");
@@ -1798,7 +1798,7 @@ console.log(JSON.stringify({ ok: true, channels: {} }));
         seed,
         options: fixtureOptions,
       } = makeFixture({ includeSeed: true, dependencies: true });
-      pushFixtureChange(seed, "apps/macos/Sources/FRIDAY/App.swift");
+      pushFixtureChange(seed, "apps/macos/Sources/OpenClaw/App.swift");
       const statePath = path.join(root, "maintenance-state.json");
       const options = { ...fixtureOptions, statePath };
       const commands = fakeCommands(mirror);

@@ -142,7 +142,7 @@ describe("Usage detail requests", () => {
       expect(details.timeSeries.data).toBeNull();
       expect(details.timeSeries.status).toEqual({
         error:
-          "You don't have permission to view usage details. Ask the person who manages FRIDAY for access.",
+          "You don't have permission to view usage details. Ask the person who manages OpenClaw for access.",
         hasLoaded: false,
         stale: false,
         awaitingGateway: false,
@@ -150,7 +150,7 @@ describe("Usage detail requests", () => {
       expect(details.sessionLogs.data).toBeNull();
       expect(details.sessionLogs.status).toEqual({
         error:
-          "You don't have permission to view usage details. Ask the person who manages FRIDAY for access.",
+          "You don't have permission to view usage details. Ask the person who manages OpenClaw for access.",
         hasLoaded: false,
         stale: false,
         awaitingGateway: false,

@@ -5,7 +5,7 @@ import Synchronization
 import Testing
 @preconcurrency import WatchConnectivity
 import XCTest
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct WatchSessionActivationGateTests {
     @Test func `reachable delivery requires an accepted acknowledgment`() throws {

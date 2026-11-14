@@ -638,7 +638,7 @@ describe("createModelAuthAvailabilityResolver", () => {
     });
   });
 
-  it("does not let Codex synthetic auth own an FRIDAY-only route", () => {
+  it("does not let Codex synthetic auth own an OpenClaw-only route", () => {
     const openClawOnlyRoute = {
       ...platformRoute,
       runtimePolicy: { compatibleIds: ["openclaw"] },

@@ -150,7 +150,7 @@ export class GoogleMeetRuntime extends MeetingSessionRuntime<
           audioBridgeUnavailable: "Realtime speech requires an active Chrome audio bridge.",
           browserUnverified: "Google Meet browser state has not been verified yet.",
           microphoneMuted:
-            "Turn on the FRIDAY Google Meet microphone before asking FRIDAY to speak.",
+            "Turn on the OpenClaw Google Meet microphone before asking OpenClaw to speak.",
           microphoneMutedReason: "meet-microphone-muted",
           notInCall: "Google Meet has not reported that the browser participant is in the call.",
           notInCallReason: "not-in-call",

@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/memory-wiki",
   "version": "2026.10.4",
-  "description": "FRIDAY persistent wiki plugin",
+  "description": "OpenClaw persistent wiki plugin",
   "type": "module",
   "dependencies": {
     "mdast-util-from-markdown": "2.1.0",

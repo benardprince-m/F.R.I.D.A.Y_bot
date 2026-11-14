@@ -1,4 +1,4 @@
-// Prompt Snapshot Files script supports FRIDAY repository automation.
+// Prompt Snapshot Files script supports OpenClaw repository automation.
 import fs from "node:fs/promises";
 import path from "node:path";
 import { GENERATED_PROMPT_SNAPSHOT_DIRS } from "../test/helpers/agents/prompt-snapshot-paths.js";

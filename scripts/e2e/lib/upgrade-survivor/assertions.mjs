@@ -541,7 +541,7 @@ function assertConfigSurvived() {
     assert(config.plugins?.entries?.acpx?.enabled === true, "ACPX plugin entry changed");
     assert(
       config.plugins?.entries?.acpx?.config?.openClawToolsMcpBridge === true,
-      "ACPX FRIDAY tools bridge config changed",
+      "ACPX OpenClaw tools bridge config changed",
     );
   }
 

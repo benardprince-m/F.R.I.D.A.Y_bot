@@ -796,7 +796,7 @@ describe("runEmbeddedAgent", () => {
     ).rejects.toThrow("boom");
   });
 
-  it("resolves explicit OpenAI FRIDAY runs through Codex when auth order starts with Codex OAuth", async () => {
+  it("resolves explicit OpenAI OpenClaw runs through Codex when auth order starts with Codex OAuth", async () => {
     const cfg = createRuntimeConfig(["mock-1"], "openai/mock-1", "openclaw");
     cfg.auth = { order: { openai: ["openai:work", "openai:backup"] } };
     mockSuccessfulEmbeddedAttempt();

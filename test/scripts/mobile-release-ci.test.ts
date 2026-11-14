@@ -124,13 +124,13 @@ describe("mobile release CI tools", () => {
       platform: "ios",
       workflow: ".github/workflows/ios-store-release.yml",
       buildDirectory: "app-store",
-      binaries: ["FRIDAY.ipa", "FRIDAY.ipa.sha256"],
+      binaries: ["OpenClaw.ipa", "OpenClaw.ipa.sha256"],
     },
     {
       platform: "android",
       workflow: ".github/workflows/android-store-release.yml",
       buildDirectory: "release-artifacts",
-      binaries: ["FRIDAY-phone.aab", "FRIDAY-wear.aab", "FRIDAY.apk", "FRIDAY.aab.sha256"],
+      binaries: ["OpenClaw-phone.aab", "OpenClaw-wear.aab", "OpenClaw.apk", "OpenClaw.aab.sha256"],
     },
   ];
   describe.each(releasePlatforms)("$platform release artifact recovery", ({ workflow }) => {
@@ -602,7 +602,7 @@ describe("mobile release CI tools", () => {
       for (const repository of [trusted, target]) {
         fs.mkdirSync(repository);
         git(repository, "init", "-q");
-        git(repository, "config", "user.name", "FRIDAY Test");
+        git(repository, "config", "user.name", "OpenClaw Test");
         git(repository, "config", "user.email", "test@openclaw.invalid");
       }
       writeFile(trusted, actionPath, trustedAction);
@@ -1847,7 +1847,7 @@ fi
           expect(args.at(-1)).toBe(keychainPath);
           return {
             stderr: "",
-            stdout: `  1) ${identityHash} "Apple Distribution: FRIDAY Foundation (FWJYW4S8P8)"\n`,
+            stdout: `  1) ${identityHash} "Apple Distribution: OpenClaw Foundation (FWJYW4S8P8)"\n`,
           };
         }
         const probePath = args.at(-1);
@@ -1874,7 +1874,7 @@ fi
           runCommand,
         }),
       ).resolves.toEqual({
-        identity: "Apple Distribution: FRIDAY Foundation (FWJYW4S8P8)",
+        identity: "Apple Distribution: OpenClaw Foundation (FWJYW4S8P8)",
         teamId: "FWJYW4S8P8",
       });
       expect(calls.map(({ executable }) => executable)).toEqual([

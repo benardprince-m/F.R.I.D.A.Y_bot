@@ -52,7 +52,7 @@ function mountSurface(context: ApplicationContext) {
 const ACCESS_QUESTION = {
   id: "access",
   header: "Access",
-  question: "How should FRIDAY work?",
+  question: "How should OpenClaw work?",
   options: [{ label: "Full access" }, { label: "Ask first" }],
 };
 

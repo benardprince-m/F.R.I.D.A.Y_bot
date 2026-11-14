@@ -45,7 +45,7 @@ fn verify_native_request(expected: bool) {
     let owned: Vec<_> = output
         .lines()
         .filter(|line| {
-            line.trim_start().starts_with(&owner) && line.contains("FRIDAY: Keep computer awake")
+            line.trim_start().starts_with(&owner) && line.contains("OpenClaw: Keep computer awake")
         })
         .collect();
     assert_eq!(

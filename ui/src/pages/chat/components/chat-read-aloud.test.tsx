@@ -69,7 +69,7 @@ function mount(
   const provider = createSolidApplicationContextProvider(context);
   const details = resolveMessageActionDetails(
     prepareChatMessageRender({ role: "assistant", content: "Local voice is working." }),
-    { messageId: "reply-1", senderLabel: "FRIDAY" },
+    { messageId: "reply-1", senderLabel: "OpenClaw" },
   );
   return mountSolid(() => <MessageActions details={details} options={{}} />, {
     wrapper: provider.wrapper,

@@ -407,7 +407,7 @@ export async function monitorTlonProvider(opts: MonitorTlonOpts): Promise<void> 
       if (senders.size > 0 && !senders.has(senderShip)) {
         runtime.log?.(
           `[tlon] ⚠️ SECURITY: Multiple users sharing DM session. ` +
-            `Configure "session.dmScope: per-channel-peer" in FRIDAY config.`,
+            `Configure "session.dmScope: per-channel-peer" in OpenClaw config.`,
         );
 
         if (!sharedSessionWarningSent && settingsState.effectiveOwnerShip) {
@@ -415,7 +415,7 @@ export async function monitorTlonProvider(opts: MonitorTlonOpts): Promise<void> 
           const warningMsg =
             `⚠️ Security Warning: Multiple users are sharing a DM session with this bot. ` +
             `This can leak conversation context between users.\n\n` +
-            `Fix: Add to your FRIDAY config:\n` +
+            `Fix: Add to your OpenClaw config:\n` +
             `session:\n  dmScope: "per-channel-peer"\n\n` +
             `Docs: https://docs.openclaw.ai/concepts/session#dm-isolation`;
 

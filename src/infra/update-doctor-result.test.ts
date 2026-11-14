@@ -202,7 +202,7 @@ describe("post-install doctor result IPC", () => {
     expect(getUpdateDoctorConfigWriteAuthority(configPath)).toBeUndefined();
   });
 
-  it("rejects result paths outside the secure FRIDAY temp root", async () => {
+  it("rejects result paths outside the secure OpenClaw temp root", async () => {
     const tempRoot = resolvePreferredOpenClawTmpDir();
     const resultPath = path.join(
       `${tempRoot}-outside`,

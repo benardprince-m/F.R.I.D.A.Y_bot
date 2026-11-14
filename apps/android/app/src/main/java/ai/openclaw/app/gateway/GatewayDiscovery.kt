@@ -59,7 +59,7 @@ private fun createContextDnsResolver(context: Context): DnsResolver = DnsResolve
 private fun createLegacyDnsResolver(): DnsResolver = DnsResolver.getInstance()
 
 /**
- * Watches local DNS-SD and optional wide-area DNS-SD for reachable FRIDAY gateways.
+ * Watches local DNS-SD and optional wide-area DNS-SD for reachable OpenClaw gateways.
  */
 class GatewayDiscovery(
   context: Context,
@@ -70,7 +70,7 @@ class GatewayDiscovery(
   private val dns = createDnsResolver(context)
   private val serviceType = "_openclaw-gw._tcp."
   private val wideAreaDomain = System.getenv("OPENCLAW_WIDE_AREA_DOMAIN")
-  private val logTag = "FRIDAY/GatewayDiscovery"
+  private val logTag = "OpenClaw/GatewayDiscovery"
 
   private val discoveryLock = Any()
   private val localById = mutableMapOf<String, GatewayEndpoint>()

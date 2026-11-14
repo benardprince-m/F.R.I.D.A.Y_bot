@@ -15,7 +15,7 @@ Subscribe to events from configured MCP accounts and trigger authored automation
 ## Distribution
 
 - Package: `@openclaw/mcp-events`
-- Install route: included in FRIDAY
+- Install route: included in OpenClaw
 
 ## Surface
 

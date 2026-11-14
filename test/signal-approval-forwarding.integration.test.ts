@@ -91,7 +91,7 @@ describe("Signal forwarded system-agent approvals", () => {
           createdAtMs: 1000,
           expiresAtMs: 61_000,
           request: {
-            title: "FRIDAY change",
+            title: "OpenClaw change",
             description: "Update the agent model",
             command: "Update the agent model",
             proposalHash: "fixture-proposal",

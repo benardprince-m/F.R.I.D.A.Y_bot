@@ -110,7 +110,7 @@ export async function sendBuzzTextOneShot(params: {
     if (session) {
       const directory = new BuzzDirectoryState({
         publicKey,
-        fallbackProfileName: "FRIDAY",
+        fallbackProfileName: "OpenClaw",
         channelIds: [params.channelId],
       });
       directory.replaceMemberships(
@@ -219,7 +219,7 @@ export async function startBuzzBus(options: {
   });
   const directory = new BuzzDirectoryState({
     publicKey,
-    fallbackProfileName: options.profileName ?? "FRIDAY",
+    fallbackProfileName: options.profileName ?? "OpenClaw",
     channelIds: options.channelIds,
     profileLimit: subscriptionBudget.profileLimit,
   });

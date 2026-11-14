@@ -1,4 +1,4 @@
-// Package FRIDAY For Docker tests cover QA Lab package artifact evidence.
+// Package OpenClaw For Docker tests cover QA Lab package artifact evidence.
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { once } from "node:events";
@@ -1644,7 +1644,7 @@ describe("package-openclaw-for-docker", () => {
     );
     fs.writeFileSync(
       path.join(docsDir, "index.md"),
-      '---\nsummary: "Frozen FRIDAY docs"\n---\n\n# FRIDAY\n',
+      '---\nsummary: "Frozen OpenClaw docs"\n---\n\n# OpenClaw\n',
     );
     expect(fs.existsSync(path.join(sourceDir, "scripts", "package-docs-map.mjs"))).toBe(false);
 
@@ -1913,7 +1913,7 @@ describe("package-openclaw-for-docker", () => {
           restoreChangelog: async () => {},
           runCaptureImpl: async () => `${filename}\n`,
         }),
-      ).rejects.toThrow("npm pack reported unsafe FRIDAY tarball filename");
+      ).rejects.toThrow("npm pack reported unsafe OpenClaw tarball filename");
     }
   });
 
@@ -1937,7 +1937,7 @@ describe("package-openclaw-for-docker", () => {
           restoreChangelog: async () => {},
           runCaptureImpl: async () => "npm notice\n",
         }),
-      ).rejects.toThrow("missing packed FRIDAY tarball");
+      ).rejects.toThrow("missing packed OpenClaw tarball");
 
       await expect(
         packOpenClawPackageForDocker(sourceDir, outputDir, {

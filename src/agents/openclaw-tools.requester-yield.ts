@@ -110,7 +110,7 @@ export function createRequesterYieldCallback(params: {
     // This turn owns no claim, but an earlier turn of the same session may still
     // await its children: their completion resumes the session on its own, so
     // report them instead of telling the model the work is finished. The runtime
-    // reports its own native children; the registry reports FRIDAY children.
+    // reports its own native children; the registry reports OpenClaw children.
     const pendingChildren =
       typeof runtimeClaim === "object" ? [...runtimeClaim.pendingChildren] : [];
     if (requesterSessionKey) {

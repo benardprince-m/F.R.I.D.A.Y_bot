@@ -260,12 +260,12 @@ function runFocusedValidatorLogProbe(
     ),
     historicalRun(
       historical.releaseChecksRunId,
-      `FRIDAY Release Checks ${historicalTitle}-release-checks`,
+      `OpenClaw Release Checks ${historicalTitle}-release-checks`,
       ".github/workflows/openclaw-release-checks.yml",
     ),
     historicalRun(
       historical.performanceRunId,
-      `FRIDAY Performance ${historicalTitle}`,
+      `OpenClaw Performance ${historicalTitle}`,
       ".github/workflows/openclaw-performance.yml",
       "failure",
     ),
@@ -301,7 +301,7 @@ function runFocusedValidatorLogProbe(
     createJob(
       historical.performanceFailedJobId,
       historical.performanceRunId,
-      "FRIDAY source performance probes",
+      "OpenClaw source performance probes",
       "failure",
     ),
     createJob(focused.ciSuccessJobId, focused.ciRunId, "check-lint", "success"),

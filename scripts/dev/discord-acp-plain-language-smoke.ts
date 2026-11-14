@@ -307,7 +307,7 @@ function usage(): string {
     "Usage: bun scripts/dev/discord-acp-plain-language-smoke.ts " +
     "--channel <discord-channel-id> [--token <driver-token> | --driver webhook --bot-token <bot-token> | --driver openclaw] [options]\n\n" +
     "Manual live smoke only (not CI). Sends a plain-language instruction in Discord and verifies:\n" +
-    "1) FRIDAY spawned an ACP thread binding\n" +
+    "1) OpenClaw spawned an ACP thread binding\n" +
     "2) agent replied in that bound thread with the expected ACK token\n\n" +
     "Options:\n" +
     "  --channel <id>               Parent Discord channel id (required)\n" +
@@ -321,8 +321,8 @@ function usage(): string {
     "  --instruction <text>         Custom instruction template (optional)\n" +
     "  --timeout-ms <n>             Total timeout in ms (default: 240000)\n" +
     "  --poll-ms <n>                Poll interval in ms (default: 1500)\n" +
-    "  --state-dir <p>              Override FRIDAY state dir for plugin-state polling\n" +
-    "  --openclaw-bin <path>        FRIDAY CLI binary for driver=openclaw (default: openclaw)\n" +
+    "  --state-dir <p>              Override OpenClaw state dir for plugin-state polling\n" +
+    "  --openclaw-bin <path>        OpenClaw CLI binary for driver=openclaw (default: openclaw)\n" +
     "  --json                       Emit JSON output\n" +
     "\n" +
     "Environment fallbacks:\n" +
@@ -909,7 +909,7 @@ async function run(argv = process.argv.slice(2)): Promise<SuccessResult | Failur
         ok: false,
         stage: "wait-ack",
         smokeId,
-        error: `Thread bound (${threadId}) but timed out waiting for ACK token "${ackToken}" from FRIDAY.`,
+        error: `Thread bound (${threadId}) but timed out waiting for ACK token "${ackToken}" from OpenClaw.`,
         diagnostics: await diagnostics([winningBinding]),
       };
     }

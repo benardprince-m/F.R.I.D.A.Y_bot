@@ -465,7 +465,7 @@ describe("Systems workspace", () => {
     ]);
     const { page } = await mount(controller);
     expect(page.querySelector(".systems-state button")?.textContent).toContain(
-      "Enable desktop access in FRIDAY",
+      "Enable desktop access in OpenClaw",
     );
     const request = vi.spyOn(context.gateway.snapshot.client!, "request");
     request.mockResolvedValueOnce({
@@ -489,7 +489,7 @@ describe("Systems workspace", () => {
     await context.runtimeConfig.refresh();
     await waitForSolid(() =>
       expect(page.querySelector(".systems-state button")?.textContent).toContain(
-        "Enable desktop access in FRIDAY",
+        "Enable desktop access in OpenClaw",
       ),
     );
   });

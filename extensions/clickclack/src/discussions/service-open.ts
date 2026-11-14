@@ -220,7 +220,7 @@ export async function openClickClackDiscussionBinding(
     return undefined;
   }
   if (!entry.sessionId?.trim()) {
-    throw new Error("FRIDAY session does not yet have a concrete session id");
+    throw new Error("OpenClaw session does not yet have a concrete session id");
   }
   const client = params.clientFactory(account);
   const workspaces = await client.workspaces();
@@ -434,7 +434,7 @@ export async function openClickClackDiscussionBinding(
     if (!currentEntry?.sessionId || currentEntry.archivedAt !== undefined) {
       await clearPendingDiscussionOpen(generationScope);
       params.warn(`unattached discussion channel remains quarantined: ${channel.id}`);
-      throw new Error("FRIDAY session became inactive while opening its ClickClack discussion");
+      throw new Error("OpenClaw session became inactive while opening its ClickClack discussion");
     }
     // Presentation changes during creation are reconciled through the normal session owner.
     const nextBinding: ClickClackDiscussionBinding = {

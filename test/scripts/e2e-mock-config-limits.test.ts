@@ -92,7 +92,7 @@ const contentMessage = (content: unknown, role = "user") => ({
 const textMessage = (text: string, role = "user") =>
   contentMessage([{ type: "input_text", text }], role);
 const runtimeText = (text: string) =>
-  `FRIDAY runtime context:\n${text}\nEnd FRIDAY runtime context.`;
+  `OpenClaw runtime context:\n${text}\nEnd OpenClaw runtime context.`;
 const internalText = (text: string) =>
   `<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>\n${text}\n<<<END_OPENCLAW_INTERNAL_CONTEXT>>>`;
 async function requestApi(
@@ -427,9 +427,9 @@ describe("mock OpenAI response markers", () => {
           "OPENCLAW_E2E_OK",
         );
         for (const text of [
-          "FRIDAY runtime context:\nTELEGRAM_BINDING_CHILD_boundary",
-          "ordinary prefix\nOpenClaw runtime context:\nTELEGRAM_BINDING_CHILD_boundary\nEnd FRIDAY runtime context.",
-          "FRIDAY runtime context:\nTELEGRAM_BINDING_CHILD_boundary\nEnd FRIDAY runtime context.\nordinary suffix",
+          "OpenClaw runtime context:\nTELEGRAM_BINDING_CHILD_boundary",
+          "ordinary prefix\nOpenClaw runtime context:\nTELEGRAM_BINDING_CHILD_boundary\nEnd OpenClaw runtime context.",
+          "OpenClaw runtime context:\nTELEGRAM_BINDING_CHILD_boundary\nEnd OpenClaw runtime context.\nordinary suffix",
         ]) {
           await expectText(
             [...completed, user(text), currentContext],
@@ -717,10 +717,10 @@ describe("mock OpenAI response markers", () => {
     );
   });
 
-  it("echoes dynamic FRIDAY E2E and update serving markers", async (ctx) => {
+  it("echoes dynamic OpenClaw E2E and update serving markers", async (ctx) => {
     await withMockServer(ctx, async (baseUrl) => {
       const servingMarker = "update-verified-67a60fb5-203d-4d08-bfba-6f5a053af61b";
-      const servingPrompt = `This is an FRIDAY update serving check. Do not use tools. Reply with exactly: ${servingMarker}`;
+      const servingPrompt = `This is an OpenClaw update serving check. Do not use tools. Reply with exactly: ${servingMarker}`;
       for (const marker of ["OPENCLAW_E2E_SEED_0_123", "OPENCLAW_E2E_ANDROID_OK", servingMarker]) {
         const prompt = marker === servingMarker ? servingPrompt : `Reply exactly with ${marker}.`;
         expect(responseText(await requestResponse(baseUrl, prompt))).toBe(marker);

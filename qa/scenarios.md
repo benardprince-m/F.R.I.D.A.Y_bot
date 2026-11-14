@@ -1,4 +1,4 @@
-# FRIDAY QA Scenarios
+# OpenClaw QA Scenarios
 
 Canonical scenario source now lives in:
 

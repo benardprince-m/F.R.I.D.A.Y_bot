@@ -2,11 +2,11 @@ import ConcurrencyExtras
 import Foundation
 import SQLite3
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct PortGuardianRecordStoreTests {
     @Test
-    func `storage marker distinguishes older FRIDAY writers from aligned copies`() {
+    func `storage marker distinguishes older OpenClaw writers from aligned copies`() {
         #expect(!PortGuardian.usesLegacyPortGuardianStorage(
             bundleIdentifier: "com.example.unrelated",
             storageVersion: nil))
@@ -30,7 +30,7 @@ struct PortGuardianRecordStoreTests {
             .deletingLastPathComponent()
             .deletingLastPathComponent()
             .deletingLastPathComponent()
-        let infoURL = macOSRoot.appendingPathComponent("Sources/FRIDAY/Resources/Info.plist")
+        let infoURL = macOSRoot.appendingPathComponent("Sources/OpenClaw/Resources/Info.plist")
         let data = try Data(contentsOf: infoURL)
         let values = try #require(
             PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any])

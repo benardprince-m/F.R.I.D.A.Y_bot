@@ -8,7 +8,7 @@ import {
 } from "./lib/actions-artifact-archive.mjs";
 import { isRecord } from "./lib/record-shared.mjs";
 
-const PUBLISH_JOB = "Publish plugins, then FRIDAY";
+const PUBLISH_JOB = "Publish plugins, then OpenClaw";
 const EVIDENCE_STEP = "Upload postpublish evidence";
 const EVIDENCE_FILE = "release-postpublish-evidence.json";
 const MAX_EVIDENCE_BYTES = 1024 * 1024;

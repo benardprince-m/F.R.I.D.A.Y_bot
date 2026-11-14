@@ -293,7 +293,7 @@ describe("Microsoft Teams meeting platform adapter", () => {
     expect(window["__openclawTeamsAudioOutputs"]).toHaveLength(1);
   });
 
-  it("does not leave a call owned by a newer FRIDAY session", () => {
+  it("does not leave a call owned by a newer OpenClaw session", () => {
     const leave = control({ label: "Leave" });
     const inCallUrl = "https://teams.microsoft.com/v2/";
     const { result } = runLeaveScript({
@@ -571,7 +571,7 @@ describe("Microsoft Teams meeting platform adapter", () => {
   });
 
   it("rejects a non-contract virtual audio label", async () => {
-    const deviceLabel = "FRIDAY Meeting Audio (Virtual)";
+    const deviceLabel = "OpenClaw Meeting Audio (Virtual)";
     const { result } = await runStatusScript({
       allowMicrophone: true,
       camera: control({ label: "Turn camera on", pressed: false }),
@@ -585,7 +585,7 @@ describe("Microsoft Teams meeting platform adapter", () => {
       audioInputRouted: false,
       manualAction: {
         message:
-          "Select the FRIDAY virtual audio device as the Teams microphone and verify it is selected before enabling talk-back.",
+          "Select the OpenClaw virtual audio device as the Teams microphone and verify it is selected before enabling talk-back.",
         reason: "teams-audio-choice-required",
       },
     });

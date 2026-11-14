@@ -1,4 +1,4 @@
-title: FRIDAY stores an owner's chat key without taking over an existing entry, and ignores a non-owner's
+title: OpenClaw stores an owner's chat key without taking over an existing entry, and ignores a non-owner's
 
 scenario:
   id: system-agent-owner-trust
@@ -8,7 +8,7 @@ scenario:
       - agent-runtime.delegated-tool-access
     secondary:
       - channels.qa-channel-outbound
-  objective: Verify a Full Access chat can hand FRIDAY an API key that lands in the secret store, next to an existing entry that already uses the preferred name.
+  objective: Verify a Full Access chat can hand OpenClaw an API key that lands in the secret store, next to an existing entry that already uses the preferred name.
   gatewayConfigPatch:
     commands:
       ownerAllowFrom: [qa-channel:alice]

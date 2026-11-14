@@ -98,7 +98,7 @@ function resolveAgentHarnessExecutionRestriction(
     [
       !consented && facts.toolPolicyRestricted,
       "tool-policy",
-      " uses its own tools and cannot enforce this chat's FRIDAY tool restrictions.",
+      " uses its own tools and cannot enforce this chat's OpenClaw tool restrictions.",
     ],
   ];
   const restriction = restrictions.find(([applies]) => applies);
@@ -607,10 +607,10 @@ export function resolvePluginHarnessToolPolicies(
     ],
     safeDeniedToolNames: collectHarnessSafeDeniedToolNames(explicitPolicies, safeDenyToolNameSet),
     requiresLiveToolAuthority: Boolean(policy.delegatedToolPolicy),
-    // Native tools bypass the collector's noninteractive FRIDAY wrappers.
+    // Native tools bypass the collector's noninteractive OpenClaw wrappers.
     // Keep policy-allowed host replacements, without ambient input or approval surfaces.
     toolPolicyRestricted:
-      // Delegated tools require FRIDAY’s live pre-effect grant checks.
+      // Delegated tools require OpenClaw’s live pre-effect grant checks.
       Boolean(policy.delegatedToolPolicy) ||
       params.swarmCollector === true ||
       nativeToolNames?.some((toolName) => !isToolAllowedByPolicies(toolName, profilePolicies)) ===

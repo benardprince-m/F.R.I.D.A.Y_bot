@@ -1,25 +1,25 @@
 ---
-summary: "OAuth in FRIDAY: token exchange, storage, and multi-account patterns"
+summary: "OAuth in OpenClaw: token exchange, storage, and multi-account patterns"
 read_when:
-  - You want to understand FRIDAY OAuth end-to-end
+  - You want to understand OpenClaw OAuth end-to-end
   - You hit token invalidation / logout issues
   - You want Claude CLI or OAuth auth flows
   - You want multiple accounts or profile routing
 title: "OAuth"
 ---
 
-FRIDAY supports OAuth ("subscription auth") for providers that offer it,
+OpenClaw supports OAuth ("subscription auth") for providers that offer it,
 notably **OpenAI Codex (ChatGPT OAuth)** and **Anthropic Claude CLI reuse**.
 For Anthropic, the practical split is:
 
 - **Anthropic API key**: normal Anthropic API billing.
-- **Anthropic Claude CLI / subscription auth inside FRIDAY**: Anthropic staff
-  told us this usage is allowed again, so FRIDAY treats Claude CLI reuse and
+- **Anthropic Claude CLI / subscription auth inside OpenClaw**: Anthropic staff
+  told us this usage is allowed again, so OpenClaw treats Claude CLI reuse and
   `claude -p` usage as sanctioned for this integration unless Anthropic
   publishes a new policy. For Anthropic in production, API key auth is still
   the safer recommended path.
 
-FRIDAY stores both OpenAI API-key auth and ChatGPT/Codex OAuth under the
+OpenClaw stores both OpenAI API-key auth and ChatGPT/Codex OAuth under the
 standard provider id `openai`. Older `openai-codex:*` profile ids and
 `auth.order.openai-codex` entries are legacy state repaired by
 `openclaw doctor --fix`; use `openai:*` profile ids and `auth.order.openai` for
@@ -44,26 +44,26 @@ Model Setup opens the same picker and connection flow. Choose **Test & use** whe
 you want to verify a model and select it. Plugins that only support full setup
 keep their separate setup action.
 
-FRIDAY's browser callback pages follow your system's light or dark appearance. If a page says **Authorization received**, return to the terminal while FRIDAY finishes the exchange and saves the account. The terminal or Control UI reports when sign-in is complete.
+OpenClaw's browser callback pages follow your system's light or dark appearance. If a page says **Authorization received**, return to the terminal while OpenClaw finishes the exchange and saves the account. The terminal or Control UI reports when sign-in is complete.
 
 ## The token sink (why it exists)
 
 OAuth providers commonly mint a new refresh token on every login/refresh.
 Some providers invalidate the previous refresh token when a new one is
-issued for the same user/app. Practical symptom: log in via FRIDAY _and_
+issued for the same user/app. Practical symptom: log in via OpenClaw _and_
 via Claude Code / Codex CLI, and one of them randomly gets logged out later.
 
-To reduce that, FRIDAY treats the auth profile store as a **token sink**:
+To reduce that, OpenClaw treats the auth profile store as a **token sink**:
 
 - the runtime reads credentials from one place per agent
 - multiple profiles can coexist and route by fixed rules
-- external CLI reuse is provider-specific: once FRIDAY owns a local OAuth
+- external CLI reuse is provider-specific: once OpenClaw owns a local OAuth
   profile for a provider, the local refresh token is the source of truth. If that local
-  refresh token is rejected, FRIDAY reports the profile for
+  refresh token is rejected, OpenClaw reports the profile for
   re-authentication instead of falling back to external CLI token material.
   Codex CLI bootstrap is narrower still: it can only seed an empty
-  `openai:default`-style profile before FRIDAY owns OAuth for that
-  provider; after that, FRIDAY-owned refreshes stay the source of truth
+  `openai:default`-style profile before OpenClaw owns OAuth for that
+  provider; after that, OpenClaw-owned refreshes stay the source of truth
 - status/startup paths scope external CLI discovery to the provider set
   already configured, so an unrelated CLI login store is not checked for a
   single-provider setup
@@ -120,7 +120,7 @@ The database and migration sources respect `$OPENCLAW_STATE_DIR`. Full reference
 
 For static secret refs and runtime snapshot activation behavior, see [Secrets Management](/gateway/secrets).
 
-When an agent has no local auth profile, FRIDAY reads the shared auth store;
+When an agent has no local auth profile, OpenClaw reads the shared auth store;
 it does not clone shared credentials into the agent database. OAuth refresh
 tokens are especially sensitive: normal copy flows skip them by default
 because some providers rotate or invalidate refresh tokens after use.
@@ -129,16 +129,16 @@ account.
 
 ## Anthropic Claude CLI reuse
 
-FRIDAY supports Anthropic Claude CLI reuse and `claude -p` as a sanctioned
+OpenClaw supports Anthropic Claude CLI reuse and `claude -p` as a sanctioned
 auth path. If you already have a local Claude login on the host,
 onboarding/configure can reuse it directly. Anthropic setup-token remains
-available as a supported token-auth path, but FRIDAY prefers Claude CLI
+available as a supported token-auth path, but OpenClaw prefers Claude CLI
 reuse when it is available.
 
 <Warning>
 Anthropic's public Claude Code docs say direct Claude Code use stays within
-Claude subscription limits, and Anthropic staff told us FRIDAY-style Claude
-CLI usage is allowed again. FRIDAY therefore treats Claude CLI reuse and
+Claude subscription limits, and Anthropic staff told us OpenClaw-style Claude
+CLI usage is allowed again. OpenClaw therefore treats Claude CLI reuse and
 `claude -p` usage as sanctioned for this integration unless Anthropic
 publishes a new policy.
 
@@ -148,7 +148,7 @@ plan](https://support.claude.com/en/articles/11145838-using-claude-code-with-you
 and [Using Claude Code with your Team or Enterprise
 plan](https://support.anthropic.com/en/articles/11845131-using-claude-code-with-your-team-or-enterprise-plan/).
 
-If you want other subscription-style options in FRIDAY, see [OpenAI
+If you want other subscription-style options in OpenClaw, see [OpenAI
 Codex](/providers/openai), [Qwen Cloud Coding
 Plan](/providers/qwen), [MiniMax Coding Plan](/providers/minimax),
 and [Z.AI / GLM Coding Plan](/providers/zai).
@@ -156,7 +156,7 @@ and [Z.AI / GLM Coding Plan](/providers/zai).
 
 ## OAuth exchange (how login works)
 
-FRIDAY's OAuth registry and adapters live in `src/llm/utils/oauth/`. Shared provider helpers live in `src/plugin-sdk/provider-oauth-runtime.ts` and `src/plugin-sdk/provider-auth-runtime.ts`. The auth commands in `src/commands/models/auth.ts` run the selected provider method and persist the returned profiles.
+OpenClaw's OAuth registry and adapters live in `src/llm/utils/oauth/`. Shared provider helpers live in `src/plugin-sdk/provider-oauth-runtime.ts` and `src/plugin-sdk/provider-auth-runtime.ts`. The auth commands in `src/commands/models/auth.ts` run the selected provider method and persist the returned profiles.
 
 ### Restarting sign-in in Model Setup
 
@@ -173,14 +173,14 @@ retrying.
 
 Flow shape:
 
-1. create the token by running `claude setup-token` on any machine with Claude Code, then start Anthropic setup-token or paste-token from FRIDAY
-2. FRIDAY stores the resulting Anthropic credential in an auth profile
+1. create the token by running `claude setup-token` on any machine with Claude Code, then start Anthropic setup-token or paste-token from OpenClaw
+2. OpenClaw stores the resulting Anthropic credential in an auth profile
 3. model selection stays on `anthropic/...`
 4. existing Anthropic auth profiles remain available for rollback/order control
 
 ### OpenAI Codex (ChatGPT OAuth)
 
-OpenAI Codex OAuth is explicitly supported for use outside the Codex CLI, including FRIDAY workflows.
+OpenAI Codex OAuth is explicitly supported for use outside the Codex CLI, including OpenClaw workflows.
 
 The login command uses the standard OpenAI provider id:
 
@@ -223,7 +223,7 @@ Profiles store an `expires` timestamp. At runtime:
   agent store
 - externally managed CLI credentials (Claude CLI, narrow Codex CLI bootstrap;
   see [The token sink](#the-token-sink-why-it-exists)) are re-read instead of
-  spending a copied refresh token. If a managed refresh fails, FRIDAY
+  spending a copied refresh token. If a managed refresh fails, OpenClaw
   reports the affected profile for re-authentication instead of returning
   external CLI token material.
 

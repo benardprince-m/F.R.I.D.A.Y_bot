@@ -1,7 +1,7 @@
 ---
 summary: "Set up and operate an experimental PostgreSQL-backed Gateway, including ports, backups, and recovery limits"
 read_when:
-  - Setting up PostgreSQL for an FRIDAY Gateway
+  - Setting up PostgreSQL for an OpenClaw Gateway
   - Migrating an existing installation between SQLite and PostgreSQL
   - Planning PostgreSQL backups, updates, or disaster recovery
 title: "PostgreSQL operator guide"
@@ -446,7 +446,7 @@ To recover these scopes:
 2. Set the recovery installation's state/config paths and agent directories;
    supply its external connection secret separately, pointing at the recovery
    database. Preserve the matching `database.engine` and `database.families`
-   selections, and use a compatible FRIDAY version and matching plugins.
+   selections, and use a compatible OpenClaw version and matching plugins.
    Recover the matching non-database files alongside the Git snapshots. A full
    archive restore already rehydrates its PostgreSQL stores; use Git restore
    when recovering selected database scopes instead.

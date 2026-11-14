@@ -69,10 +69,10 @@ mod tests {
     #[test]
     fn recognizes_only_executables_inside_macos_app_bundles() {
         assert!(is_macos_app_bundle_executable(Path::new(
-            "/Applications/FRIDAY.app/Contents/MacOS/openclaw-desktop"
+            "/Applications/OpenClaw.app/Contents/MacOS/openclaw-desktop"
         )));
         assert!(!is_macos_app_bundle_executable(Path::new(
-            "/tmp/FRIDAY/Contents/MacOS/openclaw-desktop"
+            "/tmp/OpenClaw/Contents/MacOS/openclaw-desktop"
         )));
         assert!(!is_macos_app_bundle_executable(Path::new(
             "/tmp/target/debug/openclaw-desktop"

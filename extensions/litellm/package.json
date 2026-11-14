@@ -2,7 +2,7 @@
   "name": "@openclaw/litellm-provider",
   "version": "2026.10.4",
   "private": true,
-  "description": "FRIDAY LiteLLM provider plugin",
+  "description": "OpenClaw LiteLLM provider plugin",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*"

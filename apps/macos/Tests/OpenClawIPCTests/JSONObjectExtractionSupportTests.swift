@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct JSONObjectExtractionSupportTests {
     @Test(arguments: ["", "no JSON", "{", "}", "} diagnostic {"])

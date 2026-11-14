@@ -20,9 +20,9 @@ export {
   orderSystemUpdateMessages,
 } from "../../packages/agent-core/src/operator-messages.js";
 
-/** Opening delimiter for protected FRIDAY runtime context blocks. */
+/** Opening delimiter for protected OpenClaw runtime context blocks. */
 export const INTERNAL_RUNTIME_CONTEXT_BEGIN = RUNTIME_CONTEXT_BEGIN_MARKER;
-/** Closing delimiter for protected FRIDAY runtime context blocks. */
+/** Closing delimiter for protected OpenClaw runtime context blocks. */
 export const INTERNAL_RUNTIME_CONTEXT_END = RUNTIME_CONTEXT_END_MARKER;
 
 const ESCAPED_INTERNAL_RUNTIME_CONTEXT_BEGIN = "[[OPENCLAW_INTERNAL_CONTEXT_BEGIN]]";
@@ -31,7 +31,7 @@ const ESCAPED_INTERNAL_RUNTIME_CONTEXT_END = "[[OPENCLAW_INTERNAL_CONTEXT_END]]"
 /** Notice inserted into runtime-generated context blocks. */
 export const OPENCLAW_RUNTIME_CONTEXT_NOTICE =
   "This context is runtime-generated, not user-authored. Keep internal details private.";
-export const RUNTIME_EVENT_USER_PROMPT = "Continue the FRIDAY runtime event.";
+export const RUNTIME_EVENT_USER_PROMPT = "Continue the OpenClaw runtime event.";
 /** Custom message type used for structured runtime-context messages. */
 export const OPENCLAW_RUNTIME_CONTEXT_CUSTOM_TYPE = RUNTIME_CONTEXT_CUSTOM_TYPE;
 export const STEERING_RUNTIME_CONTEXT = Symbol.for("openclaw.steeringRuntimeContext");
@@ -65,7 +65,7 @@ export type CurrentInboundPromptContext = {
 };
 
 const INTERNAL_CONTEXT_HEADER =
-  ["FRIDAY runtime context (internal):", OPENCLAW_RUNTIME_CONTEXT_NOTICE, ""].join("\n") + "\n";
+  ["OpenClaw runtime context (internal):", OPENCLAW_RUNTIME_CONTEXT_NOTICE, ""].join("\n") + "\n";
 
 const INTERNAL_EVENT_MARKER = "[Internal task completion event]";
 
@@ -204,9 +204,9 @@ function stripUndelimitedInternalRuntimeContext(text: string): string {
 
 // Prefaces of carriers persisted before the system prompt explained the markers; kept for stripping.
 const RUNTIME_CONTEXT_PROMPT_HEADERS: readonly string[] = [
-  "FRIDAY runtime context for the active user request in this turn. Do not reply to or describe this context. Use it to continue answering the active user request now. Do not wait for another message.",
-  "FRIDAY runtime context for the immediately preceding user message.",
-  "FRIDAY runtime event.",
+  "OpenClaw runtime context for the active user request in this turn. Do not reply to or describe this context. Use it to continue answering the active user request now. Do not wait for another message.",
+  "OpenClaw runtime context for the immediately preceding user message.",
+  "OpenClaw runtime event.",
 ];
 const RUNTIME_CONTEXT_CARRIER_PREFIX_PATTERN = new RegExp(
   RUNTIME_CONTEXT_PROMPT_HEADERS.flatMap((header) => {

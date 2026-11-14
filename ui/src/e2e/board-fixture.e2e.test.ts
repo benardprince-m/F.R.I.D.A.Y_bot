@@ -337,7 +337,7 @@ describeStandaloneMockServer("standalone Control UI mock server", () => {
         await page.goto(`${origin}/chat`, { waitUntil: "networkidle" });
         // The fixture viewer is Riley; this shared checkout belongs to Peter.
         await selectAllSidebarSessions(page);
-        await page.getByText("FRIDAY work checkout", { exact: true }).click();
+        await page.getByText("OpenClaw work checkout", { exact: true }).click();
         await page.getByRole("button", { name: "Write a message to send." }).waitFor();
         await page.screenshot({ path: path.join(artifacts, "chat.png") });
         await page.goto(`${origin}/profile`, { waitUntil: "networkidle" });
@@ -850,7 +850,7 @@ describeStandaloneMockServer("standalone Control UI mock server", () => {
       await page.goto(new URL("/chat", fixtureServer.url).toString(), { waitUntil: "networkidle" });
       expect(await page.locator(".community-invite-card").count()).toBe(0);
       await selectAllSidebarSessions(page);
-      await page.getByText("FRIDAY work checkout", { exact: true }).click();
+      await page.getByText("OpenClaw work checkout", { exact: true }).click();
 
       await page.getByRole("button", { name: "Write a message to send." }).waitFor();
       expect(await page.getByText("Server updated", { exact: true }).count()).toBe(0);
@@ -887,7 +887,7 @@ describeStandaloneMockServer("standalone Control UI mock server", () => {
     try {
       await page.goto(new URL("/chat", fixtureServer.url).toString(), { waitUntil: "networkidle" });
       await selectAllSidebarSessions(page);
-      await page.getByText("FRIDAY work checkout", { exact: true }).click();
+      await page.getByText("OpenClaw work checkout", { exact: true }).click();
       await page.getByRole("button", { name: "Write a message to send." }).waitFor();
 
       const prompt = "generic mock send probe";

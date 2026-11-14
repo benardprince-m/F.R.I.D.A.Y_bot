@@ -53,7 +53,7 @@ Rules:
   own summaries; `wait` needs no title and resumes activity under the original cell.
 - `code` is the required model-facing JavaScript field and must be non-empty.
 - `command` is accepted as an exec-compatible alias for hook policies and
-  trusted rewrites (the normal FRIDAY shell exec tool also uses a `command`
+  trusted rewrites (the normal OpenClaw shell exec tool also uses a `command`
   field). Blank caller aliases are treated as absent; a hook or trusted policy
   that invalidates one populated alias (blank or non-string) invalidates both so
   execution is blocked. When both aliases are non-empty, their values must match.
@@ -65,10 +65,10 @@ Rules:
 - The retired `language` and `typecheck` fields are rejected with `invalid_input`.
   Tool arguments are validated when each call reaches its normal execution owner;
   Code Mode does not typecheck the whole program before execution.
-- Do not set `restartSafe` on a new `exec`. Set it to `true` only when FRIDAY
+- Do not set `restartSafe` on a new `exec`. Set it to `true` only when OpenClaw
   explicitly requests replay after a gateway restart, and never for `write`,
   `edit`, `exec`, or any mutation. Every catalog call must be explicitly
-  replay-safe. FRIDAY rejects unmarked catalog tools and namespace
+  replay-safe. OpenClaw rejects unmarked catalog tools and namespace
   surfaces that are not proven replay-safe. A generic exec surface is not
   replay-safe merely because one command appears read-only; use audited read,
   grep, or find tools.
@@ -121,7 +121,7 @@ type CodeModeFailedResult = {
 needs a model-visible continuation — an explicit `yield_control(...)`, or a
 bridge tool call that has not resolved within the exec deadline. The result
 includes a `runId` for `wait`. Native-channel exec approvals are different:
-while the operator decision is pending, FRIDAY suspends both the Code Mode
+while the operator decision is pending, OpenClaw suspends both the Code Mode
 execution budget and the owning agent-run budget. The original `exec` remains
 in flight, then resumes with exactly its unused budget after approval resolves;
 it does not return `pending_tools` or require model polling through `wait`.
@@ -142,7 +142,7 @@ inline in the same turn. Late sequential calls background sooner and still
 return their process handle so the guest can resume inline.
 
 `exec` returns `completed` only when the guest VM has no pending work and the
-final value is JSON-compatible after FRIDAY's output adapter runs.
+final value is JSON-compatible after OpenClaw's output adapter runs.
 
 New `exec` and `wait` result text uses compact JSON to leave more of the context
 budget for tool data. Status, continuation, replay safety, telemetry, and
@@ -201,7 +201,7 @@ type CodeModeWaitInput = {
 
 Output is the same `CodeModeResult` union returned by `exec`.
 
-`wait` exists because nested FRIDAY tools can be slow, interactive, or stream
+`wait` exists because nested OpenClaw tools can be slow, interactive, or stream
 partial updates; the model should not need to keep one long `exec` call open
 while the host waits for ordinary external work. Native-channel exec approvals
 are the exception: they stay inside the original `exec` so approval authority
@@ -217,11 +217,11 @@ heap may complete inline but fail when it must genuinely park.
 Both executors use the same `wait` contract:
 
 1. `exec` evaluates code until completion, failure, or suspension.
-2. On suspension, the selected executor retains its continuation and FRIDAY
+2. On suspension, the selected executor retains its continuation and OpenClaw
    records pending host work.
 3. When pending work settles, `wait` resumes the same executor. Node continues
    its live context; QuickJS restores its snapshot and re-registers callbacks.
-4. FRIDAY delivers nested tool results and lets JavaScript continuations run.
+4. OpenClaw delivers nested tool results and lets JavaScript continuations run.
 5. `wait` returns `completed`, `failed`, or another `waiting` result.
 
 Continuations are runtime state, not user artifacts: their ownership lives only
@@ -268,7 +268,7 @@ shell session with `action: "poll"` in a new `exec`. Do not launch the command a
 ## Tool catalog
 
 The hidden catalog includes tools after effective policy filtering, in this
-order: FRIDAY core tools, bundled plugin tools, external plugin tools, MCP
+order: OpenClaw core tools, bundled plugin tools, external plugin tools, MCP
 tools, then client-provided tools for the current run.
 
 Catalog ids remain opaque host-only routing identities. They are stable within
@@ -277,7 +277,7 @@ are never included in the prompt, guest metadata, handle descriptions, or
 errors. Policy, approvals, telemetry, replay safety, and namespace dispatch
 continue to use them internally.
 
-Before the worker starts, FRIDAY projects one effective winner per exact tool
+Before the worker starts, OpenClaw projects one effective winner per exact tool
 name and computes its final guest callable name. This matches direct-mode
 precedence: later client tools win an exact-name shadow, while plugin conflict
 enforcement remains unchanged. The finalized projection is carried through
@@ -299,27 +299,27 @@ Remote descriptions and schemas stay out of the trusted quick index.
 
 ## Tool Search interaction
 
-Code mode supersedes the FRIDAY Tool Search model surface for runs where it
+Code mode supersedes the OpenClaw Tool Search model surface for runs where it
 is active.
 
 When Code Mode engages through forced `true` or `"auto"` activation:
 
-- FRIDAY does not expose `tool_search`, `tool_describe`, or `dispatch_action` as
+- OpenClaw does not expose `tool_search`, `tool_describe`, or `dispatch_action` as
   model-visible tools.
 - The same cataloging idea moves inside the guest runtime.
 - The guest runtime receives bare async globals plus callable search/describe
   handles for native tools, plus on-demand MCP search handles.
 - MCP calls use the generated `MCP` namespace, directly or through a search
   handle; handle `describe()` requests the exact `$api()` header and schema.
-- Nested calls dispatch through the same FRIDAY executor path that Tool
+- Nested calls dispatch through the same OpenClaw executor path that Tool
   Search uses.
 
-See [Tool Search](/tools/tool-search) for the FRIDAY structured catalog surface
+See [Tool Search](/tools/tool-search) for the OpenClaw structured catalog surface
 that code mode supersedes for active runs.
 
 ## Tool names and collisions
 
-The model-visible `exec` tool is the code-mode tool. If the normal FRIDAY
+The model-visible `exec` tool is the code-mode tool. If the normal OpenClaw
 shell `exec` tool is enabled, it is hidden from the model and cataloged like
 any other tool.
 

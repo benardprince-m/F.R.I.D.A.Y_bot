@@ -139,7 +139,7 @@ function reportFor(fixture: ReturnType<typeof summary>, secondCodexStatus = "pas
       pass: true,
     },
     markdown: [
-      "# FRIDAY Runtime Parity Report — openclaw vs codex",
+      "# OpenClaw Runtime Parity Report — openclaw vs codex",
       "",
       "- Verdict: pass",
       ...rows.flatMap((entry) => [

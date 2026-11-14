@@ -76,7 +76,7 @@ async function loadConfiguredVaultIdentity(vaultRoot: string): Promise<{
 export default definePluginEntry({
   id: "memory-wiki",
   name: "Memory Wiki",
-  description: "Persistent wiki compiler and Obsidian-friendly knowledge vault for FRIDAY.",
+  description: "Persistent wiki compiler and Obsidian-friendly knowledge vault for OpenClaw.",
   configSchema: memoryWikiConfigSchema,
   register(api) {
     const config = resolveMemoryWikiConfig(api.pluginConfig);

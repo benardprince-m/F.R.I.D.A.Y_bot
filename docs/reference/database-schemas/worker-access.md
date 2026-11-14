@@ -1007,7 +1007,7 @@ likewise seed facts in the worker and apply provenance and deletion-journal
 receipts. Canonical validation predicates consume admitted receipts; only schema
 admission and worker opens load a missing persisted receipt.
 
-The Gateway process is the single owner of FRIDAY databases and their state.
+The Gateway process is the single owner of OpenClaw databases and their state.
 Reader workers, writer workers, and main-thread projections share that ownership;
 a separate connection is not a separate state owner. The committing writer's
 in-process receipts invalidate every retained row cache before its next use.
@@ -1077,7 +1077,7 @@ schema, and integrity facts; decisions retain their pathname scope. The persiste
 schema is unchanged.
 
 The host owns retained identity descriptors so worker retirement cannot close them
-and release a sibling SQLite connection's POSIX locks. Workers outside FRIDAY's
+and release a sibling SQLite connection's POSIX locks. Workers outside OpenClaw's
 admission transport can consume inherited host facts; an unshared first open
 retains its native validation checks. Fact-only worker channels do not authorize
 file creation. Production writer stores open through the host-only broker, which
@@ -2790,7 +2790,7 @@ without repeating those reads. Grants never rediscover shared-state registry or
 profile ownership while the placement writer holds its transaction.
 Retained readers reuse admitted schema facts and check current ownership rows
 at the effect boundary. Owning-writer receipts invalidate retained row facts;
-schema changes made by FRIDAY's migration or repair owner arrive through its
+schema changes made by OpenClaw's migration or repair owner arrive through its
 fact publication.
 
 The released `getMany`, `retireSessionPlacement`, and restart-clear methods retain
@@ -6315,7 +6315,7 @@ publication. Stored grants survive restart; process-local observations do not.
 This publication foundation preserves receipt revisions, force-run eligibility,
 schemas, retention, and update behavior.
 Provider-library preparation after an SDK handoff remains inside that accepted
-operation; FRIDAY does not hold cron authority through the provider response.
+operation; OpenClaw does not hold cron authority through the provider response.
 
 Standing-grant lookup and consumption use the approval read and write workers.
 The Gateway retains the exact local receipt, marker, and admitted run through
@@ -6515,7 +6515,7 @@ Secret-store expiry runs in that worker for scheduled Gateway cleanup and
 post-mutation cleanup. The caller captures the database and expiry cutoffs before
 yielding; the worker retains the existing SQL and expiry rules and returns only
 the deleted count. Scheduled sweeps coalesce while one is active, and Gateway
-shutdown stops scheduling and joins accepted cleanup. An FRIDAY chat that saves
+shutdown stops scheduling and joins accepted cleanup. An OpenClaw chat that saves
 a key for a config path writes its store entry in the same worker: one
 transaction mints a random entry name, inserts a new row without touching
 existing ones, and admits the write through the requester's live

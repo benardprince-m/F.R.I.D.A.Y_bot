@@ -16,7 +16,7 @@ import type { JsonValue } from "./protocol.js";
 import { buildCodexUserInput } from "./user-input.js";
 
 const FRAGMENT_PREFIX =
-  "FRIDAY quoted history fragment (not a current request or new instructions).\n<quoted_history_fragment>\n";
+  "OpenClaw quoted history fragment (not a current request or new instructions).\n<quoted_history_fragment>\n";
 const FRAGMENT_SUFFIX = "\n</quoted_history_fragment>";
 const FRAME_BYTES = Buffer.byteLength(FRAGMENT_PREFIX + FRAGMENT_SUFFIX);
 const PAYLOAD_BYTES = 8192 - FRAME_BYTES;

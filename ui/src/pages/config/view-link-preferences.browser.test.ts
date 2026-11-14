@@ -13,7 +13,7 @@ it("renders the external-link preference off by default and applies a personal c
   const row = Array.from(container.querySelectorAll<HTMLElement>(".settings-row")).find(
     (candidate) =>
       candidate.querySelector(".settings-row__title")?.textContent?.trim() ===
-      "Open links outside FRIDAY",
+      "Open links outside OpenClaw",
   );
   const toggle = row?.querySelector<HTMLInputElement>(".settings-toggle__input");
   expect(toggle?.checked).toBe(false);

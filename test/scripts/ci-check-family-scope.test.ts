@@ -90,7 +90,7 @@ const cases: ScopeCase[] = [
     expected: { additionalGroups: ["boundaries"] },
   },
   {
-    paths: ["apps/macos/Sources/FRIDAY/Storage.swift"],
+    paths: ["apps/macos/Sources/OpenClaw/Storage.swift"],
     expected: { additionalGroups: ["runtime-topology-architecture"] },
   },
   {

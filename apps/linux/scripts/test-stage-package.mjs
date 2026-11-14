@@ -56,7 +56,7 @@ for (const platform of ["linux", "windows"]) {
     assert.deepEqual(JSON.parse(owner), {
       schemaVersion: 1,
       owner: "desktop-app",
-      displayName: "FRIDAY desktop",
+      displayName: "OpenClaw desktop",
       updateHint: "Rebuild or update the desktop app to update this Gateway.",
     });
     assert.equal(decode(`${native}/vendor/codex`).toString(), "synthetic platform executable");
@@ -183,7 +183,7 @@ test("reuses npm tarballs across isolated same-commit package installs", async (
   write(core, "package/dist/extensions/codex/package.json", { openclaw: { extensions: ["./index.js"] } });
   write(core, "package/dist/extensions/codex/index.js", "export {};\n");
   execFileSync("tar", ["-czf", coreArchive, "-C", core, "package"]);
-  // Supply independent package input without building the real FRIDAY workspace.
+  // Supply independent package input without building the real OpenClaw workspace.
   write(source, "scripts/package-openclaw-for-docker.mjs", `
     import fs from "node:fs";
     import path from "node:path";

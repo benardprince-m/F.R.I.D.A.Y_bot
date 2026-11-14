@@ -317,7 +317,7 @@ const DEFAULT_RUNS = 1;
 const DEFAULT_TIMEOUT_MS = 120_000;
 const DEFAULT_WARMUP = 0;
 const MOCK_RESPONSE_CHUNK_DELAY_MS = 1_000;
-const STREAM_SUCCESS_MARKER = "FRIDAY gateway concurrency benchmark streaming response.";
+const STREAM_SUCCESS_MARKER = "OpenClaw gateway concurrency benchmark streaming response.";
 const TOOL_SUCCESS_MARKER = "OPENCLAW_E2E_DRAFTPROOF";
 const MAX_AGENT_COUNT = 128;
 const MAX_CONCURRENCY = 64;
@@ -569,7 +569,7 @@ function parseOptions(argv: string[] = process.argv.slice(2)): CliOptions {
 }
 
 function printUsage(): void {
-  console.log(`FRIDAY Gateway concurrency benchmark
+  console.log(`OpenClaw Gateway concurrency benchmark
 
 Usage:
   pnpm test:gateway:concurrency -- [options]

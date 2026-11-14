@@ -31,7 +31,7 @@ async function resolveDashboardTarget() {
   const snapshot = await readConfigFileSnapshot();
   if (snapshot.exists && !snapshot.valid) {
     throw new Error(
-      `FRIDAY config is invalid: ${snapshot.path}. Run \`openclaw doctor --fix\` or \`openclaw config validate\`.`,
+      `OpenClaw config is invalid: ${snapshot.path}. Run \`openclaw doctor --fix\` or \`openclaw config validate\`.`,
     );
   }
   return await resolveControlUiHandoffTarget({
@@ -227,7 +227,7 @@ export async function dashboardCommand(
   const suppressNoOpenHint = options.noOpen === true && handoffDeliveryFailed;
 
   if (opened) {
-    runtime.log("Opened in your browser. Keep that tab to control FRIDAY.");
+    runtime.log("Opened in your browser. Keep that tab to control OpenClaw.");
   } else if (hint && !suppressNoOpenHint) {
     runtime.log(hint);
   }

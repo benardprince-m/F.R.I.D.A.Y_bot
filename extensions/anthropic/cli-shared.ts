@@ -44,7 +44,7 @@ export function isClaudeCliProvider(providerId: string): boolean {
   return normalizeOptionalLowercaseString(providerId) === CLAUDE_CLI_BACKEND_ID;
 }
 
-/** Map FRIDAY's effective context budget to Claude Code's native compactor. */
+/** Map OpenClaw's effective context budget to Claude Code's native compactor. */
 export function resolveClaudeCliAutoCompactEnv(
   contextTokenBudget: number | undefined,
 ): Record<string, string> | undefined {
@@ -61,12 +61,12 @@ export function resolveClaudeCliAutoCompactEnv(
 }
 
 /**
- * Map FRIDAY's fixed thinking levels to Claude Code's per-process budget.
+ * Map OpenClaw's fixed thinking levels to Claude Code's per-process budget.
  *
  * Claude Code 2.x reads MAX_THINKING_TOKENS for print-mode runs and a positive
  * integer requests that fixed token budget. Mandatory-adaptive models ignore
  * that projection, so they retain adaptive thinking and use --effort instead.
- * These fixed budgets match FRIDAY's canonical provider defaults in
+ * These fixed budgets match OpenClaw's canonical provider defaults in
  * packages/ai/src/providers/simple-options.ts.
  */
 export function resolveClaudeCliThinkingEnv(

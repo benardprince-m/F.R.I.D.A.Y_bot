@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct NetworkStatusServiceTests {
     @Test func `reads an initial network path`() async throws {

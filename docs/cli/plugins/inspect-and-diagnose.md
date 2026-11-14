@@ -54,7 +54,7 @@ plugin diagnostics. The diagnostic names the plugin, imported
 For an official plugin, run `openclaw plugins update <id>`. A running Gateway applies
 the update before the command completes; otherwise it loads the update at its next start.
 If the error identifies a nested SDK, the plugin bundles an incompatible
-FRIDAY SDK; update the plugin or contact its author.
+OpenClaw SDK; update the plugin or contact its author.
 
 JSON diagnostics may include `code: "sdk-incompatible"` and an optional
 `sdkCompatibility` object with `seam`, `coreVersion`, `builtWithOpenClawVersion`
@@ -91,7 +91,7 @@ openclaw plugins registry --refresh
 openclaw plugins registry --json
 ```
 
-The local plugin registry is FRIDAY's persisted cold read model for installed plugin identity, enablement, source metadata, and contribution ownership. Normal startup, provider owner lookup, channel setup classification, and plugin inventory can read it without importing plugin runtime modules.
+The local plugin registry is OpenClaw's persisted cold read model for installed plugin identity, enablement, source metadata, and contribution ownership. Normal startup, provider owner lookup, channel setup classification, and plugin inventory can read it without importing plugin runtime modules.
 
 When that registry is missing or stale, Gateway startup validates current plugin metadata and serves from that prepared snapshot. After readiness, maintenance refreshes the persisted registry in the shared-state worker under the plugin lifecycle lease using current config and package facts. This retains metadata for later updates without blocking request handling on a SQLite write. Refresh failures produce warnings without replacing the active runtime snapshot. Config recovery and database compatibility checks remain startup gates; updates retain those checks.
 

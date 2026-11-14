@@ -603,7 +603,7 @@ suite.define(() => {
             "xdotool",
             "search",
             "--name",
-            "^FRIDAY resize proof$",
+            "^OpenClaw resize proof$",
             "windowactivate",
             "--sync",
           ]);

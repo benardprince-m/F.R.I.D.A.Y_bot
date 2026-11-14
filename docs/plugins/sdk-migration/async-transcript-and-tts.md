@@ -46,7 +46,7 @@ requirement rather than falling back to a synchronous database read:
 ```ts
 const prepareHint = api.runtime.tts.buildSystemPromptHintAsync;
 if (!prepareHint) {
-  throw new Error("Update FRIDAY to use async TTS prompt preparation.");
+  throw new Error("Update OpenClaw to use async TTS prompt preparation.");
 }
 
 const hint = await prepareHint(config, agentId, {

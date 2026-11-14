@@ -554,7 +554,7 @@ describe("projectContextEngineAssemblyForCodex", () => {
   });
 
   it("preserves the request and hook context when non-history text overflows the limit", () => {
-    const before = "FRIDAY assembled context for this turn:\n<conversation_context>\n";
+    const before = "OpenClaw assembled context for this turn:\n<conversation_context>\n";
     const context = `recent context ${"c".repeat(800)} historical tail`;
     const request = "\n</conversation_context>\n\nCurrent user request:\nkeep this request";
     const hookAppend = "\n\nhook context survives";
@@ -635,7 +635,7 @@ describe("projectContextEngineAssemblyForCodex", () => {
     // Drive the non-positive-budget path with an emoji (surrogate pair) sitting
     // across the kept-tail cut. A naive code-unit slice would orphan the low
     // surrogate into U+FFFD; the boundary must stay on a whole code point.
-    const before = `FRIDAY assembled context for this turn:\n${"H".repeat(300)}`;
+    const before = `OpenClaw assembled context for this turn:\n${"H".repeat(300)}`;
     const context = "older context ".repeat(20);
     // Emoji immediately before the user text so the cut can fall mid-pair.
     const prompt = `\u{1F600}${"U".repeat(60)}`;

@@ -69,7 +69,7 @@ export async function resolveTrustedOfficialPrereleaseResolution(params: {
       return {
         kind: "allow-prerelease-only",
         resolvedPrereleaseVersion: params.resolvedPrereleaseVersion,
-        warning: `Resolved ${params.spec.raw} to prerelease version ${params.resolvedPrereleaseVersion}; allowing it because this trusted official FRIDAY package has no stable npm versions yet.`,
+        warning: `Resolved ${params.spec.raw} to prerelease version ${params.resolvedPrereleaseVersion}; allowing it because this trusted official OpenClaw package has no stable npm versions yet.`,
       };
     }
     version = prereleaseVersion;
@@ -89,8 +89,8 @@ export async function resolveTrustedOfficialPrereleaseResolution(params: {
     resolution: metadataResult.metadata,
     resolvedPrereleaseVersion: params.resolvedPrereleaseVersion,
     warning: stableVersion
-      ? `Resolved ${params.spec.raw} to prerelease version ${params.resolvedPrereleaseVersion}; falling back to stable ${spec} for this trusted official FRIDAY install.`
-      : `Resolved ${params.spec.raw} to prerelease version ${params.resolvedPrereleaseVersion}; using newest prerelease ${spec} because this trusted official FRIDAY package has no stable npm versions yet.`,
+      ? `Resolved ${params.spec.raw} to prerelease version ${params.resolvedPrereleaseVersion}; falling back to stable ${spec} for this trusted official OpenClaw install.`
+      : `Resolved ${params.spec.raw} to prerelease version ${params.resolvedPrereleaseVersion}; using newest prerelease ${spec} because this trusted official OpenClaw package has no stable npm versions yet.`,
   };
 }
 
@@ -208,7 +208,7 @@ export async function resolveLatestCompatibleNpmResolution(params: {
     });
     if (!compatibilityError) {
       params.logger.warn?.(
-        `Resolved ${params.parsedSpec.raw} to ${params.currentResolution.resolvedSpec ?? currentVersion}, but that version is incompatible with this FRIDAY runtime; using newest compatible ${metadataResult.metadata.resolvedSpec ?? spec}.`,
+        `Resolved ${params.parsedSpec.raw} to ${params.currentResolution.resolvedSpec ?? currentVersion}, but that version is incompatible with this OpenClaw runtime; using newest compatible ${metadataResult.metadata.resolvedSpec ?? spec}.`,
       );
       return metadataResult.metadata;
     }

@@ -23,11 +23,11 @@ Account preparation and shutdown can persist crypto data, so offline commands
 retain exclusive ownership through that cleanup. Unsupported Gateway versions
 and failed routed requests never fall back to local writes.
 
-For a managed installation, use the normal [`openclaw update` flow](/install/updating). The updater stops and restarts the managed Gateway and updates the official npm Matrix plugin with FRIDAY. If separate Gateway or CLI installations share the account state, stop their older processes and upgrade those installations before resuming concurrent use. An older process does not honor the crypto-store owner lock.
+For a managed installation, use the normal [`openclaw update` flow](/install/updating). The updater stops and restarts the managed Gateway and updates the official npm Matrix plugin with OpenClaw. If separate Gateway or CLI installations share the account state, stop their older processes and upgrade those installations before resuming concurrent use. An older process does not honor the crypto-store owner lock.
 
 The first upgrade still depends on the installed version completing its final save. The new version cannot recover keys that an older process failed to persist or retroactively detect that failure. Keys received after that process's last successful snapshot may be lost.
 
-Once the upgraded version owns the account, a failed final save or abnormal process exit makes FRIDAY refuse another crypto owner. A small `.owner.poisoned` guard stays on disk after clean shutdown and must match a seal in the canonical SQLite snapshot. The seal is written after the final crypto snapshot and sync cursor; losing that final publication also blocks reuse. Guard presence alone does not mean the account is blocked. Missing or malformed guards for sealed snapshots require recovery.
+Once the upgraded version owns the account, a failed final save or abnormal process exit makes OpenClaw refuse another crypto owner. A small `.owner.poisoned` guard stays on disk after clean shutdown and must match a seal in the canonical SQLite snapshot. The seal is written after the final crypto snapshot and sync cursor; losing that final publication also blocks reuse. Guard presence alone does not mean the account is blocked. Missing or malformed guards for sealed snapshots require recovery.
 
 Run `openclaw matrix doctor inspect` to list blocked account stores; `openclaw doctor` also reports them but `--fix` never clears this refusal. Preserve a copy of the state directory for investigation. Once **all** Gateway and CLI processes are stopped, inspect the canonical SQLite snapshot and any backup. If you accept that keys received after the last successful snapshot may be lost, run `openclaw matrix doctor recover --account <id> --accept-snapshot-rollback`, then restart the Gateway. Recovery requires exactly one blocked store for that account, an exclusive owner lock, and a SQLite snapshot that passes complete IndexedDB replay in isolation. It publishes a new guard and seal; it does not prove the snapshot contains the failed owner's latest keys. If the snapshot is absent/invalid or the account has multiple blocked stores, recovery refuses; seek storage-owner assistance. Do not delete `.owner.poisoned` manually. If Rust initialization fails, custody remains held until the process exits because backend teardown cannot be confirmed.
 
@@ -132,7 +132,7 @@ The repair/setup command for encrypted accounts. In order, it:
 
 If the local recovery key cannot be read, bootstrap stops rather than treating the key as missing and replacing secret storage. Fix the reported storage error and retry.
 
-If the homeserver requires UIA to upload cross-signing keys, FRIDAY tries no-auth first, then `m.login.dummy`, then `m.login.password` (requires `channels.matrix.password`).
+If the homeserver requires UIA to upload cross-signing keys, OpenClaw tries no-auth first, then `m.login.dummy`, then `m.login.password` (requires `channels.matrix.password`).
 
 Useful flags:
 
@@ -148,7 +148,7 @@ printf '%s\n' "$MATRIX_RECOVERY_KEY" | openclaw matrix verify backup restore --r
 
 `backup status` shows whether a server-side backup exists and whether this device can decrypt it. `backup restore` imports backed-up room keys into the local crypto store; omit `--recovery-key-stdin` if the recovery key is already on disk.
 
-FRIDAY reads prior edits to notify only newly mentioned recipients. If an edit reports that its history is not fully decrypted, restore the missing room keys with `backup restore`, then retry the edit. If those keys are unavailable, send a new message.
+OpenClaw reads prior edits to notify only newly mentioned recipients. If an edit reports that its history is not fully decrypted, restore the missing room keys with `backup restore`, then retry the edit. If those keys are unavailable, send a new message.
 
 To replace a broken backup with a fresh baseline (accepts losing unrecoverable old history; can also recreate secret storage if the current backup secret is unloadable):
 
@@ -194,7 +194,7 @@ Without `--account <id>`, Matrix CLI commands use the implicit default account. 
   <Accordion title="Startup behavior">
     With `encryption: true`, `startupVerification` defaults to `"if-unverified"`. On startup an unverified device requests self-verification in another Matrix client, skipping duplicates and applying a cooldown (24 hours by default). Tune with `startupVerificationCooldownHours` or disable with `startupVerification: "off"`.
 
-    Startup also runs a conservative crypto bootstrap pass reusing the current secret storage and cross-signing identity. If bootstrap state is broken, FRIDAY attempts a guarded repair even without `channels.matrix.password`; if the homeserver requires password UIA, startup logs a warning and stays non-fatal. Already-owner-signed devices are preserved.
+    Startup also runs a conservative crypto bootstrap pass reusing the current secret storage and cross-signing identity. If bootstrap state is broken, OpenClaw attempts a guarded repair even without `channels.matrix.password`; if the homeserver requires password UIA, startup logs a warning and stays non-fatal. Already-owner-signed devices are preserved.
 
     See [Matrix migration](/channels/matrix-migration) for the full upgrade flow.
 
@@ -203,14 +203,14 @@ Without `--account <id>`, Matrix CLI commands use the implicit default account. 
   <Accordion title="Verification notices">
     Matrix posts verification lifecycle notices into the strict DM verification room as `m.notice` messages: request, ready (with "Verify by emoji" guidance), start/completion, and SAS (emoji/decimal) details when available.
 
-    Incoming requests from another Matrix client are tracked and auto-accepted. For self-verification, FRIDAY starts the SAS flow automatically and confirms its own side once emoji verification is available - you still need to compare and confirm "They match" in your Matrix client.
+    Incoming requests from another Matrix client are tracked and auto-accepted. For self-verification, OpenClaw starts the SAS flow automatically and confirms its own side once emoji verification is available - you still need to compare and confirm "They match" in your Matrix client.
 
     Verification system notices are not forwarded to the agent chat pipeline.
 
   </Accordion>
 
   <Accordion title="Deleted or invalid Matrix device">
-    If `verify status` says the current device is no longer listed on the homeserver, create a new FRIDAY Matrix device. For password login:
+    If `verify status` says the current device is no longer listed on the homeserver, create a new OpenClaw Matrix device. For password login:
 
 ```bash
 openclaw matrix account add \
@@ -218,10 +218,10 @@ openclaw matrix account add \
   --homeserver https://matrix.example.org \
   --user-id '@assistant:example.org' \
   --password '<password>' \
-  --device-name FRIDAY-Gateway
+  --device-name OpenClaw-Gateway
 ```
 
-    For token auth, create a fresh access token in your Matrix client or admin UI, then update FRIDAY:
+    For token auth, create a fresh access token in your Matrix client or admin UI, then update OpenClaw:
 
 ```bash
 openclaw matrix account add \
@@ -235,7 +235,7 @@ openclaw matrix account add \
   </Accordion>
 
   <Accordion title="Device hygiene">
-    Old FRIDAY-managed devices can accumulate. List and prune:
+    Old OpenClaw-managed devices can accumulate. List and prune:
 
 ```bash
 openclaw matrix devices list
@@ -247,9 +247,9 @@ openclaw matrix devices prune-stale
   <Accordion title="Crypto store">
     Matrix E2EE uses the official `matrix-js-sdk` Rust crypto path with `fake-indexeddb` as the IndexedDB shim. Crypto state persists in the account's `state/openclaw.sqlite` database with restrictive file permissions. The pre-July `crypto-idb-snapshot.json` import is retired; see [Matrix migration](/channels/matrix-migration#retired-pre-july-state-files) for recovery guidance.
 
-    Encrypted runtime state lives under `~/.openclaw/matrix/accounts/<account>/<homeserver>__<user>/<token-hash>/` and includes the sync store, crypto store, recovery key, IDB snapshot, thread bindings, and startup verification state. When the token changes but the account identity stays the same, FRIDAY reuses the best existing root so prior state remains visible.
+    Encrypted runtime state lives under `~/.openclaw/matrix/accounts/<account>/<homeserver>__<user>/<token-hash>/` and includes the sync store, crypto store, recovery key, IDB snapshot, thread bindings, and startup verification state. When the token changes but the account identity stays the same, OpenClaw reuses the best existing root so prior state remains visible.
 
-    A single older token-hash root can be a normal token-rotation continuity path. If FRIDAY logs `matrix: multiple populated token-hash storage roots detected`, inspect the account directory and archive stale sibling roots only after confirming the selected active root is healthy. Prefer moving stale roots into an `_archive/` directory over deleting them immediately.
+    A single older token-hash root can be a normal token-rotation continuity path. If OpenClaw logs `matrix: multiple populated token-hash storage roots detected`, inspect the account directory and archive stale sibling roots only after confirming the selected active root is healthy. Prefer moving stale roots into an `_archive/` directory over deleting them immediately.
 
   </Accordion>
 </AccordionGroup>

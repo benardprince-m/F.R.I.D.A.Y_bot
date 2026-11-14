@@ -174,7 +174,7 @@ describe("parseSystemAgentApprovalRequested", () => {
       createdAtMs: 1000,
       expiresAtMs: 2000,
       request: {
-        title: "FRIDAY change",
+        title: "OpenClaw change",
         description: "Set gateway.port to 19001",
         command: "Set gateway.port to 19001",
         proposalHash: "a".repeat(64),
@@ -187,7 +187,7 @@ describe("parseSystemAgentApprovalRequested", () => {
     expect(result).toMatchObject({
       id: "system-agent:1",
       kind: "system-agent",
-      pluginTitle: "FRIDAY change",
+      pluginTitle: "OpenClaw change",
       pluginDescription: "Set gateway.port to 19001",
       proposalHash: "a".repeat(64),
       request: {

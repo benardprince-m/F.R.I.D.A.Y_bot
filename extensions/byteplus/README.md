@@ -1,9 +1,9 @@
-# FRIDAY BytePlus Provider
+# OpenClaw BytePlus Provider
 
-Official FRIDAY provider plugin for BytePlus model inference and Seedance
+Official OpenClaw provider plugin for BytePlus model inference and Seedance
 video generation.
 
-Install from FRIDAY:
+Install from OpenClaw:
 
 ```bash
 openclaw plugins install @openclaw/byteplus-provider

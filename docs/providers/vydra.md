@@ -1,7 +1,7 @@
 ---
-summary: "Use Vydra image, video, and speech in FRIDAY"
+summary: "Use Vydra image, video, and speech in OpenClaw"
 read_when:
-  - You want Vydra media generation in FRIDAY
+  - You want Vydra media generation in OpenClaw
   - You need Vydra API key setup guidance
 title: "Vydra"
 ---
@@ -12,7 +12,7 @@ The official Vydra plugin adds:
 - Video generation via `vydra/veo3` (text-to-video) and `vydra/kling` (image-to-video)
 - Speech synthesis via Vydra's ElevenLabs-backed TTS route
 
-FRIDAY uses the same `VYDRA_API_KEY` for all three capabilities.
+OpenClaw uses the same `VYDRA_API_KEY` for all three capabilities.
 
 | Property        | Value                                                                     |
 | --------------- | ------------------------------------------------------------------------- |

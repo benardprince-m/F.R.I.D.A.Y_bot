@@ -433,7 +433,7 @@ it("scans only the configured kitchen-sink scratch root", () => {
   expect(result.output).not.toContain("stale sibling failure");
 });
 
-it("bounds irrelevant FRIDAY home traversal during log scans", () => {
+it("bounds irrelevant OpenClaw home traversal during log scans", () => {
   const { home, log, scan } = scanFixture();
   log("scenario.log", "0 errors\n");
   for (let index = 0; index < 20; index += 1) {

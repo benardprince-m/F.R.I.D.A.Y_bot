@@ -241,7 +241,7 @@ export async function restoreDoctorMissingJournalStores(params: {
       remaining.delete(target);
       restored.push(target);
       warnings.push(
-        `Warning: Automatically restored agent ${agentId} database ${target.path} created by affected FRIDAY ${target.producer.app_version}. Verified backup: ${backupPaths.find((entry) => samePath(entry.sourcePath, target.path))!.path}; shared state and reconstruction records: ${sharedBackup.path}.`,
+        `Warning: Automatically restored agent ${agentId} database ${target.path} created by affected OpenClaw ${target.producer.app_version}. Verified backup: ${backupPaths.find((entry) => samePath(entry.sourcePath, target.path))!.path}; shared state and reconstruction records: ${sharedBackup.path}.`,
       );
     }
   }

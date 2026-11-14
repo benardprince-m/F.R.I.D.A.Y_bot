@@ -248,7 +248,7 @@ export class GatewayClient {
       ? { ...deviceAuthDeps, loadDeviceAuthToken: () => preparedDeviceAuth }
       : deviceAuthDeps;
     const hostDeps: GatewayClientHostDeps = {
-      // This wrapper is the only place the package reaches into FRIDAY runtime
+      // This wrapper is the only place the package reaches into OpenClaw runtime
       // state. Keep device identity, token storage, proxy, and redaction here.
       signDevicePayload,
       publicKeyRawBase64UrlFromPem,

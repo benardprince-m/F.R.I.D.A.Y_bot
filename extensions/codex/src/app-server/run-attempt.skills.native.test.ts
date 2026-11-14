@@ -355,7 +355,7 @@ describe("native Codex skill delivery", () => {
                 (item) =>
                   isJsonObject(item) &&
                   item.role === "developer" &&
-                  JSON.stringify(item).includes("complete current FRIDAY"),
+                  JSON.stringify(item).includes("complete current OpenClaw"),
               )
             : [];
           expect(handoffs.length).toBeGreaterThan(0);

@@ -16,7 +16,7 @@ function systemAgentView(state: Partial<SystemAgentView> = {}): SystemAgentView 
     approvalKind: "system-agent",
     approvalId: "system-agent:change",
     phase: "resolved",
-    title: "FRIDAY change",
+    title: "OpenClaw change",
     metadata: [],
     commandText: "restart the Gateway",
     operationSummary: "restart the Gateway",
@@ -29,42 +29,42 @@ const cases: Array<{ state: Partial<SystemAgentView>; label: string; text: strin
   {
     state: {},
     label: "Allowed once",
-    text: "✅ FRIDAY change approved. Applying: restart the Gateway",
+    text: "✅ OpenClaw change approved. Applying: restart the Gateway",
   },
   {
     state: { decision: "allow-always" },
     label: "Allowed always",
-    text: "✅ FRIDAY change approved. Applying: restart the Gateway",
+    text: "✅ OpenClaw change approved. Applying: restart the Gateway",
   },
   {
     state: { decision: "deny" },
     label: "Denied",
-    text: "❌ FRIDAY change denied. No change was made.",
+    text: "❌ OpenClaw change denied. No change was made.",
   },
   {
     state: { applicationStatus: "applied" },
     label: "Applied",
-    text: "✅ FRIDAY change approved and applied: restart the Gateway",
+    text: "✅ OpenClaw change approved and applied: restart the Gateway",
   },
   {
     state: { applicationStatus: "not-applied" },
     label: "Completion unconfirmed",
-    text: "⚠️ FRIDAY change approved, but completion could not be confirmed. Check the current settings before retrying.",
+    text: "⚠️ OpenClaw change approved, but completion could not be confirmed. Check the current settings before retrying.",
   },
   {
     state: { decision: "deny", applicationStatus: "not-applied" },
     label: "Denied",
-    text: "❌ FRIDAY change denied. No change was made.",
+    text: "❌ OpenClaw change denied. No change was made.",
   },
   {
     state: { decision: "deny", applicationStatus: "applied" },
     label: "Applied",
-    text: "❌ FRIDAY change denied. No change was made.",
+    text: "❌ OpenClaw change denied. No change was made.",
   },
   {
     state: { decision: "deny", applicationStatus: "applied", terminalStatus: "cancelled" },
     label: "Cancelled",
-    text: "⚠️ FRIDAY change was cancelled because its run ended. No change was made. Retry.",
+    text: "⚠️ OpenClaw change was cancelled because its run ended. No change was made. Retry.",
   },
 ];
 
@@ -93,7 +93,7 @@ describe("approval terminal presentation", () => {
       approvalKind: "system-agent",
       id: "system-agent:change",
       request: {
-        title: "FRIDAY change",
+        title: "OpenClaw change",
         description: "restart the Gateway",
         command: "restart the Gateway",
         proposalHash: "a".repeat(64),
@@ -109,6 +109,6 @@ describe("approval terminal presentation", () => {
         resolved: { id: request.id, decision: "deny", ts: 1 },
         view: systemAgentView({ applicationStatus: "applied" }),
       }),
-    ).toBe("❌ FRIDAY change denied. No change was made.");
+    ).toBe("❌ OpenClaw change denied. No change was made.");
   });
 });

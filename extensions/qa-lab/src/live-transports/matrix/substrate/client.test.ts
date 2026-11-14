@@ -101,7 +101,7 @@ const groupSpec = {
   key: "main",
   kind: "group" as const,
   members: ["driver", "observer", "sut"] as const,
-  name: "FRIDAY Matrix QA",
+  name: "OpenClaw Matrix QA",
   requireMention: true,
 };
 function expectedGroup(overrides: { key?: string; name?: string; roomId?: string } = {}) {
@@ -111,7 +111,7 @@ function expectedGroup(overrides: { key?: string; name?: string; roomId?: string
     kind: "group",
     memberRoles: ["driver", "observer", "sut"],
     memberUserIds: groupUserIds,
-    name: "FRIDAY Matrix QA",
+    name: "OpenClaw Matrix QA",
     requireMention: true,
     roomId,
     ...overrides,

@@ -8,22 +8,22 @@ read_when:
 title: "Steering queue"
 ---
 
-When a normal prompt arrives while a session run is active and the queue mode is `steer` (the default, no config needed), FRIDAY tries to send that prompt into the active runtime, including during tool execution. FRIDAY and the native Codex app-server harness implement the delivery details differently.
+When a normal prompt arrives while a session run is active and the queue mode is `steer` (the default, no config needed), OpenClaw tries to send that prompt into the active runtime, including during tool execution. OpenClaw and the native Codex app-server harness implement the delivery details differently.
 
 This page covers queue-mode steering for normal inbound messages in `steer` mode. In `followup` or `collect` mode, normal messages skip this path and wait until the active run finishes. For the explicit `/steer <message>` command, see [Steer](/tools/steer).
 
-An older followup does not disable steering for later input. FRIDAY tries each new steer against the active run after earlier steering attempts settle. Messages that the runtime declines remain queued in their original order; accepted steering goes to the active turn.
+An older followup does not disable steering for later input. OpenClaw tries each new steer against the active run after earlier steering attempts settle. Messages that the runtime declines remain queued in their original order; accepted steering goes to the active turn.
 
 ## Runtime boundary
 
 Steering does not interrupt a tool call that is already running. An assistant message's tool calls are a committed plan until one of them starts executing:
 
 1. The assistant asks for tool calls.
-2. In sequential mode, FRIDAY launches the first executable call without checking steering. After a call from that assistant message has started, FRIDAY checks before each later call, including after asynchronous resolution, validation, and pre-execution hooks.
+2. In sequential mode, OpenClaw launches the first executable call without checking steering. After a call from that assistant message has started, OpenClaw checks before each later call, including after asynchronous resolution, validation, and pre-execution hooks.
 3. A running call finishes. If a steer is waiting afterward, the unstarted sequential tail is skipped.
-4. In parallel mode, FRIDAY prepares and launches calls together without a steering checkpoint. Waiting steering never skips a parallel batch.
+4. In parallel mode, OpenClaw prepares and launches calls together without a steering checkpoint. Waiting steering never skips a parallel batch.
 5. Every skipped call receives paired tool start/end events and a synthetic result (`Skipped to process an incoming message.`), in assistant source order. The result tells the model that the tool did not run, and the Control UI labels it **Skipped**.
-6. After either kind of batch settles, FRIDAY checks steering before stop hooks or the next model call. It appends the exact drained steering messages after the tool results, before the next LLM call.
+6. After either kind of batch settles, OpenClaw checks steering before stop hooks or the next model call. It appends the exact drained steering messages after the tool results, before the next LLM call.
 
 This keeps every requested tool call paired with a result without discarding a freshly requested plan before any tool executes.
 
@@ -38,21 +38,21 @@ the model input. Quoted content stays conversation data; commands and answers to
 pending questions use the literal incoming text. Text-only transcript entries
 also retain the literal input.
 
-The native Codex app-server harness exposes `turn/steer` instead of FRIDAY runtime's internal steering queue. FRIDAY batches queued prompts for the configured quiet window, then sends a single `turn/steer` request with all collected user input in arrival order. Codex's upstream turn scheduler owns its tool scheduling and drains pending input at model boundaries; FRIDAY does not add per-tool preemption to that runtime. A transcript commit confirms persistence, not that a later model request has read the input.
+The native Codex app-server harness exposes `turn/steer` instead of OpenClaw runtime's internal steering queue. OpenClaw batches queued prompts for the configured quiet window, then sends a single `turn/steer` request with all collected user input in arrival order. Codex's upstream turn scheduler owns its tool scheduling and drains pending input at model boundaries; OpenClaw does not add per-tool preemption to that runtime. A transcript commit confirms persistence, not that a later model request has read the input.
 
 A plugin-owned CLI runtime accepts steering when it offers an input sink through `registerMessageInjection` (see [CLI backend plugins](/plugins/cli-backend-plugins)). The local Claude backend supports text-only input through its persistent stream-JSON process. This applies to `messages.queue.mode: "steer"`, channel queue overrides, per-session `/queue steer`, and explicit `/steer` (`/tell`) regardless of the stored queue mode. Session settings take precedence over channel settings, which take precedence over the global mode; the default is `steer`.
 
-FRIDAY waits for Claude's input lifecycle acknowledgement before recording acceptance and the user transcript. Native scheduling determines whether text joins the current answer or starts another native answer inside the same attached FRIDAY run; steering does not promise a single answer or interrupt a running tool. Before initial prompt submission, after finalization, on runtimes without input lifecycle support, or when native refuses unconsumed input, normal queue fallback remains available. Already-consumed input is not replayed. Images and incompatible permissions remain followup input; node/process alternatives do not gain text steering from this plugin capability.
+OpenClaw waits for Claude's input lifecycle acknowledgement before recording acceptance and the user transcript. Native scheduling determines whether text joins the current answer or starts another native answer inside the same attached OpenClaw run; steering does not promise a single answer or interrupt a running tool. Before initial prompt submission, after finalization, on runtimes without input lifecycle support, or when native refuses unconsumed input, normal queue fallback remains available. Already-consumed input is not replayed. Images and incompatible permissions remain followup input; node/process alternatives do not gain text steering from this plugin capability.
 
-Codex review and manual compaction turns reject same-turn steering. When a runtime cannot accept steering in `steer` mode, FRIDAY waits for the active run to finish before starting the prompt.
+Codex review and manual compaction turns reject same-turn steering. When a runtime cannot accept steering in `steer` mode, OpenClaw waits for the active run to finish before starting the prompt.
 
 On Codex installs without native hook admission, another person's message queues as a follow-up instead of steering the active turn when native sub-agent spawning is available. If the thread's policy already disables native spawning, including ChatGPT token sharing and report-only delegation, other people can still steer the running turn.
 
-Once an FRIDAY turn has finished or handed off, new prompts wait for the next turn even while cleanup is still running. Retries and compaction within the current turn can still receive steering. When a model request fails while a steered message is still waiting, that message does not take over the turn: FRIDAY retries or falls back for the original message, and the steered message runs as its own turn afterwards.
+Once an OpenClaw turn has finished or handed off, new prompts wait for the next turn even while cleanup is still running. Retries and compaction within the current turn can still receive steering. When a model request fails while a steered message is still waiting, that message does not take over the turn: OpenClaw retries or falls back for the original message, and the steered message runs as its own turn afterwards.
 
 ## Tool launch boundaries
 
-FRIDAY tracks whether a tool has actually started across the whole assistant message:
+OpenClaw tracks whether a tool has actually started across the whole assistant message:
 
 - Before any tool in the assistant message has started, steering cannot skip a sequential call. Validation or policy rejection alone does not count as execution starting.
 - A sequential call that is already running completes. Waiting steering can skip the unstarted sequential tail and let the model reconsider with the steer visible.
@@ -80,9 +80,9 @@ Messages with separate durable ingress admission, including Discord and Telegram
 
 If four users send messages while the agent is executing a tool call:
 
-- FRIDAY preserves the runtime's configured steering drain mode and FIFO order. One-at-a-time consumers keep later messages for later boundaries; `all` consumers inject the queued FIFO batch together. Codex receives messages collected during its quiet window as one batched `turn/steer`.
-- With `/queue collect`, FRIDAY does not steer. It waits until the active run ends, then creates followup turns after the debounce window, combining only compatible queued messages.
-- With `/queue interrupt`, FRIDAY aborts the active run and starts the newest message instead of steering.
+- OpenClaw preserves the runtime's configured steering drain mode and FIFO order. One-at-a-time consumers keep later messages for later boundaries; `all` consumers inject the queued FIFO batch together. Codex receives messages collected during its quiet window as one batched `turn/steer`.
+- With `/queue collect`, OpenClaw does not steer. It waits until the active run ends, then creates followup turns after the debounce window, combining only compatible queued messages.
+- With `/queue interrupt`, OpenClaw aborts the active run and starts the newest message instead of steering.
 
 ## Scope
 
@@ -141,7 +141,7 @@ A visible message or send acknowledgment does not mean the active runtime has
 consumed it. The Control UI shows specific notices when an accepted message is
 waiting for worker setup or workspace sync.
 A steer sent while a turn is creating its worktree or preparing its runtime stays
-pending for that turn. Once the runtime is ready, FRIDAY checks whether it can
+pending for that turn. Once the runtime is ready, OpenClaw checks whether it can
 accept the input. If the turn ends or cannot accept it, the message stays queued
 for a followup.
 Messages waiting for a followup turn appear in the queue above the composer,
@@ -162,19 +162,19 @@ Use `followup` or `collect` when you want messages to queue by default instead o
 
 ## Canceling a pending steer
 
-An authorized Gateway client can withdraw a message still waiting in the FRIDAY
+An authorized Gateway client can withdraw a message still waiting in the OpenClaw
 runtime's steering queue or the followup queue, before delivery starts, with `chat.abort({ sessionKey,
 runId })`. Use the `runId` returned by that message's `chat.send`. This withdraws
 that message without stopping the active run or retrying it as a followup.
 
 Once delivery starts, cancellation cannot guarantee withdrawal or undo completed
-work. If delivery cannot be confirmed, FRIDAY reports the uncertainty and retains
+work. If delivery cannot be confirmed, OpenClaw reports the uncertainty and retains
 the input without replaying it. An uncertain steering receipt does not stop the
 active run or its running tools. Use `/stop` to stop that work explicitly.
 
 ## Debounce
 
-The built-in queue debounce applies to queued `followup` and `collect` delivery. In `steer` mode with the native Codex harness, it also sets the quiet window before sending batched `turn/steer`. FRIDAY active steering does not use the debounce timer; at tool-launch and model boundaries it drains FIFO according to the runtime's configured steering drain mode.
+The built-in queue debounce applies to queued `followup` and `collect` delivery. In `steer` mode with the native Codex harness, it also sets the quiet window before sending batched `turn/steer`. OpenClaw active steering does not use the debounce timer; at tool-launch and model boundaries it drains FIFO according to the runtime's configured steering drain mode.
 
 ## Related
 

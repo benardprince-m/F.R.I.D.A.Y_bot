@@ -910,10 +910,10 @@ describe("buildXaiRealtimeVoiceProvider", () => {
     secondSocket.open();
     expect(requireSession(secondSocket).resumption).toEqual({ enabled: true });
 
-    bridge.sendUserMessage?.("FRIDAY finished checking.");
+    bridge.sendUserMessage?.("OpenClaw finished checking.");
     expect(sent(secondSocket, "conversation.item.create")).toEqual([]);
     server(secondSocket, "session.updated");
-    expectTail(secondSocket, userMessageEvent("FRIDAY finished checking."), {
+    expectTail(secondSocket, userMessageEvent("OpenClaw finished checking."), {
       type: "response.create",
     });
     expect(onReady).toHaveBeenCalledOnce();

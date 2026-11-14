@@ -332,8 +332,8 @@ describe("applyAgentAutoCompactionGuard", () => {
     });
   });
 
-  // Default-mode runs against ordinary providers must keep FRIDAY runtime's auto-compaction
-  // enabled. Disabling it across the board would silently remove FRIDAY runtime's
+  // Default-mode runs against ordinary providers must keep OpenClaw runtime's auto-compaction
+  // enabled. Disabling it across the board would silently remove OpenClaw runtime's
   // overflow-recovery path inside Session.prompt() for users who are not
   // affected by z.ai's silent-overflow accounting.
   it("leaves embedded auto-compaction alone for non-z.ai providers without engine ownership", () => {

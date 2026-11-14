@@ -1,5 +1,5 @@
 ---
-summary: "Adds OpenCode model provider support to FRIDAY."
+summary: "Adds OpenCode model provider support to OpenClaw."
 read_when:
   - You are installing, configuring, or auditing the opencode plugin
 title: "OpenCode plugin reference"
@@ -10,7 +10,7 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Adds OpenCode model provider support to FRIDAY.
+Adds OpenCode model provider support to OpenClaw.
 
 ## Distribution
 
@@ -26,14 +26,14 @@ Adds OpenCode model provider support to FRIDAY.
 
 ## Native sessions
 
-FRIDAY auto-detects the `opencode` CLI on the Gateway and paired nodes. Stored
+OpenClaw auto-detects the `opencode` CLI on the Gateway and paired nodes. Stored
 sessions then appear in the **OpenCode** sessions-sidebar group, with transcript
 browsing through the official CLI. OpenCode v1 uses `--pure db` and `--pure export`;
 v2 uses `api session.list` and `session export` with a private standalone server.
 Local rows also offer **Continue**, which
-creates an FRIDAY session whose first turn resumes the native OpenCode session
+creates an OpenClaw session whose first turn resumes the native OpenCode session
 through ACP. OpenCode retains the full server-side model context, and the catalog
-viewer continues to show that history. FRIDAY also imports the recent native
+viewer continues to show that history. OpenClaw also imports the recent native
 history into the adopted session transcript. Very long transcripts import only
 their most recent 200 items using a 512 KiB serialized-item budget. Paired-node
 rows remain view-only.

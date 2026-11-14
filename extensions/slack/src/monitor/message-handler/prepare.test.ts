@@ -269,7 +269,7 @@ describe("slack prepareSlackMessage inbound contract", () => {
       if (outcome === "name lookup failed") {
         expect(postEphemeral).toHaveBeenCalledExactlyOnceWith(
           expect.objectContaining({
-            text: expect.stringMatching(/^This FRIDAY bot can’t reply here/),
+            text: expect.stringMatching(/^This OpenClaw bot can’t reply here/),
           }),
         );
       } else {

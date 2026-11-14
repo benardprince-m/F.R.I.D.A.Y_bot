@@ -27,7 +27,7 @@ function createProps(overrides: Partial<MemoryViewProps> = {}): MemoryViewProps 
     activeTab: "settings",
     onTabChange: vi.fn(),
     engineOptions: [
-      { id: "memory-core", label: "FRIDAY Memory", available: true },
+      { id: "memory-core", label: "OpenClaw Memory", available: true },
       { id: "memory-lancedb", label: "Memory LanceDB", available: true },
     ],
     engineSelection: { kind: "default", pluginId: "memory-core" },

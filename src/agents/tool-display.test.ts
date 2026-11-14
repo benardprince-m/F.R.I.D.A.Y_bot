@@ -38,13 +38,13 @@ describe("tool display details", () => {
     expect(
       resolveToolDisplay({
         name: "tool_call",
-        args: { id: "openclaw:search:web_search", args: { query: "FRIDAY release notes" } },
+        args: { id: "openclaw:search:web_search", args: { query: "OpenClaw release notes" } },
       }),
     ).toMatchObject({
       name: "web_search",
       label: "Web Search",
       verb: "search",
-      detail: 'for "FRIDAY release notes"',
+      detail: 'for "OpenClaw release notes"',
     });
   });
 
@@ -149,13 +149,13 @@ describe("tool display details", () => {
       detailFor({
         name: "web_search",
         args: {
-          objective: "Find the FRIDAY repository on GitHub",
+          objective: "Find the OpenClaw repository on GitHub",
           search_queries: ["openclaw github", "openclaw repository"],
           count: 5,
         },
       }),
     ).toBe(
-      'for "Find the FRIDAY repository on GitHub", "openclaw github", "openclaw repository" (top 5)',
+      'for "Find the OpenClaw repository on GitHub", "openclaw github", "openclaw repository" (top 5)',
     );
   });
 
@@ -398,10 +398,10 @@ describe("tool display details", () => {
       formatToolSummary(
         resolveToolDisplay({
           name: "web_search",
-          args: { query: "FRIDAY docs" },
+          args: { query: "OpenClaw docs" },
         }),
       ),
-    ).toBe('Web Search: for "FRIDAY docs"');
+    ).toBe('Web Search: for "OpenClaw docs"');
   });
 
   it("recognizes heredoc/inline script exec details", () => {

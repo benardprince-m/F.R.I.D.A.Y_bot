@@ -20,8 +20,8 @@ afterEach(() => {
 const owner = {
   schemaVersion: 1,
   owner: "macos-app",
-  displayName: "FRIDAY.app",
-  updateHint: "Update FRIDAY.app to update this Gateway.",
+  displayName: "OpenClaw.app",
+  updateHint: "Update OpenClaw.app to update this Gateway.",
 };
 
 it.each([
@@ -29,7 +29,7 @@ it.each([
   {
     ...owner,
     owner: "desktop-app",
-    displayName: "FRIDAY desktop",
+    displayName: "OpenClaw desktop",
     updateHint: "Rebuild or update the desktop app to update this Gateway.",
   },
 ])(

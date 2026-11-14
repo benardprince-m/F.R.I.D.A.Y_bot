@@ -169,15 +169,15 @@ it("refuses archive when current membership contains only another thread", async
   expect(commandRpcMocks.codexControlRequest).not.toHaveBeenCalled();
 });
 
-it("rejects archive while another FRIDAY session owns the native thread", async () => {
+it("rejects archive while another OpenClaw session owns the native thread", async () => {
   const bindingStore = await bindOwner("thread-1", "bound-chat");
   const control = createEligibleControl();
 
-  await expectArchiveBlocked(control, "attached to an FRIDAY session", bindingStore);
+  await expectArchiveBlocked(control, "attached to an OpenClaw session", bindingStore);
   expect(control.requireEligibleThread).toHaveBeenCalledWith("thread-1");
 });
 
-it("rejects archive when a paginated archived descendant has an FRIDAY owner", async () => {
+it("rejects archive when a paginated archived descendant has an OpenClaw owner", async () => {
   const bindingStore = await bindOwner("owned-descendant", "descendant-chat");
   const control = createEligibleControl({
     listDescendantPage: vi.fn(async (params) =>
@@ -194,7 +194,7 @@ it("rejects archive when a paginated archived descendant has an FRIDAY owner", a
 
   await expectArchiveBlocked(
     control,
-    "spawned descendant is owned by an FRIDAY session",
+    "spawned descendant is owned by an OpenClaw session",
     bindingStore,
   );
   expect(control.listDescendantPage).toHaveBeenCalledWith({

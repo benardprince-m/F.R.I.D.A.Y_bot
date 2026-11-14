@@ -152,7 +152,7 @@ describe("OpenAI provider policy artifact", () => {
   });
 
   it.each(["gpt-5.6", "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-6-astra"])(
-    "exposes logical Ultra for %s on the FRIDAY runtime",
+    "exposes logical Ultra for %s on the OpenClaw runtime",
     (modelId) => {
       const levels = resolveThinkingProfile({
         provider: "openai",

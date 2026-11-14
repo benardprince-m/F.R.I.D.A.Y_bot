@@ -45,7 +45,7 @@ at Q=C, targeting the frozen `extended-stable/YYYY.M.33` tip. The raw diagnostic
 example above and direct `main` producers do not satisfy that publication
 contract. Current
 manifests also supply qualified npm preflight artifacts. The shared
-`FRIDAY Release Publish` parent dispatches from a protected lightweight
+`OpenClaw Release Publish` parent dispatches from a protected lightweight
 `release-publish/<sha12>-<epoch>` tag at the frozen trusted-main Tooling SHA and
 uses `npm_dist_tag=extended-stable` to publish official npm plugins and core, attach evidence, publish Docker, and
 finalize a non-Latest GitHub Release. Only `extended-stable*` container aliases
@@ -224,7 +224,7 @@ For a matched comparison, pass `installed_startup_package` as
 `{"baseline": <package-binding>, "candidate": <package-binding>}`. Both bindings
 use the same fields above. The workflow resolves and normally installs both
 packages on one runner before measurement. Their complete npm lock records must
-match, except the independently verified FRIDAY tarball references and integrity.
+match, except the independently verified OpenClaw tarball references and integrity.
 Any dependency drift stops the comparison before a Gateway starts; both raw locks
 remain evidence. The packages must have the same version and dependency graph.
 

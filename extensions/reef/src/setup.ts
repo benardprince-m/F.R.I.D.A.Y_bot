@@ -116,7 +116,7 @@ export const reefSetupWizard = {
     const identity = await loadReefIdentityBinding(runtime);
     if (identity && (identity.handle !== handle || identity.relayUrl !== relayUrl)) {
       throw new Error(
-        `This FRIDAY state already holds the Reef identity @${identity.handle} on ${identity.relayUrl}. Re-register the same handle and relay.`,
+        `This OpenClaw state already holds the Reef identity @${identity.handle} on ${identity.relayUrl}. Re-register the same handle and relay.`,
       );
     }
     const configuredStateDir = (cfg.channels?.reef as { stateDir?: unknown } | undefined)?.stateDir;
@@ -204,7 +204,7 @@ export const reefSetupWizard = {
             options: [
               {
                 value: "oauth" as const,
-                label: "Existing FRIDAY OAuth profile",
+                label: "Existing OpenClaw OAuth profile",
                 hint: "Uses host-managed OAuth without exposing tokens to Reef",
               },
               { value: "api-key" as const, label: "API key environment variable" },

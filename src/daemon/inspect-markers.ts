@@ -62,7 +62,7 @@ export function classifyGatewayCommand(
     mode: "command-path",
   })?.[0];
   // Unknown option roles and wrapper identities stay conservative: their values
-  // may look like FRIDAY commands without following its CLI contract.
+  // may look like OpenClaw commands without following its CLI contract.
   if (subcommand === undefined || subcommand === "run") {
     return "run";
   }

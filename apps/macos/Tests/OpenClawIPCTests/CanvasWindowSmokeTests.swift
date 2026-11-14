@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import OpenClawIPC
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized)
 @MainActor

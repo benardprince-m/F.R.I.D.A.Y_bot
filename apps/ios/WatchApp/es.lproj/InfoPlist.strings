@@ -1,4 +1,4 @@
-/* FRIDAY source: "FRIDAY connects this Apple Watch directly to your Gateway on trusted local networks." */
-"NSLocalNetworkUsageDescription" = "FRIDAY conecta este Apple Watch directamente a tu Gateway en redes locales de confianza.";
-/* FRIDAY source: "FRIDAY uses the microphone for voice conversations you start on Apple Watch." */
-"NSMicrophoneUsageDescription" = "FRIDAY usa el micrófono para las conversaciones de voz que inicias en el Apple Watch.";
+/* OpenClaw source: "OpenClaw connects this Apple Watch directly to your Gateway on trusted local networks." */
+"NSLocalNetworkUsageDescription" = "OpenClaw conecta este Apple Watch directamente a tu Gateway en redes locales de confianza.";
+/* OpenClaw source: "OpenClaw uses the microphone for voice conversations you start on Apple Watch." */
+"NSMicrophoneUsageDescription" = "OpenClaw usa el micrófono para las conversaciones de voz que inicias en el Apple Watch.";

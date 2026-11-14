@@ -567,7 +567,7 @@ it("keeps a retired generation from installing an owner bound to its retired cac
   const key = Symbol.for("fixture.retiredOwnerGetter");
   const retired = Reflect.get(globalThis, key);
   try {
-    expect(() => retired()).toThrow("FRIDAY state database lifecycle is retired");
+    expect(() => retired()).toThrow("OpenClaw state database lifecycle is retired");
     expect(Reflect.has(globalThis, Symbol.for("openclaw.sharedStateWorkerOwner")),
       "retired generation installed a shared-state worker owner").toBe(false);
   } finally {

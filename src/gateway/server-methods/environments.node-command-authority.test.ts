@@ -159,7 +159,7 @@ describe("node environment command authority", () => {
           expect(listed?.requiredNodeCommand?.message).toMatch(
             /^This model uses the Codex harness, which is unavailable on this device\./,
           );
-          expect(listed?.requiredNodeCommand?.message).toContain("FRIDAY harness");
+          expect(listed?.requiredNodeCommand?.message).toContain("OpenClaw harness");
           expect(listed?.requiredNodeCommand?.message).toContain(
             "openclaw plugins install @openclaw/codex",
           );

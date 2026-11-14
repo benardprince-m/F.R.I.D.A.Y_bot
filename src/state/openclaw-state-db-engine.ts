@@ -37,7 +37,7 @@ import { writeStateSchemaContentVersion } from "./openclaw-state-schema-publicat
 import { statePostgresRuntime as runtime } from "./postgres-schema.generated/runtime.js";
 
 const recovery =
-  "Use the matching FRIDAY version or restore the matching PostgreSQL schema and anchor.";
+  "Use the matching OpenClaw version or restore the matching PostgreSQL schema and anchor.";
 
 export function stateEngineInput() {
   const selected = getDatabaseEngineSelection();

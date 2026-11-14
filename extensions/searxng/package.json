@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/searxng-plugin",
   "version": "2026.10.4",
-  "description": "FRIDAY SearXNG plugin",
+  "description": "OpenClaw SearXNG plugin",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*"

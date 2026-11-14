@@ -257,7 +257,7 @@ class ChatMessageMediaLayoutTest {
     }
     val user = composeRule.onNodeWithContentDescription("You")
     val short = user.getUnclippedBoundsInRoot()
-    val assistant = composeRule.onNodeWithContentDescription("FRIDAY").getUnclippedBoundsInRoot()
+    val assistant = composeRule.onNodeWithContentDescription("OpenClaw").getUnclippedBoundsInRoot()
     val userText = composeRule.onNodeWithText("Looks good.", useUnmergedTree = true).getUnclippedBoundsInRoot()
     val agentText = composeRule.onNodeWithText("A short reply.", useUnmergedTree = true).getUnclippedBoundsInRoot()
     assertTrue("Short messages do not force a wide surface", (short.right - short.left).value < 160f)

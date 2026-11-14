@@ -371,7 +371,7 @@ describe("auditGatewayServiceConfig systemd", () => {
       unitPath,
       [
         "[Unit]",
-        "Description=FRIDAY Gateway",
+        "Description=OpenClaw Gateway",
         "[Service]",
         ...lines,
         "ExecStart=/usr/bin/node gateway",

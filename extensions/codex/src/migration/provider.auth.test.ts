@@ -316,7 +316,7 @@ describe("Codex migration credential inspection and persistence", () => {
     },
   );
 
-  it("imports auth into the selected agent directory under the effective FRIDAY home", async () => {
+  it("imports auth into the selected agent directory under the effective OpenClaw home", async () => {
     const effectiveHome = path.join(fixture.root, "openclaw-home");
     vi.stubEnv("OPENCLAW_HOME", effectiveHome);
     await writeAuth({ auth_mode: "apikey", OPENAI_API_KEY: "fixture-selected-agent-key" });

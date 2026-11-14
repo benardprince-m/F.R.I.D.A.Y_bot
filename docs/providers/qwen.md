@@ -1,12 +1,12 @@
 ---
-summary: "Use Qwen Cloud through its FRIDAY plugin"
+summary: "Use Qwen Cloud through its OpenClaw plugin"
 read_when:
-  - You want to use Qwen with FRIDAY
+  - You want to use Qwen with OpenClaw
   - You have an Alibaba Cloud Token Plan subscription
 title: "Qwen"
 ---
 
-Qwen Cloud is an official external FRIDAY provider plugin with primary id `qwen`. It targets Qwen Cloud / Alibaba DashScope Standard and Coding Plan endpoints, exposes Token Plan as `qwen-token-plan`, keeps `modelstudio` as a compatibility alias, and independently owns Alibaba's documented `bailian-token-plan` custom-provider id.
+Qwen Cloud is an official external OpenClaw provider plugin with primary id `qwen`. It targets Qwen Cloud / Alibaba DashScope Standard and Coding Plan endpoints, exposes Token Plan as `qwen-token-plan`, keeps `modelstudio` as a compatibility alias, and independently owns Alibaba's documented `bailian-token-plan` custom-provider id.
 
 | Property               | Value                                      |
 | ---------------------- | ------------------------------------------ |
@@ -40,7 +40,7 @@ on the next startup. See [Apply changes and inspect](/plugins/manage-plugins#app
 Choose your plan type and follow the setup steps.
 
 If you supply only `QWEN_API_KEY` (or `MODELSTUDIO_API_KEY` / `DASHSCOPE_API_KEY`),
-without `models.providers.qwen.baseUrl`, FRIDAY uses the Global Coding Plan
+without `models.providers.qwen.baseUrl`, OpenClaw uses the Global Coding Plan
 endpoint: `https://coding-intl.dashscope.aliyuncs.com/v1`. The environment variable
 name does not select a plan or region. For a Standard pay-as-you-go key, run
 `openclaw onboard --auth-choice qwen-standard-api-key` or set
@@ -176,7 +176,7 @@ configuration takes precedence; use the matching plan and regional key.
     </Steps>
 
     <Note>
-    Alibaba's FRIDAY guide uses `bailian-token-plan` for a manual custom
+    Alibaba's OpenClaw guide uses `bailian-token-plan` for a manual custom
     provider. The plugin registers that id as a compatibility owner, but new
     configs should use `qwen-token-plan`. An exact custom
     `models.providers.bailian-token-plan` entry keeps ownership of its configured
@@ -184,7 +184,7 @@ configuration takes precedence; use the matching plan and regional key.
     </Note>
 
     <Warning>
-    Use Token Plan only for interactive FRIDAY sessions. Do not select it for
+    Use Token Plan only for interactive OpenClaw sessions. Do not select it for
     cron jobs, unattended scripts, or application backends. Alibaba states that
     non-interactive use can suspend the subscription or revoke its API key.
     </Warning>
@@ -228,7 +228,7 @@ Override with a custom `baseUrl` in config.
 Setup keeps connection settings and model aliases, including `modelstudio` aliases, without copying generated catalog rows into your config.
 Explicit `models.mode: "replace"` keeps catalog seeding enabled; custom model rows stay intact.
 
-FRIDAY discovers models from the configured endpoint's authenticated `/models`
+OpenClaw discovers models from the configured endpoint's authenticated `/models`
 API. The plugin keeps the following seed metadata for offline discovery and for
 endpoints that return only model IDs. Coding Plan configs omit models that are
 not included in that plan; a Standard model listing does not establish Token
@@ -283,7 +283,7 @@ controls, including Token Plan tool-choice and reasoning-replay requirements.
 `qwen3.8-max` and `qwen3.8-flash` support `off`, `low`, `medium`, and `xhigh`
 thinking, with `xhigh` as the default. `minimal` maps to `low`; `high` and `max`
 map to `xhigh`. This applies to Standard and Token Plan. Both models support
-131,072 output tokens. FRIDAY preserves returned reasoning in its separate
+131,072 output tokens. OpenClaw preserves returned reasoning in its separate
 `reasoning_content` replay field during tool use, rather than placing it in
 visible answer text.
 
@@ -293,7 +293,7 @@ mapped `reasoning_effort`: Qwen rejects requests containing both. See the
 
 `qwen3.7-max`, `qwen3.7-plus`, `qwen3.6-flash`, and `qwen3.6-plus` are
 reasoning-enabled in the built-in catalog. For reasoning models on the `qwen`
-family, the provider maps FRIDAY thinking levels to DashScope's top-level
+family, the provider maps OpenClaw thinking levels to DashScope's top-level
 `enable_thinking` request flag: disabled thinking sends `enable_thinking: false`,
 any other level sends `enable_thinking: true`. Custom models can opt into an
 alternate chat-template thinking payload by setting
@@ -302,10 +302,10 @@ alternate chat-template thinking payload by setting
 `compat.reasoningEffortMap: { "high": "xhigh" }` also sends
 `chat_template_kwargs.reasoning_effort` with the Qwen 3.8 tier mapping above
 when a turn, session, or configuration selects a thinking level. With no selection,
-FRIDAY omits the nested effort and preserves the server template default.
+OpenClaw omits the nested effort and preserves the server template default.
 
 Token Plan models are also marked reasoning-capable. `kimi-k2.7-code` and
-`MiniMax-M2.5` are thinking-only, so FRIDAY keeps thinking enabled even when
+`MiniMax-M2.5` are thinking-only, so OpenClaw keeps thinking enabled even when
 the session requests `/think off`. DeepSeek V4 maps `minimal` through `high` to
 the service's `high` effort and maps `xhigh` or `max` to `max`. GLM 5.2 accepts
 the full `minimal` through `max` range; GLM 5.1 and GLM 5 accept through
@@ -376,14 +376,14 @@ See [Video generation](/tools/video-generation) for shared tool parameters, prov
     - China: `dashscope.aliyuncs.com/compatible-mode/v1`
     - Global: `dashscope-intl.aliyuncs.com/compatible-mode/v1`
 
-    FRIDAY omits these models from Coding Plan catalogs. If a Coding Plan
+    OpenClaw omits these models from Coding Plan catalogs. If a Coding Plan
     endpoint returns an "unsupported model" error, switch to the matching
     Standard or Token Plan endpoint and its dedicated key.
 
   </Accordion>
 
   <Accordion title="Video generation region routing">
-    FRIDAY maps the configured Qwen region to the matching DashScope AIGC host
+    OpenClaw maps the configured Qwen region to the matching DashScope AIGC host
     before submitting a video job:
 
     - Global/Intl: `https://dashscope-intl.aliyuncs.com`

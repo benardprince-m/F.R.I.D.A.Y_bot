@@ -504,8 +504,8 @@ describe.skipIf(process.platform !== "darwin")("Mac runtime materialization", ()
         ).toEqual({
           schemaVersion: 1,
           owner: "macos-app",
-          displayName: "FRIDAY.app",
-          updateHint: "Update FRIDAY.app to update this Gateway.",
+          displayName: "OpenClaw.app",
+          updateHint: "Update OpenClaw.app to update this Gateway.",
         });
         expect(published.filter(({ path: name }) => name !== ownerMarker)).toEqual(
           before.filter(

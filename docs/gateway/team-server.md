@@ -1,7 +1,7 @@
 ---
 summary: "Deploy a shared team Gateway with Cloudflare Access, verified GitHub identities, roles, session sharing, and recoverable operations"
 read_when:
-  - Deploying an always-on FRIDAY server for a trusted team
+  - Deploying an always-on OpenClaw server for a trusted team
   - Connecting Cloudflare sign-in to Gateway profiles and GitHub identities
   - Operating separate collaboration and release Gateways
 title: "Deploy a team server"
@@ -19,13 +19,13 @@ This guide uses `team.example.com` for collaboration and
 `release.example.com` for an optional second Gateway. Replace them with your
 own hostnames; each Gateway needs its own configuration and state.
 
-## How we build FRIDAY with FRIDAY
+## How we build OpenClaw with OpenClaw
 
 We use [team.openclaw.ai](https://team.openclaw.ai) as a shared development
-workspace for FRIDAY itself. Maintainers and agents work through repository
+workspace for OpenClaw itself. Maintainers and agents work through repository
 changes in the same conversations:
 
-1. **Start a repository task.** Choose the FRIDAY project in **New conversation**
+1. **Start a repository task.** Choose the OpenClaw project in **New conversation**
    and select **Worktree** for a [managed branch and checkout](/concepts/managed-worktrees).
    Give the agent a concrete change and the checks that demonstrate it works.
 2. **Work together.** Teammates with access can open the session, add context,
@@ -37,7 +37,7 @@ changes in the same conversations:
    [GitHub publication account](/concepts/user-model#github-connections).
    The linked pull request and its CI details stay available in the conversation.
 
-![An FRIDAY development task on the Team server, with analysis, test results, and a published pull request](https://github.com/user-attachments/assets/b64f4d3a-3988-4f59-ac73-27552b6bdd30)
+![An OpenClaw development task on the Team server, with analysis, test results, and a published pull request](https://github.com/user-attachments/assets/b64f4d3a-3988-4f59-ac73-27552b6bdd30)
 
 The screenshot shows a live repository task, cropped to its conversation.
 See [Chat and code review](/web/control-ui/chat) for the diff, file, and PR controls.
@@ -49,7 +49,7 @@ activation and verification. See [Keep operations recoverable](/gateway/team-ser
 ## Before you begin
 
 - A Linux host with persistent storage and a dedicated service account. Use a
-  [supported Node runtime](/install/node) and an [FRIDAY installation](/install).
+  [supported Node runtime](/install/node) and an [OpenClaw installation](/install).
 - A Cloudflare-managed domain, Zero Trust account, and `cloudflared` on the host.
 - An identity provider and an explicit policy for who may sign in.
 - Model credentials and, if needed, a bot account for your team chat.
@@ -174,7 +174,7 @@ openclaw gateway restart
 openclaw gateway status --deep
 ```
 
-`allowLoopback` trusts local processes as well as `cloudflared`. FRIDAY checks
+`allowLoopback` trusts local processes as well as `cloudflared`. OpenClaw checks
 the proxy source and required headers; their presence is not Access JWT
 signature verification. The external authentication boundary is Access plus the
 private origin. Do not run hostile workloads with access to this listener. See
@@ -185,7 +185,7 @@ requirements.
 
 ### Set the public URL once
 
-`publicOrigin` tells FRIDAY which external URL to advertise and supplies the
+`publicOrigin` tells OpenClaw which external URL to advertise and supplies the
 default browser-origin allowlist. For a Control UI served from that same origin,
 leave `gateway.controlUi.allowedOrigins` unset.
 
@@ -286,7 +286,7 @@ guest signs in at the normal Team URL.
 
 Guests can create sandboxed sessions on the listed agents and publish draft
 pull requests from their own sessions through the shared GitHub account. They
-cannot merge through FRIDAY. Before inviting anyone, review the paths a
+cannot merge through OpenClaw. Before inviting anyone, review the paths a
 required sandbox does not contain, listed under
 [Named operator roles](/gateway/operator-scopes#named-operator-roles), and
 [Workflow and CI changes](/gateway/config-tools/github-identity#workflow-and-ci-changes)
@@ -303,7 +303,7 @@ Keep these responsibilities separate:
 | What that person may do      | Connection scopes and named operator roles   |
 | Which account publishes code | System, agent, or personal GitHub connection |
 
-With the GitHub identity provider in Access, FRIDAY queries Access's identity
+With the GitHub identity provider in Access, OpenClaw queries Access's identity
 endpoint, verifies that its email matches the authenticated proxy principal, and
 resolves the immutable numeric GitHub account ID to its current login. Names and
 avatars can then update through normal sign-in/profile synchronization. Saved

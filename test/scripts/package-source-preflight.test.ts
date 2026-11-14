@@ -191,8 +191,8 @@ exit 64`,
 
 function runLiveSourcePackageBuildAndValidation(packageEnv: Record<string, string>) {
   const { step } = jobSteps("openclaw-live-and-e2e-checks-reusable", "prepare_docker_e2e_image");
-  const pack = step("Pack FRIDAY package for Docker E2E");
-  const validate = step("Validate FRIDAY Docker E2E package");
+  const pack = step("Pack OpenClaw package for Docker E2E");
+  const validate = step("Validate OpenClaw Docker E2E package");
   const artifactTuple = runLiveArtifactTupleValidation(packageEnv);
   const f = workflowFixture("openclaw-live-source-package-");
   const callsPath = f.file("calls");
@@ -505,7 +505,7 @@ it("guards prepare-only source before harness setup and skips no-package lane se
   const plannedPreflight = step("Validate Docker E2E package source metadata");
   const harnessSetup = step("Setup trusted release harness");
   const setup = step("Setup Node environment");
-  const pack = step("Pack FRIDAY package for Docker E2E");
+  const pack = step("Pack OpenClaw package for Docker E2E");
 
   const expectRequirement = (env: Record<string, string>, required: boolean) =>
     expect(runSourceRequirement(sourceRequirement, env)).toBe(`required=${required}`);

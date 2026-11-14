@@ -430,7 +430,7 @@ describe("WhatsApp reply delivery", () => {
           CommandAuthorized: false,
           ReplyToId: "quoted-bot-message",
           ReplyToBody: "Earlier bot reply",
-          ReplyToSender: "FRIDAY",
+          ReplyToSender: "OpenClaw",
         },
         msg: message({ event: { id: "trigger-message" } }),
       });

@@ -267,7 +267,7 @@ describe("system agent operations", () => {
         path: "plugins.entries.codex.config.codexDynamicToolsLoading",
       });
       expect(loggedOutput()).toContain("searchable");
-      expect(loggedOutput()).toContain("Use searchable to defer FRIDAY dynamic tools");
+      expect(loggedOutput()).toContain("Use searchable to defer OpenClaw dynamic tools");
     });
   });
 
@@ -313,7 +313,7 @@ describe("system agent operations", () => {
       model: "openai/gpt-5.5",
       error: "Retry without `model`; the new agent inherits",
     },
-    { agentId: "FRIDAY", error: 'Agent id "openclaw" is reserved' },
+    { agentId: "OpenClaw", error: 'Agent id "openclaw" is reserved' },
   ])(
     "rejects unsafe agent creation for $agentId before any write or audit",
     async ({ agentId, model, error }) => {

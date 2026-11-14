@@ -625,7 +625,7 @@ describe("Codex auth product proof", () => {
       const operationalMethods = failureMethods.filter(
         (method) => method !== "initialize" && method !== "initialized",
       );
-      // App-server may perform read-only capability discovery before FRIDAY rejects the
+      // App-server may perform read-only capability discovery before OpenClaw rejects the
       // removed profile, but it must not start or resume a conversation turn.
       expect(
         operationalMethods.filter((method) => method !== "model/list" && method !== "account/read"),

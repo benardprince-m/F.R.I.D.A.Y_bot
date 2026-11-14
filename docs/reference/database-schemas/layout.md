@@ -172,7 +172,7 @@ turn. No separate table, cache, sidecar, or configuration option is added.
 
 Messages without the field retain legacy replay behavior. The version-1 reader
 rejects malformed or unsupported projection formats before provider dispatch
-and asks for a compatible FRIDAY version or a new session. This stored-shape
+and asks for a compatible OpenClaw version or a new session. This stored-shape
 addition leaves the numeric database schema version unchanged. Older builds
 that do not understand the optional field can still read the original user
 content, but cannot reproduce the recorded model prompt and may lose prompt
@@ -504,7 +504,7 @@ row. See [Run history and reports](/cli/update#run-history-and-reports).
 ### Update installation control
 
 Managed update leases use a separate machine-local `managed-update-handoffs.sqlite`
-database under the secure FRIDAY temporary directory. This owner must remain
+database under the secure OpenClaw temporary directory. This owner must remain
 available while an update replaces an installation or changes its runtime state.
 The update history above remains in the profile's shared state database.
 

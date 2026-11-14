@@ -130,7 +130,7 @@ describe("runGlobalPackageUpdateSteps", () => {
   });
 
   it.each([
-    { sourceSpec: "FRIDAY@github:openclaw/openclaw#main", overflow: true },
+    { sourceSpec: "OpenClaw@github:openclaw/openclaw#main", overflow: true },
     { sourceSpec: "openclaw@https://github.com/openclaw/openclaw#main", overflow: false },
   ])(
     "packs $sourceSpec without an implicit deadline (overflow=$overflow)",

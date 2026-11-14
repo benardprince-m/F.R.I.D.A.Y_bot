@@ -672,10 +672,10 @@ describe("renderUpdates", () => {
       const view = container.querySelector("openclaw-update-run-view")!;
       expect(view.querySelector(".update-run-view__report")?.textContent).toContain(
         reconciled
-          ? "FRIDAY abandoned update reconciled."
+          ? "OpenClaw abandoned update reconciled."
           : status === "succeeded"
-            ? "FRIDAY updated to 2026.9.2"
-            : `FRIDAY update ${status}`,
+            ? "OpenClaw updated to 2026.9.2"
+            : `OpenClaw update ${status}`,
       );
       if (recovery) {
         const actions = row("Recovery");

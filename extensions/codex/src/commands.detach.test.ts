@@ -831,7 +831,7 @@ describe("Codex diagnostics confirmation", () => {
       [
         "Codex runtime thread detected.",
         "Approving diagnostics will also send this thread's feedback bundle to OpenAI servers.",
-        "The completed diagnostics reply will list the FRIDAY session ids and Codex thread ids that were sent.",
+        "The completed diagnostics reply will list the OpenClaw session ids and Codex thread ids that were sent.",
         "Note: flaky tool call",
         "Included: Codex logs and spawned Codex subthreads when available.",
       ].join("\n"),
@@ -908,8 +908,8 @@ describe("Codex diagnostics confirmation", () => {
     );
     for (const target of targets) {
       for (const [label, value] of [
-        ["FRIDAY session key", target.sessionKey],
-        ["FRIDAY session id", target.sessionId],
+        ["OpenClaw session key", target.sessionKey],
+        ["OpenClaw session id", target.sessionId],
         ["Codex thread id", target.threadId],
       ]) {
         expect(request.text).toContain(`${label}: \`${value}\``);

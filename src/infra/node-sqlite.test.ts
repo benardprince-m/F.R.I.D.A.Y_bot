@@ -71,7 +71,7 @@ function expectedUnsafeSqliteError(version: string, shared: boolean): string {
     : "Upgrade to Node 24.16.0+ or 26.1.0+ before retrying.";
   return (
     "SQLite support is unavailable or unsafe in this Node runtime. " +
-    "FRIDAY requires SQLite 3.51.3+, 3.50.7+ within 3.50.x, or 3.44.6+ within 3.44.x for WAL safety; " +
+    "OpenClaw requires SQLite 3.51.3+, 3.50.7+ within 3.50.x, or 3.44.6+ within 3.44.x for WAL safety; " +
     `Node ${process.versions.node} ${wording} SQLite ${version}, which is affected by the upstream WAL-reset ` +
     `database corruption bug. ${remediation}`
   );
@@ -591,7 +591,7 @@ describe("Bun SQLite library selection", () => {
     });
     const refusal =
       `No supported SQLite library for Bun on macOS (${process.arch}). ` +
-      "Apple's system SQLite fails FRIDAY's read-only database connections. " +
+      "Apple's system SQLite fails OpenClaw's read-only database connections. " +
       `Install one with brew install sqlite, or set OPENCLAW_SQLITE_LIBRARY to a libsqlite3.dylib built for ${process.arch}.`;
     expect(() => f.ensure()).toThrow(refusal);
     expect(() => f.ensure()).toThrow(refusal);

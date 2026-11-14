@@ -52,7 +52,7 @@ impl GatewaySnapshot {
         Self::unavailable(
             "unconfigured",
             "Setup required",
-            "Choose where your FRIDAY Gateway should run.",
+            "Choose where your OpenClaw Gateway should run.",
         )
     }
 
@@ -60,7 +60,7 @@ impl GatewaySnapshot {
         Self::unavailable(
             "missingCli",
             "CLI required",
-            "Install the FRIDAY CLI to continue.",
+            "Install the OpenClaw CLI to continue.",
         )
     }
 
@@ -317,7 +317,7 @@ pub fn dashboard(cli: &OpenClawCli, snapshot: GatewaySnapshot) -> Result<ReadyGa
 }
 
 fn unsupported_dashboard_integration() -> String {
-    "The installed FRIDAY CLI does not support the desktop dashboard integration. \
+    "The installed OpenClaw CLI does not support the desktop dashboard integration. \
      Choose the Beta or Development release channel and install again, or wait for \
      the next stable release."
         .to_string()

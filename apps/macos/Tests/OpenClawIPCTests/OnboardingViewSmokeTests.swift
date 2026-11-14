@@ -4,7 +4,7 @@ import OpenClawDiscovery
 import OpenClawIPC
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 private struct OnboardingStoredGatewayPreference {
     let stableID: String?
@@ -391,7 +391,7 @@ struct OnboardingViewSmokeTests {
 
             #expect(!outcome.ready)
             #expect(OnboardingView.pageOrder(for: .local, requiresCLIInstall: !outcome.ready) == [0, 1, 2, 3])
-            #expect(outcome.status == "FRIDAY is paused. Resume it, then retry setup to start the Gateway.")
+            #expect(outcome.status == "OpenClaw is paused. Resume it, then retry setup to start the Gateway.")
         }
     }
 
@@ -401,15 +401,15 @@ struct OnboardingViewSmokeTests {
                 .ready,
                 afterFreshInstall: afterFreshInstall)
             #expect(ready.ready)
-            #expect(ready.status == "FRIDAY Gateway is ready.")
+            #expect(ready.status == "OpenClaw Gateway is ready.")
 
             let failure = OnboardingView.localGatewayActivationOutcome(
                 .failed(reason: "launchd disabled"),
                 afterFreshInstall: afterFreshInstall)
             #expect(!failure.ready)
             #expect(failure.status == (afterFreshInstall
-                    ? "FRIDAY was installed, but the Gateway did not start. Retry setup. (launchd disabled)"
-                    : "FRIDAY is installed, but the Gateway did not start. Retry setup. (launchd disabled)"))
+                    ? "OpenClaw was installed, but the Gateway did not start. Retry setup. (launchd disabled)"
+                    : "OpenClaw is installed, but the Gateway did not start. Retry setup. (launchd disabled)"))
         }
     }
 
@@ -526,19 +526,19 @@ struct OnboardingViewSmokeTests {
     @Test func `gateway start failure message retains the concrete reason`() {
         #expect(
             OnboardingView.gatewayStartFailureMessage(
-                prefix: "FRIDAY was installed, but the Gateway did not start. Retry setup.",
+                prefix: "OpenClaw was installed, but the Gateway did not start. Retry setup.",
                 reason: "launchd disabled") ==
-                "FRIDAY was installed, but the Gateway did not start. Retry setup. (launchd disabled)")
+                "OpenClaw was installed, but the Gateway did not start. Retry setup. (launchd disabled)")
         #expect(
             OnboardingView.gatewayStartFailureMessage(
-                prefix: "FRIDAY was installed, but the Gateway did not start. Retry setup.",
+                prefix: "OpenClaw was installed, but the Gateway did not start. Retry setup.",
                 reason: nil) ==
-                "FRIDAY was installed, but the Gateway did not start. Retry setup.")
+                "OpenClaw was installed, but the Gateway did not start. Retry setup.")
         #expect(
             OnboardingView.gatewayStartFailureMessage(
-                prefix: "FRIDAY was installed, but the Gateway did not start. Retry setup.",
+                prefix: "OpenClaw was installed, but the Gateway did not start. Retry setup.",
                 reason: "") ==
-                "FRIDAY was installed, but the Gateway did not start. Retry setup.")
+                "OpenClaw was installed, but the Gateway did not start. Retry setup.")
     }
 
     @Test func `connection mode change restarts full page monitoring`() {

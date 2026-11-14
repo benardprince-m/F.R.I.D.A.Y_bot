@@ -2,14 +2,14 @@ import Darwin
 import Foundation
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized)
 struct BundledRuntimeTests {
     private func makeBundle(at root: URL, builtAt: String, buildID: String? = nil, command: String) throws -> URL {
         let info: [String: Any] = [
             "CFBundleIdentifier": "ai.openclaw.mac.debug",
-            "CFBundleExecutable": "FRIDAY",
+            "CFBundleExecutable": "OpenClaw",
             "CFBundlePackageType": "APPL",
             "CFBundleShortVersionString": "2026.8.1",
             "CFBundleVersion": "1",
@@ -84,9 +84,9 @@ struct BundledRuntimeTests {
         let worker = MacNodeHostWorker(session: GatewayNodeSession())
         for (index, command) in ["worker.before", "worker.dirty"].enumerated() {
             let source = root.appendingPathComponent("source-\(index)")
-            let app = source.appendingPathComponent("FRIDAY.app")
+            let app = source.appendingPathComponent("OpenClaw.app")
             _ = try self.makeBundle(at: app, builtAt: "2026-08-27T00:00:0\(index).000Z", command: command)
-            let relocated = root.appendingPathComponent("relocated-\(index)/FRIDAY.app")
+            let relocated = root.appendingPathComponent("relocated-\(index)/OpenClaw.app")
             try FileManager.default.createDirectory(
                 at: relocated.deletingLastPathComponent(),
                 withIntermediateDirectories: true)
@@ -115,7 +115,7 @@ struct BundledRuntimeTests {
     func `incomplete payload never falls back to development source`(failure: String) async throws {
         let root = try makeTempDirForTests()
         defer { try? FileManager.default.removeItem(at: root) }
-        let app = root.appendingPathComponent("FRIDAY.app")
+        let app = root.appendingPathComponent("OpenClaw.app")
         let dist = try makeBundle(at: app, builtAt: "2026-08-27T00:00:00.000Z", command: "unused")
         let info = dist.appendingPathComponent("build-info.json")
         if failure == "missing" {
@@ -140,7 +140,7 @@ struct BundledRuntimeTests {
     @Test func `browser setup uses relocated private runtime and the node profile without an external CLI`() throws {
         let root = try makeTempDirForTests()
         defer { try? FileManager.default.removeItem(at: root) }
-        let app = root.appendingPathComponent("FRIDAY.app")
+        let app = root.appendingPathComponent("OpenClaw.app")
         _ = try self.makeBundle(at: app, builtAt: "2026-08-27T00:00:00.000Z", command: "unused")
         let relocated = root.appendingPathComponent("Moved.app")
         try FileManager.default.moveItem(at: app, to: relocated)
@@ -326,7 +326,7 @@ struct BundledRuntimeTests {
         if !existingLink { try FileManager.default.removeItem(at: link) }
         let shim = state.appendingPathComponent("bin/openclaw")
         try FileManager.default.removeItem(at: shim)
-        let temporaryApp = home.appendingPathComponent("Downloads/FRIDAY.app")
+        let temporaryApp = home.appendingPathComponent("Downloads/OpenClaw.app")
         _ = try self.makeBundle(
             at: temporaryApp, builtAt: "2026-08-27T00:00:01.000Z", buildID: "download-build", command: "unused")
         let temporaryBundle = try #require(Bundle(url: temporaryApp))

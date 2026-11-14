@@ -9,7 +9,7 @@ title: "Claws"
 
 # `openclaw claws`
 
-A Claw is a portable setup for a new FRIDAY agent. It can include agent
+A Claw is a portable setup for a new OpenClaw agent. It can include agent
 instructions, workspace files, skills, plugins, MCP servers, and automations.
 **Add is a one-way action:** it creates an ordinary agent and installs its
 requirements. It does not create an installed Claw to manage. Adding the same
@@ -21,7 +21,7 @@ ordinary plugin or MCP controls. There are no Claw status, update, remove, or
 export commands. To use a newer release, Add it as another agent.
 
 Enable **Claws** in **Settings → Labs** before adding one. On a headless installation, set
-`gateway.controlUi.experimental.claws` to `true` in FRIDAY config.
+`gateway.controlUi.experimental.claws` to `true` in OpenClaw config.
 Authoring and inspecting local Claw packages do not require the Labs toggle.
 
 The CLI accepts a local package directory, `CLAW.md`, or grouped JSON manifest.
@@ -45,7 +45,7 @@ manifest. `create` writes only `package.json` and `CLAW.md` and refuses to merge
 into a nonempty directory. Project validation rejects package scripts and
 lifecycle hooks. `dev` builds the same package artifact and checks its Add
 requirements locally without installing packages, contacting ClawHub,
-starting an agent turn, enabling automations, or changing FRIDAY state.
+starting an agent turn, enabling automations, or changing OpenClaw state.
 Requirements needing online preflight appear as blockers. `build` creates a
 deterministic `.tgz` and refuses to overwrite an existing file.
 
@@ -87,7 +87,7 @@ a concise handoff with evidence.
 catalog discovery; the receiving registry decides which category names it
 accepts. Categories do not change the agent's runtime behavior.
 
-FRIDAY automatically discovers the optional `profiles/openclaw.yml` file.
+OpenClaw automatically discovers the optional `profiles/openclaw.yml` file.
 No manifest pointer is required. Other harnesses may discover their own
 conventional profile, such as `profiles/codex.yml`, without changing the
 portable manifest.
@@ -146,11 +146,11 @@ Shared plugins and MCP servers must match existing declarations exactly or Add
 reports the conflict without replacing them. Plugin and skill trust warnings
 require explicit consent. Automations are assigned to the new agent.
 
-FRIDAY discovers optional harness settings from `profiles/openclaw.yml`.
+OpenClaw discovers optional harness settings from `profiles/openclaw.yml`.
 Those settings can refine the agent's tools, sandbox, memory search, and
 extension requirements, but cannot set a model, provider, credentials, or
 named delegate agents. Host policy still constrains every grant. Foreign
-harness profiles are ignored by FRIDAY. A released older
+harness profiles are ignored by OpenClaw. A released older
 `metadata.openclaw.config` profile pointer is still read with a deprecation
 warning; new packages should use the conventional profile path.
 

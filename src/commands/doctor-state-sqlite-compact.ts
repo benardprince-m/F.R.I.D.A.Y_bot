@@ -27,7 +27,7 @@ export async function runDoctorStateSqliteCompact(options: { env?: NodeJS.Proces
     };
   }
   if (!stat.isFile()) {
-    throw new Error(`FRIDAY state database is not a regular file: ${sqlitePath}`);
+    throw new Error(`OpenClaw state database is not a regular file: ${sqlitePath}`);
   }
   return await withDoctorSqliteMaintenanceLock({
     env,
@@ -37,7 +37,7 @@ export async function runDoctorStateSqliteCompact(options: { env?: NodeJS.Proces
       authority.assertCurrent();
       if (isOpenClawStateDatabaseOpen()) {
         throw new Error(
-          "The shared FRIDAY state database is already open in this process. Stop FRIDAY and retry.",
+          "The shared OpenClaw state database is already open in this process. Stop OpenClaw and retry.",
         );
       }
 
@@ -45,7 +45,7 @@ export async function runDoctorStateSqliteCompact(options: { env?: NodeJS.Proces
         afterSuccess: () => {
           if (!clearOpenClawDatabaseQuarantine(sqlitePath, { env })) {
             throw new Error(
-              `FRIDAY state database ${sqlitePath} was compacted, but its persisted quarantine record could not be cleared. Rerun openclaw doctor --fix so the database is not refused again.`,
+              `OpenClaw state database ${sqlitePath} was compacted, but its persisted quarantine record could not be cleared. Rerun openclaw doctor --fix so the database is not refused again.`,
             );
           }
           clearOpenClawStateDatabaseOpenFailure(sqlitePath);

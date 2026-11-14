@@ -96,7 +96,7 @@ undone. A skill that was just created has no earlier version; archive it instead
 
 ## Unused-skill cleanup
 
-When learning is on, FRIDAY archives a learned skill with no activity for 30
+When learning is on, OpenClaw archives a learned skill with no activity for 30
 days, with the reason `unused for 30 days` and actor `curator` in the change
 feed. Activity is the latest of: a recorded read of its `SKILL.md`, a
 foreground `skill_workshop` `view`, and its last change (create, patch,
@@ -104,9 +104,9 @@ restore). A skill younger than 30 days is never archived. The check runs at
 most once a day per agent, after a finished turn, and never delays the turn.
 Archive is the normal versioned archive: restore it any time.
 
-Cleanup only runs for agents whose default runtime is the embedded FRIDAY
+Cleanup only runs for agents whose default runtime is the embedded OpenClaw
 harness, in the Gateway process. The Codex app-server harness reads skills with
-its native shell, which FRIDAY cannot attribute to a skill, so cleanup stays
+its native shell, which OpenClaw cannot attribute to a skill, so cleanup stays
 off for Codex agents rather than archiving skills that are in use.
 
 Earlier versions ran a weekly curator automation
@@ -279,7 +279,7 @@ see [Removed surfaces](/plugins/sdk-migration/removed-surfaces#skill-workshop-pr
 
 Backups written by the earlier weekly review under
 `<agentDir>/skill-workshop/collection-backups/` are no longer read. Copy any
-files you need from them by hand; FRIDAY does not restore them.
+files you need from them by hand; OpenClaw does not restore them.
 
 ## Troubleshooting
 

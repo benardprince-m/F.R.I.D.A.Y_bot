@@ -313,7 +313,7 @@ describe("registerDirectoryCli", () => {
     expect(mocks.replaceConfigFile).not.toHaveBeenCalled();
     expect(runtimeState.defaultRuntime.writeJson).not.toHaveBeenCalled();
     expect(runtimeState.defaultRuntime.log).not.toHaveBeenCalled();
-    expect(runtimeErrors()[0]).toContain("FRIDAY config is invalid");
+    expect(runtimeErrors()[0]).toContain("OpenClaw config is invalid");
     expect(runtimeState.defaultRuntime.exit).toHaveBeenCalledWith(1);
   });
 

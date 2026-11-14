@@ -261,7 +261,7 @@ export async function cancelReleaseTree(runId, client, options = {}) {
           links[0][2],
           (run) => {
             const title =
-              /^FRIDAY Release Telegram QA release-checks-([1-9][0-9]*)-([1-9][0-9]*)-[a-f0-9]{32}$/u.exec(
+              /^OpenClaw Release Telegram QA release-checks-([1-9][0-9]*)-([1-9][0-9]*)-[a-f0-9]{32}$/u.exec(
                 run.display_title,
               );
             if (

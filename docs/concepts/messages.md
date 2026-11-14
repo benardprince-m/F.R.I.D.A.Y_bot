@@ -28,7 +28,7 @@ See [Configuration](/gateway/configuration) for the full schema.
 
 ## Inbound dedupe
 
-Channels can redeliver the same message after a reconnect. FRIDAY keeps an in-memory cache keyed by agent scope, channel route (channel + peer + account + thread), and message id, so a redelivered message does not trigger a second agent run. The cache entry expires after 20 minutes or once 5000 entries are tracked, whichever comes first.
+Channels can redeliver the same message after a reconnect. OpenClaw keeps an in-memory cache keyed by agent scope, channel route (channel + peer + account + thread), and message id, so a redelivered message does not trigger a second agent run. The cache entry expires after 20 minutes or once 5000 entries are tracked, whichever comes first.
 
 ## Inbound debouncing
 
@@ -54,7 +54,7 @@ Rapid text messages from the same sender can be batched into one agent turn via 
 - Telegram batches ordinary text by default after a 300ms quiet window. Other channels have no generic debounce delay unless configured.
 - `messages.inbound.byChannel.<channel>` takes precedence over `messages.inbound.debounceMs`; either overrides the channel default. Set `0` to disable ordinary burst batching.
 - For non-forwarded Telegram text, messages of at least 4000 characters allow up to 1500ms for continuations. Short and long messages share the same batch, without requiring consecutive message IDs. This automatic long-paste assembly remains active when ordinary batching is disabled.
-- iMessage follows the same generic debounce policy. `imsg` 0.13.1 and newer coalesces Apple URL-preview split-sends before FRIDAY receives them, so no iMessage-specific debounce setting is needed.
+- iMessage follows the same generic debounce policy. `imsg` 0.13.1 and newer coalesces Apple URL-preview split-sends before OpenClaw receives them, so no iMessage-specific debounce setting is needed.
 
 Changes to `messages.inbound.debounceMs` and `messages.inbound.byChannel` apply without
 reconnecting Discord, Feishu, iMessage, Mattermost, Microsoft Teams, Signal, Slack,
@@ -73,7 +73,7 @@ Sessions are owned by the gateway, not by clients.
 
 Multiple devices/channels can map to the same session, but history is not fully synced back to every client. Use one primary device for long conversations to avoid divergent context. The Control UI and TUI always show the gateway-backed session transcript, so they are the source of truth.
 
-If publishing a live transcript update fails after an agent message is saved, FRIDAY keeps the saved message and logs a warning. Reload the session to refresh its transcript; the failed notification is not replayed automatically.
+If publishing a live transcript update fails after an agent message is saved, OpenClaw keeps the saved message and logs a warning. Reload the session to refresh its transcript; the failed notification is not replayed automatically.
 
 If a run fails or times out before an assistant reply is saved, its transcript receives one visible failure notice. Nested runs retain their own failure notices even after the requesting turn has ended.
 
@@ -142,9 +142,9 @@ Once a turn is durably accepted, an unexpected failure before its answer produce
 
 A final source reply completes only the input it answers. When another input steers the same running agent, its answer or failure remains visible even if an earlier input already received a final reply through the message tool.
 
-When delivery of the current input's reply is pending, FRIDAY waits for its outcome before sending a replacement answer or failure message.
+When delivery of the current input's reply is pending, OpenClaw waits for its outcome before sending a replacement answer or failure message.
 
-With the FRIDAY runtime, an assistant turn that errors or is aborted after producing partial text, without tool calls, appears as a short failure marker in the next model request. Its unfinished text is not replayed, and the stored failed turn stays unchanged. Empty and placeholder-only failures remain excluded; failed tool calls keep their existing pairing rules. The marker does not establish whether an earlier action completed.
+With the OpenClaw runtime, an assistant turn that errors or is aborted after producing partial text, without tool calls, appears as a short failure marker in the next model request. Its unfinished text is not replayed, and the stored failed turn stays unchanged. Empty and placeholder-only failures remain excluded; failed tool calls keep their existing pairing rules. The marker does not establish whether an earlier action completed.
 
 ## Streaming, chunking, and batching
 
@@ -203,7 +203,7 @@ reaction. Collected inputs use their committed combined prompt.
 
 Omit `final` or set `final: false` when more work follows. An added reaction with
 explicit `final: true` can be the complete reply when the agent chooses it. Once
-delivery is confirmed on the current source message, FRIDAY ends the turn without
+delivery is confirmed on the current source message, OpenClaw ends the turn without
 requesting another text response. Removals, reactions to other messages, no-ops,
 dry runs, and failed reactions never count. Normal message-tool permissions
 still apply, and the current-prompt capability expires with its admitted turn.
@@ -234,7 +234,7 @@ Generic internal runner failures stay quiet for optional turns that have not sho
 
 Optional turns owe no result: an empty final ends quietly without recovery or notice, and remains classified as empty rather than `NO_REPLY`. Model fallback skips an empty result only when the completed turn is explicitly optional; an empty result without that policy still needs recovery.
 
-When a result is owed, an empty final is not intentional silence. FRIDAY keeps its bounded recovery path without repeating completed actions. If recovery still returns no answer, the run fails. An admitted user request receives at most one short system notice: "No answer was returned. Ask again if you still need one." When model fallback is available, that notice appears only after the fallback chain is exhausted, not once per candidate. It is not saved or classified as an assistant answer. Heartbeat, cron, and other background or internal failures remain recorded without posting a missing-answer notice to chat. Existing classified failure guidance and alert paths still apply; a silent recovery cannot turn a provider failure into success. Confirmed delivery or still-owned delivery prevents duplicate recovery; see [Reply shaping](/concepts/agent-loop#reply-shaping).
+When a result is owed, an empty final is not intentional silence. OpenClaw keeps its bounded recovery path without repeating completed actions. If recovery still returns no answer, the run fails. An admitted user request receives at most one short system notice: "No answer was returned. Ask again if you still need one." When model fallback is available, that notice appears only after the fallback chain is exhausted, not once per candidate. It is not saved or classified as an assistant answer. Heartbeat, cron, and other background or internal failures remain recorded without posting a missing-answer notice to chat. Existing classified failure guidance and alert paths still apply; a silent recovery cannot turn a provider failure into success. Confirmed delivery or still-owned delivery prevents duplicate recovery; see [Reply shaping](/concepts/agent-loop#reply-shaping).
 
 Pending work without an authored acknowledgment retains its existing waiting status so supported channels can keep the live progress card until the result arrives. An explicit `NO_REPLY` still ends silently without canceling that work. Failed delegated tasks use the same short missing-answer copy; their existing delivery and requester-history mirroring are unchanged.
 

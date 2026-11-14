@@ -166,7 +166,7 @@ describeMantisWebUiChat("Mantis Control UI web chat proof", () => {
     }
   });
 
-  it("captures Ask FRIDAY handoff focus, dock closure, and hatch drafts", async () => {
+  it("captures Ask OpenClaw handoff focus, dock closure, and hatch drafts", async () => {
     const outputRoot = process.env.OPENCLAW_MANTIS_WEB_UI_CHAT_OUTPUT_DIR?.trim() || undefined;
     const beforeDir = createControlUiE2eArtifactDir("mantis-chat-proof-handoff-before", outputRoot);
     const afterDir = createControlUiE2eArtifactDir("mantis-chat-proof-handoff-after", outputRoot);
@@ -198,7 +198,7 @@ describeMantisWebUiChat("Mantis Control UI web chat proof", () => {
       methodResponses: {
         "openclaw.chat": {
           action: "none",
-          reply: "Ask FRIDAY is ready to hand work back to your agent.",
+          reply: "Ask OpenClaw is ready to hand work back to your agent.",
           sessionId,
         },
         "openclaw.chat.history": { turns: [] },
@@ -209,8 +209,8 @@ describeMantisWebUiChat("Mantis Control UI web chat proof", () => {
       await page.goto(workSessionUrl);
       await page.locator(".sidebar-footer-bar__home").click();
       const panel = page.locator("openclaw-assistant-panel");
-      await panel.getByRole("button", { name: "Ask FRIDAY", exact: true }).click();
-      await panel.getByText("Ask FRIDAY is ready to hand work back to your agent.").waitFor();
+      await panel.getByRole("button", { name: "Ask OpenClaw", exact: true }).click();
+      await panel.getByText("Ask OpenClaw is ready to hand work back to your agent.").waitFor();
       await writeFile(
         path.join(beforeDir, "web-ui-chat.png"),
         await takeControlUiViewportScreenshot(page, page.locator(".shell"), [
@@ -257,7 +257,7 @@ describeMantisWebUiChat("Mantis Control UI web chat proof", () => {
       );
 
       await page.locator(".sidebar-footer-bar__home").click();
-      await panel.getByRole("button", { name: "Ask FRIDAY", exact: true }).click();
+      await panel.getByRole("button", { name: "Ask OpenClaw", exact: true }).click();
       await panel.locator(".agent-chat__composer-combobox textarea").waitFor();
       await gateway.setMethodResponse("openclaw.chat", {
         action: "open-agent",

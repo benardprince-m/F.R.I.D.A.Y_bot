@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/venice-provider",
   "version": "2026.10.4",
-  "description": "FRIDAY Venice provider plugin",
+  "description": "OpenClaw Venice provider plugin",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*"

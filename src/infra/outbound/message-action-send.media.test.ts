@@ -428,7 +428,7 @@ describe("runMessageAction media access", () => {
       },
     );
 
-    it("allows media paths under preferred FRIDAY tmp root", async () => {
+    it("allows media paths under preferred OpenClaw tmp root", async () => {
       const tmpRoot = resolvePreferredOpenClawTmpDir();
       await fs.mkdir(tmpRoot, { recursive: true });
       await withSandbox(async (sandboxDir) => {

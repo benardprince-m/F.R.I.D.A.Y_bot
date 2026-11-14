@@ -2,7 +2,7 @@ import { DatabaseSync } from "node:sqlite";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { sanitizeOpenClawGlobalStateSnapshot } from "./openclaw-state-snapshot-sanitizer.js";
 
-describe("FRIDAY state snapshot sanitizer", () => {
+describe("OpenClaw state snapshot sanitizer", () => {
   let database: DatabaseSync;
 
   beforeEach(() => {

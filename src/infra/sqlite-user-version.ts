@@ -43,7 +43,7 @@ export function writeSqliteUserVersion(db: DatabaseSync, version: number): void 
 export function describeRunningOpenClawBuild(): string {
   const commit = resolveRuntimeServiceCommit();
   const root = resolveOpenClawPackageRootSync({ moduleUrl: import.meta.url });
-  const identity = commit ? `FRIDAY ${VERSION} (${commit})` : `FRIDAY ${VERSION}`;
+  const identity = commit ? `OpenClaw ${VERSION} (${commit})` : `OpenClaw ${VERSION}`;
   return root ? `${identity} installed at ${root}` : identity;
 }
 
@@ -54,7 +54,7 @@ export function createNewerSqliteSchemaVersionError(
   supportedVersion: number,
 ): Error {
   return new SqliteSchemaVersionError(
-    "This FRIDAY build cannot open your existing data.\n" +
+    "This OpenClaw build cannot open your existing data.\n" +
       `${databaseLabel} ${pathname} uses newer schema version ${schemaVersion}; this build supports ${supportedVersion}.\n` +
       `Refused by ${describeRunningOpenClawBuild()}.\n` +
       `Use a build that supports schema ${schemaVersion} or newer with this state directory. To use an older build, restore your pre-update backup created with openclaw backup create.\n` +

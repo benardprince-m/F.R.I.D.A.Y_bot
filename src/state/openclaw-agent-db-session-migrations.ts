@@ -28,7 +28,7 @@ export function assertSupportedAgentMigrationSchemas(
     readSqliteTableColumns(db, "session_transcript_fts")?.has("session_key")
   ) {
     throw new SqliteSchemaMismatchError(
-      `FRIDAY agent database ${pathname} contains an unreleased session schema (version ${userVersion}). Preserve a complete copy of your state directory and configuration, including shared agent registration. Run "openclaw doctor --fix" with FRIDAY 2026.9.7 against that copy. If a store is held, follow Doctor's explicit agent-restoration instructions, then rerun Doctor before retrying the upgrade.`,
+      `OpenClaw agent database ${pathname} contains an unreleased session schema (version ${userVersion}). Preserve a complete copy of your state directory and configuration, including shared agent registration. Run "openclaw doctor --fix" with OpenClaw 2026.9.7 against that copy. If a store is held, follow Doctor's explicit agent-restoration instructions, then rerun Doctor before retrying the upgrade.`,
     );
   }
   const acpParentStreamColumns = readSqliteTableColumns(db, "acp_parent_stream_events");
@@ -40,7 +40,7 @@ export function assertSupportedAgentMigrationSchemas(
     memorySourceColumns?.has("source_kind")
   ) {
     throw new SqliteSchemaMismatchError(
-      `FRIDAY agent database ${pathname} has an unsupported legacy schema. Upgrades from pre-July-2026 state are no longer migrated; restore a backup produced by a July 2026 or newer release before retrying.`,
+      `OpenClaw agent database ${pathname} has an unsupported legacy schema. Upgrades from pre-July-2026 state are no longer migrated; restore a backup produced by a July 2026 or newer release before retrying.`,
     );
   }
 }

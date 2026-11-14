@@ -1981,7 +1981,7 @@ require("node:fs").writeFileSync("scheduler-restart", process.env.OPENCLAW_UPGRA
       } else {
         expect(result.status).not.toBe(0);
         expect(result.stderr).toContain(
-          fixture.error ?? "no published stable FRIDAY baseline predates candidate",
+          fixture.error ?? "no published stable OpenClaw baseline predates candidate",
         );
         expect(existsSync(receipt)).toBe(false);
       }
@@ -2123,7 +2123,7 @@ require("node:fs").writeFileSync("scheduler-restart", process.env.OPENCLAW_UPGRA
       const result = runCiReleaseRefValidation({ ref: contextRef, targetSha });
       expect(result.status, contextRef).toBe(1);
       expect(result.output).toContain(
-        "target_context_ref must be a canonical FRIDAY release branch.",
+        "target_context_ref must be a canonical OpenClaw release branch.",
       );
     }
 
@@ -2183,7 +2183,7 @@ require("node:fs").writeFileSync("scheduler-restart", process.env.OPENCLAW_UPGRA
     ] as const) {
       const result = runCiReleaseRefValidation({ ...identity, targetSha });
       expect(result.status).not.toBe(0);
-      expect(result.output).toContain("must be a canonical FRIDAY release");
+      expect(result.output).toContain("must be a canonical OpenClaw release");
       expect(result.outputs).not.toHaveProperty("eligible");
     }
   });
@@ -4325,7 +4325,7 @@ ${buildScript}`,
     };
 
     const releaseBuildCommand =
-      "build --package-path apps/macos --product FRIDAY --configuration release";
+      "build --package-path apps/macos --product OpenClaw --configuration release";
     const packageResetCommand = "package --package-path apps/macos reset";
     const retryCalls = [releaseBuildCommand, packageResetCommand, releaseBuildCommand];
     for (const [artifactState, mode, status, calls, output] of [
@@ -6384,7 +6384,7 @@ fi
       "--assets",
       "dist/release",
       "--signature",
-      "dist/input/linux/signatures/FRIDAY-2026.10.3-amd64.AppImage.sig",
+      "dist/input/linux/signatures/OpenClaw-2026.10.3-amd64.AppImage.sig",
     ];
     // An interrupted publication leaves complete public bundles while the
     // run's signed Windows manifest exists only in its local inputs.
@@ -6417,8 +6417,8 @@ it("assembles a Linux-only release without Windows companion inputs", () => {
   writeFileSync(path.join(bin, "gh"), "#!/bin/sh\nexit 1\n", { mode: 0o755 });
   const linuxInputs = path.join(root, "dist/input/linux/release");
   mkdirSync(linuxInputs, { recursive: true });
-  writeFileSync(path.join(linuxInputs, "FRIDAY-2026.10.5-amd64.AppImage"), "appimage");
-  writeFileSync(path.join(linuxInputs, "FRIDAY-2026.10.5-amd64.deb"), "deb");
+  writeFileSync(path.join(linuxInputs, "OpenClaw-2026.10.5-amd64.AppImage"), "appimage");
+  writeFileSync(path.join(linuxInputs, "OpenClaw-2026.10.5-amd64.deb"), "deb");
   const result = spawnSync("bash", ["-c", assemble.run ?? ""], {
     cwd: root,
     encoding: "utf8",
@@ -6434,8 +6434,8 @@ it("assembles a Linux-only release without Windows companion inputs", () => {
   });
   expect(result.status, result.stderr).toBe(0);
   expect(readdirSync(path.join(root, "dist/release")).toSorted()).toEqual([
-    "FRIDAY-2026.10.5-amd64.AppImage",
-    "FRIDAY-2026.10.5-amd64.deb",
+    "OpenClaw-2026.10.5-amd64.AppImage",
+    "OpenClaw-2026.10.5-amd64.deb",
     "SHA256SUMS.linux-app.txt",
   ]);
 });
@@ -6654,8 +6654,8 @@ it("retains exact completed Linux bundle bytes after packaging fails without adm
   const runner = path.join(directory, "runner");
   mkdirSync(runner);
   for (const [kind, filename, bytes] of [
-    ["deb", "FRIDAY.deb", "completed deb bytes"],
-    ["appimage", "FRIDAY.AppImage", "completed appimage bytes"],
+    ["deb", "OpenClaw.deb", "completed deb bytes"],
+    ["appimage", "OpenClaw.AppImage", "completed appimage bytes"],
   ] as const) {
     const bundleDirectory = path.join(
       directory,
@@ -6685,10 +6685,10 @@ it("retains exact completed Linux bundle bytes after packaging fails without adm
   });
   expect(result.status, `${result.stdout}${result.stderr}`).toBe(0);
   const retained = path.join(runner, "linux-unqualified-bundles");
-  expect(readFileSync(path.join(retained, "bundles/FRIDAY.deb"), "utf8")).toBe(
+  expect(readFileSync(path.join(retained, "bundles/OpenClaw.deb"), "utf8")).toBe(
     "completed deb bytes",
   );
-  expect(readFileSync(path.join(retained, "bundles/FRIDAY.AppImage"), "utf8")).toBe(
+  expect(readFileSync(path.join(retained, "bundles/OpenClaw.AppImage"), "utf8")).toBe(
     "completed appimage bytes",
   );
   expect(JSON.parse(readFileSync(path.join(retained, "identity.json"), "utf8"))).toMatchObject({
@@ -7080,7 +7080,7 @@ it("isolates release credentials and verifies trusted AppImage and signing tools
     "Publish immutable bundles, canonical Linux channel, and legacy mirror",
   );
   expect(publishLinuxMetadata.run).toContain(
-    '--assets dist/release --signature "dist/input/linux/signatures/FRIDAY-${RELEASE_TAG#v}-amd64.AppImage.sig"',
+    '--assets dist/release --signature "dist/input/linux/signatures/OpenClaw-${RELEASE_TAG#v}-amd64.AppImage.sig"',
   );
   const publicationToken = expectDefined(
     (linux.jobs.publish.steps as WorkflowStep[]).find(({ id }) => id === "publication_token"),
@@ -7209,7 +7209,7 @@ it("isolates release credentials and verifies trusted AppImage and signing tools
     const fakeBin = inTag("fake-bin");
     const pluginSentinel = inTag("plugin-executed");
     const makeBundle = (directory: string, architecture: string) => {
-      const appDir = path.join(directory, "FRIDAY.AppDir");
+      const appDir = path.join(directory, "OpenClaw.AppDir");
       const appImage = path.join(directory, `OpenClaw_2026.8.2_${architecture}.AppImage`);
       const library = path.join(appDir, "usr/lib/libwayland-client.so.0");
       return {
@@ -7630,16 +7630,16 @@ it("isolates release credentials and verifies trusted AppImage and signing tools
       }
     };
     proveSigning("linux", signAppImage, [
-      ["FRIDAY-2026.8.2-amd64.AppImage", "", "trusted-finalized-bytes", true],
+      ["OpenClaw-2026.8.2-amd64.AppImage", "", "trusted-finalized-bytes", true],
     ]);
     proveSigning("desktop", signDesktop, [
-      ["FRIDAY-2026.8.2-darwin-aarch64.app.tar.gz", "macos", "finalized-macos-updater-bytes"],
-      ["FRIDAY-2026.8.2-windows-x86_64.exe", "windows", "finalized-windows-updater-bytes"],
+      ["OpenClaw-2026.8.2-darwin-aarch64.app.tar.gz", "macos", "finalized-macos-updater-bytes"],
+      ["OpenClaw-2026.8.2-windows-x86_64.exe", "windows", "finalized-windows-updater-bytes"],
     ]);
     proveSigning(
       "windows",
       signDesktop,
-      [["FRIDAY-2026.8.2-windows-x86_64.exe", "windows", "finalized-windows-only-bytes"]],
+      [["OpenClaw-2026.8.2-windows-x86_64.exe", "windows", "finalized-windows-only-bytes"]],
       false,
     );
   }
@@ -7659,8 +7659,8 @@ it("pins trusted Performance Git owners before checkout", () => {
   const workflow = parse(source);
   const targets = [
     ["resolve_target", "Checkout target metadata", undefined],
-    ["kova", "Checkout FRIDAY", "Decide lane"],
-    ["source_performance", "Checkout FRIDAY source target", undefined],
+    ["kova", "Checkout OpenClaw", "Decide lane"],
+    ["source_performance", "Checkout OpenClaw source target", undefined],
     ["publish", "Checkout performance publisher helper", "Decide report publication lane"],
   ] as const;
   for (const [jobId, checkout, decision] of targets) {

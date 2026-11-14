@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct GatewayServiceRuntimeTests {
     private func snapshot(_ command: [String], sqliteLibrary: String? = nil) -> LaunchAgentPlistSnapshot {
@@ -40,7 +40,7 @@ struct GatewayServiceRuntimeTests {
             at: state.appendingPathComponent("tools/node/bin"),
             withIntermediateDirectories: true)
         // A previous seed can replace the CLI wrapper without removing the legacy npm package.
-        try Data("#!/bin/sh\n# FRIDAY.app managed CLI (bundled runtime)\n".utf8).write(to: wrapper)
+        try Data("#!/bin/sh\n# OpenClaw.app managed CLI (bundled runtime)\n".utf8).write(to: wrapper)
         try Data("#!/bin/sh\nexec \"$@\"\n".utf8).write(to: artifacts.wrapper)
         try Data("export FIXTURE_CHANNEL='preserved'\n".utf8).write(to: artifacts.environment)
         #expect(try GatewayLaunchAgentManager.hasLegacyManagedNodeInstall(profile: profile, homeDirectory: home))
@@ -145,7 +145,7 @@ struct GatewayServiceRuntimeTests {
         #expect(GatewayLaunchAgentManager.bundledRuntimeReplacementError(
             appManaged: false,
             installedRuntimePath: "/profile/runtime/build-one/bin/bun",
-            stateDirectory: stateDirectory) == "Gateway service is not managed by FRIDAY.app")
+            stateDirectory: stateDirectory) == "Gateway service is not managed by OpenClaw.app")
         #expect(GatewayLaunchAgentManager.bundledRuntimeReplacementError(
             appManaged: true,
             installedRuntimePath: nil,

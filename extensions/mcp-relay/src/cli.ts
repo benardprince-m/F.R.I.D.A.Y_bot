@@ -30,7 +30,7 @@ async function runCommand(
       }
       defaultRuntime.log(`MCP URL: ${result.mcpUrl}`);
       defaultRuntime.log(
-        "In ChatGPT, open Plugins and add this MCP URL; in Claude, add a custom connector. Enter this code on the FRIDAY consent page.",
+        "In ChatGPT, open Plugins and add this MCP URL; in Claude, add a custom connector. Enter this code on the OpenClaw consent page.",
       );
       return;
     }

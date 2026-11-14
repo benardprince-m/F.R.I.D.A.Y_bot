@@ -2,7 +2,7 @@
   "id": "cohere",
   "categories": ["models"],
   "name": "Cohere",
-  "description": "FRIDAY Cohere provider plugin.",
+  "description": "OpenClaw Cohere provider plugin.",
   "activation": {
     "onStartup": false
   },

@@ -5,7 +5,7 @@ import Observation
 import OpenClawChatUI
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized, .testWaitLimit)
 @MainActor

@@ -785,7 +785,7 @@ describe("Gateway owner lease", () => {
       });
       const lease = owner.acquire({
         mode: "supervised",
-        supervisor: { kind: "schtasks", name: "FRIDAY Gateway" },
+        supervisor: { kind: "schtasks", name: "OpenClaw Gateway" },
       });
       await lease.ready;
       expect(readGatewayOwnerLease({ env })).toMatchObject({

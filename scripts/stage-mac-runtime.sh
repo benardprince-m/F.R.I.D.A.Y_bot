@@ -87,7 +87,7 @@ function visit(dir, packageDirectory = false) {
         fs.rmSync(dir, { recursive: true }); return;
       }
       if (pkg.name === "npm") {
-        // FRIDAY invokes npm-cli.js with Bun, never npm's Node shell shims.
+        // OpenClaw invokes npm-cli.js with Bun, never npm's Node shell shims.
         for (const command of ["npm", "npx"]) {
           for (const suffix of ["", ".cmd", ".ps1"]) {
             fs.rmSync(path.join(dir, "bin", command + suffix), { force: true });
@@ -126,7 +126,7 @@ JS
 done
 
 cat > "$STAGE/runtime/lib/node_modules/openclaw/openclaw-install-owner.json" <<'JSON'
-{"schemaVersion":1,"owner":"macos-app","displayName":"FRIDAY.app","updateHint":"Update FRIDAY.app to update this Gateway."}
+{"schemaVersion":1,"owner":"macos-app","displayName":"OpenClaw.app","updateHint":"Update OpenClaw.app to update this Gateway."}
 JSON
 
 bun_archs=()

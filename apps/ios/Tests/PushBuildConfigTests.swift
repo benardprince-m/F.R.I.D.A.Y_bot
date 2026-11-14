@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct PushBuildConfigTests {
     @Test func `app store mode derives production relay contract`() {

@@ -44,7 +44,7 @@ export function registerOpenClawAgentDatabaseIdentity(
       ? readDatabasePathIdentitySync(filename)
       : undefined;
   if (!file || !file.key.startsWith("file:")) {
-    throw new Error("FRIDAY agent database requires a physical file for identity registration");
+    throw new Error("OpenClaw agent database requires a physical file for identity registration");
   }
   const identity = file.key.slice("file:".length);
   identities.set(anchor, {
@@ -61,7 +61,7 @@ export function registerOpenClawAgentDatabaseIdentity(
 export function readOpenClawAgentDatabaseIdentity(database: AgentDatabaseOwner) {
   const prepared = findOpenClawAgentDatabaseIdentity(database);
   if (prepared === undefined) {
-    throw new Error("FRIDAY agent database identity was not prepared at open");
+    throw new Error("OpenClaw agent database identity was not prepared at open");
   }
   return prepared;
 }
@@ -118,7 +118,7 @@ export function createOpenClawAgentDatabaseClaim(
     isCurrent,
     assertCurrent: () => {
       if (!isCurrent()) {
-        throw new Error("FRIDAY agent database claim is no longer current");
+        throw new Error("OpenClaw agent database claim is no longer current");
       }
     },
     release: () => {

@@ -9,8 +9,8 @@ extension BundledRuntime {
 
         var errorDescription: String? {
             switch self {
-            case .invalidBuildID: "The app's runtime build ID is invalid. Reinstall FRIDAY.app."
-            case .invalidCurrent: "The seeded runtime link is invalid. Retry FRIDAY setup."
+            case .invalidBuildID: "The app's runtime build ID is invalid. Reinstall OpenClaw.app."
+            case .invalidCurrent: "The seeded runtime link is invalid. Retry OpenClaw setup."
             case let .runtimeProbe(detail): "The bundled Bun runtime could not start: \(detail)"
             }
         }

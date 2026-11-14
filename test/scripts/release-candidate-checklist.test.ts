@@ -221,7 +221,7 @@ describe("release candidate checklist", () => {
         "--plugins",
         "@openclaw/diffs",
       ],
-      message: "release candidates publish FRIDAY with --plugin-publish-scope all-publishable",
+      message: "release candidates publish OpenClaw with --plugin-publish-scope all-publishable",
     },
   ])("rejects invalid candidate options: $message", ({ flags, message }) => {
     expect(() => parseArgs(flags)).toThrow(message);
@@ -2081,7 +2081,7 @@ describe("release candidate checklist", () => {
       databaseId: 456,
       runAttempt: 2,
       repository: repo,
-      workflowName: "FRIDAY NPM Release",
+      workflowName: "OpenClaw NPM Release",
       workflowPath: ".github/workflows/openclaw-npm-release.yml",
       event: "workflow_dispatch",
       status: "completed",

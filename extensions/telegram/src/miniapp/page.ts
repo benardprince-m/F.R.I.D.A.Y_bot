@@ -15,7 +15,7 @@ export function renderTelegramMiniAppPage(params: {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>FRIDAY</title>
+  <title>OpenClaw</title>
   <style>
     :root { color-scheme: light dark; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
     body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: Canvas; color: CanvasText; }
@@ -27,7 +27,7 @@ export function renderTelegramMiniAppPage(params: {
 </head>
 <body>
   <main>
-    <h1>FRIDAY</h1>
+    <h1>OpenClaw</h1>
     <p id="status">Opening Control UI...</p>
   </main>
   <script nonce="${escapeHtml(params.scriptNonce)}">

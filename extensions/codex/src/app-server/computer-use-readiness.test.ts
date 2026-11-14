@@ -181,7 +181,7 @@ describe("Codex Computer Use readiness", () => {
       });
       expect(fixture).toHaveBeenCalledWith("thread/start", {
         input: [],
-        developerInstructions: "FRIDAY Computer Use readiness check",
+        developerInstructions: "OpenClaw Computer Use readiness check",
         ephemeral: true,
       });
       expect(fixture).toHaveBeenCalledWith("mcpServer/tool/call", {

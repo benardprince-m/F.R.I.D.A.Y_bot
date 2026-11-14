@@ -1,6 +1,6 @@
 # @openclaw/diffs
 
-Read-only diff viewer plugin for **FRIDAY** agents.
+Read-only diff viewer plugin for **OpenClaw** agents.
 
 ## Install
 
@@ -128,7 +128,7 @@ Explicit tool parameters still win over these defaults.
 
 - Plugin id: `diffs`
 - Package: `@openclaw/diffs`
-- Minimum FRIDAY host: `2026.4.30`
+- Minimum OpenClaw host: `2026.4.30`
 
 Security options:
 
@@ -181,10 +181,10 @@ Use the `diffs` tool in `file` mode for this before and after input. After it re
 Path: README.md
 
 Before:
-FRIDAY supports plugins.
+OpenClaw supports plugins.
 
 After:
-FRIDAY supports plugins and hosted diff views.
+OpenClaw supports plugins and hosted diff views.
 ```
 
 Do both:

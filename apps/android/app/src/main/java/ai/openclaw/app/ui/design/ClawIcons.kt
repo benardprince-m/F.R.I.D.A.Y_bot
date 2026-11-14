@@ -75,9 +75,9 @@ internal object ClawIcons {
     "M6 13h2M6 9h2",
   )
 
-  val FRIDAY: ImageVector by lazy {
+  val OpenClaw: ImageVector by lazy {
     ImageVector
-      .Builder("FRIDAY", 24.dp, 24.dp, 120f, 120f)
+      .Builder("OpenClaw", 24.dp, 24.dp, 120f, 120f)
       .apply {
         // Eye cutouts preserve the canonical mascot's face under a single tint.
         addPath(

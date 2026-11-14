@@ -340,7 +340,7 @@ describe("trigger handling", () => {
         expect(runEmbeddedAgentMock, label).toHaveBeenCalledOnce();
         if (expectedPrompt !== undefined) {
           const prompt =
-            firstMockCallArg(runEmbeddedAgentMock, "embedded FRIDAY agent").prompt ?? "";
+            firstMockCallArg(runEmbeddedAgentMock, "embedded OpenClaw agent").prompt ?? "";
           expect(prompt, label).toBe(expectedPrompt);
         }
       }
@@ -370,7 +370,7 @@ describe("trigger handling", () => {
         }
         await getReplyFromConfig(BASE_MESSAGE, { isHeartbeat: true }, cfg);
 
-        const call = firstMockCallArg(runEmbeddedAgentMock, "embedded FRIDAY agent");
+        const call = firstMockCallArg(runEmbeddedAgentMock, "embedded OpenClaw agent");
         expect(call).toMatchObject({ provider, model });
       }
     });
@@ -401,7 +401,7 @@ describe("trigger handling", () => {
         expect(loadSessionEntry({ storePath, sessionKey })?.compactionCount).toBe(1);
       } else {
         expect(
-          firstMockCallArg(getCompactEmbeddedAgentSessionMock(), "embedded FRIDAY compaction"),
+          firstMockCallArg(getCompactEmbeddedAgentSessionMock(), "embedded OpenClaw compaction"),
         ).toMatchObject({
           sessionTarget: { agentId: "worker1", sessionKey, storePath },
           sessionFile: sessionKey,
@@ -560,7 +560,7 @@ describe("trigger handling", () => {
           cfg,
         );
         expect(runEmbeddedAgentMock).toHaveBeenCalledOnce();
-        expect(firstMockCallArg(runEmbeddedAgentMock, "embedded FRIDAY agent")).toMatchObject({
+        expect(firstMockCallArg(runEmbeddedAgentMock, "embedded OpenClaw agent")).toMatchObject({
           provider,
           model,
           ...(authProfile

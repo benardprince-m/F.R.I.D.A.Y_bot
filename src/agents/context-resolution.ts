@@ -110,7 +110,7 @@ function resolveConfiguredRuntimeModel(
   return resolveConfiguredProviderModel(cfg, canonicalProvider, model);
 }
 
-/** Returns only the per-model contextTokens value authored in FRIDAY config. */
+/** Returns only the per-model contextTokens value authored in OpenClaw config. */
 export function resolveAuthoredModelContextTokens(
   params: Pick<ContextTokenResolutionParams, "cfg" | "provider" | "modelProvider" | "model">,
 ): number | undefined {

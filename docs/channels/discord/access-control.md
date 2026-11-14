@@ -113,7 +113,7 @@ Who may reach the bot, which guild channels it answers in, and which Discord act
 
     Failed lookups grant no access. If Discord returns `Missing Access`, the member lookup fails, or the channel belongs to a different guild, the DM sender is treated as unauthorized.
 
-    Enable the Discord Developer Portal **Server Members Intent** when using channel-audience access groups. DMs do not include guild member state, so FRIDAY resolves the member through Discord REST at authorization time.
+    Enable the Discord Developer Portal **Server Members Intent** when using channel-audience access groups. DMs do not include guild member state, so OpenClaw resolves the member through Discord REST at authorization time.
 
   </Tab>
 
@@ -201,7 +201,7 @@ Who may reach the bot, which guild channels it answers in, and which Discord act
 
     For a named account, use `channels.discord.accounts.<accountId>.intents` and `.guilds`. To limit the override to one parent channel, add `requireMentionInBotThreads: false` to its existing guild `channels.<channelId>` entry. Adding a new channel map also changes the [guild allowlist](/channels/discord/access-control#guild-channel-maps-are-allowlists).
 
-    Guild/channel and sender allowlists still apply. Parent channels and threads created by other users keep their configured mention requirements; unknown thread ownership does not enable the override. Enable **Message Content Intent** in the [Discord Developer Portal](/channels/discord/setup#quick-setup) as well as `intents.messageContent` in FRIDAY. Without it, Discord omits ordinary unmentioned guild-message content. Verify by having the bot create a thread and sending an unmentioned follow-up there from an allowed account. See [bot-created thread policy](/channels/groups#bot-created-threads) for other channels.
+    Guild/channel and sender allowlists still apply. Parent channels and threads created by other users keep their configured mention requirements; unknown thread ownership does not enable the override. Enable **Message Content Intent** in the [Discord Developer Portal](/channels/discord/setup#quick-setup) as well as `intents.messageContent` in OpenClaw. Without it, Discord omits ordinary unmentioned guild-message content. Verify by having the bot create a thread and sending an unmentioned follow-up there from an allowed account. See [bot-created thread policy](/channels/groups#bot-created-threads) for other channels.
 
     `ignoreOtherMentions` optionally drops messages addressed to another identity but not the bot. This covers explicit user/role mentions (excluding @everyone/@here) and replies to another non-webhook bot. An explicit mention of the current bot still wins.
 
@@ -303,7 +303,7 @@ Use `bindings[].match.roles` to route Discord guild members to different agents 
 - Per-channel override: `channels.discord.commands.native`.
 - `commands.native=false` skips Discord slash-command registration and cleanup during startup. Previously registered commands may remain visible in Discord until you remove them from the Discord app.
 - Native command auth uses the same Discord allowlists/policies as normal message handling.
-- Commands may still be visible in the Discord UI for unauthorized users; execution enforces FRIDAY auth and replies "not authorized".
+- Commands may still be visible in the Discord UI for unauthorized users; execution enforces OpenClaw auth and replies "not authorized".
 - Default slash command settings: `ephemeral: true` (`channels.discord.slashCommand.ephemeral`).
 
 See [Slash commands](/tools/slash-commands) for the command catalog and behavior.

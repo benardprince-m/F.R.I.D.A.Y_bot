@@ -1,17 +1,17 @@
 ---
-summary: "Delegate architecture: running FRIDAY as a named agent on behalf of an organization"
+summary: "Delegate architecture: running OpenClaw as a named agent on behalf of an organization"
 title: Delegate architecture
 read_when: "You want an agent with its own identity that acts on behalf of humans in an organization."
 status: active
 ---
 
-Run FRIDAY as a **named delegate**: an agent with its own identity that acts "on behalf of" people in an organization. The agent never impersonates a human - it sends, reads, and schedules under its own account with explicit delegation permissions.
+Run OpenClaw as a **named delegate**: an agent with its own identity that acts "on behalf of" people in an organization. The agent never impersonates a human - it sends, reads, and schedules under its own account with explicit delegation permissions.
 
 This extends [Multi-Agent Routing](/concepts/multi-agent) from personal use into organizational deployments.
 
 ## What is a delegate
 
-A delegate is an FRIDAY agent that:
+A delegate is an OpenClaw agent that:
 
 - Has its **own identity** (email address, display name, calendar).
 - Acts **on behalf of** one or more humans, never pretends to be them.
@@ -22,7 +22,7 @@ This maps to how executive assistants work: their own credentials, mail sent "on
 
 ## Why delegates
 
-FRIDAY's simplest mode is **one human, one agent**. Delegates extend this to organizations:
+OpenClaw's simplest mode is **one human, one agent**. Delegates extend this to organizations:
 
 | Personal mode               | Delegate mode                                  |
 | --------------------------- | ---------------------------------------------- |
@@ -34,7 +34,7 @@ FRIDAY's simplest mode is **one human, one agent**. Delegates extend this to org
 Delegates solve two problems:
 
 1. **Accountability**: messages sent by the agent are clearly from the agent, not a human.
-2. **Scope control**: the identity provider enforces what the delegate can access, independent of FRIDAY's own tool policy.
+2. **Scope control**: the identity provider enforces what the delegate can access, independent of OpenClaw's own tool policy.
 
 ## Capability tiers
 
@@ -127,11 +127,11 @@ See [Sandboxing](/gateway/sandboxing) and [Multi-Agent Sandbox & Tools](/tools/m
 
 Configure logging before the delegate handles any real data:
 
-- Cron run history: FRIDAY's shared SQLite state database.
+- Cron run history: OpenClaw's shared SQLite state database.
 - Session transcripts: `~/.openclaw/agents/delegate/sessions`.
 - Identity provider audit logs (Exchange, Google Workspace).
 
-All delegate actions flow through FRIDAY's session store. For compliance, retain and review these logs.
+All delegate actions flow through OpenClaw's session store. For compliance, retain and review these logs.
 
 ## Setting up a delegate
 
@@ -296,7 +296,7 @@ A complete delegate configuration handling email, calendar, and social media:
 
 The delegate's `AGENTS.md` defines its autonomous authority - what it may do without asking, what needs approval, and what is forbidden. [Cron Jobs](/automation/cron-jobs) drive its daily schedule.
 
-If you grant `sessions_history`, it is a bounded recall view. FRIDAY preserves credential-like text, truncates long content, and strips internal markup (thinking-block signatures, `<relevant-memories>` markup tags, tool-call XML tags such as `<tool_call>`/`<function_calls>`, and similar leaked provider control tokens) from assistant recall. Oversized rows can be replaced with `[sessions_history omitted: message too large]` instead of returning the raw content. Use `nextOffset` when present to page backward through older transcript windows.
+If you grant `sessions_history`, it is a bounded recall view. OpenClaw preserves credential-like text, truncates long content, and strips internal markup (thinking-block signatures, `<relevant-memories>` markup tags, tool-call XML tags such as `<tool_call>`/`<function_calls>`, and similar leaked provider control tokens) from assistant recall. Oversized rows can be replaced with `[sessions_history omitted: message too large]` instead of returning the raw content. Use `nextOffset` when present to page backward through older transcript windows.
 
 ## Scaling pattern
 

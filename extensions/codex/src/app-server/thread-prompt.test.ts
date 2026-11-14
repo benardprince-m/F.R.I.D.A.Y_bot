@@ -12,7 +12,7 @@ const delegationTools: CodexDynamicToolSpec[] = [
   {
     type: "function",
     name: "sessions_spawn",
-    description: "Spawn an FRIDAY session",
+    description: "Spawn an OpenClaw session",
     inputSchema: {
       type: "object",
       properties: { runtime: { type: "string", enum: ["subagent", "acp"] } },
@@ -21,24 +21,24 @@ const delegationTools: CodexDynamicToolSpec[] = [
   {
     type: "function",
     name: "sessions_send",
-    description: "Send to an FRIDAY session",
+    description: "Send to an OpenClaw session",
     inputSchema: { type: "object" },
   },
   {
     type: "function",
     name: "subagents",
-    description: "List FRIDAY subagents",
+    description: "List OpenClaw subagents",
     inputSchema: { type: "object" },
   },
   {
     type: "namespace",
     name: CODEX_OPENCLAW_DIRECT_DYNAMIC_TOOL_NAMESPACE,
-    description: "Direct FRIDAY tools",
+    description: "Direct OpenClaw tools",
     tools: [
       {
         type: "function",
         name: "sessions_yield",
-        description: "Yield for FRIDAY session events",
+        description: "Yield for OpenClaw session events",
         inputSchema: { type: "object" },
       },
     ],
@@ -112,7 +112,7 @@ describe("buildDeveloperInstructions delegation guidance", () => {
             {
               type: "namespace",
               name: "openclaw",
-              description: "FRIDAY tools",
+              description: "OpenClaw tools",
               tools: [
                 {
                   type: "function",
@@ -138,10 +138,10 @@ describe("buildDeveloperInstructions delegation guidance", () => {
       expect(instructions).toContain("`spawn_agent` for work that only needs Codex-native tools");
       expect(instructions).toContain("native collaboration tools may be deferred");
       expect(instructions).toContain(
-        'For new delegated work that needs FRIDAY tools, use `openclaw.sessions_spawn` with `runtime="subagent"` from the start.',
+        'For new delegated work that needs OpenClaw tools, use `openclaw.sessions_spawn` with `runtime="subagent"` from the start.',
       );
       expect(instructions).toContain(
-        'Actual delegated helpers use native `spawn_agent` for Codex-native work, or `openclaw.sessions_spawn` with `runtime="subagent"` for new work needing FRIDAY tools',
+        'Actual delegated helpers use native `spawn_agent` for Codex-native work, or `openclaw.sessions_spawn` with `runtime="subagent"` for new work needing OpenClaw tools',
       );
       expect(instructions).toContain(
         "For follow-up work on an existing native child, use the native collaboration tool that starts or queues a new turn.",
@@ -155,14 +155,14 @@ describe("buildDeveloperInstructions delegation guidance", () => {
 
     expect(instructions).toContain("`spawn_agent` for work that only needs Codex-native tools");
     expect(instructions).not.toContain("sessions_spawn");
-    expect(instructions).toContain("Keep work needing FRIDAY tools in this session");
+    expect(instructions).toContain("Keep work needing OpenClaw tools in this session");
   });
 
   it.each<{ properties: JsonObject; expected: string }>([
     { properties: {}, expected: "use `sessions_spawn` from the start." },
     {
       properties: { runtime: { type: "string", enum: ["acp"] } },
-      expected: "Keep work needing FRIDAY tools in this session",
+      expected: "Keep work needing OpenClaw tools in this session",
     },
   ])("respects the advertised managed runtime schema: %j", ({ properties, expected }) => {
     const instructions = buildDeveloperInstructions(createParams(), {
@@ -223,7 +223,7 @@ describe("buildDeveloperInstructions delegation guidance", () => {
             {
               type: "namespace",
               name: "openclaw",
-              description: "FRIDAY tools",
+              description: "OpenClaw tools",
               tools: [
                 {
                   type: "function",
@@ -280,7 +280,7 @@ describe("buildDeveloperInstructions UI presentation guidance", () => {
         {
           type: "namespace",
           name: "openclaw",
-          description: "FRIDAY tools",
+          description: "OpenClaw tools",
           tools: uiTools.map((tool) => ({ ...tool, deferLoading: true })),
         },
       ],

@@ -51,7 +51,7 @@ it.each([
       expect(envelope.prefixedCommandBody).toContain(text);
     }
     expect(envelope).toMatchObject({
-      transcriptCommandBody: softResetTail || "[FRIDAY session reset]",
+      transcriptCommandBody: softResetTail || "[OpenClaw session reset]",
       currentInboundContext: undefined,
     });
     expect(envelope.transcriptCommandBody).not.toContain("Startup context");

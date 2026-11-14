@@ -48,7 +48,7 @@ function textBlock(text: string, cache_control?: { type: string; ttl?: string })
   return { type: "text" as const, text, ...(cache_control ? { cache_control } : {}) };
 }
 
-const runtimeText = "FRIDAY runtime context:\nRuntime context";
+const runtimeText = "OpenClaw runtime context:\nRuntime context";
 const opusModel = { ...anthropicModel, id: "claude-opus-5" };
 
 function captureMessages(
@@ -129,7 +129,7 @@ describe("Anthropic runtime-context cache lifecycle", () => {
     });
     const serialized = JSON.stringify(payload.messages);
     expect(serialized).toContain(JSON.stringify(legacyText).slice(1, -1));
-    expect(serialized).not.toContain("FRIDAY runtime context:");
+    expect(serialized).not.toContain("OpenClaw runtime context:");
     expect(serialized).toContain("signature");
   });
 

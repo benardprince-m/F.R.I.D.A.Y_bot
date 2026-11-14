@@ -14,9 +14,9 @@ class SessionKeyTest {
 
   @Test
   fun buildAndroidAppSessionLabelIncludesDeviceDisplayName() {
-    assertEquals("FRIDAY App · 1234567890ab", buildAndroidAppSessionLabel(null, "1234567890abcdef"))
+    assertEquals("OpenClaw App · 1234567890ab", buildAndroidAppSessionLabel(null, "1234567890abcdef"))
     assertEquals(
-      "FRIDAY App · Pixel · 1234567890ab",
+      "OpenClaw App · Pixel · 1234567890ab",
       buildAndroidAppSessionLabel(" Pixel ", "1234567890abcdef"),
     )
   }
@@ -26,13 +26,13 @@ class SessionKeyTest {
     val deviceId = "1234567890abcdef"
     val splitPairPrefix = "a".repeat(95)
     assertEquals(
-      "FRIDAY App · $splitPairPrefix · 1234567890ab",
+      "OpenClaw App · $splitPairPrefix · 1234567890ab",
       buildAndroidAppSessionLabel("$splitPairPrefix😀tail", deviceId),
     )
 
     val completePairPrefix = "a".repeat(94)
     assertEquals(
-      "FRIDAY App · $completePairPrefix😀 · 1234567890ab",
+      "OpenClaw App · $completePairPrefix😀 · 1234567890ab",
       buildAndroidAppSessionLabel("$completePairPrefix😀tail", deviceId),
     )
   }

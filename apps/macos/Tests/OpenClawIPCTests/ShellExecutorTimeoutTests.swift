@@ -1,7 +1,7 @@
 import Darwin
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 private actor ShellLineRecorder {
     private var lines: [String] = []

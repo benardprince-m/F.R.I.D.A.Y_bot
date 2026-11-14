@@ -30,7 +30,7 @@ internal enum class SettingsRoute(
   CronJobs(nativeText("Automations"), ClawIcons.Automations, SettingsCategory.Workspace),
   Usage(nativeText("Usage"), ClawIcons.Usage, SettingsCategory.Workspace),
   Skills(nativeText("Skills"), ClawIcons.Skills, SettingsCategory.Workspace),
-  SystemAgent(nativeText("FRIDAY"), ClawIcons.FRIDAY, null),
+  SystemAgent(nativeText("OpenClaw"), ClawIcons.OpenClaw, null),
   NodesDevices(nativeText("Nodes & Devices"), ClawIcons.Devices, SettingsCategory.Connection),
   Channels(nativeText("Channels"), ClawIcons.Channels, SettingsCategory.Connection),
   Dreaming(nativeText("Dreaming"), ClawIcons.Memory, SettingsCategory.Workspace),

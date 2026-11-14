@@ -253,7 +253,7 @@ it.each([false, true, "revoked"] as const)(
 );
 
 it.each([true, false])(
-  "isolates an FRIDAY alternative from native-first metadata (host donor: %s)",
+  "isolates an OpenClaw alternative from native-first metadata (host donor: %s)",
   async (hostDonor) => {
     await withOpenClawTestState(
       { layout: "state-only", prefix: "model-picker-reverse-", agentEnv: "main" },

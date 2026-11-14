@@ -8,7 +8,7 @@ case "$0" in
 esac
 printf '%s\n' "$0" >> "$root/executables"
 case "$*" in
-  *--version*) printf 'FRIDAY 2026.10.1\n' ;;
+  *--version*) printf 'OpenClaw 2026.10.1\n' ;;
   *'gateway status'*)
     /bin/cat "$root/state.json"
     if test -f "$root/next.json"; then /bin/mv "$root/next.json" "$root/state.json"; fi ;;

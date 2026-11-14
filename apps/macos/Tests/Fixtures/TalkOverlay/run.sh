@@ -23,9 +23,9 @@ PLIST
 
 cd -- "$repo_root"
 sources=(
-  apps/macos/Sources/FRIDAY/TalkOverlay.swift
-  apps/macos/Sources/FRIDAY/NotifyOverlay.swift
-  apps/macos/Sources/FRIDAY/OverlayPanelFactory.swift
+  apps/macos/Sources/OpenClaw/TalkOverlay.swift
+  apps/macos/Sources/OpenClaw/NotifyOverlay.swift
+  apps/macos/Sources/OpenClaw/OverlayPanelFactory.swift
   apps/macos/Tests/Fixtures/TalkOverlay/Fixture.swift
 )
 shasum -a 256 "${sources[@]}" apps/macos/Tests/Fixtures/TalkOverlay/run.sh

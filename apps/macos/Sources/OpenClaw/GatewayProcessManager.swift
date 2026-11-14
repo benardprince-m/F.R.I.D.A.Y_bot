@@ -831,7 +831,7 @@ final class GatewayProcessManager {
 
     private func failProfilePortOwnership(port: Int, startGeneration: UInt64) async {
         guard self.isCurrentGatewayStart(startGeneration) else { return }
-        let message = "Gateway port \(port) is already owned by another process or FRIDAY profile. " +
+        let message = "Gateway port \(port) is already owned by another process or OpenClaw profile. " +
             "Set gateway.port to a free port for profile \(AppProfile.current.name ?? "named")."
         self.recordProfilePortConflict(message)
         await GatewayEndpointStore.shared.setLocalUnavailableReason(message)

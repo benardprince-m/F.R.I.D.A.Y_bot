@@ -32,7 +32,7 @@ class ChatUnifiedToolActivityTest {
   ): ChatTimeline = prepareChatHistory(messages, "agent:main:dashboard:tools", "agent:main:main").buildTimeline(runs, calls, null)
 
   @Test fun dispatcherLiveRowsUnwrapWithoutRewritingPendingCallsOrKeys() {
-    val args = Json.parseToJsonElement("""{"id":"web_search","args":{"query":"FRIDAY release notes October 2026"}}""").jsonObject
+    val args = Json.parseToJsonElement("""{"id":"web_search","args":{"query":"OpenClaw release notes October 2026"}}""").jsonObject
     val call = first.copy(name = "tool_call", args = args)
     val group = timeline(listOf(user), listOf(call)).items.filterIsInstance<ChatTimelineItem.ToolActivity>().single()
     val tool = group.tools.single()

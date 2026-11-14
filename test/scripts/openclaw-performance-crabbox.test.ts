@@ -235,7 +235,7 @@ printf handoff > "$ROOT/handoff"
   };
 }
 
-describe("FRIDAY performance Crabbox boundary", () => {
+describe("OpenClaw performance Crabbox boundary", () => {
   it.each([false, true])(
     "requires verified dual-stack IMDS denial before handoff (runner=%s)",
     (runner) => {

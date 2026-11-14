@@ -1,7 +1,7 @@
 ---
 summary: "X / Twitter mentions, allowlisted public replies, thread context, and event modes"
 read_when:
-  - Connecting an X bot account to an FRIDAY agent
+  - Connecting an X bot account to an OpenClaw agent
   - Managing who can trigger public replies on X
   - Troubleshooting X activity streaming or mention polling
 title: "X / Twitter"
@@ -21,7 +21,7 @@ DMs, original posts, likes, and follows are not supported.
 ## Setup
 
 The plugin is bundled with builds that include `extensions/x`. To add it to an
-FRIDAY 2026.9.8 installation from a local checkout:
+OpenClaw 2026.9.8 installation from a local checkout:
 
 ```bash
 openclaw plugins install --link ./extensions/x
@@ -161,7 +161,7 @@ successful answer, that answer is withheld rather than posted.
 
 Without a failure route, withheld replies are discarded and logged as
 `reply withheld post=<id> reason=<failure|error|unclassified> route=none`. With
-`failureRoute`, FRIDAY sends a notice through the target channel's normal
+`failureRoute`, OpenClaw sends a notice through the target channel's normal
 outbound delivery: the mention's post URL, the author's handle, and a redacted
 summary of at most 500 characters. Delivery is best-effort; a failed notice is
 logged with its result and never falls back to X.
@@ -370,12 +370,12 @@ Each guest mention gets a separate channel session and the quoted X thread
 context. It does not reuse a maintainer's conversation history, permission mode,
 root directory, or selected skills. Maintainers keep their existing sessions,
 tools, and work-session replies. Guest replies may cite documentation URLs, but
-FRIDAY never appends a work-session link to a guest reply.
+OpenClaw never appends a work-session link to a guest reply.
 
 ### Repository containment
 
 Tool names alone do not confine filesystem reads. Configure the X front-door
-agent's `cwd` and `workspace` to the FRIDAY clone and enable the core's
+agent's `cwd` and `workspace` to the OpenClaw clone and enable the core's
 workspace-only file guard. The supported guest setup also disables selected
 skills and Docker/remote sandbox mode: skill directories and sandbox mounts are
 explicit read exceptions in core and can expose files outside that clone.
@@ -696,7 +696,7 @@ account and the app has `tweet.write`. Inspect the error before retrying a
 partially sent reply chain.
 
 Failures before a reply POST can retry safely. If a POST's outcome is uncertain,
-FRIDAY keeps that uncertainty instead of automatically sending the reply again.
+OpenClaw keeps that uncertainty instead of automatically sending the reply again.
 Check X before manually retrying an uncertain or partially sent reply.
 
 ## Related

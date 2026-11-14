@@ -1,5 +1,5 @@
 ---
-summary: "FRIDAY GMI Cloud provider plugin."
+summary: "OpenClaw GMI Cloud provider plugin."
 read_when:
   - You are installing, configuring, or auditing the gmi plugin
 title: "Gmi plugin reference"
@@ -10,7 +10,7 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-FRIDAY GMI Cloud provider plugin.
+OpenClaw GMI Cloud provider plugin.
 
 ## Distribution
 

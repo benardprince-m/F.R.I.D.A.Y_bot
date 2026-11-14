@@ -1,4 +1,4 @@
-// FRIDAY-authored rich block subset plus size accounting and the plain-text
+// OpenClaw-authored rich block subset plus size accounting and the plain-text
 // projection shared by the emitter, splitter, and fallback paths.
 import type { User } from "grammy/types";
 

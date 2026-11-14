@@ -123,7 +123,7 @@ final class ShareViewController: UIViewController {
     private func sendMessageToGateway(_ message: String, attachments: [ShareAttachment]) async throws {
         guard let config = ShareGatewayRelaySettings.loadConfigDiscardingUnscopedDeviceAuth() else {
             throw Self.gatewayError(10, message: NSLocalizedString(
-                "FRIDAY is not connected to a gateway yet.",
+                "OpenClaw is not connected to a gateway yet.",
                 comment: "Share extension missing gateway error"))
         }
         guard config.requiresForegroundSignIn != true else {
@@ -131,7 +131,7 @@ final class ShareViewController: UIViewController {
                 domain: "OpenClawShare",
                 code: 12,
                 userInfo: [NSLocalizedDescriptionKey: NSLocalizedString(
-                    "This gateway uses Cloudflare Access. Open FRIDAY and send from the app; your share stays here.",
+                    "This gateway uses Cloudflare Access. Open OpenClaw and send from the app; your share stays here.",
                     comment: "Share extension foreground browser sign-in requirement")])
         }
         guard let url = URL(string: config.gatewayURLString) else {
@@ -157,7 +157,7 @@ final class ShareViewController: UIViewController {
                 permissions: [:],
                 clientId: "openclaw-ios",
                 clientMode: "node",
-                clientDisplayName: "FRIDAY Share",
+                clientDisplayName: "OpenClaw Share",
                 deviceIdentityProfile: .shareExtension,
                 includeDeviceIdentity: true,
                 allowStoredDeviceAuth: config.gatewayStableID != nil,

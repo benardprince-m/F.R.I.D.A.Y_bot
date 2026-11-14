@@ -176,7 +176,7 @@ export const STATE_SCHEMA_MIGRATION_DESCRIPTIONS = {
   "session-state-head-layout-v26": "session state heads → composite primary-key storage",
   "state-write-indexes-v27": "replay, skill usage, and lease writes → smaller index maintenance",
   "predicate-columns-v21": "meeting transcripts and delivery retention → derived predicate columns",
-  "operator-approvals-system-agent": "operator approvals → FRIDAY system changes",
+  "operator-approvals-system-agent": "operator approvals → OpenClaw system changes",
   "session-watch-cursor-provenance-v4": "session watch cursors → provenance column",
   "strict-tables-v3": "tables → SQLite STRICT typing",
 } as const;

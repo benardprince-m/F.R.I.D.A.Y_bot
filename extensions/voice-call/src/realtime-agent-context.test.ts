@@ -103,7 +103,7 @@ describe("buildRealtimeVoiceInstructions", () => {
     expect(instructions).toContain("### SOUL.md\nStay quick, direct, and warm.");
     expect(instructions).toContain("### IDENTITY.md");
     expect(instructions).not.toContain("OUTSIDE_CONTEXT");
-    expect(instructions).toContain("Agent context: You speak for an FRIDAY agent");
+    expect(instructions).toContain("Agent context: You speak for an OpenClaw agent");
     expect(instructions.match(/Agent context:/g)).toHaveLength(1);
   });
 

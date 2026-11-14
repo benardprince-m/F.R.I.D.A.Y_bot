@@ -218,11 +218,11 @@ function noteCliGatewayVersionSkew(status: StatusSummary | undefined): void {
   }
   note(
     [
-      `This command is FRIDAY ${VERSION}; the running Gateway is FRIDAY ${gatewayVersion}.`,
+      `This command is OpenClaw ${VERSION}; the running Gateway is OpenClaw ${gatewayVersion}.`,
       "Check `openclaw --version`, `which openclaw`, and `openclaw gateway status --deep`.",
-      "If this mismatch is unexpected, update PATH so `openclaw` points to the version you want, or reinstall the Gateway service from that same FRIDAY install.",
+      "If this mismatch is unexpected, update PATH so `openclaw` points to the version you want, or reinstall the Gateway service from that same OpenClaw install.",
     ].join("\n"),
-    "FRIDAY version mismatch",
+    "OpenClaw version mismatch",
   );
 }
 

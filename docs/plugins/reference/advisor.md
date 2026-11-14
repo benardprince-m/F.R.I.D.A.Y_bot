@@ -15,7 +15,7 @@ Experimental: reviews ongoing agent work on the session's own model and offers o
 ## Distribution
 
 - Package: `@openclaw/advisor`
-- Install route: included in FRIDAY
+- Install route: included in OpenClaw
 
 ## Surface
 

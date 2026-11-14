@@ -55,7 +55,7 @@ export const TEAMS_MEETINGS_PLATFORM_ADAPTER = MeetingPlatformAdapter.create<
     participantIdentity: (transport) =>
       transport === "chrome-node"
         ? "Microsoft Teams guest in Chrome on a paired node"
-        : "Microsoft Teams guest in the FRIDAY Chrome profile",
+        : "Microsoft Teams guest in the OpenClaw Chrome profile",
   },
   nodeCommandName: "teamsmeetings.chrome",
   nodeConfigPath: "plugins.entries.teams-meetings.config.chromeNode.node",
@@ -75,7 +75,7 @@ export const TEAMS_MEETINGS_PLATFORM_ADAPTER = MeetingPlatformAdapter.create<
     manualActionReasonPrefix: "teams",
     retryCaptions: true,
     unavailableMessage:
-      "Open the FRIDAY browser profile, finish the Teams sign-in, admission, or permission prompt, then retry.",
+      "Open the OpenClaw browser profile, finish the Teams sign-in, admission, or permission prompt, then retry.",
     origin: teamsMeetingOrigin,
     scripts: teamsMeetingPageScripts,
   }),

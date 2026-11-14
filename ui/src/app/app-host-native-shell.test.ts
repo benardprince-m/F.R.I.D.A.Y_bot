@@ -66,7 +66,7 @@ afterEach(() => {
   resetAppHostTestGlobals();
 });
 
-describe("FRIDAY native shell", () => {
+describe("OpenClaw native shell", () => {
   it("focuses the navigation drawer without a tooltip claiming Escape", async () => {
     vi.stubGlobal("matchMedia", () => ({ matches: true }));
     const shell = createShellOwner();

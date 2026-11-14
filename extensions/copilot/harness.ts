@@ -560,7 +560,7 @@ export function createCopilotAgentHarness(
       }
       const openclawSessionId = params.sessionId;
 
-      // Reuse the SDK session across turns within the same FRIDAY session so
+      // Reuse the SDK session across turns within the same OpenClaw session so
       // Copilot's prompt cache, tool history, and compaction state survive.
       // Compatibility covers provider/model/cwd/auth; incompatible state starts
       // a fresh ordinary attempt but cannot be used for settled finalization.
@@ -848,13 +848,13 @@ export function createCopilotAgentHarness(
           typeof hostCapabilities.retainSourceAuthority !== "function"
         ) {
           throw new Error(
-            "This host did not provide compaction source authority. Update FRIDAY before compacting this session.",
+            "This host did not provide compaction source authority. Update OpenClaw before compacting this session.",
           );
         }
         hostCapabilities.assertActive();
-        // The SDK owns Copilot history compaction. FRIDAY only resumes
+        // The SDK owns Copilot history compaction. OpenClaw only resumes
         // the tracked SDK session and calls the session-scoped RPC; durable
-        // FRIDAY session/transcript state stays in SQLite, with no marker
+        // OpenClaw session/transcript state stays in SQLite, with no marker
         // sidecars under the workspace.
         const openclawSessionId = params.sessionId;
         if (!openclawSessionId) {
@@ -890,7 +890,7 @@ export function createCopilotAgentHarness(
             : undefined;
         if (!compatibleTracked) {
           // Durable bindings only carry SDK session ids. Manual SDK compaction also
-          // needs the live SessionConfig with FRIDAY hooks/tools, so preserve the
+          // needs the live SessionConfig with OpenClaw hooks/tools, so preserve the
           // binding for the next attempt and let the host compact transcript state.
           return failedCompaction("missing_thread_binding");
         }

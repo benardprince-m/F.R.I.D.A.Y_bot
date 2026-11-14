@@ -17,7 +17,7 @@ import { createWorkerSessionPlacementStore } from "./worker-environments/placeme
 const mocks = githubPublicationTestMocks();
 const url = "https://github.com/openclaw/openclaw/pull/125200";
 const human = "Co-authored-by: alice <7+alice@users.noreply.github.com>";
-const marker = "FRIDAY-Publication: previous-writer";
+const marker = "OpenClaw-Publication: previous-writer";
 let f: Awaited<ReturnType<typeof historyFixture>>;
 function interceptCommand(
   handler: (argv: string[]) => ReturnType<typeof commandResult> | undefined,

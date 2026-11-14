@@ -2,7 +2,7 @@
   "name": "@openclaw/omlx-provider",
   "version": "2026.10.3",
   "private": true,
-  "description": "FRIDAY oMLX provider plugin",
+  "description": "OpenClaw oMLX provider plugin",
   "type": "module",
   "devDependencies": { "@openclaw/plugin-sdk": "workspace:*" },
   "openclaw": { "extensions": ["./index.ts"] }

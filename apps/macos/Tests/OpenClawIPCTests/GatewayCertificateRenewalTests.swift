@@ -4,7 +4,7 @@ import CryptoKit
 import Foundation
 import Security
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawKit
 
 private enum RenewalCertificates {

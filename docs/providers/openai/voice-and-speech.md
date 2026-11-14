@@ -31,7 +31,7 @@ sidebarTitle: "Voice and speech"
     `echo`, `fable`, `juniper`, `marin`, `onyx`, `nova`, `sage`, `shimmer`,
     `verse`.
 
-    `extraBody` is merged into `/audio/speech` request JSON after FRIDAY's
+    `extraBody` is merged into `/audio/speech` request JSON after OpenClaw's
     generated fields, so use it for OpenAI-compatible endpoints that require
     additional keys such as `lang`. Prototype keys are ignored.
 
@@ -61,7 +61,7 @@ sidebarTitle: "Voice and speech"
 
   <Accordion title="Speech-to-text">
     The bundled `openai` plugin registers batch speech-to-text through
-    FRIDAY's media-understanding transcription surface.
+    OpenClaw's media-understanding transcription surface.
 
     Batch transcription can use the selected OpenAI API-key or ChatGPT OAuth
     profile on the standard transcription endpoint when the account permits it.
@@ -178,7 +178,7 @@ sidebarTitle: "Voice and speech"
     ```
 
     The default is `wss://api.openai.com/v1/realtime`. The URL's path and
-    query parameters are preserved; FRIDAY sets the `model` query parameter
+    query parameters are preserved; OpenClaw sets the `model` query parameter
     from the selected model. Standard URL parsing applies; use a properly
     URL-encoded query for signed endpoints. Include the complete endpoint path, not only an
     API root such as `/v1`. `https:` and `http:` URLs are converted to
@@ -191,7 +191,7 @@ sidebarTitle: "Voice and speech"
     explicit model, the GA Realtime default remains in use rather than GPT-Live.
 
     This is a server-side Realtime WebSocket override, not a general protocol
-    adapter: the service must support FRIDAY's Realtime session events, audio
+    adapter: the service must support OpenClaw's Realtime session events, audio
     formats, voices, and tools. Provider-specific compatibility, including
     DashScope, is not implied. The API key stays on the Gateway and authenticates
     the socket directly; no browser client-secret endpoint is required.
@@ -229,7 +229,7 @@ sidebarTitle: "Voice and speech"
     client secret and the browser performs the SDP exchange directly.
 
     When no Platform credential source is configured, ordinary GA browser Talk
-    falls back to the FRIDAY ChatGPT OAuth subscription profile. The
+    falls back to the OpenClaw ChatGPT OAuth subscription profile. The
     single-use Gateway offer broker keeps OAuth server-side, exchanges the
     browser's SDP, and returns only the answer SDP. An explicitly configured but
     unavailable Platform credential fails instead of falling back to OAuth.
@@ -263,7 +263,7 @@ sidebarTitle: "Voice and speech"
     Set `talk.realtime.model` explicitly to `gpt-live-1` for the public
     [GPT-Live API](https://developers.openai.com/api/docs/guides/live). GPT-Live
     handles the spoken conversation while delegated tasks run through your
-    configured FRIDAY agent. It can listen while speaking; interrupting speech
+    configured OpenClaw agent. It can listen while speaking; interrupting speech
     does not itself cancel agent work.
 
     This model requires an OpenAI Platform API key with model access, selected
@@ -326,7 +326,7 @@ sidebarTitle: "Voice and speech"
     #### Released GPT-Live browser and Gateway relay authentication
 
     The separate Codex GPT-Live model, `gpt-live-1-codex`, retains its ChatGPT
-    subscription route. Its browser and Gateway-relay WebRTC try the FRIDAY ChatGPT
+    subscription route. Its browser and Gateway-relay WebRTC try the OpenClaw ChatGPT
     OAuth subscription profile first. When OAuth is unavailable, the Gateway
     falls back to Platform auth in this order: the configured realtime key, an
     `openai` API-key profile, then `OPENAI_API_KEY`. Create the OAuth profile
@@ -355,7 +355,7 @@ sidebarTitle: "Voice and speech"
     `consultPolicy: "always"` is rejected because GPT-Live cannot enforce those
     host policies; its default uses automatic provider delegation. Each
     speaker's delegated work retains their Discord identity and permissions.
-    The shared FRIDAY agent conversation supplies room context, while each
+    The shared OpenClaw agent conversation supplies room context, while each
     speaker's voice-model connection has separate acoustic conversation history.
     See [GPT-Live in Discord](/channels/discord/voice-channels#gpt-live-in-discord).
 
@@ -398,7 +398,7 @@ sidebarTitle: "Voice and speech"
     or diagnostics. Opt in explicitly with `talk.realtime.model`; the released
     model remains the default.
 
-    Current Platform-key sessions accept `marin` and `cedar`. FRIDAY defaults
+    Current Platform-key sessions accept `marin` and `cedar`. OpenClaw defaults
     to `marin` and maps unsupported configured voices back to it.
 
     Unlisted or private browser WebRTC prerequisites, in order:
@@ -467,10 +467,10 @@ sidebarTitle: "Voice and speech"
     project.
 
     The Codex GPT-Live Gateway-owned WebRTC route uses OAuth first with Platform
-    fallback, routes sideband delegations through the configured FRIDAY
+    fallback, routes sideband delegations through the configured OpenClaw
     agent, and keeps credentials away from relay clients. Unlisted or private
     browser WebRTC and the direct backend socket remain Platform-only. The
-    direct socket enables Discord voice and Voice Call/telephony; FRIDAY
+    direct socket enables Discord voice and Voice Call/telephony; OpenClaw
     converts G.711 u-law telephony audio to and from the provider's 24 kHz PCM
     stream. Android's client-side gate stays closed until the Gateway relay
     path has live proof from an Android device.
@@ -504,7 +504,7 @@ sidebarTitle: "Voice and speech"
     Realtime voice is selected when the session is created. GA Realtime allows
     most session fields to change later, but the voice cannot be changed after
     the model has emitted audio. GPT-Live fixes its model, voice, audio format,
-    and delegation mode at startup. FRIDAY exposes the
+    and delegation mode at startup. OpenClaw exposes the
     built-in Realtime voice ids as strings.
     </Note>
 

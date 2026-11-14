@@ -37,7 +37,7 @@ const PACKAGE_VERSION = "2026.7.1-beta.3";
 const PACKAGE_DIR = "extensions/meta";
 const TARBALL_NAME = "openclaw-meta-provider-2026.7.1-beta.3.tgz";
 const MANUAL_OVERRIDE_REASON =
-  "FRIDAY Release Publish run 12345 approved token release for v2026.7.1-beta.3";
+  "OpenClaw Release Publish run 12345 approved token release for v2026.7.1-beta.3";
 const PUBLICATION_REASON = "First npm publication for the approved beta3 Meta package.";
 const PUBLISHER_POLICY = {
   policyId: "2026.7.1-beta.3",
@@ -644,7 +644,7 @@ describe("plugin publication artifact", () => {
     });
     expectVerifyError(fixture, /does not canonically bind/u, {
       manualOverrideReason:
-        "FRIDAY Release Publish run 12345 approved token release for v2026.7.1-beta.4",
+        "OpenClaw Release Publish run 12345 approved token release for v2026.7.1-beta.4",
     });
   });
 

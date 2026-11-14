@@ -86,7 +86,7 @@ export function reportDoctorUnresolvedEngine(
     }
     return;
   }
-  showDoctorIntro("FRIDAY doctor");
+  showDoctorIntro("OpenClaw doctor");
   note(
     [
       unparseable

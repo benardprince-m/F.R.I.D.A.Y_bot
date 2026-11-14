@@ -79,7 +79,7 @@ function pluginVersionReadinessToHealthFindings(
       {
         checkId: WORKSPACE_STATUS_CHECK_ID,
         severity: "warning",
-        message: `Active official plugins match post-restart FRIDAY ${drift.gatewayVersion}, but the running Gateway is ${runningGatewayVersion}.`,
+        message: `Active official plugins match post-restart OpenClaw ${drift.gatewayVersion}, but the running Gateway is ${runningGatewayVersion}.`,
         path: "plugins",
         requirement: "plugin-version-gateway-restart",
         fixHint: formatCliCommand("openclaw gateway restart"),
@@ -92,7 +92,7 @@ function pluginVersionReadinessToHealthFindings(
       return {
         checkId: WORKSPACE_STATUS_CHECK_ID,
         severity: "info",
-        message: `Plugin ${entry.pluginId} is ${entry.installedVersion} and its registry publishes no newer release (registry version ${registryLag.registryVersion}), but a Gateway restart will load FRIDAY ${drift.gatewayVersion}.${runningGatewayVersion ? ` The running Gateway is ${runningGatewayVersion}.` : ""} No plugin update can reach ${registryLag.expectedVersion}.`,
+        message: `Plugin ${entry.pluginId} is ${entry.installedVersion} and its registry publishes no newer release (registry version ${registryLag.registryVersion}), but a Gateway restart will load OpenClaw ${drift.gatewayVersion}.${runningGatewayVersion ? ` The running Gateway is ${runningGatewayVersion}.` : ""} No plugin update can reach ${registryLag.expectedVersion}.`,
         path: `plugins.entries.${entry.pluginId}`,
         target: entry.pluginId,
         requirement: "plugin-version-drift",
@@ -104,7 +104,7 @@ function pluginVersionReadinessToHealthFindings(
     return {
       checkId: WORKSPACE_STATUS_CHECK_ID,
       severity: "warning",
-      message: `Plugin ${entry.pluginId} is ${entry.installedVersion}, but a Gateway restart will load FRIDAY ${drift.gatewayVersion}.${targetResolution?.status === "resolved" ? ` The confirmed plugin target is ${targetResolution.version}.` : ""}${runningGatewayVersion ? ` The running Gateway is ${runningGatewayVersion}.` : ""}${updateCommand ? "" : ` Repair target resolution failed: ${targetError}.`}`,
+      message: `Plugin ${entry.pluginId} is ${entry.installedVersion}, but a Gateway restart will load OpenClaw ${drift.gatewayVersion}.${targetResolution?.status === "resolved" ? ` The confirmed plugin target is ${targetResolution.version}.` : ""}${runningGatewayVersion ? ` The running Gateway is ${runningGatewayVersion}.` : ""}${updateCommand ? "" : ` Repair target resolution failed: ${targetError}.`}`,
       path: `plugins.entries.${entry.pluginId}`,
       target: entry.pluginId,
       requirement: "plugin-version-drift",
@@ -234,7 +234,7 @@ function notePluginVersionReadiness(readiness: PluginVersionRestartReadiness | u
   }
   if (readiness.status === "unresolved") {
     const running = readiness.runningGatewayVersion
-      ? `\nRunning Gateway: FRIDAY ${readiness.runningGatewayVersion}`
+      ? `\nRunning Gateway: OpenClaw ${readiness.runningGatewayVersion}`
       : "";
     note(
       `${readiness.reason}${running}\nRepair the Gateway service installation, then rerun openclaw doctor before restarting.`,
@@ -249,8 +249,8 @@ function notePluginVersionReadiness(readiness: PluginVersionRestartReadiness | u
     }
     note(
       [
-        `Running Gateway: FRIDAY ${readiness.runningGatewayVersion}`,
-        `Active official plugins match post-restart FRIDAY ${drift.gatewayVersion}.`,
+        `Running Gateway: OpenClaw ${readiness.runningGatewayVersion}`,
+        `Active official plugins match post-restart OpenClaw ${drift.gatewayVersion}.`,
         `Fix: ${formatCliCommand("openclaw gateway restart")}.`,
       ].join("\n"),
       "Plugin restart readiness",
@@ -271,11 +271,11 @@ function notePluginVersionReadiness(readiness: PluginVersionRestartReadiness | u
   const unresolvedRepairs = repairs.filter(({ command, registryLag }) => !command && !registryLag);
   const lines = [
     ...(readiness.runningGatewayVersion
-      ? [`Running Gateway: FRIDAY ${readiness.runningGatewayVersion}`]
+      ? [`Running Gateway: OpenClaw ${readiness.runningGatewayVersion}`]
       : []),
     `${drift.drifts.length} active official plugin${
       drift.drifts.length === 1 ? "" : "s"
-    } not on post-restart FRIDAY ${drift.gatewayVersion}`,
+    } not on post-restart OpenClaw ${drift.gatewayVersion}`,
     ...drift.drifts.map((entry) => {
       const sourceLabel = entry.source === "clawhub" ? "clawhub" : "npm";
       const expectedVersion =

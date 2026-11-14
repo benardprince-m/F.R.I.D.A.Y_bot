@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/inworld-speech",
   "version": "2026.10.4",
-  "description": "FRIDAY Inworld speech plugin.",
+  "description": "OpenClaw Inworld speech plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

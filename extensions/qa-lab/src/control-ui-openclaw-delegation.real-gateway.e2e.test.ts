@@ -16,7 +16,7 @@ import {
 import { createQaLiveLaneGateway } from "./live-transports/shared/live-gateway.runtime.ts";
 
 const suite = createControlUiE2eSuite({
-  name: "Control UI FRIDAY delegation with a real Gateway",
+  name: "Control UI OpenClaw delegation with a real Gateway",
   startServerBeforeBrowser: true,
 });
 
@@ -27,7 +27,7 @@ type ProofWindow = Window & {
   __OPENCLAW_NATIVE_CONTROL_AUTH__?: { gatewayUrl: string; token: string };
 };
 const fallbackMarkers = [
-  "FRIDAY change pending approval",
+  "OpenClaw change pending approval",
   "/approve",
   "needsApproval",
   "proposalId",
@@ -167,7 +167,7 @@ suite.define(() => {
       const sessionKey = "agent:qa:dashboard:delegation-approval";
       await gateway.call("sessions.create", {
         key: sessionKey,
-        label: "FRIDAY native approval",
+        label: "OpenClaw native approval",
       });
 
       await suite.withPage(pageOptions(proofDir), async ({ page }) => {
@@ -314,7 +314,7 @@ suite.define(() => {
     } catch (error) {
       errors.push(error);
     }
-    await stopControlUiGateway(owner, proofDir, "native FRIDAY approval proof failed", errors);
+    await stopControlUiGateway(owner, proofDir, "native OpenClaw approval proof failed", errors);
   }, 180_000);
 });
 
@@ -325,7 +325,7 @@ let fullAccessGatewayUsed = false;
 const stopFullAccess = (message: string) =>
   stopControlUiGateway(fullAccessOwner, fullAccessProofDir, message);
 const fullAccessSuite = createControlUiE2eSuite({
-  name: "Control UI FRIDAY delegation with a real Gateway",
+  name: "Control UI OpenClaw delegation with a real Gateway",
   startServerBeforeBrowser: true,
   setupTimeoutMs: 180_000,
   resources: {

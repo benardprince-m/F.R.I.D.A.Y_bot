@@ -1,9 +1,9 @@
 ---
 doc-schema-version: 1
-summary: "Ask FRIDAY, the Home dock, the operator terminal, and the browser panel"
+summary: "Ask OpenClaw, the Home dock, the operator terminal, and the browser panel"
 read_when:
   - Opening a terminal or browser beside a conversation
-  - Using Ask FRIDAY for setup and repair
+  - Using Ask OpenClaw for setup and repair
   - Using the Home dock
 title: "Panels and docks"
 sidebarTitle: "Panels and docks"
@@ -22,11 +22,11 @@ collapse populated sections without ordinary updates reopening them. Loading or
 failed automation reads show their status and retry action without an empty
 disclosure. Task progress remains independently collapsible.
 
-## FRIDAY system care
+## OpenClaw system care
 
-Open **Settings → Ask FRIDAY** to talk to the system setup and repair agent. To open it alongside your current page, click **Home** in the sidebar footer and select the **Ask FRIDAY** tab, or use the **Ask FRIDAY** command-palette action. The full page and dockable panel share one machine-wide conversation whose durable history lives on the Gateway. Closing the UI never cancels a turn; reopening Ask FRIDAY shows the completed conversation. The panel docks on the right or bottom, remembers its placement and size in the browser profile, and hides itself while the full page is open.
+Open **Settings → Ask OpenClaw** to talk to the system setup and repair agent. To open it alongside your current page, click **Home** in the sidebar footer and select the **Ask OpenClaw** tab, or use the **Ask OpenClaw** command-palette action. The full page and dockable panel share one machine-wide conversation whose durable history lives on the Gateway. Closing the UI never cancels a turn; reopening Ask OpenClaw shows the completed conversation. The panel docks on the right or bottom, remembers its placement and size in the browser profile, and hides itself while the full page is open.
 
-If no AI provider is configured, Ask FRIDAY offers **Connect an AI provider**. If a configured runtime fails to start or verify, the conversation stays visible with the actual error and **Retry**. Sending stays disabled until verification succeeds. Retry checks the runtime without resending your earlier message or clearing your draft.
+If no AI provider is configured, Ask OpenClaw offers **Connect an AI provider**. If a configured runtime fails to start or verify, the conversation stays visible with the actual error and **Retry**. Sending stays disabled until verification succeeds. Retry checks the runtime without resending your earlier message or clearing your draft.
 
 Onboarding suggestions can focus the recommended answer when nothing else has focus. If you have already focused the composer or another control, arriving suggestions leave your keyboard focus there.
 
@@ -38,11 +38,11 @@ For Gateway setup, say `configure gateway` to choose the port, bind address, tok
 
 Say `import memory` to copy detected local memory into the existing default agent workspace. This flow does not change config or import credentials or skills, needs no Gateway restart, and distinguishes confirmed imports, nothing to import, provider failures, and failures where some files may already have been copied. Finish onboarding first if the default workspace does not exist. See [Import assistant memory](/web/control-ui/settings#import-assistant-memory) for the broader page that can target another agent or replace existing imports, and [`openclaw setup`](/cli/openclaw) for the operation and approval contract.
 
-Outside onboarding, this page can show at most one dismissible event chip per visit. It stays silent for routine Gateway traffic and reacts only to health snapshots that report a disabled configuration reloader, a configured channel disconnect/degradation, a failed channel check, or unavailable channel credentials. A newer event replaces the pending chip only when it is more severe; dismissing or using the chip silences event prompts for that visit. Clicking the chip sends its diagnosis question as a real `openclaw.chat` message, so the transcript records the request and FRIDAY performs the diagnosis. Onboarding never shows these event chips.
+Outside onboarding, this page can show at most one dismissible event chip per visit. It stays silent for routine Gateway traffic and reacts only to health snapshots that report a disabled configuration reloader, a configured channel disconnect/degradation, a failed channel check, or unavailable channel credentials. A newer event replaces the pending chip only when it is more severe; dismissing or using the chip silences event prompts for that visit. Clicking the chip sends its diagnosis question as a real `openclaw.chat` message, so the transcript records the request and OpenClaw performs the diagnosis. Onboarding never shows these event chips.
 
 ## Home dock
 
-Use the **Home** button in the sidebar footer, or in the toolbar when the sidebar is collapsed, to open the selected agent's main conversation alongside your current page. Select the **Ask FRIDAY** tab in the same dock for system setup and repair. When the same Home conversation is already open as the page, the dock stays hidden rather than showing it twice.
+Use the **Home** button in the sidebar footer, or in the toolbar when the sidebar is collapsed, to open the selected agent's main conversation alongside your current page. Select the **Ask OpenClaw** tab in the same dock for system setup and repair. When the same Home conversation is already open as the page, the dock stays hidden rather than showing it twice.
 
 Your Home draft and attachments follow the conversation between the page and dock. Files still being prepared keep their progress and Remove action, and Send waits until preparation finishes.
 
@@ -54,7 +54,7 @@ Sent messages show **Context attached** below your words instead of displaying t
 
 A plugin page can offer an action to open its conversation beside the page.
 It uses the same chat pane, drafts, attachments, right-or-bottom placement,
-resizing, and close controls as Home. Opening it replaces Home, Ask FRIDAY,
+resizing, and close controls as Home. Opening it replaces Home, Ask OpenClaw,
 or another conversation dock. It stays open across page navigation and hides
 while the same conversation is open as the Chat or Dashboard page. Closing
 leaves no dock open. Read-only access and session errors follow the normal
@@ -69,9 +69,9 @@ When the terminal is disabled or your connection lacks admin access, the main te
 
 On Linux and macOS, a Gateway running on Bun uses Bun's native PTY without a
 Node runtime only on builds providing `Bun.Terminal.pause()` and `resume()`,
-such as the FRIDAY Bun fork builds that also carry the macOS child-exit fix.
+such as the OpenClaw Bun fork builds that also carry the macOS child-exit fix.
 Other Bun releases use a Node helper for terminal I/O. Keep Node available on
-the Gateway's `PATH`; FRIDAY skips Bun's `node` shim, and an unavailable Node
+the Gateway's `PATH`; OpenClaw skips Bun's `node` shim, and an unavailable Node
 executable produces a startup error with installation guidance. Windows keeps
 `node-pty`. See [Bun compatibility](/install/bun-compatibility#known-limitations).
 
@@ -81,7 +81,7 @@ Re-enabling allows fresh sessions; closed sessions do not return. Reload the
 Control UI page to pick up the updated content security policy.
 
 <Warning>
-The terminal is an unconfined host shell and inherits the Gateway process environment. Disable it with `gateway.terminal.enabled: false` on deployments where admin operators should not get a host shell. FRIDAY refuses terminal sessions for agents with `sandbox.mode: "all"`; changing an active agent to that mode closes its existing and in-flight terminal sessions.
+The terminal is an unconfined host shell and inherits the Gateway process environment. Disable it with `gateway.terminal.enabled: false` on deployments where admin operators should not get a host shell. OpenClaw refuses terminal sessions for agents with `sandbox.mode: "all"`; changing an active agent to that mode closes its existing and in-flight terminal sessions.
 </Warning>
 
 Use **Ctrl + backtick** to toggle the **Terminal** tab in the selected Chat pane's unified side panel. You can also open **Terminal** from the panel's **+** menu. The shared panel docks right or bottom, resizes with the browser viewport, can expand over the Chat pane, and keeps multiple shell tabs. The dock remains available for ad-hoc operator shells. Starting a native CLI from **New session**, or opening a Claude Code or Codex catalog session in the terminal, opens the [main terminal page](/web/urls#terminal-urls), keeping the sidebar and application chrome while replacing the composer. See [Gateway configuration](/gateway/configuration-reference#gateway) for `gateway.terminal.enabled` and the optional `gateway.terminal.shell` override.
@@ -105,7 +105,7 @@ Automatic reveals reuse the existing panel and keep an already-selected tool in 
 
 Owner-authorized, unsandboxed agents can use the `terminal` tool to list, read, resize, or close terminals an operator already opened from the same Chat session's Terminal panel. Agents cannot open shells, and access remains exact-session scoped: an agent cannot inspect or control standalone operator terminals or terminals belonging to another session. Terminal input follows the effective session and host-exec permission policy: **Full access** (`full`, or YOLO) sends it immediately; **Guarded** (`guarded`) and **Workspace** (`workspace`, including accept-only or Guardian-reviewed flows) require an explicit, one-time approval for that exact input; **Read only** (`read-only`) or `tools.exec.mode: "deny"` forbids input entirely. Approving one input never grants unrestricted access to the terminal.
 
-Drag one or more files onto the active terminal, or use the paperclip button to choose files. FRIDAY stages each file on the machine that owns the PTY and pastes shell-quoted absolute paths at the cursor; it never presses Enter or executes the input. A compact batch indicator shows the current file and completed count. Cancel stops the remaining batch without pasting paths; a failed transfer stays visible so you can retry from that file without re-uploading completed files. Choose **Insert uploaded paths** to finish a failed batch using only its completed files, then select any remaining files separately. If the batch stays open until its early uploads may have expired, cancel it and choose the files again.
+Drag one or more files onto the active terminal, or use the paperclip button to choose files. OpenClaw stages each file on the machine that owns the PTY and pastes shell-quoted absolute paths at the cursor; it never presses Enter or executes the input. A compact batch indicator shows the current file and completed count. Cancel stops the remaining batch without pasting paths; a failed transfer stays visible so you can retry from that file without re-uploading completed files. Choose **Insert uploaded paths** to finish a failed batch using only its completed files, then select any remaining files separately. If the batch stays open until its early uploads may have expired, cancel it and choose the files again.
 
 Images, PDFs, archives, and other file types are accepted up to 16 MiB per file. New uploads must fit within shared limits of 256 MiB and 64 files per staging directory, including files from other terminal tabs and previous processes. When either limit is reached, move or remove staged files, or wait for cleanup, then retry. Existing unexpired files are not evicted to make room, including uploads retained above these limits after an upgrade. Staged files use a private system-temporary directory on POSIX hosts (directory mode `0700`, file mode `0600`) or a directory under the user-profile ACL boundary on Windows, plus a 24-hour cleanup timer, so move or copy anything you need to keep.
 
@@ -117,7 +117,7 @@ Path insertion supports PowerShell, `cmd.exe`, and recognized POSIX shells (`sh`
 
 Paired-node Codex, Claude Code, OpenCode, and Pi terminals also support uploaded-path insertion, including Windows paths with spaces and apostrophes. The inserted input remains editable and is never automatically submitted.
 
-Claude Code and Codex sessions discovered in the sessions sidebar open their native CLI in the main terminal page. In **Settings › Chat**, set **Open Codex/Claude threads in** to **Terminal** to make a normal row click open `codex resume` or `claude --resume`; the default remains the read-only FRIDAY viewer. A row's right-click or kebab menu always offers both choices, and the viewer header includes **Open in terminal** when that session is eligible.
+Claude Code and Codex sessions discovered in the sessions sidebar open their native CLI in the main terminal page. In **Settings › Chat**, set **Open Codex/Claude threads in** to **Terminal** to make a normal row click open `codex resume` or `claude --resume`; the default remains the read-only OpenClaw viewer. A row's right-click or kebab menu always offers both choices, and the viewer header includes **Open in terminal** when that session is eligible.
 
 Catalog-opening requests already queued by an older version finish once in the dock after upgrading. New requests use the main terminal page; the page does not persist catalog-opening intents.
 

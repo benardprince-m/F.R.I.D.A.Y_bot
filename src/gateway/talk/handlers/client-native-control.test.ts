@@ -265,7 +265,7 @@ describe("native Talk through the public OpenAI plugin registration", () => {
           });
           const idleReply =
             text === "cancel"
-              ? "There is no active FRIDAY run to cancel."
+              ? "There is no active OpenClaw run to cancel."
               : "I'm not working on an active request right now.";
           await vi.waitFor(() => expect(idle.socket.sent.join("\n")).toContain(idleReply));
           expect(abortSignal.aborted).toBe(false);
@@ -274,8 +274,8 @@ describe("native Talk through the public OpenAI plugin registration", () => {
           const preControlSocketIndex = socket.sent.length;
           const reply =
             text === "cancel"
-              ? "Cancelled the active FRIDAY run."
-              : "FRIDAY is working on the current voice request.";
+              ? "Cancelled the active OpenClaw run."
+              : "OpenClaw is working on the current voice request.";
           const waitForControlReply = () =>
             vi.waitFor(() => {
               expect(socket.sent.slice(preControlSocketIndex).join("\n")).toContain(reply);
@@ -300,7 +300,7 @@ describe("native Talk through the public OpenAI plugin registration", () => {
           expect(
             socket.sent
               .slice(preControlSocketIndex)
-              .filter((frame) => frame.includes("Internal FRIDAY voice control result.")),
+              .filter((frame) => frame.includes("Internal OpenClaw voice control result.")),
           ).toHaveLength(1);
           expect(transcriptEvents()).toMatchObject(
             [text, text].map((transcriptText) => ({
@@ -383,7 +383,7 @@ describe("native Talk through the public OpenAI plugin registration", () => {
               expect.objectContaining(
                 appendResult(
                   "cancel-request",
-                  expect.stringContaining("Cancelled the active FRIDAY run."),
+                  expect.stringContaining("Cancelled the active OpenClaw run."),
                   true,
                 ),
               ),

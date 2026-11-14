@@ -353,10 +353,10 @@ openclaw gateway probe --port 18789
   </Accordion>
   <Accordion title="Common warning codes">
     - `ssh_tunnel_failed`: SSH tunnel setup failed; the command fell back to direct checks.
-    - `multiple_gateways`: distinct gateway identities were reachable, or FRIDAY could not prove reachable targets are the same gateway. An SSH tunnel, proxy URL, or configured remote URL to the same gateway does not trigger this.
+    - `multiple_gateways`: distinct gateway identities were reachable, or OpenClaw could not prove reachable targets are the same gateway. An SSH tunnel, proxy URL, or configured remote URL to the same gateway does not trigger this.
     - `auth_secretref_unresolved`: a configured auth SecretRef could not be resolved for a failed target.
     - `probe_scope_limited`: WebSocket connect succeeded, but the read check was limited by missing `operator.read`.
-    - `local_tls_runtime_unavailable`: local Gateway TLS is enabled but FRIDAY could not load the local certificate fingerprint.
+    - `local_tls_runtime_unavailable`: local Gateway TLS is enabled but OpenClaw could not load the local certificate fingerprint.
 
   </Accordion>
 </AccordionGroup>
@@ -377,7 +377,7 @@ openclaw gateway probe --ssh user@gateway-host
   `user@host` or `user@host:port` (port defaults to `22`).
 </ParamField>
 
-FRIDAY launches only an SSH client found in OS-managed system directories. On native Windows,
+OpenClaw launches only an SSH client found in OS-managed system directories. On native Windows,
 install the **OpenSSH Client** optional feature; Windows places it under
 `%SystemRoot%\System32\OpenSSH`.
 

@@ -1,4 +1,4 @@
-// Resolve FRIDAY ref tests cover the release workflow ref resolver script.
+// Resolve OpenClaw ref tests cover the release workflow ref resolver script.
 import { execFileSync, spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";

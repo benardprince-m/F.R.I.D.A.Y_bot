@@ -27,7 +27,7 @@ beforeEach(() => {
 });
 afterEach(() => vi.restoreAllMocks());
 
-describe.each([String.raw`C:\FRIDAY`, String.raw`\\Server\Share\FRIDAY`])(
+describe.each([String.raw`C:\OpenClaw`, String.raw`\\Server\Share\OpenClaw`])(
   "v8 Windows inventory migration under %s",
   (stateDir) => {
     it.each([

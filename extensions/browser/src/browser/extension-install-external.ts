@@ -56,7 +56,7 @@ async function inspectRequest(root: ChromeProductRoot): Promise<ChromeStoreInsta
       return {
         ...result,
         state: "foreign",
-        issue: "Store install registration is not FRIDAY-owned",
+        issue: "Store install registration is not OpenClaw-owned",
       };
     }
     return { ...result, state: "requested" };

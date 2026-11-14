@@ -1,4 +1,4 @@
-// FRIDAY operation parser tests protect direct command routing before model fallback.
+// OpenClaw operation parser tests protect direct command routing before model fallback.
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
   clearRuntimeConfigSnapshot,
@@ -171,7 +171,7 @@ describe("parseSystemAgentOperation", () => {
     });
     expectOperation("plugin install npm:@example/plugin", "none", {
       message:
-        "FRIDAY installs only ClawHub, bundled, or official-catalog plugins. Use `openclaw plugins install <spec>` in a trusted shell to review an arbitrary executable source.",
+        "OpenClaw installs only ClawHub, bundled, or official-catalog plugins. Use `openclaw plugins install <spec>` in a trusted shell to review an arbitrary executable source.",
     });
   });
 

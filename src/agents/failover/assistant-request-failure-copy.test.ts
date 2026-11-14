@@ -12,7 +12,7 @@ import { isAuthErrorMessage } from "./message-patterns.js";
 describe("renderAssistantRequestFailureCopy", () => {
   const target = { provider: "openai", model: "test-model" };
   const runFailure =
-    "⚠️ FRIDAY couldn't finish this reply. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal.";
+    "⚠️ OpenClaw couldn't finish this reply. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal.";
 
   it.each([" | INVALID_REQUEST"])(
     "preserves approval-expiry guidance in assistant history with suffix %j",
@@ -34,7 +34,7 @@ describe("renderAssistantRequestFailureCopy", () => {
   it.each([
     [
       "Invalid session transcript entry: model_change PRIVATE_CANARY",
-      "FRIDAY couldn't read this conversation's history. Ask the Gateway operator to try `openclaw doctor --fix`. If it still fails, preserve the history and contact support with the Gateway logs.",
+      "OpenClaw couldn't read this conversation's history. Ask the Gateway operator to try `openclaw doctor --fix`. If it still fails, preserve the history and contact support with the Gateway logs.",
     ],
   ])("distinguishes local transcript errors from provider expiry: %s", (errorMessage, expected) => {
     expect(

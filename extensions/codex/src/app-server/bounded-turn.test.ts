@@ -331,7 +331,7 @@ it("returns an explicit unsupported decline for interactive MCP input", async ()
   ).resolves.toEqual({
     action: "decline",
     content: null,
-    _meta: { message: "FRIDAY Codex hosted search does not support interactive input." },
+    _meta: { message: "OpenClaw Codex hosted search does not support interactive input." },
   });
 
   await fake.notify({

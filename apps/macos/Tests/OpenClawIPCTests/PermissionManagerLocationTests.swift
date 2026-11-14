@@ -1,6 +1,6 @@
 import CoreLocation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized)
 @MainActor

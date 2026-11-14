@@ -1,12 +1,12 @@
 ---
-summary: "Use OpenCode Zen and Go catalogs with FRIDAY"
+summary: "Use OpenCode Zen and Go catalogs with OpenClaw"
 read_when:
   - You want OpenCode-hosted model access
   - You want to pick between the Zen and Go catalogs
 title: "OpenCode"
 ---
 
-OpenCode exposes two hosted catalogs in FRIDAY:
+OpenCode exposes two hosted catalogs in OpenClaw:
 
 | Catalog | Prefix            | Runtime provider |
 | ------- | ----------------- | ---------------- |
@@ -15,10 +15,10 @@ OpenCode exposes two hosted catalogs in FRIDAY:
 
 Both catalogs use the same OpenCode API key infrastructure (`OPENCODE_API_KEY`,
 alias `OPENCODE_ZEN_API_KEY`). Go still requires its own paid subscription;
-having a Zen key does not by itself grant Go access. FRIDAY keeps the runtime
+having a Zen key does not by itself grant Go access. OpenClaw keeps the runtime
 provider ids split so upstream per-model routing stays correct.
 
-FRIDAY sends a stable `x-opencode-session` conversation header on requests to
+OpenClaw sends a stable `x-opencode-session` conversation header on requests to
 `https://opencode.ai` across the Anthropic, Gemini, OpenAI Chat Completions, and
 OpenAI Responses transports. This header remains enabled when prompt caching is
 disabled. Low-level SDK stream callers should supply `sessionId` in their stream
@@ -28,7 +28,7 @@ Zen and Go discovery requests and model requests on the OpenAI-compatible and
 Anthropic transports identify the client as `openclaw/<version>` on their native
 endpoints. Custom proxy URLs do not inherit this attribution. The
 `google-generative-ai` SDK path does not yet apply this User-Agent policy.
-FRIDAY does not impersonate the OpenCode client.
+OpenClaw does not impersonate the OpenCode client.
 
 Standalone `openclaw infer model run --local` calls and the
 [prepared completion helper](/plugins/sdk-runtime/models#prepared-completion-sdk-compatibility)
@@ -76,7 +76,7 @@ or caller routing headers are preserved regardless of header name casing.
 
     <Steps>
       <Step title="Use the bundled Go catalog">
-        OpenCode Go is included with FRIDAY, so no separate
+        OpenCode Go is included with OpenClaw, so no separate
         plugin installation or Gateway restart is required.
       </Step>
       <Step title="Run onboarding">
@@ -124,14 +124,14 @@ or caller routing headers are preserved regardless of header name casing.
 | Example models   | `opencode/gpt-5.6-sol`, `opencode/kimi-k3`, `opencode/deepseek-v4-flash` |
 
 Run `openclaw models list --provider opencode` for the current active list.
-Model availability and promotional routes can change independently of FRIDAY.
+Model availability and promotional routes can change independently of OpenClaw.
 
 Live discovery combines the models available to your OpenCode account with
 authoritative model metadata from `https://models.opencode.ai/api.json`.
-FRIDAY fetches and caches that catalog only when OpenCode Zen or Go is
+OpenClaw fetches and caches that catalog only when OpenCode Zen or Go is
 configured or explicitly selected with OpenCode credentials; startup and
 unrelated providers never download it. New listed chat models become available
-without an FRIDAY update. Models with trusted metadata keep their upstream
+without an OpenClaw update. Models with trusted metadata keep their upstream
 transport and capabilities; listed IDs without metadata use Zen's native
 OpenAI-compatible route with default limits. A key-scoped response can omit
 models unavailable to that workspace. Metadata and lifecycle status refresh together;
@@ -150,8 +150,8 @@ your saved key has expired. Choose another model or use a paid plan that allows
 API access. Signing in again or changing the User-Agent does not grant access.
 This refusal marks only the selected model unavailable; it does not put the
 credential into cooldown for other models.
-An ID in the account listing alone does not prove that it can run in FRIDAY.
-The listing has no free-tier flag, so FRIDAY does not guess access from model
+An ID in the account listing alone does not prove that it can run in OpenClaw.
+The listing has no free-tier flag, so OpenClaw does not guess access from model
 names. A `402` insufficient-funds response means that the account needs more
 credit, not that the model ID is unknown.
 
@@ -200,7 +200,7 @@ a model does not prove your account can run it.
   </Accordion>
 
   <Accordion title="Gemini replay behavior">
-    Gemini-backed OpenCode refs stay on the proxy-Gemini path, so FRIDAY keeps
+    Gemini-backed OpenCode refs stay on the proxy-Gemini path, so OpenClaw keeps
     Gemini thought-signature sanitation there without enabling native Gemini
     replay validation or bootstrap rewrites.
   </Accordion>

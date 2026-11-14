@@ -644,7 +644,7 @@ export const PLUGIN_COMPAT_RECORDS = defineCompatRecords([
     ],
     tests: ["src/plugin-sdk/shipped-channel-compat.test.ts", "src/plugins/compat/registry.test.ts"],
     releaseNote:
-      "Published FRIDAY channel packages through 2026.7.1 remain loadable while they migrate to plugin-owned config and setup helpers.",
+      "Published OpenClaw channel packages through 2026.7.1 remain loadable while they migrate to plugin-owned config and setup helpers.",
   },
   {
     code: "generated-bundled-channel-config-fallback",

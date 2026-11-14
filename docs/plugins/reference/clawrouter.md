@@ -1,5 +1,5 @@
 ---
-summary: "Adds ClawRouter model provider support to FRIDAY."
+summary: "Adds ClawRouter model provider support to OpenClaw."
 read_when:
   - You are installing, configuring, or auditing the clawrouter plugin
 title: "ClawRouter plugin reference"
@@ -10,12 +10,12 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Adds ClawRouter model provider support to FRIDAY.
+Adds ClawRouter model provider support to OpenClaw.
 
 ## Distribution
 
 - Package: `@openclaw/clawrouter`
-- Install route: included in FRIDAY
+- Install route: included in OpenClaw
 
 ## Surface
 

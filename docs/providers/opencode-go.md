@@ -10,7 +10,7 @@ OpenCode Go is a separate paid subscription inside [OpenCode](/providers/opencod
 It uses the same `OPENCODE_API_KEY` credential infrastructure as Zen, but a Zen
 key does not automatically include Go entitlement. Go keeps its own runtime
 provider id (`opencode-go`) so upstream per-model routing stays correct.
-OpenCode Go is bundled in the FRIDAY package, so onboarding
+OpenCode Go is bundled in the OpenClaw package, so onboarding
 and configuration are sufficient; no separate plugin install is required.
 
 | Property         | Value                                              |
@@ -22,7 +22,7 @@ and configuration are sufficient; no separate plugin install is required.
 
 ## Getting started
 
-OpenCode Go is already included with FRIDAY. Continue with
+OpenCode Go is already included with OpenClaw. Continue with
 interactive onboarding or pass the shared OpenCode API key directly.
 
 <Tabs>
@@ -74,10 +74,10 @@ interactive onboarding or pass the shared OpenCode API key directly.
 ## Catalog
 
 Run `openclaw models list --provider opencode-go` for the current model list.
-FRIDAY shows every model ID Go's model list advertises and enriches it with
+OpenClaw shows every model ID Go's model list advertises and enriches it with
 metadata from `https://models.opencode.ai/api.json`, so new models appear without
-an FRIDAY update. IDs the metadata does not describe yet use Go's
-OpenAI-compatible route with default limits. FRIDAY also identifies itself with
+an OpenClaw update. IDs the metadata does not describe yet use Go's
+OpenAI-compatible route with default limits. OpenClaw also identifies itself with
 its `openclaw/<version>` User-Agent on model-list requests. The upstream catalog is downloaded and
 cached only when OpenCode Zen or Go is configured or explicitly selected with
 OpenCode credentials; it is never fetched at startup or while using unrelated
@@ -85,7 +85,7 @@ providers.
 
 Example refs include `opencode-go/deepseek-v4-flash`, `opencode-go/kimi-k3`, and
 `opencode-go/qwen3.8-max`. Use the CLI for the current lineup rather than treating
-these examples as an inventory. FRIDAY excludes deprecated rows from active
+these examples as an inventory. OpenClaw excludes deprecated rows from active
 discovery and applies refreshed lifecycle status to its offline fallback.
 Bundled preview rows stay hidden until accepted upstream metadata supplies them.
 Existing explicit refs in the bundled seed remain resolvable.
@@ -104,13 +104,13 @@ and remove Kimi K2 reasoning replay fields.
 
 Retention and training policies vary by model. Review the current
 [OpenCode Go privacy table](https://opencode.ai/docs/go/#privacy) before using a
-model, because provider policy can change independently of FRIDAY.
+model, because provider policy can change independently of OpenClaw.
 
 ## Advanced configuration
 
 <AccordionGroup>
   <Accordion title="Routing behavior">
-    FRIDAY routes any `opencode-go/...` model ref automatically. No extra
+    OpenClaw routes any `opencode-go/...` model ref automatically. No extra
     provider config is required.
   </Accordion>
 

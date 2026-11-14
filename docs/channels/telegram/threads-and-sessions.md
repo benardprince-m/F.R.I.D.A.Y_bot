@@ -16,7 +16,7 @@ How forum topics map to sessions, agents, and ACP bindings.
   <Accordion title="Forum topics and thread behavior">
     Forum supergroups: topic session keys append `:topic:<threadId>`; replies and typing target the topic thread; topic config path is `channels.telegram.groups.<chatId>.topics.<threadId>`.
 
-    Topic IDs must be positive integers. FRIDAY rejects topic `0` in delivery targets and explicit thread options before making Telegram requests.
+    Topic IDs must be positive integers. OpenClaw rejects topic `0` in delivery targets and explicit thread options before making Telegram requests.
 
     General topic (`threadId=1`) is a special case: message sends omit `message_thread_id` (Telegram rejects `sendMessage(...thread_id=1)` with "thread not found"), but typing actions still include `message_thread_id` (empirically required for the typing indicator to appear).
 
@@ -46,7 +46,7 @@ How forum topics map to sessions, agents, and ACP bindings.
 
     **Persistent ACP topic binding**: forum topics can pin ACP harness sessions through top-level typed bindings (`bindings[]` with `type: "acp"`, `match.channel: "telegram"`, `peer.kind: "group"`, and a topic-qualified id like `-1001234567890:topic:42`). Currently scoped to forum topics in groups/supergroups. See [ACP Agents](/tools/acp-agents).
 
-    **Thread-bound ACP spawn from chat**: `/acp spawn <agent> --thread here|auto` binds the current topic to a new ACP session; follow-ups route there directly, and FRIDAY pins the spawn confirmation in-topic. Controlled by `session.threadBindings.spawnSessions` (default: `true`).
+    **Thread-bound ACP spawn from chat**: `/acp spawn <agent> --thread here|auto` binds the current topic to a new ACP session; follow-ups route there directly, and OpenClaw pins the spawn confirmation in-topic. Controlled by `session.threadBindings.spawnSessions` (default: `true`).
 
     Startup waits for stored thread bindings before accepting updates. Shutdown drains accepted binding changes before a replacement bot reloads them. Bundled Telegram handlers persist bindings through the shared SQLite worker so storage does not block message handling. Deprecated synchronous Plugin SDK touch and lifecycle setters keep their immediate behavior on the same binding owner until the next SDK major.
 
@@ -62,6 +62,6 @@ How forum topics map to sessions, agents, and ACP bindings.
 
 Set `requireMentionInBotThreads` on a group or topic to override mention gating only in forum topics created by the receiving bot. `false` allows unmentioned messages to start turns there; `true` requires a mention, including for replies to the bot. Omission preserves existing behavior. A topic setting wins over the selected group setting. The same paths are available under `channels.telegram.accounts.<accountId>.groups`.
 
-FRIDAY records the creator from an observed `forum_topic_created` service message or from a successful topic creation by the bot. Ownership is specific to that bot: another bot's topic or a human-created topic keeps its ordinary mention policy. Replying in a topic does not make the bot its creator.
+OpenClaw records the creator from an observed `forum_topic_created` service message or from a successful topic creation by the bot. Ownership is specific to that bot: another bot's topic or a human-created topic keeps its ordinary mention policy. Replying in a topic does not make the bot its creator.
 
-Topic ownership persists alongside topic names in the existing cache, which retains up to 2,048 recently used topics. Topics created before FRIDAY observed them and evicted entries keep the ordinary mention policy. Telegram does not provide a topic-owner lookup to recover those facts. This setting does not change DM topics, authorization, group silence policy, or visible-reply policy. See [Mention behavior](/channels/telegram/access-control#access-control-and-activation) for configuration and Telegram visibility requirements.
+Topic ownership persists alongside topic names in the existing cache, which retains up to 2,048 recently used topics. Topics created before OpenClaw observed them and evicted entries keep the ordinary mention policy. Telegram does not provide a topic-owner lookup to recover those facts. This setting does not change DM topics, authorization, group silence policy, or visible-reply policy. See [Mention behavior](/channels/telegram/access-control#access-control-and-activation) for configuration and Telegram visibility requirements.

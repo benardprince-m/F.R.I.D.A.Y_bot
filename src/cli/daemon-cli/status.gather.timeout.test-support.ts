@@ -47,7 +47,7 @@ export function registerStatusTimeoutTests(params: {
               stdout: expired
                 ? ""
                 : JSON.stringify({
-                    taskPath: "\\FRIDAY Gateway",
+                    taskPath: "\\OpenClaw Gateway",
                     state: 4,
                     lastRunResult: 0,
                     actions: [

@@ -80,14 +80,14 @@ The native discovery lane selects `openai/gpt-5.5` for both model slots. Its
 Codex catalog supports native tool search without a `code_mode_only` override.
 Provider identity alone does not establish that capability. Shared searchable
 fixtures require linked `tool_search` receipts only in Codex execution cells;
-direct FRIDAY cells still prove tool calls and results. `sessions_spawn`
+direct OpenClaw cells still prove tool calls and results. `sessions_spawn`
 remains the always-direct control and does not require discovery receipts.
 
 ## Provider mock lanes
 
 `qa suite` has two local provider mock lanes:
 
-- `mock-openai` is the scenario-aware FRIDAY mock. It remains the default
+- `mock-openai` is the scenario-aware OpenClaw mock. It remains the default
   fixed-response mock lane for repo-backed QA and parity gates.
 - `aimock` starts an AIMock-backed provider server for experimental
   protocol, fixture, record/replay, and chaos coverage. It is additive and
@@ -112,7 +112,7 @@ provider names.
 
 `qa-lab` owns a generic transport interface for YAML QA scenarios. `qa-channel` is
 the synthetic default. `crabline` starts separate local provider servers and
-runs FRIDAY's normal channel plugins against their provider-shaped REST and
+runs OpenClaw's normal channel plugins against their provider-shaped REST and
 streaming boundaries; it does not use Crabline's fixture-level local mock
 providers. `live` is reserved for real provider credentials and external
 channels.

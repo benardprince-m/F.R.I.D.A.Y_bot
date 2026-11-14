@@ -1,5 +1,5 @@
 ---
-summary: "How FRIDAY upgrades the previous Matrix plugin in place, including encrypted-state recovery limits and manual recovery steps."
+summary: "How OpenClaw upgrades the previous Matrix plugin in place, including encrypted-state recovery limits and manual recovery steps."
 read_when:
   - Upgrading an existing Matrix installation
   - Migrating encrypted Matrix history and device state
@@ -21,7 +21,7 @@ The root `openclaw` package no longer bundles Matrix runtime code or Matrix SDK
 dependencies. If `openclaw channels status` shows Matrix is configured but the
 plugin is not installed, run `openclaw doctor --fix` or
 `openclaw plugins install @openclaw/matrix`; do not install Matrix SDK packages
-into the root FRIDAY package.
+into the root OpenClaw package.
 
 ## What the migration does automatically
 
@@ -43,10 +43,10 @@ by then. Imports of `thread-bindings.json`, `startup-verification.json`,
 `recovery-key.json`, `legacy-crypto-migration.json`, `crypto-idb-snapshot.json`,
 `storage-meta.json`, and `inbound-dedupe.json` are retired. Doctor and the affected
 runtime refuse these files and leave them unchanged. If they remain in an active Matrix storage root, first
-install FRIDAY `2026.9.5`, run `openclaw doctor --fix`, and start the Matrix
+install OpenClaw `2026.9.5`, run `openclaw doctor --fix`, and start the Matrix
 channel once to complete the import. Then upgrade to the latest release.
 
-## Upgrading from FRIDAY releases older than 2026.4
+## Upgrading from OpenClaw releases older than 2026.4
 
 Releases through the 2026.6 train also migrated the original flat single-store
 Matrix layout (`~/.openclaw/matrix/bot-storage.json` plus
@@ -63,7 +63,7 @@ The previous public Matrix plugin did **not** automatically create Matrix room-k
 
 ## Recommended upgrade flow
 
-1. Use the normal [`openclaw update` flow](/install/updating). It updates the official npm Matrix plugin with FRIDAY and restarts the managed Gateway. For independent installations sharing encrypted account state, follow the [crypto-store upgrade precautions](/channels/matrix/encryption#encryption-and-verification), including the older version's final-save limitation.
+1. Use the normal [`openclaw update` flow](/install/updating). It updates the official npm Matrix plugin with OpenClaw and restarts the managed Gateway. For independent installations sharing encrypted account state, follow the [crypto-store upgrade precautions](/channels/matrix/encryption#encryption-and-verification), including the older version's final-save limitation.
 2. Run:
 
    ```bash
@@ -80,7 +80,7 @@ The previous public Matrix plugin did **not** automatically create Matrix room-k
 
 5. Put the recovery key for the Matrix account you are repairing in an account-specific environment variable. For a single default account, `MATRIX_RECOVERY_KEY` is fine. For multiple accounts, use one variable per account, for example `MATRIX_RECOVERY_KEY_ASSISTANT`, and add `--account assistant` to the command.
 
-6. If FRIDAY tells you a recovery key is needed, run the command for the matching account:
+6. If OpenClaw tells you a recovery key is needed, run the command for the matching account:
 
    ```bash
    printf '%s\n' "$MATRIX_RECOVERY_KEY" | openclaw matrix verify backup restore --recovery-key-stdin

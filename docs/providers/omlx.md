@@ -1,13 +1,13 @@
 ---
 summary: "Use oMLX for local chat and memory embeddings on Apple Silicon"
 read_when:
-  - You want to use oMLX with FRIDAY
+  - You want to use oMLX with OpenClaw
   - You want local memory embeddings on an Apple Silicon Mac
 title: "oMLX"
 ---
 
 [oMLX](https://github.com/jundot/omlx) serves MLX models on Apple Silicon.
-FRIDAY's bundled oMLX provider supports chat and memory embeddings through
+OpenClaw's bundled oMLX provider supports chat and memory embeddings through
 its OpenAI-compatible API at `http://127.0.0.1:8000/v1`.
 
 ## Quick start
@@ -36,7 +36,7 @@ curl http://127.0.0.1:8000/v1/models
 Use the exact `id` values returned by this endpoint. A model alias configured
 in oMLX is also an API-visible ID; it may differ from the download directory.
 
-### Connect FRIDAY
+### Connect OpenClaw
 
 ```bash
 openclaw models auth login --provider omlx
@@ -96,7 +96,7 @@ openclaw memory status --deep
 openclaw memory search "a fact from your notes"
 ```
 
-oMLX owns model loading. FRIDAY sends embedding requests to `/v1/embeddings`
+oMLX owns model loading. OpenClaw sends embedding requests to `/v1/embeddings`
 and does not install models or call oMLX management endpoints.
 
 ## Server URL and authentication

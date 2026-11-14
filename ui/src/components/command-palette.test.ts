@@ -696,7 +696,7 @@ describe("CommandPalette search", () => {
 
   it.each([
     ["desktop", true, "Desktop", DESKTOP_PANEL_TOGGLE_EVENT],
-    ["openclaw", false, "Ask FRIDAY", CUSTODIAN_PANEL_TOGGLE_EVENT],
+    ["openclaw", false, "Ask OpenClaw", CUSTODIAN_PANEL_TOGGLE_EVENT],
   ] as const)("opens the %s panel action", async (query, desktop, label, event) => {
     const { palette } = await mountSearch(
       {},

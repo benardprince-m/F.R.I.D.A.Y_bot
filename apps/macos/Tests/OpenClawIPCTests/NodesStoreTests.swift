@@ -3,7 +3,7 @@ import Foundation
 import Observation
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized, .testWaitLimit)
 @MainActor

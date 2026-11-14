@@ -173,17 +173,17 @@ describe("browser tab card", () => {
   it("retains browser-title post text when metadata only supplies the author", async () => {
     vi.useFakeTimers();
     const gateway = gatewayContext([], ["operator.read"], true);
-    gateway.request.mockResolvedValue({ title: "FRIDAY (@openclaw) on X" });
+    gateway.request.mockResolvedValue({ title: "OpenClaw (@openclaw) on X" });
     const element = await card(gateway.context, false);
     element.preview = {
       ...element.preview!,
       url: "https://x.com/openclaw/status/123",
-      title: 'FRIDAY on X: "Text from the browser title" / X',
+      title: 'OpenClaw on X: "Text from the browser title" / X',
     };
     await element.updateComplete;
     await vi.runAllTimersAsync();
     await element.updateComplete;
-    expect(element.querySelector(".tweet-author")?.textContent).toBe("FRIDAY");
+    expect(element.querySelector(".tweet-author")?.textContent).toBe("OpenClaw");
     expect(element.querySelector(".tweet-handle")?.textContent).toBe("@openclaw");
     expect(element.querySelector(".tweet-text")?.textContent).toBe("Text from the browser title");
   });
@@ -191,8 +191,8 @@ describe("browser tab card", () => {
   it.each([
     {
       url: "https://mobile.twitter.com/openclaw/status/123/photo/1?s=20",
-      title: 'FRIDAY on Twitter: "A post from the page title" / Twitter',
-      author: "FRIDAY",
+      title: 'OpenClaw on Twitter: "A post from the page title" / Twitter',
+      author: "OpenClaw",
       handle: "@openclaw",
       text: "A post from the page title",
     },
@@ -212,8 +212,8 @@ describe("browser tab card", () => {
     },
     {
       url: "https://x.com/i/status/123",
-      title: "FRIDAY (@openclaw) / X",
-      author: "FRIDAY",
+      title: "OpenClaw (@openclaw) / X",
+      author: "OpenClaw",
       handle: "@openclaw",
       text: undefined,
     },
@@ -255,7 +255,7 @@ describe("browser tab card", () => {
     vi.useFakeTimers();
     const gateway = gatewayContext([], ["operator.read"], true);
     const text = '"<img src=x onerror=alert(1)> & **not markdown**"';
-    gateway.request.mockResolvedValue({ title: "FRIDAY (@openclaw)", description: text });
+    gateway.request.mockResolvedValue({ title: "OpenClaw (@openclaw)", description: text });
     const element = await card(gateway.context, false);
     element.preview = { ...element.preview!, url: "https://x.com/openclaw/status/123" };
     await element.updateComplete;
@@ -316,7 +316,7 @@ describe("browser tab card", () => {
         ]);
       }
       const internal = menu().querySelector('[value="open-within-openclaw"]')!;
-      expect(internal.textContent).toContain("Open in FRIDAY");
+      expect(internal.textContent).toContain("Open in OpenClaw");
       expect(internal.hasAttribute("data-new-tab-action")).toBe(false);
       expect(menu().querySelector('[value="open-new-tab"]')).toBeNull();
       await select("open-within-openclaw");

@@ -3,7 +3,7 @@ import Foundation
 import OpenClawKit
 import OpenClawMLXTTSProtocol
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 #if arch(arm64)
 @Suite(.serialized, .testWaitLimit)

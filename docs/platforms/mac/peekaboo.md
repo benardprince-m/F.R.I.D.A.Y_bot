@@ -1,47 +1,47 @@
 ---
 summary: "PeekabooBridge integration for macOS UI automation"
 read_when:
-  - Hosting PeekabooBridge in FRIDAY.app
+  - Hosting PeekabooBridge in OpenClaw.app
   - Integrating Peekaboo via Swift Package Manager
   - Changing PeekabooBridge protocol/paths
   - Deciding between PeekabooBridge, Codex Computer Use, and cua-driver MCP
 title: "Peekaboo bridge"
 ---
 
-FRIDAY can host **PeekabooBridge** as a local, permission-aware UI automation broker (`PeekabooBridgeHostCoordinator`, backed by the `openclaw/Peekaboo` Swift package). This lets the `peekaboo` CLI drive UI automation while reusing the macOS app's TCC permissions.
+OpenClaw can host **PeekabooBridge** as a local, permission-aware UI automation broker (`PeekabooBridgeHostCoordinator`, backed by the `openclaw/Peekaboo` Swift package). This lets the `peekaboo` CLI drive UI automation while reusing the macOS app's TCC permissions.
 
 ## What this is (and is not)
 
-- **Host**: FRIDAY.app can act as a PeekabooBridge host.
+- **Host**: OpenClaw.app can act as a PeekabooBridge host.
 - **Client**: the `peekaboo` CLI, installed from [peekaboo.sh](https://peekaboo.sh/) (there is no separate `openclaw ui ...` surface).
-- **UI**: visual overlays stay in Peekaboo.app. FRIDAY is a thin broker host.
+- **UI**: visual overlays stay in Peekaboo.app. OpenClaw is a thin broker host.
 
 ## Relationship to other desktop-control paths
 
-FRIDAY has four desktop-control paths that intentionally stay separate:
+OpenClaw has four desktop-control paths that intentionally stay separate:
 
-- **PeekabooBridge host**: FRIDAY.app hosts the local PeekabooBridge socket. The `peekaboo` CLI is the client and uses FRIDAY.app's macOS permissions for screenshots, clicks, menus, dialogs, Dock actions, and window management.
+- **PeekabooBridge host**: OpenClaw.app hosts the local PeekabooBridge socket. The `peekaboo` CLI is the client and uses OpenClaw.app's macOS permissions for screenshots, clicks, menus, dialogs, Dock actions, and window management.
 - **Agent-driven computer use (`computer.act`)**: the gateway agent's built-in `computer` tool captures screenshots via `screen.snapshot`. It drives the pointer and keyboard through the dangerous `computer.act` node command. A macOS node fulfills `computer.act` in-process. It uses the embedded Peekaboo automation services this bridge exposes, plus narrow CoreGraphics primitives. It does not go through the PeekabooBridge socket or the `peekaboo` CLI. See [Computer use](/nodes/computer-use).
-- **Codex Computer Use**: the bundled `codex` plugin checks and can install Codex's `computer-use` MCP plugin (`extensions/codex/src/app-server/computer-use.ts`). Codex then owns native desktop-control tool calls during Codex-mode turns. FRIDAY does not proxy those actions through PeekabooBridge.
-- **Direct `cua-driver` MCP**: FRIDAY can register TryCua's upstream `cua-driver mcp` server as a normal MCP server. This gives agents the CUA driver's own schemas and pid/window/element-index workflow. It does not route through the Codex marketplace or the PeekabooBridge socket.
+- **Codex Computer Use**: the bundled `codex` plugin checks and can install Codex's `computer-use` MCP plugin (`extensions/codex/src/app-server/computer-use.ts`). Codex then owns native desktop-control tool calls during Codex-mode turns. OpenClaw does not proxy those actions through PeekabooBridge.
+- **Direct `cua-driver` MCP**: OpenClaw can register TryCua's upstream `cua-driver mcp` server as a normal MCP server. This gives agents the CUA driver's own schemas and pid/window/element-index workflow. It does not route through the Codex marketplace or the PeekabooBridge socket.
 
-Use Peekaboo for the broad macOS automation surface via FRIDAY.app's permission-aware bridge host. Use agent-driven computer use when the gateway agent should see and control the desktop. It does this through a uniform `computer.act` node command that any vision model can drive. Use Codex Computer Use when a Codex-mode agent should rely on Codex's native plugin. Use direct `cua-driver mcp` to expose the CUA driver to any FRIDAY-managed runtime as a normal MCP server.
+Use Peekaboo for the broad macOS automation surface via OpenClaw.app's permission-aware bridge host. Use agent-driven computer use when the gateway agent should see and control the desktop. It does this through a uniform `computer.act` node command that any vision model can drive. Use Codex Computer Use when a Codex-mode agent should rely on Codex's native plugin. Use direct `cua-driver mcp` to expose the CUA driver to any OpenClaw-managed runtime as a normal MCP server.
 
 ## Enable the bridge
 
 In the macOS app, open **Dashboard → Settings → This Mac → Capabilities** and enable **Peekaboo Bridge**. The bridge requires **Computer Control** to be on, since both grant local UI automation. With Computer Control off, the host does not run. To drive Peekaboo without Computer Control, run Peekaboo's own Mac app as the host instead.
 
-When enabled (and Computer Control is on), FRIDAY starts a local UNIX socket server at `~/Library/Application Support/FRIDAY/<socket-name>`. If disabled, the host stops and `peekaboo` falls back to other available hosts. The coordinator also maintains legacy socket symlinks (`clawdbot`, `clawdis`, `moltbot` under Application Support) pointing at the current socket for older `peekaboo` installs.
+When enabled (and Computer Control is on), OpenClaw starts a local UNIX socket server at `~/Library/Application Support/OpenClaw/<socket-name>`. If disabled, the host stops and `peekaboo` falls back to other available hosts. The coordinator also maintains legacy socket symlinks (`clawdbot`, `clawdis`, `moltbot` under Application Support) pointing at the current socket for older `peekaboo` installs.
 
 For a one-off unattended run, `--attach-only --background-only` suppresses automatic windows and GUI-owned Keychain
-loading. The persistent elevation host is a managed-deployment path for FRIDAY Foundation release operators. Its
-`package` command requires the Foundation signing identity and notarization credentials. FRIDAY does not
+loading. The persistent elevation host is a managed-deployment path for OpenClaw Foundation release operators. Its
+`package` command requires the Foundation signing identity and notarization credentials. OpenClaw does not
 publish a general-download elevation archive. Install only a certified, source-addressed archive supplied by an
 authorized release operator:
 
 ```bash
 cd /path/to/elevation-artifact-set
-export PREFIX="FRIDAY-<full-openclaw-sha>-Peekaboo-<full-peekaboo-sha>-stable"
+export PREFIX="OpenClaw-<full-openclaw-sha>-Peekaboo-<full-peekaboo-sha>-stable"
 export INSTALLER_SHA256="<authenticated-installer-sha256>"
 export RECEIPT_SHA256="<authenticated-receipt-sha256>"
 [[ "$(shasum -a 256 "$PREFIX-installer.sh" | awk '{print $1}')" == "$INSTALLER_SHA256" ]] || exit 1
@@ -62,7 +62,7 @@ shasum -a 256 -c "$PREFIX-installer.sh.sha256"
 ```
 
 Transfer the complete artifact set: archive, receipt, portable installer, and both checksum files. The target Mac does
-not need an FRIDAY source checkout. The authorized operator handoff must independently provide the installer and
+not need an OpenClaw source checkout. The authorized operator handoff must independently provide the installer and
 receipt SHA-256 digests. Run `verify` with the authenticated receipt digest before planning a cutover. The receipt then
 selects the approved archive. `verify` revalidates the Foundation-signed app, notarization, staple, Gatekeeper result,
 architectures, entitlements, and both source revisions. The portable installer is not covered by the app's code
@@ -71,7 +71,7 @@ signature, so this explicit two-digest release-operator handoff remains part of 
 Elevation artifacts require universal shared app code and one private runtime under
 `Contents/Resources/runtime/`. Its `bin/bun` and `lib/libsqlite3.dylib` must contain both `arm64` and `x86_64`
 Mach-O slices. `verify` checks both regardless of the target Mac's architecture. The runtime shares the full
-FRIDAY package between architectures, including the CLI, worker, browser setup, and Control UI entrypoints.
+OpenClaw package between architectures, including the CLI, worker, browser setup, and Control UI entrypoints.
 Package build metadata must match the app's version, source commit, build timestamp, and `OpenClawRuntimeBuildID`.
 Native dependencies, including addons, static archives, and libraries without executable permission bits, must
 support arm64 or x86_64; architecture-specific Darwin packages coexist in the shared tree. Foreign-platform native
@@ -122,9 +122,9 @@ install receipt. Generation-unique backups allow successive upgrades. `recover` 
 evidence directory, restores the prior receipt, and refuses to overwrite a source LaunchAgent path recreated by another
 owner.
 
-The elevation archive is Foundation-signed, notarized, stapled, named by the full FRIDAY and Peekaboo source
-commits, and contains exactly `FRIDAY.app`. Its receipt binds the archive and portable-installer names and digests,
-FRIDAY and Peekaboo source revisions, signer, per-architecture CDHashes, architectures, entitlement digests, and Apple notarization
+The elevation archive is Foundation-signed, notarized, stapled, named by the full OpenClaw and Peekaboo source
+commits, and contains exactly `OpenClaw.app`. Its receipt binds the archive and portable-installer names and digests,
+OpenClaw and Peekaboo source revisions, signer, per-architecture CDHashes, architectures, entitlement digests, and Apple notarization
 submission ID. No AppleScript or Apple Events entitlement is part of this workflow.
 
 ## Client discovery order
@@ -133,7 +133,7 @@ Peekaboo clients typically try hosts in this order:
 
 1. Peekaboo.app (full UX)
 2. Claude.app (if installed)
-3. FRIDAY.app (thin broker)
+3. OpenClaw.app (thin broker)
 
 Use `peekaboo bridge status --verbose` to see which host is active and which socket path is in use. Override with:
 
@@ -143,7 +143,7 @@ export PEEKABOO_BRIDGE_SOCKET=/path/to/bridge.sock
 
 ## Security and permissions
 
-- The bridge checks **caller code signatures**. The production FRIDAY host accepts only the exact Peekaboo CLI
+- The bridge checks **caller code signatures**. The production OpenClaw host accepts only the exact Peekaboo CLI
   bundle (`boo.peekaboo.peekaboo`) signed by Peekaboo's official current/legacy release signer set (`FWJYW4S8P8`
   and `Y5PE65HELJ`). Sharing the app's UID or using another client signed by the app's development team is not
   sufficient.
@@ -157,9 +157,9 @@ export PEEKABOO_BRIDGE_SOCKET=/path/to/bridge.sock
 
 ## Troubleshooting
 
-- Update FRIDAY.app to pick up embedded automation fixes, including crashes when closing the host's own windows. Updating only the `peekaboo` CLI does not replace the bridge host's window automation code.
+- Update OpenClaw.app to pick up embedded automation fixes, including crashes when closing the host's own windows. Updating only the `peekaboo` CLI does not replace the bridge host's window automation code.
 - If `peekaboo` reports "bridge client is not authorized", check that the client is properly signed. As an alternative, run the host with `PEEKABOO_ALLOW_UNSIGNED_SOCKET_CLIENTS=1` in **debug** mode only.
-- If no hosts are found, open one of the host apps (Peekaboo.app or FRIDAY.app). Then check that permissions are granted.
+- If no hosts are found, open one of the host apps (Peekaboo.app or OpenClaw.app). Then check that permissions are granted.
 
 ## Related
 

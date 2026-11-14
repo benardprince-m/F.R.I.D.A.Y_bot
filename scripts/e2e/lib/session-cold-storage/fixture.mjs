@@ -86,7 +86,9 @@ export function runCli(context, args, { timeoutMs = 120_000 } = {}) {
           // execFile's message and command contain the Gateway token; retain only diagnostics.
           const diagnostics = [stderr, stdout].filter(Boolean).join("\n");
           reject(
-            new Error(`FRIDAY ${args[0]} failed: ${diagnostics || error.code || "unknown error"}`),
+            new Error(
+              `OpenClaw ${args[0]} failed: ${diagnostics || error.code || "unknown error"}`,
+            ),
           );
           return;
         }

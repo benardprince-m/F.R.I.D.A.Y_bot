@@ -84,7 +84,7 @@ describe("update run report", () => {
     const original = structuredClone(record);
     const report = renderUpdateRunReport(record, saved ? {} : { nextAction: action });
     expect(report.headline).toBe(
-      "⚠️ FRIDAY could not complete the update. A required system check failed.",
+      "⚠️ OpenClaw could not complete the update. A required system check failed.",
     );
     expect(report.lines.slice(1, 4)).toEqual(["", "Details:", `Reason code: ${reason}`]);
     expect(report.lines).toContain(`Failing check node-runtime (${reason}); key engines.node`);
@@ -305,8 +305,8 @@ describe("update run report", () => {
       const report = renderUpdateRunReport(record);
       expect(report.headline).toBe(
         reconciled
-          ? "ℹ️ FRIDAY abandoned update reconciled."
-          : `⚠️ FRIDAY update failed: ${reason?.trim() || "finalize:doctor"}.`,
+          ? "ℹ️ OpenClaw abandoned update reconciled."
+          : `⚠️ OpenClaw update failed: ${reason?.trim() || "finalize:doctor"}.`,
       );
       expect(report.lines).toContain("Failed: finalize:doctor");
       expect(report.lines).toContain("Failed: reconcile:abandoned — inactive-driver-dead");
@@ -453,7 +453,7 @@ describe("update run report", () => {
     },
   ])("identifies the installed version and revision for $label", ({ before, after, expected }) => {
     const report = renderUpdateRunReport(run({ before, after }));
-    expect(report.headline).toBe(`✅ FRIDAY updated to ${expected}.`);
+    expect(report.headline).toBe(`✅ OpenClaw updated to ${expected}.`);
     expect(report.markdown).toContain(report.headline);
     expect(report.lines).toContain("Phases: staging (300ms)");
   });
@@ -696,7 +696,7 @@ describe("update run report", () => {
         ],
       }),
     );
-    expect(report.headline).toBe("⬆️ FRIDAY update in progress: verifying.");
+    expect(report.headline).toBe("⬆️ OpenClaw update in progress: verifying.");
     expect(report.markdown).not.toContain("openclaw doctor");
     expect(report.markdown).not.toContain("Run the update manually");
     expect(report.markdown).toContain(
@@ -771,7 +771,7 @@ describe("update run report", () => {
     Object.freeze(record.steps);
     Object.freeze(record);
     const report = renderUpdateRunReport(record);
-    expect(report.headline).toBe(`⚠️ FRIDAY update failed: ${expected}.`);
+    expect(report.headline).toBe(`⚠️ OpenClaw update failed: ${expected}.`);
     expect(report.headline.length).toBeLessThanOrEqual(500);
     expect(report.markdown.length).toBeLessThanOrEqual(1500);
     expect(Buffer.from(report.markdown).toString("utf8")).toBe(report.markdown);
@@ -782,26 +782,26 @@ describe("update run report", () => {
     {
       status: "succeeded",
       reason: null,
-      headline: "✅ FRIDAY updated to 2026.9.2 (from 2026.9.1).",
+      headline: "✅ OpenClaw updated to 2026.9.2 (from 2026.9.1).",
     },
-    { status: "running", reason: null, headline: "⬆️ FRIDAY update in progress: verifying." },
-    { status: "skipped", reason: null, headline: "ℹ️ FRIDAY update skipped: unknown reason." },
+    { status: "running", reason: null, headline: "⬆️ OpenClaw update in progress: verifying." },
+    { status: "skipped", reason: null, headline: "ℹ️ OpenClaw update skipped: unknown reason." },
     {
       status: "rolled-back",
       reason: null,
-      headline: "↩️ FRIDAY update rolled back to 2026.9.2: unknown reason.",
+      headline: "↩️ OpenClaw update rolled back to 2026.9.2: unknown reason.",
     },
     {
       status: "skipped",
       reason: "gateway-readiness-unverified",
       headline:
-        "ℹ️ FRIDAY 2026.9.2 installed; Gateway readiness unverified; recovery backups retained.",
+        "ℹ️ OpenClaw 2026.9.2 installed; Gateway readiness unverified; recovery backups retained.",
     },
     {
       status: "skipped",
       reason: "still-starting",
       headline:
-        "ℹ️ FRIDAY 2026.9.2 installed; Gateway still starting; readiness unverified; recovery backups retained.",
+        "ℹ️ OpenClaw 2026.9.2 installed; Gateway still starting; readiness unverified; recovery backups retained.",
     },
   ])(
     "keeps the $status headline when a historical child failed ($reason)",

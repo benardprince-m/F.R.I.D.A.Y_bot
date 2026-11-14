@@ -479,7 +479,7 @@ describe("createAgentSession attribution headers", () => {
       expect(proxyOptions.headers).toBeUndefined();
       expect(endpointOptions.headers).toMatchObject({
         "HTTP-Referer": "https://openclaw.ai",
-        "X-OpenRouter-Title": "FRIDAY",
+        "X-OpenRouter-Title": "OpenClaw",
         "X-OpenRouter-Categories": "personal-agent,cli-agent",
       });
     } finally {

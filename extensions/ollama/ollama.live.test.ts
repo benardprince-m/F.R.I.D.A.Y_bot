@@ -456,7 +456,7 @@ describe.skipIf(!LIVE)("ollama live", () => {
       }
 
       const result = (await tool.execute({
-        query: "FRIDAY documentation",
+        query: "OpenClaw documentation",
         count: 1,
       })) as {
         provider?: string;

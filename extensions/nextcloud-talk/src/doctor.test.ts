@@ -137,7 +137,7 @@ describe("nextcloud-talk doctor", () => {
     expect(hoisted.probeNextcloudTalkBotResponseFeature).not.toHaveBeenCalled();
 
     const message =
-      'Nextcloud Talk bot "FRIDAY" (1) is missing the response feature; outbound replies will fail.';
+      'Nextcloud Talk bot "OpenClaw" (1) is missing the response feature; outbound replies will fail.';
     hoisted.probeNextcloudTalkBotResponseFeature.mockResolvedValueOnce({
       ok: false,
       code: "missing_response_feature",
@@ -197,7 +197,7 @@ describe("nextcloud-talk doctor", () => {
           });
         if (hasLegacyFile) {
           await expect(repair()).rejects.toThrow(
-            `Retired pre-July Nextcloud Talk replay state at ${legacyPath} was left unchanged. Install FRIDAY 2026.9.5, run "openclaw --profile home doctor --fix", then upgrade to latest.`,
+            `Retired pre-July Nextcloud Talk replay state at ${legacyPath} was left unchanged. Install OpenClaw 2026.9.5, run "openclaw --profile home doctor --fix", then upgrade to latest.`,
           );
           expect(await fs.readFile(legacyPath, "utf8")).toBe(original);
         } else {

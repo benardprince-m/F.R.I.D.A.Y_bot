@@ -28,7 +28,7 @@ export async function migrateAgentsApiBinding(
     // Historical declarations allowed forwarding. Do not discover MCP or resolve
     // its credentials merely to reject a binding that cannot adopt restrictions.
     throw new Error(
-      "Agents API legacy binding cannot adopt forwarding restrictions; restore the original configuration and API key and retry, or reset the FRIDAY session to settle the saved native session with a currently authorized key. The saved binding has been retained.",
+      "Agents API legacy binding cannot adopt forwarding restrictions; restore the original configuration and API key and retry, or reset the OpenClaw session to settle the saved native session with a currently authorized key. The saved binding has been retained.",
     );
   }
   const environment = resolveAgentsApiEnvironment(config, params.workspaceDir);
@@ -54,7 +54,7 @@ export async function migrateAgentsApiBinding(
     // Session retrieval is not equivalent evidence: MCP responses omit secrets,
     // and effective environment defaults do not recover the authored identity.
     throw new Error(
-      "Agents API legacy binding cannot verify the original model, API key, environment, MCP, or web-search policy; restore the original configuration and API key and retry, or reset the FRIDAY session to settle the saved native session with a currently authorized key. The saved binding has been retained.",
+      "Agents API legacy binding cannot verify the original model, API key, environment, MCP, or web-search policy; restore the original configuration and API key and retry, or reset the OpenClaw session to settle the saved native session with a currently authorized key. The saved binding has been retained.",
     );
   }
   // A matching historical digest proves configuration, not current API access.

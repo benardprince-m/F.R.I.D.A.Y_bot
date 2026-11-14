@@ -265,7 +265,7 @@ export type GetReplyOptions = {
   fastModeAutoOnSecondsOverride?: number;
   /** Controls bootstrap workspace context injection (default: full). */
   bootstrapContextMode?: "full" | "lightweight";
-  /** If true, run the model without FRIDAY tools for this turn. */
+  /** If true, run the model without OpenClaw tools for this turn. */
   disableTools?: boolean;
   /** @internal Preserve the recovery owner's replay-safe tool restriction for this turn. */
   forceRestartSafeTools?: boolean;

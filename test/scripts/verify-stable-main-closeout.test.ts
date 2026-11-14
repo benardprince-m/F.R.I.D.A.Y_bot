@@ -118,7 +118,7 @@ function releaseFixture(tag: string, appcast = oldAppcast, git = false) {
 function macAssets(version: string) {
   return ["", "-arm64", "-x86_64"]
     .flatMap((suffix) =>
-      ["zip", "dmg", "dSYM.zip"].map((ext) => `FRIDAY-${version}${suffix}.${ext}`),
+      ["zip", "dmg", "dSYM.zip"].map((ext) => `OpenClaw-${version}${suffix}.${ext}`),
     )
     .map((name) => ({ name, digest: `sha256:${"c".repeat(64)}` }));
 }
@@ -128,7 +128,7 @@ function publishedFeeds(dir: string, version: string, thin: boolean) {
     const suffix = arch && `-${arch}`;
     writeFileSync(
       file,
-      `https://github.com/openclaw/openclaw/releases/download/v${version}/FRIDAY-${version}${suffix}.zip`,
+      `https://github.com/openclaw/openclaw/releases/download/v${version}/OpenClaw-${version}${suffix}.zip`,
     );
     return [`--published-appcast${arch && `-${arch.replace("_", "-")}`}`, file];
   });
@@ -206,8 +206,8 @@ function linuxAsset(name: string, bytes: string): LinuxAsset {
 }
 
 function linuxPublication(version: string) {
-  const appimage = `FRIDAY-${version}-amd64.AppImage`;
-  const deb = `FRIDAY-${version}-amd64.deb`;
+  const appimage = `OpenClaw-${version}-amd64.AppImage`;
+  const deb = `OpenClaw-${version}-amd64.deb`;
   const selector = linuxAsset(
     "latest.json",
     JSON.stringify({
@@ -296,7 +296,7 @@ if (args[1] === 'view') {
   reply(metadata(release));
 } else if (args[1] === 'download') {
   const name = args[args.indexOf('--pattern') + 1];
-  if (!['latest.json', 'SHA256SUMS.linux-app.txt', 'FRIDAY-' + args[2].slice(1) + '-linux.json'].includes(name)) throw new Error('Binary download forbidden');
+  if (!['latest.json', 'SHA256SUMS.linux-app.txt', 'OpenClaw-' + args[2].slice(1) + '-linux.json'].includes(name)) throw new Error('Binary download forbidden');
   const asset = release.assets.find(asset => asset.name === name);
   if (!asset || typeof asset.bytes !== 'string') throw new Error('Missing asset');
   process.stdout.write(asset.bytes);
@@ -329,7 +329,7 @@ if (args[1] === 'view') {
           .filter((asset) => asset.name !== "latest.json")
           .map(({ id, name, size, digest }) => ({ id, name, size, sha256: digest.slice(7) })),
       };
-      carrier.assets.push(linuxAsset(`FRIDAY-${version}-linux.json`, JSON.stringify(value)));
+      carrier.assets.push(linuxAsset(`OpenClaw-${version}-linux.json`, JSON.stringify(value)));
     },
     params() {
       return { ...fixture.params, release: metadata() };
@@ -521,14 +521,17 @@ describe("verify-stable-main-closeout", () => {
       if (!thin) {
         release.assets.push(
           ...[
-            "FRIDAY-Android.apk",
-            "FRIDAY-Android-SHA256SUMS.txt",
+            "OpenClaw-Android.apk",
+            "OpenClaw-Android-SHA256SUMS.txt",
             "OpenClawCompanion-Setup-arm64.exe",
             "OpenClawCompanion-Setup-x64.exe",
             "OpenClawCompanion-SHA256SUMS.txt",
           ].map((name) => ({ name, digest: `sha256:${"c".repeat(64)}` })),
         );
-        expectFailure(fixture.replay(), `main appcast.xml does not point at FRIDAY-${version}.zip`);
+        expectFailure(
+          fixture.replay(),
+          `main appcast.xml does not point at OpenClaw-${version}.zip`,
+        );
       }
       expectReplay(fixture, fixture.replay(publishedFeeds(dir, version, thin)), initialBytes);
 
@@ -691,12 +694,12 @@ it.each(routingCases)("stable closeout publication routing preserves %s", (name,
   const evidence = path.join(dir, "evidence.json");
   const manifest = path.join(dir, "manifest.json");
   writeJson(run, {
-    workflowName: "FRIDAY Release Publish",
+    workflowName: "OpenClaw Release Publish",
     event: "workflow_dispatch",
     status: "completed",
     conclusion: scenario.conclusion,
     jobs: [
-      { name: "Publish plugins, then FRIDAY", conclusion: scenario.npm },
+      { name: "Publish plugins, then OpenClaw", conclusion: scenario.npm },
       {
         name: "Publish Docker images / Publish prepared Docker images",
         conclusion: scenario.docker,

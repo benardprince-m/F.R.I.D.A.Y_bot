@@ -52,7 +52,7 @@ function resolveAuthProfileProvider(
   return store.profiles[profileId]?.provider.trim() || undefined;
 }
 
-/** Builds configure candidates for FRIDAY config plus an optional auth-profile scope. */
+/** Builds configure candidates for OpenClaw config plus an optional auth-profile scope. */
 export function buildConfigureCandidatesForScope(params: {
   config: OpenClawConfig;
   authoredOpenClawConfig?: OpenClawConfig;

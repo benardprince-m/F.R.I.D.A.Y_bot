@@ -5,7 +5,7 @@ import Foundation
 import OpenClawDiscovery
 import SwiftUI
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawKit
 
 /// The saved route uses the ordinary handshake fixture; a retarget uses a real socket.

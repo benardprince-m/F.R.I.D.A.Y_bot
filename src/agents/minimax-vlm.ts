@@ -110,7 +110,7 @@ export async function minimaxUnderstandImage(params: {
       defaultHeaders: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
-        "MM-API-Source": "FRIDAY",
+        "MM-API-Source": "OpenClaw",
       },
       request: params.request,
       provider: params.provider ?? "minimax",

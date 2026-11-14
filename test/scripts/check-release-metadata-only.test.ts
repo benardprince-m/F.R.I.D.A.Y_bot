@@ -109,7 +109,7 @@ describe("check-release-metadata-only", () => {
       "git",
       [
         "-c",
-        "user.name=FRIDAY Test",
+        "user.name=OpenClaw Test",
         "-c",
         "user.email=test@openclaw.invalid",
         "commit",
@@ -157,7 +157,7 @@ describe("check-release-metadata-only", () => {
       "git",
       [
         "-c",
-        "user.name=FRIDAY Test",
+        "user.name=OpenClaw Test",
         "-c",
         "user.email=test@openclaw.invalid",
         "commit",

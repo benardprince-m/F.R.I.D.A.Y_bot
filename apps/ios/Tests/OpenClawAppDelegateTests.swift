@@ -3,7 +3,7 @@ import Foundation
 import OpenClawKit
 import Testing
 import UIKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized) struct OpenClawAppDelegateTests {
     @Test(arguments: [false, true]) @MainActor

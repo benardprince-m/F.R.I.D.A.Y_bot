@@ -256,7 +256,7 @@ async function runInteractiveAgentsAdd(
     ? { ...runtime, log: (...args) => runtime.error(...args) }
     : runtime;
   try {
-    await prompter.intro("Add FRIDAY agent");
+    await prompter.intro("Add OpenClaw agent");
     const name =
       nameInput ??
       (await prompter.text({

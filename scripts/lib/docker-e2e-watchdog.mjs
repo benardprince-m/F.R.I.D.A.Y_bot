@@ -3,7 +3,7 @@ import { pathToFileURL } from "node:url";
 
 export async function runWatchdog(kind, timeoutValue, [command, ...args]) {
   const docker = kind === "docker";
-  const label = docker ? "Docker" : "FRIDAY E2E";
+  const label = docker ? "Docker" : "OpenClaw E2E";
 
   const parseTimeoutMs = (value) => {
     const match = /^([0-9]+(?:\.[0-9]+)?)(ms|s|m|h)?$/u.exec(String(value ?? "").trim());

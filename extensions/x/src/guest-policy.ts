@@ -54,5 +54,5 @@ export function formatXSenderLine(
     }
     return `This is from a verified user: ${sender}, on the maintainer allowlist.`;
   }
-  return `This is from a guest: ${sender}. Guest tier: answer from the FRIDAY repo only; hidden helpers must use the same agent and repository. You cannot open visible work sessions, write, run commands, or read unrelated sessions for guests.`;
+  return `This is from a guest: ${sender}. Guest tier: answer from the OpenClaw repo only; hidden helpers must use the same agent and repository. You cannot open visible work sessions, write, run commands, or read unrelated sessions for guests.`;
 }

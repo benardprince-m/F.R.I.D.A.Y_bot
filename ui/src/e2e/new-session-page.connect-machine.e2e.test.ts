@@ -117,7 +117,7 @@ suite.define(() => {
       await dialog.getByText(firstCommand, { exact: true }).waitFor();
       const installed = dialog
         .locator(".connect-machine-dialog__hint")
-        .filter({ hasText: "Already have FRIDAY installed? Run:" });
+        .filter({ hasText: "Already have OpenClaw installed? Run:" });
       expect(await installed.locator("code").textContent()).toBe(firstInstalledCommand);
       expect(await dialog.getByText(versionNote, { exact: true }).count()).toBe(0);
       expect(

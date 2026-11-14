@@ -192,8 +192,8 @@ export async function maybeSendNodeWakeNudge(
           const result = await sendApnsAlert({
             ...transport.transport,
             nodeId,
-            title: "FRIDAY needs a quick reopen",
-            body: "Tap to reopen FRIDAY and restore the node connection.",
+            title: "OpenClaw needs a quick reopen",
+            body: "Tap to reopen OpenClaw and restore the node connection.",
             signal: lifecycle,
             isCurrent: isAttemptCurrent,
           });

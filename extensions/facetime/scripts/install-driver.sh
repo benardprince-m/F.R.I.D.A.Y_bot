@@ -58,7 +58,7 @@ case "${1:-}" in
 esac
 
 if test "$(driver_status)" = "current"; then
-  printf 'FRIDAY-Mic and FRIDAY-Feed are already current.\n'
+  printf 'OpenClaw-Mic and OpenClaw-Feed are already current.\n'
   exit 0
 fi
 
@@ -68,8 +68,8 @@ fi
   "$here/scripts/commit-driver-transaction.sh" \
   --install
 if test "$(driver_status)" != "current"; then
-  echo "FRIDAY paired audio driver installation did not verify successfully." >&2
+  echo "OpenClaw paired audio driver installation did not verify successfully." >&2
   exit 1
 fi
 
-printf 'Installed FRIDAY-Mic and FRIDAY-Feed. Reconnect any active FaceTime call.\n'
+printf 'Installed OpenClaw-Mic and OpenClaw-Feed. Reconnect any active FaceTime call.\n'

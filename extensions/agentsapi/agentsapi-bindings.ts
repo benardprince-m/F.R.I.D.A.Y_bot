@@ -38,7 +38,7 @@ export function createAgentsApiBindings(
 ) {
   const invalidRow = (key: string) =>
     new Error(
-      `Invalid Agents API binding row: ${key}; original state retained. Back up FRIDAY state and restore this binding from a valid pre-upgrade backup before retrying.`,
+      `Invalid Agents API binding row: ${key}; original state retained. Back up OpenClaw state and restore this binding from a valid pre-upgrade backup before retrying.`,
     );
   const stateOptions = {
     namespace: "agentsapi-sessions",

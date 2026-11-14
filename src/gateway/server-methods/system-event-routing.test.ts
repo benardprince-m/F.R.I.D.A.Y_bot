@@ -39,7 +39,7 @@ vi.mock("../session-utils-store-worker.js", async (importOriginal) => ({
 import { systemHandlers } from "./system.js";
 
 const eventHandler = expectDefined(systemHandlers["system-event"], "system-event handler");
-const eventText = "FRIDAY updated. Welcome the user back.";
+const eventText = "OpenClaw updated. Welcome the user back.";
 function eventRequest(
   params: GatewayRequestHandlerOptions["params"],
   respond = vi.fn(),

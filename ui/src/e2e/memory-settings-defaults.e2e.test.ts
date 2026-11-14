@@ -230,7 +230,7 @@ suite.define(() => {
 
         const engineRow = settingsRow(page, "Memory engine");
         const frequencyRow = settingsRow(page, "Dreaming frequency");
-        await expect.poll(() => engineRow.textContent()).toContain("Default: FRIDAY Memory");
+        await expect.poll(() => engineRow.textContent()).toContain("Default: OpenClaw Memory");
         await expect.poll(() => frequencyRow.textContent()).toContain("Default: 0 3 * * *");
         await expect.poll(() => frequencyRow.getByRole("textbox").inputValue()).toBe("0 6 * * *");
 
@@ -256,7 +256,7 @@ suite.define(() => {
         const reloadedFrequencyRow = settingsRow(page, "Dreaming frequency");
         await expect
           .poll(() => reloadedEngineRow.textContent())
-          .toContain("Default: FRIDAY Memory");
+          .toContain("Default: OpenClaw Memory");
         await expect.poll(() => reloadedFrequencyRow.textContent()).not.toContain("Using default:");
         await expect.poll(() => reloadedFrequencyRow.getByRole("textbox").inputValue()).toBe("");
         await expect

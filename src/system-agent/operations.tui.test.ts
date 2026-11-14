@@ -47,7 +47,7 @@ describe("system-agent TUI operations", () => {
       });
       expect(result).toEqual({ applied: false });
       expect(isPersistentSystemAgentOperation({ kind: "doctor-fix" })).toBe(false);
-      expect(lines.join("\n")).toContain("with FRIDAY stopped");
+      expect(lines.join("\n")).toContain("with OpenClaw stopped");
       expect(lines.join("\n")).toContain("openclaw doctor --fix");
       expect(lines.join("\n")).not.toContain("[openclaw] running: doctor.fix");
       expect(readLastSystemAgentAuditEntry()).toBeUndefined();
@@ -73,7 +73,7 @@ describe("system-agent TUI operations", () => {
     });
   });
 
-  it("returns from the agent TUI back to FRIDAY", async () => {
+  it("returns from the agent TUI back to OpenClaw", async () => {
     const { runtime, lines } = createSystemAgentTestRuntime();
     vi.mocked(runTui).mockResolvedValue({
       exitReason: "return-to-system-agent" as const,
@@ -126,7 +126,7 @@ describe("system-agent TUI operations", () => {
     });
   });
 
-  it("re-enters the FRIDAY shell when the agent TUI returns without a request", async () => {
+  it("re-enters the OpenClaw shell when the agent TUI returns without a request", async () => {
     const { runtime, lines } = createSystemAgentTestRuntime();
     vi.mocked(runTui).mockResolvedValue({
       exitReason: "return-to-system-agent" as const,

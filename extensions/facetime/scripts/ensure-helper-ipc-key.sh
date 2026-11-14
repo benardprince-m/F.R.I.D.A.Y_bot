@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-auth_dir="${HOME}/Library/Application Support/FRIDAY/FaceTime"
+auth_dir="${HOME}/Library/Application Support/OpenClaw/FaceTime"
 ipc_key_file="${auth_dir}/helper-ipc-key"
 temporary_key=""
 

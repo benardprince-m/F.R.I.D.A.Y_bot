@@ -565,7 +565,7 @@ describe("createAcpxRuntimeService", () => {
       wrapperRoot,
       assertCurrent: expect.any(Function),
     });
-    expect(ctx.logger.info).toHaveBeenCalledWith("reaped 2 stale FRIDAY-owned ACPX processes");
+    expect(ctx.logger.info).toHaveBeenCalledWith("reaped 2 stale OpenClaw-owned ACPX processes");
 
     await service.stop?.(ctx);
   });

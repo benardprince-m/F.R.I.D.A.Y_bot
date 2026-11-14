@@ -92,7 +92,7 @@ Changed plugins restart a running managed Gateway unless `--no-restart` is set; 
 
 If a Git checkout advanced without rebuilding or its runtime has missing or unverified artifacts, the matching source revision still needs an update.
 Verification checks the build commit, both build stamps, runtime entry, Control UI assets, version, and build identity.
-FRIDAY builds and validates a separate candidate, then stops the managed Gateway before replacing the runtime and restarting it.
+OpenClaw builds and validates a separate candidate, then stops the managed Gateway before replacing the runtime and restarting it.
 The new build records its commit, so the next update can finish as already current.
 `--no-restart` cannot replace runtime files used by a running Gateway in the same
 installation; the update leaves those files intact and reports the process and
@@ -117,7 +117,7 @@ candidate it never builds. Stop the Gateway through its actual service manager,
 rebuild the checkout, and start the Gateway through that manager before retrying.
 Do not rebuild its installation while the old Gateway is still serving.
 
-Linux updates also refresh outdated FRIDAY-managed systemd policy when the core
+Linux updates also refresh outdated OpenClaw-managed systemd policy when the core
 is already current or `--no-restart` is set. This policy-only refresh confirms
 `daemon-reload` without stopping the Gateway and preserves operator drop-ins.
 Native-definition reconciliation on launchd, Scheduled Tasks, and systemd keeps
@@ -193,7 +193,7 @@ installation. Doctor leaves unverified service records unchanged and reports an
 advisory; state coordinators and database leases still protect active writers.
 
 For recovery of a managed service using a separate, unchanged installation,
-FRIDAY rechecks its service definition, runtime pin, package directory and
+OpenClaw rechecks its service definition, runtime pin, package directory and
 version, launchers, Node executable, build identity, and schema support. It does
 not fingerprint that installation's entire package tree; edits elsewhere in that
 tree during an update are best effort. Keep tools that modify either installation
@@ -329,7 +329,7 @@ plugin resolution and compatibility planning. It also tests migrations and
 boots a test Gateway with copied configuration and verified SQLite snapshots in an
 isolated temporary state directory. The copied database registry points to the
 copied agent databases. Installed plugin payloads and their dependencies are also
-copied; the copied install records point to those copies, and their FRIDAY
+copied; the copied install records point to those copies, and their OpenClaw
 host links target the staged installation. Literal imports, `require()` calls, and
 literal dynamic imports to shared source modules include those modules and their
 package metadata in the private copy. Unrelated repository files remain outside
@@ -1014,11 +1014,11 @@ detached, a verified update receipt preserves the upstream for that same checkou
 and revision. Startup status discovery does not freeze later update requests.
 
 A foreground replacement can still be starting when the initial readiness
-observation ends. FRIDAY leaves that process running and reports readiness as
+observation ends. OpenClaw leaves that process running and reports readiness as
 unverified. Use `openclaw gateway status --deep` to check its progress.
 Successful updates remain pending until the replacement verifies startup.
 
-If readiness rejects a foreground replacement, FRIDAY requests a graceful shutdown
+If readiness rejects a foreground replacement, OpenClaw requests a graceful shutdown
 and reports shutdown as pending with the replacement PID. The old Gateway process
 waits for that replacement to close. If shutdown does not finish, inspect the
 replacement's startup logs and active updates before stopping it manually.
@@ -1112,7 +1112,7 @@ metadata, so the same runtime mismatch stops before package mutation.
 
 On macOS, the post-update check also verifies the LaunchAgent is
 loaded/running for the active profile and the configured loopback port is
-healthy. If the plist is installed but launchd is not supervising it, FRIDAY
+healthy. If the plist is installed but launchd is not supervising it, OpenClaw
 re-bootstraps the LaunchAgent automatically and reruns the health/version/
 channel readiness checks (a fresh bootstrap loads the `RunAtLoad` job directly,
 so recovery does not immediately `kickstart -k` the newly spawned Gateway).
@@ -1143,12 +1143,12 @@ Ordinary Doctor commands and older update
 drivers without delegated Doctor authority retain their immediate refusal for a
 Gateway holder.
 
-If another FRIDAY process that is not a Gateway holds state ownership when
+If another OpenClaw process that is not a Gateway holds state ownership when
 updater-run Doctor enters maintenance (for example a CLI or plugin command, an
 embedded agent run, or another Doctor), Doctor waits for it, with or without
 delegated Doctor authority. It prints which process and database it is waiting
 on and how long it will wait, repeats progress every 30 seconds, and continues
-once ownership is released. The wait holds no FRIDAY lock, so the other process
+once ownership is released. The wait holds no OpenClaw lock, so the other process
 can finish.
 
 The wait leaves Doctor time to finish within the default 30-minute update step
@@ -1171,7 +1171,7 @@ update to a release that contains it, regardless of the installed updater's
 version. Manual `openclaw doctor --fix` keeps failing immediately so the operator
 can decide.
 
-The same wait covers another FRIDAY process that has an agent database open
+The same wait covers another OpenClaw process that has an agent database open
 without holding state ownership, such as a plugin command run while the Gateway is
 stopped. Doctor releases state ownership while it waits, because that process must
 write shared state to close its database. It prints the holder's PID and progress
@@ -1218,7 +1218,7 @@ separately from the CLI update that continues in the detached helper:
   service process. The old Gateway stays available during validation; this
   response does not mean the service has stopped or the update has completed.
 - `ok: false`, `result.reason: "managed-service-handoff-unavailable"`, and
-  `handoff.status: "unavailable"`: FRIDAY could not find a supervising
+  `handoff.status: "unavailable"`: OpenClaw could not find a supervising
   service boundary and durable service identity for a safe handoff (for
   example, systemd handoff requires the `OPENCLAW_SYSTEMD_UNIT` unit identity,
   not just ambient systemd process markers). The response includes
@@ -1325,7 +1325,7 @@ the sentinel.
 
 ## Plugin sync details
 
-On stable updates, a configured FRIDAY-owned official plugin with no install
+On stable updates, a configured OpenClaw-owned official plugin with no install
 record is repaired from the selected core release cohort. This also applies to
 `doctor --fix` after an earlier upgrade lost a formerly bundled plugin. Post-core
 reconciliation attempts installation before restart; an unavailable target remains
@@ -1335,7 +1335,7 @@ registry and source choices. Verified official packages use the existing
 
 Eligible managed release pins for npm and trusted official ClawHub installs of
 `@openclaw/*` packages resume the catalog's default selector after a successful
-update. The recorded selector must be an exact FRIDAY release no newer than the
+update. The recorded selector must be an exact OpenClaw release no newer than the
 installed core, and the same package must have a verified default catalog target.
 This includes previously recorded automatic and manual pins. An explicit selector
 supplied to the current plugin update command takes precedence. Pins outside that
@@ -1344,7 +1344,7 @@ eligibility, ranges, explicit tags, and other sources keep their existing policy
 Managed npm plugins on the beta channel select the newest version by semantic
 version order from their `beta` and `latest` dist-tags, using the same policy as
 the core updater. This includes official plugins with a default/latest catalog
-target and managed `@beta` selectors. FRIDAY installs the exact inspected
+target and managed `@beta` selectors. OpenClaw installs the exact inspected
 version while keeping the selected tag or restored catalog default for future updates.
 
 Npm plugin updates reuse the registry metadata already selected for the same
@@ -1353,14 +1353,14 @@ integrity, install-policy, and capability-consent checks still apply to the
 selected package. A fallback to another target resolves that target separately.
 
 ClawHub plugins on the beta channel try their own `@beta` tag. If that release
-is unavailable, FRIDAY falls back to the default/latest spec and reports a
+is unavailable, OpenClaw falls back to the default/latest spec and reports a
 warning naming the requested and used targets.
 Integrity, compatibility, trust, install-policy, and capability-consent failures
 do not trigger fallback. Availability fallback warnings do not fail the core
 update. Pins outside the managed release-pin recovery described above, ranges,
 and explicit tags other than `beta` retain their selector.
 Doctor can refresh a stale official runtime plugin that is bound to the current
-FRIDAY release cohort. That repair stays on the recorded registry and verifies
+OpenClaw release cohort. That repair stays on the recorded registry and verifies
 the replacement artifact.
 Already-current runtime plugins are kept in place; a no-op startup repair does
 not reinstall the package or invalidate the migration checkpoint.
@@ -1380,7 +1380,7 @@ history name the plugin, requested target, resolution failure, and
 `openclaw plugins update <id>` next action. JSON keeps top-level `status: "ok"`
 with a `plugin-target-unavailable` advisory under `postUpdate.plugins.warnings`.
 
-Before mutation, FRIDAY checks installed compatibility metadata and skips
+Before mutation, OpenClaw checks installed compatibility metadata and skips
 registry queries for compatible plugins. If a plugin's declared
 `openclaw.compat.pluginApi` range or `openclaw.install.minHostVersion` excludes
 the target core and a compatible replacement cannot be resolved, it records a
@@ -1412,7 +1412,7 @@ After installing the core and before restarting the managed Gateway,
 configured plugin payloads, validates each _active_ tracked install record on disk,
 and statically verifies its `package.json` contains a JSON object and its declared
 `openclaw.extensions` entries are loadable. When a package does not declare
-FRIDAY extensions, the check instead verifies any explicitly declared npm
+OpenClaw extensions, the check instead verifies any explicitly declared npm
 `main`. Invalid package manifests and missing or unloadable plugin payloads add
 per-plugin warnings while validation of the remaining plugins and the core update
 continue. An invalid config snapshot still returns
@@ -1436,7 +1436,7 @@ When the updated Gateway starts, plugin loading is verify-only: startup does not
 
 After an extended-stable core update succeeds, post-core plugin integrity and
 convergence target eligible official npm and trusted official ClawHub plugins at
-the exact installed core version. For default/`latest` intent, FRIDAY does not
+the exact installed core version. For default/`latest` intent, OpenClaw does not
 query plugin `@extended-stable` or fall back to npm `latest`; it derives the
 package version from the installed core. Eligible managed release pins resume
 the catalog default under the recovery rules above. Pins outside that eligibility,
@@ -1448,13 +1448,13 @@ current plugin operation takes precedence.
 
 For package-manager installs, `openclaw update` resolves the target package
 version before invoking the package manager. npm global installs use a staged
-install: FRIDAY installs the new package into a temporary npm prefix,
+install: OpenClaw installs the new package into a temporary npm prefix,
 lets the staged package validate the host Node version during `preinstall`,
 and verifies the packaged `dist` inventory there. A packed completion guard
 stays outside that inventory until `preinstall` succeeds, so package managers
 that skip lifecycle scripts also stop before activation. On npm 12 and newer,
-the updater approves only the staged FRIDAY package’s lifecycle; transitive
-dependency scripts remain blocked. FRIDAY then swaps the clean package tree
+the updater approves only the staged OpenClaw package’s lifecycle; transitive
+dependency scripts remain blocked. OpenClaw then swaps the clean package tree
 into the real global prefix. If verification fails, post-update doctor, plugin
 sync, and restart work do not run from the suspect tree.
 

@@ -18,7 +18,7 @@ afterEach(() => {
   closeOpenClawStateDatabaseForTest();
 });
 
-describe("FRIDAY state lease", () => {
+describe("OpenClaw state lease", () => {
   it.each([
     { heartbeat: undefined, termination: "exit", processBound: false },
     { heartbeat: "worker", termination: "exit", processBound: false },

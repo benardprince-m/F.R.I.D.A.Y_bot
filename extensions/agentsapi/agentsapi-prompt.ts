@@ -20,21 +20,21 @@ import {
 import type { AgentsApiEnvironment } from "./config.js";
 
 const OPENAI_HOSTED_ENVIRONMENT_INSTRUCTIONS = [
-  "You are the FRIDAY assistant. Use your hosted Linux workspace for commands and files.",
-  "FRIDAY functions run in the Gateway and use its workspace; your hosted VM owns shell commands and VM files.",
-  "Input attachments are mapped to hosted VM paths in each user message. Write deliverable files under /workspace/outputs; FRIDAY transfers them and attaches them to your final reply after your turn completes.",
+  "You are the OpenClaw assistant. Use your hosted Linux workspace for commands and files.",
+  "OpenClaw functions run in the Gateway and use its workspace; your hosted VM owns shell commands and VM files.",
+  "Input attachments are mapped to hosted VM paths in each user message. Write deliverable files under /workspace/outputs; OpenClaw transfers them and attaches them to your final reply after your turn completes.",
   "Gateway messaging functions cannot open hosted VM paths. Finish your assistant turn to deliver hosted output attachments.",
 ].join("\n\n");
 
 const SELF_HOSTED_ENVIRONMENT_INSTRUCTIONS = [
-  "You are the FRIDAY assistant. Use your connected self-hosted executor for commands and workspace files.",
-  "FRIDAY functions run in the Gateway and use its workspace. Native shell commands and file operations run in your connected executor's workspace.",
+  "You are the OpenClaw assistant. Use your connected self-hosted executor for commands and workspace files.",
+  "OpenClaw functions run in the Gateway and use its workspace. Native shell commands and file operations run in your connected executor's workspace.",
   "Input attachments prepared by the workspace provider are identified by execution-only paths in the current user message. Use those paths with executor tools; original Gateway media paths are not executor paths. Other attachment references are not proof of a transferred file.",
-  "FRIDAY does not automatically transfer output files from this executor through the Agents API.",
+  "OpenClaw does not automatically transfer output files from this executor through the Agents API.",
 ].join("\n\n");
 
 const INLINE_IMAGE_INPUT_INSTRUCTIONS = [
-  "The FRIDAY Agents API harness does not support inline image inputs. Do not send images as inline input to this harness.",
+  "The OpenClaw Agents API harness does not support inline image inputs. Do not send images as inline input to this harness.",
   "For image or document tasks, use supplied text or available tools to inspect original files at the prepared execution paths in the current message.",
   "If the needed content is unavailable, ask for a text description. Do not claim to have viewed an image you have not inspected.",
 ].join(" ");
@@ -61,7 +61,7 @@ const IMAGE_RECOVERY_WITHOUT_PREPARED_ATTACHMENTS = [
   OMITTED_IMAGE_REPLY_GUIDANCE,
 ].join(" ");
 
-/** The native session owns this snapshot until FRIDAY resets its binding. */
+/** The native session owns this snapshot until OpenClaw resets its binding. */
 export async function buildAgentsApiInstructions(
   params: AgentHarnessAttemptParamsV2,
   tools: readonly AgentToolParam.AgentToolConfigParamFunction[],
@@ -106,13 +106,13 @@ export async function buildAgentsApiInstructions(
       : `${SELF_HOSTED_ENVIRONMENT_INSTRUCTIONS}\n\nYour executor workspace directory is ${JSON.stringify(environment.workspace_directory)}.`,
     INLINE_IMAGE_INPUT_INSTRUCTIONS,
     environment.type === "openai_hosted"
-      ? "FRIDAY workspace files below are Gateway-owned instruction and reference snapshots. Their paths identify their source, not files available in your hosted VM. Do not try to reread or edit those paths with hosted shell or file tools."
-      : "FRIDAY workspace files below are Gateway-owned instruction and reference snapshots. Their paths identify their source, not files available in your connected executor. Do not try to reread or edit those paths with executor shell or file tools.",
+      ? "OpenClaw workspace files below are Gateway-owned instruction and reference snapshots. Their paths identify their source, not files available in your hosted VM. Do not try to reread or edit those paths with hosted shell or file tools."
+      : "OpenClaw workspace files below are Gateway-owned instruction and reference snapshots. Their paths identify their source, not files available in your connected executor. Do not try to reread or edit those paths with executor shell or file tools.",
     workspace.instructionSnapshot.instructions,
     workspace.personaInstructions,
     workspace.promptContextFiles.length
       ? [
-          "## FRIDAY Workspace Context",
+          "## OpenClaw Workspace Context",
           "Supporting project reference from the Gateway workspace:",
           ...workspace.promptContextFiles.map((file) => `### ${file.path}\n\n${file.content}`),
         ].join("\n\n")
@@ -120,7 +120,7 @@ export async function buildAgentsApiInstructions(
     workspace.memoryRecallInstructions,
     workspace.memoryReferenceFiles.length
       ? [
-          "## FRIDAY Workspace Memory",
+          "## OpenClaw Workspace Memory",
           `MEMORY.md is a memory file, not an instruction file. Its contents are not embedded here. Use ${memoryToolNames.join(" or ")} when durable memory is relevant.`,
           ...workspace.memoryReferenceFiles.map((file) => `- ${file.path}`),
         ].join("\n\n")
@@ -149,7 +149,7 @@ export async function buildAgentsApiInstructions(
         })
       : undefined,
     // Without Gateway control tools, omit the shared builder's CLI setup hint:
-    // the hosted VM cannot configure the Gateway with a local FRIDAY CLI.
+    // the hosted VM cannot configure the Gateway with a local OpenClaw CLI.
     buildCredentialSafetyPrompt(
       toolNames.has("openclaw") || toolNames.has("gateway")
         ? { controlToolsAvailable: true }
@@ -199,7 +199,7 @@ async function buildAgentsApiTurnContext(
   }
   const toolNames = new Set(tools.map((tool) => tool.name));
   return joinSections([
-    "FRIDAY runtime context for this turn (replaces earlier runtime facts):",
+    "OpenClaw runtime context for this turn (replaces earlier runtime facts):",
     buildTemporalContextText({
       configuredTimezone: params.config?.agents?.defaults?.userTimezone,
       sessionStatusAvailable: toolNames.has("session_status"),

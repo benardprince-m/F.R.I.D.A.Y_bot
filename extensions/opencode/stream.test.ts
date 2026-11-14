@@ -10,7 +10,7 @@ import plugin from "./index.js";
 
 function toolCallMessage(
   name: string,
-  argumentsValue: Record<string, unknown> = { query: "FRIDAY" },
+  argumentsValue: Record<string, unknown> = { query: "OpenClaw" },
 ): AssistantMessage {
   return {
     role: "assistant",

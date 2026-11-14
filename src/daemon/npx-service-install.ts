@@ -29,7 +29,9 @@ export async function resolveDurableNodeEntrypoint(
   const sourceRoot = await resolveOpenClawPackageRoot({ argv1: resolved });
   const version = sourceRoot ? await readPackageVersion(sourceRoot) : null;
   if (!version) {
-    throw new Error("Cannot determine the npm exec FRIDAY version for node service installation.");
+    throw new Error(
+      "Cannot determine the npm exec OpenClaw version for node service installation.",
+    );
   }
   const layout = resolveNpmGlobalPrefixLayoutFromPrefix(path.join(resolveStateDir(env), "npm"));
   const packageRoot = path.join(layout.globalRoot, "openclaw");
@@ -73,7 +75,7 @@ export async function resolveDurableNodeEntrypoint(
     });
     if (result.failedStep) {
       throw new Error(
-        `Cannot install durable FRIDAY ${version}: ${result.failedStep.stderrTail || result.failedStep.name}`,
+        `Cannot install durable OpenClaw ${version}: ${result.failedStep.stderrTail || result.failedStep.name}`,
       );
     }
   }

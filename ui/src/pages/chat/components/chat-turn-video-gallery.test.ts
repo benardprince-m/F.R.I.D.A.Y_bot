@@ -167,7 +167,7 @@ it("keeps duplicate video slots and each sibling message's source authority, but
       {
         showReasoning: false,
         showToolCalls: false,
-        assistantName: "FRIDAY",
+        assistantName: "OpenClaw",
         assistantAvatar: null,
         sessionKey: "agent:main:video-gallery",
         mediaOwner: rerender,

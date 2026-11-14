@@ -127,7 +127,7 @@ fs.writeFileSync(
     {
       schemaVersion: 1,
       owner: "desktop-app",
-      displayName: "FRIDAY standalone build",
+      displayName: "OpenClaw standalone build",
       updateHint:
         "Update the owning app, or rebuild and replace openclaw, runtime/ and manifest.json together. See https://docs.openclaw.ai/install/standalone#update-the-complete-artifact.",
     },

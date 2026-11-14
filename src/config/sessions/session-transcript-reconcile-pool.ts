@@ -167,7 +167,7 @@ export async function finishSessionTranscriptReconcileTask<T>({
     }
   } catch (error) {
     const failure = new Error(
-      `Transcript lease cleanup incomplete; restart FRIDAY before deleting this agent: ${toStringifiedError(error).message}`,
+      `Transcript lease cleanup incomplete; restart OpenClaw before deleting this agent: ${toStringifiedError(error).message}`,
       { cause: error },
     );
     // If native cleanup itself fails, its durable lease requires restart/Doctor; do not replay it.

@@ -26,14 +26,14 @@ class ChatMessageContentParsingTest {
     for ((id, name, title) in cases) {
       val content =
         Json.parseToJsonElement(
-          """{"type":"toolCall","id":"call-1","name":" TOOL_CALL ","arguments":{"id":"$id","query":"outer query","args":{"query":"FRIDAY release notes October 2026","token":"hidden"}}}""",
+          """{"type":"toolCall","id":"call-1","name":" TOOL_CALL ","arguments":{"id":"$id","query":"outer query","args":{"query":"OpenClaw release notes October 2026","token":"hidden"}}}""",
         )
       val tool = checkNotNull(parseChatMessageContent(content)?.toolActivity)
       assertEquals("call-1", tool.toolCallId)
       assertEquals(name, tool.name)
       assertEquals(title, completedToolDisplayName(tool.name))
-      assertEquals("query: FRIDAY release notes October 2026", tool.detail)
-      assertEquals(Json.parseToJsonElement("""{"query":"FRIDAY release notes October 2026"}"""), tool.arguments)
+      assertEquals("query: OpenClaw release notes October 2026", tool.detail)
+      assertEquals(Json.parseToJsonElement("""{"query":"OpenClaw release notes October 2026"}"""), tool.arguments)
     }
   }
 

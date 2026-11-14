@@ -357,7 +357,7 @@ class SessionDiffContentTest {
               ?.text
               ?.toString(),
           )
-          assertEquals("FRIDAY text", clipboard.primaryClipDescription?.label?.toString())
+          assertEquals("OpenClaw text", clipboard.primaryClipDescription?.label?.toString())
           assertEquals("Text copied", ShadowToast.getTextOfLatestToast())
           assertEquals(android.widget.Toast.LENGTH_SHORT, ShadowToast.getLatestToast().duration)
         }

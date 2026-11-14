@@ -172,9 +172,9 @@ function createRepo(
     join(origin, "package.json"),
     `${JSON.stringify({ name: "x", version: options.version ?? "2026.7.1" }, null, 2)}\n`,
   );
-  mkdirSync(join(origin, "apps/macos/Sources/FRIDAY/Resources"), { recursive: true });
+  mkdirSync(join(origin, "apps/macos/Sources/OpenClaw/Resources"), { recursive: true });
   writeFileSync(
-    join(origin, "apps/macos/Sources/FRIDAY/Resources/Info.plist"),
+    join(origin, "apps/macos/Sources/OpenClaw/Resources/Info.plist"),
     plistFor("2026.7.1", options.plistBuildVersion ?? "2026070100"),
   );
   mkdirSync(join(origin, "docs/install"), { recursive: true });
@@ -325,7 +325,7 @@ function normalizedEvidence(options: {
       "203",
       1,
       1,
-      "FRIDAY Release Checks",
+      "OpenClaw Release Checks",
       "openclaw-release-checks.yml",
       "-release-checks-independent",
     ],
@@ -334,7 +334,7 @@ function normalizedEvidence(options: {
       "207",
       1,
       2,
-      "FRIDAY Release Checks",
+      "OpenClaw Release Checks",
       "openclaw-release-checks.yml",
       "-release-checks-candidate",
     ],
@@ -351,7 +351,7 @@ function normalizedEvidence(options: {
           ],
         ] as const)
       : []),
-    ["productPerformance", "204", 3, 2, "FRIDAY Performance", "openclaw-performance.yml", ""],
+    ["productPerformance", "204", 3, 2, "OpenClaw Performance", "openclaw-performance.yml", ""],
   ] as const;
   const children = roles
     .filter(([role]) => !npmBetaCoverage || role !== "productPerformance")

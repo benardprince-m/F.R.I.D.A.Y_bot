@@ -4,7 +4,7 @@ import OpenClawKit
 import SwiftUI
 import UIKit
 import XCTest
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 private enum ChatTypingMainRunLoop {

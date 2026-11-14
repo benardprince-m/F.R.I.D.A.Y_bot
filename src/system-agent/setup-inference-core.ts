@@ -323,7 +323,7 @@ export function invalidSetupConfigError(snapshot: {
 }): string {
   const issue = snapshot.issues?.[0];
   const detail = issue ? ` (${issue.path ? `${issue.path}: ` : ""}${issue.message})` : "";
-  return `FRIDAY config ${snapshot.path} is invalid${detail}. Fix it before running setup.`;
+  return `OpenClaw config ${snapshot.path} is invalid${detail}. Fix it before running setup.`;
 }
 
 export async function redactSetupInferenceError(
@@ -413,7 +413,7 @@ export function validateSetupInferenceOwnerEvidence(params: {
       !params.auth.runtimeOwnerKind ||
       !params.auth.runtimeOwnerId?.trim())
   ) {
-    reason = "its runtime did not report an owner that FRIDAY can safely reuse";
+    reason = "its runtime did not report an owner that OpenClaw can safely reuse";
   } else if (
     params.runner === "cli" &&
     (!params.auth.runtimeArtifactFingerprint || !params.auth.runtimeArtifactId?.trim())

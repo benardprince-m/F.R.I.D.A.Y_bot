@@ -75,7 +75,7 @@ describe("MemorySettingsPage engine slot", () => {
             .querySelector('.settings-segmented[role="radiogroup"]')
             ?.querySelectorAll(".settings-segmented__btn") ?? []),
         ].map((radio) => radio.textContent?.trim()),
-      ).toEqual(["FRIDAY Memory", "Memory LanceDB", "Off"]);
+      ).toEqual(["OpenClaw Memory", "Memory LanceDB", "Off"]);
     } finally {
       element.remove();
     }

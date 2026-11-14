@@ -158,7 +158,7 @@ it("refuses an owned store, permits preview, and cleans only after exclusive adm
     }
     try {
       await expect(cleanup({})).rejects.toThrow(
-        `FRIDAY process (PID ${process.pid}) owns this state; run Gateway-delegated cleanup without --store, or stop the Gateway`,
+        `OpenClaw process (PID ${process.pid}) owns this state; run Gateway-delegated cleanup without --store, or stop the Gateway`,
       );
       expect(read()).toMatchObject(entry);
       await cleanup({ dryRun: true, json: true });

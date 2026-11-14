@@ -104,7 +104,7 @@ verifier. Set `legacyWebhook: { port: 3100, host: "127.0.0.1" }` to select anoth
 An omitted object `host` binds to `127.0.0.1`; explicit hosts, including wildcard
 addresses, are preserved. Account entries inherit the root setting, and
 `accounts.<id>.legacyWebhook: false` disables forwarding for that account.
-Feishu requires FRIDAY 2026.9.8 or newer. The Gateway owns every webhook
+Feishu requires OpenClaw 2026.9.8 or newer. The Gateway owns every webhook
 listener, and a shared legacy socket stays open while another account still uses
 that endpoint.
 On account shutdown, authenticated responses may finish for up to five seconds,
@@ -120,7 +120,7 @@ settings. Existing `legacyWebhook` settings, including `false`, win.
 The one-shot pin preserves an existing install that omitted both old settings;
 it requires evidence of prior operation and is not applied to a fresh install.
 
-When updating from a 2026.9.6 host with these old keys, first update FRIDAY core
+When updating from a 2026.9.6 host with these old keys, first update OpenClaw core
 to 2026.9.8 or newer, which includes the [plugin-update migration repair](https://github.com/openclaw/openclaw/pull/160682).
 Then explicitly update any pinned Feishu package to your chosen release. The core
 updater preserves explicit plugin version pins. The updated installer applies
@@ -140,7 +140,7 @@ for included and read-only config sources. Use `accounts.<id>.legacyWebhook: fal
 root listener. Startup and Doctor print the destination and removal instruction.
 Doctor presents healthy endpoint guidance as information and path conflicts as
 warnings; disabled accounts and WebSocket accounts receive no webhook notes.
-FRIDAY cannot update callback URLs stored in the Feishu console.
+OpenClaw cannot update callback URLs stored in the Feishu console.
 
 The exact Gateway check paths (`/health`, `/healthz`, `/ready`, `/readyz`,
 `/startup`, and `/startupz`, including query strings) cannot receive Feishu

@@ -34,7 +34,7 @@ export async function noteLegacyPluginSourceCaptures(
     }
     if (census.pids.length > 0) {
       throw new Error(
-        `Other FRIDAY processes are still running (PIDs: ${census.pids.join(", ")}).`,
+        `Other OpenClaw processes are still running (PIDs: ${census.pids.join(", ")}).`,
       );
     }
     assertCurrent();

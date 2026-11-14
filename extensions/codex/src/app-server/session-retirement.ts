@@ -43,7 +43,7 @@ async function releaseSessionSubscription(
 ): Promise<void> {
   assertCurrent?.();
   // End child ownership before the parent subscription, so late completions
-  // cannot deliver into a replacement FRIDAY session generation.
+  // cannot deliver into a replacement OpenClaw session generation.
   await codexNativeSubagentMonitorRuntime.retireParent(client, binding.threadId);
   assertCurrent?.();
   const released = await releaseCodexAppServerLiveThread(client, binding.threadId, assertCurrent);

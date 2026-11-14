@@ -152,7 +152,7 @@ describe("service environment", () => {
       "darwin",
       {
         OPENCLAW_SYSTEMD_UNIT: "openclaw-gateway-work.service",
-        OPENCLAW_WINDOWS_TASK_NAME: "FRIDAY Gateway (work)",
+        OPENCLAW_WINDOWS_TASK_NAME: "OpenClaw Gateway (work)",
         OPENCLAW_LAUNCHD_LABEL: "ai.openclaw.work",
       },
     ],
@@ -204,7 +204,7 @@ describe("service environment", () => {
       { platform: "win32" },
     );
     expect(env).not.toHaveProperty("PATH");
-    expect(env.OPENCLAW_WINDOWS_TASK_NAME).toBe("FRIDAY Gateway");
+    expect(env.OPENCLAW_WINDOWS_TASK_NAME).toBe("OpenClaw Gateway");
   });
   it.each([
     [undefined, "--max-old-space-size=8192"],

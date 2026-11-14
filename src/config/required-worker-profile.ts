@@ -38,7 +38,7 @@ export function assertRequiredWorkerSelection(
       selection.agentRuntime !== "default")
   ) {
     throw new RequiredWorkerProfileError(
-      `Gateway policy requires worker profile "${required}" with the FRIDAY runtime; session execution overrides are not allowed.`,
+      `Gateway policy requires worker profile "${required}" with the OpenClaw runtime; session execution overrides are not allowed.`,
     );
   }
 }

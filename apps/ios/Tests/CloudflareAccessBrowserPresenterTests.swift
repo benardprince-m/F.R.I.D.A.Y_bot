@@ -1,7 +1,7 @@
 import SafariServices
 import Testing
 import UIKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 struct CloudflareAccessBrowserPresenterTests {

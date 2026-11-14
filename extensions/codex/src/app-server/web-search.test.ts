@@ -108,7 +108,7 @@ describe("resolveCodexWebSearchPlan", () => {
     { name: "tool-disabled runs", params: { disableTools: true } },
     { name: "effective tool policy denial", params: { webSearchAllowed: false } },
     {
-      name: "disabled FRIDAY web search",
+      name: "disabled OpenClaw web search",
       params: { config: { tools: { web: { search: { enabled: false } } } } },
     },
   ])("disables native and managed search for $name", ({ params }) => {

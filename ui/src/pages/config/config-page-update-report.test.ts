@@ -62,7 +62,7 @@ describe("ConfigPage update failure reporting", () => {
       });
       const context = {
         config: {
-          current: { assistantIdentity: { name: "FRIDAY" }, serverVersion: "2026.8.1" },
+          current: { assistantIdentity: { name: "OpenClaw" }, serverVersion: "2026.8.1" },
         },
         runtimeConfig: {
           canSet: true,

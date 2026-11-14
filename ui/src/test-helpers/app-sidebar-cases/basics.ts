@@ -502,7 +502,7 @@ describe("AppSidebar agent chip", () => {
           {
             key,
             kind: "direct",
-            label: "[FRIDAY heartbeat poll]",
+            label: "[OpenClaw heartbeat poll]",
             category: "Team",
             pinned: false,
             updatedAt: 5,

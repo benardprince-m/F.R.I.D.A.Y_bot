@@ -207,7 +207,7 @@ export async function appendAgentsApiTranscriptMessage<TMessage extends AgentMes
 ): Promise<TMessage> {
   assertCurrent();
   const target = requireAgentsApiSessionTarget(params);
-  // A native item can outlive its submitting FRIDAY run. Retain the stored
+  // A native item can outlive its submitting OpenClaw run. Retain the stored
   // attribution while the writer still compares every other canonical field.
   let runId: string | undefined = historical ? undefined : params.runId;
   let attributedMessage = message;

@@ -18,7 +18,7 @@ meets a condition.
 model architectures and inference backends. Sharing the interface does not make
 their reasoning ability or probabilities interchangeable.
 
-The role and TypeSafe AI adapter were added after released FRIDAY
+The role and TypeSafe AI adapter were added after released OpenClaw
 `2026.9.5`. These instructions apply to development checkouts containing those
 features and to later releases that include them. See each provider's setup
 page for its host requirements.
@@ -35,7 +35,7 @@ chooses the provider for explicit evaluation and supported consumers. The core
 Selection does not start background work or replace the chat model.
 Automatic experimental consumers additionally require explicit
 [Decision assistance opt-in](/concepts/experimental-features#decision-assistance).
-The built-in FRIDAY runtime uses that opt-in for conversational tool filtering
+The built-in OpenClaw runtime uses that opt-in for conversational tool filtering
 with bounded recent conversation. The selected Decision provider receives that
 secondary evidence; see the [privacy and fallback contract](/concepts/experimental-features#conversational-tool-filtering).
 Explicit `decision_evaluate` remains independent of Labs.

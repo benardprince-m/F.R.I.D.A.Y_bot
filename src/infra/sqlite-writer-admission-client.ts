@@ -88,7 +88,7 @@ export function requestSqliteWorkerOperationAdmission(
     const databasePath = request.facts.databasePath;
     throw new StateDatabaseAdmissionPendingError(
       databasePath,
-      `FRIDAY state at ${databasePath} is undergoing schema admission; retry when it finishes.`,
+      `OpenClaw state at ${databasePath} is undergoing schema admission; retry when it finishes.`,
     );
   }
   if (outcome !== GRANTED) {

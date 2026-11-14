@@ -16,7 +16,7 @@ const { native, resetNative } = vi.hoisted(() => {
     ownerAlive: false,
     ownerPid: 42,
     ownerPort: 18789,
-    ownerTask: "FRIDAY Gateway",
+    ownerTask: "OpenClaw Gateway",
     environment: undefined as Record<string, string> | undefined,
     reads: 0,
     changed: undefined as "present" | "absent" | "unavailable" | undefined,

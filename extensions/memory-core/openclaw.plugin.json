@@ -16,7 +16,7 @@
       { "id": "memory-core-qmd-file-locks-to-sqlite-leases" }
     ]
   },
-  "name": "FRIDAY Memory",
+  "name": "OpenClaw Memory",
   "cliCommands": [
     {
       "name": "memory",
@@ -235,7 +235,7 @@
                     "type": "number",
                     "minimum": 0,
                     "maximum": 1,
-                    "description": "Maximum fraction of prior MEMORY.md entries a consolidation rewrite may remove before FRIDAY rejects it and uses append-only fallback."
+                    "description": "Maximum fraction of prior MEMORY.md entries a consolidation rewrite may remove before OpenClaw rejects it and uses append-only fallback."
                   },
                   "execution": {
                     "type": "object",

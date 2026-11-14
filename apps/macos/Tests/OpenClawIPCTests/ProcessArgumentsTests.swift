@@ -1,7 +1,7 @@
 import Darwin
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct ProcessArgumentsTests {
     @Test func `reads kernel identity with Unicode cwd and exact argv without environment entries`() throws {

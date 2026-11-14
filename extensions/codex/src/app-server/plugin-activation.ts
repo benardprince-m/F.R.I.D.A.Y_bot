@@ -68,7 +68,7 @@ export async function ensureCodexPluginActivation(
   if (params.identity.marketplaceName === CODEX_PLUGINS_WORKSPACE_MARKETPLACE_NAME) {
     return activationFailure(params.identity, "disabled", {
       message:
-        "workspace-directory plugins must be installed and enabled outside FRIDAY before use.",
+        "workspace-directory plugins must be installed and enabled outside OpenClaw before use.",
     });
   }
   if (!isOpenAiCuratedMarketplaceName(params.identity.marketplaceName)) {

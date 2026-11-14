@@ -31,7 +31,7 @@ function managedThreadStoreKey(sourceHomeId: string, threadId: string): string {
     .digest("hex")}`;
 }
 
-/** Durable ownership index for Codex threads created by FRIDAY. */
+/** Durable ownership index for Codex threads created by OpenClaw. */
 export function createCodexManagedThreadStore(
   state: Pick<PluginStateKeyedStore<StoredCodexManagedThread>, "entries" | "registerIfAbsent">,
 ): CodexManagedThreadStore {

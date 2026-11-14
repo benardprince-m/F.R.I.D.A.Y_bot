@@ -31,7 +31,7 @@ export function ensurePluginAgentWorkspace(params?: PluginWorkspaceParams) {
   };
   resolveGlobalSingleton(Symbol.for("openclaw.workspaceGuardDeprecation"), () => {
     process.emitWarning(
-      "ensureAgentWorkspace.beforePersistentApply runs before dispatch; synchronous FRIDAY DB access in this callback is deprecated. Await owner preparation and use SQL-free guard.assertHost for live revocation at commit. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.",
+      "ensureAgentWorkspace.beforePersistentApply runs before dispatch; synchronous OpenClaw DB access in this callback is deprecated. Await owner preparation and use SQL-free guard.assertHost for live revocation at commit. Final compatibility day: 2026-12-31. Removal ships in the first January 2027 stable release; no SDK major is required.",
       { code: "DEP_WORKSPACE_MUTATION_GUARD", type: "DeprecationWarning" },
     );
     return true;

@@ -44,7 +44,7 @@ active-memory bugs. The default `memory-core` path uses `memory_search` and
 `memory_get`; the `memory-lancedb` slot uses `memory_recall`. If you use another
 memory plugin, confirm `config.toolsAllow` names the tools that plugin actually
 registers. Remember across conversations is narrower: the current memory
-provider must support FRIDAY's protected same-agent/private-session recall
+provider must support OpenClaw's protected same-agent/private-session recall
 path.
 
 <AccordionGroup>
@@ -70,7 +70,7 @@ path.
   </Accordion>
 
   <Accordion title="Embedding provider switched or stopped working">
-    If `memory.search.provider` is unset, FRIDAY uses OpenAI embeddings. Set
+    If `memory.search.provider` is unset, OpenClaw uses OpenAI embeddings. Set
     `memory.search.provider` explicitly for Bedrock, DeepInfra, Gemini, GitHub
     Copilot, LM Studio, local, Mistral, Ollama, Voyage, or OpenAI-compatible
     embeddings. If the configured provider cannot run, `memory_search` may

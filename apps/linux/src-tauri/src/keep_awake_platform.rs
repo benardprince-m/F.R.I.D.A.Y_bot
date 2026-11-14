@@ -53,7 +53,7 @@ mod platform {
                         let cookie: u32 = proxy
                             .call(
                                 "Inhibit",
-                                &("FRIDAY", 0_u32, "FRIDAY: Keep computer awake", 8_u32),
+                                &("OpenClaw", 0_u32, "OpenClaw: Keep computer awake", 8_u32),
                             )
                             .await
                             .map_err(|error| error.to_string())?;
@@ -90,7 +90,7 @@ mod platform {
                     .await
                     .map_err(|error| error.to_string())?;
                     let options = HashMap::from([
-                        ("reason", Value::from("FRIDAY: Keep computer awake")),
+                        ("reason", Value::from("OpenClaw: Keep computer awake")),
                         ("handle_token", Value::from(token.as_str())),
                     ]);
                     // Other desktops translate idle inhibition through their portal.
@@ -197,7 +197,7 @@ mod platform {
     impl Inhibitor {
         pub fn acquire() -> Result<Self, String> {
             let kind = NSString::from_str("PreventUserIdleSystemSleep");
-            let reason = NSString::from_str("FRIDAY: Keep computer awake");
+            let reason = NSString::from_str("OpenClaw: Keep computer awake");
             let mut id = 0;
             // NSString and CFString are toll-free bridged. IOKit copies both
             // strings; only its assertion ID lives beyond this call.

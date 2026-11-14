@@ -3,7 +3,7 @@ import OpenClawKit
 import Photos
 import Synchronization
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized) struct PermissionRequestBridgeTests {
     @Test func `box resumes immediately when cancelled before install`() async {

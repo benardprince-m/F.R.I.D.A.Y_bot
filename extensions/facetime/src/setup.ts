@@ -92,7 +92,7 @@ const SETUP_ACTIONS = {
   },
   "restart-gateway": {
     kind: "command",
-    label: "Stop the stale gateway process, then restart FRIDAY",
+    label: "Stop the stale gateway process, then restart OpenClaw",
     command: "openclaw gateway restart",
   },
   "wait-for-helper": {
@@ -101,7 +101,7 @@ const SETUP_ACTIONS = {
   },
   "restart-call-apps": {
     kind: "manual-test",
-    label: "Quit and reopen FaceTime and Phone, then let FRIDAY reinject the helper",
+    label: "Quit and reopen FaceTime and Phone, then let OpenClaw reinject the helper",
   },
   "install-driver": {
     kind: "gateway",
@@ -115,7 +115,7 @@ const SETUP_ACTIONS = {
   },
   "grant-system-audio": {
     kind: "system-settings",
-    label: "Allow FRIDAY to capture FaceTime app audio",
+    label: "Allow OpenClaw to capture FaceTime app audio",
     settingsPath: "System Settings > Privacy & Security > Screen & System Audio Recording",
   },
   "configure-realtime-provider": {
@@ -430,7 +430,7 @@ export async function runFaceTimeSetup(params: SetupParams): Promise<FaceTimeSet
               ? `Automatic retry scheduled after: ${target.lastError}`
               : target.lastError
                 ? target.lastError
-                : "FRIDAY is launching the app and injecting the helper",
+                : "OpenClaw is launching the app and injecting the helper",
         ...(status === "repairing"
           ? { actionId: "wait-for-helper" }
           : status === "action-required"
@@ -448,7 +448,7 @@ export async function runFaceTimeSetup(params: SetupParams): Promise<FaceTimeSet
     status: driverReady ? "ready" : "action-required",
     required: true,
     message: driverReady
-      ? "FRIDAY-Mic and FRIDAY-Feed driver is current"
+      ? "OpenClaw-Mic and OpenClaw-Feed driver is current"
       : !params.nativePackageReady
         ? "Install the FaceTime native package before setting up the audio driver"
         : driver.error

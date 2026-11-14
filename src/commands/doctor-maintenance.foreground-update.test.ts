@@ -167,7 +167,7 @@ it.each(["slow-released", "authority-lost", "rowless-released"] as const)(
             message: expect.stringContaining(
               outcome === "authority-lost"
                 ? "update owner was revoked"
-                : "FRIDAY state database is busy at",
+                : "OpenClaw state database is busy at",
             ),
           }),
         });

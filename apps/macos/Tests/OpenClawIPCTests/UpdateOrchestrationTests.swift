@@ -2,7 +2,7 @@ import Foundation
 import OpenClawChatUI
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized)
 @MainActor
@@ -346,7 +346,7 @@ struct UpdateOrchestrationTests {
             gatewayUpdateIncomplete: false) == .none)
         #expect(PostUpdateController.gatewayAction(
             status: CLIInstaller.classifyVersion(
-                location: managed, output: "FRIDAY 2026.10.2-beta.1", expectedVersion: "2026.10.1"),
+                location: managed, output: "OpenClaw 2026.10.2-beta.1", expectedVersion: "2026.10.1"),
             ownsManagedRuntime: true,
             gatewayUpdateIncomplete: true) == .repair)
         #expect(CLIInstaller.satisfiesUpdateTarget(

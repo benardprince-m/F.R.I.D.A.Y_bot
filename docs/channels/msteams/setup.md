@@ -12,7 +12,7 @@ Install the plugin, register the bot and Teams app, point Teams at a reachable e
 
 ## Bundled plugin
 
-Microsoft Teams ships as a bundled plugin in current FRIDAY releases; no separate install is required in the normal packaged build.
+Microsoft Teams ships as a bundled plugin in current OpenClaw releases; no separate install is required in the normal packaged build.
 
 On an older build or a custom install that excludes bundled Teams, install the npm package directly:
 
@@ -75,13 +75,13 @@ remove that pin to close the old port.
 
 ```bash
 teams app create \
-  --name "FRIDAY" \
+  --name "OpenClaw" \
   --endpoint "https://<your-tunnel-url>/api/messages"
 ```
 
 This creates an Entra ID (Azure AD) application, generates a client secret, builds and uploads a Teams app manifest (with icons), and registers a Teams-managed bot (no Azure subscription needed). The output includes `CLIENT_ID`, `CLIENT_SECRET`, `TENANT_ID`, and a **Teams App ID**; it also offers to install the app in Teams directly.
 
-**4. Configure FRIDAY** using the credentials from the output:
+**4. Configure OpenClaw** using the credentials from the output:
 
 ```json5
 {
@@ -131,7 +131,7 @@ Group chats are blocked by default (`channels.msteams.groupPolicy: "allowlist"`)
 
 ## Goals
 
-- Talk to FRIDAY via Teams DMs, group chats, or channels.
+- Talk to OpenClaw via Teams DMs, group chats, or channels.
 - Replies always go back to the channel they arrived on.
 - Default to safe channel behavior (mentions required unless configured otherwise).
 
@@ -195,7 +195,7 @@ Creation of new multi-tenant bots was deprecated after 2025-07-31. Use **Single 
 - Create icons: `outline.png` (32x32) and `color.png` (192x192).
 - Zip `manifest.json`, `outline.png`, and `color.png` together.
 
-### Step 6: Configure FRIDAY
+### Step 6: Configure OpenClaw
 
 ```json5
 {

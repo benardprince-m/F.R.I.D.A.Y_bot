@@ -207,7 +207,7 @@ describe("resolveEmbeddedAttemptToolConstructionPlan", () => {
     );
   });
 
-  it("materializes FRIDAY tools when a plugin-only allowlist forces message", () => {
+  it("materializes OpenClaw tools when a plugin-only allowlist forces message", () => {
     expectConstructionPlan(
       resolveEmbeddedAttemptToolConstructionPlan({
         toolsAllow: ["memory_search"],

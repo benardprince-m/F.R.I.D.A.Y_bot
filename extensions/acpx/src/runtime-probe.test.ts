@@ -62,9 +62,9 @@ describe("AcpxRuntime diagnostic probes", () => {
       },
       [
         String.raw`C:\Program Files\node.exe`,
-        String.raw`C:\FRIDAY State\acpx\codex-acp-wrapper.mjs`,
+        String.raw`C:\OpenClaw State\acpx\codex-acp-wrapper.mjs`,
       ],
-      String.raw`C:\FRIDAY State\acpx`,
+      String.raw`C:\OpenClaw State\acpx`,
     );
     let launchedCommand = "";
     probe.mockImplementation(async () => {

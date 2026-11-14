@@ -9,7 +9,7 @@ struct CookieSyncManagerWatchdogGuardTests {
             .deletingLastPathComponent()
             .deletingLastPathComponent()
         let managerFile = packageRoot
-            .appendingPathComponent("Sources/FRIDAY/CookieSyncManager.swift")
+            .appendingPathComponent("Sources/OpenClaw/CookieSyncManager.swift")
         let source = try String(contentsOf: managerFile, encoding: .utf8)
         let start = try #require(source.range(of: "    private func installStartupWatchdog"))
         let following = source[start.upperBound...]

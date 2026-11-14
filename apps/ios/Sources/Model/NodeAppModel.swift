@@ -2518,7 +2518,7 @@ final class NodeAppModel {
         if notificationsAllowed {
             let addResult = await NotificationOperationRunner.run(timeoutSeconds: 2.0) { [notificationCenter] in
                 let content = UNMutableNotificationContent()
-                content.title = "FRIDAY"
+                content.title = "OpenClaw"
                 content.body = text
                 content.sound = .default
                 content.userInfo = ["messageId": messageId]
@@ -3028,7 +3028,7 @@ extension NodeAppModel {
         let status = await watchMessagingService.status()
         guard status.supported, status.paired, status.appInstalled else {
             throw NSError(domain: "WatchDirectSetup", code: 3, userInfo: [
-                NSLocalizedDescriptionKey: "Pair an Apple Watch and install the FRIDAY watch app first.",
+                NSLocalizedDescriptionKey: "Pair an Apple Watch and install the OpenClaw watch app first.",
             ])
         }
 
@@ -3991,7 +3991,7 @@ extension NodeAppModel {
                 kind: .unknown,
                 owner: .iphone,
                 title: "Credential save failed",
-                message: "FRIDAY disconnected because it could not securely save the new gateway credential.",
+                message: "OpenClaw disconnected because it could not securely save the new gateway credential.",
                 retryable: true,
                 pauseReconnect: true,
                 technicalDetails: technicalDetails)
@@ -6151,7 +6151,7 @@ extension NodeAppModel {
 
     func rejectLegacyWatchChat() {
         self.watchChatAdmissionWarning = String(
-            localized: "Update FRIDAY on iPhone and Apple Watch before sending Watch messages.")
+            localized: "Update OpenClaw on iPhone and Apple Watch before sending Watch messages.")
         GatewayDiagnostics.log("watch chat rejected: upgrade_required")
     }
 
@@ -8218,7 +8218,7 @@ extension NodeAppModel {
         else {
             self.execApprovalNotificationLogger.error(
                 "Exec approval action failed id=\(approvalID, privacy: .public): operator not connected")
-            return .failed(message: "FRIDAY couldn't connect to the gateway operator session.")
+            return .failed(message: "OpenClaw couldn't connect to the gateway operator session.")
         }
 
         let rpcFamily = await self.execApprovalRPCFamily(route: context.route)
@@ -8436,7 +8436,7 @@ extension NodeAppModel {
             // Legacy get removes committed rows, so not-found cannot distinguish success from
             // expiry. Keep every surface frozen until an explicit terminal event/reconnect.
             return .uncertain(
-                message: "Decision status is unknown. Actions remain locked until FRIDAY reconnects.")
+                message: "Decision status is unknown. Actions remain locked until OpenClaw reconnects.")
         }
     }
 
@@ -8932,7 +8932,7 @@ extension NodeAppModel {
             self.dashboardNavigationRequestID &+= 1
         case .gatewayAdd:
             self.recordShareEvent(
-                "This browser sign-in link is for the FRIDAY Mac app. Use a device pairing link on iOS.")
+                "This browser sign-in link is for the OpenClaw Mac app. Use a device pairing link on iOS.")
         }
     }
 

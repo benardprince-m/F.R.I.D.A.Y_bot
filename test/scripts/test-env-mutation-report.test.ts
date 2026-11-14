@@ -82,7 +82,7 @@ describe("collectTestEnvMutationReport", () => {
 
     const rendered = renderTestEnvMutationReport(report, { includeAllowed: true });
 
-    expect(rendered).toContain("FRIDAY test env mutation report");
+    expect(rendered).toContain("OpenClaw test env mutation report");
     expect(rendered).toContain("Findings: 9 active in 3 file(s), 2 allowed in 1 file(s)");
     expect(rendered).toContain("- src/example.test.ts (7)");
     expect(rendered).toContain("L2 OPENCLAW_STATE_DIR assign process.env");
@@ -159,7 +159,7 @@ describe("collectTestEnvMutationReport", () => {
 
       expect(renderTestEnvMutationReport(report, { includeAllowed: true, limit })).toBe(
         [
-          "FRIDAY test env mutation report",
+          "OpenClaw test env mutation report",
           "Scanned files: 3",
           "Findings: 3 active in 2 file(s), 2 allowed in 1 file(s)",
           "",
@@ -177,7 +177,7 @@ describe("collectTestEnvMutationReport", () => {
   it("keeps the empty report output unchanged", () => {
     const report = collectTestEnvMutationReport({ repoRoot: createTempDir("openclaw-env-empty-") });
     expect(renderTestEnvMutationReport(report, { includeAllowed: true })).toBe(
-      "FRIDAY test env mutation report\nScanned files: 0\nFindings: 0 active in 0 file(s), 0 allowed in 0 file(s)\n\nActive findings: none\n",
+      "OpenClaw test env mutation report\nScanned files: 0\nFindings: 0 active in 0 file(s), 0 allowed in 0 file(s)\n\nActive findings: none\n",
     );
   });
 });

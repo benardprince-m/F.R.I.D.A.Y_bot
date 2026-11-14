@@ -518,7 +518,7 @@ describe("runDaemonInstall integration", () => {
     }
   });
 
-  it("refuses service install when config was written by a newer FRIDAY", async () => {
+  it("refuses service install when config was written by a newer OpenClaw", async () => {
     await writeConfig(
       {
         meta: {

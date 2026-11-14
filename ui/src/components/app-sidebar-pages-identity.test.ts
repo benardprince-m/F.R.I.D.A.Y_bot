@@ -60,7 +60,7 @@ async function fixture() {
   const fleet: ControlUiRegistration<ControlUiContributions["navigation"]> = {
     key: "fleet/overview",
     pluginId: "fleet",
-    value: { id: "overview", label: "FRIDAY Fleet", icon: "server", page: { id: "overview" } },
+    value: { id: "overview", label: "OpenClaw Fleet", icon: "server", page: { id: "overview" } },
     host,
     signal: abort.signal,
   };
@@ -231,7 +231,7 @@ describe("Pages navigation identity", () => {
     registrations.navigation = [fleet];
     notifyPlugins();
     await settleLitElement(sidebar);
-    expect(pageEntry(sidebar, "plugin:fleet/overview").label.textContent).toBe("FRIDAY Fleet");
+    expect(pageEntry(sidebar, "plugin:fleet/overview").label.textContent).toBe("OpenClaw Fleet");
     provider.remove();
     await settleLitElement(sidebar);
     expect(listeners.size).toBe(0);

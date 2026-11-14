@@ -1,5 +1,5 @@
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct ContextRingViewTests {
     @Test(arguments: [0.0, 0.42, 0.84])

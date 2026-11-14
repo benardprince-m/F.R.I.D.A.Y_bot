@@ -146,9 +146,9 @@ ${sources.preservedIdentity}
   const captchaRequired = Boolean(firstRaw(selectors.captcha)) ||
     /complete (?:the )?captcha|security check|verify (?:that )?you(?:'re| are) (?:a )?human/i.test(pageTextLower);
   if (identityVerified && !inCall && passcodeRequired) {
-    controlManualAction = manualActionFor("zoom-passcode-required", "Enter the Zoom meeting passcode in the FRIDAY browser profile, then retry joining.");
+    controlManualAction = manualActionFor("zoom-passcode-required", "Enter the Zoom meeting passcode in the OpenClaw browser profile, then retry joining.");
   } else if (identityVerified && !inCall && captchaRequired) {
-    controlManualAction = manualActionFor("zoom-captcha-required", "Complete Zoom's security check in the FRIDAY browser profile, then retry joining.");
+    controlManualAction = manualActionFor("zoom-captcha-required", "Complete Zoom's security check in the OpenClaw browser profile, then retry joining.");
   }
 
   if (

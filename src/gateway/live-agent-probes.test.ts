@@ -100,7 +100,7 @@ describe("live-agent-probes", () => {
         attempt: 1,
         exactReply: spec.name,
       }),
-    ).toContain("previous FRIDAY automations MCP tool call was cancelled");
+    ).toContain("previous OpenClaw automations MCP tool call was cancelled");
     const args = JSON.parse(spec.argsJson) as {
       job?: {
         sessionTarget?: string;

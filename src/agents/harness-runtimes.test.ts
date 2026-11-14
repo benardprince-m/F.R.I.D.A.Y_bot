@@ -30,7 +30,7 @@ function collectConfiguredAgentHarnessRuntimes(
 }
 
 describe("collectConfiguredAgentHarnessRuntimes", () => {
-  it("preloads explicit picker alternatives without changing an FRIDAY default", () => {
+  it("preloads explicit picker alternatives without changing an OpenClaw default", () => {
     const config: OpenClawConfig = {
       agents: {
         defaults: {

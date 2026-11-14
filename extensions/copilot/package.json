@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/copilot",
   "version": "2026.10.4",
-  "description": "FRIDAY GitHub Copilot agent runtime plugin (registers a `github-copilot` AgentHarness backed by @github/copilot-sdk over JSON-RPC to the GitHub Copilot CLI)",
+  "description": "OpenClaw GitHub Copilot agent runtime plugin (registers a `github-copilot` AgentHarness backed by @github/copilot-sdk over JSON-RPC to the GitHub Copilot CLI)",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

@@ -372,7 +372,7 @@ describe("tool output inspection", () => {
                     captureTruncated: true,
                   },
             outputText:
-              "prefix\n...(FRIDAY truncated Codex native tool output: original 20000 chars, showing 10000; rerun with narrower args.)",
+              "prefix\n...(OpenClaw truncated Codex native tool output: original 20000 chars, showing 10000; rerun with narrower args.)",
           });
       const panel = mount(card, load);
       await vi.waitFor(() =>
@@ -393,7 +393,7 @@ describe("tool output inspection", () => {
     "fetches $source previews before interpreting a truncation suffix",
     async ({ source, preview }) => {
       const marker =
-        "literal\n...(FRIDAY truncated Codex native tool output: original 20000 chars, showing 10000; rerun with narrower args.)";
+        "literal\n...(OpenClaw truncated Codex native tool output: original 20000 chars, showing 10000; rerun with narrower args.)";
       const load = vi.fn<SidebarFullMessageLoader>().mockResolvedValue(result(marker));
       const panel = mount(
         outputCard({

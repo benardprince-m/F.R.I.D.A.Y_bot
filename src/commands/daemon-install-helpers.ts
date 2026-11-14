@@ -346,7 +346,7 @@ function collectPluginConfigSecretRefs(params: {
   return context.assignments.map((assignment) => assignment.ref);
 }
 
-// Preserve operator opt-ins while discarding stale FRIDAY-managed values.
+// Preserve operator opt-ins while discarding stale OpenClaw-managed values.
 const PRESERVED_OPENCLAW_OPERATOR_OPT_IN_ENV_KEYS = new Set([
   "OPENCLAW_CLI_CONTAINER_BYPASS",
   "OPENCLAW_CONFIG_READONLY",
@@ -576,8 +576,8 @@ export async function buildGatewayInstallPlan(params: {
   if (wrapperPointsAtGeneratedScript) {
     params.warn?.(
       platform === "win32"
-        ? `Ignoring ${OPENCLAW_WRAPPER_ENV_KEY} because it points to the Windows task script; using the FRIDAY gateway entrypoint directly to avoid a recursive gateway.cmd wrapper.`
-        : `Ignoring ${OPENCLAW_WRAPPER_ENV_KEY} because it points to the generated LaunchAgent environment wrapper; using the FRIDAY gateway entrypoint directly to avoid a self-referencing wrapper.`,
+        ? `Ignoring ${OPENCLAW_WRAPPER_ENV_KEY} because it points to the Windows task script; using the OpenClaw gateway entrypoint directly to avoid a recursive gateway.cmd wrapper.`
+        : `Ignoring ${OPENCLAW_WRAPPER_ENV_KEY} because it points to the generated LaunchAgent environment wrapper; using the OpenClaw gateway entrypoint directly to avoid a self-referencing wrapper.`,
     );
   }
   const wrapperPath = wrapperPointsAtGeneratedScript

@@ -8,7 +8,7 @@ import { useAutoCleanupTempDirTracker } from "../helpers/temp-dir.js";
 
 const tempDirs = useAutoCleanupTempDirTracker(afterEach);
 const budgetPath = "config/env-var-count-budget.txt";
-const gitIdentity = ["-c", "user.name=FRIDAY", "-c", "user.email=test@openclaw.local"];
+const gitIdentity = ["-c", "user.name=OpenClaw", "-c", "user.email=test@openclaw.local"];
 beforeEach(() => vi.stubEnv("GITHUB_ACTIONS", ""));
 afterEach(() => vi.unstubAllEnvs());
 

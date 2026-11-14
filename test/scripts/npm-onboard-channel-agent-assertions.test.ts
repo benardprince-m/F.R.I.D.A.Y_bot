@@ -471,7 +471,7 @@ describe("npm onboard channel agent assertions", () => {
       "telegram",
       { configuredChannels: ["telegram"] },
       [
-        "# FRIDAY status",
+        "# OpenClaw status",
         "",
         "# Overview",
         "OS macOS",
@@ -493,7 +493,7 @@ describe("npm onboard channel agent assertions", () => {
       "telegram",
       { configuredChannels: ["telegram"] },
       [
-        "# FRIDAY status",
+        "# OpenClaw status",
         "",
         "# Overview",
         "OS macOS",
@@ -516,7 +516,7 @@ describe("npm onboard channel agent assertions", () => {
     const result = runStatusAssert(
       "telegram",
       { configuredChannels: ["telegram"] },
-      `# FRIDAY status\n${"x".repeat(128)}`,
+      `# OpenClaw status\n${"x".repeat(128)}`,
       { OPENCLAW_NPM_ONBOARD_STATUS_TEXT_MAX_BYTES: "64" },
     );
 

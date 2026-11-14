@@ -1,8 +1,8 @@
-# FRIDAY Featherless AI Provider
+# OpenClaw Featherless AI Provider
 
-Official FRIDAY provider plugin for Featherless AI's OpenAI-compatible API.
+Official OpenClaw provider plugin for Featherless AI's OpenAI-compatible API.
 
-Install from FRIDAY:
+Install from OpenClaw:
 
 ```bash
 openclaw plugins install @openclaw/featherless-provider

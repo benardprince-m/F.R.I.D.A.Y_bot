@@ -38,12 +38,12 @@ export function buildSlackAllowFromPrompt() {
   };
 }
 
-export function buildSlackManifest(botName = "FRIDAY") {
-  const safeName = botName.trim() || "FRIDAY";
+export function buildSlackManifest(botName = "OpenClaw") {
+  const safeName = botName.trim() || "OpenClaw";
   const manifest = {
     display_information: {
       name: safeName,
-      description: `${safeName} connector for FRIDAY`,
+      description: `${safeName} connector for OpenClaw`,
     },
     features: {
       bot_user: {
@@ -56,13 +56,13 @@ export function buildSlackManifest(botName = "FRIDAY") {
         messages_tab_read_only_enabled: false,
       },
       agent_view: {
-        agent_description: `${safeName} connects Slack Agent View conversations to FRIDAY agents.`,
+        agent_description: `${safeName} connects Slack Agent View conversations to OpenClaw agents.`,
         suggested_prompts: DEFAULT_SLACK_SUGGESTED_PROMPTS,
       },
       slash_commands: [
         {
           command: "/openclaw",
-          description: "Send a message to FRIDAY",
+          description: "Send a message to OpenClaw",
           should_escape: false,
         },
       ],

@@ -1,7 +1,7 @@
 ---
-summary: "How FRIDAY reviews finished work in the background and saves lessons as learned skills"
+summary: "How OpenClaw reviews finished work in the background and saves lessons as learned skills"
 read_when:
-  - You want FRIDAY to learn reusable procedures from its conversations
+  - You want OpenClaw to learn reusable procedures from its conversations
   - You are deciding whether to leave self-learning on or turn it off
   - You need to know what a background review sees, costs, or changes
   - Nothing is being learned and you want to know why
@@ -27,7 +27,7 @@ appear in the Control UI chat. See [Undo](/tools/skill-workshop#undo).
 
 ## When a review runs
 
-FRIDAY counts model iterations per session, across turns. When a session
+OpenClaw counts model iterations per session, across turns. When a session
 reaches 10 since its last review, a review is queued and the count starts over.
 The count also resets when the foreground turn itself changed a learned skill,
 so work the agent already saved is not reviewed again.
@@ -72,7 +72,7 @@ The run targets a 16,384-token context budget. Review responses use at most
 2,048 output tokens and low reasoning effort; the run lasts at most two minutes.
 Context maintenance uses the runtime's normal compaction policy, so these
 settings are not a hard total-token limit for a successful multi-step review. Model fallbacks and transient provider retries
-are disabled. It runs on the embedded FRIDAY harness under a private session that never
+are disabled. It runs on the embedded OpenClaw harness under a private session that never
 appears in your transcript. It is internal system work, not a new user turn;
 user-only reply hooks, including Advisor admission, do not run for it.
 

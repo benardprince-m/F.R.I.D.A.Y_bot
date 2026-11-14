@@ -43,7 +43,7 @@ it(
           const userIndex = input.findLastIndex(
             (item) =>
               item.role === "user" &&
-              !JSON.stringify(item.content).includes("FRIDAY runtime context:"),
+              !JSON.stringify(item.content).includes("OpenClaw runtime context:"),
           );
           const text = JSON.stringify(input[userIndex]?.content ?? "");
           const sendMarker = text.match(

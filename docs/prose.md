@@ -1,17 +1,17 @@
 ---
 title: "OpenProse removal and migration"
 sidebarTitle: "OpenProse migration"
-summary: "FRIDAY no longer bundles OpenProse or the /prose command. Move to the maintained upstream Agent Skill and clean stale plugin configuration."
+summary: "OpenClaw no longer bundles OpenProse or the /prose command. Move to the maintained upstream Agent Skill and clean stale plugin configuration."
 read_when:
   - You used the bundled OpenProse plugin or /prose command
-  - You need to clean OpenProse configuration after upgrading FRIDAY
+  - You need to clean OpenProse configuration after upgrading OpenClaw
   - You want to install the maintained upstream OpenProse Agent Skill
 ---
 
-FRIDAY no longer bundles the OpenProse plugin or its `/prose` command. The
+OpenClaw no longer bundles the OpenProse plugin or its `/prose` command. The
 v2026.8.1 release removed both. OpenProse
 continues as a maintained upstream Agent Skill. Existing `.prose` source files
-remain yours; the removed plugin did not store state in FRIDAY's SQLite database.
+remain yours; the removed plugin did not store state in OpenClaw's SQLite database.
 
 ## Migrate
 
@@ -22,7 +22,7 @@ remain yours; the removed plugin did not store state in FRIDAY's SQLite database
    ```
 
    Doctor removes `open-prose` from plugin allowlists, denylists, and plugin
-   entries. No FRIDAY database migration is required.
+   entries. No OpenClaw database migration is required.
 
 2. From your workspace root, install the upstream skill:
 
@@ -30,15 +30,15 @@ remain yours; the removed plugin did not store state in FRIDAY's SQLite database
    npx skills add openprose/prose --skill open-prose --agent codex --copy -y
    ```
 
-   `skills` is a third-party CLI from npm, not an FRIDAY command. Keep
+   `skills` is a third-party CLI from npm, not an OpenClaw command. Keep
    `--agent codex`: that value writes the shared `.agents/skills` layout, which
-   FRIDAY reads even though the flag names another agent.
+   OpenClaw reads even though the flag names another agent.
 
-   The command copies the skill to `.agents/skills/open-prose`, which FRIDAY loads as
+   The command copies the skill to `.agents/skills/open-prose`, which OpenClaw loads as
    a project Agent Skill. It does not restore the removed bundled plugin or the
    `/prose` command.
 
-3. If you are upgrading older OpenProse source, start a new FRIDAY agent
+3. If you are upgrading older OpenProse source, start a new OpenClaw agent
    session in the workspace and send:
 
    ```text

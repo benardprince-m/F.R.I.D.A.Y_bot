@@ -223,7 +223,7 @@ export async function runLocalSessionsCleanup(
     }
     const owner = await readActiveGatewayLockIdentity({ includeEmbedded: true });
     throw cleanupOwnerRefusal(
-      owner ? `FRIDAY process (PID ${owner.pid})` : "another FRIDAY process",
+      owner ? `OpenClaw process (PID ${owner.pid})` : "another OpenClaw process",
     );
   }
 }

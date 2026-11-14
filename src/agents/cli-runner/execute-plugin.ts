@@ -81,21 +81,21 @@ async function createPluginToolPermissionHandler(params: {
     try {
       assertActive();
     } catch {
-      return denyTool("FRIDAY denied native tool use: the admitted run is no longer active.");
+      return denyTool("OpenClaw denied native tool use: the admitted run is no longer active.");
     }
 
     const toolName = request.toolName.trim();
     if (!toolName) {
-      return denyTool("FRIDAY denied an unnamed native tool.");
+      return denyTool("OpenClaw denied an unnamed native tool.");
     }
     if (run.cliToolAvailability && !run.cliToolAvailability.native.includes(toolName)) {
-      return denyTool(`FRIDAY denied native tool ${toolName}: it is unavailable to this run.`);
+      return denyTool(`OpenClaw denied native tool ${toolName}: it is unavailable to this run.`);
     }
 
     // Provider schemas are not policy schemas: match canonical names and file operands.
     const canonicalToolName = normalizeCliToolName(toolName);
     if (params.context.hostOwnedTools?.includes(canonicalToolName)) {
-      return denyTool(`Use FRIDAY ${canonicalToolName}; its native equivalent is unavailable.`);
+      return denyTool(`Use OpenClaw ${canonicalToolName}; its native equivalent is unavailable.`);
     }
     const nativeFileTool =
       ["read", "write", "edit"].includes(canonicalToolName) &&
@@ -104,16 +104,16 @@ async function createPluginToolPermissionHandler(params: {
     if (nativeFileTool) {
       const nativePath = request.toolInput.file_path;
       if (typeof nativePath !== "string") {
-        return denyTool("FRIDAY denied native file tool use: invalid file path.");
+        return denyTool("OpenClaw denied native file tool use: invalid file path.");
       }
       if (Object.hasOwn(request.toolInput, "path") && request.toolInput.path !== nativePath) {
-        return denyTool("FRIDAY denied native file tool use: conflicting file paths.");
+        return denyTool("OpenClaw denied native file tool use: conflicting file paths.");
       }
       policyInput = { ...request.toolInput, path: nativePath };
       if (canonicalToolName === "edit") {
         const { old_string: oldText, new_string: newText, edits } = request.toolInput;
         if (typeof oldText !== "string" || typeof newText !== "string") {
-          return denyTool("FRIDAY denied native edit tool use: invalid replacement.");
+          return denyTool("OpenClaw denied native edit tool use: invalid replacement.");
         }
         if (
           edits !== undefined &&
@@ -123,7 +123,7 @@ async function createPluginToolPermissionHandler(params: {
             edits[0].oldText !== oldText ||
             edits[0].newText !== newText)
         ) {
-          return denyTool("FRIDAY denied native edit tool use: conflicting replacements.");
+          return denyTool("OpenClaw denied native edit tool use: conflicting replacements.");
         }
         policyInput.edits = [{ oldText, newText }];
       }
@@ -169,19 +169,19 @@ async function createPluginToolPermissionHandler(params: {
     try {
       assertActive();
     } catch {
-      return denyTool("FRIDAY denied native tool use: the admitted run closed during policy.");
+      return denyTool("OpenClaw denied native tool use: the admitted run closed during policy.");
     }
     if (hookResult.blocked) {
       return denyTool(hookResult.reason);
     }
     if (!isRecord(hookResult.params)) {
-      return denyTool("FRIDAY denied native tool use: before_tool_call returned invalid input.");
+      return denyTool("OpenClaw denied native tool use: before_tool_call returned invalid input.");
     }
     let toolInput = hookResult.params;
     // SDK permission replies must return the native schema, never policy-only aliases.
     if (nativeFileTool) {
       if (typeof toolInput.path !== "string") {
-        return denyTool("FRIDAY denied native file tool use: invalid rewritten file path.");
+        return denyTool("OpenClaw denied native file tool use: invalid rewritten file path.");
       }
       if (toolInput === policyInput) {
         toolInput = request.toolInput;
@@ -199,7 +199,7 @@ async function createPluginToolPermissionHandler(params: {
             typeof edits[0].oldText !== "string" ||
             typeof edits[0].newText !== "string"
           ) {
-            return denyTool("FRIDAY denied an unrepresentable native edit rewrite.");
+            return denyTool("OpenClaw denied an unrepresentable native edit rewrite.");
           }
           toolInput.old_string = edits[0].oldText;
           toolInput.new_string = edits[0].newText;
@@ -213,7 +213,7 @@ async function createPluginToolPermissionHandler(params: {
     const plan = resolveCliNativeToolApprovalPlan(permission);
     if (plan === "deny") {
       return denyTool(
-        `FRIDAY exec policy denied native tool use (security=${permission.security}, ask=${permission.ask}).`,
+        `OpenClaw exec policy denied native tool use (security=${permission.security}, ask=${permission.ask}).`,
       );
     }
     const currentGrants = getCliLiveSessionApprovalGrants(params.context) ?? grants;
@@ -255,14 +255,14 @@ async function createPluginToolPermissionHandler(params: {
     try {
       assertActive();
     } catch {
-      return denyTool("FRIDAY denied native tool use: the admitted run closed during approval.");
+      return denyTool("OpenClaw denied native tool use: the admitted run closed during approval.");
     }
     if (outcome.kind !== "allow") {
       return denyTool(
         outcome.message ??
           (outcome.reason === "user"
-            ? `FRIDAY user denied native tool use (${toolName}).`
-            : `FRIDAY approval was not granted for native tool use (${toolName}).`),
+            ? `OpenClaw user denied native tool use (${toolName}).`
+            : `OpenClaw approval was not granted for native tool use (${toolName}).`),
       );
     }
     if (outcome.grantAlways) {
@@ -293,7 +293,7 @@ function createPluginUserInputHandler(params: {
       assertActive();
     } catch {
       return cancelUserInput(
-        "FRIDAY cancelled operator input: the admitted run is no longer active.",
+        "OpenClaw cancelled operator input: the admitted run is no longer active.",
       );
     }
 
@@ -304,12 +304,12 @@ function createPluginUserInputHandler(params: {
     ) {
       return cancelUserInput(
         toolName
-          ? `FRIDAY cancelled operator input from ${toolName}: it is unavailable to this run.`
-          : "FRIDAY cancelled an unnamed operator input request.",
+          ? `OpenClaw cancelled operator input from ${toolName}: it is unavailable to this run.`
+          : "OpenClaw cancelled an unnamed operator input request.",
       );
     }
     if (request.questions.length === 0 || request.questions.length > 12) {
-      return cancelUserInput("FRIDAY cancelled an invalid operator input request.");
+      return cancelUserInput("OpenClaw cancelled an invalid operator input request.");
     }
 
     const questionAuthority = params.context.bindQuestionAnswerAuthority?.(assertActive);
@@ -352,17 +352,18 @@ function createPluginUserInputHandler(params: {
         assertQuestionActive();
       } catch {
         return cancelUserInput(
-          "FRIDAY cancelled operator input: the admitted run closed before the answer was committed.",
+          "OpenClaw cancelled operator input: the admitted run closed before the answer was committed.",
         );
       }
       return result.status === "answered"
         ? { status: "answered", answers: result.answers }
         : cancelUserInput(
-            result.message ?? "FRIDAY cancelled operator input; continue with your best judgment.",
+            result.message ??
+              "OpenClaw cancelled operator input; continue with your best judgment.",
           );
     } catch {
       return cancelUserInput(
-        "FRIDAY could not collect operator input; continue with your best judgment.",
+        "OpenClaw could not collect operator input; continue with your best judgment.",
       );
     } finally {
       params.onPendingInput(-1);
@@ -450,7 +451,7 @@ export async function executePluginOwnedProcess(params: {
   let executionArgs = params.executionArgs;
   if (process.platform === "win32") {
     const program = resolveWindowsSpawnProgramCandidate({ command, env: params.env });
-    // npm launchers need the child PATH's Node, not a packaged FRIDAY executable.
+    // npm launchers need the child PATH's Node, not a packaged OpenClaw executable.
     command =
       program.resolution === "node-entrypoint"
         ? resolveWindowsExecutablePath("node", params.env, cwd)

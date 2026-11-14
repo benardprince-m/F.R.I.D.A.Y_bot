@@ -63,14 +63,14 @@ function approvalNotificationCopy(params: {
   const privateCopy = params.preferences.detailLevel === "private";
   return {
     ...(!privateCopy && params.icon ? { icon: params.icon } : {}),
-    title: `${label}FRIDAY approval ${params.terminal ? "updated" : "requested"}`,
+    title: `${label}OpenClaw approval ${params.terminal ? "updated" : "requested"}`,
     body: params.terminal
       ? privateCopy
         ? "This approval is no longer pending."
         : `Approval${agent} is no longer pending.`
       : privateCopy
-        ? "Open FRIDAY to review this request."
-        : `Open FRIDAY to review an approval${agent}.`,
+        ? "Open OpenClaw to review this request."
+        : `Open OpenClaw to review an approval${agent}.`,
   };
 }
 

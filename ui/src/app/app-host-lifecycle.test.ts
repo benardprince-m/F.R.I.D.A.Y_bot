@@ -11,7 +11,7 @@ import { resetAppHostTestGlobals } from "./app-host.test-support.ts";
 
 afterEach(resetAppHostTestGlobals);
 
-describe("FRIDAY shell event lifecycle", () => {
+describe("OpenClaw shell event lifecycle", () => {
   it("refreshes the existing connection indicator for recovery and removed panes only while mounted", () => {
     const shell = createShellOwner();
     shell.connect();

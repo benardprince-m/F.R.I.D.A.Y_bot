@@ -39,17 +39,17 @@ LIST_CATEGORIES=false
 
 show_usage() {
     cat << EOF
-clawlog - FRIDAY Logging Utility
+clawlog - OpenClaw Logging Utility
 
 USAGE:
     clawlog [OPTIONS]
 
 DESCRIPTION:
-    View FRIDAY logs with full details (bypasses Apple's privacy redaction).
+    View OpenClaw logs with full details (bypasses Apple's privacy redaction).
     Requires sudo access configured for /usr/bin/log command.
 
 LOG FLOW ARCHITECTURE:
-    FRIDAY logs flow through the macOS unified log (subsystem: ai.openclaw).
+    OpenClaw logs flow through the macOS unified log (subsystem: ai.openclaw).
 
 LOG CATEGORIES (examples):
     • voicewake           - Voice wake detection/test harness

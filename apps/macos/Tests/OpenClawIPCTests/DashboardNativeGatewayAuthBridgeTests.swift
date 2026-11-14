@@ -3,7 +3,7 @@ import ConcurrencyExtras
 import Foundation
 import Testing
 import WebKit
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawKit
 
 @MainActor

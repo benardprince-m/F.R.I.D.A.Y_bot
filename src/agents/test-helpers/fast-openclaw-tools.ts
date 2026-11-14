@@ -1,5 +1,5 @@
 /**
- * Fast FRIDAY tool-bundle mock.
+ * Fast OpenClaw tool-bundle mock.
  *
  * Provides lightweight built-in tool stubs for inventory-heavy tests.
  */

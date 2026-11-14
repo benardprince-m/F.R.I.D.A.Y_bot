@@ -15,7 +15,7 @@ Watch IMAP mailboxes and dispatch authenticated incoming email to isolated agent
 ## Distribution
 
 - Package: `@openclaw/imap`
-- Install route: included in FRIDAY
+- Install route: included in OpenClaw
 
 ## Surface
 

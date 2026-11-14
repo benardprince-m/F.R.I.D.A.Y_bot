@@ -53,7 +53,7 @@ describe("openclaw delegation tool", () => {
       runSessionKey: "agent:main:main",
     });
     if (!tool) {
-      throw new Error("expected FRIDAY delegation tool");
+      throw new Error("expected OpenClaw delegation tool");
     }
     callGateway.mockImplementation(async () => {
       expect(getPreparedModelRuntimePluginGeneration()).toBeUndefined();
@@ -108,7 +108,7 @@ describe("openclaw delegation tool", () => {
       execSession: { permissionMode: "guarded" },
     })[0];
     if (!tool) {
-      throw new Error("expected FRIDAY delegation tool");
+      throw new Error("expected OpenClaw delegation tool");
     }
     expect(tool.description).toContain("Gateway restart");
     expect(tool.description).toContain("approve in the Control UI");
@@ -174,7 +174,7 @@ describe("openclaw delegation tool", () => {
       ...options,
     });
     if (!tool) {
-      throw new Error("expected FRIDAY delegation tool");
+      throw new Error("expected OpenClaw delegation tool");
     }
 
     expect(tool.catalogMode).toBe("direct-only");

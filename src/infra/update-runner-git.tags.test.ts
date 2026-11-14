@@ -52,7 +52,7 @@ function fixture(releaseRemote = "upstream", forkRemote?: string) {
     );
   git(directory, "init", "--bare", "--initial-branch=main", upstream);
   git(directory, "clone", upstream, seed);
-  git(seed, "config", "user.name", "FRIDAY Test");
+  git(seed, "config", "user.name", "OpenClaw Test");
   git(seed, "config", "user.email", "openclaw@example.invalid");
   write(seed, "package.json", { name: "openclaw", version: "2026.9.1" });
   write(seed, ".gitignore", "dist/\n");

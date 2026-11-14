@@ -1121,10 +1121,10 @@ describe("loadOpenClawPlugins", () => {
       const untrackedWarning = warnings.find(
         (msg) =>
           msg.includes("warn-untracked-remediation") &&
-          msg.includes("FRIDAY can't verify where this plugin came from"),
+          msg.includes("OpenClaw can't verify where this plugin came from"),
       );
       expect(untrackedWarning).toBeDefined();
-      expect(untrackedWarning).toContain("FRIDAY can't verify where this plugin came from");
+      expect(untrackedWarning).toContain("OpenClaw can't verify where this plugin came from");
       expect(untrackedWarning).toContain("openclaw plugins inspect warn-untracked-remediation");
       expect(untrackedWarning).toContain(
         "plugins.allow lets it load, but does not make it trusted",
@@ -1136,9 +1136,9 @@ describe("loadOpenClawPlugins", () => {
       const diagnostic = registry.diagnostics.find(
         (entry) =>
           entry.pluginId === "warn-untracked-remediation" &&
-          entry.message.includes("FRIDAY can't verify where this plugin came from"),
+          entry.message.includes("OpenClaw can't verify where this plugin came from"),
       );
-      expect(diagnostic?.message).toContain("FRIDAY can't verify where this plugin came from");
+      expect(diagnostic?.message).toContain("OpenClaw can't verify where this plugin came from");
       expect(diagnostic?.message).toContain("openclaw plugins inspect warn-untracked-remediation");
       expect(diagnostic?.message).toContain(
         "plugins.allow lets it load, but does not make it trusted",
@@ -1533,7 +1533,7 @@ describe("loadOpenClawPlugins", () => {
         warnings.filter(
           (message) =>
             message.includes("trusted-plugin") &&
-            message.includes("FRIDAY can't verify where this plugin came from"),
+            message.includes("OpenClaw can't verify where this plugin came from"),
         ),
       ).toHaveLength(1);
     });
@@ -1679,7 +1679,7 @@ describe("loadOpenClawPlugins", () => {
         registry,
         level: "warn",
         pluginId: "rogue",
-        message: "FRIDAY can't verify where this plugin came from",
+        message: "OpenClaw can't verify where this plugin came from",
       });
     });
   });

@@ -389,7 +389,7 @@ describe("runReplyAgent media path normalization", () => {
     expect(call?.images?.[0]?.data).toHaveLength(92);
   });
 
-  it("does not pass recent history images as unlabeled native FRIDAY images", async () => {
+  it("does not pass recent history images as unlabeled native OpenClaw images", async () => {
     const tmpDir = tempDirs.make("openclaw-native-agent-history-");
     const imagePath = path.join(tmpDir, "recent.png");
     await writeFile(

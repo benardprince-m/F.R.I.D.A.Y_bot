@@ -176,10 +176,10 @@ it("omits build and dependency artifacts while retaining packaged runtime files"
 });
 
 it.each([
-  { exclusion: "!dist/FRIDAY.app/**", app: "dist/FRIDAY.app" },
-  { exclusion: "!dist/**/*.app/**", app: "dist/.stage/FRIDAY.app" },
-  { exclusion: "!dist/FRIDAY.app", app: "dist/FRIDAY.app" },
-  { exclusion: "!dist/**/*.app", app: "dist/.stage/FRIDAY.app" },
+  { exclusion: "!dist/OpenClaw.app/**", app: "dist/OpenClaw.app" },
+  { exclusion: "!dist/**/*.app/**", app: "dist/.stage/OpenClaw.app" },
+  { exclusion: "!dist/OpenClaw.app", app: "dist/OpenClaw.app" },
+  { exclusion: "!dist/**/*.app", app: "dist/.stage/OpenClaw.app" },
 ])(
   "honors package files exclusions ($exclusion) when writing the dist inventory",
   async ({ exclusion, app }) => {
@@ -249,7 +249,7 @@ it("matches install-stage paths case-insensitively across path segments", () => 
   const paths = [
     "dist/extensions/brave/.openclaw-install-stage/node_modules/typebox/package.json",
     "dist/Extensions/browser/.OPENCLAW-INSTALL-STAGE-AbC123/node_modules/playwright-core/package.json",
-    "Dist/Extensions/browser/.FRIDAY-Install-Stage/package.json",
+    "Dist/Extensions/browser/.OpenClaw-Install-Stage/package.json",
     "dist/extensions/browser/.openclaw-runtime-deps-copy-AbC123/package.json",
     "dist/extensions/.openclaw-install-stage",
   ];

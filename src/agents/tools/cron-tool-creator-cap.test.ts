@@ -289,7 +289,7 @@ describe("cron tool creator cap", () => {
     expect(resolveCronCreatorExecToolTarget(target)).toBeUndefined();
   });
 
-  it("captures native question authority without requiring an FRIDAY tool object", () => {
+  it("captures native question authority without requiring an OpenClaw tool object", () => {
     const target: CronCreatorToolAllowlistEntry[] = [];
 
     replaceWithEffectiveCronCreatorToolAllowlist(target, [testTool("read")], undefined, {

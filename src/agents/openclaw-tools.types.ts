@@ -25,7 +25,7 @@ import type {
 } from "./tools/sessions-yield-tool.js";
 import type { SkillWorkshopRunOptions } from "./tools/skill-workshop-tool-factory.js";
 
-/** Options shared by the coding-tool factory and its FRIDAY tool surface. */
+/** Options shared by the coding-tool factory and its OpenClaw tool surface. */
 export type OpenClawSharedToolsOptions = {
   /** Complete model-discoverable catalog, prepared by the current host. */
   installedSkills?: readonly InstalledSkill[];

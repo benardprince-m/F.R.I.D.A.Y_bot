@@ -270,7 +270,7 @@ it("renders required placement as a readonly indicator, not a machine or workspa
       }),
     { container },
   );
-  expect(container.textContent).toContain("FRIDAY worker");
+  expect(container.textContent).toContain("OpenClaw worker");
   expect(container.querySelector("[data-required-placement]")).not.toBeNull();
   expect(container.querySelector("button, input, .oc-popover")).toBeNull();
 });

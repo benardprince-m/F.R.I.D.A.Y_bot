@@ -344,7 +344,7 @@ export abstract class CodexTurnProjection {
     }
     // Stable turn/item identities deduplicate retries and cross-turn replays
     // without collapsing identical text from distinct turns. Codex owns history;
-    // this mirror supports FRIDAY history, search, and harness switching.
+    // this mirror supports OpenClaw history, search, and harness switching.
     const messagesSnapshot = buildCodexMessagesSnapshot({
       runParams,
       turnId,

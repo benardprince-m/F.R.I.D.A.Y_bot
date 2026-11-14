@@ -16,7 +16,7 @@ and a link back to the card's task, run, and Control UI session. A separate
 Gateway-owned facts.
 
 Workboard is intentionally small: it tracks local operating work for one
-FRIDAY Gateway. It is not a replacement for GitHub Issues, Linear, Jira, or
+OpenClaw Gateway. It is not a replacement for GitHub Issues, Linear, Jira, or
 other team project management systems.
 
 ## Enable it
@@ -27,7 +27,7 @@ Workboard is bundled but disabled by default:
    configured Control UI base path. For example, a base path of `/openclaw`
    uses `/openclaw/plugins`.
 2. Open the **Workboard** plugin, select **Lifecycle**, and turn on the enabled
-   switch. Because Workboard is included with FRIDAY, it does not need an
+   switch. Because Workboard is included with OpenClaw, it does not need an
    **Install** action.
 3. Wait for the lifecycle action to finish, then open the Workboard tab.
 
@@ -374,7 +374,7 @@ the board does not delete or otherwise mutate the
 operator-owned automation job.
 
 Cards are stored in the plugin's own Gateway state and move with the rest of
-that Gateway's FRIDAY state (see [Storage](#storage)).
+that Gateway's OpenClaw state (see [Storage](#storage)).
 
 ## Starting work from a card
 
@@ -489,7 +489,7 @@ blocked work, use `workboard_unblock` first to move it to `todo`.
 ## Dispatch
 
 Dispatch is Gateway-local: it does not spawn arbitrary OS processes. Normal
-FRIDAY subagent sessions still own execution. One dispatch pass:
+OpenClaw subagent sessions still own execution. One dispatch pass:
 
 1. Promotes dependency-ready cards.
 2. Blocks expired claims or timed-out runs.
@@ -576,7 +576,7 @@ as unavailable. They surface as command errors, and so does any Gateway
 failure when an explicit `--url`/`--token` target was given.
 
 Board metadata can set `autoDecompose`, `autoDecomposePerDispatch`,
-`defaultAssignee`, and `orchestratorProfile`. FRIDAY records this intent and
+`defaultAssignee`, and `orchestratorProfile`. OpenClaw records this intent and
 exposes it in worker context. Actual specification/decomposition still runs
 through the normal Workboard tools.
 
@@ -772,7 +772,7 @@ widens accepted Workboard host paths. It does not change the methods available.
 ## Storage
 
 Workboard stores durable data in a plugin-owned relational SQLite database
-under the FRIDAY state directory: boards, cards, labels, lifecycle events,
+under the OpenClaw state directory: boards, cards, labels, lifecycle events,
 run attempts, comments, dependency links, proof, artifact references,
 attachment metadata and blobs, diagnostics, notifications, worker logs,
 protocol state, and subscriptions all live in Workboard tables (not
@@ -801,7 +801,7 @@ reply fails after a possible commit, the owner discards cached facts and rereads
 them on the next use without replaying the mutation.
 
 Installations with retained pre-July 2026 Workboard plugin-state KV data must
-upgrade through FRIDAY `2026.9.7` and run `openclaw doctor --fix` before upgrading
+upgrade through OpenClaw `2026.9.7` and run `openclaw doctor --fix` before upgrading
 to the latest version. Current Doctor reports this requirement without changing
 the legacy rows; current relational SQLite stores remain supported.
 

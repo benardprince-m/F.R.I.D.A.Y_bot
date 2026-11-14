@@ -247,7 +247,7 @@ struct GatewayErrorsTests {
         #expect(problem?.kind == .protocolMismatch)
         #expect(problem?.owner == .iphone)
         #expect(problem?.title == "App update required")
-        #expect(problem?.message == "This app is older than the gateway. Update FRIDAY on this device, then retry.")
+        #expect(problem?.message == "This app is older than the gateway. Update OpenClaw on this device, then retry.")
         #expect(problem?.retryable == false)
         #expect(problem?.pauseReconnect == true)
         #expect(problem?.technicalDetails?.contains("clientProtocol=4") == true)
@@ -270,7 +270,7 @@ struct GatewayErrorsTests {
         #expect(problem?.owner == .gateway)
         #expect(problem?.title == "Gateway update required")
         #expect(problem?
-            .message == "The gateway is older than this app. Update FRIDAY on the gateway host, then retry.")
+            .message == "The gateway is older than this app. Update OpenClaw on the gateway host, then retry.")
         #expect(problem?.actionLabel == "Copy update command")
         #expect(problem?.actionCommand == "openclaw update")
         #expect(problem?.retryable == false)
@@ -288,7 +288,7 @@ struct GatewayErrorsTests {
         #expect(problem?.kind == .protocolMismatch)
         #expect(problem?.owner == .both)
         #expect(problem?
-            .message == "The app and gateway use incompatible protocol versions. Update FRIDAY on both, then retry.")
+            .message == "The app and gateway use incompatible protocol versions. Update OpenClaw on both, then retry.")
         #expect(problem?.retryable == false)
         #expect(problem?.pauseReconnect == true)
     }
@@ -436,7 +436,7 @@ struct GatewayErrorsTests {
         #expect(problem?.actionLabel == "Retry")
         #expect(problem?.titlePresentation == .localized("Gateway certificate unavailable"))
         #expect(problem?.messagePresentation == .localizedFormat(
-            "FRIDAY could not securely save the TLS certificate pin for %@.",
+            "OpenClaw could not securely save the TLS certificate pin for %@.",
             ["gateway.example.com"]))
     }
 
@@ -497,7 +497,7 @@ struct GatewayErrorsTests {
                 "Retry")
         case .reachabilityFailed:
             facts = (
-                "Gateway is not reachable", "FRIDAY could not reach the gateway over the current network.",
+                "Gateway is not reachable", "OpenClaw could not reach the gateway over the current network.",
                 "Check network")
         case .websocketCancelled:
             facts = (

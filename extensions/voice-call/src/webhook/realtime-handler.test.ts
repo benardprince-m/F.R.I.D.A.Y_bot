@@ -955,7 +955,7 @@ describe("RealtimeCallHandler path routing", () => {
     );
   });
 
-  const cancellationResult = { status: "cancelled", message: "Cancelled the active FRIDAY run." };
+  const cancellationResult = { status: "cancelled", message: "Cancelled the active OpenClaw run." };
   it.each([
     {
       path: "forced",
@@ -1165,7 +1165,7 @@ describe("RealtimeCallHandler path routing", () => {
         "native-cancelled",
         {
           status: "cancelled",
-          message: "FRIDAY cancelled this consult before completion. Do not restart it.",
+          message: "OpenClaw cancelled this consult before completion. Do not restart it.",
         },
         undefined,
       ),
@@ -1274,7 +1274,7 @@ describe("RealtimeCallHandler path routing", () => {
       replacementResult.resolve({ text: "The new deployment is healthy." });
       await waitForRealtimeTest(() => expect(replacementSendUserMessage).toHaveBeenCalledTimes(1));
       expect(replacementSendUserMessage).toHaveBeenCalledWith(
-        "Internal FRIDAY consult result is ready.\nDo not call tools for this internal result.\nSpeak the following answer to the caller now, briefly and naturally:\nThe new deployment is healthy.",
+        "Internal OpenClaw consult result is ready.\nDo not call tools for this internal result.\nSpeak the following answer to the caller now, briefly and naturally:\nThe new deployment is healthy.",
       );
       expect(consult.mock.calls[1]).toEqual([
         { question: "Check the new deployment." },

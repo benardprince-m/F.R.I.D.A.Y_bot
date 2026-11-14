@@ -550,7 +550,7 @@ describe("chat pane session menu boundary", () => {
     ["agent:main:plugin:anthropic:catalog-adopt:claude:fixture", false],
     ["agent:main:ordinary", true],
   ])(
-    "offers header Delete only when the transcript belongs to FRIDAY: %s",
+    "offers header Delete only when the transcript belongs to OpenClaw: %s",
     async (key, allowed) => {
       const { pane, state } = createTestChatPane({ client: createGatewayBrowserClientFixture() });
       state.settings = loadSettings();

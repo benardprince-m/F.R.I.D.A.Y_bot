@@ -239,7 +239,7 @@ export async function waitForLocalOAuthCallback(params: {
       body: renderOAuthPage({
         title: params.successTitle,
         heading: params.successTitle,
-        message: "You can close this window and return to FRIDAY.",
+        message: "You can close this window and return to OpenClaw.",
       }),
       contentType: "text/html; charset=utf-8",
     }),

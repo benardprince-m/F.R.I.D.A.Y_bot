@@ -76,7 +76,7 @@ extension DashboardWindowController {
         let sourceID = self.notificationSourceID
         let capabilities = request.capabilities.compactMap(Capability.init(rawValue:))
         guard capabilities.count == request.capabilities.count else {
-            throw NSError(domain: "FRIDAY", code: 1, userInfo: [
+            throw NSError(domain: "OpenClaw", code: 1, userInfo: [
                 NSLocalizedDescriptionKey: "This permission is not supported by this Mac app.",
             ])
         }
@@ -85,7 +85,7 @@ extension DashboardWindowController {
                 self.canUseDeviceSettings(sourceID: sourceID)
         }
         guard isCurrent() else {
-            throw NSError(domain: "FRIDAY", code: 1, userInfo: [
+            throw NSError(domain: "OpenClaw", code: 1, userInfo: [
                 NSLocalizedDescriptionKey: "Open the Mac app connected to the requested node and try again.",
             ])
         }

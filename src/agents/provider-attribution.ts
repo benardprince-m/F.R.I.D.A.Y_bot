@@ -139,7 +139,7 @@ function readCompatBoolean(
   return asBoolean((compat as Record<string, unknown>)[key]);
 }
 
-const OPENCLAW_ATTRIBUTION_PRODUCT = "FRIDAY";
+const OPENCLAW_ATTRIBUTION_PRODUCT = "OpenClaw";
 const OPENCLAW_ATTRIBUTION_ORIGINATOR = "openclaw";
 // OpenRouter honors at most two recognized categories per request and silently drops the rest.
 const OPENROUTER_ATTRIBUTION_CATEGORIES = "personal-agent,cli-agent";
@@ -347,7 +347,7 @@ function resolveProviderAttributionPolicy(
         ...policy,
         verification: "internal-runtime",
         reviewNote:
-          "Identify FRIDAY on native OpenCode Zen requests without impersonating OpenCode.",
+          "Identify OpenClaw on native OpenCode Zen requests without impersonating OpenCode.",
         headers: { "User-Agent": userAgent },
       };
     case "opencode-go":
@@ -414,7 +414,7 @@ export function resolveProviderRequestPolicy(
     ((provider === "opencode-go" && endpointClass === "opencode-go-native") ||
       (provider === "opencode" && endpointClass === "opencode-native"))
   ) {
-    // Native OpenCode routes identify FRIDAY; custom proxies do not inherit attribution.
+    // Native OpenCode routes identify OpenClaw; custom proxies do not inherit attribution.
     attributionProvider = provider;
   }
   if (!attributionProvider) {

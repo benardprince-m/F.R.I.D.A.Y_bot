@@ -177,7 +177,7 @@ async function runBoundSystemAgent(
     // same snapshot for planning so reply-only plans do not print before it.
     const overview = await withProgress(
       {
-        label: "Loading FRIDAY overview…",
+        label: "Loading OpenClaw overview…",
         indeterminate: true,
         delayMs: 0,
         fallback: "none",
@@ -205,8 +205,8 @@ async function runBoundSystemAgent(
   const inputIsTty = (input as { isTTY?: boolean }).isTTY === true;
   const outputIsTty = (output as { isTTY?: boolean }).isTTY === true;
   if (!inputIsTty || !outputIsTty) {
-    // Without a TTY, FRIDAY cannot safely ask for confirmation; require --message instead.
-    runtime.error("FRIDAY needs an interactive TTY. Use --message for one command.");
+    // Without a TTY, OpenClaw cannot safely ask for confirmation; require --message instead.
+    runtime.error("OpenClaw needs an interactive TTY. Use --message for one command.");
     runtime.exit(1);
     return;
   }

@@ -1,6 +1,6 @@
-# SearXNG FRIDAY plugin
+# SearXNG OpenClaw plugin
 
-Official FRIDAY plugin for SearXNG.
+Official OpenClaw plugin for SearXNG.
 
 ## Install
 
@@ -10,4 +10,4 @@ openclaw plugins install @openclaw/searxng-plugin
 
 ## Docs
 
-See `docs/tools/searxng-search.md` in the FRIDAY repository, or the published docs at `https://docs.openclaw.ai/tools/searxng-search`.
+See `docs/tools/searxng-search.md` in the OpenClaw repository, or the published docs at `https://docs.openclaw.ai/tools/searxng-search`.

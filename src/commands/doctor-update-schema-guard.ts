@@ -664,7 +664,7 @@ async function rehearseDeferredUpdateDoctorSchemaForParent(
   if (failure) {
     throw failure.error;
   }
-  const warning = `Validated schema repair on private copies for FRIDAY ${selected.updaterVersion}; live databases are unchanged. Repair is deferred to the fresh post-core updater.`;
+  const warning = `Validated schema repair on private copies for OpenClaw ${selected.updaterVersion}; live databases are unchanged. Repair is deferred to the fresh post-core updater.`;
   const { UPDATE_POST_INSTALL_DOCTOR_RESULT_PATH_ENV, writeUpdatePostInstallDoctorResult } =
     await import("../infra/update-doctor-result.js");
   const resultPath = process.env[UPDATE_POST_INSTALL_DOCTOR_RESULT_PATH_ENV];

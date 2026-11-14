@@ -503,7 +503,7 @@ openclaw() {
   esac
   printf '%s|%s|%s\\n' "$1" "\${NPM_CONFIG_REGISTRY-}" "\${npm_config_registry-}" >>'${logPath}'
   case "$1" in
-    --version) echo 'FRIDAY 2026.7.1-beta.3' ;;
+    --version) echo 'OpenClaw 2026.7.1-beta.3' ;;
   esac
 }
 ${script}`,
@@ -530,7 +530,9 @@ it("restarts POSIX gateways only after an exact current-launch migration refusal
   const input = updateInput("2026.7.2-beta.5");
 
   for (const script of [macosUpdateScript(input), linuxUpdateScript(input)]) {
-    expect(script).toContain("FRIDAY plugin migration inputs changed during startup convergence;");
+    expect(script).toContain(
+      "OpenClaw plugin migration inputs changed during startup convergence;",
+    );
     expect(script).toContain("gateway_launch_log_offset=");
     expect(script).toContain("gateway_pid=$!");
     expect(script).toContain('if ! kill -0 "$gateway_pid" 2>/dev/null; then');
@@ -546,7 +548,7 @@ it("restarts POSIX gateways only after an exact current-launch migration refusal
 it("restarts the Windows gateway only after its current launch exits with the exact refusal", () => {
   const script = windowsUpdateScript(updateInput("2026.7.2-beta.5"));
 
-  expect(script).toContain("FRIDAY plugin migration inputs changed during startup convergence;");
+  expect(script).toContain("OpenClaw plugin migration inputs changed during startup convergence;");
   expect(script).toContain("$script:gatewayProcess.HasExited");
   expect(script).toContain("$script:gatewayProcess.WaitForExit()");
   expect(script).toContain("$script:gatewayRestartCount -eq 0");
@@ -554,7 +556,7 @@ it("restarts the Windows gateway only after its current launch exits with the ex
   expect(script).toContain("Select-String -Path $script:gatewayLogPath -SimpleMatch");
   expect(script).toContain("$script:gatewayRestartCount = 1");
   expect(script).not.toContain("$attempt -eq 4");
-  expect(script).not.toContain("Invoke-FRIDAY gateway restart");
+  expect(script).not.toContain("Invoke-OpenClaw gateway restart");
 });
 
 it("keeps POSIX provider secrets out of executable command lines", () => {

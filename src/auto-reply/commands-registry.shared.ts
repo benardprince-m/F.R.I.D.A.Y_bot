@@ -221,7 +221,7 @@ export function buildBuiltinChatCommands(
     }),
     defineBuiltinCommand(
       "openclaw",
-      "Run the FRIDAY setup and repair helper.",
+      "Run the OpenClaw setup and repair helper.",
       "management",
       "essential",
       {
@@ -420,7 +420,7 @@ export function buildBuiltinChatCommands(
     ),
     definePathCommand(
       "mcp",
-      "Show or set FRIDAY MCP servers.",
+      "Show or set OpenClaw MCP servers.",
       ["show", "get", "set", "unset"],
       "MCP server name",
       "JSON config for set",
@@ -448,10 +448,10 @@ export function buildBuiltinChatCommands(
       activeRunSafe: true,
       modelIndependent: "no-args",
     }),
-    defineBuiltinCommand("restart", "Restart FRIDAY.", "tools", "power", {
+    defineBuiltinCommand("restart", "Restart OpenClaw.", "tools", "power", {
       modelIndependent: "no-args",
     }),
-    defineBuiltinCommand("update", "Update FRIDAY and restart.", "tools", "power", {
+    defineBuiltinCommand("update", "Update OpenClaw and restart.", "tools", "power", {
       modelIndependent: "no-args",
     }),
     defineBuiltinCommand("activation", "Set group activation mode.", "management", "power", {

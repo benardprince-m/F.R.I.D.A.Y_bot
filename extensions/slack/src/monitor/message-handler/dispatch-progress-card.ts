@@ -79,7 +79,7 @@ export function createSlackDraftProgressCardRuntime(params: {
       return [];
     }
     url.pathname = path;
-    return [{ url: url.toString(), text: "Open in FRIDAY" }];
+    return [{ url: url.toString(), text: "Open in OpenClaw" }];
   };
 
   const resolvePresentation = (

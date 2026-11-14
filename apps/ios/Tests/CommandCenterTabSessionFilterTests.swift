@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawChatUI
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct CommandCenterTabSessionFilterTests {
     @Test func `cached browsing scopes remain available offline while archives require a connection`() {
@@ -116,13 +116,13 @@ struct CommandCenterTabSessionFilterTests {
                 == "My thread")
 
         let nodeKey = "agent:main:node-1234567890ab"
-        let autoLabel = "FRIDAY App · Pixel · 1234567890ab"
+        let autoLabel = "OpenClaw App · Pixel · 1234567890ab"
         #expect(CommandCenterTab.sessionTitle(entry(key: nodeKey, autoLabel: autoLabel)) == autoLabel)
         #expect(
             CommandCenterTab.sessionTitle(
                 entry(key: nodeKey, displayName: "Compare session naming", autoLabel: autoLabel))
                 == "Compare session naming")
-        let manualLabel = "FRIDAY App · Release planning · 1234567890ab"
+        let manualLabel = "OpenClaw App · Release planning · 1234567890ab"
         #expect(
             CommandCenterTab.sessionTitle(
                 entry(key: nodeKey, displayName: "Compare session naming", label: manualLabel, autoLabel: autoLabel))

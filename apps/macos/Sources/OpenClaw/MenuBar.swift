@@ -13,7 +13,7 @@ enum OpenClawProcessMain {
         if let status = OpenClawProcessEntrypoint.run(arguments: CommandLine.arguments, launchApplication: {
             guard GatewayKeychainAccess.configure(launchPlan: .current) == 0 else {
                 fputs(
-                    "FRIDAY could not disable Keychain interaction for --no-activate. Relaunch without the flag.\n",
+                    "OpenClaw could not disable Keychain interaction for --no-activate. Relaunch without the flag.\n",
                     stderr)
                 Darwin.exit(2)
             }
@@ -52,17 +52,17 @@ struct OpenClawApp: App {
         let launchPlan = AppLaunchRuntimePlan.current
         if let error = AppProfile.current.validationError {
             if launchPlan.isElevationHost {
-                fputs("FRIDAY elevation host profile is invalid: \(error.localizedDescription)\n", stderr)
+                fputs("OpenClaw elevation host profile is invalid: \(error.localizedDescription)\n", stderr)
                 Darwin.exit(2)
             }
             let alert = NSAlert()
             alert.alertStyle = .critical
-            alert.messageText = "FRIDAY profile is invalid"
+            alert.messageText = "OpenClaw profile is invalid"
             alert.informativeText = error.localizedDescription
             if launchPlan.allowsActivation {
                 AppActivation.shared.presentAlert(alert)
             } else {
-                Self.logger.error("FRIDAY profile is invalid: \(error.localizedDescription, privacy: .public)")
+                Self.logger.error("OpenClaw profile is invalid: \(error.localizedDescription, privacy: .public)")
             }
             Darwin.exit(2)
         }
@@ -121,7 +121,7 @@ struct OpenClawApp: App {
                 }
             }
             CommandGroup(replacing: .appInfo) {
-                Button("About FRIDAY") {
+                Button("About OpenClaw") {
                     AppNavigationActions.openAbout()
                 }
             }
@@ -212,14 +212,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let isReplacementHandoff = hasReplacementMetadata &&
             ApplicationRelocator.acceptReplacementHandoff(environment: environment)
         if hasReplacementMetadata, !isReplacementHandoff {
-            fputs("FRIDAY replacement handoff authentication failed.\n", stderr)
+            fputs("OpenClaw replacement handoff authentication failed.\n", stderr)
             Darwin.exit(2)
         }
         let ownership = AppInstanceLock.acquire(
             url: AppProfile.current.instanceLockURL(),
             waitMilliseconds: isReplacementHandoff ? 5000 : 0)
         if let exitCode = Self.processExitCode(for: ownership) {
-            fputs("FRIDAY profile is already running.\n", stderr)
+            fputs("OpenClaw profile is already running.\n", stderr)
             Darwin.exit(exitCode)
         }
         let (profileInstanceLock, instanceOwnershipFailure): (AppInstanceLock?, String?) = switch ownership {
@@ -238,18 +238,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if let instanceOwnershipFailure {
             if AppLaunchRuntimePlan.current.isElevationHost {
                 fputs(
-                    "FRIDAY elevation host could not claim its instance lock: \(instanceOwnershipFailure)\n",
+                    "OpenClaw elevation host could not claim its instance lock: \(instanceOwnershipFailure)\n",
                     stderr)
                 Darwin.exit(2)
             }
             let alert = NSAlert()
             alert.alertStyle = .critical
-            alert.messageText = "FRIDAY could not claim its instance lock"
+            alert.messageText = "OpenClaw could not claim its instance lock"
             alert.informativeText = instanceOwnershipFailure
             if AppLaunchRuntimePlan.current.allowsActivation {
                 AppActivation.shared.presentAlert(alert)
             } else {
-                fputs("FRIDAY could not claim its instance lock: \(instanceOwnershipFailure)\n", stderr)
+                fputs("OpenClaw could not claim its instance lock: \(instanceOwnershipFailure)\n", stderr)
             }
             Darwin.exit(2)
         }

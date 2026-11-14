@@ -107,7 +107,7 @@ function findPhysicalOutputProblem(
   }
   if (
     devices.some((device) => device.name === defaults.output.name && device.virtual) ||
-    /BlackHole|FRIDAY-(?:Feed|Mic)/iu.test(defaults.output.name)
+    /BlackHole|OpenClaw-(?:Feed|Mic)/iu.test(defaults.output.name)
   ) {
     return `system output is virtual device ${defaults.output.name}`;
   }
@@ -180,8 +180,8 @@ export async function runFaceTimePreflight(params: {
   const audioDevices = profiler.code === 0 ? parseCoreAudioDevices(profiler.stdout ?? "") : [];
   const deviceNames = new Set(audioDevices.map((device) => device.name));
   for (const [id, label, deviceName] of [
-    ["paired-driver-mic", "FRIDAY microphone device", FACETIME_MIC_DEVICE_NAME],
-    ["paired-driver-feed", "FRIDAY feed device", FACETIME_FEED_DEVICE_NAME],
+    ["paired-driver-mic", "OpenClaw microphone device", FACETIME_MIC_DEVICE_NAME],
+    ["paired-driver-feed", "OpenClaw feed device", FACETIME_FEED_DEVICE_NAME],
   ] as const) {
     const found = deviceNames.has(deviceName);
     pushCheck(checks, {

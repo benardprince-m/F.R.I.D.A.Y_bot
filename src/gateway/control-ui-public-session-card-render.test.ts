@@ -71,7 +71,7 @@ describe("public session preview card", () => {
   it("omits unknown optional facts and includes only recorded checks", () => {
     const headline = parse({ title: "A short session", host: "example.test", messageCount: 2 });
     expect(headline.documentElement.textContent).toBe(
-      "FRIDAY · Public sessionA short session2 messagesexample.test",
+      "OpenClaw · Public sessionA short session2 messagesexample.test",
     );
     const receipt = parse({
       title: "A short session",

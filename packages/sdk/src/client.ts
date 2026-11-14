@@ -91,7 +91,7 @@ function assertNoUnsupportedRunOptions(params: AgentRunParams): void {
     return;
   }
   throw new Error(
-    `FRIDAY Gateway does not support per-run SDK option${
+    `OpenClaw Gateway does not support per-run SDK option${
       unsupported.length === 1 ? "" : "s"
     } yet: ${unsupported.join(", ")}`,
   );
@@ -141,7 +141,7 @@ function requireToolsEffectiveSessionKey(params: ToolsEffectiveParams): ToolsEff
   return params;
 }
 
-export class FRIDAY {
+export class OpenClaw {
   readonly agents: AgentsNamespace;
   readonly sessions: SessionsNamespace;
   readonly runs: RunsNamespace;
@@ -270,7 +270,7 @@ export class FRIDAY {
 
   private assertOpen(): void {
     if (this.closed) {
-      throw new Error("FRIDAY SDK client is closed");
+      throw new Error("OpenClaw SDK client is closed");
     }
   }
 
@@ -360,7 +360,7 @@ export class FRIDAY {
 
 export class Agent {
   constructor(
-    private readonly client: FRIDAY,
+    private readonly client: OpenClaw,
     readonly id: string,
   ) {}
 
@@ -380,7 +380,7 @@ export class Agent {
 
 export class Run {
   constructor(
-    private readonly client: FRIDAY,
+    private readonly client: OpenClaw,
     readonly id: string,
     readonly sessionKey?: string,
   ) {}
@@ -425,7 +425,7 @@ export class Run {
 
 export class Session {
   constructor(
-    private readonly client: FRIDAY,
+    private readonly client: OpenClaw,
     readonly key: string,
     readonly info?: unknown,
   ) {}
@@ -471,7 +471,7 @@ export class Session {
 }
 
 export class AgentsNamespace {
-  constructor(private readonly client: FRIDAY) {}
+  constructor(private readonly client: OpenClaw) {}
 
   async list(params?: Record<string, unknown>): Promise<unknown> {
     return await this.client.request("agents.list", params === undefined ? {} : params);
@@ -495,7 +495,7 @@ export class AgentsNamespace {
 }
 
 export class SessionsNamespace {
-  constructor(private readonly client: FRIDAY) {}
+  constructor(private readonly client: OpenClaw) {}
 
   async list(params?: Record<string, unknown>): Promise<unknown> {
     return await this.client.request("sessions.list", params === undefined ? {} : params);
@@ -527,7 +527,7 @@ export class SessionsNamespace {
 }
 
 export class RunsNamespace {
-  constructor(private readonly client: FRIDAY) {}
+  constructor(private readonly client: OpenClaw) {}
 
   async create(params: RunCreateParams): Promise<Run> {
     const timeoutMs = normalizeTimeoutMs(params.timeoutMs);
@@ -562,7 +562,7 @@ export class RunsNamespace {
 
 class RpcNamespace {
   constructor(
-    protected readonly client: FRIDAY,
+    protected readonly client: OpenClaw,
     private readonly prefix: string,
   ) {}
 
@@ -576,7 +576,7 @@ class RpcNamespace {
 }
 
 export class ModelsNamespace extends RpcNamespace {
-  constructor(client: FRIDAY) {
+  constructor(client: OpenClaw) {
     super(client, "models");
   }
 
@@ -590,7 +590,7 @@ export class ModelsNamespace extends RpcNamespace {
 }
 
 export class ToolsNamespace extends RpcNamespace {
-  constructor(client: FRIDAY) {
+  constructor(client: OpenClaw) {
     super(client, "tools");
   }
 
@@ -616,7 +616,7 @@ export class ToolsNamespace extends RpcNamespace {
 }
 
 export class ArtifactsNamespace extends RpcNamespace {
-  constructor(client: FRIDAY) {
+  constructor(client: OpenClaw) {
     super(client, "artifacts");
   }
 
@@ -640,7 +640,7 @@ export class ArtifactsNamespace extends RpcNamespace {
 }
 
 export class ApprovalsNamespace {
-  constructor(private readonly client: FRIDAY) {}
+  constructor(private readonly client: OpenClaw) {}
 
   async list(params?: unknown): Promise<unknown> {
     return await this.client.request("exec.approval.list", params === undefined ? {} : params);
@@ -655,7 +655,7 @@ export class ApprovalsNamespace {
 }
 
 export class EnvironmentsNamespace extends RpcNamespace {
-  constructor(client: FRIDAY) {
+  constructor(client: OpenClaw) {
     super(client, "environments");
   }
 
@@ -677,6 +677,6 @@ export class EnvironmentsNamespace extends RpcNamespace {
 
   async delete(environmentId: string): Promise<unknown> {
     void environmentId;
-    throw new Error("oc.environments.delete is not supported by the current FRIDAY Gateway yet");
+    throw new Error("oc.environments.delete is not supported by the current OpenClaw Gateway yet");
   }
 }

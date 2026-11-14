@@ -22,7 +22,7 @@ export function compileCodexOrdinaryElicitation(params: {
     if (requestTurnId !== null && typeof requestTurnId !== "string") {
       return {
         kind: "unsupported",
-        message: "FRIDAY declined an MCP elicitation with invalid turn correlation.",
+        message: "OpenClaw declined an MCP elicitation with invalid turn correlation.",
       };
     }
     const mode = readCodexElicitationString(params.snapshot, "mode");
@@ -38,7 +38,7 @@ export function compileCodexOrdinaryElicitation(params: {
     if (mode !== "form" && mode !== "openai/form" && mode !== "openaiForm") {
       return {
         kind: "unsupported",
-        message: `FRIDAY does not support MCP elicitation mode ${JSON.stringify(mode ?? "unknown")}.`,
+        message: `OpenClaw does not support MCP elicitation mode ${JSON.stringify(mode ?? "unknown")}.`,
       };
     }
     return structuredInput.compileForm({

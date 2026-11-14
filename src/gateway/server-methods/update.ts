@@ -240,8 +240,8 @@ export const updateHandlers: GatewayRequestHandlers = {
       }
       const message =
         reason === "owner_required"
-          ? `Only the FRIDAY owner can start an update from chat. ${formatCommandOwnerHint({ cfg: currentConfig, channel: requester.channel, id: requester.senderId })}`
-          : "Updates from chat are disabled (commands.restart=false). Use the Control UI or ask the Gateway operator to update FRIDAY.";
+          ? `Only the OpenClaw owner can start an update from chat. ${formatCommandOwnerHint({ cfg: currentConfig, channel: requester.channel, id: requester.senderId })}`
+          : "Updates from chat are disabled (commands.restart=false). Use the Control UI or ask the Gateway operator to update OpenClaw.";
       if (adoptedCampaignId && updateLifecycle.campaign?.getState()?.id === adoptedCampaignId) {
         updateLifecycle.campaign?.clear();
       }

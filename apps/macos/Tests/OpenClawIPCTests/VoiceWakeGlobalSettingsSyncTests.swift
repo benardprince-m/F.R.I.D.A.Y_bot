@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawProtocol
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 private actor VoiceWakeSyncDelaySequence {
     private var calls = 0

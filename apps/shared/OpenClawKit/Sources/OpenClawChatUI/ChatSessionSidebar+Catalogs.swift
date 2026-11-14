@@ -242,7 +242,7 @@ private struct ChatSidebarCatalogRow: View {
     }
 
     @ViewBuilder private var menu: some View {
-        Button("Open in FRIDAY") {
+        Button("Open in OpenClaw") {
             self.viewModel.switchSession(to: self.target.sessionKey, agentID: self.target.agentID)
         }
         if self.catalog.capabilities.archive, self.row.canarchive {
@@ -271,7 +271,7 @@ private struct ChatSidebarCatalogRow: View {
               self.viewModel.selectedAgentID == item.agentID
         else {
             let format = String(localized: "The connection changed. Reopen the menu to delete %@.")
-            NSAlert(error: NSError(domain: "FRIDAY", code: 1, userInfo: [
+            NSAlert(error: NSError(domain: "OpenClaw", code: 1, userInfo: [
                 NSLocalizedDescriptionKey: String(format: format, item.title),
             ])).runModal()
             return

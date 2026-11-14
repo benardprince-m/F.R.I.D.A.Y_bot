@@ -40,7 +40,7 @@ function profileState(
 ): BuzzDirectoryState {
   const state = new BuzzDirectoryState({
     publicKey: BOT_PUBLIC_KEY,
-    fallbackProfileName: "FRIDAY",
+    fallbackProfileName: "OpenClaw",
     channelIds: [ROOM_ID],
     profileLimit,
   });
@@ -184,7 +184,7 @@ describe("Buzz directory state", () => {
     const state = profileState(undefined, 0);
 
     expect(state.profilePublicKeys()).toEqual([]);
-    expect(state.self()).toMatchObject({ id: BOT_PUBLIC_KEY, name: "FRIDAY" });
+    expect(state.self()).toMatchObject({ id: BOT_PUBLIC_KEY, name: "OpenClaw" });
     expect(state.listPeers({})).toMatchObject([
       { id: ALICE_PUBLIC_KEY, name: "bbbbbbbb...bbbbbb" },
     ]);

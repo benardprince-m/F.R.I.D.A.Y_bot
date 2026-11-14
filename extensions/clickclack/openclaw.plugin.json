@@ -2,7 +2,7 @@
   "id": "clickclack",
   "categories": ["channels"],
   "name": "ClickClack",
-  "description": "FRIDAY ClickClack channel plugin.",
+  "description": "OpenClaw ClickClack channel plugin.",
   "doctorContract": {
     "configRepair": true
   },

@@ -1,8 +1,8 @@
 # Vault
 
-Resolve FRIDAY credentials from HashiCorp Vault using SecretRefs. Configuration
+Resolve OpenClaw credentials from HashiCorp Vault using SecretRefs. Configuration
 stores references to Vault fields; resolved secrets stay in the active runtime
-snapshot instead of being written back into FRIDAY configuration.
+snapshot instead of being written back into OpenClaw configuration.
 
 ## Get started
 

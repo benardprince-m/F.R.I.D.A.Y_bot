@@ -10,7 +10,7 @@ import {
   registerAgentRunContext,
 } from "../../../src/infra/agent-run-registry.js";
 import { withTimeout } from "../../../src/utils/with-timeout.js";
-import { GatewayClientTransport, FRIDAY, type OpenClawEvent } from "./index.js";
+import { GatewayClientTransport, OpenClaw, type OpenClawEvent } from "./index.js";
 
 type JsonObject = Record<string, unknown>;
 type FakeGatewayRequest = {
@@ -27,7 +27,7 @@ type FakeGateway = {
 const gateways = new Set<FakeGateway>();
 
 function createClient(url: string, token?: string) {
-  return new FRIDAY({
+  return new OpenClaw({
     transport: new GatewayClientTransport({
       url,
       token,
@@ -37,7 +37,7 @@ function createClient(url: string, token?: string) {
   });
 }
 
-async function withGateway(body: (oc: FRIDAY, gateway: FakeGateway) => Promise<void>) {
+async function withGateway(body: (oc: OpenClaw, gateway: FakeGateway) => Promise<void>) {
   const gateway = await createFakeGateway();
   const oc = createClient(gateway.url);
   try {
@@ -213,7 +213,7 @@ async function createFakeGateway(port = 0): Promise<FakeGateway> {
   return gateway;
 }
 
-describe("FRIDAY SDK websocket e2e", () => {
+describe("OpenClaw SDK websocket e2e", () => {
   afterEach(() => Promise.all([...gateways].map((gateway) => gateway.close())));
 
   it("runs an agent and streams normalized events over a Gateway websocket", async () => {
@@ -354,7 +354,7 @@ describe("FRIDAY SDK websocket e2e", () => {
   });
 });
 
-describe("FRIDAY SDK real Gateway e2e", () => {
+describe("OpenClaw SDK real Gateway e2e", () => {
   installGatewayTestHooks({ scope: "test" });
 
   it("streams real Gateway agent events and preserves late replay order", async () => {
@@ -479,9 +479,9 @@ function expectArrayProperty(value: unknown, property: string): void {
   expect(Array.isArray(expectJsonObject(value)[property])).toBe(true);
 }
 
-liveGatewayDescribe("FRIDAY SDK live Gateway e2e", () => {
+liveGatewayDescribe("OpenClaw SDK live Gateway e2e", () => {
   it("connects to a configured Gateway, streams a real run, and waits for completion", async () => {
-    const oc = new FRIDAY({
+    const oc = new OpenClaw({
       url: liveGatewayUrl,
       token: liveGatewayToken,
       requestTimeoutMs: 20_000,

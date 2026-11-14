@@ -131,7 +131,7 @@ vi.mock("node:child_process", async (importOriginal) => ({
       args?.some((arg) => arg.includes("Get-CimInstance Win32_Process"))
         ? mocks.processes
         : {
-            taskPath: "\\FRIDAY Gateway",
+            taskPath: "\\OpenClaw Gateway",
             state: mocks.taskState,
             lastRunResult: 0,
             actions: [{ type: 0, path: mocks.taskScriptPath, arguments: "", workingDirectory: "" }],

@@ -85,7 +85,7 @@ export function resolveCiCheckFamilyScope(changedPaths: readonly string[]): CiCh
   const toolDisplaySnapshot = paths.includes(
     "apps/shared/OpenClawKit/Sources/OpenClawKit/Resources/tool-display.json",
   );
-  const nativeStorage = matches(/^apps\/macos\/Sources\/FRIDAY\/.*\.swift$/u);
+  const nativeStorage = matches(/^apps\/macos\/Sources\/OpenClaw\/.*\.swift$/u);
   const schemaBaseline = paths.includes(
     "docs/.generated/sqlite-session-transcript-schema-baseline.sha256",
   );

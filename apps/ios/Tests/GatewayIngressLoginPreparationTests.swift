@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct GatewayIngressLoginPreparationTests {
     @Test(arguments: [false, true]) @MainActor

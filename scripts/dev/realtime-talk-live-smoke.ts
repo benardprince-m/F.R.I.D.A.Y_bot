@@ -344,7 +344,7 @@ async function smokeOpenAIBackendBridge(apiKey: string): Promise<SmokeResult> {
       model: OPENAI_REALTIME_MODEL,
       voice: OPENAI_REALTIME_VOICE,
     },
-    instructions: "FRIDAY backend realtime live smoke. Do not speak yet.",
+    instructions: "OpenClaw backend realtime live smoke. Do not speak yet.",
     onAudio: () => {},
     onClearAudio: () => {},
     onEvent: (event) => {
@@ -807,7 +807,7 @@ async function smokeGoogleLiveBrowserWs(browser: Browser, apiKey: string): Promi
       model: GOOGLE_REALTIME_MODEL,
       voice: GOOGLE_REALTIME_VOICE,
       instructions:
-        "FRIDAY browser Video Talk live smoke. After receiving a visual frame and request, call describe_view exactly once.",
+        "OpenClaw browser Video Talk live smoke. After receiving a visual frame and request, call describe_view exactly once.",
       tools: [REALTIME_VOICE_DESCRIBE_VIEW_TOOL],
     });
     if (

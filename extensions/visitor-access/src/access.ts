@@ -86,7 +86,7 @@ export function createVisitorAccessReader(
         const withIdentity = runtime.gateway.withUserProfileIdentity;
         if (!withIdentity) {
           throw new VisitorAccessError(
-            "This Gateway cannot keep profile bindings current. Update FRIDAY before person-wide revocation.",
+            "This Gateway cannot keep profile bindings current. Update OpenClaw before person-wide revocation.",
           );
         }
         return withIdentity(

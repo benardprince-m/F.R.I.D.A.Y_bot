@@ -1,18 +1,18 @@
 ---
-summary: "How FRIDAY remembers things across sessions"
+summary: "How OpenClaw remembers things across sessions"
 title: "Memory overview"
 read_when:
   - You want to understand how memory works
   - You want to know what memory files to write
 ---
 
-FRIDAY remembers things by writing plain Markdown files in your agent's
+OpenClaw remembers things by writing plain Markdown files in your agent's
 workspace (default `~/.openclaw/workspace`). The model only remembers what gets
 saved to disk; there is no hidden state.
 
 Workspace `USER.md` and `MEMORY.md` context does not require a memory search
 plugin to implement provenance classification. When that optional capability is
-missing, FRIDAY uses its workspace provenance records. Files recorded as
+missing, OpenClaw uses its workspace provenance records. Files recorded as
 untrusted and remote files without a valid read-source identity remain excluded.
 
 ## How it works
@@ -59,7 +59,7 @@ instructions still encourage the agent to record durable facts as it works,
 while dreaming handles background consolidation. The default heartbeat prompt
 performs no memory maintenance on its own.
 
-If `MEMORY.md` grows past the bootstrap file budget, FRIDAY keeps the file on
+If `MEMORY.md` grows past the bootstrap file budget, OpenClaw keeps the file on
 disk intact but truncates the copy injected into context. Treat that as a
 signal to move detailed material into `memory/*.md`, keep only a durable
 summary in `MEMORY.md`, or raise the bootstrap limits if you want to spend more
@@ -72,9 +72,9 @@ The Control UI can import existing local memory from Codex, Claude Code, and
 Hermes.
 Open **Settings** → **Import Memory**, choose the destination agent, review the
 detected files, and confirm the import. For the existing default agent, you can
-instead open **Settings → Ask FRIDAY** and say `import memory`; this narrower
+instead open **Settings → Ask OpenClaw** and say `import memory`; this narrower
 chat wizard requires completed onboarding, copies only new detected memory, and
-reports per-source failures or possible partial copies. FRIDAY copies only
+reports per-source failures or possible partial copies. OpenClaw copies only
 Markdown memory:
 
 - Codex: the consolidated `MEMORY.md` and `memory_summary.md` files under
@@ -122,7 +122,7 @@ A useful action-sensitive memory makes clear:
 - who is the source or owner, if that affects trust or authority.
 
 Memory can preserve approval context, but it does not enforce policy. Use
-FRIDAY approval settings, sandboxing, and scheduled tasks for hard
+OpenClaw approval settings, sandboxing, and scheduled tasks for hard
 operational controls.
 
 Example:
@@ -208,7 +208,7 @@ terms like IDs and code symbols). This works out of the box with an API key
 for any supported provider.
 
 <Info>
-FRIDAY uses OpenAI embeddings by default. Set
+OpenClaw uses OpenAI embeddings by default. Set
 `memory.search.provider` explicitly to use Gemini, Voyage,
 Mistral, Bedrock, DeepInfra, local GGUF, Ollama, LM Studio, GitHub Copilot, or
 a generic OpenAI-compatible endpoint.
@@ -259,16 +259,16 @@ dashboards, bridge mode, and Obsidian-friendly workflows.
 ## Automatic memory flush
 
 Before [compaction](/concepts/compaction) summarizes your conversation,
-FRIDAY runs a silent turn that reminds the agent to save important context
+OpenClaw runs a silent turn that reminds the agent to save important context
 to durable memory. Memory Core saves to a workspace memory file. A selected
 memory plugin can supply its own persistence tools. This is on by default; set
 `agents.defaults.compaction.memoryFlush.enabled: false` to turn it off.
-FRIDAY resolves when the flush runs from that host config and the active
+OpenClaw resolves when the flush runs from that host config and the active
 context window. The selected memory provider supplies the prompts and
 persistence target or tools. It inherits host timing unless it deliberately
 overrides an optional timing field.
 
-When a model server omits usage data, FRIDAY estimates context pressure from
+When a model server omits usage data, OpenClaw estimates context pressure from
 the active conversation so the memory checkpoint can still run. These estimates
 do not replace provider-reported token usage in session status.
 

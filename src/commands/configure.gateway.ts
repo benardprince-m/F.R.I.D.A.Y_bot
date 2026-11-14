@@ -177,7 +177,7 @@ export async function promptGatewayConfig(cfg: OpenClawConfig): Promise<{
       });
       const envVarName = normalizeOptionalString(envVar) ?? "";
       gatewayToken = createGatewayEnvSecretRef(cfg, envVarName);
-      note(`Validated ${envVarName}. FRIDAY will store a token SecretRef.`, "Gateway token");
+      note(`Validated ${envVarName}. OpenClaw will store a token SecretRef.`, "Gateway token");
     } else {
       const tokenInput = await prompts.password({
         message: "Gateway token (blank to generate)",
@@ -198,7 +198,7 @@ export async function promptGatewayConfig(cfg: OpenClawConfig): Promise<{
   if (authMode === "trusted-proxy") {
     note(
       [
-        "Trusted proxy mode: FRIDAY trusts user identity from a reverse proxy.",
+        "Trusted proxy mode: OpenClaw trusts user identity from a reverse proxy.",
         "The proxy must authenticate users and pass identity via headers.",
         "Only requests from specified proxy IPs will be trusted.",
         "",

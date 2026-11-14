@@ -128,7 +128,7 @@ describe("qa scenario catalog", () => {
     );
   });
 
-  it("keeps the pinned gateway restart scenario owned by the FRIDAY runtime", () => {
+  it("keeps the pinned gateway restart scenario owned by the OpenClaw runtime", () => {
     const scenarioId = "gateway-restart-multi-live";
     const scenario = readQaScenarioById(scenarioId);
     const scenarios = readQaScenarioPack().scenarios;

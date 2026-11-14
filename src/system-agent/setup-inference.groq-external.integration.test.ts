@@ -61,7 +61,7 @@ it("resolves a Groq manifest model from a global external install during setup",
         JSON.stringify({
           name: "@openclaw/groq-provider",
           version: "2026.9.4",
-          description: "FRIDAY Groq media-understanding provider.",
+          description: "OpenClaw Groq media-understanding provider.",
           repository: {
             type: "git",
             url: "https://github.com/openclaw/openclaw",

@@ -22,7 +22,7 @@ it.each([
   { kind: "gateway", resolve: resolveGatewayService, stateName: ".openclaw" },
   { kind: "node", resolve: resolveNodeService, stateName: "node-state" },
 ])(
-  "guards every $kind mutation when config was written by a newer FRIDAY",
+  "guards every $kind mutation when config was written by a newer OpenClaw",
   async ({ kind, resolve, stateName }) => {
     mockSystemAccountHome();
     const tempHome = await makeTempWorkspace("openclaw-service-future-config-");
@@ -81,7 +81,7 @@ it.each([
             await program.parseAsync(process.argv);
           };
         }
-        await expect(run()).rejects.toThrow(`the ${kind} service because this FRIDAY binary`);
+        await expect(run()).rejects.toThrow(`the ${kind} service because this OpenClaw binary`);
         expect(observation).not.toHaveBeenCalled();
         expect(preflight).not.toHaveBeenCalled();
       }

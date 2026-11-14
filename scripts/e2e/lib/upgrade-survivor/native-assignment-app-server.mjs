@@ -1,4 +1,4 @@
-// Synthetic native history survives both Gateway processes; only FRIDAY authors its state.
+// Synthetic native history survives both Gateway processes; only OpenClaw authors its state.
 import fs from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";

@@ -15,18 +15,18 @@ const storageFailures = [
     error: new SessionTranscriptWriterClaimReboundError(),
     legacyError: "session writer claim changed before transcript persistence",
     summary:
-      "This conversation changed while FRIDAY was working. Check its latest messages before continuing.",
+      "This conversation changed while OpenClaw was working. Check its latest messages before continuing.",
     content:
-      "⚠️ This conversation changed while FRIDAY was working. Check its latest messages before continuing. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal.",
+      "⚠️ This conversation changed while OpenClaw was working. Check its latest messages before continuing. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal.",
   },
   {
     name: "SQLite busy",
     error: Object.assign(new Error("Synthetic storage contention"), { code: "SQLITE_BUSY" }),
     legacyError: "database is locked",
     summary:
-      "FRIDAY is busy saving your conversation. Wait a moment, then check the conversation before trying again.",
+      "OpenClaw is busy saving your conversation. Wait a moment, then check the conversation before trying again.",
     content:
-      "⚠️ FRIDAY is busy saving your conversation. Wait a moment, then check the conversation before trying again. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal.",
+      "⚠️ OpenClaw is busy saving your conversation. Wait a moment, then check the conversation before trying again. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal.",
   },
 ];
 

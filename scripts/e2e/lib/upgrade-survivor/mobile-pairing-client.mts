@@ -449,7 +449,7 @@ function loadWebSocket(packageRoot: string): WebSocketConstructor {
       ? loaded
       : (loaded as { WebSocket?: WebSocketConstructor }).WebSocket;
   if (!WebSocket) {
-    throw new Error("installed FRIDAY WebSocket runtime missing");
+    throw new Error("installed OpenClaw WebSocket runtime missing");
   }
   return WebSocket;
 }

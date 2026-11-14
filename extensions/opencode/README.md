@@ -1,6 +1,6 @@
-# OpenCode Zen FRIDAY provider
+# OpenCode Zen OpenClaw provider
 
-Official FRIDAY provider plugin for the OpenCode Zen model catalog, image
+Official OpenClaw provider plugin for the OpenCode Zen model catalog, image
 understanding, and native OpenCode session browsing.
 
 ## Install
@@ -12,5 +12,5 @@ openclaw gateway restart
 
 ## Docs
 
-See `docs/providers/opencode.md` in the FRIDAY repository, or the published
+See `docs/providers/opencode.md` in the OpenClaw repository, or the published
 docs at `https://docs.openclaw.ai/providers/opencode`.

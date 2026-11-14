@@ -89,7 +89,7 @@ describe("runEmbeddedAttemptPromptPhase runtime-only persistence", () => {
     await runEmbeddedAttemptPromptPhase(fixture.input, fixture.promptState);
 
     expect(requests).toHaveLength(1);
-    expect(JSON.stringify(requests[0])).toContain("Continue the FRIDAY runtime event.");
+    expect(JSON.stringify(requests[0])).toContain("Continue the OpenClaw runtime event.");
     expect(JSON.stringify(requests[0])).toContain("room event payload: a runtime-only turn");
     const persistedUsers = () =>
       guardedManager
@@ -99,7 +99,7 @@ describe("runEmbeddedAttemptPromptPhase runtime-only persistence", () => {
         );
     expect(persistedUsers()).toMatchObject([
       {
-        content: [{ type: "text", text: "Continue the FRIDAY runtime event." }],
+        content: [{ type: "text", text: "Continue the OpenClaw runtime event." }],
         display: false,
         provenance: { kind: "internal_system" },
       },

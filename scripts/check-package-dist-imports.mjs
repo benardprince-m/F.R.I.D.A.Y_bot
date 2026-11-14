@@ -76,7 +76,7 @@ const errors = collectPackageDistImportErrors({
 });
 
 if (errors.length > 0) {
-  fail(`FRIDAY package dist import closure failed:\n${errors.join("\n")}`);
+  fail(`OpenClaw package dist import closure failed:\n${errors.join("\n")}`);
 }
 
-console.log("FRIDAY package dist import closure passed.");
+console.log("OpenClaw package dist import closure passed.");

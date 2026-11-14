@@ -503,7 +503,7 @@ def build_watch_screenshot_app
     xcodebuild_shell_join([
       "xcodebuild",
       "-project",
-      File.join(ios_root, "FRIDAY.xcodeproj"),
+      File.join(ios_root, "OpenClaw.xcodeproj"),
       "-scheme",
       "OpenClawWatchApp",
       "-configuration",
@@ -1810,7 +1810,7 @@ def capture_release_ios_screenshot!(
   FileUtils.mkdir_p(File.dirname(result_bundle_path))
   begin
     app_identifier = bundle_identifier_for_product(
-      File.join(derived_data_path, "Build", "Products", "Debug-iphonesimulator", "FRIDAY.app")
+      File.join(derived_data_path, "Build", "Products", "Debug-iphonesimulator", "OpenClaw.app")
     )
     installed_apps = sh(
       "/bin/bash", "-o", "pipefail", "-c",
@@ -1877,11 +1877,11 @@ end
 
 def build_app_store_release(context)
   version = context[:version]
-  project_path = File.join(ios_root, "FRIDAY.xcodeproj")
+  project_path = File.join(ios_root, "OpenClaw.xcodeproj")
   output_directory = File.join(ios_root, "build", "app-store")
-  archive_path = File.join(output_directory, "FRIDAY-#{version}.xcarchive")
+  archive_path = File.join(output_directory, "OpenClaw-#{version}.xcarchive")
   export_options_path = File.join(output_directory, "ExportOptions.plist")
-  output_name = "FRIDAY-#{version}.ipa"
+  output_name = "OpenClaw-#{version}.ipa"
   expected_ipa_path = File.join(output_directory, output_name)
 
   verify_apple_release_source!(context[:git_commit])
@@ -1896,7 +1896,7 @@ def build_app_store_release(context)
       "-project",
       project_path,
       "-scheme",
-      "FRIDAY",
+      "OpenClaw",
       "-configuration",
       "Release",
       "-destination",
@@ -2293,7 +2293,7 @@ platform :ios do
       api_key: api_key,
       force: true,
       app_version: version_metadata[:short_version],
-      copyright: "2026 FRIDAY",
+      copyright: "2026 OpenClaw",
       primary_category: "PRODUCTIVITY",
       secondary_category: "UTILITIES",
       metadata_path: metadata_path,
@@ -2352,7 +2352,7 @@ platform :ios do
     )
     FileUtils.rm_rf(derived_data_path)
     devices = snapshot_devices
-    project = File.join(ios_root, "FRIDAY.xcodeproj")
+    project = File.join(ios_root, "OpenClaw.xcodeproj")
     simulator_devices = available_simulator_devices
     selected_devices = devices.map do |name|
       simulator_devices.select { |device| device.fetch("name") == name }.max_by do |device|

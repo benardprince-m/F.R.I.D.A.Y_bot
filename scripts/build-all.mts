@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Builds FRIDAY packages and plugin SDK artifacts with cache-aware orchestration.
+// Builds OpenClaw packages and plugin SDK artifacts with cache-aware orchestration.
 
 import { spawnSync, type SpawnSyncOptions } from "node:child_process";
 import fs from "node:fs";
@@ -276,7 +276,7 @@ function buildAllUsage() {
   return [
     "Usage: node --import tsx scripts/build-all.mts [profile]",
     "",
-    "Builds FRIDAY artifacts for the selected profile.",
+    "Builds OpenClaw artifacts for the selected profile.",
     "",
     "Profiles:",
     ...Object.keys(BUILD_ALL_PROFILES).map((profile) => `  ${profile}`),

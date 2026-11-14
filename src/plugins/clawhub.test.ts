@@ -133,7 +133,7 @@ function mockCommunityClawHubPackageDetail() {
 function mockClawHubSecurity(
   trust: Record<string, unknown>,
   releaseVersion = "2026.3.22",
-  overview = "The plugin can modify local FRIDAY state.",
+  overview = "The plugin can modify local OpenClaw state.",
 ) {
   fetchClawHubPackageSecurityMock.mockResolvedValueOnce(
     clawHubSecurityResponse("demo", releaseVersion, trust, overview),
@@ -733,7 +733,7 @@ describe("installPluginFromClawHub", () => {
       version: "2026.6.10",
       host: "2026.6.8",
       recovery: "absent",
-      error: "Upgrade FRIDAY or choose an explicit compatible plugin version.",
+      error: "Upgrade OpenClaw or choose an explicit compatible plugin version.",
     },
   ])("$name", async ({ version, host, recovery, error }) => {
     const pinned = version === "2026.6.8";
@@ -1226,7 +1226,7 @@ describe("installPluginFromClawHub", () => {
       expected: {
         code: CLAWHUB_INSTALL_ERROR_CODE.INCOMPATIBLE_PLUGIN_API,
         error:
-          'Plugin "demo" requires plugin API *, but this FRIDAY runtime exposes invalid. Upgrade FRIDAY or choose an explicit compatible plugin version.',
+          'Plugin "demo" requires plugin API *, but this OpenClaw runtime exposes invalid. Upgrade OpenClaw or choose an explicit compatible plugin version.',
       },
     },
     {
@@ -1254,7 +1254,7 @@ describe("installPluginFromClawHub", () => {
         ok: false,
         code: CLAWHUB_INSTALL_ERROR_CODE.UNKNOWN_GATEWAY_VERSION,
         error:
-          'Plugin "demo" requires FRIDAY >=2026.3.22, but this host version could not be determined. Re-run from a released build or set OPENCLAW_VERSION and retry.',
+          'Plugin "demo" requires OpenClaw >=2026.3.22, but this host version could not be determined. Re-run from a released build or set OPENCLAW_VERSION and retry.',
       },
     },
     {

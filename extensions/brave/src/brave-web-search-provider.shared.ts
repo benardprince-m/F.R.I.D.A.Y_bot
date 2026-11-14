@@ -9,7 +9,7 @@ import {
 } from "openclaw/plugin-sdk/string-coerce-runtime";
 
 type BraveLlmContextResult = { url: string; title: string; snippets: string[] };
-/** Brave LLM Context API response subset used by FRIDAY. */
+/** Brave LLM Context API response subset used by OpenClaw. */
 export type BraveLlmContextResponse = {
   grounding: { generic?: BraveLlmContextResult[] };
   sources?: Record<string, { age?: string[] }>;

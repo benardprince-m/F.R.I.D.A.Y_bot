@@ -9,7 +9,7 @@ title: "LLM task"
 `llm-task` is a bundled **optional plugin tool** that runs a single JSON-only
 LLM call and returns structured output, optionally validated against a JSON
 Schema. It gives workflow engines like Lobster an LLM step without custom
-FRIDAY code per workflow.
+OpenClaw code per workflow.
 
 ## Enable
 
@@ -97,7 +97,7 @@ and `details.model` naming what actually ran.
 
 Each call starts a fresh prompt-only inference operation. It does not reuse the
 calling agent's transcript or native runtime session, run agent lifecycle hooks,
-or deliver model output to a channel. FRIDAY uses the selected provider,
+or deliver model output to a channel. OpenClaw uses the selected provider,
 model, auth profile, and runtime exactly once; it does not fall back to another
 route when that owner cannot provide isolated completion.
 
@@ -128,7 +128,7 @@ fail before inference because Gemini CLI has no literal raw-input mode.
 The example below assumes the **standalone Lobster CLI** is running where
 `openclaw.invoke` already has the correct gateway URL/auth context.
 
-For the bundled **embedded** Lobster runner inside FRIDAY, this nested CLI
+For the bundled **embedded** Lobster runner inside OpenClaw, this nested CLI
 pattern is **not currently reliable**:
 
 ```lobster
@@ -168,7 +168,7 @@ openclaw.invoke --tool llm-task --action json --args-json '{
   fences, no commentary.
 - **No supplied tools**: runtimes enforce a literal empty model-callable tool
   surface except for the documented Agents API native-helper limitation.
-  FRIDAY rejects tool-shaped results instead of treating them as task output.
+  OpenClaw rejects tool-shaped results instead of treating them as task output.
 - **Isolated**: the run has no agent transcript, session reuse, lifecycle hooks,
   channel delivery, or provider fallback.
 - Treat output as untrusted unless you validate it with `schema`.

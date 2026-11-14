@@ -131,7 +131,7 @@ const ANTHROPIC_MODEL_DESCRIPTOR = {
 
 const APP_INFERENCE_PROFILE_ARN =
   "arn:aws:bedrock:us-east-1:123456789012:application-inference-profile/my-claude-profile";
-const BEDROCK_RUNTIME_CONTEXT = "FRIDAY runtime context:\nTransient context";
+const BEDROCK_RUNTIME_CONTEXT = "OpenClaw runtime context:\nTransient context";
 
 function makeAppInferenceProfileDescriptor(modelId: string, name?: string): never {
   return {

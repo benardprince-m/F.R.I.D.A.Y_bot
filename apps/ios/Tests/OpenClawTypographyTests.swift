@@ -2,7 +2,7 @@ import CoreText
 import Foundation
 import Testing
 import UIKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct RootSidebarTypographyTests {
     @Test func `root sidebar uses branded typography`() throws {

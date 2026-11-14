@@ -256,7 +256,7 @@ appendFileSync(process.env.CALLS, JSON.stringify(args)+'\\n');
 if (args[0] === 'workflow') console.log('https://github.com/openclaw/openclaw/actions/runs/202');
 else if (args[1].includes('/commits/')) console.log('${sha}');
 else if (args[1].includes('/actions/workflows/')) console.log('88');
-else console.log(JSON.stringify({id:202,workflow_id:88,head_branch:'main',event:'workflow_dispatch',display_title:'FRIDAY Performance full-release-validation-77-1',head_sha:'${sha}',run_attempt:1,html_url:'https://github.com/openclaw/openclaw/actions/runs/202'}));
+else console.log(JSON.stringify({id:202,workflow_id:88,head_branch:'main',event:'workflow_dispatch',display_title:'OpenClaw Performance full-release-validation-77-1',head_sha:'${sha}',run_attempt:1,html_url:'https://github.com/openclaw/openclaw/actions/runs/202'}));
 `,
     );
     chmodSync(gh, 0o755);

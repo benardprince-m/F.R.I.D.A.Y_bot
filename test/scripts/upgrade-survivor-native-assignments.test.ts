@@ -143,7 +143,7 @@ it("requires package-bound proof before publishing a successful retirement cell"
       candidateSha256: digest,
       source: "published-gateway-agent-native-events",
       backend: "synthetic-codex-websocket",
-      baselineCore: "FRIDAY 2026.9.4 (3a9d69d)",
+      baselineCore: "OpenClaw 2026.9.4 (3a9d69d)",
       sessionKey: "agent:native-proof:upgrade-native-proof",
       recoveredRunIds: [running, completed],
       baselineCodex: {

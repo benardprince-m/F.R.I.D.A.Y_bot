@@ -10,7 +10,7 @@ const FORBIDDEN_PACKED_PATH_RULES = [
     kind: "local runtime build output",
   },
   {
-    prefix: "dist/FRIDAY.app/",
+    prefix: "dist/OpenClaw.app/",
     kind: "local application build output",
   },
   {

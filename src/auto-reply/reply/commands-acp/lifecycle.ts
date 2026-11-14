@@ -116,7 +116,7 @@ export async function handleAcpSpawnAction(
   }
 
   const acpManager = getAcpSessionManager();
-  // Raw harness ids select a backend, not a new FRIDAY owner. Keep configured
+  // Raw harness ids select a backend, not a new OpenClaw owner. Keep configured
   // targets in their existing namespace; otherwise mirror sessions_spawn ownership.
   const ownerAgentId = listAgentIds(params.cfg).includes(spawn.agentId)
     ? spawn.agentId

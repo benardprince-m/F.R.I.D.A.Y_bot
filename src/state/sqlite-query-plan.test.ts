@@ -1,4 +1,4 @@
-// SQLite query-plan tests pin hot FRIDAY state indexes used by perf proof.
+// SQLite query-plan tests pin hot OpenClaw state indexes used by perf proof.
 import type { StatementSync } from "node:sqlite";
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { trackSqliteStatementExecutions } from "../../test/helpers/sqlite-statement-execution-counter.js";

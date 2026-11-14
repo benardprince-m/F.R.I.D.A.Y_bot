@@ -9,7 +9,7 @@ read_when:
   - You are reviewing memory provenance, deletion coverage, or retained data
 ---
 
-FRIDAY records source-session lineage for memories staged by automatic
+OpenClaw records source-session lineage for memories staged by automatic
 session ingestion and historical session backfill. `openclaw memory forget` uses that lineage to remove
 tracked entries and related artifacts, and records the selected sessions as
 forgotten so later ingestion does not restore them.
@@ -171,7 +171,7 @@ Matching requires retained session metadata; missing fields do not match a
 rule. Both controls honor the configured `session.store`, including custom
 and shared stores, while keeping selection scoped to the chosen agent. Older
 retained records may have only a coarse `webhook` classification; without the
-original exact source, FRIDAY does not infer `email` or `webhook` for matching.
+original exact source, OpenClaw does not infer `email` or `webhook` for matching.
 Select those sessions explicitly by full ID.
 
 Automatic dreaming separately skips retained archives. To exclude an

@@ -47,7 +47,7 @@ function expectedCommandHook(event: string, timeout = 10, commandTimeout = 9_000
           command: `openclaw hooks relay --provider codex --relay-id relay-1 --generation generation-1 --event ${event} --timeout ${commandTimeout}`,
           timeout,
           async: false,
-          statusMessage: "FRIDAY native hook relay",
+          statusMessage: "OpenClaw native hook relay",
         },
       ],
     },
@@ -578,7 +578,7 @@ describe("Codex native hook relay managed policy", () => {
 
     await assertCodexNativeHookRelayAllowed(client as never);
     await expect(assertCodexNativeHookRelayAllowed(client as never)).rejects.toThrow(
-      /managed-only hooks.*FRIDAY native hook relay/i,
+      /managed-only hooks.*OpenClaw native hook relay/i,
     );
 
     expect(request).toHaveBeenCalledTimes(2);
@@ -688,7 +688,7 @@ describe("Codex native hook relay config", () => {
     );
   });
 
-  it("projects canonical FRIDAY ids to Codex canonical and alias matcher names", () => {
+  it("projects canonical OpenClaw ids to Codex canonical and alias matcher names", () => {
     const config = buildCodexNativeHookRelayConfig({
       relay: createRelay({
         matchers: {

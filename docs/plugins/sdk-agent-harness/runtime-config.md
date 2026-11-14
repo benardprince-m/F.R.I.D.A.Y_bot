@@ -12,7 +12,7 @@ Operator configuration: turning on the bundled native Codex mode, and pinning pr
 
 ## Native Codex harness mode
 
-The bundled `codex` harness is the native Codex mode for embedded FRIDAY
+The bundled `codex` harness is the native Codex mode for embedded OpenClaw
 agent turns. Enable the bundled `codex` plugin first, and include `codex` in
 `plugins.allow` if your config uses a restrictive allowlist. Native app-server
 configs should use `openai/gpt-*`; OpenAI agent turns select the Codex harness
@@ -21,7 +21,7 @@ refs should be repaired with `openclaw doctor --fix`, and legacy `codex/*`
 model refs remain compatibility aliases for the native harness.
 
 When this mode runs, Codex owns the native thread id, resume behavior,
-compaction, and app-server execution. FRIDAY still owns the chat channel,
+compaction, and app-server execution. OpenClaw still owns the chat channel,
 visible transcript mirror, tool policy, approvals, media delivery, and session
 selection. Use provider/model `agentRuntime.id: "codex"` to require a registered
 Codex harness. Unsupported routes/auth are rejected unless the harness declares
@@ -34,14 +34,14 @@ The `agentsapi` plugin accepts `plugins.entries.agentsapi.config.environment` wi
 the values `openai_hosted` and `self_hosted`. Omitted configuration uses
 `openai_hosted`.
 
-For `self_hosted`, FRIDAY sends its prepared absolute workspace path as the
+For `self_hosted`, OpenClaw sends its prepared absolute workspace path as the
 Agents API `workspace_directory`. The executor must already have that directory
 at the same path. Before selecting this mode, configure an operator-owned
 [webhook controller](https://developers.openai.com/api/docs/guides/agents-api/environments/lifecycle#start-compute-from-webhooks)
 for the Gateway's sessions. The controller retrieves each session's environment
 ID and remote URL through the authenticated Agents API and connects its executor,
 following the [official self-hosted setup](https://developers.openai.com/api/docs/guides/agents-api/environments/self-hosted).
-It owns startup, reconnection, and cleanup. FRIDAY does not launch or provision
+It owns startup, reconnection, and cleanup. OpenClaw does not launch or provision
 executors through this setting. Input submission has a 60-second HTTP deadline,
 including any wait for the executor to connect. The controller must connect
 promptly; the API's longer connection window does not extend this deadline.
@@ -49,14 +49,14 @@ promptly; the API's longer connection window does not extend this deadline.
 Set `plugins.entries.agentsapi.config.hostExecutorSkillDirectories` to absolute
 paths on the executor host machine. These directories must already be set up
 with the skill files and be available to the Agents API harness through the
-executor. FRIDAY sends the paths as the Agents API `capability_directories`
-field. The harness discovers and reads skills through that executor; FRIDAY
+executor. OpenClaw sends the paths as the Agents API `capability_directories`
+field. The harness discovers and reads skills through that executor; OpenClaw
 does not copy or install the files.
-This explicit directory selection uses native skill discovery, without FRIDAY's
+This explicit directory selection uses native skill discovery, without OpenClaw's
 per-skill eligibility filters. Gateway function policies still apply.
 Omitted and empty lists keep the existing behavior. Hosted sessions ignore this list.
 
-Reset the FRIDAY session after changing its environment or a self-hosted
+Reset the OpenClaw session after changing its environment or a self-hosted
 workspace or skill directories. Existing hosted sessions continue with omitted or explicit
 `openai_hosted` configuration. This selection does not expand the MVP's existing
 tool or media capabilities.
@@ -67,7 +67,7 @@ The Agents API harness reads enabled HTTP servers from `mcp.servers` and plugin 
 bundles. Set `transport: "streamable-http"`, a `url`, and optional `headers` on each
 server. HTTP connections run from the session's execution environment, including
 the self-hosted executor for private-network services. Native MCP owns discovery
-and execution; FRIDAY does not create another Gateway transport for these tools.
+and execution; OpenClaw does not create another Gateway transport for these tools.
 
 Exact `toolFilter.include` names are forwarded as the native allowlist. Exclusions
 and session tool denials require an explicit include list and are subtracted from
@@ -95,7 +95,7 @@ harness's responsibility.
 
 ## Runtime strictness
 
-By default, FRIDAY uses `auto` provider/model runtime policy: registered
+By default, OpenClaw uses `auto` provider/model runtime policy: registered
 plugin harnesses can claim compatible effective routes, and the embedded
 runtime handles the turn when none match. A provider/model prefix alone never
 selects a harness. Use an explicit provider/model plugin runtime such as
@@ -181,7 +181,7 @@ Legacy whole-agent runtime examples like this are ignored:
 
 With an explicit plugin runtime, a session fails early when the requested
 harness is not registered or rejects the resolved provider/model without a
-declared fallback. An authored transport override may select FRIDAY through
+declared fallback. An authored transport override may select OpenClaw through
 that fallback even with an explicit runtime. To prove native execution, inspect
 the actual harness in the completed result; configured intent alone is not proof.
 

@@ -82,7 +82,7 @@ const freeFormExecTool = {
 // Tool Search uses TypeBox's Type.Record(), which emits patternProperties for args.
 const toolCallDispatcherTool = {
   name: "dispatch_action",
-  description: "Call an exact Tool Search result id or name through FRIDAY.",
+  description: "Call an exact Tool Search result id or name through OpenClaw.",
   parameters: {
     type: "object",
     required: ["id"],

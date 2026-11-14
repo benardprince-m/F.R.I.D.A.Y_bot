@@ -2,7 +2,7 @@ import AppKit
 import ConcurrencyExtras
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawKit
 
 struct DashboardIdentityFixture: Sendable {

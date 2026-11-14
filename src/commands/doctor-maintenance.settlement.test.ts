@@ -310,7 +310,7 @@ it("does not suggest an unsafe manual stop after a reported write-custody refusa
   const error = await begin().catch((reason: unknown) => reason);
   expect(error).toBeInstanceOf(Error);
   expect(String(error)).toContain(refusal.message);
-  expect(String(error)).not.toContain("Stop the Gateway service and other FRIDAY processes");
+  expect(String(error)).not.toContain("Stop the Gateway service and other OpenClaw processes");
   expect(boundary.restart).not.toHaveBeenCalled();
 });
 
@@ -630,7 +630,7 @@ it.each([false, true])(
     if (stopFailed) {
       expect(collectNestedErrorCandidates(refusal)).toContain(stopError);
     } else {
-      expect(String(refusal)).toContain("FRIDAY state database is busy at");
+      expect(String(refusal)).toContain("OpenClaw state database is busy at");
     }
     expect(elapsed).toBe(GATEWAY_SERVICE_STOP_TIMEOUT_MS);
     expectCalls(0, "ownerAssert", "lease", "close");
@@ -650,7 +650,7 @@ it("leaves an already stopped Gateway with its legacy update parent after repair
 });
 
 const leaseGuidance =
-  "Doctor could not enter maintenance. An agent database is in use. Stop other FRIDAY processes using this state, then retry the update.";
+  "Doctor could not enter maintenance. An agent database is in use. Stop other OpenClaw processes using this state, then retry the update.";
 const leaseCode = "agent-database-lease-active";
 const leaseFact = { check: "doctor", code: leaseCode, message: leaseGuidance };
 const privateCause =
@@ -670,7 +670,7 @@ it("refuses an external active agent lease before serving-Gateway coordinator co
     },
   ]);
   boundary.gatewayAcquire.mockImplementation(() => {
-    throw new Error("another FRIDAY process owns gateway-lifecycle");
+    throw new Error("another OpenClaw process owns gateway-lifecycle");
   });
   const refusal: unknown = await begin().catch((error: unknown) => error);
   expect(refusal).toBeInstanceOf(UpdateDoctorError);
@@ -688,7 +688,7 @@ it("refuses an external active agent lease before serving-Gateway coordinator co
 
 it("does not use an empty external lease observation to bypass coordinator contention", async () => {
   boundary.external.mockReturnValue(true);
-  const contention = new Error("another FRIDAY process owns gateway-lifecycle");
+  const contention = new Error("another OpenClaw process owns gateway-lifecycle");
   fail("gatewayAcquire", contention);
   const refusal: unknown = await begin().catch((error: unknown) => error);
   expect(refusal).toMatchObject({ cause: contention });

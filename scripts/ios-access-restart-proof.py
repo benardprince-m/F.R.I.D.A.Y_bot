@@ -166,14 +166,14 @@ def main(simulator):
     require(len(source) == 40 and all(c in "0123456789abcdef" for c in source), "Missing source identity")
     nonce = str(uuid.uuid4())
     destination = f"platform=iOS Simulator,id={simulator}"
-    build = ["xcodebuild", "-project", "apps/ios/FRIDAY.xcodeproj", "-scheme", "FRIDAY",
+    build = ["xcodebuild", "-project", "apps/ios/OpenClaw.xcodeproj", "-scheme", "OpenClaw",
              "-configuration", "Debug", "-destination", destination]
     # CI carries this fact only after its build-for-testing succeeds. Standalone proof still builds.
     if os.environ.get("IOS_TEST_BUILD_PREPARED") != "true":
         run(build + ["-parallel-testing-enabled", "NO", "build-for-testing"])
     settings = json.loads(run(build + ["-showBuildSettings", "-json"], capture=True))
-    hosts = [row["buildSettings"] for row in settings if row.get("target") == "FRIDAY"]
-    require(len(hosts) == 1, "Expected one FRIDAY build target")
+    hosts = [row["buildSettings"] for row in settings if row.get("target") == "OpenClaw"]
+    require(len(hosts) == 1, "Expected one OpenClaw build target")
     products = Path(hosts[0]["BUILD_DIR"])
     built_app = Path(hosts[0]["TARGET_BUILD_DIR"]) / hosts[0]["FULL_PRODUCT_NAME"]
     require(products.is_absolute() and built_app.is_absolute(), "Build products must be absolute")

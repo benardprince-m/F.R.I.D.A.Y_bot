@@ -1,7 +1,7 @@
 ---
 summary: "Connect ChatGPT and Claude to your Gateway through the opt-in MCP relay plugin"
 read_when:
-  - Connecting a remote MCP client to your FRIDAY Gateway
+  - Connecting a remote MCP client to your OpenClaw Gateway
   - Pairing or revoking a ChatGPT or Claude connector
   - Showing the full Control UI in ChatGPT
 title: "MCP Relay"
@@ -12,7 +12,7 @@ title: "MCP Relay"
 The bundled `mcp-relay` plugin connects your Gateway to
 `https://mcp.openclaw.ai` over an outbound WebSocket. Remote MCP clients such as
 ChatGPT, Codex, and Claude connect to `https://mcp.openclaw.ai/mcp`; you do not
-need to expose a Gateway port to the internet. In ChatGPT and Codex, FRIDAY
+need to expose a Gateway port to the internet. In ChatGPT and Codex, OpenClaw
 appears in the sidebar with your Gateway's full Control UI, and one connection
 can switch between several Gateways.
 
@@ -143,7 +143,7 @@ limits the grant. See [Team server](/gateway/team-server) for Gateway setup.
 
 ## Show the full Control UI in ChatGPT
 
-After pairing, open FRIDAY in ChatGPT to use your Gateway's full Control UI.
+After pairing, open OpenClaw in ChatGPT to use your Gateway's full Control UI.
 There is no additional plugin configuration: HTTP and WebSocket traffic travel
 over the existing outbound relay connection. The Gateway can remain on a private
 network. The relay gives each grant separate HTTPS origins for the UI and its
@@ -202,7 +202,7 @@ reconstruct replies from transcript pages.
 
 This version cannot distinguish a run waiting for approval from another active
 run. It continues to report `running`; it never reports `waiting_for_approval`.
-If progress stalls, open the conversation in FRIDAY and check for an approval
+If progress stalls, open the conversation in OpenClaw and check for an approval
 prompt.
 
 The MCP conversation operations do not expose arbitrary Gateway methods. Their

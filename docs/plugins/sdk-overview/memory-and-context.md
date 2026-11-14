@@ -25,12 +25,12 @@ To participate in durable admitted turns, context engines must declare
 `currentTurnFence: "before-current-turn-entry-v1"` and
 `turnAdvancementIdempotency: "atomic-idempotent-v1"` under
 `info.transcriptSemantics`, then implement `commitTurn(...)` as an atomic
-write keyed by `advancementKey` that has no additional effect when repeated. FRIDAY supplies only the inclusive
+write keyed by `advancementKey` that has no additional effect when repeated. OpenClaw supplies only the inclusive
 accepted turn, from its admitted user entry through its terminal entry; use the
 `readSessionTranscriptVisibleMessageDelta(...)` cursor API from
 `openclaw/plugin-sdk/context-engine-transcript-runtime` to bootstrap or rebuild
 earlier history (see
-[Context engine transcript cursor](/plugins/sdk-runtime/agent#context-engine-transcript-cursor)). Without the full contract, FRIDAY uses the legacy
+[Context engine transcript cursor](/plugins/sdk-runtime/agent#context-engine-transcript-cursor)). Without the full contract, OpenClaw uses the legacy
 context path for the whole logical turn and its retries, leaves the configured
 engine unchanged, and tries that engine again on the next logical turn.
 
@@ -54,7 +54,7 @@ engine unchanged, and tries that engine again on the next logical turn.
   return that agent's own session hits and no other agent's. When a session
   caller carries a host-granted conversation recall pass, the host forwards it
   as `conversationRecall`; admit only the hits that pass allows. If the hook
-  is absent, FRIDAY withholds session-source hits while
+  is absent, OpenClaw withholds session-source hits while
   retaining ordinary memory hits. Keep transcript identity and visibility
   policy in the owning memory plugin; callers must not infer authorization from
   paths or duplicate plugin-specific rules.
@@ -70,7 +70,7 @@ can promote it. Other memory plugins continue to expose their own search tools.
 ## Pre-compaction memory flush
 
 Register a flush resolver on `MemoryPluginCapability` to supply the silent
-turn that saves durable context before compaction. FRIDAY resolves flush
+turn that saves durable context before compaction. OpenClaw resolves flush
 timing first from `agents.defaults.compaction.memoryFlush` and the active
 context window. When `enabled` is `false`, the host does not invoke the
 resolver. Return `null` to skip the flush for provider-specific reasons.
@@ -253,7 +253,7 @@ conversation access.
 
 ### Memory audience
 
-FRIDAY resolves memory audience once from trusted turn facts and durable
+OpenClaw resolves memory audience once from trusted turn facts and durable
 session lineage. Providers and plugin tools consume the resulting host-minted
 value:
 

@@ -15,7 +15,7 @@ const manifest = require(process.argv[1]);
 process.exit(manifest.dependencies?.["@openclaw/ai"] ? 0 : 1);
 ' "$root_manifest"; then
       if [ -z "${OPENCLAW_PREPUBLISH_PLUGIN_REGISTRY_DIR:-}" ]; then
-        echo "FRIDAY tarball requires a verified candidate registry for unbundled @openclaw/ai" >&2
+        echo "OpenClaw tarball requires a verified candidate registry for unbundled @openclaw/ai" >&2
         exit 1
       fi
       REQUIRED_REGISTRY_PACKAGES='["@openclaw/ai"]'

@@ -1,7 +1,7 @@
 ---
-summary: "Use Venice AI privacy-focused models in FRIDAY"
+summary: "Use Venice AI privacy-focused models in OpenClaw"
 read_when:
-  - You want privacy-focused inference in FRIDAY
+  - You want privacy-focused inference in OpenClaw
   - You want Venice AI setup guidance
 title: "Venice AI"
 ---
@@ -34,7 +34,7 @@ Anonymized models are not fully private. Venice strips metadata before forwardin
     2. Go to **Settings > API Keys > Create new key**
     3. Copy your API key (format: `vapi_xxxxxxxxxxxx`)
   </Step>
-  <Step title="Configure FRIDAY">
+  <Step title="Configure OpenClaw">
     <Tabs>
       <Tab title="Interactive (recommended)">
         ```bash
@@ -133,17 +133,17 @@ tool-call format.
 ## Model discovery
 
 The built-in catalog above is the manifest-backed seed catalog. At runtime
-FRIDAY refreshes it from the Venice `/models` API and falls back to the seed
+OpenClaw refreshes it from the Venice `/models` API and falls back to the seed
 catalog if the API is unreachable. The `/models` endpoint is public (no auth needed for
 listing), but inference requires a valid API key.
 
 Venice may continue accepting retired model IDs as provider-owned aliases. The
-FRIDAY catalog advertises only the model IDs returned by `/models`.
+OpenClaw catalog advertises only the model IDs returned by `/models`.
 
 ## DeepSeek V4 replay behavior
 
 If Venice exposes DeepSeek V4 models such as `deepseek-v4-pro` or
-`deepseek-v4-flash`, FRIDAY fills the required `reasoning_content` replay
+`deepseek-v4-flash`, OpenClaw fills the required `reasoning_content` replay
 field on assistant messages when Venice omits it, and strips `thinking`/
 `reasoning`/`reasoning_effort` from the request payload (Venice rejects
 DeepSeek's native `thinking` control on these models). This replay fix is
@@ -160,7 +160,7 @@ separate from the native DeepSeek provider's own thinking controls.
 
 ## Prompt caching
 
-For the native `https://api.venice.ai/api/v1` endpoint, FRIDAY sends a stable
+For the native `https://api.venice.ai/api/v1` endpoint, OpenClaw sends a stable
 `prompt_cache_key` for related requests to improve cache affinity. An explicit
 request cache key takes precedence over the session ID. Setting
 `cacheRetention: "none"` suppresses this routing hint; it does not disable
@@ -174,7 +174,7 @@ Venice uses a credit-based system. Anonymized models cost roughly the same as
 direct API pricing plus a small Venice fee. See
 [venice.ai/pricing](https://venice.ai/pricing) for current rates.
 
-FRIDAY reads live prices from Venice's public
+OpenClaw reads live prices from Venice's public
 [`GET /api/v1/models`](https://docs.venice.ai/api-reference/endpoint/models/list)
 response during model discovery. The same plugin parser supplies the hosted
 catalog publisher. Known and newly discovered models use the API's complete

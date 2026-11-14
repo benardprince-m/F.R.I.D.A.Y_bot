@@ -39,7 +39,7 @@ describe("public session document", () => {
     });
     expect(unavailable).toContain("not publicly available");
     expect(unavailable).not.toContain("Public · Read-only");
-    expect(unavailable).not.toContain("Made with FRIDAY");
+    expect(unavailable).not.toContain("Made with OpenClaw");
     expect(unavailable).not.toContain('http-equiv="refresh"');
   });
   it("publishes only user and assistant conversation text without internal input or metadata", () => {
@@ -73,7 +73,7 @@ describe("public session document", () => {
       },
       { role: "assistant", content: "NO_REPLY" },
       { role: "assistant", content: "HEARTBEAT_OK" },
-      { role: "user", content: "[FRIDAY heartbeat poll]" },
+      { role: "user", content: "[OpenClaw heartbeat poll]" },
       {
         role: "user",
         provenance: { kind: "external_user" },
@@ -265,7 +265,7 @@ describe("public session document", () => {
       expect(html).not.toContain("OPENCLAW_INTERNAL_CONTEXT");
       expect(html).toContain(token);
       expect(html).toContain(operatorSecret);
-      expect(html).toContain(`<title>Shared ${token} ${operatorSecret} · FRIDAY</title>`);
+      expect(html).toContain(`<title>Shared ${token} ${operatorSecret} · OpenClaw</title>`);
     } finally {
       resetLogger();
     }
@@ -379,7 +379,7 @@ describe("public session document", () => {
     const html = render([{ role: "user", content: `${"b".repeat(32_767)}😀 UNIQUE_TAIL_MARKER` }], {
       title,
     });
-    expect(html).toContain(`<title>${"a".repeat(199)} · FRIDAY</title>`);
+    expect(html).toContain(`<title>${"a".repeat(199)} · OpenClaw</title>`);
     expect(html).toContain(`property="og:title" content="${"a".repeat(199)}"`);
     expect(html).not.toMatch(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/u);
     expect(html).toContain("Message shortened for this public view.");

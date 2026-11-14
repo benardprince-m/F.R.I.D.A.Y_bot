@@ -402,7 +402,7 @@ it.skipIf(process.platform === "win32").for([
     expect(errorText).toContain(
       surface === "gateway"
         ? "gateway exited before listening (exitCode=17"
-        : "FRIDAY CLI exited 17",
+        : "OpenClaw CLI exited 17",
     );
     expect(
       releases.every((release) => !release.descendantAlive),

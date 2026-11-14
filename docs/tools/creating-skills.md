@@ -11,7 +11,7 @@ read_when:
 
 Skills teach the agent how and when to use tools. Each skill is a directory
 containing a `SKILL.md` file with YAML frontmatter and markdown instructions.
-FRIDAY loads skills from several roots in a defined [precedence order](/tools/skills#loading-order).
+OpenClaw loads skills from several roots in a defined [precedence order](/tools/skills#loading-order).
 
 ## Create your first skill
 
@@ -64,7 +64,7 @@ FRIDAY loads skills from several roots in a defined [precedence order](/tools/sk
     openclaw skills list
     ```
 
-    FRIDAY watches `SKILL.md` files under skills roots by default. If the
+    OpenClaw watches `SKILL.md` files under skills roots by default. If the
     watcher is disabled or you are continuing an existing session, start a new
     one so the agent receives the refreshed list:
 

@@ -96,7 +96,7 @@ describe("unreleased Claude generations", () => {
       });
     }
     // The Claude CLI provider rows are intentionally unflagged: those runs use
-    // the CLI harness where FRIDAY code mode does not apply.
+    // the CLI harness where OpenClaw code mode does not apply.
     for (const id of ["claude-opus-5-5", "claude-opus-5", "claude-sonnet-5-5"]) {
       const model = resolveModel(id, "claude-cli");
       expect(model?.id).toBe(id);

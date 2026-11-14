@@ -732,7 +732,7 @@ describe("Claude session catalog", () => {
     expect(createSessionEntry).toHaveBeenCalledWith(
       expect.objectContaining({
         // Adoption shows the user's /rename via displayName; labels stay unseeded
-        // because FRIDAY labels are unique and duplicate CLI titles must adopt.
+        // because OpenClaw labels are unique and duplicate CLI titles must adopt.
         displayName: "Renamed source",
         spawnedCwd: "/work/source",
         initialEntry: expect.objectContaining({
@@ -843,7 +843,7 @@ describe("Claude session catalog", () => {
     return await provider?.list({});
   }
 
-  // An FRIDAY session that merely routes its turns through the Claude CLI keeps
+  // An OpenClaw session that merely routes its turns through the Claude CLI keeps
   // its own sidebar row, in whatever group the operator filed it under. Listing
   // its thread here would hide that row inside the Claude catalog instead.
   it.each([true, false])(

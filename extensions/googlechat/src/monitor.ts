@@ -65,7 +65,7 @@ function resolveBotDisplayName(params: {
   if (agent?.name?.trim()) {
     return agent.name.trim();
   }
-  return agent?.identity?.name?.trim() || "FRIDAY";
+  return agent?.identity?.name?.trim() || "OpenClaw";
 }
 
 async function processGoogleChatEvent(

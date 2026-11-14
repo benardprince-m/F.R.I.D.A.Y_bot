@@ -211,7 +211,7 @@ function readGatewayOwnerLeaseRows(
   const { rows } = executeSqliteQuerySync(db, query);
   if (rows.length > 1) {
     throw new Error(
-      "Gateway owner lease identity is ambiguous during maintenance; stop FRIDAY processes and restore a verified state backup before retrying",
+      "Gateway owner lease identity is ambiguous during maintenance; stop OpenClaw processes and restore a verified state backup before retrying",
     );
   }
   return decodeGatewayOwnerLease(rows[0]);

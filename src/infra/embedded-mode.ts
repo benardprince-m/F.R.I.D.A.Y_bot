@@ -5,7 +5,7 @@ export function setEmbeddedMode(value: boolean): void {
   embeddedModeValue = value;
 }
 
-/** Returns whether the current process is running inside an embedded FRIDAY host. */
+/** Returns whether the current process is running inside an embedded OpenClaw host. */
 export function isEmbeddedMode(): boolean {
   return embeddedModeValue;
 }

@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct GatewayProblemPrimaryActionTests {
     @Test func `protocol mismatch uses update action instead of retry`() {

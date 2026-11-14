@@ -1,4 +1,4 @@
-// Snapshots script supports FRIDAY repository automation.
+// Snapshots script supports OpenClaw repository automation.
 import { die, run } from "./host-command.ts";
 import type { Mode, SnapshotInfo } from "./types.ts";
 

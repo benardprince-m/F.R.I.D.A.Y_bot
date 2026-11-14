@@ -74,7 +74,7 @@ Recurring jobs can set `pacing.min` and/or `pacing.max` to duration strings such
 
 The Control UI preserves pacing bounds when duplicating a recurring job. Changing a paced job or its duplicate to **Once** removes pacing; other edits retain the existing bounds.
 
-During an agent-turn run, a paced job can call the `automations` tool with `action: "next_check"` and `in: "30m"`. The proposal applies only to that currently running job and is measured from successful run completion. FRIDAY silently clamps it to the configured bounds. A future paced deadline remains the next scheduled check after a Gateway restart.
+During an agent-turn run, a paced job can call the `automations` tool with `action: "next_check"` and `in: "30m"`. The proposal applies only to that currently running job and is measured from successful run completion. OpenClaw silently clamps it to the configured bounds. A future paced deadline remains the next scheduled check after a Gateway restart.
 
 Pacing without a proposal leaves the normal schedule unchanged. Failed, timed-out, and skipped runs discard the proposal, so existing retry and error-backoff behavior takes precedence. Manually forcing a recurring job is out-of-band and preserves its pending natural or paced slot. For condition-triggered jobs, the built-in minimum interval remains a lower bound even when a proposal requests an earlier check.
 

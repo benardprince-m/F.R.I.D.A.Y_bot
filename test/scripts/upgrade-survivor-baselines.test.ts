@@ -497,7 +497,7 @@ console.log(JSON.stringify(process.argv[4] === "dist-tags"
       { requested: "all-since-2026.5.31" },
     ].map((args) => ({
       args,
-      error: "Upgrade pre-June installs through FRIDAY 2026.9.5 and run Doctor first",
+      error: "Upgrade pre-June installs through OpenClaw 2026.9.5 and run Doctor first",
     })),
     ...[
       {

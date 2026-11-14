@@ -3,7 +3,7 @@ summary: "Build simple typed agent tools with defineToolPlugin and openclaw plug
 title: "Tool plugins"
 sidebarTitle: "Tool Plugins"
 read_when:
-  - You want to build a simple FRIDAY plugin that only adds agent tools
+  - You want to build a simple OpenClaw plugin that only adds agent tools
   - You want to use defineToolPlugin instead of hand-writing plugin manifest metadata
   - You need to create, generate, validate, test, or publish a tool-only plugin
   - You need the plugin tool context's memory audience and currency guards
@@ -11,7 +11,7 @@ read_when:
 
 `defineToolPlugin` builds a plugin that only adds agent-callable tools: no
 channel, model provider, hook, service, or setup backend. It generates the
-manifest metadata FRIDAY needs to discover tools without loading plugin
+manifest metadata OpenClaw needs to discover tools without loading plugin
 runtime code.
 
 For provider, channel, hook, service, or mixed-capability plugins, start with
@@ -125,7 +125,7 @@ export default defineToolPlugin({
 Tool names are the stable API. Pick names that are unique, lowercase, and
 specific enough to avoid collisions with core tools or other plugins.
 
-FRIDAY bounds tool input schemas to 128 nested schema levels, including
+OpenClaw bounds tool input schemas to 128 nested schema levels, including
 expanded local references. Deeper subschemas become permissive `{}` schemas
 so the tool remains callable. A one-time warning names the affected tool;
 validation beyond the cutoff is unavailable. Keep schemas shallow enough to
@@ -135,7 +135,7 @@ describe useful arguments to the model. This applies to MCP tools too.
 
 Set `optional: true` when users should explicitly allowlist the tool before it
 is sent to a model. `openclaw plugins build` writes the matching
-`toolMetadata.<tool>.optional` manifest entry, so FRIDAY can see that the
+`toolMetadata.<tool>.optional` manifest entry, so OpenClaw can see that the
 tool is optional without loading plugin runtime code.
 
 ```typescript
@@ -223,7 +223,7 @@ retired.
 
 Set `async: false` on a concrete tool the model uses to wait, as
 `sessions_yield` does. On GPT-6 Astra requests that use
-[async function calls](/providers/openai/models), FRIDAY marks other direct
+[async function calls](/providers/openai/models), OpenClaw marks other direct
 function tools async but keeps this one synchronous, so the response pauses at
 the call and the next request delivers earlier async results first. Other
 providers, Code Mode, and calls through the Tool Search catalog are unchanged;
@@ -279,7 +279,7 @@ availability check, never a substitute for the required final-effect guard.
 
 Set `hideFromChannelProgress: true` on the concrete factory tool to keep its
 transient activity out of channel progress drafts. Lifecycle events and the
-final tool result still flow normally. FRIDAY preserves the current factory's
+final tool result still flow normally. OpenClaw preserves the current factory's
 flag when normalizing its schema; omitted or `false` leaves normal progress
 behavior in place. See [Progress drafts](/concepts/progress-drafts).
 
@@ -289,12 +289,12 @@ with hooks, services, providers, or commands.
 
 ## Return values
 
-`defineToolPlugin` wraps plain return values into the FRIDAY tool-result
+`defineToolPlugin` wraps plain return values into the OpenClaw tool-result
 format:
 
 - Return a string when the model should see that exact text.
 - Return a JSON-compatible value when you want the model to see formatted JSON
-  and FRIDAY to keep the original value in `details`.
+  and OpenClaw to keep the original value in `details`.
 
 ```typescript
 tool({
@@ -354,7 +354,7 @@ schema into a bounded TypeScript-style output hint. That lets a model call and
 transform a known result in one program instead of spending another model turn
 observing its shape.
 
-FRIDAY compiles the schema before executing a catalog call, then validates the
+OpenClaw compiles the schema before executing a catalog call, then validates the
 final `details` value after tool hooks before returning it through the bridge.
 An invalid schema cannot run the tool; a result mismatch fails the completed
 call. Include every non-throwing result variant, including structured error
@@ -370,7 +370,7 @@ Factory tools declare `outputSchema` on the concrete `AnyAgentTool` they
 return. The static `tool({ factory })` declaration does not accept a separate
 output schema because it could drift from the runtime tool.
 
-FRIDAY also grades the call outcome from `details`, so `status`, `ok`,
+OpenClaw also grades the call outcome from `details`, so `status`, `ok`,
 `success`, `error`, `timedOut`, and `exitCode` are reserved names. A `status`
 of `blocked`, `denied`, `invalid`, `cancelled`, or any other failure value
 marks the call failed unless `ok` or `success` is explicitly `true`, even when
@@ -379,7 +379,7 @@ uses one of those names belongs under a wrapper key, such as `{ card }`,
 instead of at the top level of `details`.
 
 For a tool-owned timeout, return `timedOut: true` and a positive integer
-`timeoutMs` in `details`. If the agent provides no final reply, FRIDAY includes
+`timeoutMs` in `details`. If the agent provides no final reply, OpenClaw includes
 that duration in the fallback warning without exposing raw error text. Return
 `partial: true` with a nonempty `results` array when usable partial results are
 available; the warning includes their count. These diagnostics do not turn an
@@ -389,7 +389,7 @@ incomplete operation into a successful call.
 
 By default the model reads every tool result and writes the user-visible reply
 itself. A tool that already produces the finished reply, such as a report or a
-confirmation text, can hand it to FRIDAY instead and end the turn without
+confirmation text, can hand it to OpenClaw instead and end the turn without
 that extra model step.
 
 Declare the capability on the tool and return the reply in
@@ -418,7 +418,7 @@ api.registerTool({
 });
 ```
 
-FRIDAY waits for every tool call from the same model step to settle. The
+OpenClaw waits for every tool call from the same model step to settle. The
 host skips the next model step only when the whole batch can finish without
 further model work, then delivers the admitted replies to the conversation.
 If a sibling fails, is rejected, or returns an ordinary or progress result,
@@ -434,7 +434,7 @@ reply. A reply needs `text`, `mediaUrl`, or `mediaUrls` inside `sourceReply`;
 `sourceReply`, leaving it empty, or returning `sourceReply.final: false` keeps
 the normal model path.
 
-FRIDAY reads the reply after tool hooks and result middleware run, so
+OpenClaw reads the reply after tool hooks and result middleware run, so
 middleware can rewrite or withdraw it. Only the tool author can grant the
 capability: `canDeliverSourceReply` lives on the tool definition, never in a
 result. A call made from inside a Code Mode program returns to that program and
@@ -452,7 +452,7 @@ contract.
 
 ## Configuration
 
-`configSchema` is optional. Omit it and FRIDAY applies a strict empty object
+`configSchema` is optional. Omit it and OpenClaw applies a strict empty object
 schema; the generated manifest still includes `configSchema`.
 
 ```typescript
@@ -487,13 +487,13 @@ export default defineToolPlugin({
 });
 ```
 
-FRIDAY reads plugin config from the plugin's entry in the Gateway config. Do
+OpenClaw reads plugin config from the plugin's entry in the Gateway config. Do
 not hard-code secrets in source or docs examples; use config, environment
 variables, or SecretRefs per the plugin's security model.
 
 ## Generated metadata
 
-FRIDAY must read the plugin manifest before importing plugin runtime code.
+OpenClaw must read the plugin manifest before importing plugin runtime code.
 `defineToolPlugin` exposes static metadata for this, and
 `openclaw plugins build` writes it into the package. Rerun the generator after
 changing plugin id, name, description, config schema, activation, or tool
@@ -526,7 +526,7 @@ Generated manifest for a one-tool plugin:
 }
 ```
 
-`contracts.tools` is the important discovery contract: it tells FRIDAY which
+`contracts.tools` is the important discovery contract: it tells OpenClaw which
 plugin owns each tool without loading every installed plugin's runtime. A
 stale manifest means a tool can go missing from discovery, or a registration
 error gets blamed on the wrong plugin.
@@ -567,7 +567,7 @@ openclaw plugins validate --entry ./dist/index.js
 npm test
 ```
 
-FRIDAY SDK compatibility fields carry TypeScript `@deprecated` annotations,
+OpenClaw SDK compatibility fields carry TypeScript `@deprecated` annotations,
 which editors surface as migration warnings. To enforce them in CI, enable a
 type-aware rule such as
 [`@typescript-eslint/no-deprecated`](https://typescript-eslint.io/rules/no-deprecated/).
@@ -584,7 +584,7 @@ Oxlint is not type-aware, so it cannot enforce these annotations. The generated
 
 ## Install and inspect locally
 
-From a separate FRIDAY checkout or installed CLI, install the package path:
+From a separate OpenClaw checkout or installed CLI, install the package path:
 
 ```bash
 openclaw plugins install ./stock-quotes
@@ -622,7 +622,7 @@ openclaw plugins install your-org/stock-quotes
 ```
 
 ClawHub is the default source for package specs and the preferred
-discovery and distribution surface for FRIDAY plugins. Use `npm:<package>`
+discovery and distribution surface for OpenClaw plugins. Use `npm:<package>`
 for an npm install. See [ClawHub publishing](/clawhub/publishing) for owner scope and
 release review.
 

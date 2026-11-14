@@ -3031,7 +3031,7 @@ describe("diagnostics-otel service", () => {
 
   // Exec spans used to always be roots, which stranded every shell command in its
   // own single-span trace instead of nesting it under the run that spawned it.
-  test("nests exec spans under the run when the trace context is FRIDAY-owned", async () => {
+  test("nests exec spans under the run when the trace context is OpenClaw-owned", async () => {
     await startServiceFixture(["traces", "metrics"]);
 
     emitTrustedEvent("run.started");

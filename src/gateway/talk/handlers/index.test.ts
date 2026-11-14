@@ -394,7 +394,7 @@ function steeredRun(sessionKey: string) {
     sessionId: "session-active",
     active: true,
     queued: true,
-    message: "Steered the active FRIDAY run.",
+    message: "Steered the active OpenClaw run.",
     speak: false,
     show: true,
     suppress: true,

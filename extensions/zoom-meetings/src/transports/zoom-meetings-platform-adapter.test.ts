@@ -135,7 +135,7 @@ async function runStatusFixture(params: {
       allowSessionAdoption: true,
       autoJoin: true,
       captureCaptions: false,
-      guestName: "FRIDAY Agent",
+      guestName: "OpenClaw Agent",
       meetingSessionId: "session-1",
       meetingUrl: URL,
       readOnly: params.readOnly,
@@ -491,14 +491,14 @@ describe("Zoom meeting platform adapter", () => {
       audioInputRouted: false,
       manualAction: {
         message:
-          "Verify the FRIDAY virtual audio device is selected as both the Zoom microphone and speaker before starting talk-back.",
+          "Verify the OpenClaw virtual audio device is selected as both the Zoom microphone and speaker before starting talk-back.",
         reason: "zoom-audio-choice-required",
       },
     });
     expect(meetingState).not.toHaveProperty("audioInputDeviceId");
   });
 
-  it.each(["FRIDAY Meeting Audio (Virtual)"])(
+  it.each(["OpenClaw Meeting Audio (Virtual)"])(
     "rejects the non-contract virtual audio input label %s",
     async (deviceLabel) => {
       const result = await runAudioInputFixture(deviceLabel);

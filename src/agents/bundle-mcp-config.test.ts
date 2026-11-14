@@ -1,4 +1,4 @@
-/** Tests merging bundled MCP defaults with FRIDAY user MCP configuration. */
+/** Tests merging bundled MCP defaults with OpenClaw user MCP configuration. */
 import { describe, expect, it, vi } from "vitest";
 import type { loadEnabledBundleMcpConfig } from "../plugins/bundle-mcp.js";
 import { loadMergedBundleMcpConfig, toCliBundleMcpServerConfig } from "./bundle-mcp-config.js";
@@ -26,7 +26,7 @@ vi.mock("../plugins/bundle-mcp.js", () => ({
 }));
 
 describe("loadMergedBundleMcpConfig", () => {
-  it("lets FRIDAY mcp.servers override bundle defaults while preserving raw transport shape", () => {
+  it("lets OpenClaw mcp.servers override bundle defaults while preserving raw transport shape", () => {
     const merged = loadMergedBundleMcpConfig({
       workspaceDir: "/workspace",
       cfg: {
@@ -54,7 +54,7 @@ describe("loadMergedBundleMcpConfig", () => {
     expect(merged.pluginIdsByServer).toStrictEqual({});
   });
 
-  it("maps FRIDAY transports to downstream CLI types when requested", () => {
+  it("maps OpenClaw transports to downstream CLI types when requested", () => {
     expect(
       toCliBundleMcpServerConfig({
         transport: "streamable-http",

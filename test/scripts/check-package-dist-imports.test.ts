@@ -278,7 +278,7 @@ describe("check-package-dist-imports", () => {
       expect(result.signal, result.stderr).toBeNull();
       if (target === "leaf.mjs") {
         expect(result.status, result.stderr).toBe(0);
-        expect(result.stdout).toContain("FRIDAY package dist import closure passed.");
+        expect(result.stdout).toContain("OpenClaw package dist import closure passed.");
       } else {
         expect(result.status, result.stderr).toBe(1);
         expect(result.stderr).toContain("dist/index.mjs imports missing dist/missing.mjs");
@@ -298,7 +298,7 @@ describe("check-package-dist-imports", () => {
       code: 1,
       error: "Unexpected package dist import check argument: extra",
     },
-    { args: ["--", "$ROOT"], code: 0, output: "FRIDAY package dist import closure passed." },
+    { args: ["--", "$ROOT"], code: 0, output: "OpenClaw package dist import closure passed." },
     { args: ["$ROOT", ""], code: 1, error: "Unexpected package dist import check argument" },
   ])("validates CLI arguments $args before scanning", ({ args, code, output, error }) => {
     const result = checkPackage({ "index.js": "export {};\n" }, (root) =>
@@ -312,7 +312,7 @@ describe("check-package-dist-imports", () => {
     if (error) {
       expect(result.stderr).toContain(error);
       expect(result.stderr).not.toContain("missing dist directory");
-      expect(result.stdout).not.toContain("FRIDAY package dist import closure passed.");
+      expect(result.stdout).not.toContain("OpenClaw package dist import closure passed.");
     } else {
       expect(result.stderr).toBe("");
     }
@@ -359,6 +359,6 @@ describe("check-package-dist-imports", () => {
     const result = spawnSync("node", [CHECK_SCRIPT, root], { encoding: "utf8" });
 
     expect(result.status, result.stderr).toBe(0);
-    expect(result.stdout).toContain("FRIDAY package dist import closure passed.");
+    expect(result.stdout).toContain("OpenClaw package dist import closure passed.");
   });
 });

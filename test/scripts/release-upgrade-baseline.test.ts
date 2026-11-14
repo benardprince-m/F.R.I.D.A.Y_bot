@@ -163,7 +163,7 @@ describe("release upgrade baseline resolver", () => {
   });
 
   it.each([
-    ["2026.7.1", ["2026.8.1", "invalid"], {}, "no published stable FRIDAY baseline"],
+    ["2026.7.1", ["2026.8.1", "invalid"], {}, "no published stable OpenClaw baseline"],
     [
       "2026.8.1-beta.2",
       ["2026.7.1", "2026.8.1-beta.1"],

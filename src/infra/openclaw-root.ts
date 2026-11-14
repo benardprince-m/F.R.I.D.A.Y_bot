@@ -131,7 +131,7 @@ function candidateDirsFromArgv1(argv1: string): string[] {
 
   // Resolve symlinks for version managers (nvm, fnm, n, Homebrew/Linuxbrew)
   // that create symlinks in bin/ pointing to the real package location. Prefer
-  // the target so a launcher nested under another FRIDAY checkout keeps its own package root.
+  // the target so a launcher nested under another OpenClaw checkout keeps its own package root.
   try {
     const resolved = openClawRootFsSync.realpathSync(normalized);
     if (resolved !== normalized) {
@@ -184,7 +184,7 @@ export async function resolveOpenClawPackageRoot(opts: PackageRootOptions): Prom
   return search.complete(null);
 }
 
-// Every distinct FRIDAY package root among the runtime hints, in candidate order (symlinked
+// Every distinct OpenClaw package root among the runtime hints, in candidate order (symlinked
 // launcher via realpath first, then cwd). Callers that need a specific file under the root must
 // pick the first root that actually contains it: an installed package root can resolve first but
 // omit files the npm allowlist drops (e.g. scripts/), so stopping at root[0] would skip a valid

@@ -389,7 +389,7 @@ const env = {
   OPENCLAW_PROFILE: `team-shape-${port}`,
   OPENCLAW_SYSTEMD_UNIT: `openclaw-gateway-team-shape-${port}`,
   OPENCLAW_LAUNCHD_LABEL: `ai.openclaw.team-shape-${port}`,
-  OPENCLAW_WINDOWS_TASK_NAME: `FRIDAY Gateway (team-shape-${port})`,
+  OPENCLAW_WINDOWS_TASK_NAME: `OpenClaw Gateway (team-shape-${port})`,
 };
 const cohort = randomUUID();
 const message = (index: number) =>

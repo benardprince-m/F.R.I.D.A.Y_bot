@@ -7,7 +7,7 @@ scenario:
   coverage:
     primary:
       - web-search.web-fetch-exposure
-  objective: Verify web_fetch preserves arguments and result shape across FRIDAY and Codex.
+  objective: Verify web_fetch preserves arguments and result shape across OpenClaw and Codex.
   successCriteria:
     - Effective tools expose web_fetch.
     - Live Codex proof records matching tool_search call/output receipts linked to both target results.
@@ -41,7 +41,7 @@ scenario:
         codexDefaultImpact: P4
         qaImpact: P1
         action: hard gate searchable discovery and call/result proof in live Codex plus the core runtime-pair lane
-        reason: web_fetch is deferred behind the FRIDAY namespace for Codex and must be discovered before its target call/result can count as live proof.
+        reason: web_fetch is deferred behind the OpenClaw namespace for Codex and must be discovered before its target call/result can count as live proof.
       promptSnippet: "target=web_fetch"
       failurePromptSnippet: "failure target=web_fetch"
 

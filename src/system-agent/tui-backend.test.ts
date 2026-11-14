@@ -1,4 +1,4 @@
-// FRIDAY TUI backend tests cover rescue status integration with the TUI backend.
+// OpenClaw TUI backend tests cover rescue status integration with the TUI backend.
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import * as preparedModelCatalog from "../agents/prepared-model-catalog.js";
 import type { OpenClawConfig } from "../config/types.openclaw.js";
@@ -165,7 +165,7 @@ describe("runSystemAgentTui", () => {
     expect(runTui).not.toHaveBeenCalled();
   });
 
-  it("runs FRIDAY inside the shared TUI shell", async () => {
+  it("runs OpenClaw inside the shared TUI shell", async () => {
     let runTuiCalls = 0;
     let runTuiOptions: unknown;
     const verified = await createVerifiedTuiOptions(

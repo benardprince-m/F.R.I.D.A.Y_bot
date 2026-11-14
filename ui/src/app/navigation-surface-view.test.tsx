@@ -8,7 +8,7 @@ import { mountSolid } from "../test-helpers/mount-solid.ts";
 import { FloatingUpdateCard } from "./navigation-surface-view.tsx";
 import { navigationSurfaceIsHidden } from "./navigation-surface.ts";
 
-describe("FRIDAY shell update affordance", () => {
+describe("OpenClaw shell update affordance", () => {
   it("keeps floating attention mounted while stale-client refresh changes", () => {
     const [refreshRequired, setRefreshRequired] = createSignal(false);
     const [navCollapsed, setNavCollapsed] = createSignal(true);

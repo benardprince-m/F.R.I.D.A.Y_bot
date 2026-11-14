@@ -20,7 +20,7 @@ import {
   SystemAgentSetupVerifyResultSchema,
 } from "./openclaw.js";
 
-describe("FRIDAY chat params protocol", () => {
+describe("OpenClaw chat params protocol", () => {
   it("accepts a typed wizard cancel and rejects unknown cancel fields", () => {
     expect(
       validateSystemAgentChatParams({
@@ -37,7 +37,7 @@ describe("FRIDAY chat params protocol", () => {
   });
 });
 
-describe("FRIDAY chat question protocol", () => {
+describe("OpenClaw chat question protocol", () => {
   const question = {
     id: "onboarding-next-step",
     header: "Next step",
@@ -56,7 +56,7 @@ describe("FRIDAY chat question protocol", () => {
   });
 });
 
-describe("FRIDAY chat history protocol", () => {
+describe("OpenClaw chat history protocol", () => {
   it("accepts the default request and bounds explicit limits", () => {
     expect(validateSystemAgentChatHistoryParams({})).toBe(true);
     expect(validateSystemAgentChatHistoryParams({ limit: 1 })).toBe(true);
@@ -82,7 +82,7 @@ describe("FRIDAY chat history protocol", () => {
   });
 });
 
-describe("FRIDAY interactive activation protocol", () => {
+describe("OpenClaw interactive activation protocol", () => {
   it("preserves optional owner-recorded rejection on the direct activation result", () => {
     const failure = { ok: false, status: "auth", error: "The candidate login failed." };
     expect(Value.Check(SystemAgentSetupActivateResultSchema, failure)).toBe(true);
@@ -121,7 +121,7 @@ describe("FRIDAY interactive activation protocol", () => {
   });
 });
 
-describe("FRIDAY installed runtime setup protocol", () => {
+describe("OpenClaw installed runtime setup protocol", () => {
   it("requires an explicit runtime target and accepts only runtime setup fields", () => {
     const params = {
       sessionId: "runtime-consent",
@@ -151,7 +151,7 @@ describe("FRIDAY installed runtime setup protocol", () => {
   });
 });
 
-describe("FRIDAY setup detection protocol", () => {
+describe("OpenClaw setup detection protocol", () => {
   it("accepts an explicit owner across the structured setup family", () => {
     expect(validateSystemAgentSetupDetectParams({ agentId: "research" })).toBe(true);
     expect(validateSystemAgentSetupVerifyParams({ agentId: "research" })).toBe(true);
@@ -196,7 +196,7 @@ describe("FRIDAY setup detection protocol", () => {
           brandId: "google-gemini-cli",
           label: "Gemini CLI",
           detail: "installed; login status unavailable",
-          reason: "Reconnect through FRIDAY or use a Gemini API key.",
+          reason: "Reconnect through OpenClaw or use a Gemini API key.",
           authOptionId: "google-gemini-cli",
           manualProviderId: "gemini-api-key",
         },
@@ -293,7 +293,7 @@ describe("FRIDAY setup detection protocol", () => {
   });
 });
 
-describe("FRIDAY automatic setup protocol", () => {
+describe("OpenClaw automatic setup protocol", () => {
   it("accepts only an empty params object", () => {
     expect(validateSystemAgentSetupAutoParams({})).toBe(true);
     expect(validateSystemAgentSetupAutoParams({ agentId: "research" })).toBe(false);
@@ -349,7 +349,7 @@ describe("FRIDAY automatic setup protocol", () => {
   });
 });
 
-describe("FRIDAY setup verification protocol", () => {
+describe("OpenClaw setup verification protocol", () => {
   it("rejects mixed or incomplete results", () => {
     expect(
       Value.Check(SystemAgentSetupVerifyResultSchema, {

@@ -123,11 +123,11 @@ suite.define(() => {
       const gateway = await installMockGateway(page, {
         featureMethods: [...defaultControlUiFeatureMethods, "openclaw.chat"],
         methodResponses: {
-          "openclaw.chat": { sessionId: "before", reply: "Welcome to FRIDAY.", action: "none" },
+          "openclaw.chat": { sessionId: "before", reply: "Welcome to OpenClaw.", action: "none" },
         },
       });
       await page.goto(`${suite.server.baseUrl}custodian?onboarding=1`);
-      const greeting = page.getByText("Welcome to FRIDAY.", { exact: true });
+      const greeting = page.getByText("Welcome to OpenClaw.", { exact: true });
       await greeting.waitFor();
       expect(await page.locator(".custodian-setup").count()).toBe(0);
       expect(await gateway.getRequests("openclaw.setup.auto")).toHaveLength(0);

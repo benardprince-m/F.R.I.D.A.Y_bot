@@ -7,7 +7,7 @@ export class AppContainerSpawnUnsupportedError extends Error {
   constructor(uvVersion: string) {
     super(
       `AppContainer: libuv ${uvVersion} cannot create child pipes; 1.53.0+ required. ` +
-        "Run FRIDAY outside the AppContainer or use a Node build with libuv >= 1.53.0.",
+        "Run OpenClaw outside the AppContainer or use a Node build with libuv >= 1.53.0.",
     );
     this.name = "AppContainerSpawnUnsupportedError";
   }

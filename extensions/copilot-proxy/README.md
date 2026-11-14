@@ -1,4 +1,4 @@
-# Copilot Proxy (FRIDAY plugin)
+# Copilot Proxy (OpenClaw plugin)
 
 Provider plugin for the **Copilot Proxy** VS Code extension.
 

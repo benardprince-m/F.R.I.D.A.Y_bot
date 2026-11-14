@@ -14,7 +14,7 @@ CI runs QA Lab in dedicated workflows. Agentic parity is nested under
 `QA-Lab - All Lanes` and release validation, not a standalone PR workflow.
 Broad validation should use `Full Release Validation` with
 `rerun_group=qa-parity` for parity or `rerun_group=qa-live` for live QA.
-The direct `FRIDAY Release Checks` child alone may use `rerun_group=qa` as a
+The direct `OpenClaw Release Checks` child alone may use `rerun_group=qa` as a
 manual aggregate of both groups. Stable/full, soak-enabled, and explicit
 `qa-live` release checks include the QA-live Matrix and Telegram lanes. Bounded
 beta-publish `all` without soak runs parity but defers those live lanes to
@@ -121,12 +121,12 @@ inside every shard.
     lane with Discord.
 - `pnpm test:docker:session-runtime-context`
   - Runs a repeatable built-app Docker smoke check for embedded runtime context
-    transcripts. Verifies hidden FRIDAY runtime context persists as a
+    transcripts. Verifies hidden OpenClaw runtime context persists as a
     non-display custom message instead of leaking into the visible user
     turn, then seeds an affected broken session JSONL and verifies
     `openclaw doctor --fix` rewrites it to the active branch with a backup.
 - `pnpm test:docker:npm-telegram-live`
-  - Installs an FRIDAY package candidate in Docker, runs installed-package
+  - Installs an OpenClaw package candidate in Docker, runs installed-package
     onboarding, configures Telegram through the installed CLI, then reuses
     the live Telegram QA lane with that installed package as the SUT
     Gateway.
@@ -239,7 +239,7 @@ gh workflow run package-acceptance.yml --ref main \
 ```
 
 - `pnpm test:docker:plugins`
-  - Packs and installs the current FRIDAY build in Docker, starts the
+  - Packs and installs the current OpenClaw build in Docker, starts the
     Gateway with OpenAI configured, then enables bundled channel/plugins via
     config edits.
   - Verifies setup discovery leaves unconfigured downloadable plugins

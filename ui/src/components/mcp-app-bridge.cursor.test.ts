@@ -9,7 +9,7 @@ it("round-trips opaque list cursors through the installed AppBridge transport", 
   const [hostTransport, appTransport] = InMemoryTransport.createLinkedPair();
   const bridge = new OpenClawAppBridge(
     null,
-    { name: "FRIDAY", version: "test" },
+    { name: "OpenClaw", version: "test" },
     buildMcpAppHostCapabilities(undefined, true, false),
   );
   const app = new App({ name: "cursor-proof", version: "1" }, {}, { autoResize: false });

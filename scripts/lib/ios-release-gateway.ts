@@ -35,7 +35,7 @@ function digest(bytes: string | Buffer): string {
 function requireStable(version: string): void {
   const parsed = parseReleaseVersion(version);
   if (!parsed || parsed.channel !== "stable" || parsed.patch >= 33) {
-    throw new Error("The stable Gateway must be a regular stable FRIDAY release.");
+    throw new Error("The stable Gateway must be a regular stable OpenClaw release.");
   }
 }
 

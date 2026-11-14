@@ -45,7 +45,7 @@ describe("Control UI environment presentation", () => {
     const { container: sidebar } = mountSolid(() =>
       createComponent(SidebarAgentCard, {
         agentId: "main",
-        agentName: "FRIDAY",
+        agentName: "OpenClaw",
         avatarUrl: null,
         avatarAuthReady: false,
         avatarText: "O",
@@ -68,7 +68,7 @@ describe("Control UI environment presentation", () => {
     const environment = { label: "edge", color: "amber" } as const;
     const payload: ControlUiBootstrapConfig = {
       basePath: "",
-      assistantName: "FRIDAY",
+      assistantName: "OpenClaw",
       assistantAvatar: "O",
       environment,
       seamColor: "#123456",
@@ -99,7 +99,7 @@ describe("Control UI environment presentation", () => {
   });
 
   it("clears environment presentation when a configured bootstrap refresh becomes unset", async () => {
-    document.title = "FRIDAY Control";
+    document.title = "OpenClaw Control";
     document.documentElement.style.setProperty("--control-ui-environment-amber", "#f59e0b");
 
     const svgFavicon = document.createElement("link");
@@ -114,7 +114,7 @@ describe("Control UI environment presentation", () => {
 
     const bootstrap: ControlUiBootstrapConfig = {
       basePath: "",
-      assistantName: "FRIDAY",
+      assistantName: "OpenClaw",
       assistantAvatar: "O",
     };
     vi.stubGlobal(
@@ -136,7 +136,7 @@ describe("Control UI environment presentation", () => {
     expect(document.querySelector(".control-ui-environment-stripe")).not.toBeNull();
     expect(svgFavicon.getAttribute("href")).toContain("data:image/svg+xml,");
     expect(pngFavicon.getAttribute("type")).toBe("image/svg+xml");
-    expect(document.title).toBe("FRIDAY Control · edge");
+    expect(document.title).toBe("OpenClaw Control · edge");
     expect(document.documentElement.hasAttribute("data-openclaw-environment")).toBe(true);
 
     await config.refresh();
@@ -154,14 +154,14 @@ describe("Control UI environment presentation", () => {
     expect(document.documentElement.style.getPropertyValue("--control-ui-environment-ink")).toBe(
       "",
     );
-    expect(document.title).toBe("FRIDAY Control");
+    expect(document.title).toBe("OpenClaw Control");
     expect(document.documentElement.hasAttribute("data-openclaw-environment")).toBe(false);
   });
 
   it("clears seam-color presentation when a seam-only bootstrap refresh becomes unset", async () => {
     const bootstrap: ControlUiBootstrapConfig = {
       basePath: "",
-      assistantName: "FRIDAY",
+      assistantName: "OpenClaw",
       assistantAvatar: "O",
     };
     vi.stubGlobal(
@@ -203,13 +203,13 @@ describe("Control UI environment presentation", () => {
       "data-openclaw-environment",
       JSON.stringify({ label: "team", color: "amber" }),
     );
-    document.title = "FRIDAY Control";
+    document.title = "OpenClaw Control";
 
     const config = createApplicationConfigCapability({ resourceBasePath: "" });
     await vi.dynamicImportSettled();
 
     expect(config.current.environment).toEqual({ label: "team", color: "amber" });
     expect(document.querySelector(".control-ui-environment-stripe")).not.toBeNull();
-    expect(document.title).toBe("FRIDAY Control · team");
+    expect(document.title).toBe("OpenClaw Control · team");
   });
 });

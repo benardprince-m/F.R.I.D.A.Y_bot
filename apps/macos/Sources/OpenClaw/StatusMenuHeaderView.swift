@@ -64,14 +64,14 @@ struct StatusMenuHeaderView: View {
 
             Spacer(minLength: 4)
 
-            Toggle(String(localized: "FRIDAY active"), isOn: Binding(
+            Toggle(String(localized: "OpenClaw active"), isOn: Binding(
                 get: { !self.state.isPaused },
                 set: { self.state.isPaused = !$0 }))
                 .labelsHidden()
                 .toggleStyle(.switch)
                 .controlSize(.small)
                 .disabled(self.state.connectionMode == .unconfigured)
-                .accessibilityLabel(String(localized: "FRIDAY active"))
+                .accessibilityLabel(String(localized: "OpenClaw active"))
         }
     }
 
@@ -184,20 +184,20 @@ struct StatusMenuHeaderView: View {
 
     private var statusTitle: String {
         if self.state.connectionMode == .unconfigured {
-            return String(localized: "FRIDAY Not Configured")
+            return String(localized: "OpenClaw Not Configured")
         }
         if self.state.isPaused {
-            return String(localized: "FRIDAY Paused")
+            return String(localized: "OpenClaw Paused")
         }
         if self.isSleeping {
-            return String(localized: "FRIDAY Sleeping")
+            return String(localized: "OpenClaw Sleeping")
         }
         if self.dashboardManager.gatewayEntries.count >= 2,
            let primaryName = self.dashboardManager.gatewayEntries.first(where: \.isPrimary)?.name.nonEmpty
         {
             return primaryName
         }
-        return "FRIDAY"
+        return "OpenClaw"
     }
 
     private var connectionModeLabel: String? {

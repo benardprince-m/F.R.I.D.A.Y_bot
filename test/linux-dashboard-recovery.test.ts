@@ -118,7 +118,7 @@ test("automatic setup failure returns to Gateway choices with the native error",
 test("missing CLI mode offers installation without retrying bootstrap", async () => {
   const h = await mountDashboard("?mode=missingCli");
 
-  assert.equal(h.text("#title"), "FRIDAY needs the CLI");
+  assert.equal(h.text("#title"), "OpenClaw needs the CLI");
   assert.equal(h.hidden("#install-controls"), false);
   assert.equal(h.called("bootstrap"), false);
 });
@@ -310,7 +310,7 @@ test.each(
       } else {
         assert.equal(
           description,
-          "Most people choose this computer. FRIDAY installs everything and keeps your assistant running in the background.",
+          "Most people choose this computer. OpenClaw installs everything and keeps your assistant running in the background.",
         );
         assert.equal(subtitle, "Private to this computer. Installs and starts automatically.");
       }
@@ -320,7 +320,7 @@ test.each(
         h.text("#install-hint"),
         externalService
           ? "Installs the CLI in ~/.openclaw using your system Node.js and npm."
-          : "Installs FRIDAY and its managed runtime in ~/.openclaw.",
+          : "Installs OpenClaw and its managed runtime in ~/.openclaw.",
       );
       if (phase === "unconfigured") {
         assert.deepEqual(
@@ -341,7 +341,7 @@ test.each(
         await h.actions.install();
       }
       if (phase === "missingCli") {
-        assert.equal(h.text("#title"), "FRIDAY needs attention");
+        assert.equal(h.text("#title"), "OpenClaw needs attention");
         assert.equal(h.text("#description"), installFailure);
         assert.equal(h.text("#log-status"), "FAILED");
         assert.equal(h.hidden("#install-controls"), false);

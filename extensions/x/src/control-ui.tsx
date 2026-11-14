@@ -203,7 +203,7 @@ const mountXReplies: ControlUiView = (container, initialContext) => {
                   <div class="x-replies__guest-header">
                     <div>
                       <h2 id="x-guests-title">Guest mode</h2>
-                      <p>Let anyone ask questions about the FRIDAY repository.</p>
+                      <p>Let anyone ask questions about the OpenClaw repository.</p>
                     </div>
                     <button
                       class="x-replies__switch"

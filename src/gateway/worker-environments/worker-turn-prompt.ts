@@ -35,7 +35,7 @@ import type { WorkerGatewayToolRuntime } from "./worker-gateway-tool-contract.js
 
 export const WORKER_CONTEXT_ENGINE_HOST = {
   id: "openclaw-worker",
-  label: "FRIDAY worker",
+  label: "OpenClaw worker",
   capabilities: [
     "bootstrap",
     "assemble-before-prompt",

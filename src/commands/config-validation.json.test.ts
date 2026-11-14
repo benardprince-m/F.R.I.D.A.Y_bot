@@ -59,7 +59,7 @@ async function withJsonOutput<T>(run: () => Promise<T>) {
 function expectedFailure() {
   return {
     ok: false,
-    error: { type: "cli_error", message: `FRIDAY config is invalid: ${configPath}` },
+    error: { type: "cli_error", message: `OpenClaw config is invalid: ${configPath}` },
     issues: [
       { path: "<root>", message: "Invalid root" },
       {

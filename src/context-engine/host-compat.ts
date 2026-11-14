@@ -23,7 +23,7 @@ export function supportsContextEngineDurableTurnAdvancement(engine: ContextEngin
 
 export const OPENCLAW_EMBEDDED_CONTEXT_ENGINE_HOST = {
   id: "openclaw-embedded",
-  label: "FRIDAY embedded runner",
+  label: "OpenClaw embedded runner",
   capabilities: [
     "bootstrap",
     "assemble-before-prompt",

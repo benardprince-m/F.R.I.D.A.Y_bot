@@ -99,7 +99,7 @@ function resolveSystemMdnsHostname(): string | null {
 }
 
 const MAX_DNS_LABEL_BYTES = 63;
-function truncateToDnsLabel(name: string, fallback = "FRIDAY"): string {
+function truncateToDnsLabel(name: string, fallback = "OpenClaw"): string {
   if (Buffer.byteLength(name) <= MAX_DNS_LABEL_BYTES) {
     return name;
   }
@@ -108,12 +108,12 @@ function truncateToDnsLabel(name: string, fallback = "FRIDAY"): string {
 
 function safeServiceName(name: string) {
   const trimmed = name.trim();
-  return trimmed.length > 0 ? truncateToDnsLabel(trimmed) : "FRIDAY";
+  return trimmed.length > 0 ? truncateToDnsLabel(trimmed) : "OpenClaw";
 }
 
 function prettifyInstanceName(name: string) {
   const normalized = name.trim().replace(/\s+/g, " ");
-  return normalized.replace(/\s+\(FRIDAY\)\s*$/i, "").trim() || normalized;
+  return normalized.replace(/\s+\(OpenClaw\)\s*$/i, "").trim() || normalized;
 }
 
 function serviceSummary(label: string, svc: CiaoService): string {
@@ -209,7 +209,7 @@ export async function startGatewayBonjourAdvertiser(
     const labelEnd = dotIndex === -1 ? hostnameWithoutLocal.length : dotIndex;
     const hostnameLabel = hostnameWithoutLocal.slice(0, labelEnd).trim() || "openclaw";
     const hostname = truncateToDnsLabel(hostnameLabel, "openclaw");
-    const instanceName = opts.instanceName?.trim() || `${hostname} (FRIDAY)`;
+    const instanceName = opts.instanceName?.trim() || `${hostname} (OpenClaw)`;
     const displayName = prettifyInstanceName(instanceName);
 
     const txtBase: Record<string, string> = {

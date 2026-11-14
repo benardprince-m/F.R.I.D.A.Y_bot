@@ -835,7 +835,7 @@ describe("CodexAppServerTurnRouter", () => {
         contentItems: [
           {
             type: "inputText",
-            text: "FRIDAY did not register a handler for this app-server tool call.",
+            text: "OpenClaw did not register a handler for this app-server tool call.",
           },
         ],
         success: false,

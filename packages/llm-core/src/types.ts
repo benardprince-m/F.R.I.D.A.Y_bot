@@ -13,7 +13,7 @@ import type {
 import type { AssistantMessageDiagnostic } from "./utils/diagnostics.js";
 export type { AssistantMessageDiagnostic, DiagnosticErrorInfo } from "./utils/diagnostics.js";
 
-/** Provider API families with first-class request/stream adapters in FRIDAY. */
+/** Provider API families with first-class request/stream adapters in OpenClaw. */
 export type KnownApi =
   | "openai-completions"
   | "mistral-conversations"
@@ -29,7 +29,7 @@ export type KnownApi =
 /** Provider API id; custom providers can use ids outside the built-in set. */
 export type Api = KnownApi | (string & {});
 
-/** Image-generation API families with first-class adapters in FRIDAY. */
+/** Image-generation API families with first-class adapters in OpenClaw. */
 export type KnownImagesApi = "openrouter-images";
 
 /** Image API id; custom image providers can use ids outside the built-in set. */
@@ -38,7 +38,7 @@ export type ImagesApi = KnownImagesApi | (string & {});
 /** Provider id used for routing, diagnostics, and config lookups. */
 export type Provider = string;
 
-/** Image provider ids with first-class adapters in FRIDAY. */
+/** Image provider ids with first-class adapters in OpenClaw. */
 export type KnownImagesProvider = "openrouter";
 
 /** Image provider id used for routing, diagnostics, and config lookups. */
@@ -395,8 +395,8 @@ export interface UserMessage {
 export const RUNTIME_CONTEXT_CUSTOM_TYPE = "openclaw.runtime-context";
 export const RUNTIME_CONTEXT_BEGIN_MARKER = "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>";
 export const RUNTIME_CONTEXT_END_MARKER = "<<<END_OPENCLAW_INTERNAL_CONTEXT>>>";
-export const RUNTIME_CONTEXT_HEADER = "FRIDAY runtime context:";
-export const RUNTIME_CONTEXT_FOOTER = "End FRIDAY runtime context.";
+export const RUNTIME_CONTEXT_HEADER = "OpenClaw runtime context:";
+export const RUNTIME_CONTEXT_FOOTER = "End OpenClaw runtime context.";
 const ESCAPED_RUNTIME_CONTEXT_FOOTER = "[[RUNTIME_CONTEXT_FOOTER_ESCAPED]]";
 
 /** Identifies the exact delimiter envelope emitted by shipped transcript carriers. */
@@ -442,7 +442,7 @@ export function runtimeContextContentToText(content: string | TextContent[]): st
   return typeof content === "string" ? content : content.map((block) => block.text).join("\n");
 }
 
-/** Trusted per-turn FRIDAY context, projected by each provider at its valid authority level. */
+/** Trusted per-turn OpenClaw context, projected by each provider at its valid authority level. */
 export type RuntimeContextMessage = Omit<UserMessage, "content"> & {
   content: string | TextContent[];
 } & (
@@ -812,7 +812,7 @@ export interface Model<TApi extends Api = Api> {
   baseUrl: string;
   reasoning: boolean;
   /**
-   * Maps FRIDAY thinking levels to provider/model-specific values.
+   * Maps OpenClaw thinking levels to provider/model-specific values.
    * Missing keys use provider defaults. null marks a level as unsupported.
    */
   thinkingLevelMap?: ThinkingLevelMap;

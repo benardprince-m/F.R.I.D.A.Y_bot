@@ -172,7 +172,7 @@ struct RootTabs: View {
                 .allowsHitTesting(false)
                 .accessibilityElement(children: .ignore)
                 .accessibilityIdentifier("RootTabs.Ready")
-                .accessibilityLabel(Text(verbatim: "FRIDAY test readiness"))
+                .accessibilityLabel(Text(verbatim: "OpenClaw test readiness"))
                 .accessibilityValue(
                     "\(self.scenePhase == .active ? "ready" : "inactive"):\(self.selectedSidebarDestination.rawValue)")
         }

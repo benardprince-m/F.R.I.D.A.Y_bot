@@ -8,7 +8,7 @@ const describeLive = isLiveTestEnabled() ? describe : describe.skip;
 describeLive("microsoft plugin live", () => {
   it("synthesizes nonempty MP3 audio", async () => {
     const result = await buildMicrosoftSpeechProvider().synthesize({
-      text: "Hello, this is an FRIDAY speech synthesis test.",
+      text: "Hello, this is an OpenClaw speech synthesis test.",
       cfg: {},
       providerConfig: {},
       timeoutMs: 10000,

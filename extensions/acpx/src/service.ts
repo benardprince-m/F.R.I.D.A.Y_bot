@@ -272,7 +272,9 @@ export function createAcpxRuntimeService(
     recoveryPromise ??= measureAcpxStartup(ctx, "process-leases.reap", async () => {
       const result = await recover(assertCurrent);
       if (result.terminatedPids.length > 0) {
-        ctx.logger.info(`reaped ${result.terminatedPids.length} stale FRIDAY-owned ACPX processes`);
+        ctx.logger.info(
+          `reaped ${result.terminatedPids.length} stale OpenClaw-owned ACPX processes`,
+        );
       }
     });
     await recoveryPromise;

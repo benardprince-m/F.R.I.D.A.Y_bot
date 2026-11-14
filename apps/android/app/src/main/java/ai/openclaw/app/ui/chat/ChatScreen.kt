@@ -2158,7 +2158,7 @@ internal val starterPrompts =
       mark = "1",
       title = nativeText("Catch me up"),
       subtitle = nativeText("Summarize recent threads and next steps."),
-      message = nativeText("Catch me up on my recent FRIDAY threads and suggest next steps."),
+      message = nativeText("Catch me up on my recent OpenClaw threads and suggest next steps."),
     ),
     StarterPrompt(
       mark = "2",
@@ -2169,7 +2169,7 @@ internal val starterPrompts =
     StarterPrompt(
       mark = "3",
       title = nativeText("Use this phone"),
-      subtitle = nativeText("Ask FRIDAY to use Android capabilities."),
+      subtitle = nativeText("Ask OpenClaw to use Android capabilities."),
       message = nativeText("What can you help me do from this phone right now?"),
     ),
   )
@@ -2210,11 +2210,11 @@ internal fun ChatBubble(
     when {
       isUser -> peerSenderLabel ?: nativeString("You")
       normalizedRole == "system" -> nativeString("System")
-      else -> nativeString("FRIDAY")
+      else -> nativeString("OpenClaw")
     }
   val caption =
     when {
-      live -> nativeString("FRIDAY · Live")
+      live -> nativeString("OpenClaw · Live")
       normalizedRole == "system" -> nativeString("System")
       peerSenderLabel != null -> peerSenderLabel
       else -> null
@@ -2577,7 +2577,7 @@ private fun ToolActivityDisclosure(
               } else if (hasBlocked) {
                 nativeString("Blocked")
               } else {
-                nativeString("FRIDAY is working")
+                nativeString("OpenClaw is working")
               },
             style = ClawTheme.type.caption,
             color = if (hasError || hasBlocked) ClawTheme.colors.danger else ClawTheme.colors.textMuted,
@@ -2675,7 +2675,7 @@ private fun ToolActivityItem(
   var expanded by rememberSaveable(parentStableKey, saveableKey) { mutableStateOf(false) }
   val resultPresentation = completedToolResultPresentation(tool)
   val isError = tool.hasFailedOutcome
-  val outcome = resultPresentation.outcome ?: if (live?.isComplete == false) nativeString("FRIDAY is working") else null
+  val outcome = resultPresentation.outcome ?: if (live?.isComplete == false) nativeString("OpenClaw is working") else null
   val preview =
     tool.detail
       ?.lineSequence()

@@ -691,36 +691,36 @@ struct ChatSessionSidebarModelTests {
         let androidStamp = self.entry(
             key: "agent:main:node-1234567890ab",
             displayName: "Generated title",
-            autoLabel: "FRIDAY App · Pixel · 1234567890ab")
+            autoLabel: "OpenClaw App · Pixel · 1234567890ab")
         #expect(ChatSessionSidebarModel.displayName(for: androidStamp) == "Generated title")
         let unnamedAndroidSession = self.entry(
             key: "agent:main:node-1234567890ab",
-            autoLabel: "FRIDAY App · Pixel · 1234567890ab")
+            autoLabel: "OpenClaw App · Pixel · 1234567890ab")
         #expect(
             ChatSessionSidebarModel.displayName(for: unnamedAndroidSession)
-                == "FRIDAY App · Pixel · 1234567890ab")
+                == "OpenClaw App · Pixel · 1234567890ab")
 
         for label in [
-            "FRIDAY App",
-            "FRIDAY App · 1234567890ab",
-            "FRIDAY App · Pixel · 1234567890ab",
-            "FRIDAY App · Release planning · 1234567890ab",
+            "OpenClaw App",
+            "OpenClaw App · 1234567890ab",
+            "OpenClaw App · Pixel · 1234567890ab",
+            "OpenClaw App · Release planning · 1234567890ab",
         ] {
             let manuallyNamed = self.entry(
                 key: "agent:main:node-1234567890ab",
                 displayName: "Generated title",
                 label: label,
-                autoLabel: "FRIDAY App · Pixel · 1234567890ab")
+                autoLabel: "OpenClaw App · Pixel · 1234567890ab")
             #expect(ChatSessionSidebarModel.displayName(for: manuallyNamed) == label)
         }
 
         let manualPrefix = self.entry(
             key: "agent:main:dashboard:fresh",
             displayName: "Generated title",
-            label: "FRIDAY App · Release planning")
+            label: "OpenClaw App · Release planning")
         #expect(
             ChatSessionSidebarModel.displayName(for: manualPrefix)
-                == "FRIDAY App · Release planning")
+                == "OpenClaw App · Release planning")
     }
 
     @Test func `delete excludes main aliases and allows ordinary or selected global sessions`() {

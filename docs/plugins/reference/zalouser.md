@@ -1,5 +1,5 @@
 ---
-summary: "FRIDAY Zalo Personal Account plugin via native zca-js integration."
+summary: "OpenClaw Zalo Personal Account plugin via native zca-js integration."
 read_when:
   - You are installing, configuring, or auditing the zalouser plugin
 title: "Zalo Personal plugin reference"
@@ -10,7 +10,7 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-FRIDAY Zalo Personal Account plugin via native zca-js integration.
+OpenClaw Zalo Personal Account plugin via native zca-js integration.
 
 ## Distribution
 

@@ -7,7 +7,7 @@ scenario:
   coverage:
     primary:
       - gateway.session-apis-session-status
-  objective: Verify session_status preserves arguments and result shape across FRIDAY and Codex.
+  objective: Verify session_status preserves arguments and result shape across OpenClaw and Codex.
   successCriteria:
     - Effective tools expose session_status.
     - Live Codex proof records matching tool_search call/output receipts linked to both target results.
@@ -40,7 +40,7 @@ scenario:
         codexDefaultImpact: P4
         qaImpact: P1
         action: hard gate searchable discovery and call/result proof in live Codex plus the core runtime-pair lane
-        reason: session_status is deferred behind the FRIDAY namespace for Codex and must be discovered before its target call/result can count as live proof.
+        reason: session_status is deferred behind the OpenClaw namespace for Codex and must be discovered before its target call/result can count as live proof.
       promptSnippet: "target=session_status"
       failurePromptSnippet: "failure target=session_status"
 

@@ -312,13 +312,13 @@ describe("redactSensitiveText", () => {
       ],
       [
         [
-          `X-FRIDAY-Token: ${openClawToken}`,
+          `X-OpenClaw-Token: ${openClawToken}`,
           `x-pomerium-jwt-assertion: ${pomeriumJwt}`,
           `X-Api-Key=${apiKey}`,
         ].join("\n"),
         undefined,
         [openClawToken, pomeriumJwt, apiKey],
-        ["X-FRIDAY-Token: supers…7890", "x-pomerium-jwt-assertion: eyJhea…3456", "X-Api-Key=***"],
+        ["X-OpenClaw-Token: supers…7890", "x-pomerium-jwt-assertion: eyJhea…3456", "X-Api-Key=***"],
       ],
       [
         `${keyHeader}: ${value}, request_id=example, status=500`,
@@ -327,7 +327,7 @@ describe("redactSensitiveText", () => {
         [", request_id=example, status=500"],
       ],
       ["X-Api-Key: prefix&secret#suffix", "X-Api-Key: prefix…ffix"],
-      ["X-FRIDAY-Token=prefix&actual-secret#tail", "X-FRIDAY-Token=prefix…tail"],
+      ["X-OpenClaw-Token=prefix&actual-secret#tail", "X-OpenClaw-Token=prefix…tail"],
       ["x-access-token=prefix&actual-secret#tail", "x-access-token=prefix…tail"],
     ]);
   });

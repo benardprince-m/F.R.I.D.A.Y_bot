@@ -104,7 +104,7 @@ profiles.
 
 ### Memory audience inheritance
 
-FRIDAY `sessions_spawn` (including ACP runtimes) and realtime voice consults
+OpenClaw `sessions_spawn` (including ACP runtimes) and realtime voice consults
 record the immediate parent key (`spawnedBy`), exact parent session id
 (`spawnedBySessionId`), parent lifecycle revision
 (`parentSessionLifecycleRevision`), and the spawning invocation's trusted owner
@@ -114,7 +114,7 @@ synthetic launch authority; voice consults take it only from the caller's
 ingress authentication. Missing or false owner status does not grant owner
 access.
 
-For memory access, FRIDAY validates every parent hop against the current parent
+For memory access, OpenClaw validates every parent hop against the current parent
 incarnation and lifecycle, including same-id resets. It then supplies the
 host-minted root audience to memory providers and plugin tools. Providers must
 consume that prepared audience and must not walk session lineage or infer memory
@@ -137,6 +137,6 @@ session predates memory lineage receipts and must be respawned from its parent.
 Children whose parents lack a lifecycle revision must be respawned after the
 parent's next reset, which establishes a current lifecycle revision.
 
-This contract covers FRIDAY-created child sessions. Native runtime child threads
+This contract covers OpenClaw-created child sessions. Native runtime child threads
 also need their runtime's tool bridge to provide a live authorized invocation;
 lineage metadata alone does not add that bridge.

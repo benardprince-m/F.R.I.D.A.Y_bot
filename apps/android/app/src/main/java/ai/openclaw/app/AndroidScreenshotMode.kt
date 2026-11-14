@@ -25,7 +25,7 @@ enum class AndroidScreenshotScene(
   Swarm("swarm", HomeDestination.Chat),
   Settings("settings", HomeDestination.Settings),
   Gateway("gateway", HomeDestination.Settings, SettingsRoute.Gateway),
-  FRIDAY("openclaw", HomeDestination.Settings, SettingsRoute.SystemAgent),
+  OpenClaw("openclaw", HomeDestination.Settings, SettingsRoute.SystemAgent),
   Desktop("desktop", HomeDestination.Settings, SettingsRoute.Desktop),
   VoiceWake("voice-wake", HomeDestination.Settings, SettingsRoute.Voice),
   ;

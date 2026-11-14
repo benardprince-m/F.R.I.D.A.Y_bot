@@ -218,7 +218,7 @@ describe("AgentRuntimePlan", () => {
     expect(plan.observability.harnessId).toBe("codex");
   });
 
-  it("keeps FRIDAY-owned tool-schema normalization reachable from the plan", () => {
+  it("keeps OpenClaw-owned tool-schema normalization reachable from the plan", () => {
     const plan = buildAgentRuntimePlan({
       provider: "openai",
       modelId: "gpt-5.4",

@@ -5,21 +5,21 @@ doc-schema-version: 1
 read_when: "You are writing a profile setup command, or you need a custom node distribution."
 ---
 
-FRIDAY installs its runtime automatically from the running Gateway. Profiles need only optional machine prerequisites; repository dependencies and startup commands belong in the [cloud environment file](/gateway/cloud-workers/environment-file).
+OpenClaw installs its runtime automatically from the running Gateway. Profiles need only optional machine prerequisites; repository dependencies and startup commands belong in the [cloud environment file](/gateway/cloud-workers/environment-file).
 
 ## Automatic Linux Node toolchains
 
-Linux x64 and arm64 workers need no Node installation in `settings.setup`. FRIDAY preserves a supported Node on `PATH` when npm, npx, and Corepack are available; otherwise it installs its pinned official release after SHA-256 verification. The image needs compatible glibc, `curl`, `tar`, and `sha256sum`, plus HTTPS access to nodejs.org.
+Linux x64 and arm64 workers need no Node installation in `settings.setup`. OpenClaw preserves a supported Node on `PATH` when npm, npx, and Corepack are available; otherwise it installs its pinned official release after SHA-256 verification. The image needs compatible glibc, `curl`, `tar`, and `sha256sum`, plus HTTPS access to nodejs.org.
 
 Prepared repositories select their Node requirement from `.nvmrc`, `.node-version`, `.tool-versions` (`nodejs` or `node`), `mise.toml` (`[tools] node`), then `package.json` `engines.node`. Versions, majors, SemVer ranges, `node`/`latest`, and LTS aliases resolve to a matching official Linux release; `system` retains the bootstrap Node. Invalid declarations or missing releases fail with a repair hint.
 
-Verified toolchains survive snapshot forks. Repository commands use the prepared HOME's `.local/bin` shims first. A declared `packageManager` gets user-writable Corepack shims without sudo. The FRIDAY runtime uses its own supported Node, independently of the repository's version. Custom profile Node installs remain supported. macOS and Windows need image- or setup-provided Node and npm; FRIDAY does not install them there.
+Verified toolchains survive snapshot forks. Repository commands use the prepared HOME's `.local/bin` shims first. A declared `packageManager` gets user-writable Corepack shims without sudo. The OpenClaw runtime uses its own supported Node, independently of the repository's version. Custom profile Node installs remain supported. macOS and Windows need image- or setup-provided Node and npm; OpenClaw does not install them there.
 
 ## The setup command
 
 `settings.setup` runs on a cold machine after readiness and before repository preparation and enrollment. Provision replay can repeat it, so make it idempotent. Snapshot forks skip it because their compatible image already contains its filesystem results. Use repository `postStartCommand` for processes that must start on each new worker.
 
-Do not install FRIDAY globally or maintain a versioned runtime/plugin URL in setup. Bootstrap supplies the Gateway's runtime and required plugins. For additional packages, account for image initialization: wait for cloud-init and use your package manager's lock-wait option to avoid failing the first dispatch on a held lock. Setup or enrollment failures report an error and stop the incomplete lease.
+Do not install OpenClaw globally or maintain a versioned runtime/plugin URL in setup. Bootstrap supplies the Gateway's runtime and required plugins. For additional packages, account for image initialization: wait for cloud-init and use your package manager's lock-wait option to avoid failing the first dispatch on a held lock. Setup or enrollment failures report an error and stop the incomplete lease.
 
 ### Protected setup secrets
 
@@ -37,7 +37,7 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 exit $LASTEXITCODE
 ```
 
-Use a Crabbox bootstrap or image that supplies a supported Node.js release and npm on the machine `PATH`, with npm's CLI installed beside `node.exe` under `node_modules/npm`. FRIDAY fails enrollment with a prerequisite message if Node or that npm installation is missing; it does not install Node. npm installs the node runtime archive, and FRIDAY extracts worker bundles with its Node archive library.
+Use a Crabbox bootstrap or image that supplies a supported Node.js release and npm on the machine `PATH`, with npm's CLI installed beside `node.exe` under `node_modules/npm`. OpenClaw fails enrollment with a prerequisite message if Node or that npm installation is missing; it does not install Node. npm installs the node runtime archive, and OpenClaw extracts worker bundles with its Node archive library.
 
 Headless Windows guests must include Crabbox's managed launcher at `C:\Program Files\Crabbox\bin\Start-CrabboxDetachedProcess.ps1`. It keeps the node alive after Crabbox closes its SSH command. Enrollment fails with guidance if the launcher is absent. A hidden PowerShell parent redirects node output to `node.log` under its isolated state directory because the launcher does not inherit SSH output handles.
 
@@ -55,11 +55,11 @@ Concurrent workspace installs on the same node share an in-progress integrity sc
 
 For source builds, run `pnpm build` and restart the Gateway before dispatching. Bootstrap does not compile an unbuilt checkout or copy raw edits over the running build. Missing or mismatched build metadata gives a rebuild-and-restart error. Private QA-only build chunks are excluded only when build metadata verifies their ownership; incomplete metadata or imports fail preparation.
 
-FRIDAY worker turns install the matching worker bundle, reusing a verified archive retained in a prepared image when available. Codex remote execution starts its managed exec-server directly. Node-command allowlists and invocation approval still apply. See [runtime support](/gateway/cloud-workers/dispatching-a-session#runtime-support) and [the security model](/gateway/cloud-workers/security-model).
+OpenClaw worker turns install the matching worker bundle, reusing a verified archive retained in a prepared image when available. Codex remote execution starts its managed exec-server directly. Node-command allowlists and invocation approval still apply. See [runtime support](/gateway/cloud-workers/dispatching-a-session#runtime-support) and [the security model](/gateway/cloud-workers/security-model).
 
 ### Reuse a node runtime archive after Gateway restart
 
-Linux and macOS deployment images can retain an already prepared node runtime archive as `node-runtime.tgz` in the running FRIDAY package root, beside `package.json`. During image preparation, copy the producer's archive there before closing the producer:
+Linux and macOS deployment images can retain an already prepared node runtime archive as `node-runtime.tgz` in the running OpenClaw package root, beside `package.json`. During image preparation, copy the producer's archive there before closing the producer:
 
 ```bash
 cp /path/to/prepared/node-runtime.tgz /path/to/openclaw/node-runtime.tgz

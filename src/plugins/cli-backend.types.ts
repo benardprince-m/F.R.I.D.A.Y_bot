@@ -29,7 +29,7 @@ export type CliBackendConfig = {
   env?: Record<string, string>;
   clearEnv?: string[];
   modelArg?: string;
-  /** Model aliases mapping (FRIDAY model id → CLI model id). */
+  /** Model aliases mapping (OpenClaw model id → CLI model id). */
   modelAliases?: Record<string, string>;
   /** Args used to pass a session id (use {sessionId} placeholder). */
   sessionArgs?: string[];
@@ -78,7 +78,7 @@ export type PluginTextReplacement = {
 export type PluginTextTransforms = {
   /** Rewrites applied to outbound prompt text before provider/CLI transport. */
   input?: PluginTextReplacement[];
-  /** Rewrites applied to inbound assistant text before FRIDAY consumes it. */
+  /** Rewrites applied to inbound assistant text before OpenClaw consumes it. */
   output?: PluginTextReplacement[];
 };
 
@@ -95,9 +95,9 @@ export type CliBackendPrepareExecutionContext = {
   modelId: string;
   /** Effective catalog context-window option selected for this run. */
   contextWindow?: string;
-  /** Effective FRIDAY context budget selected for this run. */
+  /** Effective OpenClaw context budget selected for this run. */
   contextTokenBudget?: number;
-  /** Effective FRIDAY thinking level selected for this run. */
+  /** Effective OpenClaw thinking level selected for this run. */
   thinkingLevel?: CliBackendThinkingLevel;
   authProfileId?: string;
   executionMode?: CliBackendExecutionMode;
@@ -126,10 +126,10 @@ export type CliBackendThinkingLevel = ModelThinkingLevel | "adaptive";
 
 export type CliBackendExecutionMode = "agent" | "side-question";
 
-/** Exact backend-native plus canonical FRIDAY tool surface for one CLI run. */
+/** Exact backend-native plus canonical OpenClaw tool surface for one CLI run. */
 export type CliBackendToolAvailability = {
   native: readonly string[];
-  /** Canonical FRIDAY tool names served through the host-isolated transport. */
+  /** Canonical OpenClaw tool names served through the host-isolated transport. */
   openClaw: readonly string[];
 };
 
@@ -262,7 +262,7 @@ export type CliBackendResolveExecutionArgsContext = Omit<
 > & {
   /** Effective fast mode at spawn, after queue admission and backend preparation. */
   fastMode?: boolean;
-  /** Canonical tools routed through FRIDAY; disable equivalent native tools. */
+  /** Canonical tools routed through OpenClaw; disable equivalent native tools. */
   hostOwnedTools?: readonly string[];
   useResume: boolean;
   baseArgs: readonly string[];
@@ -416,9 +416,9 @@ type CliBackendPluginBase = {
   /** Required whenever this backend can become a verified inference owner. */
   runtimeArtifact?: CliBackendRuntimeArtifactPolicy;
   /**
-   * Whether FRIDAY should inject bundle MCP config for this backend.
+   * Whether OpenClaw should inject bundle MCP config for this backend.
    *
-   * Keep this opt-in. Only backends that explicitly consume FRIDAY's bundle
+   * Keep this opt-in. Only backends that explicitly consume OpenClaw's bundle
    * MCP bridge should enable it.
    */
   bundleMcp?: boolean;
@@ -449,7 +449,7 @@ type CliBackendPluginBase = {
     modelDisplay: string;
     agentId?: string;
     systemPrompt: string;
-    /** Short IDs of FRIDAY MCP tools exposed to this invocation after policy filtering. */
+    /** Short IDs of OpenClaw MCP tools exposed to this invocation after policy filtering. */
     openClawMcpToolNames?: readonly string[];
   }) => string | null | undefined;
   /**
@@ -462,7 +462,7 @@ type CliBackendPluginBase = {
   /**
    * Preferred auth-profile id when the caller did not explicitly lock one.
    *
-   * Use this when the backend should consume a canonical FRIDAY auth profile
+   * Use this when the backend should consume a canonical OpenClaw auth profile
    * rather than ambient host auth by default.
    */
   defaultAuthProfileId?: string;
@@ -470,7 +470,7 @@ type CliBackendPluginBase = {
    * Session/auth epoch source policy.
    *
    * `combined` keeps the legacy "host credential + auth profile" fingerprint.
-   * `profile-only` treats the selected FRIDAY auth profile as the sole auth
+   * `profile-only` treats the selected OpenClaw auth profile as the sole auth
    * owner for session invalidation when one is present.
    */
   authEpochMode?: CliBackendAuthEpochMode;
@@ -478,7 +478,7 @@ type CliBackendPluginBase = {
    * Whether `prepareExecution` may auto-select a configured auth profile.
    *
    * Defaults to true for auth bridges. Set false for environment/config-only
-   * hooks that do not consume FRIDAY auth profiles.
+   * hooks that do not consume OpenClaw auth profiles.
    */
   autoSelectAuthProfile?: boolean;
   /**
@@ -499,7 +499,7 @@ type CliBackendPluginBase = {
    * Backend-owned per-run argv rewrite.
    *
    * Use this for request-scoped CLI dialect flags that should not be modeled
-   * as static config, such as mapping FRIDAY thinking levels to a backend's
+   * as static config, such as mapping OpenClaw thinking levels to a backend's
    * native effort flag.
    */
   resolveExecutionArgs?: CliBackendResolveExecutionArgs;
@@ -517,7 +517,7 @@ type CliBackendPluginBase = {
   /**
    * Backend-owned JSONL line parser for provider-specific stream formats.
    *
-   * Tool events report execution already performed by the backend. FRIDAY
+   * Tool events report execution already performed by the backend. OpenClaw
    * renders them but does not treat them as host tool execution or delivery evidence.
    */
   parseJsonlEvent?: CliBackendParseJsonlEvent;
@@ -529,12 +529,12 @@ type CliBackendPluginBase = {
    */
   parseJsonlLifecycleEvent?: CliBackendParseJsonlLifecycleEvent;
   /**
-   * Whether this CLI backend can expose native tools outside FRIDAY's tool
+   * Whether this CLI backend can expose native tools outside OpenClaw's tool
    * catalog. Exact restricted runs require `selectable` plus a declared
    * `toolAvailabilityEnforcement`; `always-on` backends fail closed.
    */
   nativeToolMode?: CliBackendNativeToolMode;
-  /** Default local coding tools owned by FRIDAY instead of the native CLI.
+  /** Default local coding tools owned by OpenClaw instead of the native CLI.
    * Applies only with bundled loopback MCP, outside exact or node runs.
    * The execution-args adapter must disable the equivalent native tools.
    */

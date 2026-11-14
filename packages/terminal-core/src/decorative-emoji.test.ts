@@ -38,9 +38,9 @@ describe("decorative emoji terminal helpers", () => {
 
   it("formats decorative emoji prefixes conservatively", () => {
     expect(decorativeEmoji("🦞")).toBe("");
-    expect(decorativePrefix("🦞", "FRIDAY")).toBe("FRIDAY");
+    expect(decorativePrefix("🦞", "OpenClaw")).toBe("OpenClaw");
     vi.stubEnv("TERM_PROGRAM", "ghostty");
-    expect(decorativePrefix("🦞", "FRIDAY")).toBe("🦞 FRIDAY");
+    expect(decorativePrefix("🦞", "OpenClaw")).toBe("🦞 OpenClaw");
   });
 
   it("strips decorative emoji from curated terminal text only when unsupported", () => {

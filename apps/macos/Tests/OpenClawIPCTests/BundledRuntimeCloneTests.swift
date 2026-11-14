@@ -1,7 +1,7 @@
 import Darwin
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct BundledRuntimeCloneTests {
     @Test(arguments: [false, true])

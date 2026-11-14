@@ -155,11 +155,11 @@ enum CLIInstaller {
         var message: String {
             switch self {
             case let .ready(_, version):
-                "FRIDAY Gateway \(version) is ready."
+                "OpenClaw Gateway \(version) is ready."
             case .missing:
-                "FRIDAY Gateway is not installed yet."
+                "OpenClaw Gateway is not installed yet."
             case .unusable:
-                "The FRIDAY Gateway could not be verified. Setup will repair it."
+                "The OpenClaw Gateway could not be verified. Setup will repair it."
             case let .incompatible(_, found, required):
                 "Gateway \(found) does not match app \(required). Setup will update it."
             }
@@ -366,11 +366,11 @@ enum CLIInstaller {
         statusHandler: @escaping @MainActor @Sendable (String) async -> Void) async -> Bool
     {
         if BundledRuntime.isBundledApp {
-            await statusHandler("Preparing FRIDAY…")
+            await statusHandler("Preparing OpenClaw…")
             do {
                 _ = try await self.prepareBundledGateway(statusHandler: statusHandler)
                 NotificationCenter.default.post(name: .openclawCLIInstalled, object: nil)
-                await statusHandler("FRIDAY is ready.")
+                await statusHandler("OpenClaw is ready.")
                 return true
             } catch {
                 await statusHandler("Preparation failed: \(error.localizedDescription)")
@@ -378,9 +378,9 @@ enum CLIInstaller {
             }
         }
         let prefix = Self.installPrefix()
-        await statusHandler("Installing FRIDAY CLI (\(target.selector))…")
+        await statusHandler("Installing OpenClaw CLI (\(target.selector))…")
         guard let installerURL = Bundle.main.url(forResource: "install-cli", withExtension: "sh") else {
-            await statusHandler("Install failed: installer resource is missing. Reinstall FRIDAY.")
+            await statusHandler("Install failed: installer resource is missing. Reinstall OpenClaw.")
             return false
         }
         let appVersion = GatewayEnvironment.appVersionString()
@@ -584,12 +584,12 @@ enum CLIInstaller {
                     details: error.localizedDescription)
             }
             await statusHandler(String(
-                format: String(localized: "FRIDAY Gateway %@ is installed."), installedVersion))
+                format: String(localized: "OpenClaw Gateway %@ is installed."), installedVersion))
             return .success(fromVersion: installedVersion, toVersion: installedVersion)
         }
         await statusHandler(repair
-            ? String(localized: "Repairing the FRIDAY Gateway update…")
-            : String(format: String(localized: "Updating the FRIDAY Gateway to %@…"), targetVersion))
+            ? String(localized: "Repairing the OpenClaw Gateway update…")
+            : String(format: String(localized: "Updating the OpenClaw Gateway to %@…"), targetVersion))
         var command = self.managedUpdateCommand(
             executable: executable,
             targetVersion: targetVersion,
@@ -648,7 +648,7 @@ enum CLIInstaller {
                         message: String(localized: "Gateway update failed."), details: error.localizedDescription)
                 }
                 await statusHandler(String(
-                    format: String(localized: "FRIDAY Gateway %@ is installed."), installedVersion))
+                    format: String(localized: "OpenClaw Gateway %@ is installed."), installedVersion))
                 return .success(fromVersion: summary?.before?.version, toVersion: installedVersion)
             }
             let failedStep = summary?.steps?.last(where: { ($0.exitCode ?? 0) != 0 })
@@ -683,7 +683,7 @@ enum CLIInstaller {
         self.rememberInstallPolicy(.exact(targetVersion))
         NotificationCenter.default.post(name: .openclawCLIInstalled, object: nil)
         await statusHandler(String(
-            format: String(localized: "FRIDAY Gateway %@ is installed."), installedVersion))
+            format: String(localized: "OpenClaw Gateway %@ is installed."), installedVersion))
         return .success(
             fromVersion: summary?.before?.version,
             toVersion: installedVersion)
@@ -758,14 +758,14 @@ enum CLIInstaller {
         case ("disk-space", "start"): "Checking available disk space…"
         case ("node", "start"): "Installing Node.js runtime…"
         case ("git-tools", "start"): "Preparing Git and pnpm…"
-        case ("git-clone", "start"): "Downloading FRIDAY source…"
-        case ("git-update", "start"): "Updating FRIDAY source…"
+        case ("git-clone", "start"): "Downloading OpenClaw source…"
+        case ("git-update", "start"): "Updating OpenClaw source…"
         case ("dependencies", "start"): "Installing dependencies…"
         case ("control-ui", "start"): "Building interface…"
-        case ("cli-build", "start"): "Building FRIDAY CLI…"
-        case ("openclaw", "retry"): "Retrying FRIDAY CLI install…"
+        case ("cli-build", "start"): "Building OpenClaw CLI…"
+        case ("openclaw", "retry"): "Retrying OpenClaw CLI install…"
         case ("disk-space", "warn"): "Couldn’t verify free disk space; continuing…"
-        case ("git-update", "warn"): "Using the existing modified FRIDAY source…"
+        case ("git-update", "warn"): "Using the existing modified OpenClaw source…"
         case ("control-ui", "warn"): "Interface build did not finish; continuing…"
         default: nil
         }

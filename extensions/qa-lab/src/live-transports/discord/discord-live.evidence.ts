@@ -229,7 +229,7 @@ export function renderDiscordThreadReplyAttachmentHtml(params: {
     code { color: #f2f3f5; background: #1e1f22; border-radius: 4px; padding: 2px 5px; }`,
     `    <div class="sub">Thread: ${escapeHtml(params.threadName)}</div>
     <section class="message">
-      <div class="author">FRIDAY Discord SUT</div>
+      <div class="author">OpenClaw Discord SUT</div>
       <div class="badge">${params.status === "pass" ? "Attachment found" : "Attachment missing"}</div>
       <div class="content">${escapeHtml(params.messageContent ?? "No SUT reply content captured")}</div>
       <div class="attachments">${attachmentRows}</div>

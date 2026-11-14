@@ -319,7 +319,7 @@ describe("renderSidebarUpdateSurface", () => {
       const dismiss = vi.fn();
       const card = renderUpdate(context, () => dismiss(dismissal));
       await card.updateComplete;
-      expect(container.textContent).toContain(state === "visible" ? "FRIDAY updated" : "3.0.0");
+      expect(container.textContent).toContain(state === "visible" ? "OpenClaw updated" : "3.0.0");
       find(".sidebar-issues-panel__dismiss")!.click();
       expect(dismiss).toHaveBeenCalledExactlyOnceWith(expected);
       expect(overlays.snapshot.updateRunAcknowledged).toBe(state === "acknowledged");

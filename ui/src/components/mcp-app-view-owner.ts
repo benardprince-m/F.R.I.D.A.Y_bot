@@ -483,7 +483,7 @@ export function createMcpAppView(host: McpAppViewElement, context: ApplicationCo
         );
       const bridge = new OpenClawAppBridge(
         null,
-        { name: "FRIDAY", version: "1.0.0" },
+        { name: "OpenClaw", version: "1.0.0" },
         buildMcpAppHostCapabilities(
           payload.csp,
           payload.messageSupported === true,

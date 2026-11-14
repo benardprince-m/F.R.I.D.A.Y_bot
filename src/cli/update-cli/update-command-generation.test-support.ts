@@ -197,7 +197,7 @@ export function registerGenerationRecoveryTests(
         expect(record.downtimeMs).toBeGreaterThanOrEqual(0);
         expect(record.confirmedAtMs).toBeGreaterThanOrEqual(before.stoppedAtMs!);
         expect(renderUpdateRunReport(record).headline).toBe(
-          `↩️ FRIDAY update rolled back to ${VERSION}: restart-unhealthy.`,
+          `↩️ OpenClaw update rolled back to ${VERSION}: restart-unhealthy.`,
         );
       }
     },

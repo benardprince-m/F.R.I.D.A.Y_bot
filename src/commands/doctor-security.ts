@@ -105,8 +105,8 @@ function collectExecPolicyConflictWarnings(
       configParts.push(`${canonicalModeSource}="${snapshot.mode.requested}"`);
     }
     for (const [key, defaultSource] of [
-      ["security", "FRIDAY default (full)"],
-      ["ask", "FRIDAY default (off)"],
+      ["security", "OpenClaw default (full)"],
+      ["ask", "OpenClaw default (off)"],
     ] as const) {
       const policy = snapshot[key];
       if (policy.requestedSource === defaultSource || policy.requested === policy.effective) {

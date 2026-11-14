@@ -1,4 +1,4 @@
-/** Prevents daemon write actions when the config belongs to a newer FRIDAY. */
+/** Prevents daemon write actions when the config belongs to a newer OpenClaw. */
 import {
   formatFutureConfigActionBlock,
   resolveFutureConfigActionBlock,

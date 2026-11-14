@@ -115,12 +115,13 @@ it.each([
 ] as const)(
   "sets up %s companions with help %j and version %s",
   async (provider, help, version, reads) => {
-    const versionOutput = version === candidateVersion ? `FRIDAY ${version} (abcdef0)\n` : version;
+    const versionOutput =
+      version === candidateVersion ? `OpenClaw ${version} (abcdef0)\n` : version;
     const readCli = vi.fn().mockReturnValueOnce(help).mockReturnValueOnce(versionOutput);
     const installCli = vi.fn();
     const result = installSmokeRuntimeCompanions({ provider, readCli, installCli });
     if (version === "unknown") {
-      await expect(result).rejects.toThrow("could not resolve installed FRIDAY version");
+      await expect(result).rejects.toThrow("could not resolve installed OpenClaw version");
     } else {
       await expect(result).resolves.toBeUndefined();
     }

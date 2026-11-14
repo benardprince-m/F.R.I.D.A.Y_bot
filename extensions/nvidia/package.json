@@ -2,7 +2,7 @@
   "name": "@openclaw/nvidia-provider",
   "version": "2026.10.4",
   "private": true,
-  "description": "FRIDAY NVIDIA provider plugin",
+  "description": "OpenClaw NVIDIA provider plugin",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*"

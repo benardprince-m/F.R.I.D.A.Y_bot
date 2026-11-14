@@ -18,7 +18,7 @@ it.each(["omitted", "disabled-task", "disabled-trigger", "native-defaults", "mis
   async (kind) => {
     const f = await fixture("win32");
     const xml = buildScheduledTaskXml({
-      taskDescription: "FRIDAY Gateway",
+      taskDescription: "OpenClaw Gateway",
       taskUser: kind === "missing-trigger" ? null : "operator",
       launchPath: f.sourcePath,
     });
@@ -93,7 +93,7 @@ it.each([
   const f = await fixture("win32");
   const expectedSid = "S-1-5-21-1-2-3-1001";
   const xml = buildScheduledTaskXml({
-    taskDescription: "FRIDAY Gateway",
+    taskDescription: "OpenClaw Gateway",
     taskUser: "operator",
     launchPath: f.sourcePath,
   })
@@ -147,7 +147,7 @@ it.each([
     const f = await fixture("win32");
     const hiddenPath = f.sourcePath.replace(/\.cmd$/u, ".vbs");
     let xml = buildScheduledTaskXml({
-      taskDescription: "FRIDAY Gateway",
+      taskDescription: "OpenClaw Gateway",
       taskUser: "operator",
       launchPath: kind === "legacy-wscript" ? hiddenPath : f.sourcePath,
       interactive: kind === "legacy-wscript",

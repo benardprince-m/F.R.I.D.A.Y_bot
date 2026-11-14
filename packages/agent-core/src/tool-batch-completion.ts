@@ -17,7 +17,7 @@ export function resolveToolBatchTermination(finalizedCalls: FinalizedToolCallOut
 /**
  * Combines the tool batches one assistant message ran (streamed batches first, then
  * the terminal batch). The turn ends when every result asked to terminate, or when
- * FRIDAY's turn-completion hook says the settled results complete the turn.
+ * OpenClaw's turn-completion hook says the settled results complete the turn.
  */
 export function combineExecutedToolBatches(
   config: Pick<AgentLoopConfig, "completesToolTurn">,

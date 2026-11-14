@@ -163,7 +163,7 @@ describe("Checkout chip state", () => {
         remotePlacement,
         currentCheckoutUnavailableReason,
         repository,
-        folderLabel: "FRIDAY",
+        folderLabel: "OpenClaw",
         worktree,
         worktreeAvailable: true,
         branches: {
@@ -227,7 +227,7 @@ describe("Checkout chip state", () => {
           .dispatchEvent(new CustomEvent("overlay-after-hide"));
         expect(onConfirm).toHaveBeenCalledOnce();
         expect(container.textContent).toContain(
-          "Clones FRIDAY on the selected runner. No Gateway checkout is created.",
+          "Clones OpenClaw on the selected runner. No Gateway checkout is created.",
         );
         return;
       }
@@ -326,7 +326,7 @@ describe("Checkout chip state", () => {
       } else {
         expect(container.querySelector(".new-session-page__menu-note")).toBeNull();
       }
-      expect(container.textContent?.includes("Syncs FRIDAY to the selected runner")).toBe(
+      expect(container.textContent?.includes("Syncs OpenClaw to the selected runner")).toBe(
         remotePlacement,
       );
     },
@@ -340,7 +340,7 @@ describe("Checkout chip state", () => {
     const params: CheckoutChipOptions = {
       state: { label: "New worktree from main" },
       remotePlacement: false,
-      folderLabel: "FRIDAY",
+      folderLabel: "OpenClaw",
       worktree: true,
       worktreeAvailable: true,
       branches: {

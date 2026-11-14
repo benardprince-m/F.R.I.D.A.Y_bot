@@ -1,18 +1,18 @@
 ---
 summary: "Acknowledgement reactions, live streaming previews, and slash commands"
 read_when:
-  - Changing how FRIDAY acknowledges an inbound Slack message
+  - Changing how OpenClaw acknowledges an inbound Slack message
   - Configuring live progress cards or draft previews
   - Choosing between one slash command and native commands
 title: "Slack message behavior"
 sidebarTitle: "Message behavior"
 ---
 
-What a Slack conversation looks like while FRIDAY works, and how commands reach it.
+What a Slack conversation looks like while OpenClaw works, and how commands reach it.
 
 ## Ack reactions
 
-`ackReaction` sends an acknowledgement emoji while FRIDAY is processing an inbound message. `ackReactionScope` decides _when_ that emoji is actually sent.
+`ackReaction` sends an acknowledgement emoji while OpenClaw is processing an inbound message. `ackReactionScope` decides _when_ that emoji is actually sent.
 
 The acknowledgement stays static during work. With `messages.statusReactions.enabled: true`, actual failures briefly show an error reaction before restoring the acknowledgement. Tool calls, thinking, compaction, and long-running tools do not cycle or accumulate reactions, and successful completion does not flash a separate success emoji.
 
@@ -96,7 +96,7 @@ For threaded turns, including Agent View, Assistant View, and Slack-managed thre
 
 Without an authored or explicit headline, native summary rows finish as **Completed** or **Failed**.
 
-Set `channels.slack.streaming.progress.nativeTaskCards` to `false` to fall back to the Block Kit session card. By default, this separate message shows commentary and text, including italic narration and reasoning, plus actionable approval requests. Only an explicitly configured progress `label` appears as a plain title. Finished cards keep the **Open in FRIDAY** or **Open work session** link when available. The card adds no emoji, bold text, or status headings in either mode, except a plain Failed line when the turn fails. A card is posted only once it has something to show, so a turn with only tool activity and no commentary shows no card by default. A working or successful card whose last visible row goes away, such as a resolved approval, is deleted instead of keeping stale rows. Failed turns keep their card marked Failed, even without an error reply; failed turns with no reply post a plain Failed card even if none appeared while working.
+Set `channels.slack.streaming.progress.nativeTaskCards` to `false` to fall back to the Block Kit session card. By default, this separate message shows commentary and text, including italic narration and reasoning, plus actionable approval requests. Only an explicitly configured progress `label` appears as a plain title. Finished cards keep the **Open in OpenClaw** or **Open work session** link when available. The card adds no emoji, bold text, or status headings in either mode, except a plain Failed line when the turn fails. A card is posted only once it has something to show, so a turn with only tool activity and no commentary shows no card by default. A working or successful card whose last visible row goes away, such as a resolved approval, is deleted instead of keeping stale rows. Failed turns keep their card marked Failed, even without an error reply; failed turns with no reply post a plain Failed card even if none appeared while working.
 
 Set `progress.toolProgress: true` for the detailed Block Kit card: it adds recent tool activity, a plan checklist with a completed-step count, intermediate error and recovery rows, and tool/file/time totals while working. Finished detailed cards retain only file diff totals in their footer.
 
@@ -124,14 +124,14 @@ For streamed preambles, Slack waits for the first complete preamble before creat
 
 Compact progress always uses normal final delivery, including for media and errors. Other draft modes use normal delivery when the reply cannot safely replace the draft, including oversized text, split block payloads, custom outbound identity, or an edit failure.
 
-Both surfaces link the session with **Open in FRIDAY**, but only when that link can work: `gateway.publicOrigin` must be set (the externally reachable Gateway origin) and the Control UI must not be disabled via `gateway.controlUi.enabled: false`. Installations that leave `publicOrigin` unset — where there is no way to reach FRIDAY from Slack — get no link rather than a dead one. If the Control UI is served below a path prefix, also set `gateway.controlUi.basePath`.
+Both surfaces link the session with **Open in OpenClaw**, but only when that link can work: `gateway.publicOrigin` must be set (the externally reachable Gateway origin) and the Control UI must not be disabled via `gateway.controlUi.enabled: false`. Installations that leave `publicOrigin` unset — where there is no way to reach OpenClaw from Slack — get no link rather than a dead one. If the Control UI is served below a path prefix, also set `gateway.controlUi.basePath`.
 
 When a turn spawns a visible work session, the finished card instead links to that child with **Open work session**. For multiple visible work sessions, it shows up to five links in acceptance order, using their labels or numbered **Open work session** links; hidden subagents do not replace the conversation link.
 
 - A reply thread must be available for native text streaming and Slack session status to appear. Thread selection still follows `replyToMode`.
 - Channel, group-chat, and top-level DM roots use draft previews when explicitly selected. Default `progress` turns without a reply thread use only the temporary typing reaction.
 - Top-level Slack DMs stay off-thread by default; Agent View and Assistant View retain their thread-based native progress.
-- Custom outbound username/icon settings keep portable previews enabled. FRIDAY keeps the preview or session card app-authored and delivers the customized final separately. Slack does not allow impersonated messages to be deleted.
+- Custom outbound username/icon settings keep portable previews enabled. OpenClaw keeps the preview or session card app-authored and delivers the customized final separately. Slack does not allow impersonated messages to be deleted.
 - Media and non-text payloads fall back to normal delivery.
 - Outside compact progress, media/error finals cancel pending preview edits; eligible text/block finals flush only when they can edit the preview in place.
 - Native streamed replies wait for Slack's acknowledgement before delivery is marked successful. Each complete reply block flushes separately, including short blocks; routine progress updates still coalesce. A later progress-card finalization failure does not discard an already acknowledged reply.
@@ -179,7 +179,7 @@ Legacy keys:
 
 ## Typing reaction fallback
 
-`typingReaction` adds a temporary reaction to the inbound Slack message while FRIDAY is processing a reply, then removes it when the run finishes. This is most useful outside of thread replies, which use Slack's `processing` session status.
+`typingReaction` adds a temporary reaction to the inbound Slack message while OpenClaw is processing a reply, then removes it when the run finishes. This is most useful outside of thread replies, which use Slack's `processing` session status.
 
 Resolution order:
 

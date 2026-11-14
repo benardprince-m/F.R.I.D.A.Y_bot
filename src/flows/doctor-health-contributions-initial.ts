@@ -348,7 +348,7 @@ export function resolveInitialDoctorHealthContributions(params: {
     }),
     createDoctorHealthContribution("doctor:disk-space", "Disk space", {
       healthChecks: {
-        description: "Low disk space around the FRIDAY state directory is a finding.",
+        description: "Low disk space around the OpenClaw state directory is a finding.",
         defaultEnabled: false,
         async detect() {
           const { collectDiskSpaceHealthFindings } =

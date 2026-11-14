@@ -308,7 +308,7 @@ function hasPublishableSkillFile(params: { skillDir: string; rootDir: string }):
  * plugin skills directory (~/.openclaw/plugin-skills/) so the agent SDK can
  * discover them at the conventional file-system path.
  *
- * The plugin-skills directory is fully owned by FRIDAY — every entry is
+ * The plugin-skills directory is fully owned by OpenClaw — every entry is
  * a generated symlink. Cleanup of stale links is therefore safe.
  */
 function publishPluginSkills(skillDirs: string[], directory?: string): void {
@@ -330,7 +330,7 @@ function publishPluginSkills(skillDirs: string[], directory?: string): void {
     return;
   }
 
-  // Plugin skill symlinks are owned by FRIDAY and publish at extra-dir
+  // Plugin skill symlinks are owned by OpenClaw and publish at extra-dir
   // precedence, so they never shadow managed or bundled skills.
   for (const [name, target] of managedTargets) {
     const linkPath = path.join(pluginSkillsDir, name);

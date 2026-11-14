@@ -218,7 +218,7 @@ prepare() {
 
   local app_path
   app_path="$(cd "$(dirname "$app_input")" && pwd)/$(basename "$app_input")"
-  local app_executable="$app_path/Contents/MacOS/FRIDAY"
+  local app_executable="$app_path/Contents/MacOS/OpenClaw"
   [[ -x "$app_executable" ]] || fail "signed app executable not found: $app_executable"
   codesign --verify --deep --strict "$app_path" >/dev/null 2>&1 ||
     fail "app is not a valid signed bundle: $app_path"
@@ -311,7 +311,7 @@ NODE
   echo "prepared isolated Linux X11 profile $profile on ws://127.0.0.1:$port ($DISPLAY)"
   echo "gateway: $0 gateway $scratch"
   echo "node:    $0 node $scratch"
-  echo "fixture: $0 fixture $scratch 'FRIDAY CUA X11 Target' 'FRIDAY X11 Sentinel' 'W3-LINUX BEFORE'"
+  echo "fixture: $0 fixture $scratch 'OpenClaw CUA X11 Target' 'OpenClaw X11 Sentinel' 'W3-LINUX BEFORE'"
   echo "nodes:   $0 nodes $scratch"
 }
 
@@ -335,7 +335,7 @@ run_app() {
   defaults write "ai.openclaw.mac.profile.$OPENCLAW_CU_RIG_PROFILE" \
     openclaw.computerControlProvider -string "$provider"
   exec env OPENCLAW_PROFILE="$OPENCLAW_CU_RIG_PROFILE" \
-    "$OPENCLAW_CU_RIG_APP/Contents/MacOS/FRIDAY"
+    "$OPENCLAW_CU_RIG_APP/Contents/MacOS/OpenClaw"
 }
 
 run_node() {
@@ -350,7 +350,7 @@ run_node() {
     OPENCLAW_STATE_DIR="$OPENCLAW_CU_RIG_NODE_STATE" \
     node "$repo_root/scripts/run-node.mjs" --profile "$OPENCLAW_CU_RIG_PROFILE" \
       node run --host 127.0.0.1 --port "$OPENCLAW_CU_RIG_PORT" \
-      --display-name "FRIDAY CUA X11 Live Proof"
+      --display-name "OpenClaw CUA X11 Live Proof"
 }
 
 run_fixture() {

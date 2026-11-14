@@ -193,7 +193,7 @@ async function preparePendingCodexThreadResume(
   const fail = (reason: string) =>
     new Error(
       `Cannot configure resumed Codex thread ${binding.threadId}: ${reason}. ` +
-        "The thread is preserved; continue it in native Codex or use /new for the current FRIDAY tools.",
+        "The thread is preserved; continue it in native Codex or use /new for the current OpenClaw tools.",
     );
   const agentDir = resolveCodexThreadAgentDir(params);
   const localHome = resolveCodexAppServerLocalHomeDir(params.appServer.start, agentDir);
@@ -204,7 +204,7 @@ async function preparePendingCodexThreadResume(
     binding.connectionScope === "supervision" ||
     binding.preserveNativeModel === true
   ) {
-    throw fail("configuration adoption requires an FRIDAY-owned local Codex home");
+    throw fail("configuration adoption requires an OpenClaw-owned local Codex home");
   }
   if (isCodexAppServerLiveThreadClaimed(params.client, binding.threadId)) {
     throw fail("the thread is claimed by active work; stop that run before resuming");
@@ -237,7 +237,7 @@ async function preparePendingCodexThreadResume(
       !Array.isArray(recordedTools) ||
       codexDynamicToolsFingerprint(recordedTools) !== dynamicToolsFingerprint
     ) {
-      throw fail("its immutable native tool catalog does not match the current FRIDAY tools");
+      throw fail("its immutable native tool catalog does not match the current OpenClaw tools");
     }
     assertCurrent();
     return { ...observation, assertCurrent };

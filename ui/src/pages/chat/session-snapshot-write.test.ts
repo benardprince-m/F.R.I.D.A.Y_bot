@@ -139,7 +139,7 @@ describe("snapshot write serialization and scheduling", () => {
 
   it("keeps pairing QR credentials in memory without writing them to the browser cache", async () => {
     const content = [
-      { type: "text", text: "Scan this QR code with the FRIDAY iOS app:" },
+      { type: "text", text: "Scan this QR code with the OpenClaw iOS app:" },
       {
         type: "openclaw_pairing_qr",
         image_url: "data:image/png;base64,cGFpcmluZy1xci1maXh0dXJl",
@@ -158,7 +158,7 @@ describe("snapshot write serialization and scheduling", () => {
     await store.flush();
 
     const storedContent = [
-      { type: "text", text: "Scan this QR code with the FRIDAY iOS app:" },
+      { type: "text", text: "Scan this QR code with the OpenClaw iOS app:" },
       { type: "image", url: "https://example.com/photo.png" },
     ];
     expect(await readStoredChatSnapshotRecord(sessionKey)).toMatchObject({

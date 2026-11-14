@@ -2,7 +2,7 @@
   "id": "mattermost",
   "categories": ["channels"],
   "name": "Mattermost",
-  "description": "FRIDAY Mattermost channel plugin.",
+  "description": "OpenClaw Mattermost channel plugin.",
   "doctorContract": {
     "configRepair": true
   },

@@ -2958,8 +2958,8 @@ title="CI full-release-validation-77-1-ci"
 workflow="ci.yml"
 case "$run_id" in
   202) title="Plugin Prerelease full-release-validation-77-1-plugin-prerelease"; workflow="plugin-prerelease.yml" ;;
-  303) title="FRIDAY Release Checks full-release-validation-77-1-release-checks"; workflow="openclaw-release-checks.yml" ;;
-  505) title="FRIDAY Performance full-release-validation-77-1"; workflow="openclaw-performance.yml" ;;
+  303) title="OpenClaw Release Checks full-release-validation-77-1-release-checks"; workflow="openclaw-release-checks.yml" ;;
+  505) title="OpenClaw Performance full-release-validation-77-1"; workflow="openclaw-performance.yml" ;;
 esac
 status="completed"
 [ "$run_id" = 101 ] && status="$FRV_FAILED_RUN_STATUS"

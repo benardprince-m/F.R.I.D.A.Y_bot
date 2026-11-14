@@ -6,7 +6,7 @@ import {
 } from "./launchd-current-service.js";
 
 describe("isCurrentProcessLaunchdServiceLabel", () => {
-  it("falls back to FRIDAY service markers when XPC_SERVICE_NAME is inherited", () => {
+  it("falls back to OpenClaw service markers when XPC_SERVICE_NAME is inherited", () => {
     expect(
       isCurrentProcessLaunchdServiceLabel("ai.openclaw.gateway", {
         XPC_SERVICE_NAME: "0",

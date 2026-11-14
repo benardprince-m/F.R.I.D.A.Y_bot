@@ -174,7 +174,7 @@ describe("runCli exit behavior", () => {
         expect(process.exitCode).toBe(1);
         expect(exitSpy).not.toHaveBeenCalled();
         expect(consoleErrorSpy).toHaveBeenCalledWith(
-          "[openclaw] FRIDAY hit an unexpected runtime error.",
+          "[openclaw] OpenClaw hit an unexpected runtime error.",
         );
         expect(consoleErrorSpy).toHaveBeenCalledWith("[openclaw] For help, run `openclaw doctor`.");
         expect(restoreRuntimeTerminalStateMock).toHaveBeenCalledWith("uncaught exception");

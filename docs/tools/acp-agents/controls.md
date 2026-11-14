@@ -23,18 +23,18 @@ Most `/acp` actions accept an optional session target (`session-key`,
 
 Current-conversation bindings and thread bindings both participate in step 2.
 
-If no target resolves, FRIDAY returns a clear error
+If no target resolves, OpenClaw returns a clear error
 (`Unable to resolve session target: ...`).
 
 ### Session owner and harness
 
-The FRIDAY agent that owns a session is separate from the external harness
+The OpenClaw agent that owns a session is separate from the external harness
 selected by ACP. For example, a session owned by `work` can run the `claude`
 harness. Owner-aware manager calls carry `agentId`; `agent` remains the harness
-name. Configured bindings use their FRIDAY agent owner and their configured
+name. Configured bindings use their OpenClaw agent owner and their configured
 ACP harness independently. `sessions_spawn` uses the requester as owner for raw
 harnesses and the configured agent as owner for ACP aliases. `/acp spawn`
-also keeps raw harness sessions under the requesting FRIDAY agent; a harness
+also keeps raw harness sessions under the requesting OpenClaw agent; a harness
 that is itself a configured agent keeps its configured namespace. The session
 key, participant history, and transcripts use that owner while ACP metadata
 records the selected harness. Existing harness-namespaced sessions and bindings
@@ -92,24 +92,24 @@ does not accept a target token.
 
 `/acp` has convenience commands and a generic setter. Equivalent operations:
 
-| Command                      | Maps to                           | Notes                                                                                                                                                                                                    |
-| ---------------------------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/acp model <id>`            | runtime config key `model`        | For Codex ACP, FRIDAY normalizes `openai/<model>` to the adapter model id and maps slash reasoning suffixes such as `openai/gpt-5.4/high` to `reasoning_effort`.                                         |
-| `/acp set thinking <level>`  | FRIDAY option `thinking`          | FRIDAY sends the backend-advertised equivalent when present, preferring `thinking`, then `effort`, `reasoning_effort`, or `thought_level`. For Codex ACP, the adapter maps values to `reasoning_effort`. |
-| `/acp permissions <profile>` | FRIDAY option `permissionProfile` | FRIDAY sends the backend-advertised equivalent when present, such as `approval_policy`, `permission_profile`, `permissions`, or `permission_mode`.                                                       |
-| `/acp timeout <seconds>`     | FRIDAY option `timeoutSeconds`    | FRIDAY sends the backend-advertised equivalent when present, such as `timeout` or `timeout_seconds`.                                                                                                     |
-| `/acp cwd <path>`            | runtime cwd override              | Applied on the next runtime operation, which closes the previous handle before replacing it.                                                                                                             |
-| `/acp set <key> <value>`     | generic                           | `key=cwd` uses the cwd override path.                                                                                                                                                                    |
-| `/acp reset-options`         | clears all runtime overrides      | Closes a retained runtime without starting a new backend.                                                                                                                                                |
+| Command                      | Maps to                             | Notes                                                                                                                                                                                                      |
+| ---------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/acp model <id>`            | runtime config key `model`          | For Codex ACP, OpenClaw normalizes `openai/<model>` to the adapter model id and maps slash reasoning suffixes such as `openai/gpt-5.4/high` to `reasoning_effort`.                                         |
+| `/acp set thinking <level>`  | OpenClaw option `thinking`          | OpenClaw sends the backend-advertised equivalent when present, preferring `thinking`, then `effort`, `reasoning_effort`, or `thought_level`. For Codex ACP, the adapter maps values to `reasoning_effort`. |
+| `/acp permissions <profile>` | OpenClaw option `permissionProfile` | OpenClaw sends the backend-advertised equivalent when present, such as `approval_policy`, `permission_profile`, `permissions`, or `permission_mode`.                                                       |
+| `/acp timeout <seconds>`     | OpenClaw option `timeoutSeconds`    | OpenClaw sends the backend-advertised equivalent when present, such as `timeout` or `timeout_seconds`.                                                                                                     |
+| `/acp cwd <path>`            | runtime cwd override                | Applied on the next runtime operation, which closes the previous handle before replacing it.                                                                                                               |
+| `/acp set <key> <value>`     | generic                             | `key=cwd` uses the cwd override path.                                                                                                                                                                      |
+| `/acp reset-options`         | clears all runtime overrides        | Closes a retained runtime without starting a new backend.                                                                                                                                                  |
 
-When a backend returns its accepted controls, FRIDAY keeps an already-selected
+When a backend returns its accepted controls, OpenClaw keeps an already-selected
 thinking level in sync with that response. A model switch may lower the level or
 remove thinking support; subsequent turns and reconnects use the accepted
 selection instead of replaying the old level. Backend defaults do not become new
-session overrides, and the model reference keeps its FRIDAY provider prefix.
+session overrides, and the model reference keeps its OpenClaw provider prefix.
 
 With Cursor, model requests can use exact advertised IDs, selectors with one
-advertised variant, or FRIDAY `provider/model` references to either. Unknown or
+advertised variant, or OpenClaw `provider/model` references to either. Unknown or
 ambiguous requests fail visibly. An exact advertised ID that contains `/` takes
 precedence over interpreting it as a provider-qualified reference.
 

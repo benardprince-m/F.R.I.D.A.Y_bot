@@ -33,13 +33,13 @@ describe("Claude CLI tool naming guidance", () => {
   });
 
   it.each([{ tools: undefined }, { tools: [] }])(
-    "leaves prompts unchanged without FRIDAY MCP tools (%j)",
+    "leaves prompts unchanged without OpenClaw MCP tools (%j)",
     ({ tools }) => {
       expect(transformPrompt(TOOLING_PROMPT, tools)).toBe(TOOLING_PROMPT);
     },
   );
 
-  it("omits message delivery guidance when only other FRIDAY MCP tools are exposed", () => {
+  it("omits message delivery guidance when only other OpenClaw MCP tools are exposed", () => {
     const prompt = transformPrompt(TOOLING_PROMPT, ["read"]);
 
     expect(prompt).toContain("ToolSearch `select:mcp__openclaw__<name>`");

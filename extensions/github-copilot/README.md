@@ -1,6 +1,6 @@
 # GitHub Copilot
 
-Use models available to your GitHub Copilot account in FRIDAY. This plugin
+Use models available to your GitHub Copilot account in OpenClaw. This plugin
 provides account login, model discovery, and embeddings. Model access depends on
 your Copilot plan and organization policy.
 

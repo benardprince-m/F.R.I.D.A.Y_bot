@@ -364,7 +364,7 @@ suite.define(() => {
           '[role="menuitemradio"] .session-menu__text',
         );
         await captureProof(page, "assignment-submenu");
-        await expectBrowser(ownerItems).toHaveText(["Me", "FRIDAY", "Bob", "Carol"]);
+        await expectBrowser(ownerItems).toHaveText(["Me", "OpenClaw", "Bob", "Carol"]);
         const paint = await readThemedPopupPaint(sessionMenuSubmenu(assignTo), "surface");
         await captureProof(page, "assignee-submenu");
         expect(paint.actual).toEqual(paint.expected);
@@ -449,7 +449,7 @@ suite.define(() => {
         await expectBrowser(checked.locator(".session-menu__text")).toHaveText("Me");
         await expectBrowser(
           sessionMenuSubmenu(selfAssignment).locator('[role="menuitemradio"] .session-menu__text'),
-        ).toHaveText(["Me", "FRIDAY", "Bob", "Carol"]);
+        ).toHaveText(["Me", "OpenClaw", "Bob", "Carol"]);
       },
     );
   });
@@ -498,7 +498,7 @@ suite.define(() => {
           await captureProof(page, `archived-${surface.replaceAll(" ", "-")}`);
           await expectBrowser(
             page.getByRole("menuitemradio").locator(".session-menu__text"),
-          ).toHaveText(["Me", "FRIDAY", "Bob", "Carol", ...extraNames]);
+          ).toHaveText(["Me", "OpenClaw", "Bob", "Carol", ...extraNames]);
           await expectAssignmentAvatarLayout(page);
           const target = extraNames.at(-1) ?? "Carol";
           if (extraNames.length > 0) {

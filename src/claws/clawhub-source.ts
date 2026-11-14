@@ -126,7 +126,7 @@ function requireOfficialName(packageName: string): void {
   if (!isOfficialClawName(packageName)) {
     throw new ClawHubSourceError(
       "clawhub_official_claw_required",
-      "Only official FRIDAY Claws may be selected.",
+      "Only official OpenClaw Claws may be selected.",
     );
   }
 }

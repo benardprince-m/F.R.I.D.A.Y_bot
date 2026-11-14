@@ -79,7 +79,7 @@ export default definePluginEntry({
         delete summaryOptions.model;
       }
       if (!api.runtimeSource) {
-        throw new Error("Team Reports requires an FRIDAY host with runtime entrypoint metadata");
+        throw new Error("Team Reports requires an OpenClaw host with runtime entrypoint metadata");
       }
       const nextStore = await createTeamReportsStore({
         stateDir: ctx.stateDir,

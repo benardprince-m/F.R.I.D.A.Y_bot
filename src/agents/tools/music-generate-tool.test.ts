@@ -662,7 +662,7 @@ it("warns when optional provider overrides are ignored", async () => {
   mediaStoreMocks.saveMediaBuffer.mockResolvedValueOnce(savedMedia("molty-anthem.mp3", 11));
 
   const result = await musicTool("google/lyria-3-clip-preview").execute("call-google-generate", {
-    prompt: "FRIDAY anthem",
+    prompt: "OpenClaw anthem",
     instrumental: true,
     durationSeconds: 30,
     format: "wav",

@@ -1,5 +1,5 @@
 ---
-summary: "FRIDAY Discord channel plugin for channels, DMs, commands, and app events."
+summary: "OpenClaw Discord channel plugin for channels, DMs, commands, and app events."
 read_when:
   - You are installing, configuring, or auditing the discord plugin
 title: "Discord plugin reference"
@@ -10,7 +10,7 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-FRIDAY Discord channel plugin for channels, DMs, commands, and app events.
+OpenClaw Discord channel plugin for channels, DMs, commands, and app events.
 
 ## Distribution
 

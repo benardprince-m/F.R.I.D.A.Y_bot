@@ -272,7 +272,7 @@ private fun CronJobsSettingsScreen(
   SettingsRefreshOnConnect(isConnected) { viewModel.refreshCronJobs() }
 
   SettingsDetailFrame(
-    subtitle = nativeString("Scheduled FRIDAY work from your gateway."),
+    subtitle = nativeString("Scheduled OpenClaw work from your gateway."),
     route = SettingsRoute.CronJobs,
     onBack = onBack,
     trailingAction = {
@@ -621,9 +621,9 @@ private fun ProfileSettingsScreen(
   onBack: () -> Unit,
 ) {
   val displayName by viewModel.displayName.collectAsState()
-  var draft by remember(displayName) { mutableStateOf(displayName.ifBlank { "FRIDAY" }) }
+  var draft by remember(displayName) { mutableStateOf(displayName.ifBlank { "OpenClaw" }) }
 
-  SettingsDetailFrame(subtitle = nativeString("How this phone appears to FRIDAY."), route = SettingsRoute.Profile, onBack = onBack) {
+  SettingsDetailFrame(subtitle = nativeString("How this phone appears to OpenClaw."), route = SettingsRoute.Profile, onBack = onBack) {
     ClawPanel(verticalArrangement = Arrangement.spacedBy(ClawTheme.spacing.xxs)) {
       ClawTextField(value = draft, onValueChange = { draft = it }, placeholder = nativeString("Device name"))
       ClawPrimaryButton(text = nativeString("Save Profile"), onClick = { viewModel.setDisplayName(draft) }, enabled = draft.isNotBlank())
@@ -692,7 +692,7 @@ private fun VoiceSettingsScreen(
               title = nativeString("Listen for wake words"),
               subtitle =
                 if (voiceWakeAvailable) {
-                  nativeString("Runs on-device while FRIDAY is visible.")
+                  nativeString("Runs on-device while OpenClaw is visible.")
                 } else {
                   nativeString("On-device speech recognition is unavailable.")
                 },
@@ -775,7 +775,7 @@ private fun VoiceSettingsScreen(
         onSelect = viewModel::setPreferredAudioInputDevice,
       )
       Text(text = nativeString("Audio Test"), style = ClawTheme.type.section, color = ClawTheme.colors.text)
-      Text(text = nativeString("Check that FRIDAY can speak clearly on this phone."), style = ClawTheme.type.body, color = ClawTheme.colors.textMuted)
+      Text(text = nativeString("Check that OpenClaw can speak clearly on this phone."), style = ClawTheme.type.body, color = ClawTheme.colors.textMuted)
       SettingsWaveformPanel(active = speakerEnabled, onClick = ::playVoiceSetupTone)
       VoiceSetupActionRow(
         title = if (speakerEnabled) nativeString("Mute speaker") else nativeString("Enable speaker"),
@@ -1032,11 +1032,11 @@ private fun NotificationSettingsScreen(
     }
   }
 
-  SettingsDetailFrame(subtitle = nativeString("Choose what reaches FRIDAY."), route = SettingsRoute.Notifications, onBack = onBack) {
+  SettingsDetailFrame(subtitle = nativeString("Choose what reaches OpenClaw."), route = SettingsRoute.Notifications, onBack = onBack) {
     SettingsTogglePanel(
       rows =
         listOf(
-          SettingsToggleRow(nativeString("Forward Notifications"), if (enabled) nativeString("FRIDAY can receive selected alerts.") else nativeString("Alerts stay on this phone."), Icons.Default.Notifications, enabled, ::setForwarding),
+          SettingsToggleRow(nativeString("Forward Notifications"), if (enabled) nativeString("OpenClaw can receive selected alerts.") else nativeString("Alerts stay on this phone."), Icons.Default.Notifications, enabled, ::setForwarding),
           SettingsToggleRow(
             nativeString("Quiet Hours"),
             nativeString("\$quietStart to \$quietEnd", quietStart, quietEnd),
@@ -1394,7 +1394,7 @@ private fun PhoneCapabilitiesScreen(
           },
           SettingsToggleRow(
             nativeString("Installed Apps"),
-            if (installedAppsSharingEnabled) nativeString("FRIDAY can list launcher-visible apps.") else nativeString("App list stays on this phone."),
+            if (installedAppsSharingEnabled) nativeString("OpenClaw can list launcher-visible apps.") else nativeString("App list stays on this phone."),
             Icons.Default.Storage,
             installedAppsSharingEnabled,
             ::setInstalledAppsSharing,
@@ -1415,7 +1415,7 @@ private fun PhoneCapabilitiesScreen(
       )
       if (backgroundLocationAvailable) {
         Text(
-          text = nativeString("Always allows requested location checks while FRIDAY is in the background; Android shows this in the persistent node notification."),
+          text = nativeString("Always allows requested location checks while OpenClaw is in the background; Android shows this in the persistent node notification."),
           style = ClawTheme.type.caption,
           color = ClawTheme.colors.textMuted,
         )
@@ -1460,7 +1460,7 @@ private fun PhoneCapabilitiesScreen(
       text = {
         Text(
           nativeString(
-            "FRIDAY only checks location when your paired Gateway requests it. On the next Android screen, choose \$backgroundPermissionLabel to allow checks while the app is in the background.",
+            "OpenClaw only checks location when your paired Gateway requests it. On the next Android screen, choose \$backgroundPermissionLabel to allow checks while the app is in the background.",
             backgroundPermissionLabel,
           ),
         )
@@ -1483,10 +1483,10 @@ private fun InstalledAppsDisclosureDialog(
     text = {
       Column(verticalArrangement = Arrangement.spacedBy(ClawTheme.spacing.xxs)) {
         Text(
-          nativeString("FRIDAY collects and sends the names, package IDs, and status of apps visible on this phone when your paired FRIDAY Gateway asks for them. This lets your assistant answer questions and take actions using installed apps."),
+          nativeString("OpenClaw collects and sends the names, package IDs, and status of apps visible on this phone when your paired OpenClaw Gateway asks for them. This lets your assistant answer questions and take actions using installed apps."),
         )
         Text(
-          nativeString("Your phone sends this information to your Gateway, not to a server run by FRIDAY. Your Gateway may include it in requests to the AI provider you chose."),
+          nativeString("Your phone sends this information to your Gateway, not to a server run by OpenClaw. Your Gateway may include it in requests to the AI provider you chose."),
         )
       }
     },
@@ -1682,7 +1682,7 @@ private fun GatewaySettingsScreen(
   }
 
   SettingsDetailFrame(
-    subtitle = nativeString("Connection between this phone and FRIDAY."),
+    subtitle = nativeString("Connection between this phone and OpenClaw."),
     route = SettingsRoute.Gateway,
     onBack = onBack,
     trailingAction = {
@@ -2236,7 +2236,7 @@ private fun AboutSettingsScreen(
   val currentGatewayVersion = updateAvailable?.currentVersion?.takeIf { it.isNotBlank() } ?: gatewayVersion
   val appLocale = LocalConfiguration.current.locales[0]
 
-  SettingsDetailFrame(subtitle = nativeString("FRIDAY for Android."), route = SettingsRoute.About, onBack = onBack) {
+  SettingsDetailFrame(subtitle = nativeString("OpenClaw for Android."), route = SettingsRoute.About, onBack = onBack) {
     AboutHeroPanel()
     AboutBuildIdentityPanel(
       versionName = BuildConfig.VERSION_NAME,
@@ -2268,7 +2268,7 @@ private fun AboutSettingsScreen(
     SettingsMessagePanel(text = aboutUpdateText(latestVersion = latestVersion))
     AboutLinksPanel()
     Text(
-      text = nativeString("© 2026 FRIDAY Foundation — MIT License."),
+      text = nativeString("© 2026 OpenClaw Foundation — MIT License."),
       style = ClawTheme.type.caption,
       color = ClawTheme.colors.textSubtle,
       modifier = Modifier.fillMaxWidth(),
@@ -2285,9 +2285,9 @@ private fun AboutHeroPanel() {
       horizontalAlignment = Alignment.CenterHorizontally,
       verticalArrangement = Arrangement.spacedBy(ClawTheme.spacing.xxs),
     ) {
-      OpenClawMascot(contentDescription = nativeString("FRIDAY logo"), modifier = Modifier.size(96.dp))
+      OpenClawMascot(contentDescription = nativeString("OpenClaw logo"), modifier = Modifier.size(96.dp))
       Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(2.dp)) {
-        Text(text = nativeString("FRIDAY"), style = ClawTheme.type.section, color = ClawTheme.colors.text)
+        Text(text = nativeString("OpenClaw"), style = ClawTheme.type.section, color = ClawTheme.colors.text)
         Text(text = nativeString("Personal AI on your devices"), style = ClawTheme.type.caption, color = ClawTheme.colors.textMuted)
       }
     }
@@ -2347,7 +2347,7 @@ private fun LicensesSettingsScreen(onBack: () -> Unit) {
   }
 
   SettingsDetailFrame(
-    subtitle = if (selectedLicense == null) nativeString("FRIDAY appreciates its partners in the open-source community.") else "",
+    subtitle = if (selectedLicense == null) nativeString("OpenClaw appreciates its partners in the open-source community.") else "",
     subtitleTextAlign = TextAlign.Center,
     route = SettingsRoute.Licenses,
     onBack = backToListOrSettings,
@@ -2433,7 +2433,7 @@ private fun AboutStatusRow(
 
 private fun aboutUpdateText(latestVersion: String?): String =
   if (latestVersion == null) {
-    nativeString("FRIDAY turns this phone into a clean mobile command surface for threads, voice, providers, and Gateway.")
+    nativeString("OpenClaw turns this phone into a clean mobile command surface for threads, voice, providers, and Gateway.")
   } else {
     nativeString("A Gateway update is available. Run the update from the Web UI or CLI when you are ready.")
   }
@@ -2842,7 +2842,7 @@ private fun Modifier.copySettingsMetric(
 ): Modifier =
   if (row.copyable) {
     clickable(onClickLabel = nativeString("Copy \${row.title}", row.title)) {
-      context.copyTextWithConfirmation("FRIDAY ${row.title}", row.value, nativeString("\$title copied", row.title))
+      context.copyTextWithConfirmation("OpenClaw ${row.title}", row.value, nativeString("\$title copied", row.title))
     }
   } else {
     this

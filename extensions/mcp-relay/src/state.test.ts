@@ -104,7 +104,7 @@ describe("MCP relay persisted state", () => {
     ]) {
       f.seed(value);
       const invalid = f.persisted();
-      await expect(f.open().initialize()).rejects.toThrow("Restore a valid FRIDAY state backup");
+      await expect(f.open().initialize()).rejects.toThrow("Restore a valid OpenClaw state backup");
       expect(f.persisted()).toBe(invalid);
     }
   });

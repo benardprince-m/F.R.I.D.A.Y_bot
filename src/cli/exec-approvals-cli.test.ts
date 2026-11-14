@@ -244,7 +244,7 @@ describe("exec approvals CLI", () => {
 
     expect(writtenJson().defaultAction).toBe("deny");
     expect(effectivePolicy()).toEqual({
-      note: "This node enforces a host-native exec policy; FRIDAY approvals-file policy math does not apply.",
+      note: "This node enforces a host-native exec policy; OpenClaw approvals-file policy math does not apply.",
       scopes: [],
     });
     expect(callGatewayFromCli.mock.calls.map((call) => call[0])).toEqual([

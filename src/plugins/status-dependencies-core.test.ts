@@ -49,7 +49,7 @@ function createHostFixture() {
   const rootDir = writeDependency(projectRoot, "@example/plugin");
   const hostRoot = hostRootResolver.resolveOpenClawPackageRootSync({ moduleUrl: import.meta.url });
   if (!hostRoot) {
-    throw new Error("Expected the running FRIDAY package root");
+    throw new Error("Expected the running OpenClaw package root");
   }
   return { parent, projectRoot, rootDir, hostRoot };
 }
@@ -245,7 +245,7 @@ describe("plugin dependency health", () => {
     "linked-node-modules",
     "hoisted-host",
     "unknown-host",
-  ] as const)("audits a required FRIDAY host with a %s layout", async (layout) => {
+  ] as const)("audits a required OpenClaw host with a %s layout", async (layout) => {
     const { parent, projectRoot, rootDir, hostRoot } = createHostFixture();
     if (layout === "canonical" || layout === "unknown-host") {
       linkHost(rootDir, hostRoot);

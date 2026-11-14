@@ -1429,7 +1429,7 @@ describe("matrix monitor handler draft streaming", () => {
 });
 
 it.each([
-  { text: "@[FRIDAY Bot] /model", displayName: "FRIDAY Bot", expected: "/model" },
+  { text: "@[OpenClaw Bot] /model", displayName: "OpenClaw Bot", expected: "/model" },
   {
     text: "Hello @bot:server how are you",
     userId: "@bot:server",

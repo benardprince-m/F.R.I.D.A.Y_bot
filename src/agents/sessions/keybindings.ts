@@ -1,7 +1,7 @@
 /**
  * Application keybinding definitions and user-config loading.
  *
- * Wraps pi-tui keybindings with FRIDAY-specific actions and per-agent overrides.
+ * Wraps pi-tui keybindings with OpenClaw-specific actions and per-agent overrides.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -16,7 +16,7 @@ import { isRecord, isStringArray } from "@openclaw/normalization-core/record-coe
 import { createInvalidConfigError } from "../../config/io.invalid-config.js";
 import { getAgentDir } from "../config.js";
 
-/** FRIDAY-specific key ids added to the shared pi-tui keybinding registry. */
+/** OpenClaw-specific key ids added to the shared pi-tui keybinding registry. */
 type AppKeybindings = Record<keyof typeof APP_KEYBINDINGS, true>;
 
 declare module "@earendil-works/pi-tui" {
@@ -157,7 +157,7 @@ function parseKeybindingsConfig(
       configPath,
       `Retired keybinding names: ${retired.join("; ")}. ` +
         "Preserve the original file and replace the retired names, keeping bindings that already use the current names when both names occur. " +
-        "FRIDAY 2026.9.7 retains the former keybinding reader for a staged upgrade. " +
+        "OpenClaw 2026.9.7 retains the former keybinding reader for a staged upgrade. " +
         "See https://docs.openclaw.ai/gateway/doctor/config-migrations#session-settings.",
       { recovery: "manual" },
     );
@@ -181,7 +181,7 @@ function orderKeybindingsConfig(config: KeybindingsConfig): KeybindingsConfig {
   return Object.fromEntries([...known, ...extras].map((key) => [key, config[key]]));
 }
 
-/** Keybinding manager that loads FRIDAY defaults plus optional user overrides. */
+/** Keybinding manager that loads OpenClaw defaults plus optional user overrides. */
 export class KeybindingsManager extends TuiKeybindingsManager {
   constructor(
     userBindings: KeybindingsConfig = {},

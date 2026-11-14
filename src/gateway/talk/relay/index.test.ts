@@ -1793,7 +1793,7 @@ describe("talk realtime gateway relay", () => {
         status: "working",
         tool: "openclaw_agent_consult",
         message:
-          "Tell the person briefly that you are checking, then wait for the final FRIDAY result before answering with the actual result.",
+          "Tell the person briefly that you are checking, then wait for the final OpenClaw result before answering with the actual result.",
       },
       { willContinue: true },
     );
@@ -2064,7 +2064,7 @@ describe("talk realtime gateway relay", () => {
     const callId = String(forcedToolCall.callId);
     void submitResult(session, callId, { status: "working" }, { willContinue: true });
     expect(bridge.sendUserMessage).toHaveBeenLastCalledWith(
-      "Briefly tell the person that you are checking with FRIDAY. Do not answer the request yet. Wait for the FRIDAY result before giving the actual answer.",
+      "Briefly tell the person that you are checking with OpenClaw. Do not answer the request yet. Wait for the OpenClaw result before giving the actual answer.",
     );
 
     consultCall(captured.request, "native-item", "native-call", "Can you check this?");
@@ -2074,7 +2074,7 @@ describe("talk realtime gateway relay", () => {
         status: "working",
         tool: "openclaw_agent_consult",
         message:
-          "Tell the person briefly that you are checking, then wait for the final FRIDAY result before answering with the actual result.",
+          "Tell the person briefly that you are checking, then wait for the final OpenClaw result before answering with the actual result.",
       },
       { willContinue: true },
     );
@@ -2093,13 +2093,13 @@ describe("talk realtime gateway relay", () => {
       "native-call",
       {
         status: "already_delivered",
-        message: "FRIDAY already delivered this consult result internally. Do not repeat it.",
+        message: "OpenClaw already delivered this consult result internally. Do not repeat it.",
       },
       { suppressResponse: true },
     );
     expect(bridge.sendUserMessage).toHaveBeenLastCalledWith(
       [
-        "FRIDAY finished checking. Speak this result naturally and concisely.",
+        "OpenClaw finished checking. Speak this result naturally and concisely.",
         "Do not mention tool calls, JSON, or internal routing.",
         "",
         "Here is the checked answer.",
@@ -2138,7 +2138,7 @@ describe("talk realtime gateway relay", () => {
         status: "working",
         tool: "openclaw_agent_consult",
         message:
-          "Tell the person briefly that you are checking, then wait for the final FRIDAY result before answering with the actual result.",
+          "Tell the person briefly that you are checking, then wait for the final OpenClaw result before answering with the actual result.",
       },
       { willContinue: true },
     );
@@ -2350,7 +2350,7 @@ describe("talk realtime gateway relay", () => {
       "late-call",
       {
         status: "already_delivered",
-        message: "FRIDAY already delivered this consult result internally. Do not repeat it.",
+        message: "OpenClaw already delivered this consult result internally. Do not repeat it.",
       },
       undefined,
     );
@@ -3221,7 +3221,7 @@ describe("talk realtime gateway relay", () => {
       { phase: "first" },
       {
         status: "cancelled",
-        message: "FRIDAY cancelled this consult before completion. Do not restart it.",
+        message: "OpenClaw cancelled this consult before completion. Do not restart it.",
       },
     ]);
     expect(submitToolResult.mock.calls[1]?.[2]).toEqual({ suppressResponse: true });
@@ -3274,7 +3274,7 @@ describe("talk realtime gateway relay", () => {
           { status: "working" },
           {
             status: "cancelled",
-            message: "FRIDAY cancelled this consult before completion. Do not restart it.",
+            message: "OpenClaw cancelled this consult before completion. Do not restart it.",
           },
         ]);
         expect(submitToolResult.mock.calls[1]?.[2]).toBeUndefined();
@@ -3391,7 +3391,7 @@ describe("talk realtime gateway relay", () => {
         { answer: "stale" },
         {
           status: "cancelled",
-          message: "FRIDAY cancelled this consult before completion. Do not restart it.",
+          message: "OpenClaw cancelled this consult before completion. Do not restart it.",
         },
       ]);
     },
@@ -3563,7 +3563,7 @@ describe("talk realtime gateway relay", () => {
       if (transition !== "disconnect") {
         await vi.waitFor(() =>
           expect(native ? respond : bridge.sendUserMessage).toHaveBeenCalledWith(
-            expect.stringContaining("There is no active FRIDAY run to cancel."),
+            expect.stringContaining("There is no active OpenClaw run to cancel."),
           ),
         );
       } else {
@@ -3658,7 +3658,7 @@ describe("talk realtime gateway relay", () => {
         suppress: expectedSuppress,
         providerResult: {
           status: "cancelled",
-          message: "Cancelled the active FRIDAY run.",
+          message: "Cancelled the active OpenClaw run.",
         },
       });
       expect(abortEmbeddedRun).toHaveBeenCalledTimes(1);
@@ -3666,7 +3666,7 @@ describe("talk realtime gateway relay", () => {
         "call-1",
         {
           status: "cancelled",
-          message: "Cancelled the active FRIDAY run.",
+          message: "Cancelled the active OpenClaw run.",
         },
         expectedOptions,
       );
@@ -3838,7 +3838,7 @@ describe("talk realtime gateway relay", () => {
           "native-call",
           {
             status: "already_delivered",
-            message: "FRIDAY already delivered this consult result internally. Do not repeat it.",
+            message: "OpenClaw already delivered this consult result internally. Do not repeat it.",
           },
           { suppressResponse: true },
         );
@@ -3849,7 +3849,7 @@ describe("talk realtime gateway relay", () => {
         expect(await cancellation).toMatchObject({
           ok: true,
           mode: "cancel",
-          providerResult: { status: "cancelled", message: "Cancelled the active FRIDAY run." },
+          providerResult: { status: "cancelled", message: "Cancelled the active OpenClaw run." },
         });
         expect(abortEmbeddedRun).toHaveBeenCalledTimes(1);
         expect(bridge.submitToolResult).not.toHaveBeenCalled();
@@ -3890,7 +3890,7 @@ describe("talk realtime gateway relay", () => {
     for (const call of fixture.submitToolResult.mock.calls) {
       expect(call[1]).toEqual({
         status: "cancelled",
-        message: "FRIDAY cancelled this consult before completion. Do not restart it.",
+        message: "OpenClaw cancelled this consult before completion. Do not restart it.",
       });
       expect(call[2]).toBeUndefined();
     }
@@ -3911,7 +3911,7 @@ describe("talk realtime gateway relay", () => {
     expectRecordFields((terminal.talkEvent as Record<string, unknown>).payload, {
       result: {
         status: "cancelled",
-        message: "FRIDAY cancelled this consult before completion. Do not restart it.",
+        message: "OpenClaw cancelled this consult before completion. Do not restart it.",
       },
       forced: true,
     });
@@ -3937,7 +3937,7 @@ describe("talk realtime gateway relay", () => {
       expect.objectContaining({ status: "working" }),
       {
         status: "cancelled",
-        message: "FRIDAY cancelled this consult before completion. Do not restart it.",
+        message: "OpenClaw cancelled this consult before completion. Do not restart it.",
       },
     ]);
     expect(fixture.submitToolResult.mock.calls[1]?.[2]).toBeUndefined();
@@ -3953,7 +3953,7 @@ describe("talk realtime gateway relay", () => {
   it.each([
     ["status", false, false, "I'm not working on an active request right now."],
     ["status", true, false, undefined],
-    ["cancel", false, true, "There is no active FRIDAY run to cancel."],
+    ["cancel", false, true, "There is no active OpenClaw run to cancel."],
   ])(
     "routes idle %s (tools=%s, delegation=%s)",
     async (text, supportsToolCalls, handlesAgentConsult, reply) => {

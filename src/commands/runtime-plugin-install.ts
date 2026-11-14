@@ -22,7 +22,7 @@ type RuntimePluginInstallDescriptor = {
   npmSpec: string;
   warningLabel: string;
   shouldEnsure: (params: RuntimePluginRepairParams) => boolean;
-  /** Keep this official runtime package on the same release cohort as FRIDAY. */
+  /** Keep this official runtime package on the same release cohort as OpenClaw. */
   versionBoundToOpenClaw?: boolean;
 };
 

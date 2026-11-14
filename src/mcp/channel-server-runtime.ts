@@ -74,7 +74,7 @@ export async function createChannelMcpRuntime(
         throw errors[0];
       }
       if (errors.length > 1) {
-        throw new AggregateError(errors, "FRIDAY channel MCP shutdown failed");
+        throw new AggregateError(errors, "OpenClaw channel MCP shutdown failed");
       }
     },
   };

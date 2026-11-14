@@ -8,7 +8,7 @@ import { isSqliteTranscriptMutationConflict } from "../config/sessions/session-m
 import { runPluginStreamConsumer } from "../plugins/plugin-instance-scope.js";
 import { completeSimple, streamSimple } from "./llm.js";
 
-/** Runtime adapter that lets the package agent-core use FRIDAY LLM helpers. */
+/** Runtime adapter that lets the package agent-core use OpenClaw LLM helpers. */
 export const openClawAgentCoreRuntime = {
   isLocalError: isSqliteTranscriptMutationConflict,
   runStream: runPluginStreamConsumer,
@@ -18,14 +18,14 @@ export const openClawAgentCoreRuntime = {
     streamSimple(model, context, options)) satisfies StreamFn,
 } satisfies AgentCoreRuntimeDeps;
 
-/** Agent-core class preconfigured with FRIDAY runtime dependencies. */
+/** Agent-core class preconfigured with OpenClaw runtime dependencies. */
 export class Agent extends CoreAgent {
   constructor(options: CoreAgentOptions = {}) {
     super({ runtime: openClawAgentCoreRuntime, ...options });
   }
 }
 
-// FRIDAY-owned reusable agent core
+// OpenClaw-owned reusable agent core
 export { runAgentLoop } from "../../packages/agent-core/src/index.js";
 // Documented proxy stream API stays until this entrypoint's announced
 // public demotion window (registry: plugin-sdk-agent-core-public-demotion).

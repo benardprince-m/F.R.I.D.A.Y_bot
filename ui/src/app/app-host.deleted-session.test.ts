@@ -201,7 +201,7 @@ afterEach(async () => {
   }
 });
 
-describe("FRIDAY shell deleted-session recovery", () => {
+describe("OpenClaw shell deleted-session recovery", () => {
   it.each([
     "initial readiness",
     "late readiness",

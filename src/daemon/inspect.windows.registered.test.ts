@@ -50,7 +50,7 @@ it.each(["single foreign launcher", "later wrapped Gateway launcher"])(
       }
       if (pathname === gateway && kind.startsWith("later")) {
         return Buffer.from(
-          '@echo off\r\n"C:\\Node\\node.exe" "C:\\FRIDAY\\openclaw.mjs" --profile rescue gateway run\r\n',
+          '@echo off\r\n"C:\\Node\\node.exe" "C:\\OpenClaw\\openclaw.mjs" --profile rescue gateway run\r\n',
         );
       }
       if (pathname !== first && pathname !== gateway) {
@@ -72,7 +72,7 @@ it.each(["single foreign launcher", "later wrapped Gateway launcher"])(
 );
 
 it("excludes a static non-Gateway runtime command without admitting its missing profile", async () => {
-  const taskName = "\\FRIDAY Helper (non-gateway)";
+  const taskName = "\\OpenClaw Helper (non-gateway)";
   const scriptPath = "C:\\openclaw-schtasks\\non-gateway\\non-gateway.cmd";
   const task = {
     taskPath: taskName,
@@ -110,12 +110,12 @@ it.each(["Node runtime"])("binds the selected profile to effective argv for a %s
   const direct = kind === "direct executable";
   const launcher = kind === "CMD launcher";
   const argv = direct
-    ? ["C:\\FRIDAY\\openclaw.exe", "--profile=rescue", "gateway"]
+    ? ["C:\\OpenClaw\\openclaw.exe", "--profile=rescue", "gateway"]
     : [
         "C:\\Node\\node.exe",
         "--import",
         "bootstrap.mjs",
-        "C:\\FRIDAY\\openclaw.mjs",
+        "C:\\OpenClaw\\openclaw.mjs",
         "--profile=rescue",
         "gateway",
       ];

@@ -5,7 +5,7 @@
 +# Discord Group Codex Message Tool Turn
 @@ -7,2 +7,2 @@
 -- Default happy path: OpenAI model through the Codex harness/runtime, Telegram direct conversation, and message-tool-only visible replies.
--- A quiet turn is represented by not calling `message(action=send)`; the normal final assistant text is private to FRIDAY/Codex.
+-- A quiet turn is represented by not calling `message(action=send)`; the normal final assistant text is private to OpenClaw/Codex.
 +- Default happy path: the same Codex agent is mentioned in a Discord group/channel while Telegram can remain the user's primary direct interface.
 +- Group-visible output must be explicit through the message tool; the model is also told to mostly lurk unless directly addressed or clearly useful.
 @@ -16,2 +16,2 @@
@@ -74,16 +74,16 @@
 -<external_openclaw_current_sender>{"sender":{"id":"1000001","name":"Pash","username":"pash"}}</external_openclaw_current_sender>
 +<external_openclaw_current_sender>{"sender":{"id":"424242","name":"Pash","username":"pash"}}</external_openclaw_current_sender>
 @@ -558,1 +560,1 @@
--[FRIDAY conversation info: sender={"id":"1000001","name":"Pash","username":"pash"}]
-+[FRIDAY conversation info: sender={"id":"424242","name":"Pash","username":"pash"}]
+-[OpenClaw conversation info: sender={"id":"1000001","name":"Pash","username":"pash"}]
++[OpenClaw conversation info: sender={"id":"424242","name":"Pash","username":"pash"}]
 @@ -577,1 +579,1 @@
 -{"chat_id":"user:1000001","message_id":"tg-msg-0001","sender":{"id":"1000001","name":"Pash","username":"pash"}}
-+{"chat_id":"channel:987654321","message_id":"discord-msg-0001","conversation_label":"FRIDAY/#agent-sandbox","sender":{"id":"424242","name":"Pash","username":"pash"},"group_subject":"FRIDAY maintainers","group_channel":"#agent-sandbox","group_space":"FRIDAY","is_group_chat":true,"was_mentioned":true,"history_count":2}
++{"chat_id":"channel:987654321","message_id":"discord-msg-0001","conversation_label":"OpenClaw/#agent-sandbox","sender":{"id":"424242","name":"Pash","username":"pash"},"group_subject":"OpenClaw maintainers","group_channel":"#agent-sandbox","group_space":"OpenClaw","is_group_chat":true,"was_mentioned":true,"history_count":2}
 @@ -580,1 +582,5 @@
 -Can you check whether the nightly build finished and tell me what happened?
 +Chat history since last reply: ⟦openclaw:ctx⟧
 +Peter: I pushed the Discord-side message-tool bridge.
-+Pash: @FRIDAY please verify the Codex happy path too.
++Pash: @OpenClaw please verify the Codex happy path too.
 +
 +can you audit whether this prompt path has conflicting silence instructions?
 @@ -585,1 +591,1 @@

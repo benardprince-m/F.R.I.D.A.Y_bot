@@ -44,7 +44,7 @@ export async function runDevicesJoinCodeCommand(opts: GatewayRpcOpts): Promise<v
   defaultRuntime.log(command);
   defaultRuntime.log("Installs a background node service that can run agent sessions.");
   defaultRuntime.log(`Command-only node: ${serviceCommand}`);
-  defaultRuntime.log(`Already have FRIDAY installed? Run: ${installedCommand}`);
+  defaultRuntime.log(`Already have OpenClaw installed? Run: ${installedCommand}`);
   if (versionNote) {
     defaultRuntime.log(versionNote);
   }

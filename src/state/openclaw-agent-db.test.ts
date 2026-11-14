@@ -21,7 +21,7 @@ import {
   updateAgentDeletionJournalDatabasePaths,
   updateAgentDeletionJournalCleanupPaths,
 } from "../test-utils/agent-deletion-journal.js";
-// FRIDAY agent database tests cover agent-scoped DB storage and migrations.
+// OpenClaw agent database tests cover agent-scoped DB storage and migrations.
 import { requireNativeSqliteDatabase } from "../test-utils/native-sqlite.js";
 import { VERSION } from "../version.js";
 import { runWithAgentCreationClaim } from "./agent-creation-claim.js";

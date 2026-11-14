@@ -114,7 +114,7 @@ it.each([
     const { root, env } = await createDoctorFixture();
     const cause = contention
       ? new GatewayStateOwnerContentionError(resolveOpenClawStateSqlitePath(env))
-      : new SqliteSchemaVersionError("This FRIDAY build cannot open your existing data.");
+      : new SqliteSchemaVersionError("This OpenClaw build cannot open your existing data.");
     const error = wrapped ? new Error("Cannot read shared state for discovery", { cause }) : cause;
     vi.spyOn(configCapture, "captureUpdateConfigSnapshot").mockRejectedValue(error);
     const spawn = vi.spyOn(processRunner, "runCommandWithTimeout");

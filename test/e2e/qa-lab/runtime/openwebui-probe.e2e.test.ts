@@ -234,7 +234,7 @@ describe("scripts/e2e/openwebui-probe.mjs", () => {
     }
   });
 
-  it("passes in models mode when Open WebUI exposes the FRIDAY model", async () => {
+  it("passes in models mode when Open WebUI exposes the OpenClaw model", async () => {
     const server = createServer((request, response) => {
       if (request.url === "/api/v1/auths/signin") {
         setTimeout(() => {

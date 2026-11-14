@@ -839,7 +839,7 @@ describe("gateway concurrency benchmark script", () => {
   it("binds Responses continuations through runtime context to the newest ordinary user", () => {
     for (const text of [
       "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>\nQuoted benchmark stream 99.\n<<<END_OPENCLAW_INTERNAL_CONTEXT>>>",
-      "FRIDAY runtime context:\nQuoted benchmark stream 99.\nEnd FRIDAY runtime context.",
+      "OpenClaw runtime context:\nQuoted benchmark stream 99.\nEnd OpenClaw runtime context.",
     ]) {
       for (const content of [text, [{ type: "input_text", text }]]) {
         const runtimeContext = { type: "message", role: "user", content };
@@ -865,9 +865,9 @@ describe("gateway concurrency benchmark script", () => {
           "an ordinary newer request",
           "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>\nan incomplete carrier",
           "ordinary prefix\n<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>\ncontext\n<<<END_OPENCLAW_INTERNAL_CONTEXT>>>",
-          "FRIDAY runtime context:\nan incomplete carrier",
-          "ordinary prefix\nOpenClaw runtime context:\ncontext\nEnd FRIDAY runtime context.",
-          "FRIDAY runtime context:\ncontext\nEnd FRIDAY runtime context.\nordinary suffix",
+          "OpenClaw runtime context:\nan incomplete carrier",
+          "ordinary prefix\nOpenClaw runtime context:\ncontext\nEnd OpenClaw runtime context.",
+          "OpenClaw runtime context:\ncontext\nEnd OpenClaw runtime context.\nordinary suffix",
         ]) {
           const facts = summarizeMockInferenceRequest({
             input: [...input, { role: "user", content: boundaryContent }, runtimeContext],
@@ -1457,7 +1457,7 @@ describe("gateway concurrency benchmark script", () => {
         disposition: "visible",
         text: toolEvents
           ? "OPENCLAW_E2E_DRAFTPROOF"
-          : "FRIDAY gateway concurrency benchmark streaming response.",
+          : "OpenClaw gateway concurrency benchmark streaming response.",
       },
       terminalReceipt: {
         runId: "run-1",
@@ -2155,7 +2155,7 @@ syncBuiltinESMExports();\n`,
       encoding: "utf8",
     });
     expect(result.status).toBe(0);
-    expect(result.stdout).toContain("FRIDAY Gateway concurrency benchmark");
+    expect(result.stdout).toContain("OpenClaw Gateway concurrency benchmark");
   });
 });
 

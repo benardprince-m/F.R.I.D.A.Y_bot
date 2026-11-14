@@ -5,7 +5,7 @@ import {
   normalizeLegacyDotBetaVersion,
 } from "../infra/semver.js";
 
-/** Parses stable, prerelease, and legacy dot-beta FRIDAY versions. */
+/** Parses stable, prerelease, and legacy dot-beta OpenClaw versions. */
 function parseOpenClawVersion(raw: string | null | undefined): SemVer | null {
   if (!raw) {
     return null;

@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/gateway-client",
   "version": "2026.10.4",
-  "description": "Reference WebSocket client for the FRIDAY Gateway protocol",
+  "description": "Reference WebSocket client for the OpenClaw Gateway protocol",
   "keywords": [
     "client",
     "gateway",
@@ -13,7 +13,7 @@
     "url": "https://github.com/openclaw/openclaw/issues"
   },
   "license": "MIT",
-  "author": "FRIDAY Foundation (https://openclaw.org)",
+  "author": "OpenClaw Foundation (https://openclaw.org)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/openclaw/openclaw.git",

@@ -78,7 +78,7 @@ export function prepareOwnedBundleMcpDataDirs(params: {
 }
 
 /**
- * User config stores FRIDAY MCP transport names, while CLI backends such as
+ * User config stores OpenClaw MCP transport names, while CLI backends such as
  * Claude Code and Gemini expect a downstream `type` field. Keep this adapter
  * at the output boundary so OAuth and runtime policy keep canonical transport.
  */

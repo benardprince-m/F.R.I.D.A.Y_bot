@@ -9,7 +9,7 @@ describe("buildGatewayRuntimeHints", () => {
       { platform: "win32", env: { OPENCLAW_PROFILE: "work" } },
     ).join("\n");
 
-    expect(text).toContain("Scheduled Task 'FRIDAY Gateway (work)' is registered but DISABLED");
+    expect(text).toContain("Scheduled Task 'OpenClaw Gateway (work)' is registered but DISABLED");
     expect(text).toContain("openclaw --profile work gateway start");
     expect(text).toContain("openclaw --profile work doctor --fix");
     expect(text).toContain("to re-enable it");

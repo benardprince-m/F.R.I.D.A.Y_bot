@@ -122,7 +122,7 @@ elif name == "lipo": print("arm64")
 elif name == "PlistBuddy":
     print(json.loads(pathlib.Path(args[2]).read_text())[args[1].split(":")[1]])
 elif name == "package-mac-app.sh":
-    app = root / "dist/FRIDAY.app/Contents"
+    app = root / "dist/OpenClaw.app/Contents"
     app.mkdir(parents=True, exist_ok=True)
     (app / "Info.plist").write_text(json.dumps(dict(CFBundleShortVersionString="2026.8.2", CFBundleVersion="2608000290", CFBundleIdentifier="ai.openclaw.mac", SUFeedURL="https://example.com/appcast.xml")))
     (app / "signature").write_text("adhoc" if os.environ.get("SIGN_IDENTITY") == "-" else "developer")
@@ -160,7 +160,7 @@ elif name == "hdiutil":
     elif args[:2] == ["detach", "-quiet"]:
         if (root / "detach-fails").exists(): sys.exit(1)
         attached.unlink()
-    else: shutil.rmtree(pathlib.Path(args[1]) / "FRIDAY.app")
+    else: shutil.rmtree(pathlib.Path(args[1]) / "OpenClaw.app")
 elif name == "audit-async-sleep-frames.py":
     if (root / "reject-audit").exists(): sys.exit("async frame allocation is undersized")
 elif name == "notarize-mac-artifact.sh":
@@ -192,7 +192,7 @@ else: sys.exit("unexpected fake tool: " + name)
   const audit = f.file("apps/macos/scripts/audit-async-sleep-frames.py");
   mkdirSync(path.dirname(audit), { recursive: true });
   symlinkSync(fake, audit);
-  f.write("apps/macos/.build/arm64/release/FRIDAY.dSYM/symbols", "debug symbols");
+  f.write("apps/macos/.build/arm64/release/OpenClaw.dSYM/symbols", "debug symbols");
   const checkpoint = f.file("dist/macos-notarization-recovery");
   return {
     ...f,
@@ -240,10 +240,10 @@ it("resumes a signed DMG without build or signing credentials", () => {
   const resumed = f.run("--resume-notarization", { SIGN_IDENTITY: "unavailable" });
   expect(resumed.status, resumed.stderr).toBe(0);
   expect(f.events().match(/notarize-mac-artifact.sh/g)).toHaveLength(2);
-  expect(f.exists("dist/FRIDAY.app/Contents/stapled")).toBe(true);
-  expect(f.read("dist/FRIDAY-2026.8.2.dmg")).toBe("dmgsignedstapled");
+  expect(f.exists("dist/OpenClaw.app/Contents/stapled")).toBe(true);
+  expect(f.read("dist/OpenClaw-2026.8.2.dmg")).toBe("dmgsignedstapled");
   for (const suffix of ["zip", "dSYM.zip"]) {
-    expect(existsSync(path.join(f.root, `dist/FRIDAY-2026.8.2.${suffix}`))).toBe(true);
+    expect(existsSync(path.join(f.root, `dist/OpenClaw-2026.8.2.${suffix}`))).toBe(true);
   }
   expect(JSON.parse(f.read("dist/macos-notarization-recovery/manifest.json")).completed).toBe(true);
 });
@@ -260,7 +260,7 @@ it.each(["-", ""])("resumes ad-hoc identity %j on a signer-equipped host", (iden
   const resumed = f.run("--resume-notarization", smoke);
   expect(resumed.status, resumed.stderr).toBe(0);
   expect(f.events()).not.toContain("notarize-mac-artifact.sh");
-  expect(f.exists("dist/FRIDAY.app/Contents/stapled")).toBe(false);
+  expect(f.exists("dist/OpenClaw.app/Contents/stapled")).toBe(false);
   expect(f.exists("appcast.xml")).toBe(false);
 });
 
@@ -365,7 +365,7 @@ function makeDistributionFixture(layout: "native" | "xcode", missingArch?: strin
   f.executable("tools/swift", "echo 'Apple Swift version 6.3'");
   f.executable("tools/xcrun", "echo 'Xcode 26.4'");
   f.executable("tools/node", "echo 2608000290");
-  const contents = "dist/FRIDAY.app/Contents";
+  const contents = "dist/OpenClaw.app/Contents";
   mkdirSync(f.file(contents, "MacOS"), { recursive: true });
   const auditPath = "apps/macos/scripts/audit-async-sleep-frames.py";
   f.write(
@@ -383,7 +383,7 @@ Path(__file__).resolve().parents[3].joinpath("async-frame-audit.log").write_text
 <key>CFBundleShortVersionString</key><string>2026.8.2</string>
 <key>CFBundleVersion</key><string>2608000290</string>
 <key>CFBundleIdentifier</key><string>ai.openclaw.mac</string>
-<key>CFBundleExecutable</key><string>FRIDAY</string>
+<key>CFBundleExecutable</key><string>OpenClaw</string>
 <key>SUFeedURL</key><string>https://example.com/appcast.xml</string>
 </dict></plist>`,
   );
@@ -401,7 +401,7 @@ Path(__file__).resolve().parents[3].joinpath("async-frame-audit.log").write_text
     if (arch === missingArch) {
       continue;
     }
-    const binary = path.join(products, "FRIDAY");
+    const binary = path.join(products, "OpenClaw");
     const symbols = `${binary}.dSYM`;
     for (const args of [
       ["clang", "-arch", arch, "-g", "-Wl,-adhoc_codesign", source, "-o", binary],
@@ -412,7 +412,7 @@ Path(__file__).resolve().parents[3].joinpath("async-frame-audit.log").write_text
     const uuid = checkedTool("xcrun", ["dwarfdump", "--uuid", binary]);
     expectedUUIDs.push(uuid.trim().split(" ").slice(0, 3).join(" "));
     if (arch === "arm64") {
-      copyFileSync(binary, f.file(contents, "MacOS/FRIDAY"));
+      copyFileSync(binary, f.file(contents, "MacOS/OpenClaw"));
     }
   }
   return {
@@ -473,7 +473,7 @@ echo 2026060200
 }
 
 it("fails closed for required Info.plist reads", () => {
-  const readBlock = packageBlock("VERSION=", 'ZIP="$ROOT_DIR/dist/FRIDAY-$VERSION.zip"');
+  const readBlock = packageBlock("VERSION=", 'ZIP="$ROOT_DIR/dist/OpenClaw-$VERSION.zip"');
 
   expect(packageSource).toContain('source "$ROOT_DIR/scripts/lib/plistbuddy.sh"');
   expect(readBlock).toContain(
@@ -533,7 +533,7 @@ it("fails on old Swift before reading package metadata", () => {
     `);
 
   expect(result.status).toBe(1);
-  expect(result.stderr).toContain("FRIDAY macOS app packaging requires Swift tools 6.3+");
+  expect(result.stderr).toContain("OpenClaw macOS app packaging requires Swift tools 6.3+");
   expect(result.stderr).toContain("Current Swift is 6.0");
   expect(result.stderr).not.toContain("node should not run before Swift preflight");
 });
@@ -614,7 +614,7 @@ it.runIf(process.platform === "darwin").each(["app", "dmg"] as const)(
   "re-audits the retained %s before resuming without build products",
   (artifact) => {
     const f = makeDistributionFixture("native");
-    const app = f.file("dist/FRIDAY.app");
+    const app = f.file("dist/OpenClaw.app");
     f.tool("/usr/bin/codesign", ["--force", "--sign", "-", app]);
     for (const args of [
       ["init", "--quiet"],
@@ -656,7 +656,7 @@ fi
       "scripts/create-dmg.sh",
       `stage="$(mktemp -d)"
 trap 'rm -rf "$stage"' EXIT
-ditto "$1" "$stage/FRIDAY.app"
+ditto "$1" "$stage/OpenClaw.app"
 rm -f "$2"
 hdiutil create -fs HFS+ -format UDZO -srcfolder "$stage" "$2" >/dev/null
 /usr/bin/codesign --force --sign - "$2"
@@ -689,7 +689,7 @@ hdiutil create -fs HFS+ -format UDZO -srcfolder "$stage" "$2" >/dev/null
       const missing = f.run({ ...options, resume: true });
       expect(missing.status).not.toBe(0);
       expect(missing.stderr).toContain("audit-async-sleep-frames.py");
-      expect(f.exists("dist/FRIDAY-2026.8.2.zip")).toBe(false);
+      expect(f.exists("dist/OpenClaw-2026.8.2.zip")).toBe(false);
     }
     writeFileSync(f.auditScript, auditor);
     const resumed = f.run({ ...options, resume: true });
@@ -698,8 +698,8 @@ hdiutil create -fs HFS+ -format UDZO -srcfolder "$stage" "$2" >/dev/null
       `.notary-${artifact === "app" ? "resume" : "dmg"}.`,
     );
     expect(f.read("submissions")).toBe(submissions);
-    expect(f.exists("dist/FRIDAY-2026.8.2.zip")).toBe(true);
-    expect(f.exists("dist/FRIDAY-2026.8.2.dSYM.zip")).toBe(true);
+    expect(f.exists("dist/OpenClaw-2026.8.2.zip")).toBe(true);
+    expect(f.exists("dist/OpenClaw-2026.8.2.dSYM.zip")).toBe(true);
     renameSync(f.file("saved-build-products"), f.file("apps/macos/.build"));
     f.executable("scripts/package-mac-app.sh", "touch fresh-build-started");
     const fresh = f.run(options);
@@ -752,11 +752,13 @@ describe.runIf(process.platform === "darwin")("package-mac-dist symbol archives"
       const f = makeDistributionFixture(layout);
       const result = f.run();
       expect(result.status, result.stderr).toBe(0);
-      expect(f.read("async-frame-audit.log")).toBe(f.file("dist/FRIDAY.app/Contents/MacOS/FRIDAY"));
-      const archive = f.file("dist", "FRIDAY-2026.8.2.dSYM.zip");
+      expect(f.read("async-frame-audit.log")).toBe(
+        f.file("dist/OpenClaw.app/Contents/MacOS/OpenClaw"),
+      );
+      const archive = f.file("dist", "OpenClaw-2026.8.2.dSYM.zip");
       const extracted = f.file("extracted");
       f.tool("ditto", ["-x", "-k", archive, extracted]);
-      const uuid = f.tool("xcrun", ["dwarfdump", "--uuid", path.join(extracted, "FRIDAY.dSYM")]);
+      const uuid = f.tool("xcrun", ["dwarfdump", "--uuid", path.join(extracted, "OpenClaw.dSYM")]);
       expect(
         uuid
           .trim()
@@ -764,7 +766,7 @@ describe.runIf(process.platform === "darwin")("package-mac-dist symbol archives"
           .map((line) => line.split(" ").slice(0, 3).join(" "))
           .toSorted(),
       ).toEqual(f.expectedUUIDs.toSorted());
-      expect(f.exists("dist", "FRIDAY.dSYM")).toBe(false);
+      expect(f.exists("dist", "OpenClaw.dSYM")).toBe(false);
     },
   );
 
@@ -773,8 +775,8 @@ describe.runIf(process.platform === "darwin")("package-mac-dist symbol archives"
     const missingArm64 = failure === "missing ARM64 slice";
     if (missingArm64) {
       copyFileSync(
-        f.file("apps/macos/.build/x86_64/release/FRIDAY"),
-        f.file("dist/FRIDAY.app/Contents/MacOS/FRIDAY"),
+        f.file("apps/macos/.build/x86_64/release/OpenClaw"),
+        f.file("dist/OpenClaw.app/Contents/MacOS/OpenClaw"),
       );
       rmSync(f.auditScript);
     } else {
@@ -793,8 +795,8 @@ describe.runIf(process.platform === "darwin")("package-mac-dist symbol archives"
         : "async frame allocation is undersized",
     );
     for (const artifact of [
-      "FRIDAY-2026.8.2.zip",
-      "FRIDAY-2026.8.2.dSYM.zip",
+      "OpenClaw-2026.8.2.zip",
+      "OpenClaw-2026.8.2.dSYM.zip",
       "macos-notarization-recovery",
     ]) {
       expect(existsSync(path.join(f.root, "dist", artifact))).toBe(false);
@@ -804,8 +806,8 @@ describe.runIf(process.platform === "darwin")("package-mac-dist symbol archives"
   it("packages an x86_64-only build without the arm64 audit", () => {
     const f = makeDistributionFixture("native");
     copyFileSync(
-      f.file("apps/macos/.build/x86_64/release/FRIDAY"),
-      f.file("dist/FRIDAY.app/Contents/MacOS/FRIDAY"),
+      f.file("apps/macos/.build/x86_64/release/OpenClaw"),
+      f.file("dist/OpenClaw.app/Contents/MacOS/OpenClaw"),
     );
     rmSync(f.auditScript);
 
@@ -820,6 +822,6 @@ describe.runIf(process.platform === "darwin")("package-mac-dist symbol archives"
     const result = f.run();
     expect(result.status).not.toBe(0);
     expect(result.stderr).toContain("dSYM not found for architecture(s): x86_64");
-    expect(f.exists("dist", "FRIDAY-2026.8.2.dSYM.zip")).toBe(false);
+    expect(f.exists("dist", "OpenClaw-2026.8.2.dSYM.zip")).toBe(false);
   });
 });

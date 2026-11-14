@@ -1569,7 +1569,7 @@ describe("Codex auth bridge", () => {
     ).rejects.toThrow("different ChatGPT account ID");
   });
 
-  it("does not borrow OS-home native OAuth for an isolated FRIDAY home", async ({
+  it("does not borrow OS-home native OAuth for an isolated OpenClaw home", async ({
     agentDir: root,
   }) => {
     const osHome = path.join(root, "os-home");

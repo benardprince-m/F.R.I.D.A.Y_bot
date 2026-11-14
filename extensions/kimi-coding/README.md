@@ -1,8 +1,8 @@
-# FRIDAY Kimi Coding Provider
+# OpenClaw Kimi Coding Provider
 
-Official FRIDAY provider plugin for Kimi Coding.
+Official OpenClaw provider plugin for Kimi Coding.
 
-Install from FRIDAY:
+Install from OpenClaw:
 
 ```bash
 openclaw plugins install @openclaw/kimi-provider
@@ -13,7 +13,7 @@ See <https://docs.openclaw.ai/providers/moonshot> for setup and configuration.
 
 ## Quota errors
 
-Kimi can return HTTP 403 when a weekly usage limit is exhausted. FRIDAY treats
+Kimi can return HTTP 403 when a weekly usage limit is exhausted. OpenClaw treats
 explicit weekly, seven-day, or quota-reset errors as rate limits. Wait for the
 provider's quota window to reset or use another configured provider; replacing a
 valid API key does not restore quota. Invalid keys and access restrictions keep

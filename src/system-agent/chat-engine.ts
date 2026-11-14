@@ -1,4 +1,4 @@
-// FRIDAY chat engine: stable transport-agnostic facade over turn and wizard owners.
+// OpenClaw chat engine: stable transport-agnostic facade over turn and wizard owners.
 import type {
   SystemAgentWizardCancel,
   WizardAnswer,
@@ -52,7 +52,7 @@ type SystemAgentChatEngineInternals = {
 };
 
 /**
- * One conversation with FRIDAY, independent of transport. The facade owns
+ * One conversation with OpenClaw, independent of transport. The facade owns
  * serialization, history, and the verified inference session; concept owners
  * route turns and host setup wizards behind the stable public entrypoint.
  */

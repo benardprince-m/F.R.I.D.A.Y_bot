@@ -182,7 +182,7 @@ describe("Crabbox runtime preflight cleanup", () => {
         code: refused ? "invalid_profile" : "provider_failure",
         message: expect.stringContaining(
           refused
-            ? "FRIDAY cloud workers need a Crabbox backend with fixed lease ID support"
+            ? "OpenClaw cloud workers need a Crabbox backend with fixed lease ID support"
             : diagnostic.replaceAll("\n", " "),
         ),
       });

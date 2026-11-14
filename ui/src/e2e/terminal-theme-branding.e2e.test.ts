@@ -18,7 +18,7 @@ suite.define(() => {
     const hero = page.locator(".about-hero");
     await hero.locator(".about-hero__mark--neutral svg").waitFor();
     expect(await hero.locator(".about-hero__clawd").count()).toBe(0);
-    expect(await hero.locator(".about-hero__name").textContent()).toBe("FRIDAY");
+    expect(await hero.locator(".about-hero__name").textContent()).toBe("OpenClaw");
     await hero.getByRole("link", { name: "Docs", exact: true }).waitFor();
     expect(await page.locator("html").getAttribute("data-theme-id")).toBe(theme);
     expect(await page.locator("html").getAttribute("data-theme-mode")).toBe(mode);

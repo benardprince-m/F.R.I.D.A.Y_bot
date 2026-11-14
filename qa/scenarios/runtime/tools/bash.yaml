@@ -7,9 +7,9 @@ scenario:
   coverage:
     secondary:
       - tools.exec-routing-bash
-  objective: Verify shell command behavior is tracked across FRIDAY and Codex while Codex owns exec/process natively.
+  objective: Verify shell command behavior is tracked across OpenClaw and Codex while Codex owns exec/process natively.
   successCriteria:
-    - FRIDAY may expose FRIDAY exec while Codex app-server mode may omit duplicate FRIDAY dynamic exec/process.
+    - OpenClaw may expose OpenClaw exec while Codex app-server mode may omit duplicate OpenClaw dynamic exec/process.
     - Codex executes the happy and failure paths through its native command tool and projects correlated bash receipts.
     - The fixture validates the successful output marker and the failed command result.
   docsRefs:
@@ -21,7 +21,7 @@ scenario:
     - extensions/qa-lab/src/runtime-tool-fixture.ts
   execution:
     kind: flow
-    summary: Exercise the bash family through the FRIDAY exec tool.
+    summary: Exercise the bash family through the OpenClaw exec tool.
     config:
       toolName: exec
       nativeWorkspaceBehavior: bash
@@ -34,8 +34,8 @@ scenario:
         tracking: "#80319"
         codexDefaultImpact: P4
         qaImpact: P1
-        action: execute native command behavior separately from FRIDAY dynamic tool parity
-        reason: Codex app-server intentionally owns command execution natively; the fixture must not require FRIDAY dynamic exec exposure.
+        action: execute native command behavior separately from OpenClaw dynamic tool parity
+        reason: Codex app-server intentionally owns command execution natively; the fixture must not require OpenClaw dynamic exec exposure.
       happyPrompt: >-
         tool search qa check target=exec. Use the shell command tool exec
         to run `printf 'runtime-tool-fixture\n'` exactly once. If discovery is

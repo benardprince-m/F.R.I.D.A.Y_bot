@@ -46,7 +46,7 @@ function quarantineStorePath(stateDir: string): string {
   return path.join(stateDir, "state", "openclaw-quarantine.sqlite");
 }
 
-describe("FRIDAY database quarantine", () => {
+describe("OpenClaw database quarantine", () => {
   it("expires a generation-bound process latch after the database changes", () => {
     const stateDir = tempDirs.make("openclaw-database-verify-latch-generation-");
     const env = { OPENCLAW_STATE_DIR: stateDir };

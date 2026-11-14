@@ -10,7 +10,7 @@ export const ensureSessionGoalOperationsSchema = createSqliteSchemaEnsurer(
     extractSqliteTableSchema(OPENCLAW_AGENT_SCHEMA_SQL, SESSION_GOAL_OPERATIONS_TABLE, {
       endMarker: "CREATE TABLE IF NOT EXISTS transcript_events (",
       includeEndMarker: false,
-      errorMessage: "FRIDAY Goal operation schema markers are missing.",
+      errorMessage: "OpenClaw Goal operation schema markers are missing.",
     }),
   {
     tables: [SESSION_GOAL_OPERATIONS_TABLE],

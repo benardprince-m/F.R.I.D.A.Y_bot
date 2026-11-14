@@ -1,5 +1,5 @@
 ---
-summary: "Use OpenShell as a managed sandbox backend for FRIDAY agents"
+summary: "Use OpenShell as a managed sandbox backend for OpenClaw agents"
 title: OpenShell
 read_when:
   - You want OpenShell-managed local or remote sandboxes
@@ -7,11 +7,11 @@ read_when:
   - You need to choose between mirror and remote workspace modes
 ---
 
-OpenShell is a managed sandbox backend: FRIDAY delegates sandbox lifecycle to
+OpenShell is a managed sandbox backend: OpenClaw delegates sandbox lifecycle to
 the `openshell` CLI and executes commands over SSH. The selected OpenShell
 gateway can manage sandboxes locally with Docker, Podman, or virtualization, or
 run them on separate infrastructure. This OpenShell gateway is distinct from the
-FRIDAY Gateway, which continues to run the agent and host-side plugins.
+OpenClaw Gateway, which continues to run the agent and host-side plugins.
 
 The plugin reuses the same SSH transport and remote filesystem bridge as the
 generic [SSH backend](/gateway/sandboxing#ssh-backend), and adds OpenShell
@@ -24,7 +24,7 @@ without OCE or Kubernetes and does not change this sandbox-only backend.
 
 ## Prerequisites
 
-- `openshell` CLI installed and on the FRIDAY Gateway process's `PATH` (or a
+- `openshell` CLI installed and on the OpenClaw Gateway process's `PATH` (or a
   custom absolute path via
   `plugins.entries.openshell.config.command`)
 - OpenSSH client available on the Gateway host
@@ -33,12 +33,12 @@ without OCE or Kubernetes and does not change this sandbox-only backend.
   Local gateways do not require a cloud account
 - A supported compute runtime on the OpenShell gateway host when using local
   sandboxes
-- FRIDAY Gateway running on the host
+- OpenClaw Gateway running on the host
 
 Install the CLI and configure an OpenShell gateway using the
 [NVIDIA OpenShell documentation](https://docs.nvidia.com/openshell/latest).
-Before configuring FRIDAY, verify the OpenShell CLI as the same operating
-system user that runs the FRIDAY Gateway:
+Before configuring OpenClaw, verify the OpenShell CLI as the same operating
+system user that runs the OpenClaw Gateway:
 
 ```bash
 openshell --version
@@ -53,7 +53,7 @@ Replace the endpoint with the address of your running gateway. For an
 authenticated remote gateway, follow its login flow with
 `openshell gateway login <gateway-name>`.
 
-The FRIDAY Gateway service must see the same OpenShell CLI, gateway
+The OpenClaw Gateway service must see the same OpenShell CLI, gateway
 registration, credentials, and OpenShell workspace selection as these preflight
 commands.
 A shell-only `PATH` or `OPENSHELL_WORKSPACE` setting does not automatically
@@ -91,14 +91,14 @@ openclaw plugins install @openclaw/openshell-sandbox
 }
 ```
 
-Validate the configuration and restart the FRIDAY Gateway:
+Validate the configuration and restart the OpenClaw Gateway:
 
 ```bash
 openclaw config validate
 openclaw gateway restart
 ```
 
-On the next agent turn FRIDAY creates an OpenShell sandbox and routes tool
+On the next agent turn OpenClaw creates an OpenShell sandbox and routes tool
 execution through it. Verify both the plugin and the effective sandbox:
 
 ```bash
@@ -128,9 +128,9 @@ fallback when no ambient selection exists.
 
 `plugins.entries.openshell.config.mode: "mirror"` keeps the **local workspace as the source of truth**:
 
-- Before `exec`, FRIDAY syncs the local workspace into the sandbox.
-- After `exec`, FRIDAY syncs the remote workspace back to local.
-- Within one FRIDAY Gateway process, commands and file-tool operations sharing
+- Before `exec`, OpenClaw syncs the local workspace into the sandbox.
+- After `exec`, OpenClaw syncs the remote workspace back to local.
+- Within one OpenClaw Gateway process, commands and file-tool operations sharing
   a workspace wait for the current operation to finish. The lock covers the
   complete upload, command, and download, or the complete file read/mutation and
   its synchronization. Separate backend handles share the same lock.
@@ -142,7 +142,7 @@ fallback when no ambient selection exists.
   Remote permissions and image-specific restrictions are checked when execution
   starts.
 
-Best for development workflows: local edits outside FRIDAY show up on the
+Best for development workflows: local edits outside OpenClaw show up on the
 next exec, and the sandbox behaves close to the Docker backend.
 
 Tradeoff: upload + download cost on every exec turn.
@@ -155,12 +155,12 @@ its download can replace those external edits.
 
 `mode: "remote"` makes the **remote workspace the source of truth**:
 
-- On first use after sandbox creation, FRIDAY seeds the remote workspace
+- On first use after sandbox creation, OpenClaw seeds the remote workspace
   from local once. If the Gateway restarts before that first use, the next use
   detects the still-empty remote workspace and seeds it. A remote workspace
   that already holds content is never re-seeded.
 - After that, `exec`, `read`, `write`, `edit`, and `apply_patch` operate
-  directly on the remote workspace. FRIDAY does **not** sync remote changes
+  directly on the remote workspace. OpenClaw does **not** sync remote changes
   back to local.
 - Initialization is serialized per remote runtime, but commands and file tools
   can overlap after initialization, including across agent turns. A background
@@ -178,7 +178,7 @@ Best for long-running agents and CI: lower per-turn overhead, and host-local
 edits cannot silently clobber remote state.
 
 <Warning>
-Editing files on the host outside FRIDAY after the initial seed is invisible to the remote sandbox. Run `openclaw sandbox recreate` to re-seed.
+Editing files on the host outside OpenClaw after the initial seed is invisible to the remote sandbox. Run `openclaw sandbox recreate` to re-seed.
 </Warning>
 
 ### Choosing a mode
@@ -203,7 +203,7 @@ All OpenShell config lives under `plugins.entries.openshell.config`:
 | `gateway`                 | `string`                 | unset         | OpenShell gateway name (top-level `--gateway`)                                         |
 | `gatewayEndpoint`         | `string`                 | unset         | OpenShell gateway endpoint (top-level `--gateway-endpoint`)                            |
 | `workspace`               | `string`                 | unset         | Existing OpenShell workspace used for every CLI operation                              |
-| `policy`                  | `string`                 | unset         | Path to a sandbox policy YAML file on the FRIDAY Gateway host                          |
+| `policy`                  | `string`                 | unset         | Path to a sandbox policy YAML file on the OpenClaw Gateway host                        |
 | `providers`               | `string[]`               | `[]`          | Provider names attached at sandbox creation (deduped, one `--provider` flag per entry) |
 | `gpu`                     | `boolean`                | `false`       | Request GPU resources (`--gpu`)                                                        |
 | `autoProviders`           | `boolean`                | `true`        | Pass `--auto-providers` (or `--no-auto-providers` when false) during create            |
@@ -213,7 +213,7 @@ All OpenShell config lives under `plugins.entries.openshell.config`:
 
 `remoteWorkspaceDir` and `remoteAgentWorkspaceDir` must be absolute paths and
 stay under the managed roots `/sandbox` or `/agent`. Other absolute paths are
-rejected. Choose distinct, non-overlapping directories because FRIDAY manages
+rejected. Choose distinct, non-overlapping directories because OpenClaw manages
 their contents independently. Previously configured overlapping roots remain
 accepted for upgrade compatibility.
 
@@ -243,8 +243,8 @@ Set it to `"default"` to override an ambient non-default OpenShell workspace
 explicitly.
 
 The setting applies to every OpenShell sandbox managed by this plugin instance.
-It cannot select different OpenShell workspaces per FRIDAY agent or session.
-Changing it does not migrate existing sandboxes. Delete FRIDAY's OpenShell
+It cannot select different OpenShell workspaces per OpenClaw agent or session.
+Changing it does not migrate existing sandboxes. Delete OpenClaw's OpenShell
 sandboxes while the old workspace is still configured, then change the setting
 and restart the Gateway.
 
@@ -381,14 +381,14 @@ plugin plus the owner of each recorded runtime before inspecting or deleting
 it. Unrelated plugins are not loaded for these operations, and browser-only
 commands remain independent of the OpenShell backend.
 
-FRIDAY keeps a registered sandbox's shipped legacy runtime name after an
+OpenClaw keeps a registered sandbox's shipped legacy runtime name after an
 upgrade so its remote workspace remains addressable. Recreating that scope
 deletes the legacy runtime. The next use creates the current 19-character
 runtime name.
 
 OpenShell v0.0.92 can still locate a sandbox record created by v0.0.68, but a
 Docker-backed sandbox may remain in a non-Ready phase after the gateway
-upgrade. FRIDAY preserves the registered runtime identity, refuses to create
+upgrade. OpenClaw preserves the registered runtime identity, refuses to create
 a replacement implicitly, and reports the scoped `openclaw sandbox recreate`
 command. Treat that recreation as destructive in `remote` mode because the
 remote workspace is the source of truth.
@@ -407,7 +407,7 @@ When changing the OpenShell gateway or OpenShell workspace, recreate the
 affected sandboxes while the old gateway and workspace are still selected.
 Otherwise cleanup targets the new location instead of the existing sandbox.
 
-If OpenShell cannot delete a sandbox, FRIDAY reports the failure and keeps the
+If OpenShell cannot delete a sandbox, OpenClaw reports the failure and keeps the
 runtime registry entry so recreation or pruning can be retried safely. Restore
 the original gateway, workspace, authentication, and connectivity, inspect the
 runtime with `openshell --workspace <workspace-name> sandbox get <sandbox-name>`,
@@ -423,7 +423,7 @@ workspace cannot redirect file access outside the mirrored tree.
 
 Workspace synchronization excludes `.git`, `hooks`, and `git-hooks` in both
 directions. Repository credentials, history, and trusted hook code remain on
-the FRIDAY Gateway host instead of being copied into an untrusted sandbox.
+the OpenClaw Gateway host instead of being copied into an untrusted sandbox.
 
 Mirror synchronization never copies entries it cannot represent, such as
 symlinks, FIFOs, or Unix sockets, into either workspace. Existing host entries
@@ -435,10 +435,10 @@ Ordinary files and directories still receive remote changes and deletions.
 ## Custom image contract
 
 The OpenShell source image owns the remote operating system and package set.
-FRIDAY does not apply Docker image, root-filesystem, network, user, or package
+OpenClaw does not apply Docker image, root-filesystem, network, user, or package
 settings to this backend.
 
-Custom images used with the FRIDAY filesystem bridge must provide:
+Custom images used with the OpenClaw filesystem bridge must provide:
 
 - `/bin/sh`
 - `sleep` for the persistent sandbox main process, when the OpenShell CLI supports detached sandbox creation (`sandbox create --detach`)
@@ -490,7 +490,7 @@ filesystem must permit the writes. `sandbox.docker.network`,
 
 ## Troubleshooting
 
-First separate FRIDAY Gateway health, plugin activation, and OpenShell
+First separate OpenClaw Gateway health, plugin activation, and OpenShell
 gateway connectivity:
 
 ```bash
@@ -505,7 +505,7 @@ openclaw logs --follow
 
 - **Plugin missing or backend unavailable:** Install
   `@openclaw/openshell-sandbox`, set `plugins.entries.openshell.enabled: true`,
-  validate the config, and restart the FRIDAY Gateway. Run
+  validate the config, and restart the OpenClaw Gateway. Run
   `openclaw plugins inspect openshell --runtime --json` to check the running
   Gateway rather than only the on-disk plugin registration.
 - **`openshell` not found:** Install the CLI for the user running the Gateway,
@@ -521,7 +521,7 @@ openclaw logs --follow
   OpenShell workspace with `openshell workspace list`, then run
   `openshell --workspace <workspace-name> sandbox list`. Create missing
   workspaces with `openshell workspace create --name <workspace-name>` before
-  enabling them in FRIDAY. Remember that the Gateway service may not inherit
+  enabling them in OpenClaw. Remember that the Gateway service may not inherit
   `OPENSHELL_WORKSPACE` from your interactive shell.
 - **Policy file cannot be read or outbound traffic is denied:** Configure an
   existing YAML policy file using an absolute host path, check its permissions,
@@ -540,30 +540,30 @@ openclaw logs --follow
 - **An image or attachment cannot be sent:** Use a path under the configured
   `remoteWorkspaceDir`, such as `/sandbox/report.png`, rather than assuming
   every backend uses Docker's `/workspace` directory.
-- **Mirror synchronization reports recovery paths:** FRIDAY kept a host shadow
+- **Mirror synchronization reports recovery paths:** OpenClaw kept a host shadow
   outside the workspace because its move or restoration could not finish. The
   error identifies the preserved path and the workspace path and retains the
   original failure. Compare both paths and recover the needed files before
   deleting either copy. A partial move can leave different files in each path.
-  FRIDAY preserves remaining workspace entries instead of overwriting them
+  OpenClaw preserves remaining workspace entries instead of overwriting them
   with an incomplete or unverified backup. If restoration completed and only
   cleanup of the preservation directory failed, the error confirms the restored
   workspace path and identifies the leftover directory instead.
 - **Recreate or prune cannot delete a sandbox:** Restore access to the original
   OpenShell gateway and workspace, confirm the sandbox still exists with
   `openshell --workspace <workspace-name> sandbox get <sandbox-name>`, and retry
-  the scoped recreation. FRIDAY retains the registry entry until deletion
+  the scoped recreation. OpenClaw retains the registry entry until deletion
   succeeds.
 
 ## How it works
 
-1. FRIDAY runs `sandbox get` for the sandbox name (with the selected
+1. OpenClaw runs `sandbox get` for the sandbox name (with the selected
    OpenShell workspace and any configured `--gateway`/`--gateway-endpoint`). If
    that fails it creates one in the same OpenShell workspace with
    `sandbox create`, passing `--name`, `--from`, `--policy` when set, `--gpu`
    when enabled, `--auto-providers`/`--no-auto-providers`, and one
    `--provider` flag per configured provider.
-2. FRIDAY runs `sandbox ssh-config` for the sandbox name to fetch SSH
+2. OpenClaw runs `sandbox ssh-config` for the sandbox name to fetch SSH
    connection details.
 3. Core writes the SSH config to a temp file and opens an SSH session through
    the same remote filesystem bridge as the generic SSH backend.

@@ -1,7 +1,7 @@
 ---
 summary: "CLI reference for `openclaw triage` (sanitized diagnostics and agent handoff)"
 read_when:
-  - FRIDAY is misbehaving and you want an agent-ready debugging prompt
+  - OpenClaw is misbehaving and you want an agent-ready debugging prompt
   - An update failed and you want a local coding agent to repair it
   - You need a sanitized diagnostics bundle without starting an agent
 title: "Triage"
@@ -9,7 +9,7 @@ title: "Triage"
 
 # `openclaw triage`
 
-Collect sanitized diagnostics and open a coding agent on this machine to diagnose, repair, and verify this FRIDAY installation.
+Collect sanitized diagnostics and open a coding agent on this machine to diagnose, repair, and verify this OpenClaw installation.
 
 ```bash
 openclaw triage
@@ -39,7 +39,7 @@ openclaw triage --json
 openclaw triage --non-interactive
 ```
 
-The prompt includes the FRIDAY version, platform, Node.js version, prioritized Doctor findings with repair hints, and the diagnostics archive path. The archive contains sanitized config, best-effort Gateway status and health snapshots, operational log summaries, and available stability diagnostics. If the Gateway is unreachable, triage still writes the archive with available local diagnostics and records snapshot failures inside it. Doctor or export failures are recorded in the prompt so the agent can still investigate.
+The prompt includes the OpenClaw version, platform, Node.js version, prioritized Doctor findings with repair hints, and the diagnostics archive path. The archive contains sanitized config, best-effort Gateway status and health snapshots, operational log summaries, and available stability diagnostics. If the Gateway is unreachable, triage still writes the archive with available local diagnostics and records snapshot failures inside it. Doctor or export failures are recorded in the prompt so the agent can still investigate.
 
 The diagnostics archive excludes secrets, tokens, raw chat payloads, and raw logs. Failed-update prompts include bounded, sanitized diagnostic excerpts, with secrets and local paths redacted before truncation. Paths inside the prompt are shown relative to `~` or `$OPENCLAW_STATE_DIR`. The saved prompt path, archive path, and printed handoff commands retain the real absolute paths needed by your shell. Diagnostic collection is read-only. A launched agent is asked to repair autonomously within its existing permissions and preserve configuration, history, and databases.
 
@@ -49,7 +49,7 @@ The archive's config summary counts agent, plugin, and channel entries declared 
 
 Interactive update recovery uses this same handoff after the updater releases its maintenance state. It starts from the captured update failure. It defers fresh Doctor checks and archive collection to the repair agent, so checks against the broken installation do not delay the handoff. The agent starts in the operator's captured working directory, or their OS home if that directory was removed or became inaccessible. Absolute installation selectors still identify the state, config, and default workspace to repair, even when the state directory cannot be accessed or created.
 
-Before an automatic interactive launch, FRIDAY shows what it will run. It shows the selected binary, or the embedded FRIDAY agent using your configured model. It also shows the saved prompt path when available, and a notice that it uses your own account or tokens. FRIDAY then asks for confirmation. Only an affirmative Yes starts the agent. Enter, `n`, cancellation, or 30 seconds without an answer skips the launch, prints one manual next step for the selected agent, and preserves diagnostics and the failed update's exit status. To choose another external agent, run `openclaw triage --agent codex` or another supported `--agent` value. This replaces the earlier timeout-as-Yes default; explicit standalone triage keeps its existing behavior.
+Before an automatic interactive launch, OpenClaw shows what it will run. It shows the selected binary, or the embedded OpenClaw agent using your configured model. It also shows the saved prompt path when available, and a notice that it uses your own account or tokens. OpenClaw then asks for confirmation. Only an affirmative Yes starts the agent. Enter, `n`, cancellation, or 30 seconds without an answer skips the launch, prints one manual next step for the selected agent, and preserves diagnostics and the failed update's exit status. To choose another external agent, run `openclaw triage --agent codex` or another supported `--agent` value. This replaces the earlier timeout-as-Yes default; explicit standalone triage keeps its existing behavior.
 
 The prompt preserves the original error, before and after versions, and recorded recovery state ahead of current Doctor findings. It includes up to three failed or interrupted steps, excluding advisory Doctor results, with bounded excerpts from both stderr and stdout. It also retains bounded plugin failures and the terminal Doctor warning. The failure record is limited to 4 KiB and the whole prompt to 8 KiB. A healthy Doctor check does not erase the failed attempt, and an absent restart-safety verdict remains unknown.
 
@@ -88,7 +88,7 @@ Post-turn Doctor checks run only after the executor confirms cleanup. If cleanup
 
 The operator owns the update or the explicit `--run` request. Embedded repair therefore replaces interactive exec approval with a prompt-free run, scoped to the installation or staged candidate root (`fs.workspaceOnly: true`). It preserves safe-bin and tool allowlists. It never overrides explicit exec or repair-tool denies. It refuses configured sandbox, node, and remote execution routes instead of redirecting them onto the host, and does not launch external coding-agent CLIs. An explicit deny reports `exec-denied-by-policy`. Use `openclaw triage` for an external handoff. The saved execution policy is unchanged.
 
-The repair prompt instructs the agent to change only the installation or staged candidate root and use the pinned FRIDAY state for diagnostics. It forbids editing credentials or auth stores, deleting state or databases, package-manager writes outside the target root, and starting, stopping, or restarting services or the Gateway. Filesystem tools enforce the workspace boundary. Host commands follow the prompt's scope contract and are not an OS sandbox. Allowed checks include `openclaw doctor --lint --json`, `openclaw doctor --fix`, and `openclaw health --json`. The repair loop does not activate updates, restart services, take snapshots, or undo files.
+The repair prompt instructs the agent to change only the installation or staged candidate root and use the pinned OpenClaw state for diagnostics. It forbids editing credentials or auth stores, deleting state or databases, package-manager writes outside the target root, and starting, stopping, or restarting services or the Gateway. Filesystem tools enforce the workspace boundary. Host commands follow the prompt's scope contract and are not an OS sandbox. Allowed checks include `openclaw doctor --lint --json`, `openclaw doctor --fix`, and `openclaw health --json`. The repair loop does not activate updates, restart services, take snapshots, or undo files.
 
 Each turn is asked to end with a machine-readable line:
 

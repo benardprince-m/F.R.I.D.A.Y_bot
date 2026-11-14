@@ -188,7 +188,7 @@ export type CliSessionReuseResult =
   | { mode: "invalidate"; invalidatedReason: CliSessionInvalidatedReason };
 
 const CLI_SESSION_DRIFT_NOTE_PREFIX =
-  "FRIDAY resumed this CLI session after prompt content changed.";
+  "OpenClaw resumed this CLI session after prompt content changed.";
 
 export function buildCliSessionDriftNote(reasons: readonly CliSessionContentDriftReason[]): string {
   return `${CLI_SESSION_DRIFT_NOTE_PREFIX} Follow the current turn's instructions; changed=${reasons.join(",")}.`;

@@ -50,7 +50,7 @@ function writeJson(file: string, value: unknown) {
 
 const ANDROID_TOOLING_SHA = "d".repeat(40);
 const ANDROID_PROTECTED_REF = `release-publish/${ANDROID_TOOLING_SHA.slice(0, 12)}-123`;
-const ANDROID_ASSETS = ["FRIDAY-Android.apk", "FRIDAY-Android-SHA256SUMS.txt"];
+const ANDROID_ASSETS = ["OpenClaw-Android.apk", "OpenClaw-Android-SHA256SUMS.txt"];
 const FAILED_PARENT = { status: "completed", conclusion: "failure" };
 
 function workflowStep(file: string, name: string): string {
@@ -358,7 +358,7 @@ function approvalRun(overrides: Record<string, unknown> = {}) {
     repository: "openclaw/openclaw",
     status: "in_progress",
     url: "https://github.com/openclaw/openclaw/actions/runs/123",
-    workflowName: "FRIDAY Release Publish",
+    workflowName: "OpenClaw Release Publish",
     ...overrides,
   };
 }
@@ -370,7 +370,7 @@ function writeClawHubApproval(overrides: Record<string, unknown> = {}) {
     version: 2,
     kind: "clawhub-bootstrap",
     repository: "openclaw/openclaw",
-    workflow: "FRIDAY Release Publish",
+    workflow: "OpenClaw Release Publish",
     parentRunId: "123",
     parentRunAttempt: 2,
     workflowBranch: "main",

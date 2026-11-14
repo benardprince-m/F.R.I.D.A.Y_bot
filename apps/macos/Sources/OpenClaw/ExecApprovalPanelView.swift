@@ -37,7 +37,7 @@ struct ExecApprovalPanelView: View {
                     .accessibilityHidden(true)
             }
             VStack(alignment: .leading, spacing: 5) {
-                Text("FRIDAY")
+                Text("OpenClaw")
                     .font(.system(size: 13, weight: .semibold))
                 Text("Allow this command?")
                     .font(.system(size: 23, weight: .semibold))

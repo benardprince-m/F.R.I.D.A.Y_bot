@@ -27,7 +27,7 @@ async function stageWorkerDeployArtifact(params: {
         throw new Error(`Unsafe worker deploy artifact: ${relativeSourcePath}`, { cause: error });
       }
       throw new Error(
-        `FRIDAY worker deploy artifact is missing; build the running package at ${params.sourceRoot}`,
+        `OpenClaw worker deploy artifact is missing; build the running package at ${params.sourceRoot}`,
         { cause: error },
       );
     });
@@ -53,7 +53,7 @@ export async function collectWorkerBundleManifest(
     fs.readdir(path.join(sourceRoot, "dist/worker")),
   ]).catch((error: unknown) => {
     throw new Error(
-      `FRIDAY worker deploy artifact is missing; build the running package at ${sourceRoot}`,
+      `OpenClaw worker deploy artifact is missing; build the running package at ${sourceRoot}`,
       { cause: error },
     );
   });

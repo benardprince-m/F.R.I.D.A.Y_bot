@@ -215,7 +215,7 @@ describe("verifyBetaRelease workflow outcomes", () => {
 
     expect(
       JSON.parse(readFileSync(join(fixture.rootDir, "evidence.json"), "utf8")).workflowRuns,
-    ).toEqual([expect.objectContaining({ id: "44", label: "FRIDAY NPM Release" })]);
+    ).toEqual([expect.objectContaining({ id: "44", label: "OpenClaw NPM Release" })]);
   });
 
   function workflowFixture(
@@ -270,7 +270,7 @@ describe("verifyBetaRelease workflow outcomes", () => {
       });
     }
     const run = {
-      workflowName: telegram ? "NPM Telegram Beta E2E" : "FRIDAY NPM Release",
+      workflowName: telegram ? "NPM Telegram Beta E2E" : "OpenClaw NPM Release",
       headBranch: "main",
       event: "workflow_dispatch",
       status: "completed",
@@ -516,7 +516,7 @@ if (path.basename(process.argv[1]) === "npm" && args[0] === "view") {
     }
     const result = runCli(fixture);
     expect(result.status, result.stderr).toBe(1);
-    expect(result.stderr).toContain("FRIDAY NPM Release: run 44 is completed/failure");
+    expect(result.stderr).toContain("OpenClaw NPM Release: run 44 is completed/failure");
     expect(existsSync(join(fixture.rootDir, "evidence.json"))).toBe(false);
     if (writable) {
       expect(readDiagnostic(fixture.rootDir)).toMatchObject({
@@ -968,7 +968,7 @@ syncBuiltinESMExports();`,
     [
       false,
       { jobs: [{ name: "Publish package", conclusion: "failure" }] },
-      "FRIDAY NPM Release: run 44 is",
+      "OpenClaw NPM Release: run 44 is",
     ],
   ])(
     "blocks invalid publication workflow evidence (Telegram=%s, run=%j)",

@@ -83,7 +83,7 @@ export function isNativePostToolUseRelayItem(item: CodexThreadItem): boolean {
 }
 
 export function shouldSuppressChannelProgressForItem(item: CodexThreadItem): boolean {
-  // Dynamic FRIDAY tool requests are emitted at the item/tool/call request
+  // Dynamic OpenClaw tool requests are emitted at the item/tool/call request
   // boundary. Re-emitting item notifications can duplicate start/result progress.
   return isProjectedNativeToolItem(item) || item.type === "dynamicToolCall";
 }

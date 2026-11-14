@@ -40,7 +40,7 @@ describe("cli json stdout contract", () => {
           ok: false,
           error: {
             type: "cli_error",
-            message: expect.stringContaining("FRIDAY config is invalid:"),
+            message: expect.stringContaining("OpenClaw config is invalid:"),
           },
           issues: agentIds.map((id) => ({
             path: `agents.entries.${id}.workspace`,
@@ -262,7 +262,7 @@ describe("cli json stdout contract", () => {
           ok: false,
           error: {
             type: "cli_error",
-            message: expect.stringContaining("FRIDAY config is invalid"),
+            message: expect.stringContaining("OpenClaw config is invalid"),
           },
           issues: expect.arrayContaining([
             expect.objectContaining({ path: "gateway.bind", message: expect.any(String) }),

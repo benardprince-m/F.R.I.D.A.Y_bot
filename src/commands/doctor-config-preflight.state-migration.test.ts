@@ -112,7 +112,7 @@ it("preserves verified plugin quarantine while an older writable parent defers r
 });
 
 it("keeps missing plugins deferred and reports host-link repair warnings", async () => {
-  const hostWarning = "Failed to repair installed FRIDAY host peer links: EACCES";
+  const hostWarning = "Failed to repair installed OpenClaw host peer links: EACCES";
   mocks.runPostCorePluginConvergence.mockResolvedValueOnce(
     makeStartupConvergenceResult({
       warnings: [

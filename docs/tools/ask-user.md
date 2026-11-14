@@ -14,14 +14,14 @@ code, or a sensible default.
 
 The tool is available only in the main session on a surface that supports
 question input: Discord, Slack, Telegram, and WebChat (including the Control UI
-and native FRIDAY clients). Subagents and other non-primary runs do not
+and native OpenClaw clients). Subagents and other non-primary runs do not
 receive it, and an explicit tool denial still takes precedence.
 
 On iMessage, Mattermost, Signal, WhatsApp, and other channels without declared
 question input, the agent asks in ordinary plain text instead of calling
 `ask_user`. Approval reactions are separate and remain available. Native agent
 runtimes can have their own question tools; this availability rule applies to
-FRIDAY's built-in `ask_user` tool.
+OpenClaw's built-in `ask_user` tool.
 
 ## Answer a question
 
@@ -49,12 +49,12 @@ You can answer from any supported conversation surface:
 - Discord and Slack render native buttons for a single-choice, single-question
   prompt.
 - On a supported messaging channel, a plain-text reply can answer a question
-  created by an active FRIDAY run when your current permissions match the
+  created by an active OpenClaw run when your current permissions match the
   creator's. Reply with a number, an option label, or your own answer. For
   multi-select questions, separate choices with commas.
 
 Questions from a standalone [attached MCP client](/cli/attach) do not carry an
-FRIDAY run's creator binding. Answer those using the question controls in the
+OpenClaw run's creator binding. Answer those using the question controls in the
 Control UI, TUI, or native app, not an ordinary channel message.
 
 Guests with `operator.sessions.write` can answer ordinary questions from their
@@ -73,7 +73,7 @@ If a standalone question link cannot refresh after reconnecting, use **Retry**
 to load it again without losing the answer you typed in that page. A question
 that is no longer available remains unavailable.
 
-FRIDAY always enables a free-text **Other** answer. The agent must not add an
+OpenClaw always enables a free-text **Other** answer. The agent must not add an
 `Other` option to the authored option list.
 
 Never answer `ask_user` with a credential. When the agent needs an API key it

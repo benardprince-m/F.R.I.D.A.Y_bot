@@ -1,17 +1,17 @@
 ---
-summary: "Set up FaceTime voice calls with your FRIDAY agent on a Mac"
+summary: "Set up FaceTime voice calls with your OpenClaw agent on a Mac"
 read_when:
-  - You want to configure FaceTime calls with your FRIDAY agent
+  - You want to configure FaceTime calls with your OpenClaw agent
   - You need to install the native helper and configure Mac audio
 title: "FaceTime plugin"
 sidebarTitle: "FaceTime (experimental)"
 doc-schema-version: 1
 ---
 
-Connect FaceTime to your FRIDAY agent for two-way voice conversations. The
+Connect FaceTime to your OpenClaw agent for two-way voice conversations. The
 plugin automatically answers calls from your configured handles and lets your
 agent call you with approval. A realtime voice provider handles speech, and your
-FRIDAY agent handles requests that need tools or memory.
+OpenClaw agent handles requests that need tools or memory.
 
 **Status: experimental, disabled by default.** Run the Gateway and native helper
 on the same Mac, in the same signed-in user session. Configure FaceTime under
@@ -20,14 +20,14 @@ on the same Mac, in the same signed-in user session. Configure FaceTime under
 <Warning>
 FaceTime integration uses private Apple APIs and injects a helper into Apple call
 applications. It requires reduced SIP debugging protections. Use a dedicated,
-up-to-date Mac that you physically control. FRIDAY does not change SIP,
+up-to-date Mac that you physically control. OpenClaw does not change SIP,
 developer-tools access, or macOS privacy permissions automatically.
 </Warning>
 
 ## Requirements
 
 - An Apple Silicon Mac running macOS 14.4 or later.
-- The current FRIDAY host release, matching the bundled plugin.
+- The current OpenClaw host release, matching the bundled plugin.
 - FaceTime signed in to your Apple Account on the Gateway Mac.
 - Full Xcode installed at `/Applications/Xcode.app`.
 - The FaceTime plugin and matching signed native companion.
@@ -61,7 +61,7 @@ Add your FaceTime email address or full international phone number to
 `ownerHandles`. Only listed handles can use the integration. Every listed handle
 has owner authority; there is no guest tier.
 
-Merge this into your FRIDAY configuration. Preserve existing plugin entries
+Merge this into your OpenClaw configuration. Preserve existing plugin entries
 and add `facetime` to your existing `plugins.allow` list if you use one.
 
 ```json5
@@ -229,10 +229,10 @@ built driver. If installation fails, follow the reported error or the
 
 In FaceTime, and in Phone when it handles FaceTime Audio, select:
 
-- **Microphone:** `FRIDAY-Mic`.
+- **Microphone:** `OpenClaw-Mic`.
 - **Output:** physical speakers or headphones.
 
-Do not select `FRIDAY-Mic`, `FRIDAY-Feed`, BlackHole, an aggregate device, or a
+Do not select `OpenClaw-Mic`, `OpenClaw-Feed`, BlackHole, an aggregate device, or a
 multi-output device as the call output.
 
 ## Inspect and activate
@@ -293,7 +293,7 @@ already ended.
 A pending outbound dial reserves the call slot, so incoming calls are not
 automatically answered until it finishes or its cancellation is confirmed. If a
 helper disconnects or reports an uncertain dial outcome, the pending state stays
-visible while FRIDAY reconciles the call.
+visible while OpenClaw reconciles the call.
 
 ## Update the integration
 

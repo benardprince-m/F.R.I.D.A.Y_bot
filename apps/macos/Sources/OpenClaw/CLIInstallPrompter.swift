@@ -32,7 +32,7 @@ final class CLIInstallPrompter {
         guard GatewayProcessManager.shared.installation == .managed else { return }
         if BundledRuntime.isBundledApp {
             guard userInitiated else { return }
-            self.installStatus = String(localized: "Preparing FRIDAY…")
+            self.installStatus = String(localized: "Preparing OpenClaw…")
             do {
                 _ = try await CLIInstaller.prepareBundledGateway { self.installStatus = $0 }
                 let activation = await CLIInstaller.activateLocalGateway()
@@ -58,7 +58,7 @@ final class CLIInstallPrompter {
             installPolicy: CLIInstallPolicy.storedPolicy(),
             launchAgentWriteDisabled: GatewayLaunchAgentManager.isLaunchAgentWriteDisabled())
         if await self.completePendingManagedRestartIfNeeded(managedStatus: managedStatus) {
-            self.installStatus = String(localized: "FRIDAY Gateway is ready.")
+            self.installStatus = String(localized: "OpenClaw Gateway is ready.")
             return
         }
         if shouldRepairManaged, !userInitiated {
@@ -81,7 +81,7 @@ final class CLIInstallPrompter {
         }
         if status.isReady {
             if userInitiated {
-                self.installStatus = String(localized: "Starting FRIDAY Gateway…")
+                self.installStatus = String(localized: "Starting OpenClaw Gateway…")
                 self.installStatus = await Self.activationMessage(CLIInstaller.activateLocalGateway())
             }
             return
@@ -119,7 +119,7 @@ final class CLIInstallPrompter {
         {
             guard confirmStable else { return target }
             let alert = NSAlert()
-            alert.messageText = "Install FRIDAY CLI?"
+            alert.messageText = "Install OpenClaw CLI?"
             alert.informativeText = "The app-managed local Gateway needs an external CLI runtime."
             alert.addButton(withTitle: "Install CLI")
             alert.addButton(withTitle: "Not Now")
@@ -149,9 +149,9 @@ final class CLIInstallPrompter {
     {
         let channels = [suggested] + CLIInstaller.Channel.allCases.filter { $0 != suggested }
         let alert = NSAlert()
-        alert.messageText = "Choose FRIDAY CLI channel"
+        alert.messageText = "Choose OpenClaw CLI channel"
         alert.informativeText =
-            "This is an unreleased FRIDAY build. " +
+            "This is an unreleased OpenClaw build. " +
             "Stable and Beta use published builds and are usually quick. " +
             "Dev (Git main) downloads and builds from source, so it can take several minutes " +
             "and needs several gigabytes free."
@@ -198,7 +198,7 @@ final class CLIInstallPrompter {
                   GatewayEnvironment.gatewayPort() == port,
                   GatewayProcessManager.shared.installation == .managed
             else {
-                self.installStatus = "FRIDAY is installed. Gateway selection changed; reconnect to continue setup."
+                self.installStatus = "OpenClaw is installed. Gateway selection changed; reconnect to continue setup."
                 return false
             }
             if restartManagedGateway {
@@ -212,7 +212,7 @@ final class CLIInstallPrompter {
                     return false
                 }
             }
-            report("Starting FRIDAY Gateway…")
+            report("Starting OpenClaw Gateway…")
             let activation = await CLIInstaller.activateLocalGateway()
             if BundledRuntime.isBundledApp { CLIInstaller.completeBundledSetup(after: activation) }
             if case .failed = activation { activated = false } else { activated = true }
@@ -240,12 +240,12 @@ final class CLIInstallPrompter {
     private static func activationMessage(_ activation: CLIInstaller.LocalGatewayActivation) -> String {
         switch activation {
         case .ready:
-            "FRIDAY Gateway is ready."
+            "OpenClaw Gateway is ready."
         case .deferred:
-            "FRIDAY is installed. The Gateway will start when This Mac is active and resumed."
+            "OpenClaw is installed. The Gateway will start when This Mac is active and resumed."
         case let .failed(reason):
             OnboardingView.gatewayStartFailureMessage(
-                prefix: "FRIDAY was installed, but the Gateway did not start. Open Settings to retry.",
+                prefix: "OpenClaw was installed, but the Gateway did not start. Open Settings to retry.",
                 reason: reason)
         }
     }

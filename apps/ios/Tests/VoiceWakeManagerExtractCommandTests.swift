@@ -1,7 +1,7 @@
 import Foundation
 import SwabbleKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 private let openclawTranscript = "hey openclaw do thing"
 

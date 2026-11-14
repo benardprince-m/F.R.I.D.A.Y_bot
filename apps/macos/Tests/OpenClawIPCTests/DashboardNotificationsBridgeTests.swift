@@ -2,7 +2,7 @@ import Foundation
 import Testing
 import UserNotifications
 import WebKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 struct DashboardNotificationsBridgeTests {

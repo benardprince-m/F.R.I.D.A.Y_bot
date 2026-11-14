@@ -154,7 +154,7 @@ export function listNodeAdoptedSessionEntries(params: {
     );
     if (adopted.has(sourceKey)) {
       throw new Error(
-        `multiple FRIDAY sessions adopt Codex thread ${marker.sourceThreadId} on ${marker.sourceHostId}`,
+        `multiple OpenClaw sessions adopt Codex thread ${marker.sourceThreadId} on ${marker.sourceHostId}`,
       );
     }
     adopted.set(sourceKey, {
@@ -212,7 +212,7 @@ export async function finalizeNodeAdoptedSession(params: {
   marker: ReturnType<typeof nodeSessionMarker>;
 }): Promise<void> {
   const changedError = () =>
-    new CatalogParamsError("Codex FRIDAY session changed before it could be bound. Retry.");
+    new CatalogParamsError("Codex OpenClaw session changed before it could be bound. Retry.");
   const finalized = await params.api.runtime.agent.session.prepareSessionEntryPatch({
     sessionKey: params.adopted.key,
     readConsistency: "latest",

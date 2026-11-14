@@ -1,4 +1,4 @@
-name: FRIDAY
+name: OpenClaw
 options:
   preGenCommand: bash ../../scripts/ios-generate-test-tls-identity.sh && node ../../scripts/prepare-apple-mermaid.mjs
   bundleIdPrefix: ai.openclawfoundation
@@ -24,11 +24,11 @@ packages:
     revision: cfd195c76882aa9b997560ca7cb95d72fbf5db00
 
 schemes:
-  FRIDAY:
+  OpenClaw:
     shared: true
     build:
       targets:
-        FRIDAY: all
+        OpenClaw: all
     test:
       targets:
         - OpenClawTests
@@ -59,7 +59,7 @@ schemes:
         - OpenClawWatchTests
 
 targets:
-  FRIDAY:
+  OpenClaw:
     type: application
     platform: iOS
     configFiles:
@@ -136,7 +136,7 @@ targets:
           ASSETCATALOG_COMPILER_APPICON_NAME: AppIconDebug
           CODE_SIGN_STYLE: Automatic
           OPENCLAW_ACTIVE_APP_GROUP_ID: "$(OPENCLAW_DEBUG_APP_GROUP_ID)"
-          OPENCLAW_CODE_SIGN_ENTITLEMENTS: Sources/FRIDAY.entitlements
+          OPENCLAW_CODE_SIGN_ENTITLEMENTS: Sources/OpenClaw.entitlements
           OPENCLAW_APNS_ENTITLEMENT_ENVIRONMENT: development
           OPENCLAW_URL_SCHEME: openclaw-debug
           PRODUCT_BUNDLE_IDENTIFIER: "$(OPENCLAW_DEBUG_APP_BUNDLE_ID)"
@@ -144,14 +144,14 @@ targets:
           OPENCLAW_PUSH_MODE: localSandbox
           OPENCLAW_PUSH_RELAY_BASE_URL: ""
         Release:
-          OPENCLAW_CODE_SIGN_ENTITLEMENTS: Sources/FRIDAY.entitlements
+          OPENCLAW_CODE_SIGN_ENTITLEMENTS: Sources/OpenClaw.entitlements
           OPENCLAW_APNS_ENTITLEMENT_ENVIRONMENT: production
           OPENCLAW_PUSH_MODE: localProduction
           OPENCLAW_PUSH_RELAY_BASE_URL: ""
     info:
       path: Sources/Info.plist
       properties:
-        CFBundleDisplayName: FRIDAY
+        CFBundleDisplayName: OpenClaw
         CFBundleIconName: "$(ASSETCATALOG_COMPILER_APPICON_NAME)"
         CFBundleURLTypes:
           - CFBundleURLName: ai.openclawfoundation.app
@@ -173,27 +173,27 @@ targets:
           - remote-notification
         BGTaskSchedulerPermittedIdentifiers:
           - "$(PRODUCT_BUNDLE_IDENTIFIER).bgrefresh"
-        NSLocalNetworkUsageDescription: FRIDAY discovers and connects to your FRIDAY gateway on the local network.
+        NSLocalNetworkUsageDescription: OpenClaw discovers and connects to your OpenClaw gateway on the local network.
         NSAppTransportSecurity:
           NSAllowsArbitraryLoadsInWebContent: true
           NSAllowsLocalNetworking: true
         NSBonjourServices:
           - _openclaw-gw._tcp
-        NSCameraUsageDescription: FRIDAY uses the camera when you scan a Gateway setup QR code or ask your paired Gateway or assistant to capture a photo or short video from this iPhone, for example to connect to your Gateway or show your assistant a document, device screen, or workspace.
-        NSCalendarsUsageDescription: FRIDAY uses your calendars to show events and scheduling context when you enable calendar access.
-        NSCalendarsFullAccessUsageDescription: FRIDAY uses your calendars to show events and scheduling context when you enable calendar access.
-        NSCalendarsWriteOnlyAccessUsageDescription: FRIDAY uses your calendars to add events when you enable calendar access.
-        NSContactsUsageDescription: FRIDAY uses your contacts so you can search and reference people while using the assistant.
-        NSLocationWhenInUseUsageDescription: FRIDAY uses your location when you allow location sharing.
-        NSLocationAlwaysAndWhenInUseUsageDescription: FRIDAY can share your location in the background when you enable Always.
-        NSMicrophoneUsageDescription: FRIDAY uses the microphone for realtime chat, voice wake, push-to-talk, and voice notes.
-        NSMotionUsageDescription: FRIDAY may use motion data to support device-aware interactions and automations.
-        NSHealthShareUsageDescription: FRIDAY reads your steps, sleep, resting heart rate, and workouts from the Apple Health app to create summaries you request and send them through your Gateway to your configured AI provider.
-        NSHealthUpdateUsageDescription: FRIDAY does not write to the Apple Health app. It uses read-only data to create summaries you request and send them through your Gateway to your configured AI provider.
-        NSPhotoLibraryUsageDescription: FRIDAY lets your assistant read photos you allow and lets you choose photos to share.
+        NSCameraUsageDescription: OpenClaw uses the camera when you scan a Gateway setup QR code or ask your paired Gateway or assistant to capture a photo or short video from this iPhone, for example to connect to your Gateway or show your assistant a document, device screen, or workspace.
+        NSCalendarsUsageDescription: OpenClaw uses your calendars to show events and scheduling context when you enable calendar access.
+        NSCalendarsFullAccessUsageDescription: OpenClaw uses your calendars to show events and scheduling context when you enable calendar access.
+        NSCalendarsWriteOnlyAccessUsageDescription: OpenClaw uses your calendars to add events when you enable calendar access.
+        NSContactsUsageDescription: OpenClaw uses your contacts so you can search and reference people while using the assistant.
+        NSLocationWhenInUseUsageDescription: OpenClaw uses your location when you allow location sharing.
+        NSLocationAlwaysAndWhenInUseUsageDescription: OpenClaw can share your location in the background when you enable Always.
+        NSMicrophoneUsageDescription: OpenClaw uses the microphone for realtime chat, voice wake, push-to-talk, and voice notes.
+        NSMotionUsageDescription: OpenClaw may use motion data to support device-aware interactions and automations.
+        NSHealthShareUsageDescription: OpenClaw reads your steps, sleep, resting heart rate, and workouts from the Apple Health app to create summaries you request and send them through your Gateway to your configured AI provider.
+        NSHealthUpdateUsageDescription: OpenClaw does not write to the Apple Health app. It uses read-only data to create summaries you request and send them through your Gateway to your configured AI provider.
+        NSPhotoLibraryUsageDescription: OpenClaw lets your assistant read photos you allow and lets you choose photos to share.
         PHPhotoLibraryPreventAutomaticLimitedAccessAlert: true
-        NSRemindersFullAccessUsageDescription: FRIDAY uses your reminders to list, add, and complete tasks when you enable reminders access.
-        NSSpeechRecognitionUsageDescription: FRIDAY uses on-device speech recognition for talk mode and voice wake.
+        NSRemindersFullAccessUsageDescription: OpenClaw uses your reminders to list, add, and complete tasks when you enable reminders access.
+        NSSpeechRecognitionUsageDescription: OpenClaw uses on-device speech recognition for talk mode and voice wake.
         NSSupportsLiveActivities: true
         ITSAppUsesNonExemptEncryption: false
         UIAppFonts:
@@ -248,7 +248,7 @@ targets:
     info:
       path: ShareExtension/Info.plist
       properties:
-        CFBundleDisplayName: FRIDAY Share
+        CFBundleDisplayName: OpenClaw Share
         CFBundleShortVersionString: "$(OPENCLAW_MARKETING_VERSION)"
         OpenClawAppGroupIdentifier: "$(OPENCLAW_ACTIVE_APP_GROUP_ID)"
         CFBundleVersion: "$(OPENCLAW_BUILD_VERSION)"
@@ -300,7 +300,7 @@ targets:
     info:
       path: ActivityWidget/Info.plist
       properties:
-        CFBundleDisplayName: FRIDAY Activity
+        CFBundleDisplayName: OpenClaw Activity
         CFBundleShortVersionString: "$(OPENCLAW_MARKETING_VERSION)"
         CFBundleVersion: "$(OPENCLAW_BUILD_VERSION)"
         NSSupportsLiveActivities: true
@@ -398,14 +398,14 @@ targets:
     info:
       path: WatchApp/Info.plist
       properties:
-        CFBundleDisplayName: FRIDAY
+        CFBundleDisplayName: OpenClaw
         CFBundleShortVersionString: "$(OPENCLAW_MARKETING_VERSION)"
         CFBundleVersion: "$(OPENCLAW_BUILD_VERSION)"
         WKCompanionAppBundleIdentifier: "$(OPENCLAW_COMPANION_APP_BUNDLE_ID)"
         WKApplication: true
         WKPrefersNetworkUponForeground: true
-        NSLocalNetworkUsageDescription: FRIDAY connects this Apple Watch directly to your Gateway on trusted local networks.
-        NSMicrophoneUsageDescription: FRIDAY uses the microphone for voice conversations you start on Apple Watch.
+        NSLocalNetworkUsageDescription: OpenClaw connects this Apple Watch directly to your Gateway on trusted local networks.
+        NSMicrophoneUsageDescription: OpenClaw uses the microphone for voice conversations you start on Apple Watch.
         UIBackgroundModes:
           - audio
         UIAppFonts:
@@ -447,7 +447,7 @@ targets:
       - path: WatchApp/Sources/WatchDeferredPayloadOrdering.swift
         group: WatchApp/Sources
     dependencies:
-      - target: FRIDAY
+      - target: OpenClaw
       - package: Swabble
         product: SwabbleKit
       - sdk: AppIntents.framework
@@ -460,7 +460,7 @@ targets:
         ENABLE_APP_INTENTS_METADATA_GENERATION: NO
         SWIFT_VERSION: "6.0"
         SWIFT_STRICT_CONCURRENCY: complete
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/FRIDAY.app/FRIDAY"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/OpenClaw.app/OpenClaw"
         BUNDLE_LOADER: "$(TEST_HOST)"
       configs:
         Debug:
@@ -535,7 +535,7 @@ targets:
     sources:
       - path: UITests
     dependencies:
-      - target: FRIDAY
+      - target: OpenClaw
     settings:
       base:
         CODE_SIGN_IDENTITY: "$(OPENCLAW_CODE_SIGN_IDENTITY)"
@@ -546,7 +546,7 @@ targets:
         SUPPORTED_PLATFORMS: "iphonesimulator iphoneos"
         SUPPORTS_MACCATALYST: NO
         SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
-        TEST_TARGET_NAME: FRIDAY
+        TEST_TARGET_NAME: OpenClaw
         SWIFT_VERSION: "5.0"
       configs:
         Debug:

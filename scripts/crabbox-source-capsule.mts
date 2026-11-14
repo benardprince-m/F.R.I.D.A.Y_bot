@@ -362,9 +362,9 @@ export function prepareCrabboxSourceCapsule(options: {
       GIT_CONFIG_GLOBAL: "/dev/null",
       GIT_CONFIG_NOSYSTEM: "1",
       GIT_CONFIG_COUNT: "0",
-      GIT_AUTHOR_NAME: "FRIDAY",
+      GIT_AUTHOR_NAME: "OpenClaw",
       GIT_AUTHOR_EMAIL: "ci@openclaw.local",
-      GIT_COMMITTER_NAME: "FRIDAY",
+      GIT_COMMITTER_NAME: "OpenClaw",
       GIT_COMMITTER_EMAIL: "ci@openclaw.local",
     };
     delete privateEnv.GIT_CONFIG_PARAMETERS;

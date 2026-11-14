@@ -6,7 +6,7 @@ read_when:
   - You want one OpenAI-compatible API for Baseten's hosted models
 ---
 
-[Baseten Model APIs](https://docs.baseten.co/inference/model-apis/overview) provide hosted, OpenAI-compatible access to frontier models. The official external plugin uses authenticated discovery, so FRIDAY follows the complete model set enabled for your Baseten account. Its offline fallback contains the current curated models listed below.
+[Baseten Model APIs](https://docs.baseten.co/inference/model-apis/overview) provide hosted, OpenAI-compatible access to frontier models. The official external plugin uses authenticated discovery, so OpenClaw follows the complete model set enabled for your Baseten account. Its offline fallback contains the current curated models listed below.
 
 | Property        | Value                                                    |
 | --------------- | -------------------------------------------------------- |
@@ -83,7 +83,7 @@ DeepSeek V4.1 Flash is the default for new Baseten setups. It supports text and 
 ```
 
 Use `/model baseten/deepseek-ai/DeepSeek-V4.1-Flash -s` to switch the current session.
-Its thinking choices are `off`, `low`, `high`, and `max`, with `high` as the native default. FRIDAY sends `off` as `reasoning_effort: "none"`. See [Baseten's reasoning controls](https://docs.baseten.co/inference/model-apis/reasoning).
+Its thinking choices are `off`, `low`, `high`, and `max`, with `high` as the native default. OpenClaw sends `off` as `reasoning_effort: "none"`. See [Baseten's reasoning controls](https://docs.baseten.co/inference/model-apis/reasoning).
 
 Saved explicit selections such as `baseten/thinkingmachines/inkling` are not redirected to the new default. If a previously selected model is no longer available, list the current catalog and choose a replacement explicitly. Reconnecting the API key preserves the saved primary model.
 
@@ -100,17 +100,17 @@ The authenticated live catalog is authoritative. This curated fallback covers cu
 | `baseten/zai-org/GLM-5.2`                          | text, image |  1.048M |       262k |
 | `baseten/zai-org/GLM-5.2-Fast`                     | text, image |  1.048M |       262k |
 
-All bundled models support tool calling and reasoning. FRIDAY maps its thinking levels to models with native `reasoning_effort`. Its opt-in GLM and Nemotron routes default to thinking off. Nemotron exposes a binary off/on control; the bundled GLM 5.2 definitions expose off, high, and max. These routes use Baseten's `chat_template_args.enable_thinking` control. GLM's scalar effort and image input depend on discovery advertising those capabilities; sparse live GLM rows currently omit them.
+All bundled models support tool calling and reasoning. OpenClaw maps its thinking levels to models with native `reasoning_effort`. Its opt-in GLM and Nemotron routes default to thinking off. Nemotron exposes a binary off/on control; the bundled GLM 5.2 definitions expose off, high, and max. These routes use Baseten's `chat_template_args.enable_thinking` control. GLM's scalar effort and image input depend on discovery advertising those capabilities; sparse live GLM rows currently omit them.
 
 The same thinking controls apply to agent turns and standalone model completions. Current DeepSeek V4 Pro 0813 and explicitly configured older Pro references preserve replayed reasoning metadata while thinking is enabled and remove it for explicit `off` requests. The current Pro endpoint additionally receives the required thinking envelope when scalar effort is sent.
 
 <Note>
-Baseten can add, remove, or change Model APIs independently of FRIDAY releases. The plugin refreshes model ids, context limits, output limits, and input, cached-input, and output pricing from the authenticated API. Current DeepSeek V4.1 Flash and V4 Pro 0813 retain their documented controls when otherwise populated catalog rows omit the corresponding feature flags.
+Baseten can add, remove, or change Model APIs independently of OpenClaw releases. The plugin refreshes model ids, context limits, output limits, and input, cached-input, and output pricing from the authenticated API. Current DeepSeek V4.1 Flash and V4 Pro 0813 retain their documented controls when otherwise populated catalog rows omit the corresponding feature flags.
 </Note>
 
 ## Prompt caching
 
-For the native `https://inference.baseten.co/v1` endpoint, FRIDAY sends a stable
+For the native `https://inference.baseten.co/v1` endpoint, OpenClaw sends a stable
 `x-session-affinity` header for related requests to improve prefix cache reuse.
 It uses an explicit request cache key when present, otherwise the session ID.
 An explicitly configured affinity header takes precedence. Setting
@@ -164,7 +164,7 @@ If the Gateway runs as a daemon (launchd, systemd, Docker), make sure `BASETEN_A
     Choosing providers, model refs, and failover behavior.
   </Card>
   <Card title="Thinking modes" href="/tools/thinking" icon="brain">
-    Select FRIDAY reasoning effort levels.
+    Select OpenClaw reasoning effort levels.
   </Card>
   <Card title="Models CLI" href="/cli/models" icon="terminal">
     List, inspect, and select discovered models.

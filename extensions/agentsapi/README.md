@@ -1,7 +1,7 @@
 # Agents API harness
 
 The `agentsapi` harness runs commands and file operations in an OpenAI-hosted Linux
-VM by default, while FRIDAY handles channel messaging and configured Gateway
+VM by default, while OpenClaw handles channel messaging and configured Gateway
 tools. It uses OpenAI API-key authentication.
 
 API keys authenticate requests and are not part of the native conversation's
@@ -39,7 +39,7 @@ replacement session is silently allocated. Changing native search restrictions
 or adopting an executor controller requires a reset, not migration.
 
 Normal updates retain their existing pre-upgrade backup and rollback workflow.
-Before a manual package replacement, back up FRIDAY state. Successful
+Before a manual package replacement, back up OpenClaw state. Successful
 conversion is forward-only: to return to a release that requires
 `authFingerprint`, restore its matching pre-upgrade state backup, not just the
 older binary. Executor records predating plugin ownership remain a separate
@@ -94,7 +94,7 @@ want to send. The global `tools.web.search.enabled: false` setting and the
 session’s Web search disable override remove native `web_search` declarations
 from new sessions. A change to the effective search setting requires a new or
 reset session before inference can continue. Each entry requires a `type` string; other tool options are passed
-unchanged to the session's `agent.tools`. FRIDAY does not maintain an enum of
+unchanged to the session's `agent.tools`. OpenClaw does not maintain an enum of
 tool types or options; the API validates them and reports unsupported values.
 
 An empty list sends no native tool declarations and disables native web search.
@@ -103,7 +103,7 @@ set `nativeTools` to `[{ "type": "programmatic_tool_calling", "enabled": false }
 See the native API's [web-search guide](https://developers.openai.com/api/docs/guides/agents-api/tools/web-search)
 and [programmatic tool calling guide](https://developers.openai.com/api/docs/guides/tools-programmatic-tool-calling#agents-api).
 
-The list does not filter FRIDAY functions, MCP servers, installed plugins, or
+The list does not filter OpenClaw functions, MCP servers, installed plugins, or
 environment-provided shell and file tools. Those retain their existing settings;
 shell and file tools come from the execution environment without entries here.
 Existing sessions keep the tools selected at creation. Restart the Gateway after
@@ -141,7 +141,7 @@ without an explicit include list and wildcard filters are unsupported. The harne
 logs an error and omits unsupported servers, including stdio, Gateway OAuth,
 requester-scoped connections, legacy SSE, custom TLS, unsupported filters, and
 headers it cannot resolve. Other supported servers remain available. Set an
-explicit Streamable HTTP transport; URL-only definitions retain FRIDAY's legacy
+explicit Streamable HTTP transport; URL-only definitions retain OpenClaw's legacy
 SSE interpretation and are omitted. Connection/request timeouts and parallel-call
 settings remain controlled by the native API.
 
@@ -152,16 +152,16 @@ replace the existing native session. Sessions without HTTP MCP configuration
 retain their existing bindings.
 
 Stdio MCP forwarding is a deferred implementation gap. Command-based servers are
-not forwarded, and FRIDAY does not start them on the Gateway for this harness.
+not forwarded, and OpenClaw does not start them on the Gateway for this harness.
 The Agents API already supports executor-managed stdio MCP processes; forwarding
 their command, arguments, working directory and environment is future adapter work.
 
-Ordinary conversation attempts run FRIDAY's shared `before_prompt_build` hook,
+Ordinary conversation attempts run OpenClaw's shared `before_prompt_build` hook,
 including tool-authorized recall and heartbeat prompt contributions. Per-turn
 `prependContext` and `appendContext` are applied on both new and resumed sessions.
 System-prompt additions and overrides are captured only when the native session
 is created. Updating system instructions on an existing native session is an MVP
-implementation gap; reset the FRIDAY session to adopt those changes. The harness
+implementation gap; reset the OpenClaw session to adopt those changes. The harness
 does not move system instructions into user messages. Hook `toolsAllow` restrictions
 are ignored because the harness cannot enforce turn-scoped restrictions across
 Gateway and native tools. Turns continue with the hook's prompt context even for
@@ -260,14 +260,14 @@ Self-hosted execution has two lifecycle options:
   and declares `activation.onAgentHarnesses: ["agentsapi"]` in its manifest.
   Its existing absolute `workspaceDirectory` is sent as `workspace_directory`;
   Gateway tool paths stay unchanged. The stock Agents API plugin owns the harness,
-  so the executor plugin must not register another harness. FRIDAY provides the
+  so the executor plugin must not register another harness. OpenClaw provides the
   contract; install or implement a controller appropriate for your infrastructure.
 - Omit `executorController` for an external controller, such as the
   [official webhook-managed lifecycle](https://developers.openai.com/api/docs/guides/agents-api/environments/lifecycle#start-compute-from-webhooks).
   It receives `agent.session.action_required` with an `environment_connection`
   action, retrieves the session through the authenticated API, and uses
   `session.environment.id` and the unchanged `session.environment.remote_url`.
-  The host-prepared FRIDAY workspace path must already exist at the same
+  The host-prepared OpenClaw workspace path must already exist at the same
   absolute path on the executor. The external controller owns startup,
   reconnection, and cleanup. Route only its intended sessions to it.
 
@@ -337,7 +337,7 @@ explicit dormant-environment conflict, the harness submits the actual user input
 to the same native session with attachment-availability feedback. It omits the
 entire current batch's execution paths, including partial uploads, because native
 recovery can replace the workspace. Earlier files do not establish the contents
-of new attachments. The native service owns recovery; FRIDAY does not send a
+of new attachments. The native service owns recovery; OpenClaw does not send a
 wake-up message or create a replacement session. Other upload errors still fail
 the attempt.
 Self-hosted input attachments use the
@@ -362,18 +362,18 @@ instructions, so the per-turn feedback remains necessary. System instructions
 guide model planning; they do not prevent host-side attachment preprocessing.
 Gateway sandbox placement is a separate unsupported configuration and produces
 a specific preflight error without retrying other models on the same harness.
-Gateway function availability follows the configured FRIDAY tool policy.
+Gateway function availability follows the configured OpenClaw tool policy.
 Native Agents API apps and connectors are not configured by this
 plugin, and the Gateway image-generation tool is not exposed.
 
 For self-hosted sessions, `hostExecutorSkillDirectories` lists absolute paths on
 the executor host machine. These directories must already be set up with the
 skill files and be available to the Agents API harness through the executor.
-FRIDAY sends the paths as the Agents API `capability_directories` field; it does
+OpenClaw sends the paths as the Agents API `capability_directories` field; it does
 not copy or install files or resolve these paths against the Gateway's filesystem.
 Install any supporting scripts and dependencies on the executor host as well.
 The Agents API harness discovers skills in these directories and reads their
-contents through the executor. FRIDAY's per-skill eligibility filters do not apply to this
+contents through the executor. OpenClaw's per-skill eligibility filters do not apply to this
 explicit native discovery list; choose only directories you intend to expose.
 Gateway tool policies continue to apply to Gateway functions.
 Sessions created without skill directories remain valid when the list is
@@ -381,15 +381,15 @@ omitted or empty. Changing a nonempty list requires a session reset.
 The list is unused for hosted sessions.
 
 Changing the environment, self-hosted workspace, or skill directories requires resetting the
-FRIDAY session. Existing hosted bindings remain valid with the setting omitted
+OpenClaw session. Existing hosted bindings remain valid with the setting omitted
 or explicitly `openai_hosted`. No saved session is reset or migrated automatically.
 
-The Gateway must be the only writer to each native session bound to FRIDAY.
-Send messages, steering, and interrupts through FRIDAY. Do not also write to
+The Gateway must be the only writer to each native session bound to OpenClaw.
+Send messages, steering, and interrupts through OpenClaw. Do not also write to
 that native session from another API client or a Gateway with independent state.
 Keep write credentials under the trusted Gateway operator's control. This
 exclusivity is a deployment requirement, not API-enforced session isolation.
-Binding leases coordinate FRIDAY attempts; tool execution retains current
+Binding leases coordinate OpenClaw attempts; tool execution retains current
 ownership and cancellation checks. External concurrent writers are unsupported.
 
 Message and steering submissions, tool results, and cancellation events retry
@@ -406,19 +406,19 @@ Gateway tool declarations. Reset an existing session to adopt the new tool
 surface. Changing its model still requires a reset; changing its API key does not
 reset the saved binding and remains subject to the service permissions above.
 
-Child sessions use the same Gateway tool-policy filtering as other FRIDAY
+Child sessions use the same Gateway tool-policy filtering as other OpenClaw
 runtimes, including inherited restrictions and the child's role. Denied session
 and control tools stay unavailable. Policies that restrict native shell, file,
 or native web-search access are rejected before the native session starts or
 resumes; the MVP cannot narrow those native capabilities.
 
 Token accounting reads stored native turn records after settlement, since
-completion stream events can omit usage. Each FRIDAY attempt counts its new
+completion stream events can omit usage. Each OpenClaw attempt counts its new
 coordinator turns once, including work superseded by steering. Earlier turns in
 the same native session are excluded. Cached input is counted separately from
 uncached input; reasoning tokens remain included in output tokens.
 
-Successful assistant messages retain those totals in the FRIDAY transcript.
+Successful assistant messages retain those totals in the OpenClaw transcript.
 When a Gateway tool ends the native turn, a transcript entry with no assistant
 content retains usage without publishing another reply.
 Run results and completion hooks also retain usage reported for interrupted or

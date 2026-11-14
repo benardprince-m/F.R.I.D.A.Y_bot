@@ -2,7 +2,7 @@ import ConcurrencyExtras
 import Foundation
 import OpenClawProtocol
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawKit
 
 private struct ApprovalFixtureRequest: Encodable, Sendable {

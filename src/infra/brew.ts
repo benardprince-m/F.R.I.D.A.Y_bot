@@ -59,7 +59,7 @@ export function resolveBrewExecutable(opts?: BrewResolutionOptions): string | un
   ].find((candidate) => canAccessSync(candidate, fs.constants.X_OK));
 }
 
-/** Recognize formula-owned FRIDAY files and keep service paths independent of the keg version. */
+/** Recognize formula-owned OpenClaw files and keep service paths independent of the keg version. */
 export async function resolveBrewOpenClawPath(inputPath: string): Promise<string | null> {
   const match =
     /^(.*)\/(?:Cellar\/openclaw-cli\/[^/]+|opt\/openclaw-cli)(\/libexec(?:\/.*)?)$/u.exec(

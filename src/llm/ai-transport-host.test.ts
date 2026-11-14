@@ -20,7 +20,7 @@ import "./ai-transport-host.js";
 
 afterEach(resetSecretRedactionRegistryForTest);
 
-describe("FRIDAY Anthropic inline images", () => {
+describe("OpenClaw Anthropic inline images", () => {
   it("keeps complete canonical user and tool-result images through the installed host", async () => {
     const jpeg = Buffer.alloc(FILE_TYPE_SNIFF_MAX_BYTES + 32);
     createTinyJpegBuffer().copy(jpeg);
@@ -135,7 +135,7 @@ describe("FRIDAY Anthropic inline images", () => {
   });
 });
 
-describe("FRIDAY provider error redaction", () => {
+describe("OpenClaw provider error redaction", () => {
   it("preserves a nested transport code after installed host redaction", () => {
     const cause = Object.assign(new Error("getaddrinfo failed at fixture.invalid"), {
       code: "EAI_AGAIN",
@@ -170,7 +170,7 @@ describe("FRIDAY provider error redaction", () => {
   });
 });
 
-describe("FRIDAY provider tool-result fidelity", () => {
+describe("OpenClaw provider tool-result fidelity", () => {
   const toolResultContent = [
     {
       type: "resource" as const,

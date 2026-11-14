@@ -61,7 +61,7 @@ All actions are enabled by default; use `channels.imessage.actions` to turn indi
   </Accordion>
 
   <Accordion title="Capability detection">
-    FRIDAY hides private API actions only when the cached check status says the bridge is unavailable. If the status is unknown, actions remain visible and dispatch checks lazily so the first action can succeed after `imsg launch` without a separate manual status refresh.
+    OpenClaw hides private API actions only when the cached check status says the bridge is unavailable. If the status is unknown, actions remain visible and dispatch checks lazily so the first action can succeed after `imsg launch` without a separate manual status refresh.
 
   </Accordion>
 
@@ -78,12 +78,12 @@ All actions are enabled by default; use `channels.imessage.actions` to turn indi
     }
     ```
 
-    Older `imsg` builds that pre-date the per-method capability list gate off typing/read silently; FRIDAY logs a one-time warning per restart so the missing receipt is attributable.
+    Older `imsg` builds that pre-date the per-method capability list gate off typing/read silently; OpenClaw logs a one-time warning per restart so the missing receipt is attributable.
 
   </Accordion>
 
   <Accordion title="Inbound tapbacks">
-    FRIDAY subscribes to iMessage tapbacks and routes accepted reactions as system events instead of normal message text, so a user tapback does not trigger an ordinary reply loop.
+    OpenClaw subscribes to iMessage tapbacks and routes accepted reactions as system events instead of normal message text, so a user tapback does not trigger an ordinary reply loop.
 
     Notification mode is controlled by `channels.imessage.reactionNotifications`:
 

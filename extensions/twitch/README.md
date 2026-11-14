@@ -1,6 +1,6 @@
 # @openclaw/twitch
 
-Twitch channel plugin for FRIDAY.
+Twitch channel plugin for OpenClaw.
 
 ## Install (local checkout)
 

@@ -251,7 +251,7 @@ function makeNodeServiceEnv(env: Record<string, string>): Record<string, string>
   return {
     ...env,
     OPENCLAW_SERVICE_KIND: "node",
-    OPENCLAW_WINDOWS_TASK_NAME: "FRIDAY Node",
+    OPENCLAW_WINDOWS_TASK_NAME: "OpenClaw Node",
   };
 }
 
@@ -896,7 +896,7 @@ describe("Windows startup fallback", () => {
     taskProbe.mockReturnValue({ status: 2, stdout: "-2147024891" });
 
     await expect(installGatewayScheduledTask(env)).rejects.toThrow(
-      "Could not back up Scheduled Task FRIDAY Gateway before replacement",
+      "Could not back up Scheduled Task OpenClaw Gateway before replacement",
     );
 
     await expect(fs.access(resolveTaskScriptPath(env))).rejects.toMatchObject({ code: "ENOENT" });
@@ -904,7 +904,7 @@ describe("Windows startup fallback", () => {
       code: "ENOENT",
     });
     expect(spawn).not.toHaveBeenCalled();
-    expect(schtasksCalls).toEqual([["/Query", "/TN", "FRIDAY Gateway", "/XML"]]);
+    expect(schtasksCalls).toEqual([["/Query", "/TN", "OpenClaw Gateway", "/XML"]]);
   });
 
   it("does not fall back when a listener appears after the clean task exit", async ({ env }) => {

@@ -26,7 +26,7 @@ type ProviderRequest = { body: string; threadId: string | string[] | undefined }
 type ReadyThread = { threadId: string; clientId: string; action: string };
 
 const RECOVERY_FAILURE_TEXT =
-  "⚠️ FRIDAY couldn't finish this reply. Check the conversation before trying again. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal.";
+  "⚠️ OpenClaw couldn't finish this reply. Check the conversation before trying again. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal.";
 const SHUTDOWN_FAILURE_DETAIL =
   "The previous conversation process did not confirm shutdown; the conversation was preserved.";
 

@@ -90,8 +90,8 @@ describe("codex conversation turn input", () => {
       label: "protocol-relative remote URL",
     },
     {
-      media: { url: "C:\\FRIDAY QA\\photo.png", contentType: "image/png" },
-      image: { type: "localImage", path: "C:\\FRIDAY QA\\photo.png" },
+      media: { url: "C:\\OpenClaw QA\\photo.png", contentType: "image/png" },
+      image: { type: "localImage", path: "C:\\OpenClaw QA\\photo.png" },
       label: "Windows local path",
     },
   ] satisfies { media: PluginHookMediaFact; image: CodexUserInput; label: string }[])(
@@ -104,7 +104,7 @@ describe("codex conversation turn input", () => {
   it.each(["path", "url"] as const)(
     "decodes mixed-case file URLs from %s for local images",
     (field) => {
-      const imagePath = path.resolve("FRIDAY QA", "photo #1?.png");
+      const imagePath = path.resolve("OpenClaw QA", "photo #1?.png");
       expectImages(
         [
           {
@@ -135,7 +135,7 @@ describe("codex conversation turn input", () => {
   );
 
   it("treats local media URLs as Codex local image input", () => {
-    const secondImagePath = path.resolve("FRIDAY QA", "second.jpg");
+    const secondImagePath = path.resolve("OpenClaw QA", "second.jpg");
     expectImages(
       [
         { url: "/tmp/staged-photo.png", contentType: "image/png" },

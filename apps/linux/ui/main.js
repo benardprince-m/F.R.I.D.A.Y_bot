@@ -94,7 +94,7 @@ function render({
   elements.installHint.textContent =
     firstRunBuild?.platform === "freebsd"
       ? "Installs the CLI in ~/.openclaw using your system Node.js and npm."
-      : "Installs FRIDAY and its managed runtime in ~/.openclaw.";
+      : "Installs OpenClaw and its managed runtime in ~/.openclaw.";
   show(elements.installControls, showInstall);
   show(elements.actionControls, false);
   show(elements.editConnection, false);
@@ -131,7 +131,7 @@ function formatInstallLine(line) {
     {
       node: "Node runtime",
       git: "Git checkout",
-      openclaw: "FRIDAY CLI",
+      openclaw: "OpenClaw CLI",
       "gateway-service": "Gateway service",
       "control-ui": "Control UI build",
       "cli-build": "CLI build",
@@ -183,7 +183,7 @@ function friendlyError(error) {
   if (typeof error === "string") {
     return error;
   }
-  return error?.message || "FRIDAY could not complete the operation.";
+  return error?.message || "OpenClaw could not complete the operation.";
 }
 
 function gatewayHost(gateway) {
@@ -199,7 +199,7 @@ function renderGateways(gateways) {
   if (!gateways.length) {
     const empty = document.createElement("p");
     empty.className = "discovery-empty";
-    empty.textContent = "Looking for nearby FRIDAY gateways…";
+    empty.textContent = "Looking for nearby OpenClaw gateways…";
     elements.gatewayList.append(empty);
     return;
   }
@@ -283,13 +283,13 @@ async function refreshGateways() {
 async function connect(action) {
   render(action ? {
     activity: `${action === "restart" ? "Restarting" : "Starting"} gateway…`,
-    description: "FRIDAY is waiting for the local gateway to become healthy.",
+    description: "OpenClaw is waiting for the local gateway to become healthy.",
     eyebrow: "GATEWAY",
     title: "One moment",
   } : {
     activity: "Checking local services…",
     description: "Finding your gateway and preparing the Control UI.",
-    title: "Connecting to FRIDAY",
+    title: "Connecting to OpenClaw",
   });
   try {
     if (action) {
@@ -322,7 +322,7 @@ function renderWelcome() {
       "Your personal AI assistant, living wherever you choose. It answers questions, works with your files and apps, and can chat with you wherever you are.",
     dot: "idle",
     eyebrow: "WELCOME",
-    title: "Welcome to FRIDAY",
+    title: "Welcome to OpenClaw",
   });
   show(elements.discovery, false);
   show(elements.welcomeScreen, true);
@@ -336,7 +336,7 @@ function renderConnectionChoices(error = null) {
   render({
     description: error || (freebsd
       ? "On FreeBSD, install the CLI if needed, then start your Gateway with the openclaw package service or run openclaw gateway run in a terminal. Connect here using the same account you used for onboarding."
-      : "Most people choose this computer. FRIDAY installs everything and keeps your assistant running in the background."),
+      : "Most people choose this computer. OpenClaw installs everything and keeps your assistant running in the background."),
     dot: error ? "error" : "idle",
     eyebrow: "CHOOSE YOUR GATEWAY",
     title: "Where should your assistant live?",
@@ -403,7 +403,7 @@ async function continueLocalSetup() {
         firstRunBuild?.platform === "freebsd"
           ? "Connecting to your local Gateway…"
           : "Starting your local Gateway…",
-      description: "FRIDAY is preparing your assistant on this computer.",
+      description: "OpenClaw is preparing your assistant on this computer.",
       eyebrow: "FIRST-RUN SETUP",
       title: "Preparing your companion",
     });
@@ -419,7 +419,7 @@ async function continueLocalSetup() {
       description:
         firstRunBuild?.platform === "freebsd"
           ? "Install a compatible system Node.js and npm before installing the CLI. Then start your Gateway with the package service or openclaw gateway run."
-          : "This development build works best with a matching FRIDAY release channel.",
+          : "This development build works best with a matching OpenClaw release channel.",
       eyebrow: "FIRST-RUN SETUP",
       showInstall: true,
       title: "Choose a release channel",
@@ -592,11 +592,11 @@ async function install() {
   elements.logStatus.textContent = "RUNNING";
   show(elements.logWrap, true);
   render({
-    activity: "Installing FRIDAY…",
+    activity: "Installing OpenClaw…",
     description:
       firstRunBuild?.platform === "freebsd"
         ? "Installing the CLI requires a compatible system Node.js and npm. Start the Gateway with the package service or in a terminal after installation."
-        : "FRIDAY and its managed runtime are being installed in your home directory.",
+        : "OpenClaw and its managed runtime are being installed in your home directory.",
     eyebrow: "INSTALLING",
     title: "Preparing your companion",
   });
@@ -612,7 +612,7 @@ async function install() {
       dot: "error",
       eyebrow: "SETUP ISSUE",
       showInstall: true,
-      title: "FRIDAY needs attention",
+      title: "OpenClaw needs attention",
     });
   } finally {
     elements.installButton.disabled = false;
@@ -631,7 +631,7 @@ function renderRetry(message) {
       // A broken managed CLI can only be replaced by reinstalling; retry alone
       // must never be the sole exit from a connection failure.
       showInstall: true,
-      title: "FRIDAY needs attention",
+      title: "OpenClaw needs attention",
     },
     connect,
   );
@@ -694,7 +694,7 @@ await listen("install-progress", ({ payload }) => appendLog(payload.line));
 await listen("updater://not-available", () => {
   renderUpdate({
     message: "No update is available.",
-    title: "FRIDAY is up to date",
+    title: "OpenClaw is up to date",
   });
 });
 await listen("updater://available", ({ payload }) => {
@@ -771,17 +771,17 @@ if (mode === "connectionSettings") {
 } else if (mode === "missingCli") {
   firstRunBuild = await invoke("build_info").catch(() => null);
   render({
-    description: "Install the FRIDAY CLI to connect to a local Gateway.",
+    description: "Install the OpenClaw CLI to connect to a local Gateway.",
     dot: "idle",
     eyebrow: "CLI REQUIRED",
     showInstall: true,
-    title: "FRIDAY needs the CLI",
+    title: "OpenClaw needs the CLI",
   });
 } else if (mode === "reconnecting") {
   render({
     activity: "Retrying every few seconds…",
     description:
-      "The gateway connection dropped. FRIDAY will restore the dashboard automatically.",
+      "The gateway connection dropped. OpenClaw will restore the dashboard automatically.",
     eyebrow: "GATEWAY OFFLINE",
     title: "Reconnecting",
   });
@@ -793,7 +793,7 @@ if (mode === "connectionSettings") {
         "The gateway is stopped. The desktop companion will remain available in the tray.",
       dot: "idle",
       eyebrow: "GATEWAY STOPPED",
-      title: "FRIDAY is standing by",
+      title: "OpenClaw is standing by",
     },
     () => connect("start"),
   );

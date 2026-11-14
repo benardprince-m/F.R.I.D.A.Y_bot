@@ -260,7 +260,7 @@ export async function appendStatusAllDiagnosis(params: {
       const gatewayPidCount = countGatewayListenerPids(params.portUsage);
       if (gatewayPidCount > 1) {
         emitDetail(
-          `${gatewayPidCount} FRIDAY gateway processes appear to be listening on port ${params.port}; stop stale gateway processes before trusting channel health.`,
+          `${gatewayPidCount} OpenClaw gateway processes appear to be listening on port ${params.port}; stop stale gateway processes before trusting channel health.`,
         );
       }
       for (const line of formatPortDiagnostics(params.portUsage)) {
@@ -271,7 +271,7 @@ export async function appendStatusAllDiagnosis(params: {
         "Detected dual-stack loopback listeners (127.0.0.1 + ::1) for one gateway process.",
       );
     } else if (expectedGatewayListeners) {
-      emitDetail("Detected FRIDAY Gateway listener on the configured port.");
+      emitDetail("Detected OpenClaw Gateway listener on the configured port.");
     }
   }
 

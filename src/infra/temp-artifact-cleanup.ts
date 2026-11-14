@@ -174,7 +174,7 @@ export async function maintainRetainedUpdateRuntimes(params: {
           }
           if (census.pids.length) {
             throw new Error(
-              `other FRIDAY processes are still running (PIDs: ${census.pids.join(", ")}); let these holders finish, then rerun openclaw doctor --fix`,
+              `other OpenClaw processes are still running (PIDs: ${census.pids.join(", ")}); let these holders finish, then rerun openclaw doctor --fix`,
             );
           }
           params.assertResourcesSettled?.();

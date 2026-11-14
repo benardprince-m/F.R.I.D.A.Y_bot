@@ -246,7 +246,7 @@ export function sessionParticipantsSchemaSql(): string {
   return extractSqliteTableSchema(OPENCLAW_AGENT_SCHEMA_SQL, SESSION_PARTICIPANTS_TABLE, {
     endMarker: "CREATE TABLE IF NOT EXISTS session_key_contract (",
     includeEndMarker: false,
-    errorMessage: "FRIDAY session participant schema markers are missing.",
+    errorMessage: "OpenClaw session participant schema markers are missing.",
   });
 }
 
@@ -354,7 +354,7 @@ export const OPENCLAW_AGENT_BOARD_SCHEMA_SQL = extractSqliteTableSchema(
   {
     endMarker: "CREATE TABLE IF NOT EXISTS session_progress_cards (",
     includeEndMarker: false,
-    errorMessage: "FRIDAY agent board schema markers are missing from the canonical schema.",
+    errorMessage: "OpenClaw agent board schema markers are missing from the canonical schema.",
   },
 );
 export const AGENT_V14_BOARD_SCHEMA_SQL = OPENCLAW_AGENT_BOARD_SCHEMA_SQL;
@@ -369,7 +369,7 @@ export const AGENT_PROGRESS_CARD_SCHEMA_SQL = extractSqliteTableSchema(
   {
     endMarker: "CREATE TABLE IF NOT EXISTS heartbeat_outcomes (",
     includeEndMarker: false,
-    errorMessage: "FRIDAY agent progress-card schema markers are missing.",
+    errorMessage: "OpenClaw agent progress-card schema markers are missing.",
   },
 );
 const AGENT_SCHEMA_WITHOUT_PROGRESS_CARD_SQL = OPENCLAW_AGENT_SCHEMA_WITHOUT_BOARD_SQL.replace(
@@ -385,12 +385,12 @@ const sessionSharingSchema = extractSqliteTableSchema(
   {
     endMarker: "CREATE TABLE IF NOT EXISTS heartbeat_outcomes (",
     includeEndMarker: false,
-    errorMessage: "FRIDAY agent session-sharing schema markers are missing.",
+    errorMessage: "OpenClaw agent session-sharing schema markers are missing.",
   },
 );
 const sessionSuggestionsStart = sessionSharingSchema.indexOf(SUGGESTIONS_SCHEMA_START);
 if (sessionSuggestionsStart === -1) {
-  throw new Error("FRIDAY agent session-suggestions schema marker is missing.");
+  throw new Error("OpenClaw agent session-suggestions schema marker is missing.");
 }
 export const AGENT_V14_SESSION_SHARING_SCHEMA_SQL = sessionSharingSchema.slice(
   0,

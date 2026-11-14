@@ -446,7 +446,7 @@ export async function handleOpenResponsesHttpRequest(
           output.push(
             createAssistantOutputItem({
               id: outputItemId,
-              text: assistantText || "No response from FRIDAY.",
+              text: assistantText || "No response from OpenClaw.",
               phase: toolCalls ? "commentary" : "final_answer",
               status,
             }),

@@ -54,7 +54,7 @@ export function recordTelegramUpdateReceivedAt(update: object, receivedAtMs: num
 }
 
 /**
- * Unix seconds when FRIDAY received the update. Telegram callback queries carry no
+ * Unix seconds when OpenClaw received the update. Telegram callback queries carry no
  * timestamp of their own, so this approximates the tap time for callback-built messages.
  */
 export function resolveTelegramUpdateReceivedAtSeconds(update: unknown): number {

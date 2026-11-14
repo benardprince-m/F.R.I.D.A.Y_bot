@@ -8,7 +8,7 @@ title: "Telegram media and attachments"
 sidebarTitle: "Media and attachments"
 ---
 
-What FRIDAY can send to Telegram beyond text, and how inbound media reaches the agent.
+What OpenClaw can send to Telegram beyond text, and how inbound media reaches the agent.
 
 ## Media and attachments
 
@@ -16,7 +16,7 @@ What FRIDAY can send to Telegram beyond text, and how inbound media reaches the 
   <Accordion title="Photo albums, audio, video, and stickers">
     ### Photo albums
 
-    Send multiple image attachments in one `message` tool call. FRIDAY groups consecutive photos into Telegram albums of up to 10 images, in their original order. Automatic replies with multiple photos use the same grouping. A single photo, including a final remainder of one, is sent separately.
+    Send multiple image attachments in one `message` tool call. OpenClaw groups consecutive photos into Telegram albums of up to 10 images, in their original order. Automatic replies with multiple photos use the same grouping. A single photo, including a final remainder of one, is sent separately.
 
 ```json5
 {
@@ -39,7 +39,7 @@ What FRIDAY can send to Telegram beyond text, and how inbound media reaches the 
 
     Telegram distinguishes voice notes from audio files. Default: audio-file behavior; tag `[[audio_as_voice]]` in the agent reply to force a voice-note send. Inbound voice-note transcripts are framed as machine-generated, untrusted text in agent context, but mention detection still uses the raw transcript so mention-gated voice messages keep working.
 
-    When `ffprobe` is installed, FRIDAY includes the duration for OGG/Opus, MP3, and M4A uploads so Telegram can display it correctly. If duration probing fails, the upload still proceeds without duration metadata.
+    When `ffprobe` is installed, OpenClaw includes the duration for OGG/Opus, MP3, and M4A uploads so Telegram can display it correctly. If duration probing fails, the upload still proceeds without duration metadata.
 
 ```json5
 {
@@ -86,9 +86,9 @@ What FRIDAY can send to Telegram beyond text, and how inbound media reaches the 
 
     ### Stickers
 
-    Inbound: static WEBP is downloaded and processed (placeholder `<media:sticker>`). When sticker media is unavailable, including animated TGS and video WEBM, FRIDAY uses the sticker's emoji as the message text. If no emoji is available, it uses `<media:sticker>`. Cached descriptions take precedence over this fallback.
+    Inbound: static WEBP is downloaded and processed (placeholder `<media:sticker>`). When sticker media is unavailable, including animated TGS and video WEBM, OpenClaw uses the sticker's emoji as the message text. If no emoji is available, it uses `<media:sticker>`. Cached descriptions take precedence over this fallback.
 
-    Sticker context fields: `Sticker.emoji`, `Sticker.setName`, `Sticker.fileId`, `Sticker.fileUniqueId`, `Sticker.cachedDescription`. Descriptions are cached in FRIDAY SQLite plugin state to reduce repeated vision calls.
+    Sticker context fields: `Sticker.emoji`, `Sticker.setName`, `Sticker.fileId`, `Sticker.fileUniqueId`, `Sticker.cachedDescription`. Descriptions are cached in OpenClaw SQLite plugin state to reduce repeated vision calls.
 
     Sticker descriptions use the configured `agents.defaults.imageModel` before shared automatic image-model selection, including the provider's MiniMax image routing. The sticker description uses one selected model and does not try the configured fallback list if that model fails. A failed description is not cached; general media analysis can still run separately with its normal fallback handling.
 

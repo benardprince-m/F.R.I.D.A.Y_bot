@@ -159,9 +159,9 @@ describe("Doctor retired OAuth import", () => {
       };
       const primaryKeyPath = path.join(
         process.platform === "darwin"
-          ? path.join(state.home, "Library", "Application Support", "FRIDAY")
+          ? path.join(state.home, "Library", "Application Support", "OpenClaw")
           : process.platform === "win32"
-            ? path.join(env.APPDATA, "FRIDAY")
+            ? path.join(env.APPDATA, "OpenClaw")
             : path.join(env.XDG_CONFIG_HOME, "openclaw"),
         "auth-profile-secret-key",
       );

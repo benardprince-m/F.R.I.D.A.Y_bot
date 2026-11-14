@@ -194,7 +194,7 @@ describe("full-release-validation-at-sha", () => {
       "refs/heads/v2026.7.1",
     ]) {
       expect(() => parseArgs(["--target-ref", ref])).toThrow(
-        "canonical FRIDAY release branch or tag",
+        "canonical OpenClaw release branch or tag",
       );
     }
     expect(parseArgs(["--target-ref", "release/2026.7.1"])).toMatchObject({

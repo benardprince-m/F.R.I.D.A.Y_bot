@@ -138,9 +138,9 @@ export const AgentDefaultsBaseSchema = z.strictObject({
        * built-in summary request. Falls back to built-in on failure.
        */
       provider: z.string().optional(),
-      /** Thinking level for embedded FRIDAY compaction summaries. Default: low. */
+      /** Thinking level for embedded OpenClaw compaction summaries. Default: low. */
       thinkingLevel: z.union([AgentThinkingLevelSchema, z.literal("inherit")]).optional(),
-      /** Embedded FRIDAY keepRecentTokens budget used for cut-point selection. */
+      /** Embedded OpenClaw keepRecentTokens budget used for cut-point selection. */
       keepRecentTokens: z.number().int().positive().optional(),
       /** Identifier-preservation instruction policy for compaction summaries. */
       identifierPolicy: z.union([z.literal("strict"), z.literal("off")]).optional(),

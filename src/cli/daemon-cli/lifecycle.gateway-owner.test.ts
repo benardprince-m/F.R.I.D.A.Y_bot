@@ -44,7 +44,7 @@ const lock = {
 const command = {
   programArguments: [
     "node",
-    "C:\\FRIDAY\\dist\\index.js",
+    "C:\\OpenClaw\\dist\\index.js",
     "gateway",
     "--port",
     "18789",

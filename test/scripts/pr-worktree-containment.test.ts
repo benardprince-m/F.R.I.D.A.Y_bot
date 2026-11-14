@@ -69,7 +69,7 @@ function createFixture() {
 function createReviewFixtureTemplate() {
   const root = templateDirs.make("openclaw-pr-worktree-template-");
   git(root, "init", "--initial-branch=main");
-  git(root, "config", "user.name", "FRIDAY Test");
+  git(root, "config", "user.name", "OpenClaw Test");
   git(root, "config", "user.email", "test@openclaw.invalid");
   const baseSha = commitFiles(root, "base fixture", {
     "transition-a.txt": "base-a\n",

@@ -1,5 +1,5 @@
 import AppKit
-@testable import FRIDAY
+@testable import OpenClaw
 import Testing
 
 @MainActor

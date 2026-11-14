@@ -1,13 +1,13 @@
 ---
 summary: "Use Fish Audio Drama 3 or S2.1 hosted TTS, or local S2 Pro on Apple silicon"
 read_when:
-  - You want Fish Audio text-to-speech in FRIDAY
+  - You want Fish Audio text-to-speech in OpenClaw
   - You want expressive or cloned voices with Fish Audio
   - You want local Fish S2 Pro speech in macOS Talk mode
 title: "Fish Audio"
 ---
 
-FRIDAY supports Fish Audio in two distinct ways:
+OpenClaw supports Fish Audio in two distinct ways:
 
 - **Hosted S2.1 and Drama 3** run through the `fish-audio` speech provider on the Gateway and work across channels, voice notes, Talk, and telephony.
 - **Local S2 Pro** runs inside the native macOS app through the existing `mlx` Talk provider. It stays on the Mac and does not require a Fish API key.
@@ -71,7 +71,7 @@ plugins, but `FISH_API_KEY` is the standard Fish SDK environment variable.
 | `s1`              | Previous generation with parenthesized emotion controls.                                                      |
 
 The provider requests MP3 for ordinary audio, Opus at 48 kHz for native voice
-notes, and raw PCM at 8 kHz for telephony. For Discord voice, FRIDAY consumes
+notes, and raw PCM at 8 kHz for telephony. For Discord voice, OpenClaw consumes
 Fish Audio's chunked HTTP response as it arrives instead of waiting for the
 entire clip.
 
@@ -106,7 +106,7 @@ Supported delivery tags include `<whisper>`, `<emphasis>`, `<soft>`, `<fast>`,
 not a separate model or voice setting.
 
 See [Fish Audio Drama 3](https://docs.fish.audio/features/text-to-speech/drama-3)
-for direction examples and limitations. FRIDAY currently selects one
+for direction examples and limitations. OpenClaw currently selects one
 Fish voice per synthesis request; Fish's multi-speaker `reference_id` arrays
 are not exposed by this provider.
 
@@ -114,7 +114,7 @@ are not exposed by this provider.
 
 Use `/tts status` to inspect the active provider and `/tts audio <text>` for a
 one-off clip. Fish voice ids can come from your own trained voices or the public
-Fish voice library. FRIDAY lists your voices first, then a bounded page of
+Fish voice library. OpenClaw lists your voices first, then a bounded page of
 popular public voices.
 
 The speech provider consumes existing voice ids; it does not upload recordings
@@ -139,7 +139,7 @@ the existing `mlx` Talk provider at the 8-bit Fish conversion:
 }
 ```
 
-The first utterance downloads about 6.8 GB of model and codec data. FRIDAY
+The first utterance downloads about 6.8 GB of model and codec data. OpenClaw
 keeps one selected MLX model resident for repeated utterances, then unloads it
 after five idle minutes, app shutdown, or memory pressure.
 

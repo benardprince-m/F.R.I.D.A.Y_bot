@@ -44,7 +44,7 @@ export TEST_RUNNER_OPENCLAW_IOS_ATTACHMENT_FIXTURE_URL=http://127.0.0.1:19876
 
 run_test() {
   local tree="$1" stage="$2" suite="$3" expected_marker="$4"
-  local scheme=FRIDAY result="$output/Attachment-${stage}-${suite}.xcresult"
+  local scheme=OpenClaw result="$output/Attachment-${stage}-${suite}.xcresult"
   local log="$output/Attachment-${stage}-${suite}.log" status=0
   local tests=(-only-testing:OpenClawTests/ManagedDocumentEnvelopeTests)
   if [[ "$suite" == ui ]]; then
@@ -54,7 +54,7 @@ run_test() {
     tests+=(-only-testing:OpenClawTests/IOSMediaArtifactLoaderTests -only-testing:OpenClawTests/OpenClawTypographyTests)
   fi
   # Keep Actions log backpressure outside the simulator, retaining complete logs and xcresults.
-  xcodebuild -project "$tree/apps/ios/FRIDAY.xcodeproj" -scheme "$scheme" \
+  xcodebuild -project "$tree/apps/ios/OpenClaw.xcodeproj" -scheme "$scheme" \
     -configuration Debug -destination "platform=iOS Simulator,id=$simulator" \
     -testLanguage en -testRegion US -parallel-testing-enabled NO \
     -resultBundlePath "$result" "${tests[@]}" test > "$log" 2>&1 || status=$?
@@ -78,7 +78,7 @@ run_test() {
 
 run_revision() {
   local tree="$1" stage="$2"
-  simulator="$(xcrun simctl create "FRIDAY attachments $stage $$" "$device" "$runtime")"
+  simulator="$(xcrun simctl create "OpenClaw attachments $stage $$" "$device" "$runtime")"
   xcrun simctl boot "$simulator"
   xcrun simctl bootstatus "$simulator" -b
   xcrun simctl status_bar "$simulator" override --time 09:41 --batteryState charged --batteryLevel 100

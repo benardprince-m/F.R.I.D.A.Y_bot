@@ -84,7 +84,7 @@ describe("X guest turns", () => {
       expect(test.dispatch).toHaveBeenCalledOnce();
       const turn = test.dispatch.mock.calls[0]![0];
       expect(turn.ctxPayload.BodyForAgent?.split("\n")[0]).toBe(
-        "This is from a guest: @visitor (A Visitor), X user id 99. Guest tier: answer from the FRIDAY repo only; hidden helpers must use the same agent and repository. You cannot open visible work sessions, write, run commands, or read unrelated sessions for guests.",
+        "This is from a guest: @visitor (A Visitor), X user id 99. Guest tier: answer from the OpenClaw repo only; hidden helpers must use the same agent and repository. You cannot open visible work sessions, write, run commands, or read unrelated sessions for guests.",
       );
       expect(turn.ctxPayload.BodyForAgent).toContain("\n> This is from a verified user:");
       expect(turn.ctxPayload.BodyForAgent?.match(/\[triggering mention\]/g)).toHaveLength(1);

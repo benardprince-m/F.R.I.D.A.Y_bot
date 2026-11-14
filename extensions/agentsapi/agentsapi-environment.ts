@@ -36,7 +36,7 @@ export async function ensureAgentsApiEnvironment(params: {
   }
   const environment = session.environment;
   if (environment.type !== "self_hosted") {
-    throw new Error("Agents API environment changed; reset the FRIDAY session before continuing");
+    throw new Error("Agents API environment changed; reset the OpenClaw session before continuing");
   }
   if (
     environment.workspace_directory !== params.workspaceDirectory ||
@@ -57,7 +57,7 @@ export async function ensureAgentsApiEnvironment(params: {
   if (params.binding.executor) {
     if (!isDeepStrictEqual(params.binding.executor, executor)) {
       throw new Error(
-        "Agents API executor binding changed; reset the FRIDAY session before continuing",
+        "Agents API executor binding changed; reset the OpenClaw session before continuing",
       );
     }
   } else {

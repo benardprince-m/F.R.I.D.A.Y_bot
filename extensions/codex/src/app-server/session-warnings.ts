@@ -134,7 +134,7 @@ export async function projectCodexSessionWarning(params: {
     await project();
     return;
   }
-  // Ephemeral invocations without a stored FRIDAY chat cannot retain receipts.
+  // Ephemeral invocations without a stored OpenClaw chat cannot retain receipts.
   if (!foundSession) {
     await project();
   }

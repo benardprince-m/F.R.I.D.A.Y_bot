@@ -177,7 +177,7 @@ export function collectBundledDependencyErrors({
     [PATCHED_MCP_NAME, "its patched runtime must not be replaced by the registry package"],
   ]);
   if (requireBundledWorkspaceDeps) {
-    required.set("@openclaw/ai", "it is private to the FRIDAY workspace");
+    required.set("@openclaw/ai", "it is private to the OpenClaw workspace");
   }
   const names = new Set(bundledDependencies);
   for (const [name, reason] of required) {

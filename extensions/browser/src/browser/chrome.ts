@@ -451,7 +451,7 @@ async function probeManagedChromePorts(
   const configuredHost = new URL(profile.cdpUrl).hostname.replace(/^\[|\]$/g, "");
   const probeHosts =
     configuredHost === "127.0.0.1" ? [configuredHost] : ["127.0.0.1", configuredHost];
-  // Chromium tries IPv4 loopback first, while FRIDAY polls the configured endpoint.
+  // Chromium tries IPv4 loopback first, while OpenClaw polls the configured endpoint.
   // Probe both so neither Chrome's bind nor the later readiness check can be captured.
   for (const host of probeHosts) {
     signal?.throwIfAborted();
@@ -581,7 +581,7 @@ function buildOpenClawChromeLaunchArgs(params: {
   ];
 
   if (platform === "darwin" && params.useMockKeychain) {
-    // This is an isolated FRIDAY-owned profile, not the user's Chrome profile.
+    // This is an isolated OpenClaw-owned profile, not the user's Chrome profile.
     // Keep its basic password store non-interactive so headless Chrome can
     // encrypt and persist cookies without login-keychain prompts.
     args.push("--use-mock-keychain");

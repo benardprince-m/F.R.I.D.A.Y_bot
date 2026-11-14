@@ -25,7 +25,7 @@ output, usage, and hierarchy. Request spans use the API-derived GenAI operation
 (`chat`, `generate_content`, or `text_completion`), while turn spans use
 `gen_ai.operation.name = invoke_agent`. Both contribute to
 `gen_ai.client.operation.duration`, where the operation name keeps direct
-request latency separate from full-turn latency. FRIDAY's OTEL model-call
+request latency separate from full-turn latency. OpenClaw's OTEL model-call
 metrics also include `openclaw.model_call.observation_unit`; the Prometheus
 model-call metrics expose the equivalent `observation_unit` label.
 
@@ -39,7 +39,7 @@ each distinct provider response received during the turn. OpenTelemetry records
 it as an `openclaw.model.response.observed` event on the turn's model-call span,
 with a hashed response identifier and token fields reported by the native
 runtime (`usage_source = native-normalized`, `usage_scope = response`).
-Its timestamp records receipt by FRIDAY, not provider completion. Missing
+Its timestamp records receipt by OpenClaw, not provider completion. Missing
 usage stays absent, including cache-write counts or totals omitted by the native
 runtime. Uncached input is derived only when every cache component was reported;
 prompt tokens use the native input count. No request duration or tool-to-response relationship is
@@ -53,7 +53,7 @@ Claude Code CLI turns emit one synthetic, turn-level `openclaw.model.call`
 span. These are not Anthropic HTTP request spans. They use `openclaw.api =
 claude-code`, `openclaw.model_call.observation_unit = turn`, and identify
 the operation as `gen_ai.operation.name = invoke_agent`. They identify
-FRIDAY's CLI boundary through
+OpenClaw's CLI boundary through
 `openclaw.transport`:
 
 - `stdio` - one-shot local Claude Code process.
@@ -70,27 +70,27 @@ are capped at 128 KiB each; assistant output is capped at 128 KiB across at
 most 200 envelopes, with 16 KiB and one item reserved for a final visible
 fallback response. A marker records truncation when the limit is reached.
 
-FRIDAY gives Claude CLI turns the same ownership hierarchy used by other
+OpenClaw gives Claude CLI turns the same ownership hierarchy used by other
 agent runtimes: `openclaw.harness.run` (`openclaw.harness.id = claude-cli`)
 contains `openclaw.run`, which contains the Claude `openclaw.model.call`
-span. The harness and run spans are synthetic FRIDAY turn boundaries, not
+span. The harness and run spans are synthetic OpenClaw turn boundaries, not
 Claude Code internal phases. One-shot and managed stdio turns use the same
 hierarchy; a real fresh-session retry creates another model-call child inside
-the same FRIDAY run.
+the same OpenClaw run.
 
-The span starts when FRIDAY admits the prepared CLI turn and ends only after
+The span starts when OpenClaw admits the prepared CLI turn and ends only after
 that turn succeeds or fails. For managed sessions, an interim success result
 does not end the span while Claude reports result-holding background agents or
 workflows; the final post-drain result does. Abort, timeout, process failure,
 output/parse failure, and other turn failures end the same span with an error.
 
 Claude Code reports per-assistant-message usage and may also report cumulative
-usage on its terminal result. FRIDAY reply accounting continues to use the
+usage on its terminal result. OpenClaw reply accounting continues to use the
 last assistant message so existing cost semantics do not change; the
 turn-level model-call span uses terminal cumulative usage when available,
 including cache-read and cache-creation tokens.
 
-For these CLI spans, byte and timing fields describe the observable FRIDAY
+For these CLI spans, byte and timing fields describe the observable OpenClaw
 CLI boundary:
 
 - `openclaw.model_call.request_bytes` is the UTF-8 size of the prompt value
@@ -101,11 +101,11 @@ CLI boundary:
 - `openclaw.model_call.time_to_first_byte_ms` is time to the first observable
   Claude CLI stdout or stderr output. It is not network TTFB.
 
-With `captureContent` enabled, the span exports the effective prompt FRIDAY
+With `captureContent` enabled, the span exports the effective prompt OpenClaw
 sends to Claude Code and visible assistant text/tool-call identity
 through `gen_ai.input.messages` and `gen_ai.output.messages`. Tool arguments,
 internal thinking, opaque thinking signatures, tool results, and system prompts
-are omitted from the Claude assistant envelope. FRIDAY does not
+are omitted from the Claude assistant envelope. OpenClaw does not
 claim access to Claude Code's private system prompt, hidden resumed or
 compacted request payload, native internal tool schemas, raw Anthropic HTTP
 request, internal retries, upstream request id, or true network TTFB. Because
@@ -291,9 +291,9 @@ IDs, or session keys enter the labels. Existing event counter labels stay unchan
 
 ### Session liveness telemetry
 
-A `processing` session does not age toward the built-in liveness threshold while FRIDAY observes reply, tool, status, block, or ACP runtime progress. Typing keepalives do not count as progress, so a silent model or harness can still be detected.
+A `processing` session does not age toward the built-in liveness threshold while OpenClaw observes reply, tool, status, block, or ACP runtime progress. Typing keepalives do not count as progress, so a silent model or harness can still be detected.
 
-FRIDAY classifies sessions by the work it can still observe:
+OpenClaw classifies sessions by the work it can still observe:
 
 - `session.long_running`: active embedded work, model calls, or tool calls
   are still making progress. Owned silent model calls also report as long-running before the built-in abort threshold, so slow or non-streaming model providers do not look like stalled gateway sessions while abort-observable.

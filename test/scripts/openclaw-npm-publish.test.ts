@@ -1,4 +1,4 @@
-// FRIDAY NPM Publish tests cover publish wrapper argument safety.
+// OpenClaw NPM Publish tests cover publish wrapper argument safety.
 import { execFileSync, spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";

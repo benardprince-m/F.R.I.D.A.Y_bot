@@ -1,9 +1,9 @@
-# FRIDAY Cohere Provider
+# OpenClaw Cohere Provider
 
-Official FRIDAY provider plugin for Cohere's OpenAI-compatible Compatibility
+Official OpenClaw provider plugin for Cohere's OpenAI-compatible Compatibility
 API.
 
-Install from FRIDAY:
+Install from OpenClaw:
 
 ```bash
 openclaw plugins install @openclaw/cohere-provider

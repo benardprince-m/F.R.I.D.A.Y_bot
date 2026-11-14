@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/qwen-provider",
   "version": "2026.10.4",
-  "description": "FRIDAY Qwen Cloud provider plugin.",
+  "description": "OpenClaw Qwen Cloud provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

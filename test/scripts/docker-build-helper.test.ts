@@ -1358,7 +1358,7 @@ print_log_tail "$LOG_PATH"
     const compiledRoot = tempDirs.make("openclaw-compiled-test-state-");
     const missingResult = resolveEntrypoint(compiledRoot);
     expect(missingResult.status).toBe(1);
-    expect(missingResult.stderr).toContain("FRIDAY test-state entrypoint not found");
+    expect(missingResult.stderr).toContain("OpenClaw test-state entrypoint not found");
 
     const compiledDir = join(compiledRoot, "scripts/lib");
     mkdirSync(compiledDir, { recursive: true });
@@ -2441,7 +2441,7 @@ docker_e2e_docker_run_cmd run demo
             ["OPENCLAW_PLUGIN_LIFECYCLE_PHASE_TIMEOUT_MS", "150ms"],
             ["OPENCLAW_PLUGIN_LIFECYCLE_MAX_CPU_CORE_RATIO", "0"],
           ],
-          setupError: "FRIDAY package tarball does not exist",
+          setupError: "OpenClaw package tarball does not exist",
         },
         {
           script: UPGRADE_SURVIVOR_DOCKER_E2E_PATH,
@@ -2481,7 +2481,7 @@ docker_e2e_docker_run_cmd run demo
     const pluginCorrupt = readFileSync(PLUGIN_UPDATE_CORRUPT_SCENARIO_PATH, "utf8");
 
     expect(multiNode).toContain(
-      'openclaw_e2e_install_package "$ARTIFACTS/install-a.log" "FRIDAY package under node-A prefix" "$NPM_PREFIX_A"',
+      'openclaw_e2e_install_package "$ARTIFACTS/install-a.log" "OpenClaw package under node-A prefix" "$NPM_PREFIX_A"',
     );
     expectTextToIncludeAll(updateChannel, [
       'openclaw_e2e_maybe_timeout "${OPENCLAW_E2E_NPM_INSTALL_TIMEOUT:-600s}" npm install --omit=dev --no-fund --no-audit',
@@ -2589,7 +2589,7 @@ docker_e2e_docker_run_cmd run demo
     expect(runner).not.toContain('\nexport BRAVE_API_KEY="BSA_upgrade_survivor_brave_key"\n');
   });
 
-  it("wraps package-backed scenario FRIDAY CLI calls with the shared timeout helper", () => {
+  it("wraps package-backed scenario OpenClaw CLI calls with the shared timeout helper", () => {
     const paths = [
       CODEX_ON_DEMAND_DOCKER_E2E_PATH,
       CODEX_MEDIA_PATH_SCENARIO_PATH,
@@ -2812,7 +2812,7 @@ exec "$@"
     }
   });
 
-  it("bounds upgrade survivor foreground FRIDAY CLI calls", () => {
+  it("bounds upgrade survivor foreground OpenClaw CLI calls", () => {
     const runner = readFileSync(UPGRADE_SURVIVOR_DOCKER_E2E_PATH, "utf8");
     const publishedRunner = readFileSync(UPGRADE_SURVIVOR_RUN_SCRIPT, "utf8");
     const updateRestartAuth = readFileSync(UPGRADE_SURVIVOR_UPDATE_RESTART_AUTH_PATH, "utf8");
@@ -5335,7 +5335,7 @@ done
     ];
     const binDir = join(home, "bin");
     writeExecutables(binDir, {
-      // Native manager children do not inherit FRIDAY selectors.
+      // Native manager children do not inherit OpenClaw selectors.
       busctl: readFileSync(DOCTOR_SWITCH_BUSCTL_SHIM_PATH, "utf8").replace(
         "process.env.OPENCLAW_SYSTEMD_UNIT",
         JSON.stringify(serviceName),
@@ -5393,7 +5393,7 @@ done
     const serviceName = "openclaw-gateway-fixture.service";
     const unitPath = join(home, ".config/systemd/user", serviceName);
     writeExecutables(binDir, {
-      // Bind fixture identity here: native manager children do not inherit FRIDAY selectors.
+      // Bind fixture identity here: native manager children do not inherit OpenClaw selectors.
       busctl: readFileSync(DOCTOR_SWITCH_BUSCTL_SHIM_PATH, "utf8").replace(
         "process.env.OPENCLAW_SYSTEMD_UNIT",
         JSON.stringify(serviceName),

@@ -109,7 +109,7 @@ export function createComposerProps(overrides: Partial<ComposerProps> = {}): Com
     selectedSession: overrides.sessions?.sessions.find(
       (row) => row.key === (overrides.sessionKey ?? "main"),
     ),
-    assistantName: "FRIDAY",
+    assistantName: "OpenClaw",
     onDraftChange: vi.fn(),
     onSend: vi.fn(),
     onQueueRemove: vi.fn(),

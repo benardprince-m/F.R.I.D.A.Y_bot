@@ -35,7 +35,7 @@ function createTlsFixture(root: string) {
     ...keyOptions,
     x509: true,
     days: "1",
-    subj: "/CN=FRIDAY watchOS survivor test CA",
+    subj: "/CN=OpenClaw watchOS survivor test CA",
     addext: ["basicConstraints=critical,CA:TRUE", "keyUsage=critical,keyCertSign,cRLSign"],
     keyout: caKey,
     out: caCert,

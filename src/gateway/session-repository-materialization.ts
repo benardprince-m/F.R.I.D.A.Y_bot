@@ -201,7 +201,7 @@ async function materializeCapturedRepositoryWorkspace(
       ancestor.code !== 0 ||
       tree !== published.workspace_tree ||
       parent !== (published.previous_head_commit ?? repository.baseCommit) ||
-      !message.includes(`FRIDAY-Publication: ${published.request_id}`)
+      !message.includes(`OpenClaw-Publication: ${published.request_id}`)
     ) {
       throw new Error(
         "Recorded repository publication commit could not be verified; review publication before retrying the Gateway move",

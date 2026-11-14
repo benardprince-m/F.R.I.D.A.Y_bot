@@ -1,6 +1,6 @@
-# Cloudflare FRIDAY plugin
+# Cloudflare OpenClaw plugin
 
-Official FRIDAY plugin for Cloudflare R2 storage locations.
+Official OpenClaw plugin for Cloudflare R2 storage locations.
 
 ## Install
 
@@ -10,4 +10,4 @@ openclaw plugins install @openclaw/cloudflare
 
 ## Docs
 
-See `docs/plugins/cloudflare.md` in the FRIDAY repository, or the published docs at <https://docs.openclaw.ai/plugins/cloudflare>, for bucket setup, credentials, and storage configuration.
+See `docs/plugins/cloudflare.md` in the OpenClaw repository, or the published docs at <https://docs.openclaw.ai/plugins/cloudflare>, for bucket setup, credentials, and storage configuration.

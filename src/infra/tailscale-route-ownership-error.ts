@@ -26,10 +26,10 @@ export class TailscaleRouteOwnershipConflictError extends Error {
       ? `https://${host}${mount ?? ""} -> ${redactSensitiveUrlLikeString(normalizeOptionalString(readRecord(handler)?.Proxy) ?? "non-proxy handler")}`
       : `HTTPS port ${port}`;
     super(
-      `Tailscale HTTPS port ${port} is already owned by a route whose ownership FRIDAY cannot prove; it was not modified. ` +
+      `Tailscale HTTPS port ${port} is already owned by a route whose ownership OpenClaw cannot prove; it was not modified. ` +
         (session
           ? `Foreground session ${session} (${route.slice(0, 512)}). Inspect \`tailscale serve status --json\` and stop the confirmed owning process, then restart the Gateway. Tailscale status does not report the claimant PID; \`serve off\` does not release foreground claims. Run \`ps -axo pid,args | grep '[t]ailscale serve'\`, then \`sudo kill -TERM <pid>\` for the confirmed claimant. `
-          : "Inspect `tailscale serve status`. If the route belongs to the current Tailscale hostname and is stale from an older FRIDAY release, remove its background root handler with " +
+          : "Inspect `tailscale serve status`. If the route belongs to the current Tailscale hostname and is stale from an older OpenClaw release, remove its background root handler with " +
             `\`tailscale serve --yes --https=${port} --set-path=/ off\`, then restart the Gateway. ` +
             "Otherwise disable managed Tailscale ingress or reconfigure the route before restarting."),
     );

@@ -2,7 +2,7 @@ import Foundation
 import SwabbleKit
 import Testing
 import XCTest
-@testable import FRIDAY
+@testable import OpenClaw
 
 private actor VoiceWakeCommandBarrier {
     private var entered = false

@@ -73,8 +73,8 @@ const RULE_FAMILY_SAMPLES: readonly (readonly [string, string, string?])[] = [
   ["proxy-authorization tail", "Proxy-Authorization: plainopaquecred99;"],
   ["credential-style colon header", "api-key: plainopaquevalue12345"],
   ["credential-style equals header", "api-key=plainopaquevalue12345"],
-  ["gateway colon header", "X-FRIDAY-Token: plainopaquevalue123"],
-  ["gateway equals header", "X-FRIDAY-Token=plainopaquevalue123"],
+  ["gateway colon header", "X-OpenClaw-Token: plainopaquevalue123"],
+  ["gateway equals header", "X-OpenClaw-Token=plainopaquevalue123"],
   ["standalone bearer", "Bearer abcdefghij0123456789"],
   // URL / connection-string families.
   ["url userinfo", ["https", "://user:secretpass@example.com/x"].join("")],

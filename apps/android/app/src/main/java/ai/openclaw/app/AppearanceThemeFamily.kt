@@ -1,6 +1,6 @@
 package ai.openclaw.app
 
-/** Profile-synced FRIDAY theme families supported by the official Web UI. */
+/** Profile-synced OpenClaw theme families supported by the official Web UI. */
 enum class AppearanceThemeFamily(
   val rawValue: String,
   val displayLabel: String,

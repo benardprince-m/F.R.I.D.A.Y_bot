@@ -24,8 +24,8 @@ export function buildPluginSdkDeprecationNotices(pluginId: string): DeprecatedSd
       code: "deprecated-sdk-api",
       severity: "info",
       message: formattedDate
-        ? `Uses FRIDAY APIs that retire on ${formattedDate}. It keeps working until then; check for a plugin update.`
-        : "Uses older FRIDAY APIs. It keeps working for now; check for a plugin update.",
+        ? `Uses OpenClaw APIs that retire on ${formattedDate}. It keeps working until then; check for a plugin update.`
+        : "Uses older OpenClaw APIs. It keeps working for now; check for a plugin update.",
       ...(removalDate ? { removalDate } : {}),
       migrationGuideUrl: "https://docs.openclaw.ai/plugins/sdk-migration/how-to-migrate",
       apis: apis.toSorted((left, right) => left.displayName.localeCompare(right.displayName)),

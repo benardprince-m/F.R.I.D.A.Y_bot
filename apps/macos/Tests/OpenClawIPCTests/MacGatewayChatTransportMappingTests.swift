@@ -3,7 +3,7 @@ import OpenClawChatUI
 import OpenClawKit
 import OpenClawProtocol
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct MacGatewayChatTransportMappingTests {
     private actor RequestRecorder {

@@ -61,7 +61,7 @@ pub(crate) fn expected_bun_path() -> Result<PathBuf, String> {
 
 fn missing_runtime_message() -> &'static str {
     if cfg!(target_os = "windows") {
-        "This app does not include a signed Windows Gateway runtime. Install an updated FRIDAY desktop app when a signed Windows runtime is available, or connect to a remote Gateway."
+        "This app does not include a signed Windows Gateway runtime. Install an updated OpenClaw desktop app when a signed Windows runtime is available, or connect to a remote Gateway."
     } else {
         "This build has no embedded runtime. Build with the Tauri CLI or run apps/linux/scripts/stage-runtime.mjs before rebuilding."
     }
@@ -120,7 +120,7 @@ fn seed_at(
             .components()
             .any(|part| part == std::path::Component::ParentDir)
     {
-        return Err("The FRIDAY home must be an absolute, non-traversing path.".into());
+        return Err("The OpenClaw home must be an absolute, non-traversing path.".into());
     }
     let manifest: Manifest =
         serde_json::from_str(manifest_bytes).map_err(|_| missing_runtime_message().to_string())?;

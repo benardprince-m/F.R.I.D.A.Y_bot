@@ -74,7 +74,7 @@ suite.define(() => {
             {
               type: "image",
               url: dataUrl,
-              alt: "FRIDAY banner",
+              alt: "OpenClaw banner",
             },
           ],
           timestamp: Date.now(),
@@ -117,7 +117,7 @@ suite.define(() => {
       await page.goto(`${suite.server.baseUrl}chat`);
       await gateway.waitForRequest("chat.startup");
 
-      const transcriptTrigger = page.getByRole("button", { name: "Open image FRIDAY banner" });
+      const transcriptTrigger = page.getByRole("button", { name: "Open image OpenClaw banner" });
       await transcriptTrigger.waitFor({ state: "visible", timeout: 10_000 });
       const transcriptImage = transcriptTrigger.getByRole("img");
       const contextMenuPrevented = transcriptImage.evaluate(
@@ -136,7 +136,7 @@ suite.define(() => {
       await page.keyboard.press("Escape");
       await transcriptTrigger.click();
 
-      const dialog = page.getByRole("dialog", { name: "Image preview: FRIDAY banner" });
+      const dialog = page.getByRole("dialog", { name: "Image preview: OpenClaw banner" });
       await dialog.waitFor({ state: "visible" });
       const closeButton = page.getByRole("button", { name: "Close image preview" });
       const downloadImage = page.getByRole("button", { name: "Download image", exact: true });
@@ -194,7 +194,7 @@ suite.define(() => {
       await expect
         .poll(() => closeButton.evaluate((element) => element.matches(":focus")))
         .toBe(true);
-      const displayedImage = page.getByAltText("FRIDAY banner").last();
+      const displayedImage = page.getByAltText("OpenClaw banner").last();
       await expect
         .poll(() =>
           displayedImage.evaluate((image) =>
@@ -214,7 +214,7 @@ suite.define(() => {
       const requestedDownload = page.waitForEvent("download");
       await downloadImage.click();
       const downloadedImage = await requestedDownload;
-      expect(downloadedImage.suggestedFilename()).toBe("FRIDAY banner.png");
+      expect(downloadedImage.suggestedFilename()).toBe("OpenClaw banner.png");
       await closeButton.focus();
       await page.keyboard.press("Tab");
       await expect.poll(focusIsInsideLightbox).toBe(true);

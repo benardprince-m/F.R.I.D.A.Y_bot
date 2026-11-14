@@ -1,8 +1,8 @@
-# FRIDAY Qwen Cloud Provider
+# OpenClaw Qwen Cloud Provider
 
-Official FRIDAY provider plugin for Qwen Cloud.
+Official OpenClaw provider plugin for Qwen Cloud.
 
-Install from FRIDAY:
+Install from OpenClaw:
 
 ```bash
 openclaw plugins install @openclaw/qwen-provider

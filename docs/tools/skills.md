@@ -10,7 +10,7 @@ read_when:
 
 Skills are markdown instruction files that teach the agent how and when to use
 tools. Each skill lives in a directory containing a `SKILL.md` file with YAML
-frontmatter and a markdown body. FRIDAY loads bundled skills plus any local
+frontmatter and a markdown body. OpenClaw loads bundled skills plus any local
 overrides, and filters them at load time based on environment, config, and
 binary presence.
 
@@ -47,7 +47,7 @@ identity and revision rather than discovered by scanning every user's files.
 | 6           | Custodian skills       | shipped; configured Custodian agent only             |
 | 7 — lowest  | Extra directories      | `skills.load.extraDirs` + plugin skills              |
 
-When a session uses a different execution workspace, FRIDAY also loads that
+When a session uses a different execution workspace, OpenClaw also loads that
 workspace's `skills/` and `.agents/skills/` directories. These skills follow the
 entire agent catalog in precedence and prompt order; within the execution
 workspace, `skills/` wins over `.agents/skills/`. Both directories participate in
@@ -64,7 +64,7 @@ Gateway path cannot redirect the read to the node.
 The configured agent workspace remains the primary skill source even when
 the session executes in a worktree; only selecting that worktree as the agent's
 workspace gives its skills primary precedence. A selected nested workspace stays
-nested: discovery does not walk up to its parent repository. Installing FRIDAY
+nested: discovery does not walk up to its parent repository. Installing OpenClaw
 from a repository does not make that
 repository's `.agents/skills/` a global bundled skill source.
 
@@ -77,7 +77,7 @@ Worktree provenance uses the configured `worktreeRoot` (the state directory's
 Unchanged root-pair summaries are not repeated on refresh; changes to content,
 declared metadata, or collision membership update the summary. Precedence is unchanged.
 
-Skill roots support grouped layouts. FRIDAY discovers a skill whenever
+Skill roots support grouped layouts. OpenClaw discovers a skill whenever
 `SKILL.md` appears anywhere under a configured root (up to 6 levels deep):
 
 ```text
@@ -97,14 +97,14 @@ the bundled precedence tier but is absent for every agent except the configured
 system/Custodian agent.
 
 <Note>
-  Codex CLI's native `$CODEX_HOME/skills` directory is **not** an FRIDAY
+  Codex CLI's native `$CODEX_HOME/skills` directory is **not** an OpenClaw
   skill root. Use `openclaw migrate plan codex` to inventory those skills, then
-  `openclaw migrate codex` to copy them into your FRIDAY workspace.
+  `openclaw migrate codex` to copy them into your OpenClaw workspace.
 </Note>
 
 ## Node-hosted skills
 
-A connected headless node can publish skills installed in its active FRIDAY
+A connected headless node can publish skills installed in its active OpenClaw
 skills directory (`~/.openclaw/skills` by default; profile environment overrides
 apply). They appear in the normal agent skill list while the node is connected
 and disappear when it disconnects. A local or Gateway skill keeps its name on
@@ -293,11 +293,11 @@ reference more than one skill:
 Use $github and $release_notes to summarize this change for the release.
 ```
 
-FRIDAY resolves explicit references from authorized senders on every channel
+OpenClaw resolves explicit references from authorized senders on every channel
 and on generic Gateway, CLI, and webhook agent turns. It matches the current
 agent's eligible, user-invocable skills and tells the model to read each
 referenced `SKILL.md` before acting. A single message can reference up to eight
-distinct skills; FRIDAY returns a visible error instead of ignoring extra or
+distinct skills; OpenClaw returns a visible error instead of ignoring extra or
 allowlist-hidden references. The `$` form is composable prompt text. On channel
 messages, `/release_notes ...` remains the standalone command form and may use
 direct tool dispatch when the skill declares `command-dispatch: tool`; generic
@@ -449,7 +449,7 @@ When the user asks to generate an image, use the `image_generate` tool...
 ```
 
 <Note>
-  FRIDAY follows the [AgentSkills](https://agentskills.io) spec. Frontmatter
+  OpenClaw follows the [AgentSkills](https://agentskills.io) spec. Frontmatter
   is parsed as YAML first; if that fails, it falls back to a single-line-only
   parser. Nested `metadata` blocks (including multi-line YAML mappings) are
   flattened to a JSON string and re-parsed as JSON5, so the block form shown
@@ -469,7 +469,7 @@ When the user asks to generate an image, use the `image_generate` tool...
 </ParamField>
 
 <ParamField path="disable-model-invocation" type="boolean" default="false">
-  When `true`, FRIDAY keeps the skill's instructions out of the agent's normal
+  When `true`, OpenClaw keeps the skill's instructions out of the agent's normal
   prompt. The skill is still available as a slash command when `user-invocable`
   is also `true`.
 </ParamField>
@@ -491,14 +491,14 @@ When the user asks to generate an image, use the `image_generate` tool...
 
 ## Gating
 
-FRIDAY filters skills at load time using `metadata.openclaw` (JSON5 object
+OpenClaw filters skills at load time using `metadata.openclaw` (JSON5 object
 embedded in the frontmatter, see the parsing note above). A skill with no
 `metadata.openclaw` block is always eligible unless explicitly disabled.
 
 Skill **inventory**, skill **readiness**, and skill **visibility** are related
 but different:
 
-- **Inventory** answers whether FRIDAY discovered the skill in a configured
+- **Inventory** answers whether OpenClaw discovered the skill in a configured
   root or bundled source.
 - **Readiness** answers whether the current runtime can satisfy the skill's
   declared requirements, such as binaries, environment variables, config paths,
@@ -580,7 +580,7 @@ Fresh dependency checks detect binaries installed into directories already on
   older skill, edit its `SKILL.md` frontmatter and rename that block to
   `metadata.openclaw`, preserving its requirements and installer fields. If
   both blocks exist, keep the current block and merge only the legacy fields
-  you still want. FRIDAY does not rewrite the file; the old block's dependency
+  you still want. OpenClaw does not rewrite the file; the old block's dependency
   gates and installer hints are ignored until you update it.
 </Note>
 
@@ -617,7 +617,7 @@ metadata:
   <Accordion title="Installer selection rules">
     - When multiple installers are listed, the gateway picks one preferred
       option (brew when available, otherwise node).
-    - If all installers are `download`, FRIDAY lists each entry so you can
+    - If all installers are `download`, OpenClaw lists each entry so you can
       see all available artifacts.
     - Specs can include `os: ["darwin"|"macos"|"linux"|"win32"]` to filter by platform.
     - Node installs honor `skills.install.nodeManager` in `openclaw.json`
@@ -627,16 +627,16 @@ metadata:
       go → download.
   </Accordion>
   <Accordion title="Per-installer details">
-    - **Homebrew:** FRIDAY does not auto-install Homebrew or translate brew
+    - **Homebrew:** OpenClaw does not auto-install Homebrew or translate brew
       formulas into system package commands. In Linux containers without
       `brew`, brew-only installers are hidden; use a custom image or install
       the dependency manually.
-    - **Go:** FRIDAY requires Go 1.21 or newer for automatic skill installs.
-      If `go` is missing and Homebrew is available, FRIDAY installs Go via
+    - **Go:** OpenClaw requires Go 1.21 or newer for automatic skill installs.
+      If `go` is missing and Homebrew is available, OpenClaw installs Go via
       Homebrew first; on Linux without Homebrew it can instead use `apt-get`
       as root or through passwordless `sudo` when the refreshed `golang-go`
       candidate meets the minimum version. The actual `go install` for the
-      dependency always targets a dedicated FRIDAY-managed bin directory
+      dependency always targets a dedicated OpenClaw-managed bin directory
       (Homebrew's `bin` on a fresh install, else `~/.local/bin`) rather than
       your configured `GOBIN` — your own `GOBIN`, `GOPATH`, and `GOTOOLCHAIN`
       env vars are read but never overwritten.
@@ -721,11 +721,11 @@ Toggle and configure bundled or managed skills under `skills.entries` in
 
 ## Environment injection
 
-When an agent run starts, FRIDAY:
+When an agent run starts, OpenClaw:
 
 <Steps>
   <Step title="Reads skill metadata">
-    FRIDAY resolves the effective skill list for the agent, applying gating
+    OpenClaw resolves the effective skill list for the agent, applying gating
     rules, allowlists, and config overrides.
   </Step>
   <Step title="Injects env and API keys">
@@ -750,14 +750,14 @@ When an agent run starts, FRIDAY:
 
 For the bundled `claude-cli` backend, sessions without library selections
 materialize eligible skills as a temporary Claude Code plugin, passed via
-`--plugin-dir`. Sessions with library selections use FRIDAY's prompt catalog
-and pinned revision paths instead. FRIDAY omits `--plugin-dir` for those
+`--plugin-dir`. Sessions with library selections use OpenClaw's prompt catalog
+and pinned revision paths instead. OpenClaw omits `--plugin-dir` for those
 sessions to keep Claude's native skill aliases from conflicting with library
 command identities. Other CLI backends use the prompt catalog only.
 
 ## Snapshots and refresh
 
-FRIDAY snapshots eligible skills **when a session starts** and reuses that
+OpenClaw snapshots eligible skills **when a session starts** and reuses that
 list until a refresh trigger below applies. New sessions recheck skill
 prerequisites, including binaries installed into an existing `PATH` directory,
 even when the skill files have not changed.
@@ -771,13 +771,13 @@ below apply to ordinary file-backed skill roots.
 One background worker discovers local file-backed skills across managed,
 bundled, plugin, personal, and workspace skill roots. With `skills.load.watch`
 enabled, it checks for passive on-disk changes about once per minute. Edits made
-outside FRIDAY may therefore take up to about a minute to appear, including
+outside OpenClaw may therefore take up to about a minute to appear, including
 adding or removing a skill and creating, removing, or replacing a skill root or
 workspace. Each discovery pass reads a shared root once for matching discovery
 limits and file policies, then applies each workspace's precedence separately.
 The next pass reads those roots again to observe changes.
 
-Explicit FRIDAY actions request an immediate rescan: installing, updating,
+Explicit OpenClaw actions request an immediate rescan: installing, updating,
 uninstalling, or editing a skill; changing configuration that affects skills;
 and starting or restarting the Gateway. A new eligible remote node also refreshes
 skill eligibility. Remote workspace discovery stays with the host that owns
@@ -788,11 +788,11 @@ The worker publishes a complete snapshot after discovery. While a scan is runnin
 turns reuse the last published skills without waiting for other workspaces. First
 discovery and explicit refresh actions still wait for publication. Existing sessions
 pick up changed file-backed skills on their next agent turn. If the effective
-agent allowlist changes, FRIDAY refreshes the snapshot to keep visible skills
+agent allowlist changes, OpenClaw refreshes the snapshot to keep visible skills
 aligned.
 
 Set `skills.load.watch` to `false` to disable passive automatic rescans. Explicit
-FRIDAY actions and Gateway startup still refresh skills immediately.
+OpenClaw actions and Gateway startup still refresh skills immediately.
 
 <AccordionGroup>
   <Accordion title="Automatic skill refresh">
@@ -835,12 +835,12 @@ FRIDAY actions and Gateway startup still refresh skills immediately.
   </Accordion>
   <Accordion title="Remote macOS nodes (Linux gateway)">
     If the Gateway runs on Linux but a **macOS node** is connected with
-    `system.run` allowed, FRIDAY can treat macOS-only skills as eligible when
+    `system.run` allowed, OpenClaw can treat macOS-only skills as eligible when
     the required binaries are present on that node. The agent should run those
     skills via the `exec` tool with `host=node`.
 
     Offline nodes do **not** make remote-only skills visible. If a node stops
-    answering bin checks, FRIDAY clears its cached bin matches.
+    answering bin checks, OpenClaw clears its cached bin matches.
 
     Connect-time bin checks wait briefly for the node's command handlers.
     Gateway shutdown cancels this readiness wait and still joins checks that
@@ -885,11 +885,11 @@ When reads are denied or shadowed, search uses metadata only and performs no
 instruction-body reads. Revocation also excludes cached body matches and rejects
 in-flight indexing started under the previous grant.
 
-In FRIDAY Code Mode, use `await skills.search(query, limit)` and
+In OpenClaw Code Mode, use `await skills.search(query, limit)` and
 `await skills.read(name)`. These calls dispatch through the same tools and
 policies. The read returns a string with the same location context and complete
 instructions. `await skills.list(offset)` returns up to 20 directory entries;
-the default offset is 0. Codex receives the FRIDAY tools through its dynamic
+the default offset is 0. Codex receives the OpenClaw tools through its dynamic
 tool surface; these are distinct from Codex's native skill-resource tools.
 Codex refuses a skill read that exceeds the turn's dynamic-tool output budget
 instead of returning partial instructions as a successful read.
@@ -926,7 +926,7 @@ eligible catalog.
 
 ## Token impact
 
-When skills are eligible, FRIDAY injects a compact XML block into the system
+When skills are eligible, OpenClaw injects a compact XML block into the system
 prompt. The cost follows a fixed formula and scales linearly per skill:
 
 - **Base overhead** (only when 1+ skills are eligible): a fixed block of intro
@@ -938,7 +938,7 @@ prompt. The cost follows a fixed formula and scales linearly per skill:
 - At ~4 chars/token, 97 chars ≈ 24 tokens per skill before field lengths.
 
 If the rendered block would exceed the configured prompt budget
-(`skills.limits.maxSkillsPromptChars`), FRIDAY first preserves as many skill
+(`skills.limits.maxSkillsPromptChars`), OpenClaw first preserves as many skill
 identities (name and location) as the description-free compact format
 can fit. It then uses any remaining budget for shortened descriptions. If no
 description budget remains, descriptions are omitted. The prompt includes a
@@ -947,7 +947,7 @@ truncation is required.
 
 Keep descriptions short and descriptive to minimize prompt overhead.
 
-For small context windows, the FRIDAY embedded runtime further shortens the
+For small context windows, the OpenClaw embedded runtime further shortens the
 descriptions in the already-admitted catalog. It retains every admitted name,
 location, and loading note, even when these exceed the description budget.
 Full skill instructions and saved snapshots are unchanged; Code Mode can still

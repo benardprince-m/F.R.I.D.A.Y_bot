@@ -248,7 +248,7 @@ export async function prepareSetupMigrationAttemptBoundary(params: {
   }
 }
 
-/** Serializes onboarding writes that share one FRIDAY state target. */
+/** Serializes onboarding writes that share one OpenClaw state target. */
 export async function withSetupMigrationTargetLock<T>(
   stateDir: string,
   fn: () => Promise<T>,
@@ -257,7 +257,7 @@ export async function withSetupMigrationTargetLock<T>(
   const activeStateDir = activeSetupMigrationTargetLock.getStore();
   if (activeStateDir) {
     if (activeStateDir !== resolvedStateDir) {
-      throw new Error("nested onboarding target lock cannot switch the FRIDAY state directory");
+      throw new Error("nested onboarding target lock cannot switch the OpenClaw state directory");
     }
     return await fn();
   }
@@ -293,7 +293,7 @@ export function assertFreshSetupMigrationTarget(freshness: {
   }
   throw new SetupMigrationFreshnessError(
     [
-      "Migration import during onboarding requires a fresh FRIDAY setup.",
+      "Migration import during onboarding requires a fresh OpenClaw setup.",
       "Create a fresh setup or reset config, credentials, sessions, and workspace before importing.",
       "Backup plus overwrite/merge imports are feature-gated for now.",
       "Existing setup:",

@@ -302,7 +302,7 @@ export function buildCodexOpenClawPromptContext(params: {
   }
   const sections = [
     params.workspacePromptContext?.trim()
-      ? ["## FRIDAY Workspace Context", "", params.workspacePromptContext.trim()].join("\n")
+      ? ["## OpenClaw Workspace Context", "", params.workspacePromptContext.trim()].join("\n")
       : undefined,
     params.watchedSessionsContext?.trim() || undefined,
   ].filter(isNonEmptyString);
@@ -310,8 +310,8 @@ export function buildCodexOpenClawPromptContext(params: {
     return undefined;
   }
   return [
-    "FRIDAY runtime context for this turn:",
-    "Treat this FRIDAY-provided context as supporting project/user reference for the current request.",
+    "OpenClaw runtime context for this turn:",
+    "Treat this OpenClaw-provided context as supporting project/user reference for the current request.",
     "",
     ...sections,
   ].join("\n");
@@ -364,15 +364,15 @@ export function renderCodexSkillsInstructions(params: {
     return undefined;
   }
   return [
-    "## FRIDAY Skills",
+    "## OpenClaw Skills",
     ...(search
       ? [
-          "The directory is bounded. Use FRIDAY's skills_search tool to find relevant installed skills omitted from it. Search does not install skills.",
+          "The directory is bounded. Use OpenClaw's skills_search tool to find relevant installed skills omitted from it. Search does not install skills.",
         ]
       : []),
     ...(read
       ? [
-          "Use FRIDAY's skills_read tool with an exact name for complete instructions; a known name does not require search first.",
+          "Use OpenClaw's skills_read tool with an exact name for complete instructions; a known name does not require search first.",
         ]
       : []),
     ...(prompt ? [prompt] : []),
@@ -380,7 +380,7 @@ export function renderCodexSkillsInstructions(params: {
 }
 
 /**
- * Prepends FRIDAY context while preserving leading delivery metadata as
+ * Prepends OpenClaw context while preserving leading delivery metadata as
  * routing guidance instead of user request text.
  */
 export function prependCodexOpenClawPromptContext(
@@ -393,13 +393,13 @@ export function prependCodexOpenClawPromptContext(
     return prompt;
   }
   const promptSection = promptWithoutDeliveryHint.startsWith(
-    "FRIDAY assembled context for this turn:",
+    "OpenClaw assembled context for this turn:",
   )
     ? promptWithoutDeliveryHint
     : ["Current user request:", promptWithoutDeliveryHint].join("\n");
   const deliverySection = deliveryHint
     ? [
-        "FRIDAY delivery metadata:",
+        "OpenClaw delivery metadata:",
         "This delivery metadata is runtime routing guidance, not the user's request.",
         deliveryHint,
       ].join("\n")

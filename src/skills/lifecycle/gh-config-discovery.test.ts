@@ -139,11 +139,11 @@ describe("formatGhConfigDirMismatchHint", () => {
       suggestedEnvValue: "/root/.config/gh",
     };
     expect(formatGhConfigDirMismatchHint(mismatch)).toEqual([
-      "GitHub CLI auth was found at a different HOME than the one this FRIDAY process uses.",
+      "GitHub CLI auth was found at a different HOME than the one this OpenClaw process uses.",
       "  Process gh config dir: /agent/home/.config/gh",
       "  Authenticated config:  /root/.config/gh (contains hosts.yml)",
       "  Authenticated HOME:    /root",
-      "  Fix: set GH_CONFIG_DIR=/root/.config/gh on the FRIDAY service environment, then restart the gateway.",
+      "  Fix: set GH_CONFIG_DIR=/root/.config/gh on the OpenClaw service environment, then restart the gateway.",
     ]);
   });
 });

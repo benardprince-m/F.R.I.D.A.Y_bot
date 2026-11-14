@@ -1252,7 +1252,7 @@ describe("gateway run option collisions", () => {
       expect(refusal).toBeInstanceOf(Error);
       const message = (refusal as Error).message;
       expect(message).toBe(
-        `Legacy session store requires migration: ${storePath}. Run "openclaw doctor --fix" against the same state/config before starting FRIDAY.`,
+        `Legacy session store requires migration: ${storePath}. Run "openclaw doctor --fix" against the same state/config before starting OpenClaw.`,
       );
       const failure = refusal;
       runGatewayLoop.mockImplementationOnce(async (params: GatewayLoopParams) => {

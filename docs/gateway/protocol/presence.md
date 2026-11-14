@@ -84,7 +84,7 @@ this is not a peer acknowledgment or a durable delivery guarantee.
 
 Native macOS nodes can also send authenticated `node.presence.activity` events
 with bounded input idle time and an optional `source`: `app` for interaction
-with FRIDAY or `system` for system-wide physical activity. App-local reports
+with OpenClaw or `system` for system-wide physical activity. App-local reports
 do not require Accessibility; system-wide reports do. An omitted source retains
 the legacy system-wide permission requirement. The Gateway derives activity
 timestamps on its own clock, exposes the freshest connected Mac through

@@ -1,6 +1,6 @@
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct CameraControllerClampTests {
     @Test func `clamp quality defaults and bounds`() {

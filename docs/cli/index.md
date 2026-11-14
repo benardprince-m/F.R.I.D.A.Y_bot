@@ -1,5 +1,5 @@
 ---
-summary: "FRIDAY CLI index: command list, global flags, and links to per-command pages"
+summary: "OpenClaw CLI index: command list, global flags, and links to per-command pages"
 read_when:
   - Finding the right `openclaw` subcommand
   - Looking up global flags or output styling rules
@@ -12,7 +12,7 @@ the commands, global flags, and output styling rules that apply across the CLI.
 
 Setup commands by intent:
 
-- `openclaw setup` and `openclaw onboard` verify inference first, then start FRIDAY for Gateway, workspace, channels, skills, and health setup.
+- `openclaw setup` and `openclaw onboard` verify inference first, then start OpenClaw for Gateway, workspace, channels, skills, and health setup.
 - `openclaw setup --baseline` creates the baseline config and workspace without walking the guided onboarding flow.
 - `openclaw configure` changes targeted parts of an existing setup: model auth, gateway, channels, plugins, or skills.
 - `openclaw channels add` configures channel accounts after the baseline exists. A channel selection alone uses guided setup. Account, credential, or channel-config flags use the direct path for scripts.
@@ -108,7 +108,7 @@ for onboarding-specific recovery.
 
 ## Color palette
 
-FRIDAY uses a lobster palette for CLI output:
+OpenClaw uses a lobster palette for CLI output:
 
 | Token          | Hex       | Used for                             |
 | -------------- | --------- | ------------------------------------ |

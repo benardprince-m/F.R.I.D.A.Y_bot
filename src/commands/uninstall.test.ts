@@ -162,7 +162,7 @@ describe("uninstallCommand", () => {
 
         expect(removeStateAndLinkedPaths).toHaveBeenCalledOnce();
         expect(removePath).toHaveBeenCalledWith(
-          "/Applications/FRIDAY.app",
+          "/Applications/OpenClaw.app",
           runtime,
           expect.any(Object),
         );

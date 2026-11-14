@@ -7,7 +7,7 @@ scenario:
   coverage:
     primary:
       - agent-runtime.subagent-turns-sessions-spawn
-  objective: Verify sessions_spawn executes successfully across FRIDAY and Codex.
+  objective: Verify sessions_spawn executes successfully across OpenClaw and Codex.
   successCriteria:
     - Effective tools expose sessions_spawn.
     - Codex prompt snapshots and live execution keep sessions_spawn always direct with no deferred discovery requirement.
@@ -52,7 +52,7 @@ scenario:
         codexDefaultImpact: P4
         qaImpact: P1
         action: hard gate in the core runtime-pair lane
-        reason: Canonical fixture session-key capture retains the parent call/result when spawning creates a newer child session, so this FRIDAY integration tool must hard-gate both runtimes.
+        reason: Canonical fixture session-key capture retains the parent call/result when spawning creates a newer child session, so this OpenClaw integration tool must hard-gate both runtimes.
       promptSnippet: "target=sessions_spawn"
       failurePromptSnippet: "failure target=sessions_spawn"
 

@@ -607,7 +607,7 @@ describe("backupRestoreCommand", () => {
             archive: state.path("missing-backup.tar.gz"),
             target: targetPath,
           }),
-        ).rejects.toThrow(/outside the live FRIDAY agent directory/iu);
+        ).rejects.toThrow(/outside the live OpenClaw agent directory/iu);
         await expect(fs.lstat(targetPath)).rejects.toMatchObject({ code: "ENOENT" });
       },
     );

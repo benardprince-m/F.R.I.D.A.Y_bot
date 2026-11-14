@@ -1,5 +1,5 @@
 ---
-summary: "Experimental FaceTime realtime voice carrier for FRIDAY agents."
+summary: "Experimental FaceTime realtime voice carrier for OpenClaw agents."
 read_when:
   - You are installing, configuring, or auditing the facetime plugin
 title: "Facetime plugin reference"
@@ -10,7 +10,7 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Experimental FaceTime realtime voice carrier for FRIDAY agents.
+Experimental FaceTime realtime voice carrier for OpenClaw agents.
 
 ## Distribution
 

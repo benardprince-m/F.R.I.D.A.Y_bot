@@ -493,7 +493,7 @@ suite.define(() => {
             };
           }, visiblePaneSelector),
         )
-        .toEqual({ name: "FRIDAY", avatar: null, renderedAvatar: null });
+        .toEqual({ name: "OpenClaw", avatar: null, renderedAvatar: null });
       await gateway.emitGatewayEvent("presence", {
         presence: [
           {

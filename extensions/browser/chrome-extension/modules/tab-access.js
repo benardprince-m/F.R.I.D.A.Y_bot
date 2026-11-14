@@ -9,9 +9,9 @@ import { createTabGroupRevocations } from "./tab-group-revocations.js";
 const DENIED_TAB_IDS_KEY = "deniedTabIdsV1";
 const TAB_ACCESS_DENIAL_MESSAGES = {
   revoked: "access was revoked",
-  paused: "is paused for FRIDAY",
-  "not-selected": "is not in the FRIDAY tab group",
-  incognito: "is incognito and unavailable to FRIDAY",
+  paused: "is paused for OpenClaw",
+  "not-selected": "is not in the OpenClaw tab group",
+  incognito: "is incognito and unavailable to OpenClaw",
   discarded: "is discarded by Chrome; open it to reload before using it",
 };
 
@@ -598,7 +598,7 @@ export function createTabAccessPolicy({ chromeApi = chrome, isSelectedTab, getGr
       return state.tab;
     }
     const message =
-      TAB_ACCESS_DENIAL_MESSAGES[state.reason] ?? "is restricted or unavailable to FRIDAY";
+      TAB_ACCESS_DENIAL_MESSAGES[state.reason] ?? "is restricted or unavailable to OpenClaw";
     throw new Error(`tab ${tabId} ${message}`);
   }
 
@@ -657,7 +657,7 @@ export function createTabAccessPolicy({ chromeApi = chrome, isSelectedTab, getGr
     if (!eligibilityForTab(tab, controlledBlank).eligible) {
       deniedTabIds.delete(tabId);
       invalidateTab(tabId);
-      throw new Error(`tab ${tabId} is restricted or unavailable to FRIDAY`);
+      throw new Error(`tab ${tabId} is restricted or unavailable to OpenClaw`);
     }
     await mutateStorage(persistDeniedIds);
   }

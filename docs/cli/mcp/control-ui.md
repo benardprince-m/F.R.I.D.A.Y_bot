@@ -19,7 +19,7 @@ Use the page for operator edits and quick inventory. Use `openclaw mcp doctor --
 
 Enabled plugin detail pages show **Accounts** for their declared HTTP MCP servers
 with `auth: "oauth"`. Choose **Connect**, complete the provider's sign-in and consent,
-then return to FRIDAY. The page refreshes its saved status and shows **Connected**
+then return to OpenClaw. The page refreshes its saved status and shows **Connected**
 after authorization is saved. **Edit** opens the MCP settings page. Sign-in requires
 an administrator connection.
 

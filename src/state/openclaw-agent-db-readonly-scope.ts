@@ -158,7 +158,7 @@ export class OpenClawAgentDatabaseReadOnlyScope {
       const requestedAgentId = normalizeAgentId(options.agentId);
       if (database.agentId !== requestedAgentId) {
         throw new Error(
-          `FRIDAY agent database ${database.path} belongs to agent ${database.agentId}; requested agent ${requestedAgentId}.`,
+          `OpenClaw agent database ${database.path} belongs to agent ${database.agentId}; requested agent ${requestedAgentId}.`,
         );
       }
       observeOpenClawDatabaseMaintenanceResource(this.unregisterResource);

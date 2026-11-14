@@ -45,7 +45,7 @@ describe("provider failover hook structured signals", () => {
     },
     {
       errorMessage: "model input limit reached",
-      copy: "⚠️ FRIDAY couldn't finish this reply. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal.",
+      copy: "⚠️ OpenClaw couldn't finish this reply. For details, open Settings → Logs in the Control UI or run `openclaw logs --follow` in your terminal.",
       runtimeKind: "unclassified",
     },
     {

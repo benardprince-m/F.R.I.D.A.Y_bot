@@ -4,7 +4,7 @@ import { en } from "./en.ts";
 // Plugin management and its lazy sibling surfaces register this shared copy on use.
 const enPluginManagement = {
   custodian: {
-    pluginPlaceholder: "Ask FRIDAY about {plugin}",
+    pluginPlaceholder: "Ask OpenClaw about {plugin}",
     pluginIntroTitle: "Ask about {plugin}",
     pluginStarterPurpose: "What does it do?",
     pluginStarterTools: "What tools does it have?",
@@ -13,15 +13,15 @@ const enPluginManagement = {
     pluginPromptTools: "What tools does {plugin} provide?",
     pluginPromptSetup: "How do I set up {plugin}?",
     pluginHelpQuestion: "Explain {setting}",
-    pluginHelpFailed: "Could not prepare the setting question. Try Ask FRIDAY again.",
+    pluginHelpFailed: "Could not prepare the setting question. Try Ask OpenClaw again.",
     pluginHelpUnset: "Not set",
     pluginHelpValue: "Current value: {value}",
   },
   pluginsPage: {
     compatibilityDeprecatedDated:
-      "Uses FRIDAY APIs that retire on {date}. It keeps working until then; check for a plugin update.",
+      "Uses OpenClaw APIs that retire on {date}. It keeps working until then; check for a plugin update.",
     compatibilityDeprecatedUndated:
-      "Uses older FRIDAY APIs. It keeps working for now; check for a plugin update.",
+      "Uses older OpenClaw APIs. It keeps working for now; check for a plugin update.",
     compatibilityDetails: "Details",
     compatibilityApis: "APIs to update",
     installProgress: {
@@ -90,7 +90,7 @@ const enPluginManagement = {
       permissions: "Permissions",
       actions: "Actions for {name}",
       reset: "Reset value",
-      ask: "Ask FRIDAY",
+      ask: "Ask OpenClaw",
     },
     credentials: {
       stored: "••••••••",
@@ -135,8 +135,8 @@ const enPluginManagement = {
     },
     detailCapabilities: "Capabilities",
     uiCapabilities: {
-      page: { name: "Pages", description: "Adds pages to FRIDAY." },
-      navigation: { name: "Navigation", description: "Adds links to FRIDAY navigation." },
+      page: { name: "Pages", description: "Adds pages to OpenClaw." },
+      navigation: { name: "Navigation", description: "Adds links to OpenClaw navigation." },
       panel: { name: "Panels", description: "Adds interface panels." },
       action: { name: "Actions", description: "Adds buttons or menu actions." },
       accessory: {
@@ -197,7 +197,7 @@ const enPluginManagement = {
         name: "Transcripts",
         description: "Capture or import transcripts from supported sources.",
       },
-      migrationProviders: { name: "Migration", description: "Bring supported data into FRIDAY." },
+      migrationProviders: { name: "Migration", description: "Bring supported data into OpenClaw." },
     },
     breadcrumb: "Breadcrumb",
     settingsDescription: "Configure installed plugins, access, and lifecycle.",
@@ -317,7 +317,7 @@ const enPluginManagement = {
     detailSensitive: "Sensitive",
     detailMinimumGateway: "Minimum Gateway version",
     detailPluginApi: "Plugin API",
-    detailBuiltWith: "Built with FRIDAY",
+    detailBuiltWith: "Built with OpenClaw",
     detailSdkVersion: "Plugin SDK",
     detailSourceCommit: "Source commit",
     detailSourcePath: "Source path",
@@ -390,7 +390,7 @@ const enPluginManagement = {
     detailPackage: "Package",
     detailPluginId: "Plugin ID",
     offlineBody: "Connect to browse installed and recommended plugins.",
-    optionalCapability: "Optional FRIDAY capability.",
+    optionalCapability: "Optional OpenClaw capability.",
     enabled: "Enabled",
     disabled: "Disabled",
     available: "Available",

@@ -1214,7 +1214,7 @@ async function runCliWithPreparedOutputMode(
     const suppressStartupProgress = options.builtInMachineOutput || hasJsonOutputFlag(parseArgv);
     const { createCliProgress } = await import("./progress.js");
     const startupProgress = createCliProgress({
-      label: "Loading FRIDAY CLI…",
+      label: "Loading OpenClaw CLI…",
       indeterminate: true,
       delayMs: 0,
       ...(suppressStartupProgress ? { enabled: false } : {}),
@@ -1265,7 +1265,7 @@ async function runCliWithPreparedOutputMode(
           defaultRuntime.writeJson(formatCliJsonFailure(error));
         }
         for (const line of formatCliFailureLines({
-          title: "FRIDAY hit an unexpected runtime error.",
+          title: "OpenClaw hit an unexpected runtime error.",
           error,
           argv: normalizedArgv,
         })) {

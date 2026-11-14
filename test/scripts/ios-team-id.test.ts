@@ -126,7 +126,7 @@ printf 'BBBBB22222\\t0\\tBeta Team\\r\\n'`,
     cleanupTempDirs(tempDirs);
   });
 
-  it("prefers the canonical FRIDAY iOS team when it is present", async () => {
+  it("prefers the canonical OpenClaw iOS team when it is present", async () => {
     const homeDir = makeTempDir(tempDirs, "openclaw-ios-team-id-canonical-");
     const binDir = path.join(homeDir, "bin");
     await mkdir(path.join(homeDir, "Library", "Preferences"), { recursive: true });
@@ -164,7 +164,7 @@ printf '${CANONICAL_TEAM_ID}\\t0\\tOpenClaw\\r\\n'`,
       `#!/usr/bin/env bash
 if [[ "$1" == "-extract" && "$2" == "IDEProvisioningTeamByIdentifier" ]]; then
   cat <<'JSON'
-{"account-id":[{"teamID":"FWJYW4S8P8","teamName":"FRIDAY Foundation","isFreeProvisioningTeam":false,"teamType":"Company"}]}
+{"account-id":[{"teamID":"FWJYW4S8P8","teamName":"OpenClaw Foundation","isFreeProvisioningTeam":false,"teamType":"Company"}]}
 JSON
   exit 0
 fi
@@ -182,7 +182,7 @@ echo '{}'`,
     ]);
     expect(result.ok).toBe(false);
     expect(result.stderr).toContain(
-      `Official FRIDAY iOS Team ID '${CANONICAL_TEAM_ID}' is not available`,
+      `Official OpenClaw iOS Team ID '${CANONICAL_TEAM_ID}' is not available`,
     );
   });
 
@@ -191,6 +191,6 @@ echo '{}'`,
       "--require-canonical",
     ]);
     expect(result.ok).toBe(false);
-    expect(result.stderr).toContain("is not the official FRIDAY iOS team");
+    expect(result.stderr).toContain("is not the official OpenClaw iOS team");
   });
 });

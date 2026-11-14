@@ -192,7 +192,7 @@ export class RequestClient {
   ): Promise<unknown> {
     const url = `${this.options.apiBaseUrl}${appendQuery(path, params.query)}`;
     const headers = new Headers({
-      "User-Agent": "FRIDAY Discord",
+      "User-Agent": "OpenClaw Discord",
     });
     if (this.token !== "webhook") {
       headers.set("Authorization", `Bot ${this.token}`);

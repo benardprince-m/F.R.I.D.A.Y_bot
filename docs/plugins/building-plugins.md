@@ -1,19 +1,19 @@
 ---
-summary: "Create your first FRIDAY plugin in minutes"
+summary: "Create your first OpenClaw plugin in minutes"
 title: "Building plugins"
 sidebarTitle: "Getting Started"
 doc-schema-version: 1
 read_when:
-  - You want to create a new FRIDAY plugin
+  - You want to create a new OpenClaw plugin
   - You need a quick-start for plugin development
   - You are choosing between channel, provider, CLI backend, tool, or hook docs
 ---
 
-Plugins extend FRIDAY without changing core. A plugin can add a messaging
+Plugins extend OpenClaw without changing core. A plugin can add a messaging
 channel, model provider, local CLI backend, agent tool, hook, media provider,
 or another plugin-owned capability.
 
-You do not need to add an external plugin to the FRIDAY repository. Publish
+You do not need to add an external plugin to the OpenClaw repository. Publish
 the package to [ClawHub](/clawhub) and users install it with:
 
 ```bash
@@ -26,24 +26,24 @@ from npm, or `clawhub:<package>` to select ClawHub explicitly.
 ## Requirements
 
 - All plugin APIs are [experimental](/plugins/sdk-overview#api-stability).
-  Pin your FRIDAY host version and test each version you declare compatible.
+  Pin your OpenClaw host version and test each version you declare compatible.
 - Node 24.16+ or Node 26.1+, and `npm` or `pnpm`.
 - TypeScript ESM modules.
 - For in-repo bundled plugin work, clone the repository and run `pnpm install`.
-  Source-checkout plugin development is pnpm-only because FRIDAY discovers
+  Source-checkout plugin development is pnpm-only because OpenClaw discovers
   bundled plugins from `extensions/*` workspace packages.
 
 ## Choose the plugin shape
 
 <CardGroup cols={2}>
   <Card title="Channel plugin" icon="messages-square" href="/plugins/sdk-channel-plugins">
-    Connect FRIDAY to a messaging platform.
+    Connect OpenClaw to a messaging platform.
   </Card>
   <Card title="Provider plugin" icon="cpu" href="/plugins/sdk-provider-plugins">
     Add a model, media, search, fetch, speech, or realtime provider.
   </Card>
   <Card title="CLI backend plugin" icon="terminal" href="/plugins/cli-backend-plugins">
-    Run a local AI CLI through FRIDAY model fallback.
+    Run a local AI CLI through OpenClaw model fallback.
   </Card>
   <Card title="Tool plugin" icon="wrench" href="/plugins/tool-plugins">
     Register agent tools.
@@ -92,7 +92,7 @@ local proof.
 {
   "id": "my-plugin",
   "name": "My Plugin",
-  "description": "Adds a custom tool to FRIDAY",
+  "description": "Adds a custom tool to OpenClaw",
   "categories": ["other"],
   "contracts": {
     "tools": ["my_tool"]
@@ -119,7 +119,7 @@ local proof.
     and an agent execution backend would use `agent-runtimes`.
 
     Every plugin needs a manifest, even with no config. Runtime tools must
-    appear in `contracts.tools` so FRIDAY can discover ownership without
+    appear in `contracts.tools` so OpenClaw can discover ownership without
     eagerly loading every plugin runtime. Set `activation.onStartup`
     intentionally; this example loads on Gateway startup.
 
@@ -142,7 +142,7 @@ local proof.
     export default definePluginEntry({
       id: "my-plugin",
       name: "My Plugin",
-      description: "Adds a custom tool to FRIDAY",
+      description: "Adds a custom tool to OpenClaw",
       register(api) {
         api.registerTool({
           name: "my_tool",
@@ -179,7 +179,7 @@ local proof.
     If the plugin registers a CLI command, run that command too and confirm
     output, for example `openclaw demo-plugin ping`.
 
-    For a bundled plugin in this repository, FRIDAY discovers source-checkout
+    For a bundled plugin in this repository, OpenClaw discovers source-checkout
     plugin packages from the `extensions/*` workspace. Run the closest targeted
     test:
 
@@ -197,8 +197,8 @@ local proof.
     sure `npm pack` includes that `dist/` output. TypeScript source entries are
     only for source checkouts and local development paths.
 
-    Plugin builds can use TypeScript 7. FRIDAY loads the emitted JavaScript;
-    local TypeScript source entries use FRIDAY's runtime transformer and do
+    Plugin builds can use TypeScript 7. OpenClaw loads the emitted JavaScript;
+    local TypeScript source entries use OpenClaw's runtime transformer and do
     not require the plugin to install the TypeScript compiler.
 
     Then pack the plugin and install the tarball with `npm-pack:`:
@@ -209,7 +209,7 @@ local proof.
     openclaw plugins inspect my-plugin --runtime --json
     ```
 
-    `npm-pack:` uses FRIDAY's managed per-plugin npm project, so it catches
+    `npm-pack:` uses OpenClaw's managed per-plugin npm project, so it catches
     runtime dependency mistakes that source checkout testing can hide. It proves
     the package and dependency shape, not catalog-linked official trust.
     Runtime imports must be in `dependencies` or `optionalDependencies`;
@@ -270,7 +270,7 @@ for supported SVG geometry, size bounds, and fallback behavior.
 ## Registering tools
 
 Tools can be required or optional. Required tools are always available when the
-plugin is enabled. Optional tools need explicit user opt-in before FRIDAY
+plugin is enabled. Optional tools need explicit user opt-in before OpenClaw
 loads the owning plugin runtime.
 
 Tool factories receive trusted runtime context, including `deliveryContext`,
@@ -278,7 +278,7 @@ Tool factories receive trusted runtime context, including `deliveryContext`,
 `requesterSenderId`. A factory can use
 `toolContext.delivery?.send({ text, mediaUrl })` to send text or media to the
 current conversation. The property is unavailable outside an active channel
-turn or when the channel uses Gateway-owned delivery. FRIDAY binds the route,
+turn or when the channel uses Gateway-owned delivery. OpenClaw binds the route,
 account, thread, and media access policy; the capability expires when the turn
 ends.
 
@@ -336,7 +336,7 @@ tool hooks. Omit it for tools without a stable JSON result. See
 
 Declare when a tool needs the session workspace with `workspaceAccess` in its
 registration options. Use `true` when the factory reads working files, or omit
-the option to retain that safe default. FRIDAY finishes workspace preparation
+the option to retain that safe default. OpenClaw finishes workspace preparation
 before calling those factories or starting the model. Use `"execute"` when the
 factory only builds a definition and working files are accessed during tool
 preparation or execution. Use `false` only when both factory and execution are
@@ -390,13 +390,13 @@ Tool factories receive a runtime-supplied context object. Use `ctx.activeModel`
 when a tool needs to log, display, or adapt to the active model for the current
 turn; it can include `provider`, `modelId`, and `modelRef`. Treat it as
 informational runtime metadata, not a security boundary against the local
-operator, installed plugin code, or a modified FRIDAY runtime. Sensitive
+operator, installed plugin code, or a modified OpenClaw runtime. Sensitive
 local tools should still require an explicit plugin or operator opt-in and
 refuse to run when active-model metadata is missing or unsuitable.
 
 The manifest declares ownership and discovery; execution still calls the live
 registered tool implementation. Keep `toolMetadata.<tool>.optional: true`
-aligned with `api.registerTool(..., { optional: true })` so FRIDAY can avoid
+aligned with `api.registerTool(..., { optional: true })` so OpenClaw can avoid
 loading that plugin runtime until the tool is explicitly allowlisted.
 
 ## Import conventions
@@ -426,7 +426,7 @@ the contract never supplies a synthetic client or additional scopes.
 
 For the full import map, see [Plugin SDK overview](/plugins/sdk-overview).
 
-FRIDAY SDK compatibility fields carry TypeScript `@deprecated` annotations,
+OpenClaw SDK compatibility fields carry TypeScript `@deprecated` annotations,
 which editors surface as migration warnings. To enforce them at build time,
 enable a type-aware rule such as
 [`@typescript-eslint/no-deprecated`](https://typescript-eslint.io/rules/no-deprecated/).

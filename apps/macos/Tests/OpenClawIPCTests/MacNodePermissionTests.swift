@@ -2,7 +2,7 @@ import Foundation
 import OpenClawIPC
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.testWaitLimit)
 @MainActor
@@ -59,7 +59,7 @@ struct MacNodePermissionTests {
     }
 
     @Test(arguments: [false, true])
-    func `camera toggle remediation follows FRIDAY consent without an OS settings destination`(enabled: Bool) async {
+    func `camera toggle remediation follows OpenClaw consent without an OS settings destination`(enabled: Bool) async {
         await TestIsolation.withUserDefaultsValues([cameraEnabledKey: enabled]) {
             let missing = await PermissionManager.missingPermissions([.cameraEnabled])
             #expect(missing?.details == (enabled ? nil : .init(

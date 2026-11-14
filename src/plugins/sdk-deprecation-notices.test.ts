@@ -16,7 +16,7 @@ it("presents recorded members, replacement hints, and their approved final compa
       code: "deprecated-sdk-api",
       severity: "info",
       message:
-        "Uses FRIDAY APIs that retire on Dec 31, 2026. It keeps working until then; check for a plugin update.",
+        "Uses OpenClaw APIs that retire on Dec 31, 2026. It keeps working until then; check for a plugin update.",
       removalDate: "2026-12-31",
       migrationGuideUrl: "https://docs.openclaw.ai/plugins/sdk-migration/how-to-migrate",
       apis: [
@@ -53,7 +53,7 @@ it("uses registry metadata only for deprecated subpaths and does not invent an u
     {
       code: "deprecated-sdk-api",
       severity: "info",
-      message: "Uses older FRIDAY APIs. It keeps working for now; check for a plugin update.",
+      message: "Uses older OpenClaw APIs. It keeps working for now; check for a plugin update.",
       migrationGuideUrl: "https://docs.openclaw.ai/plugins/sdk-migration/how-to-migrate",
       apis: [
         {

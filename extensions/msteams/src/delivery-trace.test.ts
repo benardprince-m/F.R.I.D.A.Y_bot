@@ -203,7 +203,7 @@ function setupMSTeamsTrace(recorder: WireRecorder, traceCase: MSTeamsTraceCase) 
     conversationRef: {
       activityId: "inbound-activity",
       user: { id: "29:trace-user", name: "Trace User" },
-      agent: { id: "28:trace-bot", name: "FRIDAY" },
+      agent: { id: "28:trace-bot", name: "OpenClaw" },
       conversation: {
         id: traceCase.conversationId,
         conversationType: traceCase.conversationType,

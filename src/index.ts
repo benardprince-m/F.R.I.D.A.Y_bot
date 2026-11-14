@@ -45,7 +45,7 @@ if (
     await completePendingPackageLifecycle({ packageRoot: fileURLToPath(packageRootUrl) });
   } catch (error) {
     throw new Error(
-      `FRIDAY package lifecycle is incomplete. Reinstall with package scripts enabled, then retry. ${error instanceof Error ? error.message : String(error)}`,
+      `OpenClaw package lifecycle is incomplete. Reinstall with package scripts enabled, then retry. ${error instanceof Error ? error.message : String(error)}`,
       { cause: error },
     );
   }
@@ -212,7 +212,7 @@ if (shouldRunCli && !compileCacheRespawnEnv) {
       defaultRuntime.writeJson(formatCliJsonFailure(error));
     }
     for (const line of formatCliFailureLines({
-      title: "FRIDAY hit an unexpected runtime error.",
+      title: "OpenClaw hit an unexpected runtime error.",
       error,
       argv: process.argv,
     })) {

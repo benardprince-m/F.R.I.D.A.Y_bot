@@ -738,7 +738,7 @@ describe("appendAssistantMessageToSessionTranscript", () => {
     });
   });
 
-  it("does not report transcript-only FRIDAY assistant entries as latest assistant text", async () => {
+  it("does not report transcript-only OpenClaw assistant entries as latest assistant text", async () => {
     await writeTranscriptStore();
     const mirrorResult = await appendMirror("Only delivery mirror");
     assertOk(mirrorResult);

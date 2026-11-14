@@ -109,7 +109,7 @@ registerOpenClawStateDatabaseLifecycleListener((event) => {
   const error =
     event.kind === "open-error" || event.kind === "terminal-failure"
       ? event.error
-      : new Error("FRIDAY state database closed before consent provenance verification.");
+      : new Error("OpenClaw state database closed before consent provenance verification.");
   snapshotsByPath.set(
     event.path,
     failedSchemaVersionSnapshot(error, previous, isOwnershipUnknown(previous)),
@@ -205,7 +205,7 @@ function resolveSchemaVersionSnapshot(
   return previousAgentIds.size > 0 || (previous !== undefined && isOwnershipUnknown(previous))
     ? {
         kind: "state-error",
-        error: new Error("FRIDAY state database disappeared after Claw ownership was observed."),
+        error: new Error("OpenClaw state database disappeared after Claw ownership was observed."),
         knownAgentIds: previousAgentIds,
         ownershipUnknown: true,
       }
@@ -255,7 +255,7 @@ export async function prepareClawInstallSchemaVersions(
       }
       try {
         if (resolveSnapshotPath(options) !== path) {
-          throw new Error("FRIDAY state location changed before consent provenance publication.");
+          throw new Error("OpenClaw state location changed before consent provenance publication.");
         }
         assertCurrent?.();
       } catch (error) {

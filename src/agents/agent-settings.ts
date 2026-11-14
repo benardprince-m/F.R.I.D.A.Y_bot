@@ -26,7 +26,7 @@ export function applyAgentCompactionSettingsFromConfig(params: {
   const currentReserveTokens = params.settingsManager.getCompactionReserveTokens();
   const currentKeepRecentTokens = params.settingsManager.getCompactionKeepRecentTokens();
   const compactionCfg = params.cfg?.agents?.defaults?.compaction;
-  // Omission preserves embedded/project settings. FRIDAY config reloads create a new
+  // Omission preserves embedded/project settings. OpenClaw config reloads create a new
   // prepared manager; same-manager resource reloads reuse cfg and reapply explicit values.
   const configuredEnabled = compactionCfg?.enabled;
 
@@ -106,7 +106,7 @@ export function applyAgentAutoCompactionGuard(params: {
   compactionForbidden?: boolean;
 }): void {
   // Leave compaction with its selected owner so prompt-time runtime compaction
-  // cannot rewrite the transcript before FRIDAY's provider call.
+  // cannot rewrite the transcript before OpenClaw's provider call.
   const disable =
     params.contextEngineInfo?.ownsCompaction === true ||
     params.compactionMode === "safeguard" ||

@@ -270,7 +270,7 @@ describe("Responses WebSocket steering handoff", () => {
         { role: "user", content: "original", timestamp: 0 },
         {
           role: "user",
-          content: "FRIDAY runtime context:\nruntime context",
+          content: "OpenClaw runtime context:\nruntime context",
           timestamp: 0,
           runtimeContext: {},
         },

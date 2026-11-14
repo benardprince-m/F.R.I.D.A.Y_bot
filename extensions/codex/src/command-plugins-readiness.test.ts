@@ -224,7 +224,7 @@ describe("Codex plugin status command", () => {
     [
       { disabled: true },
       [
-        "FRIDAY app access: disabled",
+        "OpenClaw app access: disabled",
         "/codex plugins enable notes@company-tools",
         "enabled: true; callable: true",
         appUrl,

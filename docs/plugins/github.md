@@ -19,7 +19,7 @@ reader to the [Control UI](/web/control-ui), plus the `github_read` and `github_
 GitHub previews that previously lived in core now belong to the bundled
 `github` plugin. A nonempty `plugins.allow` list remains authoritative: if it
 omits `github`, both hovercards and the reader stay unavailable, and links open
-externally. FRIDAY does **not** add a plugin to an existing allowlist during
+externally. OpenClaw does **not** add a plugin to an existing allowlist during
 an upgrade or Doctor repair.
 
 To restore previews, append `github` to your **existing** `plugins.allow` list

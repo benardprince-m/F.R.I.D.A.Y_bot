@@ -317,7 +317,7 @@ const boardFixtureHtml = `<!doctype html>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark light" />
-    <title>FRIDAY Board Fixture</title>
+    <title>OpenClaw Board Fixture</title>
     <script>
       // This standalone fixture bypasses app bootstrap, so mirror its root theme contract.
       const mediaQuery = matchMedia("(prefers-color-scheme: light)");
@@ -947,7 +947,7 @@ function buildConfigMocks(options: { swarmEnabled?: boolean; workboardEnabled?: 
   };
   const schema = {
     type: "object",
-    title: "FRIDAY config",
+    title: "OpenClaw config",
     properties: {
       logging: {
         type: "object",
@@ -1970,7 +1970,7 @@ async function createChatPickerScenario(
       ],
       status: "running",
     }),
-    sessionRow("agent:main:work-openclaw", "FRIDAY work checkout", baseTime - 85_000, {
+    sessionRow("agent:main:work-openclaw", "OpenClaw work checkout", baseTime - 85_000, {
       createdActor: MOCK_ACTOR_PETER,
       execCwd: "/Users/demo/Work/openclaw",
       lastReadAt: baseTime - 120_000,

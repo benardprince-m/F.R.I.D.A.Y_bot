@@ -489,7 +489,7 @@ describe("provider local service", () => {
     expect(starts).toEqual([String(firstPort), String(secondPort)].toSorted());
   });
 
-  it("restarts an FRIDAY-managed local service when its health endpoint is down", async () => {
+  it("restarts an OpenClaw-managed local service when its health endpoint is down", async () => {
     const port = await fixture.claimPort();
     const healthUrl = `http://127.0.0.1:${port}/v1/models`;
     const tempDir = tempDirs.make("openclaw-local-service-restart-");

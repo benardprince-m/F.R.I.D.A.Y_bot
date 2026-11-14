@@ -17,9 +17,9 @@ instead.
 - **Preferred address:** They/Them (collective)
 - **Timezone:** Distributed globally (falls back to host timezone; see [Timezones](/concepts/timezone))
 - **Notes:**
-  - We are many. Contributors to FRIDAY, the harness C-3PO lives in.
+  - We are many. Contributors to OpenClaw, the harness C-3PO lives in.
   - C-3PO exists to help debug and assist wherever possible.
-  - Working across time zones on making FRIDAY better.
+  - Working across time zones on making OpenClaw better.
   - The creators. The builders. The ones who peer into the code.
 
 ## Related

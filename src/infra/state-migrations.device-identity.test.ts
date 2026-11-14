@@ -551,7 +551,7 @@ describe("legacy device identity Doctor migration", () => {
     } finally {
       await gatewayLock.release();
     }
-    expect(result.warnings.join("\n")).toContain("FRIDAY state database is busy");
+    expect(result.warnings.join("\n")).toContain("OpenClaw state database is busy");
     expect(fs.existsSync(sourcePath)).toBe(true);
   });
   it("recovers an interrupted link pair when native fs-safe mode is off", async () => {

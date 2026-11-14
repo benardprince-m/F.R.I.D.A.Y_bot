@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized)
 @MainActor
@@ -78,7 +78,7 @@ struct GatewayInstallerViewTests {
             failure: nil,
             existingGatewayDetails: nil,
             isInstalling: isInstalling,
-            installStatus: isInstalling ? "Installing FRIDAY CLI…" : nil,
+            installStatus: isInstalling ? "Installing OpenClaw CLI…" : nil,
             onInstall: onInstall,
             onRecheck: onRecheck)
     }

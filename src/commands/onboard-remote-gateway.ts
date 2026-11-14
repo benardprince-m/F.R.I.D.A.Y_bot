@@ -99,7 +99,7 @@ function toVerifiedActivationResult(params: {
 
 /**
  * Configure missing inference on the selected remote Gateway, then let that
- * Gateway's FRIDAY finish setup before handing off to its normal TUI.
+ * Gateway's OpenClaw finish setup before handing off to its normal TUI.
  * The local config is routing input only; every setup mutation runs through
  * Gateway RPC.
  */
@@ -310,7 +310,7 @@ export async function runRemoteGatewayInferenceOnboarding(
     runSystemAgentChat: async () => {
       const { createClackPrompter } = await import("../wizard/clack-prompter.js");
       const prompter = createClackPrompter();
-      await prompter.intro("FRIDAY");
+      await prompter.intro("OpenClaw");
       // One-shot RPCs have different connections. Preserve a signed device
       // owner across chat replies even when loopback shared auth needs no device.
       const deviceIdentity = await resolveDeviceIdentityForGatewayCall();
@@ -325,9 +325,9 @@ export async function runRemoteGatewayInferenceOnboarding(
       let agentDraft: SystemAgentChatResult["agentDraft"];
       try {
         for (;;) {
-          await prompter.note(reply.reply, "FRIDAY");
+          await prompter.note(reply.reply, "OpenClaw");
           if (reply.action === "exit") {
-            await prompter.outro("FRIDAY setup finished.");
+            await prompter.outro("OpenClaw setup finished.");
             return;
           }
           if (reply.action === "open-agent") {
@@ -336,7 +336,7 @@ export async function runRemoteGatewayInferenceOnboarding(
             break;
           }
           const message = await prompter.text({
-            message: "Reply to FRIDAY",
+            message: "Reply to OpenClaw",
             ...(reply.sensitive ? { sensitive: true } : {}),
             validate: (value) => (value.trim() ? undefined : "Required"),
           });
@@ -349,7 +349,7 @@ export async function runRemoteGatewayInferenceOnboarding(
         }
       } catch (error) {
         if (error instanceof WizardCancelledError) {
-          await prompter.outro("FRIDAY setup paused.");
+          await prompter.outro("OpenClaw setup paused.");
           return;
         }
         throw error;

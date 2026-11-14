@@ -1,6 +1,6 @@
-# Tavily FRIDAY plugin
+# Tavily OpenClaw plugin
 
-Official FRIDAY plugin for Tavily.
+Official OpenClaw plugin for Tavily.
 
 ## Install
 
@@ -10,4 +10,4 @@ openclaw plugins install @openclaw/tavily-plugin
 
 ## Docs
 
-See `docs/tools/tavily.md` in the FRIDAY repository, or the published docs at `https://docs.openclaw.ai/tools/tavily`.
+See `docs/tools/tavily.md` in the OpenClaw repository, or the published docs at `https://docs.openclaw.ai/tools/tavily`.

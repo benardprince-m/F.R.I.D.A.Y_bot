@@ -699,7 +699,7 @@ export class RealtimeCallHandler {
     const { handlesAgentConsult, toolPolicy } = sessionPolicy;
     if (handlesAgentConsult) {
       console.warn(
-        "[voice-call] This realtime model uses native agent delegation; hang-up is available through the call-scoped FRIDAY agent, while other custom realtime function tools remain unavailable.",
+        "[voice-call] This realtime model uses native agent delegation; hang-up is available through the call-scoped OpenClaw agent, while other custom realtime function tools remain unavailable.",
       );
     }
     const initialGreetingInstructions = handlesAgentConsult
@@ -825,7 +825,7 @@ export class RealtimeCallHandler {
       audioFormat: REALTIME_VOICE_AUDIO_FORMAT_G711_ULAW_8KHZ,
       interruptResponseOnInputAudio,
       instructions: handlesAgentConsult
-        ? `${sessionInstructions}\n\nUse native agent delegation for FRIDAY work. To end the current call, say out loud that you are hanging up and delegate; the FRIDAY agent acts on the transcript. Other custom realtime function tools are unavailable in this session.`
+        ? `${sessionInstructions}\n\nUse native agent delegation for OpenClaw work. To end the current call, say out loud that you are hanging up and delegate; the OpenClaw agent acts on the transcript. Other custom realtime function tools are unavailable in this session.`
         : sessionInstructions,
       tools: handlesAgentConsult ? [] : this.config.tools,
       ...(handlesAgentConsult
@@ -1675,7 +1675,7 @@ export class RealtimeCallHandler {
           started: false,
           retryable: true,
           error:
-            "FRIDAY is still consulting on a different request. This request has not started. Wait for that consult's result before you retry this request; do not poll while it is running.",
+            "OpenClaw is still consulting on a different request. This request has not started. Wait for that consult's result before you retry this request; do not poll while it is running.",
         });
       const coordinator = harness.forcedConsults;
       const forcedMatch = coordinator.recordNativeConsult(args, bridgeCallId);
@@ -1699,12 +1699,12 @@ export class RealtimeCallHandler {
           cancelled
             ? {
                 status: "cancelled",
-                message: "FRIDAY cancelled this consult before completion. Do not restart it.",
+                message: "OpenClaw cancelled this consult before completion. Do not restart it.",
               }
             : {
                 status: "already_delivered",
                 message:
-                  "FRIDAY already delivered this consult result internally. Do not repeat it.",
+                  "OpenClaw already delivered this consult result internally. Do not repeat it.",
               },
         );
       }

@@ -97,7 +97,7 @@ function assertAgentDeletionIdentityClaimAllowed(
 ): void {
   if (deletedAgentId && normalizeAgentId(claimAgentId) === normalizeAgentId(deletedAgentId)) {
     throw new AgentDatabaseDeletionRefusedError(
-      `FRIDAY agent database is unavailable while agent ${normalizeAgentId(deletedAgentId)} is deleted.`,
+      `OpenClaw agent database is unavailable while agent ${normalizeAgentId(deletedAgentId)} is deleted.`,
     );
   }
 }
@@ -240,7 +240,7 @@ export function assertAgentDeletionPathFence(
       );
       if (blockedPath) {
         throw new AgentDatabaseDeletionRefusedError(
-          `FRIDAY agent database ${blockedPath} is unavailable while agent ${row.agent_id} deletion owns ${fence.path}.`,
+          `OpenClaw agent database ${blockedPath} is unavailable while agent ${row.agent_id} deletion owns ${fence.path}.`,
         );
       }
     }

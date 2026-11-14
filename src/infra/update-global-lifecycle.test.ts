@@ -79,7 +79,7 @@ describe("custom npm global installation ownership", () => {
   });
 
   it.each(["linux", "win32"] as const)(
-    "recognizes a custom npm prefix from its FRIDAY launcher on %s without prefix env",
+    "recognizes a custom npm prefix from its OpenClaw launcher on %s without prefix env",
     async (platform) => {
       await withMockedPlatform(platform, async () => {
         const base = dirs.make("openclaw-update-custom-prefix-");

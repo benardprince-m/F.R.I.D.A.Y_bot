@@ -63,7 +63,7 @@ export function resolveCatalogDecisionRuntime(params: {
         };
       })();
   // Route projection must retain the native owner that supplied availability. Recomputing
-  // implicit policy from its API-key route alone would relabel that owner as FRIDAY.
+  // implicit policy from its API-key route alone would relabel that owner as OpenClaw.
   const runtime =
     selected.policy.runtimeSource === "implicit" &&
     !selected.policy.forcedByEnvironment &&

@@ -122,7 +122,7 @@ const toolResultAcknowledgementByValue = new WeakMap<object, InternalToolResultA
 const toolResultProvenanceByValue = new WeakMap<object, object>();
 const toolResultContentSourceByValue = new WeakMap<object, ToolResultContentSource>();
 
-/** Install FRIDAY-owned loop control without adding a plugin-facing Agent option. */
+/** Install OpenClaw-owned loop control without adding a plugin-facing Agent option. */
 export function setInternalBeforeToolBatch(
   agent: object,
   hook: InternalBeforeToolBatchHook | undefined,
@@ -197,7 +197,7 @@ export function getInternalSyncSteeringGetter(
   return syncSteeringGetterByCallback.get(callback);
 }
 
-/** Attach FRIDAY-owned two-phase execution without changing the public AgentTool shape. */
+/** Attach OpenClaw-owned two-phase execution without changing the public AgentTool shape. */
 export function attachInternalToolExecutionPreparer<T extends object>(
   tool: T,
   preparer: InternalToolExecutionPreparer,

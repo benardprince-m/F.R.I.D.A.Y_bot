@@ -1,4 +1,4 @@
-/** Pure repair rules for FRIDAY-generated plugin model catalogs. */
+/** Pure repair rules for OpenClaw-generated plugin model catalogs. */
 import { asOptionalRecord, isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeModelCostForCatalog } from "./model-cost-normalization.js";
 

@@ -51,7 +51,7 @@ export type PluginCommandContext = {
   /** Canonical SQLite identity for active transcript access. */
   sessionTarget?: SessionTranscriptRuntimeTarget;
   /**
-   * Deprecated transcript locator for the active FRIDAY session when available.
+   * Deprecated transcript locator for the active OpenClaw session when available.
    *
    * SQLite-backed sessions use a `sqlite:<agentId>:<sessionId>:<storePath>`
    * marker, not a filesystem path. Use session id/key plus transcript-runtime
@@ -64,7 +64,7 @@ export type PluginCommandContext = {
   args?: string;
   /** The full normalized command body */
   commandBody: string;
-  /** Current FRIDAY configuration */
+  /** Current OpenClaw configuration */
   config: OpenClawConfig;
   /** Raw "From" value (channel-scoped id) */
   from?: string;

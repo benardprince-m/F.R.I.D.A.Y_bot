@@ -99,7 +99,7 @@ describe.skipIf(process.platform === "win32")(
           expectedCalls,
         );
         if (!accepted) {
-          expect(result.stderr).toContain("Upgrade pre-June installs through FRIDAY 2026.9.5");
+          expect(result.stderr).toContain("Upgrade pre-June installs through OpenClaw 2026.9.5");
         }
       },
     );

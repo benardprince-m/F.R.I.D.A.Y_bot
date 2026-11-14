@@ -12,12 +12,12 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 #[cfg(not(target_os = "windows"))]
-const MARKER: &str = "# FRIDAY-Tauri runtime v1 ";
+const MARKER: &str = "# OpenClaw-Tauri runtime v1 ";
 #[cfg(target_os = "windows")]
-const MARKER: &str = "@rem # FRIDAY-Tauri runtime v1 ";
+const MARKER: &str = "@rem # OpenClaw-Tauri runtime v1 ";
 const CHANGED: &str = "The Gateway runtime or service definition changed. Its current selection was preserved; inspect it before retrying.";
 const PAUSED: &str = "The Gateway is paused. Start it before choosing Use bundled runtime.";
-const UPGRADE: &str = "Update the installed FRIDAY CLI before selecting the bundled runtime; this CLI cannot verify the current runtime pin and service definition.";
+const UPGRADE: &str = "Update the installed OpenClaw CLI before selecting the bundled runtime; this CLI cannot verify the current runtime pin and service definition.";
 const UNHEALTHY: &str = "The Gateway did not become healthy on the bundled runtime.";
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -576,7 +576,7 @@ pub(crate) fn managed_command(cli: &OpenClawCli) -> Result<Option<Command>, Stri
         return Ok(None);
     }
     let launcher = read_launcher(cli)?.ok_or(
-        "The managed FRIDAY launcher is invalid. Reinstall the local CLI from the desktop app.",
+        "The managed OpenClaw launcher is invalid. Reinstall the local CLI from the desktop app.",
     )?;
     let selection = launcher.selection.as_ref().ok_or(CHANGED)?;
     validate_runtime(&selection.runtime)?;

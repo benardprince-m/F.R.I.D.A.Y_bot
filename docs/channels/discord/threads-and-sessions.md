@@ -8,11 +8,11 @@ title: "Discord threads and sessions"
 sidebarTitle: "Threads and sessions"
 ---
 
-How Discord threads, forums, and channels map onto FRIDAY sessions.
+How Discord threads, forums, and channels map onto OpenClaw sessions.
 
 ## Forum channels
 
-Discord forum and media channels only accept thread posts. FRIDAY supports two ways to create them:
+Discord forum and media channels only accept thread posts. OpenClaw supports two ways to create them:
 
 - Send a message to the forum parent (`channel:<forumId>`) to auto-create a thread. The thread title is the first non-empty line of the message (truncated to Discord's 100-character thread-name limit).
 - Use `openclaw message thread create` to create a thread directly. Do not pass `--message-id` for forum channels.
@@ -68,7 +68,7 @@ failed chunk may have been delivered, so inspect the thread before retrying.
 
     Discord owns the history: fresh reads reflect its current message content,
     deletions, permissions, and availability. No separate durable message archive
-    is created. If automatic recovery fails, FRIDAY logs the omission and
+    is created. If automatic recovery fails, OpenClaw logs the omission and
     continues the addressed turn. Historical attachments without reusable local
     media are marked unavailable instead of restoring stale media.
     Recovery does not rewrite prior agent transcripts.

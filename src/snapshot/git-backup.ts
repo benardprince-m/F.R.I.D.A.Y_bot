@@ -179,7 +179,7 @@ export async function initializeGitBackupRepository(params: {
     isPathInside(canonicalRepositoryPath, canonicalStateDir)
   ) {
     throw new Error(
-      `Git backup repository must be outside the FRIDAY state directory: ${stateDir}`,
+      `Git backup repository must be outside the OpenClaw state directory: ${stateDir}`,
     );
   }
   try {
@@ -268,7 +268,7 @@ async function commitGitBackup(params: {
     const identityArgs =
       email.code === 0 && email.stdout.trim()
         ? []
-        : ["-c", "user.name=FRIDAY", "-c", "user.email=backup@openclaw.local"];
+        : ["-c", "user.name=OpenClaw", "-c", "user.email=backup@openclaw.local"];
     await requireGit(
       params.repositoryPath,
       [...identityArgs, "commit", "-m", `openclaw backup ${now.toISOString()}`],

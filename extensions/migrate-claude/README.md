@@ -1,7 +1,7 @@
 # Claude Migration
 
 Bring Claude Code and Claude Desktop instructions, MCP servers, and skills into
-FRIDAY. The migration provider discovers supported local state and shows a
+OpenClaw. The migration provider discovers supported local state and shows a
 plan before applying changes.
 
 ## Get started
@@ -14,7 +14,7 @@ openclaw migrate claude --dry-run
 
 Use `--from <path>` to choose a Claude home or project. After reviewing the plan,
 run `openclaw migrate apply claude` and follow the prompts. Apply backs up
-existing FRIDAY state; target conflicts require an explicit decision.
+existing OpenClaw state; target conflicts require an explicit decision.
 
 Hooks, broad permission settings, and opaque credential state are not activated
 automatically. Review archive-only items separately.

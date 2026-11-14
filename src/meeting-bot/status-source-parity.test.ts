@@ -31,7 +31,7 @@ describe("meeting status source compatibility", () => {
     autoJoin: false,
     captureCaptions: false,
     expectedIdentity: `${platform.token}:meeting`,
-    guestName: "FRIDAY",
+    guestName: "OpenClaw",
     pageIdentitySource: "const meetingIdentity = () => undefined;",
     selectors: "{}",
     toggleStateFunction: "() => undefined",

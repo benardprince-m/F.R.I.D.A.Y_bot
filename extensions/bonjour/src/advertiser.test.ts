@@ -357,9 +357,9 @@ describe("gateway bonjour advertiser", () => {
       stateRef.value = state;
       await vi.advanceTimersByTimeAsync(60_000);
     }
-    listenerMap.get("name-change")?.("test-host (FRIDAY) (2)");
+    listenerMap.get("name-change")?.("test-host (OpenClaw) (2)");
     listenerMap.get("hostname-change")?.("test-host-(2)");
-    expectWarnContaining('name conflict resolved; newName="test-host (FRIDAY) (2)"');
+    expectWarnContaining('name conflict resolved; newName="test-host (OpenClaw) (2)"');
     expectWarnContaining('hostname conflict resolved; newHostname="test-host-(2)"');
     expect(createService).toHaveBeenCalledTimes(1);
     expect(advertise).toHaveBeenCalledTimes(1);
@@ -398,7 +398,7 @@ describe("gateway bonjour advertiser", () => {
     const started = await startAdvertiser();
 
     const [gatewayCall] = createService.mock.calls as Array<[ServiceCall]>;
-    expect(gatewayCall?.[0]?.name).toBe("Mac (FRIDAY)");
+    expect(gatewayCall?.[0]?.name).toBe("Mac (OpenClaw)");
     expect(gatewayCall?.[0]?.domain).toBe("local");
     expect(gatewayCall?.[0]?.hostname).toBe("Mac");
     expect((gatewayCall?.[0]?.txt as Record<string, string>)?.lanHost).toBe("Mac.local");
@@ -439,7 +439,7 @@ describe("gateway bonjour advertiser", () => {
   });
 
   it("truncates multi-byte hostname within DNS label byte limit", async () => {
-    // 21 CJK characters = 63 bytes in UTF-8, adding " (FRIDAY)" pushes over
+    // 21 CJK characters = 63 bytes in UTF-8, adding " (OpenClaw)" pushes over
     const cjkHostname = "你".repeat(21);
     enableAdvertiserUnitMode(cjkHostname);
 

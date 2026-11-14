@@ -5,7 +5,7 @@ import OpenClawProtocol
 import Testing
 import UIKit
 import UserNotifications
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawChatUI
 @testable import OpenClawKit
 
@@ -2336,7 +2336,7 @@ private final class TimingOutDeviceStatusService: DeviceStatusServicing {
             expiresAtMs: 4_000_000_000_000))
         appModel._test_presentExecApprovalPrompt(prompt)
 
-        let uncertainMessage = "Decision status is unknown. Actions remain locked until FRIDAY reconnects."
+        let uncertainMessage = "Decision status is unknown. Actions remain locked until OpenClaw reconnects."
         appModel._test_setPendingExecApprovalPromptUncertain(uncertainMessage)
 
         #expect(appModel._test_pendingExecApprovalState().resolving)
@@ -2691,7 +2691,7 @@ private final class TimingOutDeviceStatusService: DeviceStatusServicing {
         // owner-frozen uncertain contract with a durable readback record.
         #expect(appModel._test_pendingExecApprovalState().resolving)
         #expect(appModel._test_pendingExecApprovalState().error ==
-            "Decision status is unknown. Actions remain locked until FRIDAY reconnects.")
+            "Decision status is unknown. Actions remain locked until OpenClaw reconnects.")
         #expect(appModel._test_pendingPersistedExecApprovalReadbacks().contains { readback in
             readback.approvalId == approvalID && readback.gatewayStableID == gatewayA.effectiveStableID
         })
@@ -8521,7 +8521,7 @@ private final class TimingOutDeviceStatusService: DeviceStatusServicing {
         let appModel = NodeAppModel(watchMessagingService: watchService)
         appModel.connectedGatewayID = "gateway-watch-notify"
         let params = OpenClawWatchNotifyParams(
-            title: "FRIDAY",
+            title: "OpenClaw",
             body: "Meeting with Peter is at 4pm",
             priority: .timeSensitive)
         let req = try makeInvokeRequest(
@@ -8531,7 +8531,7 @@ private final class TimingOutDeviceStatusService: DeviceStatusServicing {
 
         let res = await appModel.handleInvoke(req, gatewayStableID: "gateway-a")
         #expect(res.ok == true)
-        #expect(watchService.lastSent?.params.title == "FRIDAY")
+        #expect(watchService.lastSent?.params.title == "OpenClaw")
         #expect(watchService.lastSent?.params.body == "Meeting with Peter is at 4pm")
         #expect(watchService.lastSent?.params.priority == .timeSensitive)
         #expect(watchService.lastSent?.gatewayStableID == "gateway-a")
@@ -8558,7 +8558,7 @@ private final class TimingOutDeviceStatusService: DeviceStatusServicing {
         let request = try makeInvokeRequest(
             id: "cancelled-watch-notify",
             command: OpenClawWatchCommand.notify.rawValue,
-            params: OpenClawWatchNotifyParams(title: "FRIDAY", body: "Cancelled mirror test"))
+            params: OpenClawWatchNotifyParams(title: "OpenClaw", body: "Cancelled mirror test"))
         let invocation = Task { @MainActor in await appModel.handleInvoke(request) }
         let deadline = ContinuousClock().now.advanced(by: .seconds(2))
         while await !(transportGate.hasStarted()), ContinuousClock().now < deadline {
@@ -8592,7 +8592,7 @@ private final class TimingOutDeviceStatusService: DeviceStatusServicing {
             id: "accepted-watch-mirror",
             command: OpenClawWatchCommand.notify.rawValue,
             params: OpenClawWatchNotifyParams(
-                title: " FRIDAY ",
+                title: " OpenClaw ",
                 body: " Accepted mirror test\n",
                 risk: .high,
                 actions: [
@@ -8628,7 +8628,7 @@ private final class TimingOutDeviceStatusService: DeviceStatusServicing {
         #expect(responseBeforeMirror.ok)
         #expect(center.addCalls == 1)
         let content = try #require(center.lastAddedRequest?.content)
-        #expect(content.title == "FRIDAY")
+        #expect(content.title == "OpenClaw")
         #expect(content.body == "Accepted mirror test")
         #expect(content.interruptionLevel == .timeSensitive)
         #expect((0..<4).compactMap {
@@ -9061,7 +9061,7 @@ private final class TimingOutDeviceStatusService: DeviceStatusServicing {
             code: 1,
             userInfo: [NSLocalizedDescriptionKey: "WATCH_UNAVAILABLE: no paired Apple Watch"])
         let appModel = NodeAppModel(watchMessagingService: watchService)
-        let params = OpenClawWatchNotifyParams(title: "FRIDAY", body: "Delivery check")
+        let params = OpenClawWatchNotifyParams(title: "OpenClaw", body: "Delivery check")
         let req = try makeInvokeRequest(
             id: "watch-notify-fail",
             command: OpenClawWatchCommand.notify.rawValue,

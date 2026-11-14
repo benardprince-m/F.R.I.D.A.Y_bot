@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/comfy-provider",
   "version": "2026.10.4",
-  "description": "FRIDAY ComfyUI provider plugin.",
+  "description": "OpenClaw ComfyUI provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

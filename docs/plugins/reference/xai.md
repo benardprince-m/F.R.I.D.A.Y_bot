@@ -15,7 +15,7 @@ xAI provider for Grok models, Grok web and X search, code execution, speech, and
 ## Distribution
 
 - Package: `@openclaw/xai-plugin`
-- Install route: included in FRIDAY
+- Install route: included in OpenClaw
 
 ## Surface
 

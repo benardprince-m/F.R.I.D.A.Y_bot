@@ -138,9 +138,9 @@ install_node() {
     "publishes only a verified replacement (%s)",
     (failure) => {
       const { root, at, put, bash } = scriptFixture("publication");
-      const target = at("FRIDAY.app");
+      const target = at("OpenClaw.app");
       const staged = at("candidate.app");
-      put("FRIDAY.app/runtime", "old signed runtime");
+      put("OpenClaw.app/runtime", "old signed runtime");
       put("candidate.app/runtime", "new signed runtime");
       const packageScript = readFileSync("scripts/package-mac-app.sh", "utf8");
       const publication = packageScript.slice(

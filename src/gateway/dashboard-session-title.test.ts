@@ -194,7 +194,7 @@ describe("maybeGenerateDashboardSessionTitle", () => {
   it("titles over an Android platform auto-label without treating it as a rename", async () => {
     const entry = {
       ...baseEntry,
-      autoLabel: "FRIDAY App · Pixel · 1234567890ab",
+      autoLabel: "OpenClaw App · Pixel · 1234567890ab",
     };
     mockSessionUpdate(entry);
 

@@ -222,7 +222,7 @@ describe("toSanitizedMarkdownHtml links", () => {
     it("keeps the bundled GitHub mark and skips image-only links", () => {
       const fragment = htmlFragment(
         toSanitizedMarkdownHtml(
-          "[FRIDAY](https://github.com/openclaw/openclaw) [![badge](data:image/png;base64,iVBORw0KGgo=)](https://example.com)",
+          "[OpenClaw](https://github.com/openclaw/openclaw) [![badge](data:image/png;base64,iVBORw0KGgo=)](https://example.com)",
           { linkFavicons: true },
         ),
       );

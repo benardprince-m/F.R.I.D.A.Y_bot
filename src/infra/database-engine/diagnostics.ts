@@ -83,11 +83,11 @@ function observeVersion(result: DatabaseStoreDiagnostic, version: number) {
   result.schema.pending = Math.max(0, expected - version);
   if (version < expected) {
     result.issues.push(`Schema migrations pending: version ${version}, expected ${expected}.`);
-    result.nextSteps.push("Run openclaw doctor --fix with the matching FRIDAY version.");
+    result.nextSteps.push("Run openclaw doctor --fix with the matching OpenClaw version.");
   } else if (version > expected) {
     result.issues.push(`Schema version ${version} is newer than supported version ${expected}.`);
     result.nextSteps.push(
-      "Use an FRIDAY version that supports this schema, or restore its matching backup.",
+      "Use an OpenClaw version that supports this schema, or restore its matching backup.",
     );
   }
 }
@@ -116,7 +116,7 @@ function inspectSqlite(
         observeVersion(result, facts.userVersion);
       }
       result.issues.push("The SQLite schema could not be admitted by its store owner.");
-      result.nextSteps.push("Run openclaw doctor --fix with the matching FRIDAY version.");
+      result.nextSteps.push("Run openclaw doctor --fix with the matching OpenClaw version.");
     }
   } else if (result.schema.versioning === "versioned") {
     observeVersion(result, facts.userVersion);
@@ -213,7 +213,7 @@ async function inspectPostgres(
               "vector search unavailable: pgvector is not installed",
             ];
             result.nextSteps.push(
-              "Ask the database administrator to run CREATE EXTENSION vector; grant USAGE on its schema to the FRIDAY role.",
+              "Ask the database administrator to run CREATE EXTENSION vector; grant USAGE on its schema to the OpenClaw role.",
             );
           }
           if (result.family === "state") {
@@ -406,7 +406,7 @@ export async function inspectDatabaseStore(
   }
   if (result.schema.expectedVersion === null && result.schema.versioning !== "unversioned") {
     result.nextSteps.push(
-      "The store owner did not provide an expected schema version; use the matching plugin or FRIDAY version for schema verification.",
+      "The store owner did not provide an expected schema version; use the matching plugin or OpenClaw version for schema verification.",
     );
   }
   result.nextSteps = [...new Set(result.nextSteps)];

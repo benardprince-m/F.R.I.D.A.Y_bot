@@ -31,7 +31,7 @@ export function stageInstalledPackage(installed, work, target, plan) {
   fs.writeFileSync(path.join(core, "openclaw-install-owner.json"), JSON.stringify({
     schemaVersion: 1,
     owner: "desktop-app",
-    displayName: "FRIDAY desktop",
+    displayName: "OpenClaw desktop",
     updateHint: "Rebuild or update the desktop app to update this Gateway.",
   }));
   const destination = path.join(work, "package");

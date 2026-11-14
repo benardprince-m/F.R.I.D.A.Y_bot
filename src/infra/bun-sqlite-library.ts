@@ -248,7 +248,7 @@ function createSelector() {
     failure = new Error(
       `No supported SQLite library for Bun on macOS (${process.arch})` +
         (unusable.length > 0 ? `; unusable: ${unusable.join(", ")}` : "") +
-        ". Apple's system SQLite fails FRIDAY's read-only database connections. " +
+        ". Apple's system SQLite fails OpenClaw's read-only database connections. " +
         (bundled
           ? "Rebuild or replace the complete standalone artifact to restore its bundled SQLite library. "
           : "") +

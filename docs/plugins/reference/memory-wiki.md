@@ -1,5 +1,5 @@
 ---
-summary: "Persistent wiki compiler and Obsidian-friendly knowledge vault for FRIDAY."
+summary: "Persistent wiki compiler and Obsidian-friendly knowledge vault for OpenClaw."
 read_when:
   - You are installing, configuring, or auditing the memory-wiki plugin
 title: "Memory Wiki plugin reference"
@@ -10,12 +10,12 @@ Run `pnpm plugins:inventory:gen` to rebuild it. Hand-written text survives only
 between the openclaw-plugin-reference:manual-start and
 openclaw-plugin-reference:manual-end comment markers. -->
 
-Persistent wiki compiler and Obsidian-friendly knowledge vault for FRIDAY.
+Persistent wiki compiler and Obsidian-friendly knowledge vault for OpenClaw.
 
 ## Distribution
 
 - Package: `@openclaw/memory-wiki`
-- Install route: included in FRIDAY
+- Install route: included in OpenClaw
 
 ## Surface
 

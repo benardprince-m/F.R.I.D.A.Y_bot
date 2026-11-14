@@ -79,7 +79,7 @@ type ConfigAuthoringOverrides = {
   proxy?: ProxyConfig;
 };
 
-/** Top-level FRIDAY config, retaining authoring contracts outside the current schema. */
+/** Top-level OpenClaw config, retaining authoring contracts outside the current schema. */
 export type OpenClawConfig = Omit<SchemaConfig, keyof ConfigAuthoringOverrides> &
   ConfigAuthoringOverrides;
 

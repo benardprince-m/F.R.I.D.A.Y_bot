@@ -6,7 +6,7 @@ it.each(["migration", "admission"])("restores the Gateway after a %s refusal", a
   let stateHeld = true;
   boundary.config.mockImplementation(async () => {
     if (stateHeld) {
-      throw new Error("FRIDAY state is undergoing offline maintenance; retry when it finishes.");
+      throw new Error("OpenClaw state is undergoing offline maintenance; retry when it finishes.");
     }
     return { config: {} };
   });

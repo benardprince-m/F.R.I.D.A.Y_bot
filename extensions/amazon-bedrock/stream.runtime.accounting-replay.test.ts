@@ -61,7 +61,7 @@ const cacheContext = () => ({
 });
 const retainedContext = (turn: string, count: string, timestamp: number, extras: string[] = []) =>
   runtimeUser(
-    [`FRIDAY runtime context:\n${turn} request`, `Retained context ${count}`, ...extras].map(
+    [`OpenClaw runtime context:\n${turn} request`, `Retained context ${count}`, ...extras].map(
       textBlock,
     ),
     timestamp,
@@ -277,7 +277,7 @@ describe("Bedrock prompt cache ownership", () => {
     expect(second[2]?.content).toEqual(first[2]?.content);
     expect(second[4]?.content?.at(-1)).toEqual(checkpoint);
     expect(second[0]?.content).toEqual([
-      { text: "FRIDAY runtime context:\nFirst request" },
+      { text: "OpenClaw runtime context:\nFirst request" },
       { text: "Retained context one" },
     ]);
     expect(second[1]).toEqual(first[1]);
@@ -308,7 +308,7 @@ describe("Bedrock prompt cache ownership", () => {
           { role: "user", content: "stable operator request", timestamp: 0 },
           {
             role: "user",
-            content: "FRIDAY runtime context:\nvolatile current-turn metadata",
+            content: "OpenClaw runtime context:\nvolatile current-turn metadata",
             timestamp: 1,
             runtimeContextCarrier: true,
           },
@@ -323,7 +323,7 @@ describe("Bedrock prompt cache ownership", () => {
       { cachePoint: { type: "default", ttl: "1h" } },
     ]);
     expect(messages[1]?.content).toEqual([
-      { text: "FRIDAY runtime context:\nvolatile current-turn metadata" },
+      { text: "OpenClaw runtime context:\nvolatile current-turn metadata" },
     ]);
     expect(messages[2]?.content).toEqual([
       wireToolResult("call_follow_up", [{ text: "later stable tool output" }]),

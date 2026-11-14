@@ -189,7 +189,7 @@ export function buildForwardedSystemAgentPendingPayload(params: {
     approvalId: params.request.id,
     approvalSlug: params.request.id.slice(0, 8),
     text: [
-      "🛠️ FRIDAY change requires approval",
+      "🛠️ OpenClaw change requires approval",
       `Change: ${request.request.description}`,
       ...(request.request.agentId ? [`Agent: ${request.request.agentId}`] : []),
       `ID: ${request.id}`,
@@ -218,7 +218,7 @@ export function buildForwardedSystemAgentResolvedPayload(params: {
             approvalKind: "system-agent",
             approvalId: resolved.id,
             phase: "resolved",
-            title: "FRIDAY change",
+            title: "OpenClaw change",
             description: resolved.request?.description ?? null,
             metadata: [],
             commandText: resolved.request?.description ?? "",

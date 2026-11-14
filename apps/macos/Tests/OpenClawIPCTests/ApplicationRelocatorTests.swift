@@ -1,5 +1,5 @@
 import Foundation
-@testable import FRIDAY
+@testable import OpenClaw
 import Testing
 
 @Suite("Application Relocator Tests")
@@ -14,10 +14,10 @@ struct ApplicationRelocatorTests {
     @Test
     func `stable application locations continue normally`() {
         let paths = [
-            "/Applications/FRIDAY.app",
-            "/Users/tester/Applications/FRIDAY.app",
-            "/Users/tester/Tools/FRIDAY.app",
-            "/Volumes/External/Apps/FRIDAY.app",
+            "/Applications/OpenClaw.app",
+            "/Users/tester/Applications/OpenClaw.app",
+            "/Users/tester/Tools/OpenClaw.app",
+            "/Volumes/External/Apps/OpenClaw.app",
         ]
         for path in paths {
             let recommendation = ApplicationRelocator.recommendation(
@@ -32,11 +32,11 @@ struct ApplicationRelocatorTests {
         for temporaryPath in ["/var/folders/ab/cd/T", "/private/var/folders/ab/cd/T"] {
             let temporaryDirectory = URL(fileURLWithPath: temporaryPath)
             for path in [
-                "/tmp/FRIDAY.app",
-                "/private/tmp/run/FRIDAY.app",
-                "/var/folders/ab/cd/T/x/FRIDAY.app",
-                "/private/var/folders/ab/cd/T/x/FRIDAY.app",
-                "/Users/tester/Downloads/FRIDAY.app",
+                "/tmp/OpenClaw.app",
+                "/private/tmp/run/OpenClaw.app",
+                "/var/folders/ab/cd/T/x/OpenClaw.app",
+                "/private/var/folders/ab/cd/T/x/OpenClaw.app",
+                "/Users/tester/Downloads/OpenClaw.app",
             ] {
                 #expect(!ApplicationRelocator.allowsPersistentIntegration(
                     URL(fileURLWithPath: path),
@@ -45,9 +45,9 @@ struct ApplicationRelocatorTests {
                     isReadOnlyVolume: false))
             }
             for path in [
-                "/Applications/FRIDAY.app",
-                "/Users/tester/Applications/FRIDAY.app",
-                "/Users/tester/Tools/FRIDAY.app",
+                "/Applications/OpenClaw.app",
+                "/Users/tester/Applications/OpenClaw.app",
+                "/Users/tester/Tools/OpenClaw.app",
             ] {
                 #expect(ApplicationRelocator.allowsPersistentIntegration(
                     URL(fileURLWithPath: path),
@@ -57,14 +57,14 @@ struct ApplicationRelocatorTests {
             }
         }
         #expect(ApplicationRelocator.recommendation(
-            for: environment(path: "/private/tmp/run/FRIDAY.app")) == .continueLaunch)
+            for: environment(path: "/private/tmp/run/OpenClaw.app")) == .continueLaunch)
     }
 
     @Test
     func `debug and test builds never relocate`() {
         let recommendation = ApplicationRelocator.recommendation(
             for: environment(
-                path: "/Users/tester/Downloads/FRIDAY.app",
+                path: "/Users/tester/Downloads/OpenClaw.app",
                 debugOrTesting: true
             )
         )
@@ -74,10 +74,10 @@ struct ApplicationRelocatorTests {
 
     @Test
     func `transient copy offers system installation when available`() {
-        let destination = URL(fileURLWithPath: "/Applications/FRIDAY.app")
+        let destination = URL(fileURLWithPath: "/Applications/OpenClaw.app")
         let recommendation = ApplicationRelocator.recommendation(
             for: environment(
-                path: "/Users/tester/Downloads/FRIDAY.app",
+                path: "/Users/tester/Downloads/OpenClaw.app",
                 candidates: [missing(destination, writable: true)]
             )
         )
@@ -87,10 +87,10 @@ struct ApplicationRelocatorTests {
 
     @Test
     func `read only mounted copy offers installation`() {
-        let destination = URL(fileURLWithPath: "/Applications/FRIDAY.app")
+        let destination = URL(fileURLWithPath: "/Applications/OpenClaw.app")
         let recommendation = ApplicationRelocator.recommendation(
             for: environment(
-                path: "/Volumes/FRIDAY/FRIDAY.app",
+                path: "/Volumes/OpenClaw/OpenClaw.app",
                 candidates: [missing(destination, writable: true)],
                 readOnlyVolume: true
             )
@@ -101,10 +101,10 @@ struct ApplicationRelocatorTests {
 
     @Test
     func `translocated copy offers installation`() {
-        let destination = URL(fileURLWithPath: "/Applications/FRIDAY.app")
+        let destination = URL(fileURLWithPath: "/Applications/OpenClaw.app")
         let recommendation = ApplicationRelocator.recommendation(
             for: environment(
-                path: "/private/var/folders/x/AppTranslocation/y/d/FRIDAY.app",
+                path: "/private/var/folders/x/AppTranslocation/y/d/OpenClaw.app",
                 candidates: [missing(destination, writable: true)]
             )
         )
@@ -114,7 +114,7 @@ struct ApplicationRelocatorTests {
 
     @Test
     func `equal or newer installed build receives handoff`() {
-        let destination = URL(fileURLWithPath: "/Applications/FRIDAY.app")
+        let destination = URL(fileURLWithPath: "/Applications/OpenClaw.app")
         for build in ["100", "110"] {
             let installed = ApplicationRelocator.ApplicationIdentity(
                 bundleIdentifier: current.bundleIdentifier,
@@ -122,7 +122,7 @@ struct ApplicationRelocatorTests {
             )
             let recommendation = ApplicationRelocator.recommendation(
                 for: environment(
-                    path: "/Users/tester/Downloads/FRIDAY.app",
+                    path: "/Users/tester/Downloads/OpenClaw.app",
                     candidates: [self.installed(destination, identity: installed)]
                 )
             )
@@ -132,9 +132,9 @@ struct ApplicationRelocatorTests {
 
     @Test
     func `relaunch marker stops a repeated transient handoff`() {
-        let destination = URL(fileURLWithPath: "/Applications/FRIDAY.app")
+        let destination = URL(fileURLWithPath: "/Applications/OpenClaw.app")
         let markedArguments = [
-            "/private/var/folders/x/AppTranslocation/y/d/FRIDAY.app/Contents/MacOS/FRIDAY",
+            "/private/var/folders/x/AppTranslocation/y/d/OpenClaw.app/Contents/MacOS/OpenClaw",
             ApplicationRelocator.relocationRelaunchArgument,
         ]
 
@@ -157,14 +157,14 @@ struct ApplicationRelocatorTests {
 
     @Test
     func `older installed build can be replaced`() {
-        let destination = URL(fileURLWithPath: "/Applications/FRIDAY.app")
+        let destination = URL(fileURLWithPath: "/Applications/OpenClaw.app")
         let installed = ApplicationRelocator.ApplicationIdentity(
             bundleIdentifier: current.bundleIdentifier,
             buildVersion: "90"
         )
         let recommendation = ApplicationRelocator.recommendation(
             for: environment(
-                path: "/Users/tester/Downloads/FRIDAY.app",
+                path: "/Users/tester/Downloads/OpenClaw.app",
                 candidates: [self.installed(destination, identity: installed)]
             )
         )
@@ -174,15 +174,15 @@ struct ApplicationRelocatorTests {
 
     @Test
     func `different same named app is never replaced`() {
-        let systemDestination = URL(fileURLWithPath: "/Applications/FRIDAY.app")
-        let userDestination = home.appendingPathComponent("Applications/FRIDAY.app")
+        let systemDestination = URL(fileURLWithPath: "/Applications/OpenClaw.app")
+        let userDestination = home.appendingPathComponent("Applications/OpenClaw.app")
         let unrelated = ApplicationRelocator.ApplicationIdentity(
             bundleIdentifier: "example.unrelated",
             buildVersion: "999"
         )
         let recommendation = ApplicationRelocator.recommendation(
             for: environment(
-                path: "/Users/tester/Desktop/FRIDAY.app",
+                path: "/Users/tester/Desktop/OpenClaw.app",
                 candidates: [
                     installed(systemDestination, identity: unrelated),
                     missing(userDestination, writable: true),
@@ -195,11 +195,11 @@ struct ApplicationRelocatorTests {
 
     @Test
     func `untrusted same identity app never receives handoff`() {
-        let systemDestination = URL(fileURLWithPath: "/Applications/FRIDAY.app")
-        let userDestination = home.appendingPathComponent("Applications/FRIDAY.app")
+        let systemDestination = URL(fileURLWithPath: "/Applications/OpenClaw.app")
+        let userDestination = home.appendingPathComponent("Applications/OpenClaw.app")
         let recommendation = ApplicationRelocator.recommendation(
             for: environment(
-                path: "/Users/tester/Downloads/FRIDAY.app",
+                path: "/Users/tester/Downloads/OpenClaw.app",
                 candidates: [
                     installed(systemDestination, identity: current, trusted: false),
                     missing(userDestination, writable: true),
@@ -214,10 +214,10 @@ struct ApplicationRelocatorTests {
     func `unwritable destinations require manual installation`() {
         let recommendation = ApplicationRelocator.recommendation(
             for: environment(
-                path: "/Users/tester/Downloads/FRIDAY.app",
+                path: "/Users/tester/Downloads/OpenClaw.app",
                 candidates: [
-                    missing(URL(fileURLWithPath: "/Applications/FRIDAY.app"), writable: false),
-                    missing(home.appendingPathComponent("Applications/FRIDAY.app"), writable: false),
+                    missing(URL(fileURLWithPath: "/Applications/OpenClaw.app"), writable: false),
+                    missing(home.appendingPathComponent("Applications/OpenClaw.app"), writable: false),
                 ]
             )
         )
@@ -317,7 +317,7 @@ struct ApplicationRelocatorTests {
     func `replacement arriving during final handoff gets a fresh recovery pass`() {
         let failedTarget = Data([10])
         let reference = ApplicationRelocator.BundleFileReference(
-            deviceIdentifier: 1, fileIdentifier: 2, executableRelativePath: "Contents/MacOS/FRIDAY")
+            deviceIdentifier: 1, fileIdentifier: 2, executableRelativePath: "Contents/MacOS/OpenClaw")
 
         #expect(!ApplicationRelocator.shouldContinueReplacementRecovery(
             afterFailedTarget: failedTarget,
@@ -340,7 +340,7 @@ struct ApplicationRelocatorTests {
     @Test
     func `unauthenticated replacement marker cannot bypass duplicate launch rejection`() {
         let forgedHandoff = [
-            "OPENCLAW_REPLACEMENT_SOURCE_BUNDLE": "/Applications/FRIDAY.app",
+            "OPENCLAW_REPLACEMENT_SOURCE_BUNDLE": "/Applications/OpenClaw.app",
             "OPENCLAW_REPLACEMENT_PARENT_PID": "1",
             "OPENCLAW_REPLACEMENT_CODE_HASH": "ZmFrZQ==",
             "OPENCLAW_REPLACEMENT_READY_FD": "19",
@@ -349,7 +349,7 @@ struct ApplicationRelocatorTests {
         #expect(!ApplicationRelocator.acceptReplacementHandoff(environment: forgedHandoff))
         #expect(!ApplicationRelocator.acceptReplacementHandoff(environment: [:]))
         #expect(!ApplicationRelocator.acceptReplacementHandoff(environment: [
-            "OPENCLAW_REPLACEMENT_SOURCE_BUNDLE": "relative/FRIDAY.app",
+            "OPENCLAW_REPLACEMENT_SOURCE_BUNDLE": "relative/OpenClaw.app",
         ]))
     }
 
@@ -381,9 +381,9 @@ struct ApplicationRelocatorTests {
     func `bundle file reference stays bound after canonical path replacement`() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("ApplicationRelocatorFileReferenceTests-\(UUID().uuidString)")
-        let canonicalBundle = root.appendingPathComponent("FRIDAY.app", isDirectory: true)
-        let archivedBundle = root.appendingPathComponent("FRIDAY.previous.app", isDirectory: true)
-        let executableRelativePath = "Contents/MacOS/FRIDAY"
+        let canonicalBundle = root.appendingPathComponent("OpenClaw.app", isDirectory: true)
+        let archivedBundle = root.appendingPathComponent("OpenClaw.previous.app", isDirectory: true)
+        let executableRelativePath = "Contents/MacOS/OpenClaw"
         let canonicalExecutable = canonicalBundle.appendingPathComponent(executableRelativePath)
         try FileManager.default.createDirectory(
             at: canonicalExecutable.deletingLastPathComponent(),
@@ -419,11 +419,11 @@ struct ApplicationRelocatorTests {
         let reference = ApplicationRelocator.BundleFileReference(
             deviceIdentifier: 42,
             fileIdentifier: 99,
-            executableRelativePath: "Contents/MacOS/FRIDAY"
+            executableRelativePath: "Contents/MacOS/OpenClaw"
         )
 
         #expect(reference.bundleURL.path == "/.vol/42/99")
-        #expect(reference.executableURL.path == "/.vol/42/99/Contents/MacOS/FRIDAY")
+        #expect(reference.executableURL.path == "/.vol/42/99/Contents/MacOS/OpenClaw")
     }
 
     @Test
@@ -431,7 +431,7 @@ struct ApplicationRelocatorTests {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("ApplicationRelocatorLaunchAgentTests-\(UUID().uuidString)")
         let home = root.appendingPathComponent("home")
-        let executable = root.appendingPathComponent("FRIDAY.app/Contents/MacOS/FRIDAY")
+        let executable = root.appendingPathComponent("OpenClaw.app/Contents/MacOS/OpenClaw")
         let serviceName = "ai.openclaw.mac.test-node"
         let launchAgentURL = home.appendingPathComponent("Library/LaunchAgents/\(serviceName).plist")
         try FileManager.default.createDirectory(
@@ -479,7 +479,7 @@ struct ApplicationRelocatorTests {
     func `replacement metadata is read from disk instead of Bundle cache`() throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("ApplicationRelocatorTests-\(UUID().uuidString)")
-        let bundleURL = root.appendingPathComponent("FRIDAY.app")
+        let bundleURL = root.appendingPathComponent("OpenClaw.app")
         let contentsURL = bundleURL.appendingPathComponent("Contents")
         try FileManager.default.createDirectory(
             at: contentsURL.appendingPathComponent("MacOS"),
@@ -490,11 +490,11 @@ struct ApplicationRelocatorTests {
         try writeInfoPlist(
             at: contentsURL.appendingPathComponent("Info.plist"),
             bundleIdentifier: "ai.openclaw.mac",
-            executable: "FRIDAY"
+            executable: "OpenClaw"
         )
         #expect(ApplicationRelocator.applicationOnDisk(at: bundleURL) == .init(
             bundleIdentifier: "ai.openclaw.mac",
-            executableURL: contentsURL.appendingPathComponent("MacOS/FRIDAY")
+            executableURL: contentsURL.appendingPathComponent("MacOS/OpenClaw")
         ))
 
         try writeInfoPlist(

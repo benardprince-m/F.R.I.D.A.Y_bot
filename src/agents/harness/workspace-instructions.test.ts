@@ -19,9 +19,9 @@ describe("agent workspace instruction snapshots", () => {
     expect(snapshot).toEqual({
       files: [instructionsFile],
       instructions: [
-        "## FRIDAY Agent Workspace Instructions",
+        "## OpenClaw Agent Workspace Instructions",
         "",
-        "FRIDAY loaded this bounded snapshot from the configured agent workspace.",
+        "OpenClaw loaded this bounded snapshot from the configured agent workspace.",
         "",
         `### ${instructionsPath}`,
         "",

@@ -33,7 +33,7 @@ import { createCommandTest, type CommandFixture } from "../helpers/command-fixtu
 
 const it = createCommandTest();
 const workerMissing = "Worker deploy artifact dist/worker/github-exec-launcher.mjs is missing.";
-const packing = "Packing FRIDAY package";
+const packing = "Packing OpenClaw package";
 const badLinker = "ERR_PNPM_BUNDLED_DEPENDENCIES_WITHOUT_HOISTED";
 const readText = (...parts: string[]) => readFileSync(join(...parts), "utf8");
 function expectExit(

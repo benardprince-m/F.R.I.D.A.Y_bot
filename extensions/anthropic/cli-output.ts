@@ -6,7 +6,7 @@ import { isRecord } from "openclaw/plugin-sdk/string-coerce-runtime";
 import { findCodeRegions, type CodeRegion } from "openclaw/plugin-sdk/text-chunking";
 
 const CLAUDE_RAW_TOOL_OUTPUT_ERROR =
-  "Claude CLI returned malformed tool output (invalid request format): raw tool protocol appeared as assistant text. FRIDAY refused to persist or deliver it.";
+  "Claude CLI returned malformed tool output (invalid request format): raw tool protocol appeared as assistant text. OpenClaw refused to persist or deliver it.";
 
 export function classifyClaudeCliErrorCode(message: string): string | undefined {
   // Claude Code reports refresh-lock contention as server_error, distinct from

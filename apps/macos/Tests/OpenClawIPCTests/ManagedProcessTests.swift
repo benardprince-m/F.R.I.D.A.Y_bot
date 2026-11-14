@@ -1,7 +1,7 @@
 import Foundation
 import Subprocess
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 #if canImport(Darwin)
 @Suite(.testWaitLimit)

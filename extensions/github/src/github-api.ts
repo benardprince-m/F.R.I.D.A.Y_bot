@@ -235,7 +235,7 @@ function activeGitHubCooldown(
 function githubApiHeaders(token?: string): Record<string, string> {
   const headers: Record<string, string> = {
     Accept: "application/vnd.github+json",
-    "User-Agent": "FRIDAY-Control-UI",
+    "User-Agent": "OpenClaw-Control-UI",
     "X-GitHub-Api-Version": GITHUB_API_VERSION,
   };
   if (token) {

@@ -241,7 +241,7 @@ Inside those workers, import `serveWorkerTasks` and the
 loading the host process and pool runtime. Both paths use the same task protocol.
 
 The shared implementation lives in the private `@openclaw/worker-runtime`
-workspace package. Plugins keep using these public SDK entrypoints; FRIDAY's
+workspace package. Plugins keep using these public SDK entrypoints; OpenClaw's
 host adapter supplies worker creation, resource cleanup, and process accounting
 to the same scheduler.
 
@@ -343,7 +343,7 @@ returns the corresponding output promise. The host currently rejects calls from
 other application workers, which need a shared host-broker connection.
 
 This first host supports filesystem-backed databases only. Empty paths, SQLite
-URIs, `:memory:`, and FRIDAY's reserved incognito database basename are refused
+URIs, `:memory:`, and OpenClaw's reserved incognito database basename are refused
 before normalization or worker admission. In-memory and incognito ownership
 remain pending; these locators must never become disk filenames.
 
@@ -456,7 +456,7 @@ delivery. Keep successful-response activity on `finish`, with the caller's
 success-status check, so an aborted request cannot report healthy activity.
 
 Older Bun HTTP transports use native response completion because their raw socket
-operations do not flush the HTTP response. FRIDAY detects the native HTTP
+operations do not flush the HTTP response. OpenClaw detects the native HTTP
 `destroySoon` implementation introduced by Bun's Node compatibility rework rather
 than relying on version labels shared by different canary builds. Queued HEAD
 rejections on newer Bun wait for response socket assignment, including builds
@@ -678,7 +678,7 @@ Contract notes:
   senders change. Before any requester resolves, no scoped specs are advertised.
 - Unauthenticated requesters on a shared-thread harness still see the advertised
   scoped tools; calling one returns a clean not-connected tool error for that
-  requester. FRIDAY never falls back to another requester's credentials.
+  requester. OpenClaw never falls back to another requester's credentials.
 
 Memory prompt supplement builders receive optional `agentId`,
 `agentSessionKey`, `sandboxed`, and `projectKey` context. `projectKey` is the
@@ -695,13 +695,13 @@ Use `registerMemoryPromptPreparation(...)` when prompt text depends on async
 plugin state. The callback runs once before each full agent prompt and receives
 the same tool, agent, session, and sandbox context as synchronous memory prompt
 builders. Validate the current storage-owner instance before loading persisted
-state, then return only lines for that run. FRIDAY freezes those lines and
+state, then return only lines for that run. OpenClaw freezes those lines and
 hands the immutable result to synchronous prompt assembly. Keep persistence,
 atomic replacement, and owner-removal deletion inside the owning plugin; do not
 poll or read files from a prompt builder.
 
 Telegram interactive handlers can return `{ submitText }` to route text through
-Telegram's normal inbound agent path after the handler succeeds. FRIDAY keeps
+Telegram's normal inbound agent path after the handler succeeds. OpenClaw keeps
 the callback button when inbound policy skips the text or processing fails, so
 the user can retry after the blocking condition changes. This result field is
 Telegram-specific; other channels keep their own interactive result contracts.

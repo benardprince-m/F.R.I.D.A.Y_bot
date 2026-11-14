@@ -12,7 +12,7 @@ export const postgresSchemaMetadataSql = `CREATE TABLE openclaw_schema_meta (
   store TEXT PRIMARY KEY, version BIGINT NOT NULL, store_id TEXT NOT NULL,
   fingerprint TEXT, ddl_hash TEXT, server_major BIGINT)`;
 const recovery =
-  "Use a compatible FRIDAY binary or restore the matching PostgreSQL schema and anchor; do not edit schema metadata.";
+  "Use a compatible OpenClaw binary or restore the matching PostgreSQL schema and anchor; do not edit schema metadata.";
 // Keep the DDL seal portable when a backup is restored into a fresh namespace.
 const canonicalNamespace = "openclaw_schema";
 const quote = (name: string) => `"${name.replaceAll('"', '""')}"`;

@@ -277,7 +277,7 @@ export const synologyChatPlugin = {
     selectionLabel: "Synology Chat (Webhook)",
     detailLabel: "Synology Chat (Webhook)",
     docsPath: "/channels/synology-chat",
-    blurb: "Connect your Synology NAS Chat to FRIDAY",
+    blurb: "Connect your Synology NAS Chat to OpenClaw",
     order: 90,
   },
   capabilities: {
@@ -393,7 +393,7 @@ export const synologyChatPlugin = {
       "  Example: `<https://example.com|Click here>` renders as a clickable link.",
       "",
       "**File sharing**: Send files through the media attachment field.",
-      "  FRIDAY freezes the bytes and gives the NAS a short-lived download capability (max 32 MB).",
+      "  OpenClaw freezes the bytes and gives the NAS a short-lived download capability (max 32 MB).",
       "",
       "**Limitations**:",
       "- No markdown, bold, italic, or code blocks",
@@ -412,7 +412,7 @@ export const synologyChatPlugin = {
   conversationBindings: { supportsCurrentConversationBinding: true },
   pairing: createTextPairingAdapter({
     idLabel: "synologyChatUserId",
-    message: "FRIDAY: your access has been approved.",
+    message: "OpenClaw: your access has been approved.",
     normalizeAllowEntry: (entry: string) => normalizeLowercaseStringOrEmpty(entry),
     notify: async (params) => {
       await sendSynologyChatText({ ...params, to: params.id, text: params.message });

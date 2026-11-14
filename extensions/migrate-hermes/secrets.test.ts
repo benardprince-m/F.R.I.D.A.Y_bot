@@ -213,7 +213,7 @@ describe("Hermes migration secret items", () => {
     },
   );
 
-  it("imports a configured provider key_env as matching FRIDAY provider auth", async () => {
+  it("imports a configured provider key_env as matching OpenClaw provider auth", async () => {
     const { source, stateDir, secretContext, config, runtime } = await makeHermesSecretFixture();
     const value = ["custom", "provider", "placeholder"].join("-");
     const envVar = ["ACME", "TOKEN"].join("_");
@@ -363,7 +363,7 @@ describe("Hermes migration secret items", () => {
       });
     }
     expect(plan.warnings).toContain(
-      "Hermes and FRIDAY must not keep using the same imported OpenAI OAuth refresh grant after migration; reauthenticate one side before running both.",
+      "Hermes and OpenClaw must not keep using the same imported OpenAI OAuth refresh grant after migration; reauthenticate one side before running both.",
     );
     const result = await provider.apply(ctx, plan);
     const authItems = result.items.filter((item) => item.kind === "auth");

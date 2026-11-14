@@ -387,7 +387,7 @@ describe("status commands", () => {
     if (args.includes("--json")) {
       expect(JSON.parse(output).usage).toEqual(summary);
     } else {
-      expect(output).toContain("FRIDAY status");
+      expect(output).toContain("OpenClaw status");
       expect(output).toContain("Diagnosis (read-only)");
       if (line) {
         expect(output).toContain(line);
@@ -492,7 +492,7 @@ describe("status commands", () => {
     });
     const text = await runStatusOutput({ verbose: true });
     for (const token of [
-      "FRIDAY status",
+      "OpenClaw status",
       "WhatsApp",
       "signal-cli unreachable",
       "Sessions",

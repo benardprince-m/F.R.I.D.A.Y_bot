@@ -3,7 +3,7 @@ import Darwin
 import Foundation
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized)
 struct ExecHostSocketCancellationTests {

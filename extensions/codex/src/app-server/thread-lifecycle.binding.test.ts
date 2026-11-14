@@ -1492,8 +1492,9 @@ describe("Codex app-server thread lifecycle bindings", () => {
       userMcpServersEnabled: false,
       developerInstructions: "generic policy",
     };
-    const firstSkills = "## FRIDAY Skills\n\nweather\n\n<AGENT_SOUL>Original persona</AGENT_SOUL>";
-    const secondSkills = "## FRIDAY Skills\n\nweather\n\n<AGENT_SOUL>Edited persona</AGENT_SOUL>";
+    const firstSkills =
+      "## OpenClaw Skills\n\nweather\n\n<AGENT_SOUL>Original persona</AGENT_SOUL>";
+    const secondSkills = "## OpenClaw Skills\n\nweather\n\n<AGENT_SOUL>Edited persona</AGENT_SOUL>";
     const started = await startOrResumeThread({ ...common, refreshableInstructions: firstSkills });
     // The catalog rides the thread developer carrier, after the generic policy.
     expect(request.mock.calls.find(([method]) => method === "thread/start")?.[1]).toMatchObject({
@@ -1832,13 +1833,13 @@ describe("Codex app-server thread lifecycle bindings", () => {
   });
 
   it.each([
-    { change: "policy", policy: "generic policy v2", skills: "## FRIDAY Skills\n\nweather" },
+    { change: "policy", policy: "generic policy v2", skills: "## OpenClaw Skills\n\nweather" },
     { change: "skills", policy: "generic policy", skills: undefined },
-    { change: "compaction", policy: "generic policy", skills: "## FRIDAY Skills\n\nweather" },
+    { change: "compaction", policy: "generic policy", skills: "## OpenClaw Skills\n\nweather" },
     {
       change: "compaction-scope",
       policy: "generic policy",
-      skills: "## FRIDAY Skills\n\nweather",
+      skills: "## OpenClaw Skills\n\nweather",
     },
   ] as const)(
     "refreshes live incognito instructions but refuses generic policy drift ($change: $skills)",
@@ -1876,7 +1877,7 @@ describe("Codex app-server thread lifecycle bindings", () => {
         userMcpServersEnabled: false,
       };
       const firstSkills =
-        "## FRIDAY Skills\n\nweather\n\n<AGENT_SOUL>Original persona</AGENT_SOUL>";
+        "## OpenClaw Skills\n\nweather\n\n<AGENT_SOUL>Original persona</AGENT_SOUL>";
       const first = await startOrResumeThread({
         ...common,
         developerInstructions: "generic policy",
@@ -1970,7 +1971,7 @@ describe("Codex app-server thread lifecycle bindings", () => {
                   {
                     type: "input_text",
                     text: expect.stringContaining(
-                      skills ?? "The current FRIDAY refreshable thread instructions are empty",
+                      skills ?? "The current OpenClaw refreshable thread instructions are empty",
                     ),
                   },
                 ],
@@ -2295,7 +2296,7 @@ describe("Codex app-server thread lifecycle bindings", () => {
     },
     { expectedError: /config layers/u, name: "malformed", layer: { name: {} } },
   ])(
-    "fails closed on $name config layers before FRIDAY thread/start",
+    "fails closed on $name config layers before OpenClaw thread/start",
     async ({ expectedError, layer }) => {
       const { sessionFile, workspaceDir } = createPaths();
       const params = createParams(sessionFile, workspaceDir);
@@ -2322,7 +2323,7 @@ describe("Codex app-server thread lifecycle bindings", () => {
   );
 
   it.each(["managed_hooks"] as const)(
-    "fails closed on non-empty %s requirements before FRIDAY thread/start",
+    "fails closed on non-empty %s requirements before OpenClaw thread/start",
     async (requirementsKey) => {
       const { sessionFile, workspaceDir } = createPaths();
       const params = createParams(sessionFile, workspaceDir);

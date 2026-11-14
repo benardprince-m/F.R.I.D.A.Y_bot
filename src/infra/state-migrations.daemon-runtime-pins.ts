@@ -140,7 +140,7 @@ export async function migrateDaemonRuntimePins(env: NodeJS.ProcessEnv): Promise<
                       saved.updated_at_ms !== row.updated_at_ms)
                   ) {
                     throw new Error(
-                      `Daemon runtime pin migration conflict for ${row.state_key}; both stores were retained. Back up and reconcile the stores with FRIDAY stopped, then run openclaw doctor --fix.`,
+                      `Daemon runtime pin migration conflict for ${row.state_key}; both stores were retained. Back up and reconcile the stores with OpenClaw stopped, then run openclaw doctor --fix.`,
                     );
                   }
                 }

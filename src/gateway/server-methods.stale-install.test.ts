@@ -70,7 +70,7 @@ describe("gateway stale install errors", () => {
     },
   );
 
-  it("does not rewrite a missing module outside the FRIDAY install", async () => {
+  it("does not rewrite a missing module outside the OpenClaw install", async () => {
     const outsideInstall = path.join(
       path.parse(process.cwd()).root,
       "outside-openclaw",

@@ -25,7 +25,7 @@ const preparedClawToolPolicies = new WeakMap<object, PreparedClawToolPolicy>();
 let preparedCandidates: ClawToolPolicyCandidate[] = [];
 let preparedStateOptions: OpenClawStateDatabaseOptions = {};
 const uninitializedStateError = new Error(
-  "FRIDAY state database has not initialized Claw consent provenance.",
+  "OpenClaw state database has not initialized Claw consent provenance.",
 );
 
 export function markFrozenClawToolAllowPolicy(policy: object | undefined): void {
@@ -171,7 +171,7 @@ class ClawToolProfileConsentStateError extends Error {
   constructor(agentId: string, cause: unknown) {
     super(
       `Cannot verify the installed tool authority for Claw-managed agent ${JSON.stringify(agentId)}. ` +
-        "Repair the FRIDAY state database before running it.",
+        "Repair the OpenClaw state database before running it.",
       { cause },
     );
     this.name = "ClawToolProfileConsentStateError";

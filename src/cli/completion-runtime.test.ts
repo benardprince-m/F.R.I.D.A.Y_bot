@@ -323,7 +323,7 @@ describe("completion-runtime", () => {
 
         expect((await fs.lstat(profilePath)).isSymbolicLink()).toBe(true);
         expect(await fs.readlink(profilePath)).toBe(path.join("managed", "zshrc"));
-        await expect(fs.readFile(targetPath, "utf8")).resolves.toContain("# FRIDAY Completion");
+        await expect(fs.readFile(targetPath, "utf8")).resolves.toContain("# OpenClaw Completion");
       });
     },
   );
@@ -333,7 +333,7 @@ describe("completion-runtime", () => {
       const cachePath = resolveCompletionCachePath("bash", "openclaw");
       await fs.writeFile(
         path.join(homeDir, ".bash_profile"),
-        `# FRIDAY Completion\n[ -f "${cachePath}" ] && source "${cachePath}"\n`,
+        `# OpenClaw Completion\n[ -f "${cachePath}" ] && source "${cachePath}"\n`,
         "utf-8",
       );
 
@@ -363,7 +363,7 @@ describe("completion-runtime", () => {
 
       const profile = await fs.readFile(profilePath, "utf-8");
       expect(profile).not.toContain(previousSource);
-      expect(profile.match(/^# FRIDAY Completion$/gm)).toHaveLength(1);
+      expect(profile.match(/^# OpenClaw Completion$/gm)).toHaveLength(1);
       await expect(isCompletionInstalled(shell, "openclaw")).resolves.toBe(true);
       await installCompletion(shell, true, "openclaw");
       await expect(fs.readFile(profilePath, "utf8")).resolves.toBe(profile);
@@ -393,7 +393,7 @@ describe("completion-runtime", () => {
         [
           unrelatedSource,
           unmarkedPriorSource,
-          ...markedUserSources.flatMap((source) => ["# FRIDAY Completion", source]),
+          ...markedUserSources.flatMap((source) => ["# OpenClaw Completion", source]),
           "",
         ].join("\n"),
         "utf-8",
@@ -585,7 +585,7 @@ describe("completion-runtime", () => {
   it
     .skipIf(process.platform === "win32")
     .each([
-      '# FRIDAY Completion\n[[ -f "${HOME}/.openclaw/completions/openclaw.bash" ]] && source "${HOME}/.openclaw/completions/openclaw.bash"',
+      '# OpenClaw Completion\n[[ -f "${HOME}/.openclaw/completions/openclaw.bash" ]] && source "${HOME}/.openclaw/completions/openclaw.bash"',
     ])(
     "preserves a managed portable Bash hook byte-for-byte across installs: %s",
     async (portableHook) => {
@@ -683,14 +683,14 @@ describe("completion-runtime", () => {
           await fs.writeFile(cachePath, "complete -W 'status' openclaw\n", "utf-8");
           await fs.writeFile(
             profilePath,
-            `${marked ? "# FRIDAY Completion\n" : ""}${brokenHook}\n`,
+            `${marked ? "# OpenClaw Completion\n" : ""}${brokenHook}\n`,
             "utf-8",
           );
           await expect(isCompletionInstalled("bash", "openclaw")).resolves.toBe(false);
           await installCompletion("bash", true, "openclaw");
           const first = await fs.readFile(profilePath, "utf8");
           expect(first).toContain(`${brokenHook}\n`);
-          expect(first).toContain("# FRIDAY Completion");
+          expect(first).toContain("# OpenClaw Completion");
           expect(first).toContain(cachePath);
           await expect(isCompletionInstalled("bash", "openclaw")).resolves.toBe(true);
 

@@ -2,7 +2,7 @@ import { normalizeRelayQuery } from "./relay-url.js";
 import { createSerialQueue } from "./serial-queue.js";
 
 /** Tab group shown to the user; an ACL in selected mode and an ownership marker in all mode. */
-export const OPENCLAW_TAB_GROUP_TITLE = "FRIDAY";
+export const OPENCLAW_TAB_GROUP_TITLE = "OpenClaw";
 export const ACCESS_MODE_ALL = "all";
 export const ACCESS_MODE_SELECTED = "selected";
 const RELAY_SECRET_PATTERN = /^[0-9a-f]{64}$/;

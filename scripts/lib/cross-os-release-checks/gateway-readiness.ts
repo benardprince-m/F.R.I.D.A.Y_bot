@@ -10,7 +10,7 @@ import { hasChildExited, reserveGatewayPortForLane } from "./process.ts";
 import { formatError, sleep } from "./shared.ts";
 
 const STARTUP_MIGRATION_RESTART_PREFIX =
-  "FRIDAY plugin migration inputs changed during startup convergence;";
+  "OpenClaw plugin migration inputs changed during startup convergence;";
 type StatusCommand = (args: string[], timeoutMs: number) => Promise<CommandResult>;
 export type GatewayReadinessParams = LaneCommandParams & {
   gateway?: GatewayHandle;

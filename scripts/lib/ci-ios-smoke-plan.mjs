@@ -1,4 +1,4 @@
-// OpenClawTests is hosted by the real FRIDAY app (apps/ios/project.yml).
+// OpenClawTests is hosted by the real OpenClaw app (apps/ios/project.yml).
 // Its startup reaches RootTabs, onboarding/settings, and NodeAppModel services.
 // The voice group's typography suite also reads every app/Watch Swift source.
 const sharedOwners = [

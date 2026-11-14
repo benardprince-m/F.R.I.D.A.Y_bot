@@ -2,7 +2,7 @@ import Foundation
 import OpenClawCameraPTZNative
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct CameraPTZServiceTests {
     private enum FakeFailure: LocalizedError {

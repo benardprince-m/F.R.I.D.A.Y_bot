@@ -11,7 +11,7 @@ export function classifyPortListener(listener: PortListener): PortListenerKind {
   const command = normalizeLowercaseStringOrEmpty(listener.command ?? "");
   const commandLine = normalizeLowercaseStringOrEmpty(listener.commandLine ?? "");
   // The inspected command identifies the listener owner. Check it before argv,
-  // where a socat forward may name FRIDAY. Observed macOS output also uses `socat1`.
+  // where a socat forward may name OpenClaw. Observed macOS output also uses `socat1`.
   if (command === "socat" || command === "socat1" || command === "socat.exe") {
     return "non_gateway";
   }

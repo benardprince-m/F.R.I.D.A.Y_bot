@@ -2,7 +2,7 @@
 summary: "CLI reference for `openclaw config` (get/set/patch/unset/file/schema/validate)"
 read_when:
   - You want to read or edit config non-interactively
-  - You manage config externally and want FRIDAY to leave it unchanged
+  - You manage config externally and want OpenClaw to leave it unchanged
 title: "Config"
 sidebarTitle: "Config"
 ---
@@ -15,13 +15,13 @@ and its database metadata. Stop the Gateway through its service owner, wait for
 it to exit, then rerun the command.
 
 <Note>
-When `OPENCLAW_CONFIG_READONLY=1` or `OPENCLAW_NIX_MODE=1`, FRIDAY treats `openclaw.json` as immutable. Read-only commands (`config get`, `config file`, `config schema`, `config validate`) still work; config writers refuse.
+When `OPENCLAW_CONFIG_READONLY=1` or `OPENCLAW_NIX_MODE=1`, OpenClaw treats `openclaw.json` as immutable. Read-only commands (`config get`, `config file`, `config schema`, `config validate`) still work; config writers refuse.
 </Note>
 
 ## Externally managed config
 
 Set `OPENCLAW_CONFIG_READONLY=1` in the environment of both the Gateway and any
-FRIDAY CLI processes when a deployment system manages your config:
+OpenClaw CLI processes when a deployment system manages your config:
 
 ```bash
 export OPENCLAW_CONFIG_READONLY=1
@@ -143,7 +143,7 @@ are rejected; they do not suppress validation of later options.
 A schema-valid but unset authorable path explains that the runtime default applies and suggests
 `openclaw config set`. For automatically managed metadata, such as `meta.lastTouchedVersion`,
 `meta.migrations.modelPolicyAllowlist`, and `meta.migrations.utilityModelSeparation`, the message
-instead explains that FRIDAY manages the values on config writes. Reading their unset parent
+instead explains that OpenClaw manages the values on config writes. Reading their unset parent
 paths (`meta` or `meta.migrations`) gives the same explanation, not a refused set command.
 An unknown path suggests `openclaw config schema`. With `--json`, unset and unknown paths use
 the standard [CLI JSON failure envelope](/cli#json-failures) on stdout and exit with status 1.
@@ -247,7 +247,7 @@ For structured values that are awkward to quote in your shell, put a config-shap
 
 When a model uses string shorthand, setting its `fallbacks` or a supported tool-model `timeoutMs` preserves that string as `primary`. This also applies to chat `/config set`. Setting `primary` explicitly replaces the primary, and setting the whole model still replaces the whole value.
 
-When a write changes `agents.defaults.model` or a per-agent `agents.entries.*.model`, FRIDAY resolves each changed primary or fallback through the configured catalogs and the selected provider's model resolver before writing. Provider-supported exact `provider/model` pins are accepted even when absent from the curated picker; validation does not replace the selected model. Unknown model references are rejected without changing the active config. Refusals for newly authored per-agent references include the entered value and resolver reason; inherited values and environment-expanded details remain redacted. Run `openclaw models list` to browse the picker, or check the provider's documentation for an exact model ID. Successful validation does not prove that your account can call the model. [`openclaw models set`](/cli/models#common-commands) is deliberately more permissive for the same setting: it saves a model the local catalog cannot confirm and prints a warning instead of rejecting the write.
+When a write changes `agents.defaults.model` or a per-agent `agents.entries.*.model`, OpenClaw resolves each changed primary or fallback through the configured catalogs and the selected provider's model resolver before writing. Provider-supported exact `provider/model` pins are accepted even when absent from the curated picker; validation does not replace the selected model. Unknown model references are rejected without changing the active config. Refusals for newly authored per-agent references include the entered value and resolver reason; inherited values and environment-expanded details remain redacted. Run `openclaw models list` to browse the picker, or check the provider's documentation for an exact model ID. Successful validation does not prove that your account can call the model. [`openclaw models set`](/cli/models#common-commands) is deliberately more permissive for the same setting: it saves a model the local catalog cannot confirm and prints a warning instead of rejecting the write.
 
 <Note>
 Object assignment replaces the target path by default. Protected paths that commonly hold user-added entries refuse replacements that would remove existing entries unless you pass `--replace`: `agents.defaults.models`, `agents.entries`, `models.providers`, `models.providers.<id>`, `models.providers.<id>.models`, `plugins.entries`, and `auth.profiles`.
@@ -286,7 +286,7 @@ operation, require a direct non-redirected config path, and cannot be combined w
 `--dry-run`. If input or roster resolution would write a different path than the caller requested,
 such as a sibling `*Ref` path, the command exits with status 1 instead of retargeting the
 expectation. A mismatch exits with status 1, writes nothing, and does not print either the expected
-or current value. FRIDAY's config snapshot guard still rejects a later race between the
+or current value. OpenClaw's config snapshot guard still rejects a later race between the
 expectation check and the final file replacement.
 
 ## `config set` modes
@@ -465,8 +465,8 @@ Example patch:
 }
 ```
 
-The runtime pin makes this an embedded FRIDAY recipe. A valid `fastMode`
-value is a portable typed runtime control and does not choose FRIDAY by
+The runtime pin makes this an embedded OpenClaw recipe. A valid `fastMode`
+value is a portable typed runtime control and does not choose OpenClaw by
 itself.
 
 Use `--replace-path <path>` when one object or array must become exactly the provided value instead of being recursively patched:
@@ -625,11 +625,11 @@ Unrelated edits leave provider catalogs unchanged. Catalog writes and changes to
 
 ## Write safety
 
-`openclaw config set` and other FRIDAY-owned config writers validate the full post-change config before committing it to disk. If the new payload fails schema validation or looks like a destructive clobber, the active config is left alone and the rejected payload is saved beside it as `openclaw.json.rejected.*`.
+`openclaw config set` and other OpenClaw-owned config writers validate the full post-change config before committing it to disk. If the new payload fails schema validation or looks like a destructive clobber, the active config is left alone and the rejected payload is saved beside it as `openclaw.json.rejected.*`.
 
 If staging a config save fails, the existing root or include backup ring is left
-untouched. FRIDAY prepares backup contents without blocking unrelated Gateway
-requests. If a copy fallback removes the file before a conflict, FRIDAY restores
+untouched. OpenClaw prepares backup contents without blocking unrelated Gateway
+requests. If a copy fallback removes the file before a conflict, OpenClaw restores
 the original when it still owns the missing destination. Otherwise, the error
 reports partial publication and the backup location to inspect before another save.
 
@@ -638,7 +638,7 @@ and reports whether the write was rolled back. This can name an included file
 when that file owns the edited setting. If rollback did not happen or could not
 be confirmed, inspect the named file and the active config before retrying.
 
-FRIDAY-owned writes that change config reserialize JSON5 as standard JSON. When the source contains comments, the writer warns immediately before removing them; use a direct editor when preserving comments matters.
+OpenClaw-owned writes that change config reserialize JSON5 as standard JSON. When the source contains comments, the writer warns immediately before removing them; use a direct editor when preserving comments matters.
 
 <Warning>
 The active config path must be a regular file. Symlinked `openclaw.json` layouts are unsupported for writes; use `OPENCLAW_CONFIG_PATH` to point directly at the real file instead.

@@ -7,7 +7,7 @@ read_when:
   - You need to satisfy or configure security-sensitive pull request review
 ---
 
-FRIDAY CI runs on pushes to `main` that change a path outside `**/*.md` and
+OpenClaw CI runs on pushes to `main` that change a path outside `**/*.md` and
 `docs/**`, on every non-draft pull request, and on manual dispatch. Docs-only
 main pushes skip CI; mixed docs and code pushes still run it. Pull-request docs
 scoping is unchanged.
@@ -61,7 +61,7 @@ isolated owner.
 Every CI manual dispatch includes the full tooling family. Full Release
 Validation's `normal_ci` child dispatches CI on the frozen candidate, where
 `Run Node test shard` executes those unchanged tests before the regular release
-publication gate accepts the campaign. FRIDAY Release Checks and Plugin
+publication gate accepts the campaign. OpenClaw Release Checks and Plugin
 Prerelease are separate proof owners. This is candidate validation, not a test
 deferred until promotion. Direct human beta publication with approved
 preflight-only evidence remains an explicit existing exception to full-campaign
@@ -112,7 +112,7 @@ the job's uploaded artifacts.
 | `macos-swift`                    | Swift lint and build for the macOS app, plus tests for the app, shared OpenClawKit, and standalone Swabble package                                                                                                                                                                                       | macOS-relevant changes                               |
 | `ios-build`                      | Debug build and Swift lint smoke; hourly main runs native tests; full manual CI also adds a Release device phase                                                                                                                                                                                         | iOS/capture changes and full manual CI               |
 | `ios-screenshot-capture`         | One simulator build with the locked Ruby/Fastlane bundle, followed by all four iPhone captures, four 13-inch iPad captures, and one Watch capture. Phase timings and hardware diagnostics remain available.                                                                                              | Screenshot-input changes and full manual CI          |
-| `ios-screenshot-evidence`        | Hosted reducer that verifies exact artifact/family topology, digests, one successful FRIDAY-managed capture per screenshot, and run provenance before publishing the release screenshot artifact; replacement attempts cannot turn failed captures into passing evidence                                 | After the combined screenshot capture                |
+| `ios-screenshot-evidence`        | Hosted reducer that verifies exact artifact/family topology, digests, one successful OpenClaw-managed capture per screenshot, and run provenance before publishing the release screenshot artifact; replacement attempts cannot turn failed captures into passing evidence                               | After the combined screenshot capture                |
 | `android`                        | Phone and Wear unit tests, debug builds, Android lint, and Kotlin lint                                                                                                                                                                                                                                   | Android-relevant changes                             |
 | `android-screenshots`            | Phone and Wear emulator captures using the same script as Play Store releases, with scene readiness and JPEG validation; retains images and synthetic fixture diagnostics                                                                                                                                | Screenshot-input PRs and full manual CI              |
 | `openclaw/ci-gate`               | Final aggregate: requires preflight and security; rejects selected skips and every downstream failure or cancellation                                                                                                                                                                                    | Every non-draft CI run                               |
@@ -451,7 +451,7 @@ It retains deferred VM bytecode generation, integral heap-sampling byte sizes,
 inspector snapshot cleanup, and the previous worker heap-cap, module-resolution,
 test-deadline, GC cadence, and idle-worker fixes. The release publishes
 Darwin/Linux targets and Authenticode-signed Windows x64/arm64 targets from the
-FRIDAY Foundation. Darwin executables remain Developer ID signed and notarized;
+OpenClaw Foundation. Darwin executables remain Developer ID signed and notarized;
 the shared pin records Windows targets as signed and not test-only.
 
 The build adds an adaptive, bounded `node:vm` compilation cache for large module
@@ -528,7 +528,7 @@ measure setup separately from the test body.
 
 Preflight's manifest bootstrap uses the exact `NODE_VERSION` pin in `ci.yml`
 (24.21.0). Unlike the repository helper, `actions/setup-node` can satisfy a
-`24.x` request from an older cached patch below FRIDAY's support floor.
+`24.x` request from an older cached patch below OpenClaw's support floor.
 
 CI's execution version does not define the supported user runtime matrix.
 `package.json` accepts Node 24.16+ and Node 26.1+. The full manual CI graph checks

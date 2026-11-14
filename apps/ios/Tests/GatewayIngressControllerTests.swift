@@ -9,7 +9,7 @@ import os
 import SafariServices
 import Security
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 final class IngressTestBrowser: CloudflareAccessBrowserPresenting {

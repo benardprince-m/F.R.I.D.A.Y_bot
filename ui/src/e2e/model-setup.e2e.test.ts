@@ -93,7 +93,7 @@ suite.define(() => {
             [rpc.next]: activated("openai/gpt-5"),
             "openclaw.chat": {
               sessionId: "e2e-custodian",
-              reply: "## Hi, I'm FRIDAY",
+              reply: "## Hi, I'm OpenClaw",
               action: "none",
               question: {
                 id: "onboarding-next-step",
@@ -299,7 +299,7 @@ suite.define(() => {
                     "Start or restart the Ollama server for this address.",
                     "If Ollama is not installed on that machine, download it at https://ollama.com/download",
                     "",
-                    "Continue when it is running. FRIDAY will retry this address.",
+                    "Continue when it is running. OpenClaw will retry this address.",
                   ].join("\n"),
                   { title: "Ollama" },
                 ),
@@ -344,7 +344,7 @@ suite.define(() => {
         await page.getByRole("button", { name: "Submit" }).click();
         await page.getByText("Ollama could not be reached at http://127.0.0.1:11434.").waitFor();
         await page
-          .getByText("Continue when it is running. FRIDAY will retry this address.")
+          .getByText("Continue when it is running. OpenClaw will retry this address.")
           .waitFor();
 
         await page.getByRole("button", { name: "Continue" }).click();

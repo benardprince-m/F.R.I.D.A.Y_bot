@@ -23,7 +23,7 @@
           { "type": "web_search", "mode": "live" },
           { "type": "programmatic_tool_calling", "enabled": true }
         ],
-        "description": "Native Agents API tool declarations passed unchanged to new sessions. Omit for live web search and programmatic tool calling. A supplied list replaces the defaults; the API validates tool types and options. An empty list sends no native declarations, but programmatic tool calling requires an explicit enabled: false declaration to disable it. FRIDAY functions, MCP servers, plugins, and environment-provided tools are configured separately. Restart the Gateway and reset existing sessions to adopt a changed list."
+        "description": "Native Agents API tool declarations passed unchanged to new sessions. Omit for live web search and programmatic tool calling. A supplied list replaces the defaults; the API validates tool types and options. An empty list sends no native declarations, but programmatic tool calling requires an explicit enabled: false declaration to disable it. OpenClaw functions, MCP servers, plugins, and environment-provided tools are configured separately. Restart the Gateway and reset existing sessions to adopt a changed list."
       },
       "forwarding": {
         "type": "object",
@@ -33,7 +33,7 @@
           "gatewayTools": {
             "type": "boolean",
             "default": true,
-            "description": "Forward policy-filtered FRIDAY and plugin tools as Gateway function callbacks."
+            "description": "Forward policy-filtered OpenClaw and plugin tools as Gateway function callbacks."
           },
           "mcpServers": {
             "type": "boolean",
@@ -68,7 +68,7 @@
         "type": "string",
         "enum": ["openai_hosted", "self_hosted"],
         "default": "openai_hosted",
-        "description": "Execution environment for new sessions. Self-hosted uses the prepared FRIDAY workspace and requires an externally connected executor. Reset existing sessions after changing this setting."
+        "description": "Execution environment for new sessions. Self-hosted uses the prepared OpenClaw workspace and requires an externally connected executor. Reset existing sessions after changing this setting."
       },
       "executorController": {
         "type": "string",
@@ -104,7 +104,7 @@
         "maxItems": 32,
         "uniqueItems": true,
         "items": { "type": "string", "pattern": "^(?:(?![\\s\\S]*/\\.{1,2}(?:/|(?![\\s\\S])))/|(?![\\s\\S]*[\\\\/]\\.{1,2}(?:[\\\\/]|(?![\\s\\S])))(?:[A-Za-z]:[\\\\/]|\\\\\\\\[^\\\\/]+[\\\\/][^\\\\/]+))" },
-        "description": "Unique absolute paths without . or .. path segments on the executor host machine that already contain the skill files and are available to the Agents API harness. FRIDAY does not copy or install these files. Gateway skill eligibility filters do not apply to these directories. Reset existing sessions after changing this list."
+        "description": "Unique absolute paths without . or .. path segments on the executor host machine that already contain the skill files and are available to the Agents API harness. OpenClaw does not copy or install these files. Gateway skill eligibility filters do not apply to these directories. Reset existing sessions after changing this list."
       }
     }
   }

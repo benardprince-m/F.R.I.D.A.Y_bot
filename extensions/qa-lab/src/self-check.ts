@@ -82,7 +82,7 @@ export async function runQaSelfCheckAgainstState(params: {
       }
     });
     const report = renderQaMarkdownReport({
-      title: "FRIDAY QA E2E Self-Check",
+      title: "OpenClaw QA E2E Self-Check",
       startedAt,
       finishedAt,
       checks,

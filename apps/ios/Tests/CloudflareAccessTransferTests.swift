@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct CloudflareAccessTransferTests {
     // Produced by Go 1.26.4, golang.org/x/crypto/nacl/box v0.53.0, matching

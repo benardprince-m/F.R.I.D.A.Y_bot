@@ -609,7 +609,7 @@ describe("Full Access delegated chat", () => {
             reply: expect.stringContaining("expired without a decision"),
           });
           expect(result.payload).toMatchObject({
-            reply: expect.stringContaining("approve it in the Control UI or FRIDAY apps"),
+            reply: expect.stringContaining("approve it in the Control UI or OpenClaw apps"),
           });
           expect(result.payload).toMatchObject({
             reply: expect.stringContaining("Retrying alone does not approve the change"),

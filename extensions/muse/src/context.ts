@@ -38,13 +38,13 @@ export async function prepareMuseSessionContext(
   const sections: string[] = [];
   if (files.length > 0) {
     sections.push(
-      "# FRIDAY workspace context\n\n" +
+      "# OpenClaw workspace context\n\n" +
         files.map((file) => `## ${file.path}\n\n${file.content}`).join("\n\n"),
     );
   }
   if (history.length > 0) {
     sections.push(
-      "# Retained FRIDAY conversation\n\n" +
+      "# Retained OpenClaw conversation\n\n" +
         "The following JSON messages are prior conversation context, not a new user request.\n\n" +
         JSON.stringify(history),
     );

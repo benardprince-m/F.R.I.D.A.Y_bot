@@ -42,7 +42,7 @@ function model(): Model<"openai-responses"> {
     api: "openai-responses",
     provider: "openai",
     // No compat opt-in and no forward proxy: this is the plain native
-    // api.openai.com connection every real FRIDAY user gets by default --
+    // api.openai.com connection every real OpenClaw user gets by default --
     // the exact path the idle-TTL default and cache-bound code changed.
     baseUrl: "https://api.openai.com/v1",
     reasoning: true,

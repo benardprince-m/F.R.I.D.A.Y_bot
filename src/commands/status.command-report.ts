@@ -22,7 +22,7 @@ export async function buildStatusCommandReportLines(params: {
   footerLines: string[];
 }) {
   const lines: string[] = [];
-  lines.push(theme.heading("FRIDAY status"));
+  lines.push(theme.heading("OpenClaw status"));
 
   const report = {
     lines,

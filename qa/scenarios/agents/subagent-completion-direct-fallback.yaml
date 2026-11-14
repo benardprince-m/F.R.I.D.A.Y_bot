@@ -361,7 +361,7 @@ flow:
                       return { userText, runtimeContext };
                     })()
               - assert:
-                  expr: "privateCompletionProjection.userText.includes('Continue the FRIDAY runtime event.') && !/QA-PARENT-PRIVATE-CHILD1-|MEDIA:/.test(privateCompletionProjection.userText) && privateCompletionProjection.runtimeContext.includes('Internal task completion event') && /MEDIA:[^\\n]*qa-private-result\\.png/.test(privateCompletionProjection.runtimeContext)"
+                  expr: "privateCompletionProjection.userText.includes('Continue the OpenClaw runtime event.') && !/QA-PARENT-PRIVATE-CHILD1-|MEDIA:/.test(privateCompletionProjection.userText) && privateCompletionProjection.runtimeContext.includes('Internal task completion event') && /MEDIA:[^\\n]*qa-private-result\\.png/.test(privateCompletionProjection.runtimeContext)"
                   message:
                     expr: "`The private completion was not split into runtime context and a generic user turn: ${JSON.stringify({ projection: privateCompletionProjection, childSessionKeys: privateRuns.map((run) => run.childSessionKey) })}`"
               - set: privateParentIds

@@ -77,7 +77,7 @@ openclaw skills workshop restore <name>
 `search`, `update`, and `verify` use ClawHub directly. `install @owner/<slug>`
 installs a native ClawHub skill. `install skills-sh:<owner>/<repo>/<slug>` asks
 ClawHub to resolve an external listing to its exact synchronized GitHub commit;
-FRIDAY does not download from skills.sh. These entries are shown as
+OpenClaw does not download from skills.sh. These entries are shown as
 **Not scanned by ClawHub**, and that trust state is preserved through updates
 and verification. Claimed or ClawHub-scanned skills use `@owner/<slug>`.
 `install git:owner/repo[@ref]` clones an unmanaged Git skill, and `install
@@ -110,7 +110,7 @@ fail instead of choosing discovery order.
 
 `check` separates **inventory**, **readiness**, and **visibility**:
 
-- **Inventory** means FRIDAY found the skill in a configured root or bundled
+- **Inventory** means OpenClaw found the skill in a configured root or bundled
   source and can report its status.
 - **Readiness** means the skill's declared prerequisites are satisfied for the
   selected Gateway or node, so it is eligible to run.
@@ -142,9 +142,9 @@ Gateway-backed skill dependency installs triggered from onboarding or Skills
 settings use the separate `skills.install` request path instead.
 
 When `security.installPolicy` returns `warn` in an interactive terminal,
-FRIDAY prints the reason and findings, then asks `type: '<skill>' to install
+OpenClaw prints the reason and findings, then asks `type: '<skill>' to install
 anyway` (or `update anyway`). If the fully rendered review exceeds 4,000
-characters, FRIDAY stops before prompting; reduce or coalesce the
+characters, OpenClaw stops before prompting; reduce or coalesce the
 policy output first. A matching answer evaluates the staged skill
 again before continuing. Declined and non-interactive direct CLI commands stop
 before commit; after review, `--acknowledge-install-policy-warning` is the
@@ -176,7 +176,7 @@ Notes:
 | `verify` provenance              | When ClawHub returns server-resolved source provenance, verify JSON also includes a commit-pinned `openclaw.verifiedSourceUrl`. Unavailable or self-declared source URLs stay only in the raw provenance envelope and are not promoted.                                                                                           |
 | `verify` version selector        | `verify` uses `.clawhub/origin.json` for installed ClawHub skills, so it verifies the installed version against the registry it came from. `--version` and `--tag` override the version selector but keep that installed registry when origin metadata exists.                                                                    |
 | `verify --card`                  | Prints the generated Skill Card Markdown instead of JSON. Exits non-zero when ClawHub returns `ok: false` or `decision: "fail"`.                                                                                                                                                                                                  |
-| Skill Card fingerprint           | Installed ClawHub bundles can include a generated `skill-card.md`. FRIDAY treats verification as a ClawHub server decision and does not reject an installed skill just because that generated card changes the bundle fingerprint.                                                                                                |
+| Skill Card fingerprint           | Installed ClawHub bundles can include a generated `skill-card.md`. OpenClaw treats verification as a ClawHub server decision and does not reject an installed skill just because that generated card changes the bundle fingerprint.                                                                                              |
 | `check --agent <id>`             | Checks the selected agent's workspace and reports which ready skills are actually visible to that agent's prompt or command surface.                                                                                                                                                                                              |
 | `workshop --agent <id>`          | Accepted before or after a Workshop leaf command, for example `workshop --agent <id> list` or `workshop list --agent <id>`. If both are provided, the leaf value wins.                                                                                                                                                            |
 | `list`                           | Default action when no subcommand is provided.                                                                                                                                                                                                                                                                                    |
@@ -201,7 +201,7 @@ scan and force-install policy before it returns a pinned commit; use
 `--force-install` to install a pending GitHub-backed skill before that scan
 completes. Malicious or blocked community releases are refused. Review
 outcomes print the exact ClawHub audit overview and details link, then continue.
-Official ClawHub skill publishers and bundled FRIDAY skill sources bypass
+Official ClawHub skill publishers and bundled OpenClaw skill sources bypass
 this release-trust check.
 
 ## Remove a ClawHub skill
@@ -219,7 +219,7 @@ The CLI asks for confirmation before deleting the skill directory and its
 bare slug, not its original `skills-sh:` reference.
 
 Select the same root where the skill was installed: the agent workspace for an
-agent-specific skill, or the FRIDAY state directory for a shared skill
+agent-specific skill, or the OpenClaw state directory for a shared skill
 installed with `--global`:
 
 ```bash

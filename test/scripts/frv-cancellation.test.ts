@@ -32,7 +32,7 @@ const runUrl = (id: number) => `https://github.com/${REPOSITORY}/actions/runs/${
 const telegramRun = (id: number, attempt = 1, nonce = "c") => ({
   ...runFor(child("releaseChecks", "303"), 1, null),
   id,
-  display_title: `FRIDAY Release Telegram QA release-checks-303-${attempt}-${nonce.repeat(32)}`,
+  display_title: `OpenClaw Release Telegram QA release-checks-303-${attempt}-${nonce.repeat(32)}`,
   path: ".github/workflows/openclaw-release-telegram-qa.yml",
 });
 

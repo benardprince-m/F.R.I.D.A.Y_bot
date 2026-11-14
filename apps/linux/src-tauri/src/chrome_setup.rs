@@ -119,7 +119,7 @@ fn perform(
     let spawn = |command: &mut Command| {
         let mut spawn_current = || {
             if app.state::<crate::DesktopState>().is_quitting() {
-                return Err("FRIDAY is quitting.".into());
+                return Err("OpenClaw is quitting.".into());
             }
             command.spawn().map_err(|error| error.to_string())
         };
@@ -212,15 +212,15 @@ pub fn cli_error(error: CliError) -> String {
     // CLI diagnostics may contain local paths or configuration. Only canonical
     // setup results cross into a potentially remote dashboard, never raw stderr.
     match error {
-        CliError::Missing => "FRIDAY CLI is not installed on this computer.",
+        CliError::Missing => "OpenClaw CLI is not installed on this computer.",
         CliError::Environment(_) | CliError::Spawn(_) => {
-            "Could not run FRIDAY CLI on this computer. Check the local CLI installation."
+            "Could not run OpenClaw CLI on this computer. Check the local CLI installation."
         }
         CliError::CommandFailed(_) => {
             "Chrome setup failed on this computer. Check the local CLI installation and try again."
         }
         CliError::InvalidJson(_) => {
-            "FRIDAY CLI returned an invalid Chrome setup result. Update the local CLI and try again."
+            "OpenClaw CLI returned an invalid Chrome setup result. Update the local CLI and try again."
         }
     }
     .into()

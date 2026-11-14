@@ -282,7 +282,7 @@ export const parityBaseScenario: ControlUiMockGatewayScenario = {
     },
     "openclaw.chat": {
       sessionId: "parity-custodian",
-      reply: "How can I help with your FRIDAY setup?",
+      reply: "How can I help with your OpenClaw setup?",
       action: "none",
     },
     "openclaw.chat.history": { turns: [] },
@@ -290,7 +290,7 @@ export const parityBaseScenario: ControlUiMockGatewayScenario = {
       enabled: true,
       provider: null,
       agentId: "main",
-      model: { provider: "openai", id: "gpt-5.5", runtime: "openclaw", runtimeLabel: "FRIDAY" },
+      model: { provider: "openai", id: "gpt-5.5", runtime: "openclaw", runtimeLabel: "OpenClaw" },
       route: {
         kind: "managed",
         provider: "parallel-free",

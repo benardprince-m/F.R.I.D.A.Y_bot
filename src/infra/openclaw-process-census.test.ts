@@ -465,7 +465,7 @@ it("keeps Rosetta custody uncertain and names native arm64 Node.js for update re
   rosetta.mockReturnValue(true);
   darwinCommand.mockImplementation(() => {
     throw new Error(
-      "Cannot inspect Darwin process arguments under Rosetta; run FRIDAY with native arm64 Node.js.",
+      "Cannot inspect Darwin process arguments under Rosetta; run OpenClaw with native arm64 Node.js.",
     );
   });
   expect(inspectOtherOpenClawProcesses()).toEqual({
@@ -639,7 +639,7 @@ it.each([
   { argv: ["/usr/bin/worker"], cwd: "/tmp/openclaw-update-runtime-Ab1234/tree" },
   { argv: ["openclaw-gateway"] },
   { argv: ["node", "--eval", "1"], environment: "OPENCLAW_SERVICE_MARKER=openclaw\0" },
-])("preserves foreign retained-runtime and FRIDAY evidence for $argv", (facts) => {
+])("preserves foreign retained-runtime and OpenClaw evidence for $argv", (facts) => {
   rows.set(peer, { ppid: 1, uid: 0, cwd: denied(), ...facts });
   expect(inspectOtherOpenClawProcesses()).toEqual({ pids: [peer] });
 });

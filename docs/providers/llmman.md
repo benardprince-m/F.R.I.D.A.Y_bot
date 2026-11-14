@@ -1,7 +1,7 @@
 ---
-summary: "Run FRIDAY with llmman (local models, hosted providers, and hybrid local + hosted routing)"
+summary: "Run OpenClaw with llmman (local models, hosted providers, and hybrid local + hosted routing)"
 read_when:
-  - You want to run FRIDAY against local GGUF or safetensors models through llmman
+  - You want to run OpenClaw against local GGUF or safetensors models through llmman
   - You want hybrid inference that keeps small requests local and overflows large ones to a hosted model
   - You need llmman setup, configuration, vision, or troubleshooting guidance
 title: "llmman"
@@ -11,7 +11,7 @@ title: "llmman"
 any registry or Hugging Face and serves them through unmodified upstream
 engines: `llama-server` for GGUF, `vllm` or `mlx-lm` for safetensors. One
 daemon exposes Ollama-, OpenAI-, and Anthropic-compatible APIs and can also
-forward requests to hosted providers. FRIDAY talks to it through the generic
+forward requests to hosted providers. OpenClaw talks to it through the generic
 `openai-completions` adapter on `/v1`.
 
 Three modes are supported:
@@ -25,7 +25,7 @@ Three modes are supported:
 | Property         | Value                                                                         |
 | ---------------- | ----------------------------------------------------------------------------- |
 | Provider id      | `llmman` (custom; configure under `models.providers.llmman`)                  |
-| Plugin           | none; not a bundled FRIDAY provider plugin, so models are listed explicitly   |
+| Plugin           | none; not a bundled OpenClaw provider plugin, so models are listed explicitly |
 | API              | OpenAI-compatible (`api: "openai-completions"`)                               |
 | Default base URL | `http://127.0.0.1:17434/v1`                                                   |
 | Auth             | none on loopback; off loopback a key is required, sent as the `apiKey` bearer |
@@ -43,16 +43,16 @@ Version scope: this page is verified against [llmman v0.1.334](https://github.co
 
 <AccordionGroup>
   <Accordion title="Local llmman needs no key by default">
-    With no keys configured, a loopback `llmman serve` does not require credentials; once `LLMMAN_API_KEYS` is set, llmman enforces it on every bind, loopback included, so set FRIDAY's `apiKey` to that key. FRIDAY still needs a non-empty `apiKey` on the provider entry so the provider counts as configured. This page uses `LLMMAN_API_KEY=llmman-local` with `apiKey: "${LLMMAN_API_KEY}"`, mirroring the `OLLAMA_API_KEY=ollama-local` convention. A literal `apiKey: "llmman-local"` works too.
+    With no keys configured, a loopback `llmman serve` does not require credentials; once `LLMMAN_API_KEYS` is set, llmman enforces it on every bind, loopback included, so set OpenClaw's `apiKey` to that key. OpenClaw still needs a non-empty `apiKey` on the provider entry so the provider counts as configured. This page uses `LLMMAN_API_KEY=llmman-local` with `apiKey: "${LLMMAN_API_KEY}"`, mirroring the `OLLAMA_API_KEY=ollama-local` convention. A literal `apiKey: "llmman-local"` works too.
   </Accordion>
   <Accordion title="The bearer matters for hybrid and hosted refs">
-    For `llmman.hybrid/...` and `llmman.provider/...` refs, llmman forwards the bearer FRIDAY presents to the hosted provider as that provider's API key. The one exception is the literal placeholder `llmman`, which tells the daemon to use its own key. See [Hybrid inference](#hybrid-inference) for both patterns. A marker such as `llmman-local` would be sent to the hosted provider and rejected there.
+    For `llmman.hybrid/...` and `llmman.provider/...` refs, llmman forwards the bearer OpenClaw presents to the hosted provider as that provider's API key. The one exception is the literal placeholder `llmman`, which tells the daemon to use its own key. See [Hybrid inference](#hybrid-inference) for both patterns. A marker such as `llmman-local` would be sent to the hosted provider and rejected there.
   </Accordion>
   <Accordion title="Remote llmman hosts">
-    A daemon started with `LLMMAN_HOST=0.0.0.0` refuses to start without `LLMMAN_API_KEYS=<key>`. Set FRIDAY's `LLMMAN_API_KEY` to that key; the `llmman-local` marker gets a `401`. A daemon reachable off loopback also refuses to spend its own hosted-provider key for callers that presented none.
+    A daemon started with `LLMMAN_HOST=0.0.0.0` refuses to start without `LLMMAN_API_KEYS=<key>`. Set OpenClaw's `LLMMAN_API_KEY` to that key; the `llmman-local` marker gets a `401`. A daemon reachable off loopback also refuses to spend its own hosted-provider key for callers that presented none.
   </Accordion>
   <Accordion title="Env var substitution">
-    `${LLMMAN_API_KEY}` resolves from the Gateway process environment or `~/.openclaw/.env`. If the variable is missing, FRIDAY logs a config warning and treats the provider as unavailable, so put the export where the Gateway can read it. See [Environment](/help/environment).
+    `${LLMMAN_API_KEY}` resolves from the Gateway process environment or `~/.openclaw/.env`. If the variable is missing, OpenClaw logs a config warning and treats the provider as unavailable, so put the export where the Gateway can read it. See [Environment](/help/environment).
   </Accordion>
 </AccordionGroup>
 
@@ -78,7 +78,7 @@ Version scope: this page is verified against [llmman v0.1.334](https://github.co
 
     `llmman serve` requires no arguments (an optional model argument preloads that model): it listens on `127.0.0.1:17434` and loads any pulled model on the first request that names it, then unloads it after five idle minutes. GPU acceleration (CUDA, ROCm, Vulkan, Metal) is auto-detected and the matching `llama-server` is downloaded if none is on `PATH`. Everything else is tuned through the daemon's environment: `LLMMAN_HOST` for the bind address, `LLMMAN_CONTEXT_LENGTH` for the server context, `LLMMAN_KEEP_ALIVE` for the idle unload timer (see [Advanced configuration](#advanced-configuration)).
 
-    By default llmman uses up to 262,144 tokens, capped to the model's trained context (262,144 for `qwen3.8`) and, on out-of-memory, retries with the context halved down to a 16,384 floor. `llmman ps` shows the context a loaded model actually got; keep the FRIDAY model's `contextWindow` at or below that value.
+    By default llmman uses up to 262,144 tokens, capped to the model's trained context (262,144 for `qwen3.8`) and, on out-of-memory, retries with the context halved down to a 16,384 floor. `llmman ps` shows the context a loaded model actually got; keep the OpenClaw model's `contextWindow` at or below that value.
 
   </Step>
   <Step title="Verify the server">
@@ -111,7 +111,7 @@ Version scope: this page is verified against [llmman v0.1.334](https://github.co
 </Steps>
 
 <Note>
-`llmman launch openclaw --model qwen3.8` can bootstrap a first-run FRIDAY install by running non-interactive onboarding against the llmman endpoint. It only applies when no `openclaw.json` exists yet; for an existing install use the explicit config on this page.
+`llmman launch openclaw --model qwen3.8` can bootstrap a first-run OpenClaw install by running non-interactive onboarding against the llmman endpoint. It only applies when no `openclaw.json` exists yet; for an existing install use the explicit config on this page.
 </Note>
 
 ## Full config example
@@ -157,7 +157,7 @@ Qwen3.8 on a local llmman server:
 
 ## Model discovery
 
-llmman is not a bundled FRIDAY plugin, so there is no implicit discovery. List every model you want under `models.providers.llmman.models` with a provider-local `id` (no `llmman/` prefix).
+llmman is not a bundled OpenClaw plugin, so there is no implicit discovery. List every model you want under `models.providers.llmman.models` with a provider-local `id` (no `llmman/` prefix).
 
 | Behavior     | Detail                                                                                                                                                                   |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -166,7 +166,7 @@ llmman is not a bundled FRIDAY plugin, so there is no implicit discovery. List e
 | Capabilities | `llmman show <model>` and `POST /api/show` report `completion` plus `vision` when a companion `mmproj` projector is present; mark such models `input: ["text", "image"]` |
 | Reasoning    | Set `reasoning: true` for thinking models such as Qwen3.8; llmman returns thinking as `reasoning_content`                                                                |
 | Context      | `llmman show <model>` prints the trained context length; `llmman ps` prints the context the running server was started with                                              |
-| Costs        | All `0`; the hosted half of a hybrid ref is billed by that provider, not tracked by FRIDAY                                                                               |
+| Costs        | All `0`; the hosted half of a hybrid ref is billed by that provider, not tracked by OpenClaw                                                                             |
 
 ```bash
 llmman list
@@ -222,7 +222,7 @@ openclaw agent --local --session-id llmman-smoke \
 ## Hybrid inference
 
 llmman can pair a local model with a hosted one under a single model name and
-choose a side per request. FRIDAY configures the pair once as an ordinary
+choose a side per request. OpenClaw configures the pair once as an ordinary
 model id and gets local-first inference with hosted overflow, without an
 agent-level fallback switch.
 
@@ -241,9 +241,9 @@ Which side serves a request:
 
 If a request llmman kept local is then refused by the local backend as larger
 than its context, llmman resends it to the hosted half before anything reaches
-FRIDAY. A `local` pin is never overridden this way. Every routed request is
+OpenClaw. A `local` pin is never overridden this way. Every routed request is
 logged with the side and the reason. The raw completion response may report
-the backend model or GGUF path; FRIDAY's result envelope retains the
+the backend model or GGUF path; OpenClaw's result envelope retains the
 configured pair ref.
 
 ### Hosted-provider key
@@ -251,7 +251,7 @@ configured pair ref.
 The hosted half authenticates like any llmman `--provider` request. Pick one:
 
 <Tabs>
-  <Tab title="FRIDAY presents the key (recommended)">
+  <Tab title="OpenClaw presents the key (recommended)">
     Set the llmman provider's `apiKey` to the hosted provider's key. llmman forwards it per request and never persists it. Local-only models on the same provider entry ignore the value.
 
     ```bash
@@ -263,7 +263,7 @@ The hosted half authenticates like any llmman `--provider` request. Pick one:
 
   </Tab>
   <Tab title="llmman holds the key">
-    Give the daemon its own key and have FRIDAY send the literal placeholder `llmman`:
+    Give the daemon its own key and have OpenClaw send the literal placeholder `llmman`:
 
     ```bash
     llmman config set providers.openai.api_key sk-...
@@ -339,7 +339,7 @@ unless a positive `LLMMAN_HYBRID_LOCAL_BYTES` supplies a budget; setting the
 byte override to `0` also disables that rule. Local context-refusal fallback
 still applies unless the request is pinned local.
 
-Set `contextWindow` on the pair to the local model's usable token context. FRIDAY then compacts
+Set `contextWindow` on the pair to the local model's usable token context. OpenClaw then compacts
 around the local model's limit, so most turns stay local; llmman still
 overflows to `gpt-5.6-luna` when a request exceeds it. Set it to the hosted
 model's window instead if you prefer fewer compactions and more hosted
@@ -347,7 +347,7 @@ traffic.
 
 ### Pinning a side
 
-FRIDAY sends provider-level `headers` on every request, so a second provider
+OpenClaw sends provider-level `headers` on every request, so a second provider
 entry on the same base URL can force one side of the pair:
 
 ```json5
@@ -396,12 +396,12 @@ Switch with `/model llmman-cloud/...` for a turn that should go hosted, or use
 `headers: { "x-llmman-route": "local" }` for an entry that must never leave
 the machine.
 
-### Hybrid versus FRIDAY fallbacks
+### Hybrid versus OpenClaw fallbacks
 
 | Mechanism                         | Decides                    | Switches on                                                    |
 | --------------------------------- | -------------------------- | -------------------------------------------------------------- |
 | llmman hybrid pair                | Per request, inside llmman | Request size versus local context, or an explicit route header |
-| `agents.defaults.model.fallbacks` | Per turn, inside FRIDAY    | Provider errors, timeouts, rate limits, auth failures          |
+| `agents.defaults.model.fallbacks` | Per turn, inside OpenClaw  | Provider errors, timeouts, rate limits, auth failures          |
 
 They compose. A common shape is a hybrid pair as `primary` with a direct hosted
 model as a fallback for when llmman itself is down:
@@ -467,7 +467,7 @@ openclaw infer image describe --file ./photo.jpg --model llmman/gemma4:e4b --jso
 ```
 
 `--model` must be a full `<provider/model>` ref. Use `infer image describe`
-for FRIDAY's image-understanding flow and configured `imageModel`; use
+for OpenClaw's image-understanding flow and configured `imageModel`; use
 `infer model run --file` for a raw multimodal check with a custom prompt.
 
 To make a llmman model the default image-understanding provider for inbound
@@ -502,7 +502,7 @@ media:
 }
 ```
 
-FRIDAY rejects image-description requests for models not marked
+OpenClaw rejects image-description requests for models not marked
 image-capable. Slow local vision models can need a longer image-understanding
 timeout than hosted models; `models.providers.llmman.timeoutSeconds` still
 governs the underlying HTTP request for normal model calls.
@@ -539,7 +539,7 @@ governs the underlying HTTP request for normal model calls.
   </Tab>
 
   <Tab title="LAN llmman host">
-    Start the server on the GPU box with `LLMMAN_HOST=0.0.0.0` and `LLMMAN_API_KEYS=<key>` (and optionally `LLMMAN_CONTEXT_LENGTH=65536`) in its environment, then point FRIDAY at it with the same key as `LLMMAN_API_KEY`:
+    Start the server on the GPU box with `LLMMAN_HOST=0.0.0.0` and `LLMMAN_API_KEYS=<key>` (and optionally `LLMMAN_CONTEXT_LENGTH=65536`) in its environment, then point OpenClaw at it with the same key as `LLMMAN_API_KEY`:
 
     ```bash
     llmman serve
@@ -570,7 +570,7 @@ governs the underlying HTTP request for normal model calls.
     }
     ```
 
-    FRIDAY in Docker reaches a daemon on the Docker host at `http://host.docker.internal:17434/v1`; see [Docker networking](/install/docker/networking-and-storage#host-local-providers).
+    OpenClaw in Docker reaches a daemon on the Docker host at `http://host.docker.internal:17434/v1`; see [Docker networking](/install/docker/networking-and-storage#host-local-providers).
 
     <Warning>
     Do not use hybrid refs with "llmman holds the key" against a non-loopback daemon; it refuses to spend its own key for remote callers.
@@ -579,7 +579,7 @@ governs the underlying HTTP request for normal model calls.
   </Tab>
 
   <Tab title="On-demand startup">
-    FRIDAY starts llmman on demand when a `llmman/...` model is requested. This example keeps the daemon running until FRIDAY exits (`idleStopMs: 0`). Set a positive `idleStopMs` to stop an FRIDAY-started daemon after that many idle milliseconds; this is separate from llmman unloading idle models:
+    OpenClaw starts llmman on demand when a `llmman/...` model is requested. This example keeps the daemon running until OpenClaw exits (`idleStopMs: 0`). Set a positive `idleStopMs` to stop an OpenClaw-started daemon after that many idle milliseconds; this is separate from llmman unloading idle models:
 
     ```json5
     {
@@ -679,7 +679,7 @@ Replace model ids with names from `llmman list` or
 
     Use `compat.supportsTools: false` only when the model or server reliably fails on tool schemas; it disables tool use entirely. For a deliberately narrower agent, prefer `tools.profile` or a per-agent tool policy.
 
-    When you switch an existing session to a no-tools model, FRIDAY replays earlier tool names, arguments, and results as assistant text. Stored session history stays unchanged.
+    When you switch an existing session to a no-tools model, OpenClaw replays earlier tool names, arguments, and results as assistant text. Stored session history stays unchanged.
 
   </Accordion>
 
@@ -716,12 +716,12 @@ Replace model ids with names from `llmman list` or
     }
     ```
 
-    llmman can also pool several daemons itself: `llmman config set aggregation.peers <host>,<host>` (or `LLMMAN_PEERS`) makes one daemon forward to peers, so FRIDAY sees a single endpoint whose model list spans the group.
+    llmman can also pool several daemons itself: `llmman config set aggregation.peers <host>,<host>` (or `LLMMAN_PEERS`) makes one daemon forward to peers, so OpenClaw sees a single endpoint whose model list spans the group.
 
   </Accordion>
 
   <Accordion title="Hugging Face or private-registry models">
-    Model ids are whatever llmman resolves. Pull with the full reference and use the same string as the FRIDAY model id:
+    Model ids are whatever llmman resolves. Pull with the full reference and use the same string as the OpenClaw model id:
 
     ```bash
     llmman pull hf.co/unsloth/Qwen3.5-0.8B-GGUF
@@ -778,7 +778,7 @@ for that provider's model requests only.
 curl http://127.0.0.1:17434/api/version
 llmman ps
 
-# FRIDAY catalog and selected model
+# OpenClaw catalog and selected model
 openclaw models list --provider llmman
 openclaw models status
 
@@ -788,7 +788,7 @@ LLMMAN_API_KEY=llmman-local openclaw infer model run \
 ```
 
 For remote hosts, replace `127.0.0.1` with the `baseUrl` host. If `curl` works
-but FRIDAY does not, check whether the Gateway runs on a different machine,
+but OpenClaw does not, check whether the Gateway runs on a different machine,
 container, or service account.
 
 ## Advanced configuration
@@ -803,7 +803,7 @@ container, or service account.
 
     `LLMMAN_NUM_PARALLEL` scales `--ctx-size` up by that factor so each slot keeps the full context.
 
-    On the FRIDAY side, `contextWindow` declares the model's window and `contextTokens` caps active input. Keep `contextWindow` at or below the server value; FRIDAY derives compaction and preflight thresholds from it. FRIDAY's `contextWindow` does not change llmman's hybrid byte budget; configure the daemon separately as described in [Hybrid config](#hybrid-config).
+    On the OpenClaw side, `contextWindow` declares the model's window and `contextTokens` caps active input. Keep `contextWindow` at or below the server value; OpenClaw derives compaction and preflight thresholds from it. OpenClaw's `contextWindow` does not change llmman's hybrid byte budget; configure the daemon separately as described in [Hybrid config](#hybrid-config).
 
     ```json5
     {
@@ -828,7 +828,7 @@ container, or service account.
   </Accordion>
 
   <Accordion title="Thinking control">
-    Qwen3.8 thinks by default; llmman returns the reasoning as `reasoning_content`, which FRIDAY's `openai-completions` adapter separates from the final text. Requests are proxied to `llama-server`, so `chat_template_kwargs` passes through. To turn thinking off for agent turns with a local Qwen model:
+    Qwen3.8 thinks by default; llmman returns the reasoning as `reasoning_content`, which OpenClaw's `openai-completions` adapter separates from the final text. Requests are proxied to `llama-server`, so `chat_template_kwargs` passes through. To turn thinking off for agent turns with a local Qwen model:
 
     ```json5
     {
@@ -933,7 +933,7 @@ container, or service account.
   </Accordion>
 
   <Accordion title="Ollama-compatible API">
-    llmman also implements Ollama's native `/api/chat`, `/api/tags`, `/api/show`, and `/api/ps`, and `OLLAMA_HOST=127.0.0.1:17434 ollama run <model>` works against it. The native route also works from FRIDAY. Use a custom provider id such as `llmman`, not `ollama`: discovery on that id reads llmman's `/api/show`, which reports only `completion` and `vision`, and marks every model `compat.supportsTools: false`. Set `api: "ollama"`, omit `/v1`, and list models explicitly:
+    llmman also implements Ollama's native `/api/chat`, `/api/tags`, `/api/show`, and `/api/ps`, and `OLLAMA_HOST=127.0.0.1:17434 ollama run <model>` works against it. The native route also works from OpenClaw. Use a custom provider id such as `llmman`, not `ollama`: discovery on that id reads llmman's `/api/show`, which reports only `completion` and `vision`, and marks every model `compat.supportsTools: false`. Set `api: "ollama"`, omit `/v1`, and list models explicitly:
 
     ```json5
     {
@@ -962,10 +962,10 @@ container, or service account.
   </Accordion>
 
   <Accordion title="Compat flags">
-    llmman forwards message content and tool schemas to the backend without normalizing them, so compatibility depends on the selected engine and model. Structured content parts (text + image) and FRIDAY's full tool schema work with `qwen3.8` on `llama-server`. If a different backend or model rejects them:
+    llmman forwards message content and tool schemas to the backend without normalizing them, so compatibility depends on the selected engine and model. Structured content parts (text + image) and OpenClaw's full tool schema work with `qwen3.8` on `llama-server`. If a different backend or model rejects them:
 
-    - `messages[].content: invalid type: sequence, expected a string` → set `compat.requiresStringContent: true` on the model entry. FRIDAY then flattens pure text content parts into plain strings.
-    - `400 JSON schema conversion failed` → `llama-server` could not compile a tool schema into its grammar subset. Update FRIDAY first; if a third-party tool or MCP server contributes the offending schema, disable it for that agent, and use `compat.supportsTools: false` only as a last resort.
+    - `messages[].content: invalid type: sequence, expected a string` → set `compat.requiresStringContent: true` on the model entry. OpenClaw then flattens pure text content parts into plain strings.
+    - `400 JSON schema conversion failed` → `llama-server` could not compile a tool schema into its grammar subset. Update OpenClaw first; if a third-party tool or MCP server contributes the offending schema, disable it for that agent, and use `compat.supportsTools: false` only as a last resort.
 
     ```json5
     {
@@ -990,7 +990,7 @@ container, or service account.
   </Accordion>
 
   <Accordion title="Proxy-style behavior">
-    Because llmman is a non-native `openai-completions` endpoint, FRIDAY treats it as a proxy route: no `service_tier`, no Responses `store`, no prompt-cache hints, no OpenAI reasoning-compat payload shaping, no hidden FRIDAY attribution headers, and `compat.supportsDeveloperRole` is forced to `false`. Vendor-specific fields can be merged into the request body with `agents.defaults.models["llmman/<model>"].params.extra_body`.
+    Because llmman is a non-native `openai-completions` endpoint, OpenClaw treats it as a proxy route: no `service_tier`, no Responses `store`, no prompt-cache hints, no OpenAI reasoning-compat payload shaping, no hidden OpenClaw attribution headers, and `compat.supportsDeveloperRole` is forced to `false`. Vendor-specific fields can be merged into the request body with `agents.defaults.models["llmman/<model>"].params.extra_body`.
   </Accordion>
 
   <Accordion title="Model costs">
@@ -1002,7 +1002,7 @@ container, or service account.
 
 <AccordionGroup>
   <Accordion title="curl /v1/models fails">
-    `llmman serve` is not running or is not reachable at the configured address. The default is `127.0.0.1:17434`; if you set `LLMMAN_HOST`, update the FRIDAY `baseUrl` and `healthUrl` to match.
+    `llmman serve` is not running or is not reachable at the configured address. The default is `127.0.0.1:17434`; if you set `LLMMAN_HOST`, update the OpenClaw `baseUrl` and `healthUrl` to match.
 
     ```bash
     llmman serve
@@ -1030,7 +1030,7 @@ container, or service account.
   </Accordion>
 
   <Accordion title="Hybrid request fails with no API key for provider">
-    llmman routed the request to the hosted half and found no usable key. Either the bearer FRIDAY sent was a marker (`llmman-local`) rather than a real key, or you used the `llmman` placeholder without giving the daemon its own `OPENAI_API_KEY`, or the daemon is bound off loopback and refuses to spend its own key. See [Hosted-provider key](#hosted-provider-key).
+    llmman routed the request to the hosted half and found no usable key. Either the bearer OpenClaw sent was a marker (`llmman-local`) rather than a real key, or you used the `llmman` placeholder without giving the daemon its own `OPENAI_API_KEY`, or the daemon is bound off loopback and refuses to spend its own key. See [Hosted-provider key](#hosted-provider-key).
   </Accordion>
 
   <Accordion title="Hybrid requests never go hosted (or always do)">
@@ -1042,7 +1042,7 @@ container, or service account.
   </Accordion>
 
   <Accordion title="Model run passes but a normal agent turn fails">
-    The agent turn adds a larger prompt and tool schemas. A `400 JSON schema conversion failed` is `llama-server` rejecting a tool schema; update FRIDAY and check third-party tools or MCP servers. Otherwise enable [Tool Search](/tools/tool-search) to defer schemas, confirm the server's actual context allocation, and use `compat.supportsTools: false` only as a last resort. See [Smaller or stricter backends](/gateway/local-models#smaller-or-stricter-backends).
+    The agent turn adds a larger prompt and tool schemas. A `400 JSON schema conversion failed` is `llama-server` rejecting a tool schema; update OpenClaw and check third-party tools or MCP servers. Otherwise enable [Tool Search](/tools/tool-search) to defer schemas, confirm the server's actual context allocation, and use `compat.supportsTools: false` only as a last resort. See [Smaller or stricter backends](/gateway/local-models#smaller-or-stricter-backends).
   </Accordion>
 
   <Accordion title="llama-server crashes on larger agent turns">
@@ -1062,7 +1062,7 @@ More help: [Troubleshooting](/help/troubleshooting) and [FAQ](/help/faq).
 
 <CardGroup cols={2}>
   <Card title="Local models" href="/gateway/local-models" icon="server">
-    Running FRIDAY against local model servers.
+    Running OpenClaw against local model servers.
   </Card>
   <Card title="Local model services" href="/gateway/local-model-services" icon="play">
     Starting local model servers on demand for configured providers.

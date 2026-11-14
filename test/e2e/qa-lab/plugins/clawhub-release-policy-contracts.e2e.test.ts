@@ -71,7 +71,7 @@ function commitFixture(repoDir: string, message: string) {
   git(repoDir, ["add", "."]);
   git(repoDir, [
     "-c",
-    "user.name=FRIDAY Test",
+    "user.name=OpenClaw Test",
     "-c",
     "user.email=test@example.invalid",
     "commit",

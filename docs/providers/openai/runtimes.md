@@ -2,7 +2,7 @@
 summary: "Choose an OpenAI runtime and understand native Codex auth"
 doc-schema-version: 1
 read_when:
-  - You need to know whether a turn runs on FRIDAY or the native Codex harness
+  - You need to know whether a turn runs on OpenClaw or the native Codex harness
   - You are mapping the openai, codex, and agentRuntime names to layers
   - You are debugging native Codex app-server account selection
 title: "OpenAI runtimes and Codex auth"
@@ -28,10 +28,10 @@ endpoint and adapter:
 | Effective route facts                                                                                                                                                           | Implicit runtime      |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
 | Exact official Platform HTTPS endpoint with `openai-responses`, or exact official ChatGPT HTTPS endpoint with `openai-chatgpt-responses`; no authored provider request override | Codex may be selected |
-| Authored `openai-completions` adapter                                                                                                                                           | FRIDAY                |
-| Custom endpoint                                                                                                                                                                 | FRIDAY                |
+| Authored `openai-completions` adapter                                                                                                                                           | OpenClaw              |
+| Custom endpoint                                                                                                                                                                 | OpenClaw              |
 | Explicit exact official endpoint using HTTP                                                                                                                                     | Rejected              |
-| Route with an authored provider/model request override                                                                                                                          | FRIDAY                |
+| Route with an authored provider/model request override                                                                                                                          | OpenClaw              |
 
 Valid model-scoped `params.fastMode` / `params.fast_mode`, cutoff, and `thinking`
 values are typed agent-runtime controls, not authored provider request params.
@@ -45,9 +45,9 @@ also preserve compatibility with the official Platform Responses route; keep
 the official HTTPS model `baseUrl` when using that proxy.
 
 An explicit `agentRuntime.id: "openclaw"` keeps a Codex-eligible route on
-FRIDAY. Explicit `agentRuntime.id: "codex"` requires a registered Codex harness;
+OpenClaw. Explicit `agentRuntime.id: "codex"` requires a registered Codex harness;
 unsupported routes/auth are rejected, except that authored request overrides may
-use Codex's declared exact-request FRIDAY fallback before execution. Inspect
+use Codex's declared exact-request OpenClaw fallback before execution. Inspect
 the completed result's actual harness when a recipe depends on native execution.
 Runtime compatibility does not establish credential type or billing: Platform API-key
 auth and ChatGPT/Codex subscription auth remain distinct.
@@ -59,7 +59,7 @@ subscription route. That preference does not change the implicit runtime or
 require installing Codex for an API-only configuration. A literal provider
 `apiKey` without an `auth` override remains a fallback after eligible profiles.
 Required profile bindings, provider auth settings, configured secret references,
-and explicit auth order still take precedence. An authored FRIDAY runtime choice
+and explicit auth order still take precedence. An authored OpenClaw runtime choice
 prefers the API route when both kinds are eligible; runtime compatibility is
 checked independently. Unpinned heartbeat and subagent models inherit their
 default model's route intent. Doctor reports a resolved billing-route change
@@ -84,40 +84,40 @@ only when you want API-key auth for an agent model.
 The native Codex app-server harness uses `openai/*` model refs when an eligible
 exact official HTTPS route selects it implicitly, or when provider/model
 `agentRuntime.id: "codex"` selects it explicitly. Its auth is still
-account-based. FRIDAY selects auth in this order:
+account-based. OpenClaw selects auth in this order:
 
 1. Ordered OpenAI auth profiles for the agent, preferably under
    `auth.order.openai`. Run `openclaw doctor --fix` to migrate older legacy
    Codex auth profile ids and auth order.
 2. The native Codex account, only with an explicit `appServer.homeScope: "user"`
    opt-in and when no host credential or account selection owns the route.
-   Ordinary FRIDAY sessions default to the isolated agent home, even when
-   Codex is already signed in. Prepared FRIDAY credentials stay in that home;
-   FRIDAY never logs them into the native user home.
+   Ordinary OpenClaw sessions default to the isolated agent home, even when
+   Codex is already signed in. Prepared OpenClaw credentials stay in that home;
+   OpenClaw never logs them into the native user home.
 3. For local stdio app-server launches only, and only when the app-server
    reports no account: `CODEX_API_KEY`, then `OPENAI_API_KEY`.
 
 With the user-home opt-in, status and catalog reads ask Codex about its native
-login without importing credentials into an FRIDAY profile. A fresh auth refresh observes native login
+login without importing credentials into an OpenClaw profile. A fresh auth refresh observes native login
 and logout. Native API-key and subscription accounts select their matching
 routes. Model runtime choices use the same route and account as thinking
 metadata; an unavailable runtime cannot be selected. Explicit auth import
-remains available when you want an FRIDAY-owned profile.
+remains available when you want an OpenClaw-owned profile.
 
 If you previously relied on automatic use of a native Codex login, sign in with
-`openclaw models auth login --provider openai` and select the resulting FRIDAY
-profile. Selecting detected Codex in Model Setup reuses eligible FRIDAY credentials
+`openclaw models auth login --provider openai` and select the resulting OpenClaw
+profile. Selecting detected Codex in Model Setup reuses eligible OpenClaw credentials
 or opens the supported OpenAI sign-in flow before testing the connection. A cancelled
 or failed sign-in does not promote the route. If verification fails after sign-in,
 choose the saved sign-in to retry without logging in again. Setup no longer enables
 user-home sharing merely because a native login exists. Existing explicit `homeScope: "user"` settings remain opt-ins; remove that
 setting to use isolated sessions. Native session adoption and supervision are
 unchanged. Existing personal Codex history is not moved or deleted, and ordinary
-FRIDAY sessions remain durable in the per-agent Codex home.
+OpenClaw sessions remain durable in the per-agent Codex home.
 
 The default per-agent `codex-home/auth.json` is not a runtime auth store. If
 you copied or mounted Codex CLI credentials there, import them into the agent's
-FRIDAY auth store before starting a native Codex turn. Replace `<agent-id>`
+OpenClaw auth store before starting a native Codex turn. Replace `<agent-id>`
 with the configured agent that owns this Codex home:
 
 ```bash
@@ -129,16 +129,16 @@ A local ChatGPT/Codex subscription sign-in is not replaced just because the
 gateway process also has `OPENAI_API_KEY` for direct OpenAI models or
 embeddings. The env API-key fallback applies only to the local stdio no-account
 path; it is never sent over WebSocket app-server connections. When a
-subscription-style Codex profile is selected, FRIDAY also keeps
+subscription-style Codex profile is selected, OpenClaw also keeps
 `CODEX_API_KEY` and `OPENAI_API_KEY` out of the spawned stdio app-server child
 and sends the selected credentials through the app-server login RPC instead.
 
-When that subscription profile is blocked by a Codex usage limit, FRIDAY
+When that subscription profile is blocked by a Codex usage limit, OpenClaw
 marks the profile blocked until Codex's advertised reset time and lets auth
 ordering rotate to the next `openai:*` profile, without changing the selected
 model or dropping out of the Codex harness. Once the reset time passes, the
 subscription profile is eligible again.
 
 Chat `/status` reports the authentication mode from the selected runtime's current
-prepared account. A native login stays distinct from an FRIDAY profile; it does
+prepared account. A native login stays distinct from an OpenClaw profile; it does
 not satisfy an unavailable explicit profile pin.

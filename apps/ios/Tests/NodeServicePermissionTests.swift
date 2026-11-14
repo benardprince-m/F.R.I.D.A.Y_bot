@@ -2,7 +2,7 @@ import Contacts
 import EventKit
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite struct NodeServicePermissionTests {
     @Test func `calendar events do not request access from node invoke`() async throws {

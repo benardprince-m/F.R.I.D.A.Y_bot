@@ -108,7 +108,7 @@ export async function clearRetainedManagedNpmInstallMarker(
     await fs.promises.rmdir(path.dirname(info.markerPath));
   } catch {
     await assertCurrent?.();
-    // Best effort: keep the FRIDAY-owned marker directory if it is not empty.
+    // Best effort: keep the OpenClaw-owned marker directory if it is not empty.
   }
   return true;
 }

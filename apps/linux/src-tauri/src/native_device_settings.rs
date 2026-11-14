@@ -9,7 +9,7 @@ fn panel_url(base: &tauri::Url, panel: &str) -> Result<Option<tauri::Url>, Strin
         "gateways" => return Ok(None),
         "permissions" => ["settings", "device", "permissions"].as_slice(),
         "ai-setup" => ["settings", "model-setup"].as_slice(),
-        _ => return Err("This panel is not supported by FRIDAY-Tauri.".into()),
+        _ => return Err("This panel is not supported by OpenClaw-Tauri.".into()),
     };
     let mut url = base.clone();
     url.set_query(None);
@@ -225,7 +225,7 @@ pub async fn native_device_settings_request(
             .await
             .map_err(|_| "Desktop sharing preference could not be saved.")??;
         }
-        _ => return Err("This setting is not supported by FRIDAY-Tauri.".into()),
+        _ => return Err("This setting is not supported by OpenClaw-Tauri.".into()),
     }
     if !bridge
         .authorize(&webview, &token)

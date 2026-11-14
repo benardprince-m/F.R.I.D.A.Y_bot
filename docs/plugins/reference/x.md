@@ -15,7 +15,7 @@ Allowlisted X mentions and public replies.
 ## Distribution
 
 - Package: `@openclaw/x`
-- Install route: included in FRIDAY
+- Install route: included in OpenClaw
 
 ## Surface
 

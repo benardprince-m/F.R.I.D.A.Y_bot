@@ -1,7 +1,7 @@
 import Foundation
 import Security
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 /// Synthetic listener identity; Security keeps the import in memory, never Keychain.
 struct DashboardTLSFixture {

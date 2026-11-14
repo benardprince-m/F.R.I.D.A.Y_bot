@@ -1,5 +1,5 @@
 ---
-summary: "Menu bar icon states and animations for FRIDAY on macOS"
+summary: "Menu bar icon states and animations for OpenClaw on macOS"
 read_when:
   - Changing menu bar icon behavior
 title: "Menu bar icon"
@@ -26,9 +26,9 @@ Original uses native icon styling, including the setting in
 choose **Dark → Auto** there; the default icon style can otherwise stay light
 even when app windows are dark.
 
-The other designs follow macOS light/dark appearance while FRIDAY is running.
+The other designs follow macOS light/dark appearance while OpenClaw is running.
 
-The selection is saved separately for each FRIDAY profile and applies immediately.
+The selection is saved separately for each OpenClaw profile and applies immediately.
 Custom designs change the running app's Dock icon; Finder and the Dock tile after
 quitting use the bundled Original icon. The menu bar critter and its animations are independent.
 

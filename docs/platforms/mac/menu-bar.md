@@ -24,11 +24,11 @@ Settings always opens the web Dashboard settings page. See
 - **Quick Chat** opens the floating main-session composer. Its current global shortcut appears beside the item.
 - **Settings…** (Cmd-,) opens Dashboard settings. App and device preferences live under **This Mac**, voice controls under **Talk**, and app update preferences under **Updates**.
 - **Connection…** opens the native Connection window. This is a standard macOS settings window with **Connection** and **Gateways** toolbar tabs. **Debug** also appears while the developer toggle is enabled. The window remains available when the Gateway is unreachable.
-- **About FRIDAY** selects **About** in the native Connection window, with the app version, build information, resource links, and **Copy Build Info**. It works without a Gateway connection.
+- **About OpenClaw** selects **About** in the native Connection window, with the app version, build information, resource links, and **Copy Build Info**. It works without a Gateway connection.
 
 The app's main **Gateways** menu is always present. It lists the primary Gateway, when configured, followed by **This Mac** when it also hosts a local Gateway, then saved Gateways, with Command-1 through Command-9 assigned in that order. Each card shows health, version and shortened build ID, endpoint, latency, and the number of open windows in the selected experience when available. Browser-authenticated profiles also show **Access** and their session expiry. A **Primary** badge identifies the primary Gateway. A front-window marker follows the selected experience's frontmost Gateway window. Selecting a card opens that Gateway in the chosen experience or brings its existing window to the front. Hold Option to reveal **New … Window**, or press Option-Command with the same digit. Both open another independent window for that Gateway. **Manage Gateways…** opens **Connection → Gateways** and remains available when no Gateways are configured.
 
-Right-click the FRIDAY Dock icon for **Open Dashboard** and **Settings…**. When more than one Gateway is configured, the Dock menu also lists every Gateway from the same catalog, including the primary Gateway, **This Mac** when available, and saved profiles. Selecting one opens or focuses it in the chosen experience; a checkmark identifies that experience's frontmost Gateway window.
+Right-click the OpenClaw Dock icon for **Open Dashboard** and **Settings…**. When more than one Gateway is configured, the Dock menu also lists every Gateway from the same catalog, including the primary Gateway, **This Mac** when available, and saved profiles. Selecting one opens or focuses it in the chosen experience; a checkmark identifies that experience's frontmost Gateway window.
 
 Gateway status dots follow each open Dashboard’s live connection, including saved Gateways that are not primary. Green means connected, red means a connection error, and gray means no current connection result. If multiple windows show the same Gateway, it stays green while any of them is connected. The checkmark identifies the selected window’s Gateway; **Primary** is a separate setting.
 
@@ -42,7 +42,7 @@ Manual Cron refreshes and successful job changes supersede older reads. An in-fl
 
 ## State model
 
-- Source: `WorkActivityStore` (`apps/macos/Sources/FRIDAY/WorkActivityStore.swift`).
+- Source: `WorkActivityStore` (`apps/macos/Sources/OpenClaw/WorkActivityStore.swift`).
 - Events arrive as `ControlAgentEvent` with a `runId`. The handler (`ControlChannel.routeWorkActivity`) reads `sessionKey` from the event payload and defaults to `"main"` if absent.
 - Priority: the main session (`sessionKey == "main"` by default) always wins. If main is active, its state shows immediately. If main is idle, the most recently active non-main session shows instead. The store does not flip mid-activity. It only switches when the current session goes idle or main becomes active.
 - Activity kinds:
@@ -86,7 +86,7 @@ Manual Cron refreshes and successful job changes supersede older reads. An in-fl
 
 ## Status row text (menu)
 
-- With two or more Gateways, the connection label appends the primary Gateway's catalog display name, such as `FRIDAY Active — Mac Studio`.
+- With two or more Gateways, the connection label appends the primary Gateway's catalog display name, such as `OpenClaw Active — Mac Studio`.
 - While work is active: `<Session role> · <activity label>` (`"\(roleLabel) · \(activity.label)"` in `MenuContentView`), where role label is `Main` or `Other`.
 - When idle: falls back to the health summary.
 

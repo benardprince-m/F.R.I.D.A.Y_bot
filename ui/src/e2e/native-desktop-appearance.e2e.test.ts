@@ -270,7 +270,7 @@ suite.define(() => {
     async (colorScheme) => {
       await withNative(colorScheme, [560, 900], async (page, native, form) => {
         await page.goto(`${suite.server.baseUrl}companion/index.html`);
-        await page.getByRole("heading", { name: "Welcome to FRIDAY" }).waitFor();
+        await page.getByRole("heading", { name: "Welcome to OpenClaw" }).waitFor();
         await expectAppearance(page, colorScheme);
         await page.getByRole("button", { name: "Get started" }).click();
         await page.getByRole("button", { name: /On another computer/ }).click();
@@ -367,15 +367,15 @@ suite.define(() => {
     async (colorScheme) => {
       await withNative(colorScheme, [400, 900], async (page, native, form) => {
         await page.goto(`${suite.server.baseUrl}companion/index.html?mode=missingCli`);
-        await page.getByRole("heading", { name: "FRIDAY needs the CLI" }).waitFor();
+        await page.getByRole("heading", { name: "OpenClaw needs the CLI" }).waitFor();
         await form.field("Release channel").selectOption("beta");
         await expectAppearance(page, colorScheme);
         await expectControlsFit(page);
-        await form.button("Install FRIDAY").click();
-        await page.getByRole("heading", { name: "FRIDAY needs attention" }).waitFor();
+        await form.button("Install OpenClaw").click();
+        await page.getByRole("heading", { name: "OpenClaw needs attention" }).waitFor();
         await expectRequest(native, "install_cli", { channel: "beta" });
         expect(await form.field("Release channel").inputValue()).toBe("beta");
-        expect(await form.button("Install FRIDAY").isEnabled()).toBe(true);
+        expect(await form.button("Install OpenClaw").isEnabled()).toBe(true);
         await expectAppearance(page, colorScheme);
         await page.goto(`${suite.server.baseUrl}companion/index.html?mode=stopped`);
         await form.button("Start Gateway").waitFor();

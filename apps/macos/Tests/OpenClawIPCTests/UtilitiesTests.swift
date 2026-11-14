@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized) struct UtilitiesTests {
     @Test func `age strings cover common windows`() {

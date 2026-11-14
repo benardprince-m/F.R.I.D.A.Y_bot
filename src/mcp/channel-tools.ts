@@ -30,7 +30,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: OpenClawChann
   server.registerTool(
     "conversations_list",
     {
-      description: "List FRIDAY channel-backed conversations available through session routes.",
+      description: "List OpenClaw channel-backed conversations available through session routes.",
       inputSchema: z.object({
         limit: z.number().int().min(1).max(500).optional(),
         search: z.string().optional(),
@@ -51,7 +51,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: OpenClawChann
   server.registerTool(
     "conversation_get",
     {
-      description: "Get one FRIDAY conversation by session key.",
+      description: "Get one OpenClaw conversation by session key.",
       inputSchema: z.object({ session_key: z.string().min(1) }),
     },
     async ({ session_key }) => {
@@ -72,7 +72,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: OpenClawChann
   server.registerTool(
     "messages_read",
     {
-      description: "Read recent messages for one FRIDAY conversation.",
+      description: "Read recent messages for one OpenClaw conversation.",
       inputSchema: z.object({
         session_key: z.string().min(1),
         limit: z.number().int().min(1).max(200).optional(),
@@ -90,7 +90,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: OpenClawChann
   server.registerTool(
     "attachments_fetch",
     {
-      description: "List non-text attachments for a message in one FRIDAY conversation.",
+      description: "List non-text attachments for a message in one OpenClaw conversation.",
       inputSchema: z.object({
         session_key: z.string().min(1),
         message_id: z.string().min(1),
@@ -115,7 +115,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: OpenClawChann
   server.registerTool(
     "events_poll",
     {
-      description: "Poll queued FRIDAY conversation events since a cursor.",
+      description: "Poll queued OpenClaw conversation events since a cursor.",
       inputSchema: z.object({
         after_cursor: z.number().int().min(0).optional(),
         session_key: z.string().optional(),
@@ -141,7 +141,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: OpenClawChann
   server.registerTool(
     "events_wait",
     {
-      description: "Wait for the next queued FRIDAY conversation event.",
+      description: "Wait for the next queued OpenClaw conversation event.",
       inputSchema: z.object({
         after_cursor: z.number().int().min(0).optional(),
         session_key: z.string().optional(),
@@ -173,7 +173,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: OpenClawChann
   server.registerTool(
     "messages_send",
     {
-      description: "Send a message back through the same FRIDAY conversation route.",
+      description: "Send a message back through the same OpenClaw conversation route.",
       inputSchema: z.object({
         session_key: z.string().min(1),
         text: z.string().min(1),
@@ -191,7 +191,8 @@ export function registerChannelMcpTools(server: McpServer, bridge: OpenClawChann
   server.registerTool(
     "permissions_list_open",
     {
-      description: "List open FRIDAY exec or plugin approval requests visible through the Gateway.",
+      description:
+        "List open OpenClaw exec or plugin approval requests visible through the Gateway.",
       inputSchema: z.object({}),
     },
     async () => {
@@ -206,7 +207,7 @@ export function registerChannelMcpTools(server: McpServer, bridge: OpenClawChann
   server.registerTool(
     "permissions_respond",
     {
-      description: "Allow or deny one pending FRIDAY exec or plugin approval request.",
+      description: "Allow or deny one pending OpenClaw exec or plugin approval request.",
       inputSchema: z.object({
         kind: z.enum(["exec", "plugin"]),
         id: z.string().min(1),

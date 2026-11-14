@@ -271,7 +271,7 @@ describe("applySystemAgentSetup transaction boundaries", () => {
     const config = {
       agents: {
         defaults: { model: "openai/gpt-5.5" },
-        entries: { FRIDAY: {} },
+        entries: { OpenClaw: {} },
       },
     } satisfies OpenClawConfig;
     mocks.state.initialSnapshot = snapshot("reserved", config);
@@ -686,7 +686,7 @@ describe("applySystemAgentSetup transaction boundaries", () => {
     expect(result.lines).toEqual(
       expect.arrayContaining([
         "Workspace files: workspace exploded",
-        "FRIDAY exec approval: approval exploded; local model harnesses may ask again.",
+        "OpenClaw exec approval: approval exploded; local model harnesses may ask again.",
         "Gateway service: service exploded",
       ]),
     );

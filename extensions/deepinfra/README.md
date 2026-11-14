@@ -1,8 +1,8 @@
-# FRIDAY DeepInfra Provider
+# OpenClaw DeepInfra Provider
 
-Official FRIDAY provider plugin for DeepInfra.
+Official OpenClaw provider plugin for DeepInfra.
 
-Install from FRIDAY:
+Install from OpenClaw:
 
 ```bash
 openclaw plugins install @openclaw/deepinfra-provider

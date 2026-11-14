@@ -110,7 +110,7 @@ async function listen(server, port, host) {
   return address.port;
 }
 
-// This is an external MCP server, not FRIDAY state. The caller explicitly owns
+// This is an external MCP server, not OpenClaw state. The caller explicitly owns
 // this private artifact and must give each running fixture a distinct stateFile.
 export async function startMcpEventsTestServer(options) {
   if (!options.stateFile || !options.token || !options.controlToken) {

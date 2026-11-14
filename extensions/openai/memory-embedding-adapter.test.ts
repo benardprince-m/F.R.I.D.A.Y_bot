@@ -85,7 +85,7 @@ describe("OpenAI memory embedding adapter", () => {
     });
   });
 
-  it("keeps native OpenAI embedding cache identity stable across FRIDAY versions", async () => {
+  it("keeps native OpenAI embedding cache identity stable across OpenClaw versions", async () => {
     const createForVersion = async (version: string) => {
       vi.stubEnv("OPENCLAW_VERSION", version);
       const result = await createCache("openai", "https://api.openai.com/v1");

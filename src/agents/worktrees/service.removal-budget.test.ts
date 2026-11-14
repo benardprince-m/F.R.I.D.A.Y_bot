@@ -200,7 +200,7 @@ it.each(["promised", "promised-retry", "unpromised", "checksum", "byte-limited"]
     } else if (damage === "unpromised") {
       // A local commit is not a promise, even with a promisor remote configured.
       const record = records[0]!;
-      await requireGit(record.path, ["config", "user.name", "FRIDAY Test"]);
+      await requireGit(record.path, ["config", "user.name", "OpenClaw Test"]);
       await requireGit(record.path, ["config", "user.email", "openclaw-test@example.invalid"]);
       await fs.writeFile(path.join(record.path, "README.md"), "local-only blob\n");
       await requireGit(record.path, ["add", "README.md"]);

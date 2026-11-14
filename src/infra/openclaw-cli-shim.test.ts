@@ -68,7 +68,7 @@ describe.skipIf(process.platform === "win32")("Gateway agent CLI shim", () => {
           { env },
         );
         expect(control.status, "checkout source CLI --version").toBe(0);
-        expect(control.stdout).toMatch(/^FRIDAY \d+\./);
+        expect(control.stdout).toMatch(/^OpenClaw \d+\./);
 
         await prepareGatewayAgentCliShim({ invocation, env, stateDir });
         const result = runSourceCliProbe(
@@ -177,8 +177,8 @@ it("renders a Windows PATH launcher for the running CLI", async () => {
       env: { OPENCLAW_PROFILE: "work" },
       invocation: {
         command: "C:\\Program Files\\nodejs\\node.exe",
-        args: ["C:\\FRIDAY\\dist\\index.js"],
-        cwd: "C:\\FRIDAY %USERPROFILE%!",
+        args: ["C:\\OpenClaw\\dist\\index.js"],
+        cwd: "C:\\OpenClaw %USERPROFILE%!",
       },
       platform: "win32",
       stateDir: root,
@@ -186,7 +186,7 @@ it("renders a Windows PATH launcher for the running CLI", async () => {
 
     const executablePath = path.join(root, "tmp", "agent-cli", "openclaw.cmd");
     expect(await fs.readFile(executablePath, "utf8")).toBe(
-      '@echo off\r\nsetlocal DisableDelayedExpansion\r\n"C:\\Program Files\\nodejs\\node.exe" C:\\FRIDAY\\dist\\index.js --profile work %*\r\n',
+      '@echo off\r\nsetlocal DisableDelayedExpansion\r\n"C:\\Program Files\\nodejs\\node.exe" C:\\OpenClaw\\dist\\index.js --profile work %*\r\n',
     );
   });
 });

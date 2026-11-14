@@ -6,7 +6,7 @@ import OpenClawChatUI
 import os
 import Testing
 import UIKit
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawKit
 
 @MainActor
@@ -505,15 +505,15 @@ private func pendingHandoffDiagnostic(
         let appModel = NodeAppModel()
         let withoutApprovalScope = appModel._test_makeOperatorConnectOptions(
             clientId: "openclaw-ios",
-            displayName: "FRIDAY iOS",
+            displayName: "OpenClaw iOS",
             includeApprovalScope: false)
         let withApprovalScope = appModel._test_makeOperatorConnectOptions(
             clientId: "openclaw-ios",
-            displayName: "FRIDAY iOS",
+            displayName: "OpenClaw iOS",
             includeApprovalScope: true)
         let withAdminScope = appModel._test_makeOperatorConnectOptions(
             clientId: "openclaw-ios",
-            displayName: "FRIDAY iOS",
+            displayName: "OpenClaw iOS",
             includeAdminScope: true,
             includeApprovalScope: false)
 
@@ -541,7 +541,7 @@ private func pendingHandoffDiagnostic(
         let appModel = NodeAppModel()
         let options = appModel._test_makeOperatorConnectOptions(
             clientId: "openclaw-ios",
-            displayName: "FRIDAY iOS",
+            displayName: "OpenClaw iOS",
             includeApprovalScope: false,
             forceExplicitScopes: true)
 

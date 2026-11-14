@@ -227,7 +227,7 @@ type DefinePluginEntryOptions = {
   register: NonNullable<OpenClawPluginDefinition["register"]>;
 };
 
-/** Normalized object shape that FRIDAY loads from a plugin entry module. */
+/** Normalized object shape that OpenClaw loads from a plugin entry module. */
 type DefinedPluginEntry = Omit<DefinePluginEntryOptions, "configSchema"> & {
   configSchema: OpenClawPluginConfigSchema;
 };
@@ -239,7 +239,7 @@ type DefinedPluginEntry = Omit<DefinePluginEntryOptions, "configSchema"> & {
  * plugins. Channel plugins should use `defineChannelPluginEntry(...)` from
  * `openclaw/plugin-sdk/core` so they inherit the channel capability wiring.
  *
- * @experimental Pin and test FRIDAY host versions; existing compatibility windows still apply.
+ * @experimental Pin and test OpenClaw host versions; existing compatibility windows still apply.
  */
 export function definePluginEntry({
   id,

@@ -193,7 +193,7 @@ async function runPreparedUpdateFailureTriage(
         return { status: "cancelled" };
       }
       if (!entryPath) {
-        throw new Error("The installed FRIDAY entrypoint is unavailable.");
+        throw new Error("The installed OpenClaw entrypoint is unavailable.");
       }
       const args = [
         "triage",

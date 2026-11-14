@@ -42,7 +42,7 @@ function normalizeCodexResponseTokenUsage(
 ):
   | { usage: NonNullable<ReturnType<typeof normalizeUsage>>; observedUsage: CodexResponseUsage }
   | undefined {
-  // v2 TokenUsageBreakdown. inputTokens includes cached input; FRIDAY usage
+  // v2 TokenUsageBreakdown. inputTokens includes cached input; OpenClaw usage
   // tracks uncached input, cache reads, and cache writes separately.
   const totalTokens = readTokenCount(record, "totalTokens");
   const inputTokens = readTokenCount(record, "inputTokens");

@@ -1,4 +1,4 @@
-// Verifies OpenAI model selections route between FRIDAY and Codex runtimes.
+// Verifies OpenAI model selections route between OpenClaw and Codex runtimes.
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { OpenClawConfigWithLegacyRoster } from "../config/legacy.roster.js";
 import type { ModelApi } from "../config/types.models.js";
@@ -62,7 +62,7 @@ describe("OpenAI runtime routing policy", () => {
     expect(implicit({ baseUrl: "https://direct.example.test/v1" })).toBe("openclaw");
   });
 
-  it("fails closed to FRIDAY when the provider artifact is unavailable", () => {
+  it("fails closed to OpenClaw when the provider artifact is unavailable", () => {
     vi.stubEnv("OPENCLAW_DISABLE_BUNDLED_PLUGINS", "1");
     expect(resolveOpenAIImplicitAgentRuntime({ provider: "openai", modelId: "gpt-5.5" })).toBe(
       "openclaw",
@@ -133,7 +133,7 @@ describe("OpenAI runtime routing policy", () => {
     expect(ensure(officialOpenClawConfig)).toBe(false);
   });
 
-  it("honors the deprecated whole-agent FRIDAY runtime opt-out", () => {
+  it("honors the deprecated whole-agent OpenClaw runtime opt-out", () => {
     const config = {
       agents: {
         defaults: { agentRuntime: { id: "openclaw" } },
@@ -145,7 +145,7 @@ describe("OpenAI runtime routing policy", () => {
     expect(ensure(config, "worker")).toBe(false);
   });
 
-  it("keeps per-model auto policy above the whole-agent FRIDAY opt-out", () => {
+  it("keeps per-model auto policy above the whole-agent OpenClaw opt-out", () => {
     const config = {
       agents: {
         defaults: {

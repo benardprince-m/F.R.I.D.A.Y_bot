@@ -355,9 +355,9 @@ struct ComputerControlPermissionSnapshot: Equatable, Sendable {
 
     enum Diagnostic: Equatable, Sendable {
         static let staleAccessibilityRemediation = """
-        FRIDAY may already appear enabled under System Settings → Privacy & Security → Accessibility. \
-        If so, the grant is pinned to an older build: select FRIDAY, remove it with −, then re-add \
-        /Applications/FRIDAY.app.
+        OpenClaw may already appear enabled under System Settings → Privacy & Security → Accessibility. \
+        If so, the grant is pinned to an older build: select OpenClaw, remove it with −, then re-add \
+        /Applications/OpenClaw.app.
         """
     }
 

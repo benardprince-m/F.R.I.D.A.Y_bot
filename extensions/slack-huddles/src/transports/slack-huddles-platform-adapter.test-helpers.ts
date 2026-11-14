@@ -280,7 +280,7 @@ export function fixture(params: {
         allowSessionAdoption: true,
         autoJoin: true,
         captureCaptions: false,
-        guestName: "FRIDAY Agent",
+        guestName: "OpenClaw Agent",
         meetingSessionId: "session-1",
         mode: "transcribe",
         url: HUDDLE_URL,

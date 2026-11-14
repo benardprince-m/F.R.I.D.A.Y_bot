@@ -26,7 +26,7 @@ function directoryParams(relay: Relay) {
     relayPublicKey: RELAY_PUBLIC_KEY,
     state: new BuzzDirectoryState({
       publicKey: BOT_PUBLIC_KEY,
-      fallbackProfileName: "FRIDAY",
+      fallbackProfileName: "OpenClaw",
       channelIds: [],
     }),
   };

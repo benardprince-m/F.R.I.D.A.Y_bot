@@ -2,7 +2,7 @@ import QuartzCore
 import SwiftUI
 import Testing
 import UIKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 struct RootSidebarShellContinuityTests {

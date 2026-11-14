@@ -300,7 +300,7 @@ async function fetchChatNavigation(request, url, signal = request.signal) {
       cache: "no-store",
       signal,
     });
-    if (response.status === 200 && response.headers.get("X-FRIDAY-Session-Entry") === "1") {
+    if (response.status === 200 && response.headers.get("X-OpenClaw-Session-Entry") === "1") {
       return response;
     }
   } catch {
@@ -412,10 +412,10 @@ self.addEventListener("push", (event) => {
   try {
     data = event.data.json();
   } catch {
-    data = { title: "FRIDAY", body: event.data.text() };
+    data = { title: "OpenClaw", body: event.data.text() };
   }
 
-  const title = data.title || "FRIDAY";
+  const title = data.title || "OpenClaw";
   const options = {
     body: data.body || "",
     icon:

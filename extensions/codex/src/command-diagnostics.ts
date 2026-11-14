@@ -42,7 +42,7 @@ import { resolveControlTarget } from "./command-handler-scope.js";
 import { safeCodexControlRequest } from "./command-rpc.js";
 
 const NO_DIAGNOSTICS_THREAD = [
-  "No Codex thread is attached to this FRIDAY session yet.",
+  "No Codex thread is attached to this OpenClaw session yet.",
   "Use /codex threads to find a thread, then /codex resume <thread-id> before sending diagnostics.",
 ].join("\n");
 
@@ -193,7 +193,7 @@ function previewCodexDiagnosticsFeedbackApproval(
   return [
     targets.length === 1 ? "Codex runtime thread detected." : "Codex runtime threads detected.",
     `Approving diagnostics will also send ${targets.length === 1 ? "this thread's feedback bundle" : "these threads' feedback bundles"} to OpenAI servers.`,
-    "The completed diagnostics reply will list the FRIDAY session ids and Codex thread ids that were sent.",
+    "The completed diagnostics reply will list the OpenClaw session ids and Codex thread ids that were sent.",
     ...(displayReason ? [`Note: ${displayReason}`] : []),
     "Included: Codex logs and spawned Codex subthreads when available.",
   ].join("\n");

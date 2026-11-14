@@ -301,7 +301,7 @@ describe("handleFeishuCommentEvent", () => {
         file_type: "docx",
         comment_id: "comment_1",
         content:
-          "FRIDAY: access not configured.\n\nYour Feishu user id: ou_sender\nPairing code:\n```\nTESTCODE\n```\n\nAsk the bot owner to approve with:\n```\nopenclaw pairing approve feishu TESTCODE\n```",
+          "OpenClaw: access not configured.\n\nYour Feishu user id: ou_sender\nPairing code:\n```\nTESTCODE\n```\n\nAsk the bot owner to approve with:\n```\nopenclaw pairing approve feishu TESTCODE\n```",
         is_whole_comment: false,
       },
     );

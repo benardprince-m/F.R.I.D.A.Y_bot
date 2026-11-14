@@ -191,7 +191,7 @@ describe("macOS stale updater warnings", () => {
     expect(mocks.findJobs).toHaveBeenCalledTimes(1);
     const [message, title] = expectDefined<unknown[]>(mocks.note.mock.calls[0], "note call 0");
     expect(title).toBe("Gateway (macOS)");
-    expect(message).toContain("Stale FRIDAY updater launchd job(s) detected");
+    expect(message).toContain("Stale OpenClaw updater launchd job(s) detected");
     expect(message).toContain("ai.openclaw.update.2026.5.12");
     expect(message).toContain("ai.openclaw.manual-update.1717168800");
     expect(message).toContain("launchctl remove <label>");

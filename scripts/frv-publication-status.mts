@@ -480,9 +480,9 @@ export function observePublicationJobs(
   jobs: PublicationJob[],
 ) {
   const mapping: [SurfaceName, string, boolean][] = [
-    ["coreNpm", "Publish plugins, then FRIDAY", false],
-    ["pluginNpm", "Publish plugins, then FRIDAY", false],
-    ["clawHub", "Publish plugins, then FRIDAY", false],
+    ["coreNpm", "Publish plugins, then OpenClaw", false],
+    ["pluginNpm", "Publish plugins, then OpenClaw", false],
+    ["clawHub", "Publish plugins, then OpenClaw", false],
     ["coreNpm", "Verify already-published core npm package", false],
     ["docker", "Publish Docker images / ", true],
     ["vcr", "Mirror Docker images to Vercel Container Registry / ", true],

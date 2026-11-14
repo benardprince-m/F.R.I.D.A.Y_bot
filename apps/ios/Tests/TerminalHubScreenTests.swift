@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import Testing
 import WebKit
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawKit
 
 @MainActor

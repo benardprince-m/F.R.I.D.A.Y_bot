@@ -1929,7 +1929,7 @@ export async function verifyBetaRelease(
       });
       diagnostic.success("pluginClawHubBootstrap");
     }
-    verifyChild("openclawNpm", "FRIDAY NPM Release", () => {
+    verifyChild("openclawNpm", "OpenClaw NPM Release", () => {
       const originalAttempt = normalizeOptionalString(
         process.env.OPENCLAW_NPM_EXPECTED_RUN_ATTEMPT,
       );

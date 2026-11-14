@@ -684,7 +684,7 @@ describe("openclaw launcher", () => {
       },
     );
     expect(result.status, result.stderr).toBe(0);
-    expect(result.stdout).toMatch(/FRIDAY 2026\.9\.3|diagnostic-entry/);
+    expect(result.stdout).toMatch(/OpenClaw 2026\.9\.3|diagnostic-entry/);
   });
 
   it("admits lossless Node builds outside the support table while retaining the major floor", async () => {

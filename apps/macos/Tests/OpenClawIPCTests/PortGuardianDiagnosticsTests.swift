@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct PortGuardianDiagnosticsTests {
     @Test(arguments: [nil as UInt16?, 49219]) @MainActor

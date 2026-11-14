@@ -21,7 +21,7 @@ const notice = {
   code: "deprecated-sdk-api",
   severity: "info",
   message:
-    "Uses FRIDAY APIs that retire on Dec 31, 2026. It keeps working until then; check for a plugin update.",
+    "Uses OpenClaw APIs that retire on Dec 31, 2026. It keeps working until then; check for a plugin update.",
   removalDate: "2026-12-31",
   migrationGuideUrl: "https://docs.openclaw.ai/plugins/sdk-migration/how-to-migrate",
   apis: [

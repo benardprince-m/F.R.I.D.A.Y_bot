@@ -351,7 +351,7 @@ describe("plugin management Featured authority", () => {
         name: "firecrawl",
         packageName: "@openclaw/firecrawl-plugin",
         featured: false,
-        description: "Optional FRIDAY capability.",
+        description: "Optional OpenClaw capability.",
       }),
     );
     mocks.officialCatalog.mockResolvedValue(

@@ -124,9 +124,9 @@ function findAutoManagedMetaTargets(
 function formatAutoManagedMetaError(paths: readonly PathSegment[][]): string {
   const subject = paths.map(toDotPath).join(", ");
   return [
-    `${subject} is auto-managed by FRIDAY and cannot be edited; the value would be overwritten on the next config write.`,
+    `${subject} is auto-managed by OpenClaw and cannot be edited; the value would be overwritten on the next config write.`,
     "",
-    "These fields are stamped on every config write to record the FRIDAY version and timestamp that produced the file.",
+    "These fields are stamped on every config write to record the OpenClaw version and timestamp that produced the file.",
   ].join("\n");
 }
 

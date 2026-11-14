@@ -41,6 +41,6 @@ export const handleSystemAgentCommand: CommandHandler = async (params, allowText
             }),
         },
       },
-    })) ?? "FRIDAY did not find a rescue request.",
+    })) ?? "OpenClaw did not find a rescue request.",
   );
 };

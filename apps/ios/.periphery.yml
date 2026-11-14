@@ -1,6 +1,6 @@
-project: FRIDAY.xcodeproj
+project: OpenClaw.xcodeproj
 schemes:
-  - FRIDAY
+  - OpenClaw
 retain_codable_properties: true
 retain_swift_ui_previews: true
 retain_objc_accessible: true

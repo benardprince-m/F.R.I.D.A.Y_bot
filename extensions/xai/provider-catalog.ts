@@ -68,7 +68,7 @@ export async function buildLiveXaiProvider(params: {
     ttlMs: XAI_MODELS_CACHE_TTL_MS,
     auditContext: "xai-model-discovery",
   });
-  // Multi-agent models reject the client-side tools every FRIDAY agent turn sends.
+  // Multi-agent models reject the client-side tools every OpenClaw agent turn sends.
   return {
     ...provider,
     models: provider.models.filter((model) => !model.id.toLowerCase().includes("multi-agent")),

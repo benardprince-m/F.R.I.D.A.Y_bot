@@ -76,7 +76,7 @@ describe("bonjour plugin entry", () => {
     expect(mocks.advertiserModuleLoaded).toHaveBeenCalledTimes(1);
     expect(mocks.runtimeModuleLoaded).toHaveBeenCalledTimes(1);
     expect(mocks.startGatewayBonjourAdvertiser).toHaveBeenCalledWith(
-      { ...advertisedOptions, instanceName: "Dev Box (FRIDAY)" },
+      { ...advertisedOptions, instanceName: "Dev Box (OpenClaw)" },
       {
         logger: api.logger,
         registerUncaughtExceptionHandler: mocks.registerUncaughtExceptionHandler,

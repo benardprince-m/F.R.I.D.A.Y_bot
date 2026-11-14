@@ -64,7 +64,7 @@ function makeWorkspacePolicy(path: unknown, access: "read" | "deny" = "deny") {
   });
 }
 
-describe("FRIDAY Codex sandbox exec-server filesystem", () => {
+describe("OpenClaw Codex sandbox exec-server filesystem", () => {
   it("returns the required Codex file size in sandbox metadata", async () => {
     const socket = await connect({
       stat: async () => ({ type: "file", size: 1234, mtimeMs: 5678 }),
@@ -438,7 +438,7 @@ describe("FRIDAY Codex sandbox exec-server filesystem", () => {
   });
 });
 
-describe("FRIDAY Codex sandbox exec-server filesystem streaming", () => {
+describe("OpenClaw Codex sandbox exec-server filesystem streaming", () => {
   it("streams sandbox files through connection-owned Codex file handles", async () => {
     const data = Buffer.from("0123456789");
     const readFile = vi.fn(async () => data);

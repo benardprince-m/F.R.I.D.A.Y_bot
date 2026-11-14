@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/file-transfer",
   "version": "2026.10.4",
-  "description": "FRIDAY file transfer plugin (file_fetch, dir_list, dir_fetch, file_write)",
+  "description": "OpenClaw file transfer plugin (file_fetch, dir_list, dir_fetch, file_write)",
   "type": "module",
   "dependencies": {
     "@openclaw/fs-safe": "0.26.7",

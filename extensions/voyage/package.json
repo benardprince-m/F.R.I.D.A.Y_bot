@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/voyage-provider",
   "version": "2026.10.4",
-  "description": "FRIDAY Voyage embedding provider plugin.",
+  "description": "OpenClaw Voyage embedding provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

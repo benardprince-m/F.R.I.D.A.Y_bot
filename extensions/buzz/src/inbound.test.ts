@@ -46,7 +46,7 @@ function createAccount(
 ): ResolvedBuzzAccount {
   return {
     accountId: "default",
-    name: "FRIDAY",
+    name: "OpenClaw",
     enabled: true,
     configured: true,
     relayUrl: "ws://127.0.0.1:3000",
@@ -88,7 +88,7 @@ function createBus(): BuzzBus {
     publicKey: BOT_PUBLIC_KEY,
     directory: new BuzzDirectoryState({
       publicKey: BOT_PUBLIC_KEY,
-      fallbackProfileName: "FRIDAY",
+      fallbackProfileName: "OpenClaw",
       channelIds: [ROOM_ID],
     }),
     refreshDirectory: vi.fn(async () => {}),
@@ -750,7 +750,7 @@ describe("handleBuzzInbound", () => {
       bus: createBus(),
       message: createMessage({
         kind: BUZZ_DIFF_MESSAGE_KIND,
-        text: "+const owner = '@FRIDAY';",
+        text: "+const owner = '@OpenClaw';",
         diff: {
           repoUrl: "https://github.com/openclaw/openclaw",
           commitSha: "abcdef1",

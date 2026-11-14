@@ -23,7 +23,7 @@ const context: Context = {
   tools: [
     {
       name: "openclaw",
-      description: "Set up FRIDAY",
+      description: "Set up OpenClaw",
       parameters: Type.Object({
         action: Type.Literal("connect_channel"),
         channel: Type.String(),

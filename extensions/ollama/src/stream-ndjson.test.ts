@@ -55,13 +55,13 @@ describe("parseNdjsonStream", () => {
     const reader = mockNdjsonReader([`${prefix}\u{1f600}tail`], { trailingNewline: false });
 
     await expect(expectNoParsedChunks(reader)).rejects.toMatchObject({
-      message: "FRIDAY transport error: malformed_streaming_fragment",
+      message: "OpenClaw transport error: malformed_streaming_fragment",
     });
   });
 
   it.each(["null"])("rejects non-object NDJSON records: %s", async (record) => {
     await expect(expectNoParsedChunks(mockNdjsonReader([record]))).rejects.toThrow(
-      "FRIDAY transport error: malformed_streaming_fragment",
+      "OpenClaw transport error: malformed_streaming_fragment",
     );
   });
 });

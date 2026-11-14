@@ -226,7 +226,7 @@ describe("iOS screenshot evidence", () => {
     const root = tempDirs.make("ios-screenshot-retry-");
     const source = writeCombinedSource(root, "iphone", "02-chat-connected");
 
-    expect(() => collect(source)).toThrow("expected exactly one FRIDAY capture attempt");
+    expect(() => collect(source)).toThrow("expected exactly one OpenClaw capture attempt");
   });
 
   it("requires the successful capture to have a passing xcresult", () => {

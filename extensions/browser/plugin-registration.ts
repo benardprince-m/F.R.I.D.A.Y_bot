@@ -447,7 +447,7 @@ export function registerBrowserPlugin(api: OpenClawPluginApi) {
     {
       // Keep the relay path in sync with GATEWAY_EXTENSION_RELAY_PATH without eager loading.
       path: "/browser/extension",
-      client: "the FRIDAY Chrome extension",
+      client: "the OpenClaw Chrome extension",
       loadUpgrade: async () =>
         (await getGatewayExtensionRelayModule()).handleGatewayExtensionUpgrade,
     },

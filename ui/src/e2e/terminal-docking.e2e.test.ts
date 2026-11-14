@@ -55,7 +55,7 @@ suite.define(() => {
             return size + (input.sessionId === sessionId ? input.data.length : 0);
           }, 0);
           const banner =
-            "FRIDAY mock terminal\r\nType anything and the mock Gateway will echo it.\r\n$ ";
+            "OpenClaw mock terminal\r\nType anything and the mock Gateway will echo it.\r\n$ ";
           await gateway.emitGatewayEvent("terminal.data", {
             sessionId,
             seq: banner.length + echoed + output.length,

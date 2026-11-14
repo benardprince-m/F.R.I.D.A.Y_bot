@@ -4,9 +4,9 @@ set -euo pipefail
 # Build the mac app bundle, then create a zip (Sparkle) + styled DMG (humans).
 #
 # Output:
-# - dist/FRIDAY.app
-# - dist/FRIDAY-<version>.zip
-# - dist/FRIDAY-<version>.dmg
+# - dist/OpenClaw.app
+# - dist/OpenClaw-<version>.zip
+# - dist/OpenClaw-<version>.dmg
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 source "$ROOT_DIR/scripts/lib/plistbuddy.sh"
@@ -50,7 +50,7 @@ if [[ "$RESUME_NOTARIZATION" == "0" && -e "$RECOVERY_DIR" ]]; then
 fi
 
 BUILD_ROOT="$ROOT_DIR/apps/macos/.build"
-PRODUCT="FRIDAY"
+PRODUCT="OpenClaw"
 BUILD_CONFIG="${BUILD_CONFIG:-release}"
 APP_VERSION_INPUT="${APP_VERSION:-}"
 if [[ "$CHECKPOINT_ONLY" == "1" && "$BUILD_CONFIG" != "release" ]]; then
@@ -185,7 +185,7 @@ if [[ "$RESUME_NOTARIZATION" == "0" && -z "${APP_BUILD:-}" && "$BUILD_CONFIG" ==
   export APP_BUILD="${APP_BUILD:-$CANONICAL_APP_BUILD}"
 fi
 
-APP="$ROOT_DIR/dist/FRIDAY.app"
+APP="$ROOT_DIR/dist/OpenClaw.app"
 if [[ "$RESUME_NOTARIZATION" == "1" ]]; then
   python3 "$RECOVERY_HELPER" verify "$RECOVERY_DIR" "$(git -C "$ROOT_DIR" rev-parse HEAD)" "$APP_VERSION_INPUT" >/dev/null
   APP_BUILD="$(jq -r '.build' "$RECOVERY_DIR/manifest.json")"
@@ -193,7 +193,7 @@ if [[ "$RESUME_NOTARIZATION" == "1" ]]; then
   SKIP_DSYM="$(jq -r 'if .skipDsym then "1" else "0" end' "$RECOVERY_DIR/manifest.json")"
   RESTORED_APP_DIR="$(mktemp -d "$ROOT_DIR/dist/.notary-resume.XXXXXX")"
   ditto -x -k "$RECOVERY_DIR/app.zip" "$RESTORED_APP_DIR"
-  APP="$RESTORED_APP_DIR/FRIDAY.app"
+  APP="$RESTORED_APP_DIR/OpenClaw.app"
   /usr/bin/codesign --verify --deep --strict "$APP"
   if [[ "${SKIP_NOTARIZE:-0}" != "1" && -n "${EXPECTED_DEVELOPER_TEAM_ID:-}" ]]; then
     /usr/bin/codesign --verify --strict -R="anchor apple generic and certificate leaf[subject.OU] = \"${EXPECTED_DEVELOPER_TEAM_ID}\"" "$APP"
@@ -254,7 +254,7 @@ audit_retained_dmg_async_frames() (
   trap 'exit 143' TERM HUP
   hdiutil attach -readonly -nobrowse -mountpoint "$mount_dir" "$dmg" >/dev/null
   mounted=1
-  audit_app_async_frames "$mount_dir/FRIDAY.app"
+  audit_app_async_frames "$mount_dir/OpenClaw.app"
 )
 
 if [[ "$BUILD_CONFIG" == "release" ]]; then
@@ -266,10 +266,10 @@ VERSION="$(plist_print_required "$APP/Contents/Info.plist" CFBundleShortVersionS
 BUNDLE_VERSION="$(plist_print_required "$APP/Contents/Info.plist" CFBundleVersion)"
 ACTUAL_BUNDLE_ID="$(plist_print_required "$APP/Contents/Info.plist" CFBundleIdentifier)"
 ACTUAL_FEED_URL="$(plist_print_required "$APP/Contents/Info.plist" SUFeedURL)"
-ZIP="$ROOT_DIR/dist/FRIDAY-$VERSION.zip"
-DMG="$ROOT_DIR/dist/FRIDAY-$VERSION.dmg"
+ZIP="$ROOT_DIR/dist/OpenClaw-$VERSION.zip"
+DMG="$ROOT_DIR/dist/OpenClaw-$VERSION.dmg"
 NOTARY_ZIP="$RECOVERY_DIR/app.zip"
-DSYM_ZIP="$ROOT_DIR/dist/FRIDAY-$VERSION.dSYM.zip"
+DSYM_ZIP="$ROOT_DIR/dist/OpenClaw-$VERSION.dSYM.zip"
 SKIP_NOTARIZE="${SKIP_NOTARIZE:-0}"
 NOTARIZE=1
 SKIP_DSYM="${SKIP_DSYM:-0}"
@@ -456,8 +456,8 @@ rm -f "$ZIP"
 ditto -c -k --sequesterRsrc --keepParent "$APP" "$ZIP"
 
 if [[ -n "$RESTORED_APP_DIR" ]]; then
-  rm -rf "$ROOT_DIR/dist/FRIDAY.app"
-  mv "$APP" "$ROOT_DIR/dist/FRIDAY.app"
+  rm -rf "$ROOT_DIR/dist/OpenClaw.app"
+  mv "$APP" "$ROOT_DIR/dist/OpenClaw.app"
 fi
 
 if [[ "$RECOVERY_READY" == "1" ]]; then

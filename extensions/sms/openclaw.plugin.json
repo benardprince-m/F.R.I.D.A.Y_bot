@@ -2,7 +2,7 @@
   "id": "sms",
   "categories": ["channels"],
   "name": "SMS",
-  "description": "Twilio SMS/MMS channel plugin for FRIDAY messages.",
+  "description": "Twilio SMS/MMS channel plugin for OpenClaw messages.",
   "activation": {
     "onStartup": false
   },

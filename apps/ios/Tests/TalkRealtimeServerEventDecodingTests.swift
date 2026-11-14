@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct TalkRealtimeServerEventDecodingTests {
     @Test(arguments: ["content", "connection_lost", "close_requested", "expired", "remote_hangup"])

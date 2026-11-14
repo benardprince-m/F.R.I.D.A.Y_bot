@@ -1209,12 +1209,12 @@ describe("authoritative terminal history identity", () => {
     "keeps the live pairing QR through history refreshes (history first=%s)",
     async (historyFirst) => {
       const text =
-        "Scan this QR code with the FRIDAY iOS app:\n\n- Gateway: wss://pair.example.invalid\n- Auth: token\n- Security: single-use bootstrap token";
+        "Scan this QR code with the OpenClaw iOS app:\n\n- Gateway: wss://pair.example.invalid\n- Auth: token\n- Security: single-use bootstrap token";
       const saved = textMessage("assistant", text, { id: "pair-reply", seq: 2, runId: "run-1" });
       const qr = {
         type: "openclaw_pairing_qr",
         image_url: "data:image/png;base64,c3ludGhldGljLXFy",
-        alt: "FRIDAY pairing QR code",
+        alt: "OpenClaw pairing QR code",
         expiresAtMs: Date.now() + 600_000,
         sensitive: true,
       };
@@ -1744,7 +1744,7 @@ describe("loadChatHistory retry handling", () => {
     expect(getChatHistoryLoadState(state)).toMatchObject({
       phase: "failed",
       message:
-        "You don't have permission to view existing chat history. Ask the person who manages FRIDAY for access.",
+        "You don't have permission to view existing chat history. Ask the person who manages OpenClaw for access.",
       retryable: false,
     });
     expect(state.lastError).toBeNull();

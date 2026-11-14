@@ -1,13 +1,13 @@
 ---
-summary: "Recover from failed FRIDAY updates in the Control UI or CLI"
+summary: "Recover from failed OpenClaw updates in the Control UI or CLI"
 read_when:
-  - An FRIDAY update failed
+  - An OpenClaw update failed
   - The Gateway did not report a final update result
 title: "Update troubleshooting"
 ---
 
 Failed updates enter built-in triage after update recovery settles. In an
-interactive terminal, FRIDAY shows the selected agent, saved prompt path when
+interactive terminal, OpenClaw shows the selected agent, saved prompt path when
 available, and use of your own account/tokens, then asks before launching
 [triage](/cli/triage). Only an affirmative Yes proceeds. Enter, `n`, cancellation,
 or no answer within 30 seconds skips the launch and preserves diagnostics and
@@ -26,14 +26,14 @@ separately. Without a complete lint report, a deadline does not establish that
 the checks finished. Diagnostic collection does not require inference;
 the original update check remains the reported failure.
 
-In the Control UI, a failed attempt opens **Ask FRIDAY** with its recorded
+In the Control UI, a failed attempt opens **Ask OpenClaw** with its recorded
 details and asks it to investigate before retrying. A lost connection or
 verification timeout is presented as an unknown outcome. The tab remembers the
 latest 32 investigated attempt identities, scoped to their Gateway and profile.
 Status checks, switching between those scopes, and reloading the same tab do not
 automatically send those investigations again. If the browser cannot read or
 save that history, the failure details remain visible without an automatic
-diagnostic request. Ask FRIDAY manually or run `openclaw triage` on the host.
+diagnostic request. Ask OpenClaw manually or run `openclaw triage` on the host.
 If the Gateway or agent is
 unavailable, use `openclaw triage` on the Gateway host. Automatic diagnosis keeps
 your unsent composer draft, including when its conversation session must restart.
@@ -57,7 +57,7 @@ accepted ownership; check `openclaw update status` and
 `openclaw gateway status --deep` before retrying.
 
 For a final failed attempt, **Report update failure** is separate from **Retry**
-and **Ask FRIDAY**. It previews a bounded report containing the FRIDAY
+and **Ask OpenClaw**. It previews a bounded report containing the OpenClaw
 version, platform, update target, failed phase, sanitized diagnostics, and
 verified rollback outcome. The report excludes secrets, tokens, chat content,
 raw logs, private absolute paths, and recovery commands. Nothing is submitted
@@ -67,7 +67,7 @@ their browser. This path never invokes the host's GitHub CLI, including for
 authentication or reconciliation. Connecting My GitHub does not grant host-account
 publication authority. Only the Gateway owner or an internal system administrator
 can authorize the existing host GitHub CLI issue flow. Fallback and pending outcomes retain the sanitized report
-locally; a confirmed issue keeps only its durable issue URL. FRIDAY first makes
+locally; a confirmed issue keeps only its durable issue URL. OpenClaw first makes
 a silent, read-only request with the active `github.com` account. A missing CLI
 or a failed, unavailable, or timed-out authentication check returns a prefilled
 issue link without starting issue creation. In the Control UI, an interrupted
@@ -131,7 +131,7 @@ authorizes concurrent repair or discards recovery backups. Active migration
 writes, unreadable state, incomplete migrations, and unconfirmed subprocess
 cleanup retain their failure and recovery guidance.
 
-On Windows, `windows-task-inspection-failed` means FRIDAY could not query
+On Windows, `windows-task-inspection-failed` means OpenClaw could not query
 Task Scheduler to verify service absence. Check Task Scheduler availability and
 the service account's query permissions, then run `openclaw gateway status --deep`
 before retrying. Install failures and update reports include the safe failure
@@ -207,7 +207,7 @@ An older updater that refuses before staging cannot load a candidate's improved
 diagnostics; resolve its prefix mismatch before retrying the update.
 
 If the ranges do not overlap, install a supported Node and select a compatible
-FRIDAY target; that candidate cannot run through this updater on a supported
+OpenClaw target; that candidate cannot run through this updater on a supported
 Node release. See [Node.js](/install/node).
 
 For `global-install-permission-denied`, check the named directory and owner.
@@ -222,7 +222,7 @@ shared system prefix. A personal install can instead use a
 Permission errors discovered after admission carry the same reason. The report's
 rollback and service-recovery constraints still apply if activation had begun.
 Inside a container, the same next action also directs you to pull or build the
-target FRIDAY image and redeploy with the same state/config mounts. Package
+target OpenClaw image and redeploy with the same state/config mounts. Package
 changes inside a running container are not durable.
 
 ### System-scope systemd services
@@ -302,7 +302,7 @@ when lint is the failed step. The elapsed time in the final log line measures
 the whole rehearsal; the step duration measures the individual check. A complete
 lint JSON report is needed to establish that lint finished before termination.
 
-Published FRIDAY 2026.9.4 can spend many minutes preparing model catalogs and
+Published OpenClaw 2026.9.4 can spend many minutes preparing model catalogs and
 chat metadata after its HTTP listener binds. In an instrumented 480-agent
 control with no update, HTTP checks remained unanswered during 944 seconds of
 observation; the Gateway then logged `ready` at 947.5 seconds. Stopping that
@@ -484,14 +484,14 @@ their scratch tree when its owner retires.
 
 Upgrade the host, then run `openclaw doctor` to inspect legacy captures.
 On Linux and macOS, `openclaw doctor --fix` removes whole legacy catalog trees only during maintenance
-when no other FRIDAY process is running. Do not delete captures based on their
+when no other OpenClaw process is running. Do not delete captures based on their
 age or absence from open-file or memory-map lists: an idle owner can still need
 them. Modern captures use SQLite custody to prove retirement. See
 [plugin source lifetime](/plugins/architecture#runtime-instance-and-source-lifetime).
 
-Unrelated Node services running `node dist/index.js` do not count as FRIDAY
+Unrelated Node services running `node dist/index.js` do not count as OpenClaw
 owners. Doctor resolves generic entrypoints against their installation's package
-identity and honors FRIDAY service markers. If a live PID cannot be classified,
+identity and honors OpenClaw service markers. If a live PID cannot be classified,
 Doctor preserves the captures and reports that PID and the inspection failure
 (including a missing or unreadable package manifest);
 this remains a maintenance warning and does not fail the update. Retry
@@ -567,7 +567,7 @@ Windows host-wide legacy capture cleanup remains report-only.
   Current updaters retry named dependency failures once with npm's `--prefer-online`
   or Bun's `--no-cache` (pnpm has no equivalent forced metadata refresh);
   a successful retry records a stale-cache repair warning. An unavailable
-  FRIDAY target is left to target resolution. If `ETARGET` or `E404` persists,
+  OpenClaw target is left to target resolution. If `ETARGET` or `E404` persists,
   run `npm cache verify`, check the configured registry or mirror, and run
   `npm view <spec> version` with the reported spec before retrying. A candidate
   cannot repair this behavior in an older installed updater; use the
@@ -668,7 +668,7 @@ See [Rollback](/install/updating#rollback).
 Collect the following without posting credentials, raw config, or unredacted
 process output:
 
-- FRIDAY version and install type;
+- OpenClaw version and install type;
 - update timestamp, target, phase, and reason code from Settings → Updates;
 - the bounded failure detail shown by **View details**;
 - `openclaw update status --json`;

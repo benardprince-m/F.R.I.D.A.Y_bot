@@ -3,11 +3,11 @@
   "id": "openclaw-official-external-plugins",
   "generatedAt": "2026-06-22T00:00:00.000Z",
   "sequence": 1,
-  "description": "Bundled fallback feed for official external FRIDAY plugins.",
+  "description": "Bundled fallback feed for official external OpenClaw plugins.",
   "entries": [
     {
       "name": "@openclaw/acpx",
-      "description": "FRIDAY ACP runtime backend",
+      "description": "OpenClaw ACP runtime backend",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -25,7 +25,7 @@
     },
     {
       "name": "@openclaw/brave-plugin",
-      "description": "FRIDAY Brave plugin",
+      "description": "OpenClaw Brave plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -63,7 +63,7 @@
     },
     {
       "name": "@openclaw/cloudflare",
-      "description": "Cloudflare R2 storage for named FRIDAY storage locations.",
+      "description": "Cloudflare R2 storage for named OpenClaw storage locations.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -89,7 +89,7 @@
     },
     {
       "name": "@openclaw/codex",
-      "description": "FRIDAY Codex app-server harness and native session catalog",
+      "description": "OpenClaw Codex app-server harness and native session catalog",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -126,7 +126,7 @@
     },
     {
       "name": "@openclaw/copilot",
-      "description": "FRIDAY GitHub Copilot agent runtime plugin",
+      "description": "OpenClaw GitHub Copilot agent runtime plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -144,7 +144,7 @@
     },
     {
       "name": "@openclaw/muse",
-      "description": "FRIDAY Muse Code agent runtime plugin",
+      "description": "OpenClaw Muse Code agent runtime plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -180,7 +180,7 @@
     },
     {
       "name": "@openclaw/diagnostics-otel",
-      "description": "FRIDAY diagnostics OpenTelemetry exporter",
+      "description": "OpenClaw diagnostics OpenTelemetry exporter",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -198,7 +198,7 @@
     },
     {
       "name": "@openclaw/diagnostics-prometheus",
-      "description": "FRIDAY diagnostics Prometheus exporter",
+      "description": "OpenClaw diagnostics Prometheus exporter",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -216,7 +216,7 @@
     },
     {
       "name": "@openclaw/diffs",
-      "description": "FRIDAY diff viewer plugin",
+      "description": "OpenClaw diff viewer plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -238,7 +238,7 @@
     },
     {
       "name": "@openclaw/diffs-language-pack",
-      "description": "FRIDAY diffs viewer syntax highlighting language pack",
+      "description": "OpenClaw diffs viewer syntax highlighting language pack",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -256,7 +256,7 @@
     },
     {
       "name": "@openclaw/duckduckgo-plugin",
-      "description": "FRIDAY DuckDuckGo plugin.",
+      "description": "OpenClaw DuckDuckGo plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -296,7 +296,7 @@
     },
     {
       "name": "@openclaw/exa-plugin",
-      "description": "FRIDAY Exa plugin.",
+      "description": "OpenClaw Exa plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -338,7 +338,7 @@
     },
     {
       "name": "@openclaw/facetime",
-      "description": "Experimental FRIDAY FaceTime realtime voice carrier",
+      "description": "Experimental OpenClaw FaceTime realtime voice carrier",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -362,7 +362,7 @@
     },
     {
       "name": "@openclaw/firecrawl-plugin",
-      "description": "FRIDAY Firecrawl plugin.",
+      "description": "OpenClaw Firecrawl plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -426,7 +426,7 @@
     },
     {
       "name": "@openclaw/fish-audio-speech",
-      "description": "FRIDAY Fish Audio speech plugin.",
+      "description": "OpenClaw Fish Audio speech plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -447,7 +447,7 @@
     },
     {
       "name": "@openclaw/google-meet",
-      "description": "FRIDAY Google Meet participant plugin",
+      "description": "OpenClaw Google Meet participant plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -465,7 +465,7 @@
     },
     {
       "name": "@openclaw/gradium-speech",
-      "description": "FRIDAY Gradium speech plugin.",
+      "description": "OpenClaw Gradium speech plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -488,7 +488,7 @@
     },
     {
       "name": "@openclaw/inworld-speech",
-      "description": "FRIDAY Inworld speech plugin.",
+      "description": "OpenClaw Inworld speech plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -533,7 +533,7 @@
     },
     {
       "name": "@openclaw/memory-lancedb",
-      "description": "FRIDAY LanceDB-backed long-term memory plugin with auto-recall/capture",
+      "description": "OpenClaw LanceDB-backed long-term memory plugin with auto-recall/capture",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -555,7 +555,7 @@
     },
     {
       "name": "@openclaw/llama-cpp-provider",
-      "description": "FRIDAY managed llama.cpp server provider plugin",
+      "description": "OpenClaw managed llama.cpp server provider plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -578,7 +578,7 @@
     },
     {
       "name": "@openclaw/mxc-sandbox",
-      "description": "FRIDAY MXC sandbox execution plugin for MXC-capable hosts",
+      "description": "OpenClaw MXC sandbox execution plugin for MXC-capable hosts",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -596,7 +596,7 @@
     },
     {
       "name": "@openclaw/onnx",
-      "description": "Local ONNX decision models for FRIDAY",
+      "description": "Local ONNX decision models for OpenClaw",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -614,7 +614,7 @@
     },
     {
       "name": "@openclaw/openshell-sandbox",
-      "description": "FRIDAY OpenShell sandbox backend",
+      "description": "OpenClaw OpenShell sandbox backend",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -632,7 +632,7 @@
     },
     {
       "name": "@openclaw/parallel-plugin",
-      "description": "FRIDAY Parallel web search plugin.",
+      "description": "OpenClaw Parallel web search plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -689,7 +689,7 @@
     },
     {
       "name": "@openclaw/perplexity-plugin",
-      "description": "FRIDAY Perplexity plugin.",
+      "description": "OpenClaw Perplexity plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -732,7 +732,7 @@
     },
     {
       "name": "@openclaw/searxng-plugin",
-      "description": "FRIDAY SearXNG plugin",
+      "description": "OpenClaw SearXNG plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -776,7 +776,7 @@
     },
     {
       "name": "@openclaw/slack-huddles",
-      "description": "FRIDAY Slack huddle browser meeting participant plugin.",
+      "description": "OpenClaw Slack huddle browser meeting participant plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -802,7 +802,7 @@
     },
     {
       "name": "@openclaw/tavily-plugin",
-      "description": "FRIDAY Tavily plugin",
+      "description": "OpenClaw Tavily plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -849,7 +849,7 @@
     },
     {
       "name": "@openclaw/team-reports",
-      "description": "FRIDAY team activity reports plugin (GitHub org + Discord activity with model summaries)",
+      "description": "OpenClaw team activity reports plugin (GitHub org + Discord activity with model summaries)",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -867,7 +867,7 @@
     },
     {
       "name": "@openclaw/teams-meetings",
-      "description": "FRIDAY Microsoft Teams browser meeting participant plugin.",
+      "description": "OpenClaw Microsoft Teams browser meeting participant plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -893,7 +893,7 @@
     },
     {
       "name": "@openclaw/tokenjuice",
-      "description": "FRIDAY tokenjuice exec output compaction plugin",
+      "description": "OpenClaw tokenjuice exec output compaction plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -915,7 +915,7 @@
     },
     {
       "name": "@openclaw/typesafe",
-      "description": "FRIDAY TypeSafe typed decisions and optional evaluation tool",
+      "description": "OpenClaw TypeSafe typed decisions and optional evaluation tool",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -933,7 +933,7 @@
     },
     {
       "name": "@openclaw/voice-call",
-      "description": "FRIDAY voice-call plugin",
+      "description": "OpenClaw voice-call plugin",
       "source": "official",
       "kind": "plugin",
       "openclaw": {
@@ -951,7 +951,7 @@
     },
     {
       "name": "@openclaw/zoom-meetings",
-      "description": "FRIDAY Zoom browser meeting participant plugin.",
+      "description": "OpenClaw Zoom browser meeting participant plugin.",
       "source": "official",
       "kind": "plugin",
       "openclaw": {

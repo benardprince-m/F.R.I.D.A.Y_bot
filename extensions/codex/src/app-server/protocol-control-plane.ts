@@ -105,7 +105,7 @@ export type CodexPluginInstallResponse = {
   appsNeedingAuth: CodexAppSummary[];
 };
 
-/** App inventory shape consumed by FRIDAY's existing plugin policy. */
+/** App inventory shape consumed by OpenClaw's existing plugin policy. */
 export type CodexAppInfo = {
   id: string;
   name: string;

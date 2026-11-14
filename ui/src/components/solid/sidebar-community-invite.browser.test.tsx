@@ -16,9 +16,9 @@ it("opens Community only on request and returns focus without dismissing the ent
   await expect.element(dialog).toBeVisible();
   const links = [...view.container.querySelectorAll<HTMLAnchorElement>(".sidebar-community__link")];
   expect(links.map((link) => [link.getAttribute("aria-label"), link.href])).toEqual([
-    ["Join the FRIDAY community on Discord", "https://discord.gg/clawd"],
-    ["Join the FRIDAY community on Reddit", "https://www.reddit.com/r/openclaw/"],
-    ["Follow FRIDAY on X", "https://x.com/openclaw"],
+    ["Join the OpenClaw community on Discord", "https://discord.gg/clawd"],
+    ["Join the OpenClaw community on Reddit", "https://www.reddit.com/r/openclaw/"],
+    ["Follow OpenClaw on X", "https://x.com/openclaw"],
   ]);
   for (const link of links) {
     expect(link.target).toBe("_blank");

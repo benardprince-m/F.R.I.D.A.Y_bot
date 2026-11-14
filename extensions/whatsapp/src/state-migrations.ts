@@ -123,7 +123,7 @@ export const whatsappLegacyStateMigration: PluginDoctorStateMigration = {
     const { backupLegacyStateSource } = migrationSdk;
     if (!assertCurrent) {
       return warn(
-        "WhatsApp credential import requires offline Doctor repair. Update FRIDAY core and run openclaw doctor --fix; original files remain unchanged.",
+        "WhatsApp credential import requires offline Doctor repair. Update OpenClaw core and run openclaw doctor --fix; original files remain unchanged.",
       );
     }
     const backups = [];
@@ -190,7 +190,7 @@ export const whatsappLegacyStateMigration: PluginDoctorStateMigration = {
     });
     if (!receiptStore.withCurrent) {
       return warn(
-        "WhatsApp credential import requires current offline storage authority. Update FRIDAY core and rerun Doctor; original credentials remain unchanged.",
+        "WhatsApp credential import requires current offline storage authority. Update OpenClaw core and rerun Doctor; original credentials remain unchanged.",
       );
     }
     const receipts = receiptStore.withCurrent({ assertCurrent });

@@ -577,7 +577,7 @@ final class CodexAppServerThreadClient: @unchecked Sendable {
             "params": [
                 "clientInfo": [
                     "name": "openclaw_macos",
-                    "title": "FRIDAY macOS Node",
+                    "title": "OpenClaw macOS Node",
                     "version": GatewayEnvironment.appVersionString() ?? "unknown",
                 ],
                 "capabilities": ["experimentalApi": true],

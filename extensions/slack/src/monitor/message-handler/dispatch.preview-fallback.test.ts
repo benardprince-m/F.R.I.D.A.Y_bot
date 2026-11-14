@@ -1375,7 +1375,7 @@ describe("dispatchPreparedSlackMessage preview fallback", () => {
       "session card final edit",
     );
     expect(finalEdit.blocks).toContainEqual(title);
-    expect(JSON.stringify(finalEdit.blocks)).toContain("Open in FRIDAY");
+    expect(JSON.stringify(finalEdit.blocks)).toContain("Open in OpenClaw");
     expect(JSON.stringify(finalEdit.blocks)).toContain(
       "https://team.openclaw.ai/openclaw/chat/agent-1/slack/C123",
     );

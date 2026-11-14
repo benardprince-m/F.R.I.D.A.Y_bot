@@ -23,7 +23,7 @@ async function profileFixture(pointer?: string) {
   return { root, path };
 }
 
-describe("FRIDAY profile schema", () => {
+describe("OpenClaw profile schema", () => {
   it("rejects disabled host filesystem confinement", () => {
     const result = parseClawOpenClawProfile({
       schemaVersion: 1,
@@ -74,7 +74,7 @@ describe("FRIDAY profile schema", () => {
   });
 });
 
-describe("FRIDAY profile reader", () => {
+describe("OpenClaw profile reader", () => {
   it.each([
     ["anchor", "agent: &agent {}", "anchors"],
     ["alias", "agent: *agent", "aliases"],
@@ -96,7 +96,7 @@ describe("FRIDAY profile reader", () => {
             phase: "parse",
             path: "$",
             code: "unsupported_openclaw_profile_yaml_feature",
-            message: `profiles/openclaw.yml uses ${feature}; FRIDAY profile YAML must map directly to JSON data.`,
+            message: `profiles/openclaw.yml uses ${feature}; OpenClaw profile YAML must map directly to JSON data.`,
           },
         ],
       });
@@ -177,7 +177,7 @@ describe("FRIDAY profile reader", () => {
       },
     });
     if (!first.ok) {
-      throw new Error("expected FRIDAY profile to parse");
+      throw new Error("expected OpenClaw profile to parse");
     }
 
     await writeFile(
@@ -188,7 +188,7 @@ describe("FRIDAY profile reader", () => {
     const second = await readClawManifestFile(root);
     expect(second.ok).toBe(true);
     if (!second.ok) {
-      throw new Error("expected changed FRIDAY profile to parse");
+      throw new Error("expected changed OpenClaw profile to parse");
     }
     expect(second.source.integrity).not.toBe(first.source.integrity);
   });

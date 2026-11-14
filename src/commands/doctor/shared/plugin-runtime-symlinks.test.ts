@@ -110,8 +110,8 @@ describe("plugin runtime symlink health findings", () => {
           JSON.stringify({
             schemaVersion: 1,
             owner: "macos-app",
-            displayName: "FRIDAY.app",
-            updateHint: "Update FRIDAY.app to update this Gateway.",
+            displayName: "OpenClaw.app",
+            updateHint: "Update OpenClaw.app to update this Gateway.",
           }),
         );
       }

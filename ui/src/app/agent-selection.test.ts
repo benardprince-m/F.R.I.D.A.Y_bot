@@ -252,7 +252,7 @@ describe("agent selection", () => {
   });
 
   it("clears system page scopes when the typed roster becomes known", () => {
-    const { roster, selection } = defaultSelection("FRIDAY");
+    const { roster, selection } = defaultSelection("OpenClaw");
 
     expect(selection.state).toEqual({ selectedId: "openclaw", scopeId: "openclaw" });
     roster.publish({

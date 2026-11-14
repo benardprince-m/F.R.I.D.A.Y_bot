@@ -143,7 +143,7 @@ ${command!}`;
     const finding = uiProtocolFreshnessIssueToHealthFinding(issue({ canBuild: false }));
 
     expect(finding.message).not.toContain("pnpm ui:build");
-    expect(finding.fixHint).toContain("Reinstall FRIDAY");
+    expect(finding.fixHint).toContain("Reinstall OpenClaw");
   });
 
   it("reads committed nested protocol changes from the real complete-package git pathspec", async () => {

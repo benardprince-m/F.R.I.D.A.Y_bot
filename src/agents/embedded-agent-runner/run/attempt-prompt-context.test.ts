@@ -348,10 +348,10 @@ describe("prepareEmbeddedAttemptPromptContext", () => {
       });
 
       expect(result.systemPromptForHook).toBe("Base system prompt");
-      expect(result.systemPromptForHook).not.toContain("FRIDAY runtime event.");
+      expect(result.systemPromptForHook).not.toContain("OpenClaw runtime event.");
       expect(result.systemPromptForHook).not.toContain("Runtime room event");
       expect(result.promptSubmission.runtimeOnly).toBe(true);
-      expect(result.promptForSession).toBe("Continue the FRIDAY runtime event.");
+      expect(result.promptForSession).toBe("Continue the OpenClaw runtime event.");
       expect(result.promptForModel).toBe(result.promptForSession);
       expect(result.systemPromptForHook).not.toContain("Room conversation data");
       expect(result.runtimeContextMessageForCurrentTurn?.content ?? "").not.toContain(
@@ -368,7 +368,7 @@ describe("prepareEmbeddedAttemptPromptContext", () => {
 
   it("keeps the live orphan-repair heartbeat task active without parsing its marker", async () => {
     const taskPrompt = "Check the deployment and report any failures.";
-    const transcriptPrompt = "[FRIDAY heartbeat poll]";
+    const transcriptPrompt = "[OpenClaw heartbeat poll]";
     const mergedModelPrompt = [QUEUED_USER_MESSAGE_MARKER, transcriptPrompt, "", taskPrompt].join(
       "\n",
     );

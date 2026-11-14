@@ -1,6 +1,6 @@
 import Speech
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct SpeechRecognitionRequestPolicyTests {
     @Test func `passive Voice Wake requires on device recognition`() throws {

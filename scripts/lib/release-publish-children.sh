@@ -683,7 +683,7 @@ resolve_clawhub_release_plan() {
   clawhub_plan_path="${CLAWHUB_PLAN_PATH}"
   test -s "${clawhub_plan_path}"
 
-  echo "Resolved FRIDAY release ClawHub dispatch plan:"
+  echo "Resolved OpenClaw release ClawHub dispatch plan:"
   cat "${clawhub_plan_path}"
 
   clawhub_workflow_ref="$(jq -r '.clawHubWorkflowRef' "${clawhub_plan_path}")"
@@ -861,14 +861,14 @@ create_or_update_github_release() {
 verify_android_release_asset_contract() {
   local actual_android_assets actual_digest expected_android_assets expected_digest expected_hash release_json verify_dir
   local -a required_assets=(
-    "FRIDAY-Android.apk"
-    "FRIDAY-Android-SHA256SUMS.txt"
+    "OpenClaw-Android.apk"
+    "OpenClaw-Android-SHA256SUMS.txt"
   )
 
   release_json="$(gh_read release view "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" --json assets,url)" || return 1
   expected_android_assets="$(printf '%s\n' "${required_assets[@]}" | jq -R . | jq -sc 'sort')"
   actual_android_assets="$(printf '%s' "${release_json}" | jq -c '
-    [.assets[]? | select(.name | startswith("FRIDAY-Android")) | .name] | sort
+    [.assets[]? | select(.name | startswith("OpenClaw-Android")) | .name] | sort
   ')"
   if [[ "${actual_android_assets}" != "${expected_android_assets}" ]]; then
     echo "Stable release Android asset names do not match the canonical contract." >&2
@@ -880,20 +880,20 @@ verify_android_release_asset_contract() {
   mkdir -p "${verify_dir}"
   gh release download "${RELEASE_TAG}" \
     --repo "${GITHUB_REPOSITORY}" \
-    --pattern "FRIDAY-Android.apk" \
-    --pattern "FRIDAY-Android-SHA256SUMS.txt" \
+    --pattern "OpenClaw-Android.apk" \
+    --pattern "OpenClaw-Android-SHA256SUMS.txt" \
     --dir "${verify_dir}" || return 1
   (
     cd "${verify_dir}"
-    sha256sum --strict --check FRIDAY-Android-SHA256SUMS.txt
+    sha256sum --strict --check OpenClaw-Android-SHA256SUMS.txt
   ) || return 1
-  expected_hash="$(awk '$2 == "FRIDAY-Android.apk" { print $1 }' "${verify_dir}/FRIDAY-Android-SHA256SUMS.txt")"
+  expected_hash="$(awk '$2 == "OpenClaw-Android.apk" { print $1 }' "${verify_dir}/OpenClaw-Android-SHA256SUMS.txt")"
   if [[ ! "${expected_hash}" =~ ^[a-f0-9]{64}$ ]]; then
     echo "Android checksum manifest does not contain the canonical APK entry." >&2
     return 1
   fi
   expected_digest="sha256:${expected_hash}"
-  actual_digest="$(printf '%s' "${release_json}" | jq -r '.assets[]? | select(.name == "FRIDAY-Android.apk") | .digest // empty')"
+  actual_digest="$(printf '%s' "${release_json}" | jq -r '.assets[]? | select(.name == "OpenClaw-Android.apk") | .digest // empty')"
   if [[ "${actual_digest}" != "${expected_digest}" ]]; then
     echo "Android release APK digest does not match its checksum manifest." >&2
     return 1
@@ -901,7 +901,7 @@ verify_android_release_asset_contract() {
   # Explicit guard: this function doubles as an `if` predicate, where
   # bash suppresses errexit, so a failed attestation must not fall
   # through to the summary echo.
-  gh attestation verify "${verify_dir}/FRIDAY-Android.apk" \
+  gh attestation verify "${verify_dir}/OpenClaw-Android.apk" \
     --repo "${GITHUB_REPOSITORY}" \
     --signer-workflow "${GITHUB_REPOSITORY}/.github/workflows/android-release.yml" \
     --source-ref "refs/tags/${RELEASE_TAG}" \
@@ -1025,7 +1025,7 @@ promote_android_release_asset() {
   # publish run's verified APK promotion is reused instead of
   # re-running the Android child workflow.
   if verify_android_release_asset_contract >/dev/null 2>&1; then
-    android_release_note="- Android APK: previously published assets verified; https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}/FRIDAY-Android.apk"
+    android_release_note="- Android APK: previously published assets verified; https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}/OpenClaw-Android.apk"
     echo "${android_release_note}" >> "${GITHUB_STEP_SUMMARY}"
     return 0
   fi
@@ -1059,7 +1059,7 @@ upload_dependency_evidence_release_asset() {
     --dir "${download_dir}"
 
   if [[ ! -d "${download_dir}/dependency-evidence" ]]; then
-    echo "Dependency evidence is missing from FRIDAY npm preflight artifact." >&2
+    echo "Dependency evidence is missing from OpenClaw npm preflight artifact." >&2
     find "${download_dir}" -maxdepth 2 -type f -print >&2 || true
     exit 1
   fi
@@ -1449,7 +1449,7 @@ const section = [
   // Resumed publishes cite the original npm publisher.
   ...(process.env.OPENCLAW_NPM_RUN_ID
     ? [
-        `- FRIDAY npm publish: https://github.com/${process.env.RELEASE_REPO}/actions/runs/${process.env.OPENCLAW_NPM_RUN_ID}${process.env.OPENCLAW_NPM_RUN_ATTEMPT ? `/attempts/${process.env.OPENCLAW_NPM_RUN_ATTEMPT}` : ""}`,
+        `- OpenClaw npm publish: https://github.com/${process.env.RELEASE_REPO}/actions/runs/${process.env.OPENCLAW_NPM_RUN_ID}${process.env.OPENCLAW_NPM_RUN_ATTEMPT ? `/attempts/${process.env.OPENCLAW_NPM_RUN_ATTEMPT}` : ""}`,
       ]
     : []),
   process.env.TELEGRAM_LINE,

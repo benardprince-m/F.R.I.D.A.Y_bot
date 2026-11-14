@@ -275,7 +275,7 @@ async function runSetupWizardOnce(
     const migratedSnapshot = migratedAuthority.snapshot;
     if (!migratedSnapshot.valid) {
       throw new Error(
-        "Migration produced an invalid FRIDAY config. Run `openclaw doctor --fix` to apply supported repairs.",
+        "Migration produced an invalid OpenClaw config. Run `openclaw doctor --fix` to apply supported repairs.",
       );
     }
     currentSetupSnapshot = migratedSnapshot;

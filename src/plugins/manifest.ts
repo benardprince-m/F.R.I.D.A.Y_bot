@@ -1,4 +1,4 @@
-/** Loads and normalizes FRIDAY plugin manifests, including contracts and config schemas. */
+/** Loads and normalizes OpenClaw plugin manifests, including contracts and config schemas. */
 import path from "node:path";
 import { validatePluginUiCapabilities } from "../../packages/gateway-protocol/src/plugin-ui-capabilities.js";
 import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.js";
@@ -207,7 +207,7 @@ export function loadPluginManifest(
     return fail("plugin manifest requires id");
   }
   if (isCoreReservedPluginId(id)) {
-    return fail(`plugin manifest id "${id}" is reserved by FRIDAY core`);
+    return fail(`plugin manifest id "${id}" is reserved by OpenClaw core`);
   }
   const configSchema = isRecord(raw.configSchema) ? raw.configSchema : null;
   if (!configSchema) {
@@ -357,7 +357,7 @@ export function loadPluginManifest(
   return cacheResult({
     ok: true,
     // Older readers ignored this advisory field; invalid display metadata must
-    // not prevent an installed plugin from loading after an FRIDAY update.
+    // not prevent an installed plugin from loading after an OpenClaw update.
     ...(!uiCapabilities.ok
       ? { warnings: [`ignoring invalid plugin manifest uiCapabilities: ${uiCapabilities.error}`] }
       : {}),

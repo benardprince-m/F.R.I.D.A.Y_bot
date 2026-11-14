@@ -27,8 +27,8 @@ describe("normalizeWindowsPathPreservingCase", () => {
     ["\\\\?\\C:\\Users\\Peter/Repo", "C:\\Users\\Peter\\Repo"],
     ["\\\\?\\UNC\\Server\\Share\\Folder", "\\\\Server\\Share\\Folder"],
     ["\\\\?\\unc\\Server\\Share\\Folder", "\\\\Server\\Share\\Folder"],
-    ["C:\\Users\\User\\FRIDAY\\src/Components", "C:\\Users\\User\\FRIDAY\\src\\Components"],
-    ["C:\\Users\\User\\FRIDAY  ", "C:\\Users\\User\\FRIDAY  "],
+    ["C:\\Users\\User\\OpenClaw\\src/Components", "C:\\Users\\User\\OpenClaw\\src\\Components"],
+    ["C:\\Users\\User\\OpenClaw  ", "C:\\Users\\User\\OpenClaw  "],
   ])("normalizes windows path %s without lowercasing", (input, expected) => {
     expect(normalizeWindowsPathPreservingCase(input)).toBe(expected);
   });

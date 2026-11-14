@@ -237,7 +237,7 @@ function closeOpenClawStateDatabaseHandle(
         retire: () => {
           throwSqliteLifecycleErrors(
             closeOpenClawStateDatabaseHandle(database, options),
-            `FRIDAY state database cleanup failed for ${database.path}.`,
+            `OpenClaw state database cleanup failed for ${database.path}.`,
           );
           owner.cleanupComplete = true;
           borrowers.delete(database.db);
@@ -343,7 +343,7 @@ function withCachedOpenClawStateDatabase<T>(
   }
   return cacheAdmission.read(resolvedPath, (database) => {
     if (borrowers.get(database.db)?.retiring) {
-      throw new Error(`FRIDAY state database native borrower cleanup is pending: ${pathname}`);
+      throw new Error(`OpenClaw state database native borrower cleanup is pending: ${pathname}`);
     }
     touchStateDatabase(database);
     return operation(database);
@@ -366,7 +366,7 @@ function closeStaleCachedOpenClawStateDatabase(database: OpenClawStateDatabase):
   notifyOpenClawStateDatabaseClosed(database);
   throwSqliteLifecycleErrors(
     errors,
-    `Stale FRIDAY state database cleanup failed for ${database.path}.`,
+    `Stale OpenClaw state database cleanup failed for ${database.path}.`,
   );
 }
 
@@ -428,7 +428,7 @@ function assertOpenClawStateDatabaseOpenAllowed(pathname: string, ownership?: "c
       borrowers.get(database.db)?.retiring &&
       (database.path === resolvedPath || databaseIdentities.get(database.db)?.key === identity.key)
     ) {
-      throw new Error(`FRIDAY state database native borrower cleanup is pending: ${pathname}`);
+      throw new Error(`OpenClaw state database native borrower cleanup is pending: ${pathname}`);
     }
   }
 }
@@ -490,7 +490,7 @@ function retireOpenClawStateDatabaseHandle(
     }
     throwSqliteLifecycleErrors(
       errors,
-      `FRIDAY state database cleanup failed for ${database.path}.`,
+      `OpenClaw state database cleanup failed for ${database.path}.`,
     );
   } catch (error) {
     if (borrowedOwner) {
@@ -531,7 +531,7 @@ function retireOpenClawStateDatabaseHandles(
       errors.push(error);
     }
   }
-  throwSqliteLifecycleErrors(errors, "FRIDAY state database cleanup failed.");
+  throwSqliteLifecycleErrors(errors, "OpenClaw state database cleanup failed.");
   return found;
 }
 
@@ -613,7 +613,7 @@ export function closeOpenClawStateDatabaseForTest(): void {
 export function assertPublishedOpenClawStateDatabaseLifecycle(): void {
   if (readGlobalSingleton(STATE_DATABASE_LIFECYCLE_KEY) !== stateDatabaseLifecycle) {
     throw new Error(
-      "FRIDAY state database lifecycle is retired; its owners cannot serve the published lifecycle",
+      "OpenClaw state database lifecycle is retired; its owners cannot serve the published lifecycle",
     );
   }
 }
@@ -733,7 +733,7 @@ function retainSqliteDatabaseRemovalExclusion(
     }
     if (isSqliteLockError(error)) {
       throw new Error(
-        "Cannot remove FRIDAY state directory while another SQLite connection is active",
+        "Cannot remove OpenClaw state directory while another SQLite connection is active",
         {
           cause: error,
         },

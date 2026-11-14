@@ -1,5 +1,5 @@
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct GatewayAgentChannelTests {
     @Test func `should deliver blocks web chat`() {

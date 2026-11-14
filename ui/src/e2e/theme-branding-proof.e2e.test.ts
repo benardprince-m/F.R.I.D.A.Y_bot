@@ -157,7 +157,7 @@ suite.define(() => {
         await expect.poll(() => name.textContent()).toBe("Northstar Lab");
         const claw = {
           ...definition,
-          brandName: "FRIDAY",
+          brandName: "OpenClaw",
           brandIcon: "claw",
           mascot: "claw" as const,
           workingIndicator: "claw" as const,

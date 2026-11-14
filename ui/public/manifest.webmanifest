@@ -1,6 +1,6 @@
 {
-  "name": "FRIDAY Control",
-  "short_name": "FRIDAY",
+  "name": "OpenClaw Control",
+  "short_name": "OpenClaw",
   "description": "Multi-channel AI gateway control panel",
   "start_url": "./",
   "display": "standalone",

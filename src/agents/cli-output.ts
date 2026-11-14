@@ -40,8 +40,8 @@ export function formatCliOutputError(
   const sessionId = normalizeCliContextValue(attribution.sessionId);
   const cliSessionId = normalizeCliContextValue(output.sessionId);
   const context = [
-    runId ? `FRIDAY run: ${runId}.` : undefined,
-    sessionId ? `FRIDAY session: ${sessionId}.` : undefined,
+    runId ? `OpenClaw run: ${runId}.` : undefined,
+    sessionId ? `OpenClaw session: ${sessionId}.` : undefined,
     cliSessionId ? `Claude session: ${cliSessionId}.` : undefined,
   ].filter((entry): entry is string => Boolean(entry));
   const maxTurns = terminalFailure.reason === "max_turns";

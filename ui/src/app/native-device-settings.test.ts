@@ -203,7 +203,7 @@ describe("native device settings wire contract", () => {
         revision: 2,
         desktopSharing: {
           state: "error",
-          detail: "Install the FRIDAY CLI to share this desktop.",
+          detail: "Install the OpenClaw CLI to share this desktop.",
         },
       };
       publish(failed);

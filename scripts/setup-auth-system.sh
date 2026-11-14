@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "=== FRIDAY Auth System Setup ==="
+echo "=== OpenClaw Auth System Setup ==="
 echo ""
 
 echo "Step 1: Checking current auth status..."
@@ -45,7 +45,7 @@ echo "Enter ntfy.sh topic (or leave blank to skip):"
 read -r NTFY_TOPIC
 
 echo ""
-echo "  FRIDAY message: Send warning via FRIDAY itself"
+echo "  OpenClaw message: Send warning via OpenClaw itself"
 echo "Enter your phone number for alerts (or leave blank to skip):"
 read -r PHONE_NUMBER
 

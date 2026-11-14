@@ -285,7 +285,7 @@ it("joins a granted workspace mutation before closing its database", async () =>
     message: "SQLite committed facts publication failed",
     code: "outcome-unknown",
     cause: {
-      message: "FRIDAY state database read admission is closed",
+      message: "OpenClaw state database read admission is closed",
       code: "STATE_DATABASE_READ_ADMISSION_INVALIDATED",
     },
   });

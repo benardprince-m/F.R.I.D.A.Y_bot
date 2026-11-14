@@ -85,7 +85,7 @@ export async function acquireTelegramPollingLease(
       const ageMs = Math.max(0, Date.now() - existing.startedAt);
       const ageSeconds = Math.round(ageMs / 1000);
       throw new Error(
-        `Telegram polling already active for bot token ${fingerprint} on account "${existing.accountId}" (${ageSeconds}s old); refusing duplicate poller for account "${opts.accountId}". Stop the existing FRIDAY gateway/poller or use a different bot token.`,
+        `Telegram polling already active for bot token ${fingerprint} on account "${existing.accountId}" (${ageSeconds}s old); refusing duplicate poller for account "${opts.accountId}". Stop the existing OpenClaw gateway/poller or use a different bot token.`,
       );
     }
 

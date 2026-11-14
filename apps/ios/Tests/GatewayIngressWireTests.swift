@@ -3,7 +3,7 @@ import OpenClawChatUI
 import OpenClawKit
 import OpenClawProtocol
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 private final class IngressWireFixture {

@@ -179,7 +179,7 @@ describe("deepinfra capability registration", () => {
     },
   );
 
-  it("registers all DeepInfra-backed FRIDAY provider surfaces", () => {
+  it("registers all DeepInfra-backed OpenClaw provider surfaces", () => {
     const captured = createCapturedPluginRegistration();
     deepinfraPlugin.register(captured.api);
 

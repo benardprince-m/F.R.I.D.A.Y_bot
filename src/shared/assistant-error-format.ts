@@ -32,7 +32,7 @@ const GENERIC_PROVIDER_INTERNAL_ERROR_USER_MESSAGE =
   "The AI service returned an internal error. Please try again in a moment.";
 
 export const MALFORMED_STREAMING_FRAGMENT_ERROR_MESSAGE =
-  "FRIDAY transport error: malformed_streaming_fragment";
+  "OpenClaw transport error: malformed_streaming_fragment";
 export const CONTEXT_OVERFLOW_ERROR_MESSAGE =
   "Context overflow: prompt too large for the model. Try /reset (or /new) to start a fresh session, or use a larger-context model.";
 const MALFORMED_STREAMING_FRAGMENT_USER_MESSAGE =

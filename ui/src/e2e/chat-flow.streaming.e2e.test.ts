@@ -181,14 +181,14 @@ suite.define(() => {
     const footer = activeGroup.locator(".chat-group-footer");
     await expectFooter(activeGroup, mobile);
     await expectActionOpacities(activeGroup, mobile ? ["1", "1"] : ["0", "0"]);
-    expect(await footer.locator(".chat-sender-name").textContent()).toBe("FRIDAY");
+    expect(await footer.locator(".chat-sender-name").textContent()).toBe("OpenClaw");
     const timestamp = requireString(
       await footer.locator(".chat-group-timestamp").textContent(),
       "assistant timestamp",
     ).trim();
     expect(timestamp).toBeTruthy();
     const accessibleFooter = await footer.ariaSnapshot();
-    expect(accessibleFooter).toContain("FRIDAY");
+    expect(accessibleFooter).toContain("OpenClaw");
     expect(accessibleFooter).toContain(timestamp);
     expect(
       await footer.evaluate((element) => element.getBoundingClientRect().height),

@@ -34,7 +34,7 @@ function resolveFixtureOperationModule(
   fixturePackageRoot ??=
     resolveOpenClawPackageRootSync({ moduleUrl: import.meta.url }) ?? undefined;
   if (!fixturePackageRoot) {
-    throw new Error("Unable to locate the fixture's FRIDAY package");
+    throw new Error("Unable to locate the fixture's OpenClaw package");
   }
   const roots = [
     path.join(fixturePackageRoot, "extensions", pluginId),

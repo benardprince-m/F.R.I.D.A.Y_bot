@@ -5,7 +5,7 @@ import { resolveStateDir } from "openclaw/plugin-sdk/state-paths";
 import { asOptionalRecord } from "openclaw/plugin-sdk/string-coerce-runtime";
 import { resolveUserPath } from "./utils.js";
 
-/** Resolve the plugin-owned store below FRIDAY's canonical state directory. */
+/** Resolve the plugin-owned store below OpenClaw's canonical state directory. */
 export function resolveDefaultVoiceCallStoreDir(env: NodeJS.ProcessEnv = process.env): string {
   return path.join(resolveStateDir(env), "voice-calls");
 }

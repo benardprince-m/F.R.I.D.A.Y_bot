@@ -1,7 +1,7 @@
 import { extractToolResultText } from "@openclaw/ai/internal/shared";
 // Provider replay preserves source text and structured tool-result values.
 import { describe, expect, it } from "vitest";
-// Importing the facade installs the FRIDAY AI transport host ports.
+// Importing the facade installs the OpenClaw AI transport host ports.
 import "./stream.js";
 
 describe("tool result fidelity via AI transport host", () => {

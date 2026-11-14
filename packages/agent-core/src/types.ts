@@ -60,7 +60,7 @@ export interface InternalToolBatchCall {
   toolCall: AgentToolCall;
   /** Validated arguments, or the raw arguments when validation rejected the call. */
   args: unknown;
-  /** Resolved tool identity for FRIDAY-owned argument canonicalization. */
+  /** Resolved tool identity for OpenClaw-owned argument canonicalization. */
   tool?: AgentTool;
   /**
    * Error result for a call rejected by argument validation. It never executes;
@@ -298,14 +298,14 @@ export interface AgentLoopConfig extends SimpleStreamOptions {
     signal?: AbortSignal,
   ) => Promise<BeforeToolCallResult | undefined>;
 
-  /** @internal FRIDAY-owned batch admission. Not a plugin or session SDK hook. */
+  /** @internal OpenClaw-owned batch admission. Not a plugin or session SDK hook. */
   beforeToolBatch?: (
     context: InternalBeforeToolBatchContext,
     signal?: AbortSignal,
   ) => Promise<InternalBeforeToolBatchResult | undefined>;
 
   /**
-   * @internal FRIDAY-owned turn completion. Runs once after every tool call from one
+   * @internal OpenClaw-owned turn completion. Runs once after every tool call from one
    * assistant message has settled; returning true ends the turn even when not every
    * result asked to terminate. Not a plugin or session SDK hook.
    */

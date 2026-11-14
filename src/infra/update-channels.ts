@@ -34,7 +34,7 @@ export function normalizeUpdateChannel(value?: string | null): UpdateChannel | n
   return UPDATE_CHANNELS.find((channel) => channel === normalized) ?? null;
 }
 
-/** Maps an FRIDAY update channel to the npm dist-tag used for package lookups. */
+/** Maps an OpenClaw update channel to the npm dist-tag used for package lookups. */
 export function channelToNpmTag(channel: UpdateChannel): string {
   return channel === "extended-stable" || channel === "beta" || channel === "dev"
     ? channel

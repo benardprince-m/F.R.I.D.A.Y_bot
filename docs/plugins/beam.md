@@ -8,9 +8,9 @@ read_when:
 title: "Beam plugin"
 ---
 
-The bundled `beam` plugin receives a sanitized coding-session snapshot over authenticated HTTP and presents it in the Control UI's existing external-session catalog. The source computer sends text out; FRIDAY never connects back to that computer and receives no filesystem, terminal, tool, or node capability.
+The bundled `beam` plugin receives a sanitized coding-session snapshot over authenticated HTTP and presents it in the Control UI's existing external-session catalog. The source computer sends text out; OpenClaw never connects back to that computer and receives no filesystem, terminal, tool, or node capability.
 
-Beam ships with FRIDAY but is disabled by default. When enabled, it registers:
+Beam ships with OpenClaw but is disabled by default. When enabled, it registers:
 
 - `POST /api/v1/beam/sessions`
 - the **Beam** session catalog in the Control UI sidebar
@@ -46,7 +46,7 @@ openclaw plugins disable beam
 
 The receiver uses normal Gateway HTTP authentication. It is not an anonymous upload endpoint.
 
-- With `gateway.auth.mode: "trusted-proxy"`, send requests through the configured identity-aware proxy. Beam records the verified uploader's FRIDAY profile ID, when available; it does not retain proxy identity headers or credentials.
+- With `gateway.auth.mode: "trusted-proxy"`, send requests through the configured identity-aware proxy. Beam records the verified uploader's OpenClaw profile ID, when available; it does not retain proxy identity headers or credentials.
 - With token or password auth, send `Authorization: Bearer <gateway-token-or-password>`.
 - Do not enable Beam with `gateway.auth.mode: "none"` unless another private ingress fully authenticates every request.
 
@@ -109,21 +109,21 @@ use the bare id. A configured Control UI base path prefixes the route, for examp
 update the Beam skill before updating the receiver so its response validator
 accepts them.
 
-Uploading the same `beamId` updates the existing catalog row when its `updatedAt` is newer. Equal-timestamp uploads may refresh the same state or mark a live row completed, but cannot regress a completed row to live. Older uploads and equal-timestamp completion regressions still return the normal `200` success response, but FRIDAY ignores them. Only accepted updates refresh retention and uploader attribution.
+Uploading the same `beamId` updates the existing catalog row when its `updatedAt` is newer. Equal-timestamp uploads may refresh the same state or mark a live row completed, but cannot regress a completed row to live. Older uploads and equal-timestamp completion regressions still return the normal `200` success response, but OpenClaw ignores them. Only accepted updates refresh retention and uploader attribution.
 
 `sourceModel` is optional. Automatic mirrors include the latest model reported by the source catalog. Older clients and snapshots remain valid without it.
 
 ## Continue on the Team Gateway
 
-Select a Beam in the Control UI and write a message in its composer. On the first send, FRIDAY creates a normal session for the selected Team agent, copies the bounded sanitized history from the retained Beam row into it, and sends your message there. Ignored stale uploads cannot change that continuation source. The original Beam stays unchanged, and later source uploads do not alter the copied session.
+Select a Beam in the Control UI and write a message in its composer. On the first send, OpenClaw creates a normal session for the selected Team agent, copies the bounded sanitized history from the retained Beam row into it, and sends your message there. Ignored stale uploads cannot change that continuation source. The original Beam stays unchanged, and later source uploads do not alter the copied session.
 
-FRIDAY uses `sourceModel` when that exact model is available to the Team agent. Otherwise it uses the agent's configured model. Each copied transcript item is marked as untrusted external content. The copied session also includes a notice that the old content is reference material rather than operator instructions, names the model choice, and explains that the session cannot access the source machine or its tools.
+OpenClaw uses `sourceModel` when that exact model is available to the Team agent. Otherwise it uses the agent's configured model. Each copied transcript item is marked as untrusted external content. The copied session also includes a notice that the old content is reference material rather than operator instructions, names the model choice, and explains that the session cannot access the source machine or its tools.
 
 Continuation is a copy, not remote resume or two-way synchronization. Each operator may create an independent continuation from the same Beam.
 
 ## Storage and visibility
 
-Beam stores sanitized payloads in FRIDAY's shared SQLite-backed plugin state:
+Beam stores sanitized payloads in OpenClaw's shared SQLite-backed plugin state:
 
 - at most 500 sessions
 - seven-day retention refreshed by each accepted update
@@ -137,7 +137,7 @@ and refreshes it every 30 seconds to pick up changes made by other processes.
 Expired entries are hidden on every list. Transcript reads and continuation always
 read the underlying store. No stored-data migration is needed on update.
 
-The catalog is intentionally shared across the Gateway operator domain. Every client with `operator.read` can view every beamed session. Uploading or continuing requires `operator.write` or `operator.admin`; agent access policy must also allow the chosen agent. Any write-authorized operator that knows a Beam id can update that row. Uploader attribution does not grant ownership or change access. FRIDAY operator scopes are not tenant isolation; use a separate Gateway when sessions must be isolated between teams or machines.
+The catalog is intentionally shared across the Gateway operator domain. Every client with `operator.read` can view every beamed session. Uploading or continuing requires `operator.write` or `operator.admin`; agent access policy must also allow the chosen agent. Any write-authorized operator that knows a Beam id can update that row. Uploader attribution does not grant ownership or change access. OpenClaw operator scopes are not tenant isolation; use a separate Gateway when sessions must be isolated between teams or machines.
 
 A continuation belongs to the authenticated operator who creates it. From then on it follows ordinary session sharing, sandbox, tool, and model policy for that Team agent. Access to the original Beam does not grant access to another operator's continuation.
 

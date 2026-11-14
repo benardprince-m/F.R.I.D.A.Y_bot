@@ -19,7 +19,7 @@ final class PostUpdateModel {
     }
 
     var phase: Phase = .checking
-    var title = String(localized: "Finishing your FRIDAY update")
+    var title = String(localized: "Finishing your OpenClaw update")
     var message = String(localized: "Checking the Mac app and Gateway…")
     var details: String?
 
@@ -252,7 +252,7 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
         let hosting = NSHostingController(rootView: PostUpdateView(model: model))
         let window = NSWindow(contentViewController: hosting)
         window.isRestorable = false
-        window.title = String(localized: "FRIDAY updated")
+        window.title = String(localized: "OpenClaw updated")
         window.setContentSize(NSSize(width: 560, height: 600))
         window.styleMask = OnboardingController.windowStyleMask
         window.contentMinSize = NSSize(width: 560, height: 600)
@@ -273,7 +273,7 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
         guard let receipt, task == nil else { return }
         if self.stopSupersededUpdate(receipt) { return }
         self.model.phase = .checking
-        self.model.title = String(localized: "Finishing your FRIDAY update")
+        self.model.title = String(localized: "Finishing your OpenClaw update")
         self.model.message = String(localized: "Checking the Mac app and Gateway…")
         self.model.details = nil
         self.window?.standardWindowButton(.closeButton)?.isEnabled = false
@@ -413,9 +413,9 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
         case .completeSilently:
             self.model.phase = .complete
             self.model.message = connectionMode == .local
-                ? String(format: String(localized: "FRIDAY %@ and its Gateway are ready."), receipt.toVersion)
+                ? String(format: String(localized: "OpenClaw %@ and its Gateway are ready."), receipt.toVersion)
                 : String(
-                    format: String(localized: "FRIDAY %@ and its Mac node runtime are ready."),
+                    format: String(localized: "OpenClaw %@ and its Mac node runtime are ready."),
                     receipt.toVersion)
             self.model.details = nil
             PostAppUpdateReceiptStore.clear(receipt: self.receipt ?? receipt)
@@ -626,36 +626,36 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
         self.model.phase = .complete
         self.model.title = String(localized: "Welcome back")
         self.model.message = connectionMode == .local
-            ? String(format: String(localized: "FRIDAY %@ and its Gateway are ready."), receipt.toVersion)
-            : String(format: String(localized: "FRIDAY %@ and its Mac node runtime are ready."), receipt.toVersion)
+            ? String(format: String(localized: "OpenClaw %@ and its Gateway are ready."), receipt.toVersion)
+            : String(format: String(localized: "OpenClaw %@ and its Mac node runtime are ready."), receipt.toVersion)
         self.model.details = switch (notification, notificationRetryScheduled) {
         case (.retryLater, true):
-            String(localized: "Your agent could not be notified yet. FRIDAY will retry after the next app launch.")
+            String(localized: "Your agent could not be notified yet. OpenClaw will retry after the next app launch.")
         case (.retryLater, false):
             if connectionMode == .local {
                 String(
                     localized: """
-                    FRIDAY could not notify your agent automatically. \
+                    OpenClaw could not notify your agent automatically. \
                     The app and Gateway update are complete.
                     """)
             } else {
                 String(
                     localized: """
-                    FRIDAY could not notify your agent automatically. \
+                    OpenClaw could not notify your agent automatically. \
                     The app and Mac node update are complete.
                     """)
             }
         case (.deliveryUnconfirmed, _):
             String(
                 localized: """
-                FRIDAY could not confirm the agent notification. \
+                OpenClaw could not confirm the agent notification. \
                 It will not retry, to avoid a duplicate welcome.
                 """)
         case (.skippedUnsupportedGateway, _):
             String(
-                localized: "The remote Gateway is older than this Mac app, so FRIDAY skipped the agent notification.")
+                localized: "The remote Gateway is older than this Mac app, so OpenClaw skipped the agent notification.")
         case (.skippedWhilePaused, _):
-            String(localized: "The Gateway remains paused, so FRIDAY did not wake your agent.")
+            String(localized: "The Gateway remains paused, so OpenClaw did not wake your agent.")
         default:
             nil
         }
@@ -732,7 +732,7 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
         }
 
         let text =
-            "FRIDAY updated to \(receipt.toVersion). Briefly welcome the user back and say you are updated, " +
+            "OpenClaw updated to \(receipt.toVersion). Briefly welcome the user back and say you are updated, " +
             "then continue normally."
         guard let notificationReceipt = PostAppUpdateReceiptStore.setNotificationInFlight(
             true,
@@ -919,7 +919,7 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
                 message: String(localized: "The Gateway could not be checked."),
                 details: String(
                     localized: """
-                    FRIDAY could not read the Gateway service ownership record. \
+                    OpenClaw could not read the Gateway service ownership record. \
                     Retry after checking the Gateway LaunchAgent.
                     """))
         case .remote:
@@ -927,7 +927,7 @@ final class PostUpdateController: NSObject, NSWindowDelegate {
                 message: String(localized: "The Mac node could not be checked."),
                 details: String(
                     localized: """
-                    FRIDAY could not read the node service ownership record. \
+                    OpenClaw could not read the node service ownership record. \
                     Retry after checking the node LaunchAgent.
                     """))
         case .unconfigured:
@@ -1222,14 +1222,14 @@ extension PostUpdateController {
             message: String(localized: "The Gateway version is updated and still running on Node."),
             details: String(
                 localized: """
-                Choose Retry or relaunch FRIDAY to switch this same-version Gateway to the bundled runtime.
+                Choose Retry or relaunch OpenClaw to switch this same-version Gateway to the bundled runtime.
                 """))
     }
 
     private func deferRuntimeVerification() {
         self.model.phase = .deferred
-        self.model.message = String(localized: "The Gateway remains paused, so FRIDAY did not wake your agent.")
-        self.model.details = String(localized: "Resume FRIDAY to finish starting and verifying the Gateway.")
+        self.model.message = String(localized: "The Gateway remains paused, so OpenClaw did not wake your agent.")
+        self.model.details = String(localized: "Resume OpenClaw to finish starting and verifying the Gateway.")
     }
 
     private func shouldDeferPausedLegacyRuntime(
@@ -1330,7 +1330,7 @@ extension PostUpdateController {
             guard installed else {
                 self.fail(
                     message: String(localized: "Gateway recovery failed."),
-                    details: String(localized: "The managed FRIDAY runtime could not be reinstalled."))
+                    details: String(localized: "The managed OpenClaw runtime could not be reinstalled."))
                 return false
             }
         }
@@ -1443,7 +1443,7 @@ extension PostUpdateController {
             self.fail(
                 message: String(localized: "The Gateway could not reconnect."),
                 details: String(
-                    localized: "FRIDAY installed the update but could not verify the Gateway connection."))
+                    localized: "OpenClaw installed the update but could not verify the Gateway connection."))
             return .failed
         }
         return .verified

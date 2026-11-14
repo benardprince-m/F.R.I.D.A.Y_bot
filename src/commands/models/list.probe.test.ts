@@ -224,7 +224,7 @@ describe("runAuthProbes", () => {
     });
   });
 
-  it("keeps the existing raw FRIDAY transport for stored credentials", async () => {
+  it("keeps the existing raw OpenClaw transport for stored credentials", async () => {
     await withProbeRuntime("profile", async ({ probe, runner }) => {
       const input = probeInput({
         cfg: {
@@ -255,7 +255,7 @@ describe("runAuthProbes", () => {
     });
   });
 
-  it("uses raw FRIDAY for Codex-pinned config keys even with auth: oauth", async () => {
+  it("uses raw OpenClaw for Codex-pinned config keys even with auth: oauth", async () => {
     await withProbeRuntime("literal", async ({ probe, runner, upsert }) => {
       const providerConfig = {
         baseUrl: "https://api.openai.com/v1",

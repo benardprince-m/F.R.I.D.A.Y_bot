@@ -623,7 +623,7 @@ describe("sessionsCommand model resolution", () => {
     expect(payload.sessions?.[0]?.model).toBe("openai/gpt-5.6");
   });
 
-  it("reports the owning Codex harness for locked sessions despite a stale FRIDAY override", async () => {
+  it("reports the owning Codex harness for locked sessions despite a stale OpenClaw override", async () => {
     configureModels("openai/gpt-5.5", {
       "openai/gpt-5.5": { agentRuntime: { id: "openclaw" } },
     });

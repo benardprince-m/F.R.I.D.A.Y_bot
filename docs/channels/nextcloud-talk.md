@@ -5,7 +5,7 @@ read_when:
 title: "Nextcloud Talk"
 ---
 
-Nextcloud Talk is a downloadable channel plugin (`@openclaw/nextcloud-talk`) that connects FRIDAY to a self-hosted Nextcloud instance through a Talk webhook bot. Direct messages, rooms, reactions, markdown messages, and inbound Talk file shares are supported; outbound media goes out as URLs.
+Nextcloud Talk is a downloadable channel plugin (`@openclaw/nextcloud-talk`) that connects OpenClaw to a self-hosted Nextcloud instance through a Talk webhook bot. Direct messages, rooms, reactions, markdown messages, and inbound Talk file shares are supported; outbound media goes out as URLs.
 
 ## Install
 
@@ -31,8 +31,8 @@ Check the [application result](/plugins/manage-plugins#apply-changes-and-inspect
 sequenceDiagram
     participant User as Talk user
     participant Talk as Nextcloud Talk
-    participant Hook as FRIDAY webhook
-    participant Agent as FRIDAY agent
+    participant Hook as OpenClaw webhook
+    participant Agent as OpenClaw agent
     User->>Talk: Send a message
     Talk->>Hook: Signed webhook
     Hook->>Hook: Verify signature and store the message durably
@@ -59,13 +59,13 @@ the Talk API rather than in the webhook response.
 2. Publish the Gateway webhook route `/nextcloud-talk-webhook` through your HTTPS reverse proxy, forwarding to the Gateway port (default `18789`). On your Nextcloud server, create a bot using that public URL:
 
    ```bash
-   ./occ talk:bot:install "FRIDAY" "<shared-secret>" "<webhook-url>" --feature webhook --feature response --feature reaction
+   ./occ talk:bot:install "OpenClaw" "<shared-secret>" "<webhook-url>" --feature webhook --feature response --feature reaction
    ```
 
    Keep `--feature response`: without it, outbound replies fail with 401. Repair an existing bot with `./occ talk:bot:state --feature webhook --feature response --feature reaction <botId> 1`.
 
 3. Enable the bot in the target room settings.
-4. Configure FRIDAY:
+4. Configure OpenClaw:
    - Config: `channels.nextcloud-talk.baseUrl` + `channels.nextcloud-talk.botSecret`
    - Or env: `NEXTCLOUD_TALK_BOT_SECRET` (default account only)
 
@@ -114,7 +114,7 @@ Minimal config:
 
 - Bots cannot initiate DMs. The user must message the bot first.
 - The webhook URL must be reachable from the Nextcloud server. The Gateway serves `webhookPath` on its own HTTP port. Existing installations may retain an explicit `legacyWebhook` pin for the former port `8788`; new installations open no separate port. Set `webhookPublicUrl` to the bot's external callback URL when using a proxy. Webhook requests are HMAC-SHA256 signed with the bot secret; invalid signatures are rejected and rate limited.
-- Message webhooks return HTTP 200 only after the raw event is durably stored; storage failures return HTTP 500. The durable `200` carries `x-openclaw-delivery-accepted: durable`, so reverse proxies can require the marker to distinguish FRIDAY acceptance from a generic `200`. Unsupported non-message events return HTTP 200 without the marker and are logged as ignored.
+- Message webhooks return HTTP 200 only after the raw event is durably stored; storage failures return HTTP 500. The durable `200` carries `x-openclaw-delivery-accepted: durable`, so reverse proxies can require the marker to distinguish OpenClaw acceptance from a generic `200`. Unsupported non-message events return HTTP 200 without the marker and are logged as ignored.
 - The webhook listener admits at most 64 concurrent unauthenticated body reads; overflow requests receive `HTTP/1.1 429` with `Connection: close`. Requests on one keep-alive connection are answered in order, so a queued delivery's `200` acknowledgement always flushes before any overflow rejection closes the socket. The 64-read budget is fixed and not configurable. Accounts sharing a Gateway pathname share its admission and failed-authentication budgets; each retained legacy host and port keeps independent budgets. Deployments that regularly saturate it should reduce or buffer upstream concurrency (for example, cap reverse-proxy fan-in toward the listener) and accept that deliveries refused during saturation may be lost.
 - Media uploads are not supported by the bot API; outbound media is appended as an `Attachment: <url>` line.
 - The webhook payload does not distinguish DMs from rooms; set `apiUser` + `apiPassword` to enable room-type lookups (cached about 5 minutes). Without them, every conversation is treated as a room. Inbound attachment retrieval also requires this API account.
@@ -137,7 +137,7 @@ operation is required; fresh installations open no separate port. An explicit
 Omitted or `false` opens no listener, subject to account inheritance. Explicit
 listeners use the same Gateway route, HMAC verification, and channel handler.
 
-Nextcloud stores the bot callback URL outside FRIDAY, so an update cannot safely
+Nextcloud stores the bot callback URL outside OpenClaw, so an update cannot safely
 rewrite it. To use only the Gateway listener, keep the public HTTPS address and
 change the reverse proxy's upstream to the Gateway HTTP port (`18789` by default),
 preserving `/nextcloud-talk-webhook` or your configured `webhookPath`. If Nextcloud
@@ -172,7 +172,7 @@ Doctor warns about these paths, and an account without an explicit legacy listen
 start with one. Set `webhookPath` to `/nextcloud-talk-webhook` and update the
 Nextcloud bot callback and reverse-proxy upstream to the Gateway port and that
 path. An enabled legacy listener keeps serving its configured path during this
-cutover; FRIDAY does not silently rewrite the callback path.
+cutover; OpenClaw does not silently rewrite the callback path.
 
 After verifying delivery through the Gateway route, remove the `legacyWebhook`
 pin and restart the account to disable its legacy forwarding. A shared listener
@@ -223,7 +223,7 @@ the main Gateway port keeps its existing JSON check responses.
 - `channels.nextcloud-talk.mediaAllowFrom` is an account-level allowlist of Nextcloud user IDs whose attachments may be downloaded and processed. It fails closed when omitted or empty at the channel root. Named accounts inherit the root setting when omitted; an explicit empty list denies that account’s media. Use `["*"]` only when every otherwise-authorized sender may send media.
 - This media gate never expands access. The ordinary DM/group, room, sender, and mention requirements must admit the message first. When only the media gate denies an attachment, the file is not downloaded, but an otherwise-admissible caption continues through the ordinary text path.
 - `channels.nextcloud-talk.mediaMaxMb` limits inbound staging and outbound media size. When unset, it falls back to `agents.defaults.mediaMaxMb` (default: 20 MB).
-- Talk's webhook link must be on the exact configured `baseUrl` origin (same scheme, hostname, and effective port). Because Talk room shares are participant-only, FRIDAY uses the configured `apiUser`/API password to reread the exact room message without changing its read, notification, or online state; verify its file metadata against the signed webhook; resolve the account's canonical Nextcloud user ID; and verify the WebDAV file ID before retrieving the file. The API account must be able to access the room share; no sender credentials are requested or used.
+- Talk's webhook link must be on the exact configured `baseUrl` origin (same scheme, hostname, and effective port). Because Talk room shares are participant-only, OpenClaw uses the configured `apiUser`/API password to reread the exact room message without changing its read, notification, or online state; verify its file metadata against the signed webhook; resolve the account's canonical Nextcloud user ID; and verify the WebDAV file ID before retrieving the file. The API account must be able to access the room share; no sender credentials are requested or used.
 - Authenticated attachment requests never follow redirects. Talk's `hide-download` restriction, the existing SSRF/private-network policy, and the configured byte limit remain enforced before or during staging.
 - After media authorization, a hidden, malformed, wrong-origin, unavailable, or oversize file is omitted from media context. Its caption continues with a generic attachment-unavailable marker for the agent, while the specific bounded reason is logged for operators.
 
@@ -290,7 +290,7 @@ Provider options:
 - `channels.nextcloud-talk.baseUrl`: Nextcloud instance URL.
 - `channels.nextcloud-talk.botSecret`: bot shared secret (string or secret reference).
 - `channels.nextcloud-talk.botSecretFile`: regular-file secret path. Symlinks are rejected.
-- `channels.nextcloud-talk.apiUser`: API login for room lookups (DM detection), the status check, and authorized inbound attachment retrieval. FRIDAY resolves the login to its canonical Nextcloud user ID for WebDAV paths.
+- `channels.nextcloud-talk.apiUser`: API login for room lookups (DM detection), the status check, and authorized inbound attachment retrieval. OpenClaw resolves the login to its canonical Nextcloud user ID for WebDAV paths.
 - `channels.nextcloud-talk.apiPassword`: API/app password for authenticated room lookups and inbound attachment retrieval.
 - `channels.nextcloud-talk.apiPasswordFile`: API password file path.
 - `channels.nextcloud-talk.legacyWebhook`: `false | { port, host? }`. An object opens a forwarding listener; `host` defaults to `0.0.0.0`. Omitted or `false` opens no listener. Named accounts inherit the root setting unless they override it.

@@ -8,6 +8,6 @@ public enum OpenClawNodeStorage {
                 NSLocalizedDescriptionKey: "Application Support directory unavailable",
             ])
         }
-        return base.appendingPathComponent("FRIDAY", isDirectory: true)
+        return base.appendingPathComponent("OpenClaw", isDirectory: true)
     }
 }

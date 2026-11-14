@@ -1,4 +1,4 @@
-project("FRIDAY.xcodeproj")
+project("OpenClaw.xcodeproj")
 scheme("OpenClawUITests")
 configuration("Debug")
 

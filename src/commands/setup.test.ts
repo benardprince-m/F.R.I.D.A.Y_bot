@@ -341,7 +341,7 @@ describe("setupCommand", () => {
           ok: false,
           error: {
             type: "cli_error",
-            message: "FRIDAY config is invalid: ~/.openclaw/openclaw.json",
+            message: "OpenClaw config is invalid: ~/.openclaw/openclaw.json",
           },
           issues: expect.arrayContaining([
             expect.objectContaining({ path: "<root>", message: expect.any(String) }),

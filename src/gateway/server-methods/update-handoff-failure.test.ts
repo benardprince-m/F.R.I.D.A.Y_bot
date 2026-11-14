@@ -300,7 +300,7 @@ describe("update.run handoff refusal diagnostics", () => {
       expect(sendNotice).toHaveBeenLastCalledWith(
         expect.objectContaining({
           message:
-            "⚠️ FRIDAY couldn't finish updating.\nFor details, open Settings → Updates in the Control UI or run `openclaw update status` in your terminal.",
+            "⚠️ OpenClaw couldn't finish updating.\nFor details, open Settings → Updates in the Control UI or run `openclaw update status` in your terminal.",
         }),
         expect.any(Object),
       );

@@ -502,7 +502,7 @@ describe("Gateway Claw Add application", () => {
         {
           code: "skill_preflight_failed",
           path: "$.packages[0]",
-          message: "Resolve this FRIDAY state conflict before continuing.",
+          message: "Resolve this OpenClaw state conflict before continuing.",
         },
       ],
     });

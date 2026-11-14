@@ -88,7 +88,7 @@ describe("packed CLI smoke", () => {
     });
   });
 
-  it("isolates bundled plugin activation from ambient FRIDAY state", () => {
+  it("isolates bundled plugin activation from ambient OpenClaw state", () => {
     const env = createPackedBundledPluginActivationSmokeEnv(
       {
         HOME: "/tmp/operator-home",

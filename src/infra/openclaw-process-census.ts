@@ -53,7 +53,7 @@ function isStandardSystemdLoginProcess(
   }
   // The manager changes to / before serving, including on reexec. A census
   // during early initialization can miss its inherited cwd, which it does not
-  // use for FRIDAY artifacts. PAM's child only settles that login session;
+  // use for OpenClaw artifacts. PAM's child only settles that login session;
   // require its same-account manager parent, never its process name alone.
   return (
     isStandardSystemdUserManager(command) ||
@@ -228,7 +228,7 @@ export function inspectOtherOpenClawProcesses(handoff?: HandoffReferences) {
   try {
     if (process.platform === "linux" && isContainerEnvironment()) {
       throw new Error(
-        "Host process visibility cannot be established from this container. Run Doctor on the host after stopping FRIDAY containers that share its temporary directory.",
+        "Host process visibility cannot be established from this container. Run Doctor on the host after stopping OpenClaw containers that share its temporary directory.",
       );
     }
     const windows = process.platform === "win32";
@@ -260,7 +260,7 @@ export function inspectOtherOpenClawProcesses(handoff?: HandoffReferences) {
           (entry) => !entry.command || (process.platform === "linux" && !("argv" in entry.command)),
         ))
     ) {
-      throw new Error("FRIDAY process census is incomplete.");
+      throw new Error("OpenClaw process census is incomplete.");
     }
     const directories = native
       ? new Map(native.map(({ pid, cwd }) => [pid, cwd]))
@@ -275,7 +275,7 @@ export function inspectOtherOpenClawProcesses(handoff?: HandoffReferences) {
         if (handoff) {
           break;
         }
-        throw new Error("FRIDAY process ancestry is incomplete.");
+        throw new Error("OpenClaw process ancestry is incomplete.");
       }
       const parentStart = nativeByPid.get(parentPid)?.startIdentity;
       const childStart = nativeByPid.get(child.pid)?.startIdentity;
@@ -396,7 +396,7 @@ export function inspectOtherOpenClawProcesses(handoff?: HandoffReferences) {
       result.unverifiedPids.push(Number(pid[1]));
     }
     result.error = !handoff
-      ? `Could not inspect FRIDAY processes: ${String(error)}`
+      ? `Could not inspect OpenClaw processes: ${String(error)}`
       : isRosettaTranslatedProcess()
         ? "Host process census is unavailable under Rosetta; run openclaw update repair with native arm64 Node.js."
         : "Host process census is incomplete; verify process-inspection permissions and retry update repair.";

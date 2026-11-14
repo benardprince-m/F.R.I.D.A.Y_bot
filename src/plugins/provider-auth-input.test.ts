@@ -192,9 +192,9 @@ describe("normalizeApiKeyInput", () => {
 });
 
 describe("validateApiKeyInput", () => {
-  it("rejects a pasted FRIDAY onboarding command", () => {
+  it("rejects a pasted OpenClaw onboarding command", () => {
     expect(validateApiKeyInput("openclaw onboard --auth-choice=zai-coding-global")).toBe(
-      "Paste the API key value, not an FRIDAY onboarding command.",
+      "Paste the API key value, not an OpenClaw onboarding command.",
     );
   });
 });
@@ -291,7 +291,7 @@ describe("ensureApiKeyFromEnvOrPrompt", () => {
       "Reference check failed",
     );
     expect(note).toHaveBeenCalledWith(
-      "Validated environment variable MINIMAX_API_KEY. FRIDAY will store a reference, not the key value.",
+      "Validated environment variable MINIMAX_API_KEY. OpenClaw will store a reference, not the key value.",
       "Reference validated",
     );
   });

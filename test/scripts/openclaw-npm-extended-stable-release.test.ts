@@ -212,7 +212,7 @@ describe("extended-stable npm run identity", () => {
   const toolingRef = `release-publish/${orchestratorSha.slice(0, 12)}-123`;
   const valid = {
     run: {
-      workflowName: "FRIDAY NPM Release",
+      workflowName: "OpenClaw NPM Release",
       event: "workflow_dispatch",
       conclusion: "success",
       headBranch: branch,
@@ -293,7 +293,7 @@ describe("extended-stable npm run identity", () => {
       name: "completed successful plugin run at the exact branch and SHA",
       changes: { kind: "plugin", run: pluginRun },
       rejects: [
-        { run: { workflowName: "FRIDAY NPM Release" } },
+        { run: { workflowName: "OpenClaw NPM Release" } },
         { run: { displayTitle: `Plugin NPM Release [default] ${sha}` } },
         { run: { displayTitle: `Plugin NPM Release [extended-stable] ${toolingSha}` } },
         { run: { status: "in_progress" } },

@@ -77,7 +77,7 @@ function createCaptureRuntime(): { runtime: RuntimeEnv; read: () => string } {
       log: push,
       error: push,
       exit: (code) => {
-        throw new Error(`FRIDAY operation exited with code ${code}`);
+        throw new Error(`OpenClaw operation exited with code ${code}`);
       },
     },
     read: () => lines.join("\n").trim(),
@@ -193,31 +193,31 @@ function formatPersistentPlan(operation: SystemAgentOperation): string {
 function formatUnsupportedRemoteOperation(operation: SystemAgentOperation): string | null {
   if (operation.kind === "open-tui") {
     return [
-      "FRIDAY rescue cannot open the local TUI from a message channel.",
+      "OpenClaw rescue cannot open the local TUI from a message channel.",
       "Use local `openclaw` for agent handoff, or ask for status, doctor, config, gateway, agents, or models.",
     ].join(" ");
   }
   if (operation.kind === "channel-setup") {
     return [
-      "FRIDAY rescue cannot host the interactive channel setup from a message channel.",
+      "OpenClaw rescue cannot host the interactive channel setup from a message channel.",
       "Run `openclaw setup` locally and say `connect " + operation.channel + "` instead.",
     ].join(" ");
   }
   if (operation.kind === "config-unset") {
     return [
-      "FRIDAY rescue cannot remove configuration settings.",
+      "OpenClaw rescue cannot remove configuration settings.",
       "Ask your regular agent to remove the setting, or run `openclaw config unset <path>` locally.",
     ].join(" ");
   }
   if (operation.kind === "doctor-fix") {
     return [
-      "FRIDAY rescue cannot run doctor repairs from a message channel because they can change the inference route powering this session.",
-      "On the machine running FRIDAY, with FRIDAY stopped, run `openclaw doctor --fix`.",
+      "OpenClaw rescue cannot run doctor repairs from a message channel because they can change the inference route powering this session.",
+      "On the machine running OpenClaw, with OpenClaw stopped, run `openclaw doctor --fix`.",
     ].join(" ");
   }
   if (operation.kind === "plugin-install") {
     return [
-      "FRIDAY rescue cannot install plugins from a message channel by default because plugin install downloads executable code.",
+      "OpenClaw rescue cannot install plugins from a message channel by default because plugin install downloads executable code.",
       "Use local `openclaw setup` or `openclaw plugins install` instead.",
     ].join(" ");
   }
@@ -262,7 +262,7 @@ export async function runSystemAgentRescueMessage(
     const operation = parsePendingOperation(await pendingStore.consume(pendingKey));
     assertCurrent();
     if (!operation) {
-      return "No pending FRIDAY rescue change is waiting for approval.";
+      return "No pending OpenClaw rescue change is waiting for approval.";
     }
     const unsupported = formatUnsupportedRemoteOperation(operation);
     if (unsupported) {
@@ -275,15 +275,15 @@ export async function runSystemAgentRescueMessage(
       deps: input.deps,
       beforePersistentApply: assertCurrent,
     });
-    return capture.read() || "FRIDAY rescue change applied.";
+    return capture.read() || "OpenClaw rescue change applied.";
   }
 
   if (approvalIntent === "decline") {
     const pending = parsePendingOperation(await pendingStore.consume(pendingKey));
     assertCurrent();
     return pending
-      ? "Dropped the pending FRIDAY rescue change."
-      : "No pending FRIDAY rescue change is waiting for approval.";
+      ? "Dropped the pending OpenClaw rescue change."
+      : "No pending OpenClaw rescue change is waiting for approval.";
   }
 
   // Any fresh command revokes the previous capability for this exact route.
@@ -308,7 +308,7 @@ export async function runSystemAgentRescueMessage(
     if (nowMs === undefined || expiresAtMs === undefined) {
       await pendingStore.delete(pendingKey);
       assertCurrent();
-      return "FRIDAY rescue could not create a pending approval because the expiry clock is invalid.";
+      return "OpenClaw rescue could not create a pending approval because the expiry clock is invalid.";
     }
     const ttlMs = expiresAtMs - nowMs;
     await replaceCorePluginStateEntry(
@@ -332,5 +332,5 @@ export async function runSystemAgentRescueMessage(
     auditDetails: buildAuditDetails(input),
     deps: input.deps,
   });
-  return capture.read() || "FRIDAY listened, clicked a claw, and found nothing to change.";
+  return capture.read() || "OpenClaw listened, clicked a claw, and found nothing to change.";
 }

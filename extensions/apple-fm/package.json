@@ -2,7 +2,7 @@
   "name": "@openclaw/apple-fm-provider",
   "version": "2026.10.4",
   "private": true,
-  "description": "FRIDAY on-device Apple Foundation Models provider",
+  "description": "OpenClaw on-device Apple Foundation Models provider",
   "type": "module",
   "dependencies": {
     "zod": "4.6.5"

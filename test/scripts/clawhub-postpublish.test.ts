@@ -84,7 +84,7 @@ function sealParent(f: ReturnType<typeof fixture>, conclusion = "success") {
   );
   f.setJobs(10, 1, [
     {
-      ...job("Publish plugins, then FRIDAY", 10, 1, [
+      ...job("Publish plugins, then OpenClaw", 10, 1, [
         "Upload exact release child dispatch record",
         "Upload immutable ClawHub parent authorization",
       ]),
@@ -393,7 +393,7 @@ function retryFixture({
   parentOnMain = false,
   producerAttempt = 1,
   terminalAttempt = producerAttempt + 1,
-  jobName = "Publish plugins, then FRIDAY",
+  jobName = "Publish plugins, then OpenClaw",
 }: {
   parentOnMain?: boolean;
   producerAttempt?: number;

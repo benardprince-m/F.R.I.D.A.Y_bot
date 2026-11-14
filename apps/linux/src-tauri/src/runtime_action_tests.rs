@@ -473,7 +473,7 @@ fn unsupported_cli_gets_update_guidance_without_installing() {
     let confirmed = inspect(&cli).unwrap();
     assert!(activate(&cli, &fixture.runtime(), &confirmed, &|| true)
         .unwrap_err()
-        .contains("Update the installed FRIDAY CLI"));
+        .contains("Update the installed OpenClaw CLI"));
     assert_eq!(fixture.installs(), 0);
 }
 

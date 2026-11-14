@@ -399,7 +399,7 @@ describe("Scheduled Task shutdown and SQLite handle release", () => {
           ...(exhausted ? { restartRecovery: "sqlite-owner-read" } : {}),
           taskSettlement: {
             status: "settled",
-            taskName: "FRIDAY Gateway",
+            taskName: "OpenClaw Gateway",
             lastRunResult: "0",
             ended: false,
           },
@@ -408,7 +408,7 @@ describe("Scheduled Task shutdown and SQLite handle release", () => {
         if (exhausted) {
           expect(warn).toHaveBeenCalledWith(expect.stringContaining("SQLite"));
         }
-        expect(schtasksCalls).toContainEqual(["/Run", "/TN", "FRIDAY Gateway"]);
+        expect(schtasksCalls).toContainEqual(["/Run", "/TN", "OpenClaw Gateway"]);
       });
     },
   );
@@ -421,7 +421,7 @@ describe("Scheduled Task settlement", () => {
     await withPreparedGatewayTask(async ({ env, stdout }) => {
       vi.spyOn(process, "platform", "get").mockReturnValue("win32");
       env.OPENCLAW_SERVICE_KIND = "node";
-      env.OPENCLAW_WINDOWS_TASK_NAME = "FRIDAY Node";
+      env.OPENCLAW_WINDOWS_TASK_NAME = "OpenClaw Node";
       env.OPENCLAW_TASK_SCRIPT_NAME = "node.cmd";
       const scriptPath = resolveTaskScriptPath(env);
       const original =
@@ -613,7 +613,7 @@ describe("Scheduled Task settlement", () => {
         outcome: "completed",
         taskSettlement: {
           status: "settled",
-          taskName: "FRIDAY Gateway",
+          taskName: "OpenClaw Gateway",
           lastRunResult: "0",
           ended: end,
         },
@@ -693,7 +693,7 @@ describe("Scheduled Task settlement", () => {
         message: "Gateway ownership changed; restart unverified.",
         taskSettlement: {
           status: "replaced",
-          taskName: "FRIDAY Gateway",
+          taskName: "OpenClaw Gateway",
           lastRunTime: "replacement",
         },
       });
@@ -773,7 +773,7 @@ describe("Scheduled Task settlement", () => {
         expect(error).toBeInstanceOf(Error);
         const fact = {
           status: "unavailable",
-          taskName: "FRIDAY Gateway",
+          taskName: "OpenClaw Gateway",
           ended: failure === "end-unavailable",
         };
         expect(error).toMatchObject(noRun ? { cause: fact } : { taskSettlement: fact });
@@ -810,8 +810,8 @@ describe("Scheduled Task stop/restart cleanup", () => {
       await expect(suspendScheduledTaskAutoStartForUpdate(env)).resolves.toBe(true);
 
       expect(schtasksCalls).toEqual([
-        ["/Query", "/TN", "FRIDAY Gateway", "/XML"],
-        ["/Change", "/TN", "FRIDAY Gateway", "/DISABLE"],
+        ["/Query", "/TN", "OpenClaw Gateway", "/XML"],
+        ["/Change", "/TN", "OpenClaw Gateway", "/DISABLE"],
       ]);
     });
   });
@@ -826,7 +826,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
 
       await expect(suspendScheduledTaskAutoStartForUpdate(env)).resolves.toBe(false);
 
-      expect(schtasksCalls).toEqual([["/Query", "/TN", "FRIDAY Gateway", "/XML"]]);
+      expect(schtasksCalls).toEqual([["/Query", "/TN", "OpenClaw Gateway", "/XML"]]);
     });
   });
 
@@ -842,7 +842,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
         "schtasks XML query failed: ERROR: The system cannot find the file specified.",
       );
 
-      expect(schtasksCalls).toEqual([["/Query", "/TN", "FRIDAY Gateway", "/XML"]]);
+      expect(schtasksCalls).toEqual([["/Query", "/TN", "OpenClaw Gateway", "/XML"]]);
       expect(spawnSync).toHaveBeenCalledOnce();
     });
   });
@@ -873,9 +873,9 @@ describe("Scheduled Task stop/restart cleanup", () => {
       );
 
       expect(schtasksCalls).toEqual([
-        ["/Query", "/TN", "FRIDAY Gateway", "/XML"],
-        ["/Change", "/TN", "FRIDAY Gateway", "/DISABLE"],
-        ["/Change", "/TN", "FRIDAY Gateway", "/ENABLE"],
+        ["/Query", "/TN", "OpenClaw Gateway", "/XML"],
+        ["/Change", "/TN", "OpenClaw Gateway", "/DISABLE"],
+        ["/Change", "/TN", "OpenClaw Gateway", "/ENABLE"],
       ]);
     });
   });
@@ -889,7 +889,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
         "Start Menu",
         "Programs",
         "Startup",
-        "FRIDAY Gateway.cmd",
+        "OpenClaw Gateway.cmd",
       );
       await fs.mkdir(path.dirname(startupEntry), { recursive: true });
       await fs.writeFile(startupEntry, "@echo off\r\n", "utf8");
@@ -909,7 +909,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
 
       await expect(suspendScheduledTaskAutoStartForUpdate(env)).resolves.toBe(false);
 
-      expect(schtasksCalls).toEqual([["/Query", "/TN", "FRIDAY Gateway", "/XML"]]);
+      expect(schtasksCalls).toEqual([["/Query", "/TN", "OpenClaw Gateway", "/XML"]]);
       expect(spawnSync).toHaveBeenCalledOnce();
     });
   });

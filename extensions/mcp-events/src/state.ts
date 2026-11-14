@@ -51,7 +51,7 @@ export function createMcpEventsState(runtime: McpEventsRuntime) {
     overflowPolicy: "reject-new",
   });
   if (!bindings.withCurrent) {
-    throw new Error("MCP Events requires current-authority plugin state writes; update FRIDAY");
+    throw new Error("MCP Events requires current-authority plugin state writes; update OpenClaw");
   }
   return {
     bindings,

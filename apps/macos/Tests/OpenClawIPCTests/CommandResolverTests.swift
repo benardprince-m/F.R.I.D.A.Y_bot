@@ -1,7 +1,7 @@
 import Darwin
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized) struct CommandResolverTests {
     private func makeDefaults() -> (suiteName: String, defaults: UserDefaults) {
@@ -191,7 +191,7 @@ import Testing
         #expect(cmd.first == "/bin/sh")
         #expect(cmd.last?.contains("openclaw CLI not found") == true)
         #expect(cmd.last?.contains("Install the CLI") == true)
-        #expect(cmd.last?.contains("run pnpm build in an FRIDAY source checkout") == true)
+        #expect(cmd.last?.contains("run pnpm build in an OpenClaw source checkout") == true)
     }
 
     @Test func `preferred paths start with project node bins`() throws {

@@ -2,14 +2,14 @@
 summary: "Chrome extension: securely automate signed-in tabs with automatic local pairing"
 read_when:
   - You want an agent to drive your signed-in Chrome without remote-debugging prompts
-  - You are installing, pairing, disabling, or troubleshooting the FRIDAY Chrome extension
+  - You are installing, pairing, disabling, or troubleshooting the OpenClaw Chrome extension
   - You need the Chrome native bootstrap security and platform support model
 title: "Chrome Extension"
 ---
 
 # Chrome extension
 
-The FRIDAY Chrome extension lets the browser tool automate eligible tabs in
+The OpenClaw Chrome extension lets the browser tool automate eligible tabs in
 your signed-in Chrome profile. It uses `chrome.debugger`, so it does not require
 Chrome's blocking remote-debugging consent prompt.
 
@@ -21,13 +21,13 @@ a Settings link.
 ## Requirements
 
 - Google Chrome, Chrome for Testing, or Chromium
-- FRIDAY installed on the same machine as Chrome, or an FRIDAY browser node
+- OpenClaw installed on the same machine as Chrome, or an OpenClaw browser node
   on that machine
-- macOS/Linux, or Windows with the self-contained FRIDAY native bootstrap executable
+- macOS/Linux, or Windows with the self-contained OpenClaw native bootstrap executable
 - For browsers other than Google Chrome on macOS, launch the browser at least
   once so its user-data directory exists
 
-Windows uses `FRIDAY.BrowserBootstrap.exe`, not a batch or PowerShell launcher.
+Windows uses `OpenClaw.BrowserBootstrap.exe`, not a batch or PowerShell launcher.
 Setup discovers the packaged helper or the Windows companion installation. Portable
 installations can select its absolute local path with `--native-host-executable`.
 The shared Windows registration service owns native registration and Store requests.
@@ -63,7 +63,7 @@ Keep the command running while you complete Chrome's setup. On macOS, it first
 registers the native host, then asks Google Chrome to install the official
 Store extension. Chrome discovers the request at browser startup. If Chrome is
 already running, fully quit and reopen it when convenient, then approve or
-enable **FRIDAY** in Chrome. FRIDAY never restarts Chrome or approves its
+enable **OpenClaw** in Chrome. OpenClaw never restarts Chrome or approves its
 permission prompt for you. The request applies to all profiles in that Chrome
 user-data directory. Chrome controls approval in each profile.
 
@@ -102,7 +102,7 @@ unavailable. Update the Mac app to detect an existing installation without
 running setup.
 
 On Linux and in other supported Chromium browsers, add
-[FRIDAY from the Chrome Web Store](https://chromewebstore.google.com/detail/openclaw/kcdjddhmeafeomebliikmbpblkmkfoig)
+[OpenClaw from the Chrome Web Store](https://chromewebstore.google.com/detail/openclaw/kcdjddhmeafeomebliikmbpblkmkfoig)
 after native-host registration succeeds. Linux does not support this per-user
 Store installation request. On Windows, add the Store extension after the native
 executable has passed setup. Supported same-host pairing then happens through the
@@ -111,10 +111,10 @@ permission approval.
 
 You can also use the Store link if Chrome does not offer the requested install.
 If you previously removed the extension, Chrome remembers that choice. Explicitly
-add it again from the Store. FRIDAY does not clear Chrome's removal decision.
+add it again from the Store. OpenClaw does not clear Chrome's removal decision.
 
 On macOS and Linux, the origin-locked native host permits the exact official
-Store identity and FRIDAY's path-derived development IDs. Once enabled, the
+Store identity and OpenClaw's path-derived development IDs. Once enabled, the
 extension pairs on its first native call. The installer inspects the profile's
 `Preferences` and `Secure Preferences`
 backing files and verifies the exact Store ID independently from any extension
@@ -128,7 +128,7 @@ For extension development, skip creating a Store installation request:
 openclaw browser extension install --no-store
 ```
 
-This still copies the bundled extension to a stable FRIDAY-owned directory
+This still copies the bundled extension to a stable OpenClaw-owned directory
 and registers the native host. It leaves any existing Store request unchanged.
 Use the unpacked copy as a development fallback:
 
@@ -142,18 +142,18 @@ setup. For unpacked development, the installer verifies that Chrome loaded the
 approved realpath under its predicted path-derived ID.
 
 The installer recognizes the official Store installation only by the exact
-Foundation Store ID. That identity never makes a recorded path FRIDAY-owned.
+Foundation Store ID. That identity never makes a recorded path OpenClaw-owned.
 For unpacked development, it accepts an ID only when all of these are true:
 
 - the ID matches Chrome's 32-character extension ID format.
 - Chrome records the install location as unpacked.
 - the recorded extension path resolves exactly to the installed or bundled
-  FRIDAY extension directory.
+  OpenClaw extension directory.
 - the recorded ID equals Chromium's path-derived ID for that exact
   resolved path.
 
 The extension name is not trusted. Existing native-host files with the same
-host name are not overwritten unless they are verifiably FRIDAY-owned.
+host name are not overwritten unless they are verifiably OpenClaw-owned.
 
 Use a different bounded wait when needed:
 
@@ -269,7 +269,7 @@ overwritten, and older pairings keep their stored access mode.
 For fresh local setup, native bootstrap connects the extension through the local
 Gateway's exact `/browser/extension` route. That first authenticated connection
 wakes the lazy browser-control service and starts the profile's loopback relay.
-FRIDAY and local clients such as mcporter then use that profile relay port.
+OpenClaw and local clients such as mcporter then use that profile relay port.
 Keep `openclaw gateway run` or the managed Gateway service running. A separate
 browser request or prewarm step is not required.
 
@@ -335,13 +335,13 @@ The daemon's stricter v2-only default is compatible with Gateway's default.
 - **All tabs** exposes every eligible ordinary tab in that Chrome profile,
   except tabs paused for the current browser session. Use **Pause on this tab**
   and **Allow on this tab** in the popup.
-- **Selected tabs** uses the **FRIDAY** tab group as the access-control
+- **Selected tabs** uses the **OpenClaw** tab group as the access-control
   boundary. Moving a tab into the group grants access. Moving it out revokes
   access.
 
 Open the extension's Settings page to change the access mode. Switching to
 Selected tabs immediately detaches ungrouped tabs, including attaches already
-in flight. Agent-created tabs stay in the FRIDAY group in either mode.
+in flight. Agent-created tabs stay in the OpenClaw group in either mode.
 
 The extension excludes incognito tabs, internal pages such as `chrome://` and
 `chrome-extension://`, and tabs without a usable current URL. `file://` access
@@ -349,10 +349,10 @@ also requires Chrome's **Allow access to file URLs** setting.
 
 An agent-created tab may start at `about:blank` while a CDP client initializes
 it before navigating. The extension allows that specific initial tab, keeps it
-in the FRIDAY group, and applies the same pause and access-mode controls.
+in the OpenClaw group, and applies the same pause and access-mode controls.
 Normal navigation keeps the tab available in either access mode.
 In-flight CDP cache, extra-header, and service-worker bypass settings also survive
-allowed navigation. Pausing access, removing a selected tab from the FRIDAY
+allowed navigation. Pausing access, removing a selected tab from the OpenClaw
 group, or detaching its debugger still rejects in-flight command results.
 Existing blank tabs, manually grouped blanks, and other `about:` pages remain
 unavailable. Navigating away, replacing the tab, or restarting or reconnecting
@@ -383,12 +383,12 @@ local setup** switch.
   new native bootstrap and standalone relay wake-up attempts.
 - **Disconnect and disable automatic setup** revokes the pairing immediately,
   detaches debugger sessions, and persists the opt-out.
-- **Use local FRIDAY** clears the opt-out and retries the native host.
+- **Use local OpenClaw** clears the opt-out and retries the native host.
 - Saving an explicit manual pairing also clears the opt-out.
 
 Pre-release development installs that paired before local Gateway wakeup
 routing keep their existing pairing unchanged. In Settings, use **Disconnect
-and disable automatic setup**, then **Use local FRIDAY** to create the new
+and disable automatic setup**, then **Use local OpenClaw** to create the new
 local pairing. Released builds do not require this recovery step.
 
 ### Upgrades from the retired tab copilot
@@ -396,7 +396,7 @@ local pairing. Released builds do not require this recovery step.
 If Settings says automation is paused to protect a pre-upgrade copilot
 session, confirm that old runs are finished. Then click **Disconnect and
 disable automatic setup** to discard the retired recovery state, followed by
-**Use local FRIDAY** to reconnect. Until that explicit disconnect succeeds,
+**Use local OpenClaw** to reconnect. Until that explicit disconnect succeeds,
 the extension preserves the retired state and blocks relay connections, native
 setup, manual pairing, tab access changes, and debugger attachment.
 
@@ -417,7 +417,7 @@ openclaw browser extension status --json
 ```
 
 JSON `storeInstallRequests` entries report `requested` for a verified
-FRIDAY-owned request, `missing` when no request exists, `foreign` for an
+OpenClaw-owned request, `missing` when no request exists, `foreign` for an
 unrecognized registration, or `invalid` when the file cannot be safely read or
 validated. `storeDiscovered` reports `enabled` and `awaitingApproval` separately.
 A requested installation, a discovered extension, or an enabled extension does
@@ -459,7 +459,7 @@ the native manifest switches only after its launcher is complete, so a failed
 manifest write leaves the prior registration available for retry. General Doctor still skips personal
 browser profile discovery; use `extension install` for first-time setup.
 
-Remove only FRIDAY's macOS Chrome Store installation request:
+Remove only OpenClaw's macOS Chrome Store installation request:
 
 ```bash
 openclaw browser extension uninstall-store
@@ -469,7 +469,7 @@ Chrome may remove an externally installed extension on its next startup after
 the request is removed. This command leaves native-host registration and the
 development copy intact, and refuses foreign or malformed request files.
 
-Remove only FRIDAY-owned native-host manifests and launchers:
+Remove only OpenClaw-owned native-host manifests and launchers:
 
 ```bash
 openclaw browser extension uninstall-host
@@ -505,7 +505,7 @@ This requires a local Gateway configuration, rejects `--gateway-url`, and keeps
 ordinary manual pairing unchanged. Its output contains the relay credential
 and must not be logged.
 
-For a laptop that has Chrome but does not run FRIDAY or a browser node, pair
+For a laptop that has Chrome but does not run OpenClaw or a browser node, pair
 directly to a remote Gateway:
 
 ```bash
@@ -522,7 +522,7 @@ path without a path-rewriting proxy prefix.
 ## External CDP clients
 
 The relay supports Browser Relay Authentication v2 clients such as mcporter.
-FRIDAY and an external client can stay connected together. When a client
+OpenClaw and an external client can stay connected together. When a client
 enables Runtime, the extension checks current tab access before the relay
 replays existing execution contexts to that new subscriber. This does not
 reset another client's Runtime session.
@@ -583,7 +583,7 @@ proof that its debugger client closed. Failed CDP operations are never retried
 against a replacement session.
 
 The connection-lifetime protections require updated extension code as well as
-an updated FRIDAY installation. Update the Store extension when available.
+an updated OpenClaw installation. Update the Store extension when available.
 For an unpacked development copy, rerun `openclaw browser extension install`
 and reload the installed copy from `chrome://extensions`.
 
@@ -637,14 +637,14 @@ The response is below Chrome's 1 MiB native-message limit. Pairing keys never
 appear in launcher arguments, manifests, status JSON, or diagnostics.
 
 The POSIX launcher and manifest use absolute resolved paths under an
-FRIDAY-owned mode-`0700` directory. Manifests are mode `0600`. The launcher is
+OpenClaw-owned mode-`0700` directory. Manifests are mode `0600`. The launcher is
 owner-executable. Symlinks, foreign ownership, unsafe modes, path traversal,
 wildcard origins, and foreign same-name registrations are rejected.
 
 The managed manifest authorizes the exact Foundation Chrome Web Store origin
 plus path-derived development origins in a fixed order. The Store identity
 is a fixed product trust grant, not proof that an arbitrary path is
-FRIDAY-owned.
+OpenClaw-owned.
 
 Install the official Chrome Web Store build for normal use. Only load unpacked
 development copies you trust: Chrome can give a key-matched unpacked build the
@@ -656,7 +656,7 @@ bytes with SHA-256 (native UTF-16LE path bytes on Windows, with only a lowercase
 drive letter uppercased), keep the first 16 digest bytes, then map hexadecimal
 digits `0` through `f` to letters `a` through `p`. The unpacked extension
 manifest has no `key`. Only these development IDs depend on approved
-FRIDAY-owned realpaths.
+OpenClaw-owned realpaths.
 
 The relay itself uses connection-bound HMAC proofs. The persistent per-host key
 is not sent in a URL, header, WebSocket subprotocol, or application frame during
@@ -682,13 +682,13 @@ openclaw doctor
   development fallback after the command says native bootstrap is ready.
 - **Extension was loaded before native bootstrap:** restart Chrome once to clear its
   cached native-host miss, then rerun the ordered install flow.
-- **Extension version mismatch:** reload the unpacked FRIDAY extension from
+- **Extension version mismatch:** reload the unpacked OpenClaw extension from
   `chrome://extensions`, then rerun browser doctor. Fully restart Chrome if the
   running and bundled versions still differ.
-- **Waiting for local FRIDAY:** run `extension status`. Install or repair the
+- **Waiting for local OpenClaw:** run `extension status`. Install or repair the
   owned native host.
 - **Automatic setup disabled:** enable it in Settings or click **Use local
-  FRIDAY**.
+  OpenClaw**.
 - **Manual setup required:** use Settings for the advanced pairing flow. This
   is expected for direct extension-only remote Gateway setups. On Windows, first
   check that the packaged native executable and matching local CLI are installed

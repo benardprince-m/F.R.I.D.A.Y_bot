@@ -87,7 +87,7 @@ describe("buildOfficialChannelCatalog", () => {
     }
   });
 
-  it("allows official FRIDAY channel npm specs without integrity during launch", () => {
+  it("allows official OpenClaw channel npm specs without integrity during launch", () => {
     const repoRoot = makeRepoRoot("openclaw-official-channel-catalog-openclaw-policy-");
     writeChannelPackage(
       repoRoot,

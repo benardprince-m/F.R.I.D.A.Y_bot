@@ -329,7 +329,7 @@ describe("ChatGPT token-sharing authorization", () => {
       const registered = await method.run(ctx);
       expect(Object.fromEntries(authorization.searchParams)).toMatchObject({
         client_id: "dynamic_agent_client",
-        agent_name_hint: "FRIDAY",
+        agent_name_hint: "OpenClaw",
         scope: "openid email profile resource.invoke chatgpt.tokens.use.direct offline_access",
       });
       const credential = oauthCredential(registered);

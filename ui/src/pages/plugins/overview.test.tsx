@@ -32,7 +32,7 @@ it("shows neutral compatibility copy and adds API replacements only in plugin de
     code: "deprecated-sdk-api" as const,
     severity: "info" as const,
     message:
-      "Uses FRIDAY APIs that retire on Dec 31, 2026. It keeps working until then; check for a plugin update.",
+      "Uses OpenClaw APIs that retire on Dec 31, 2026. It keeps working until then; check for a plugin update.",
     removalDate: "2026-12-31",
     migrationGuideUrl: "https://docs.openclaw.ai/plugins/sdk-migration",
     apis: [
@@ -68,7 +68,7 @@ it("localizes a mounted compatibility notice from its structured removal date", 
   const translation = vi.spyOn(i18n, "t").mockImplementation((key, params) => {
     if (i18n.getLocale() === "de") {
       if (key === "pluginsPage.compatibilityDeprecatedDated") {
-        return `Verwendet FRIDAY-APIs bis ${params?.date}.`;
+        return `Verwendet OpenClaw-APIs bis ${params?.date}.`;
       }
       if (key === "pluginsPage.compatibilityDetails") {
         return "Mehr erfahren";
@@ -94,11 +94,11 @@ it("localizes a mounted compatibility notice from its structured removal date", 
     container,
   );
   expect(container.textContent).toBe(
-    "Uses FRIDAY APIs that retire on Dec 31, 2026. It keeps working until then; check for a plugin update. Details",
+    "Uses OpenClaw APIs that retire on Dec 31, 2026. It keeps working until then; check for a plugin update. Details",
   );
   await i18n.setLocale("de");
   flush();
-  expect(container.textContent).toBe("Verwendet FRIDAY-APIs bis 31. Dez. 2026. Mehr erfahren");
+  expect(container.textContent).toBe("Verwendet OpenClaw-APIs bis 31. Dez. 2026. Mehr erfahren");
 });
 
 it("uses catalog copy when a compatibility notice has no removal date", () => {
@@ -117,7 +117,7 @@ it("uses catalog copy when a compatibility notice has no removal date", () => {
     container,
   );
   expect(container.textContent).toBe(
-    "Uses older FRIDAY APIs. It keeps working for now; check for a plugin update. Details",
+    "Uses older OpenClaw APIs. It keeps working for now; check for a plugin update. Details",
   );
 });
 

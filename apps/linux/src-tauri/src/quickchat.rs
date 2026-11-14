@@ -732,7 +732,7 @@ fn resolve_selected_agent(
         .iter()
         .find(|agent| agent.is_default)
         .cloned()
-        .ok_or_else(|| "FRIDAY did not report a default agent.".to_string())
+        .ok_or_else(|| "OpenClaw did not report a default agent.".to_string())
 }
 
 fn non_empty(value: Option<String>) -> Option<String> {
@@ -764,7 +764,7 @@ fn build_agents(catalog: &AgentsListResult) -> Result<Vec<QuickChatAgent>, Strin
     if agents.iter().any(|agent| agent.is_default) {
         Ok(agents)
     } else {
-        Err("FRIDAY did not report a default agent.".to_string())
+        Err("OpenClaw did not report a default agent.".to_string())
     }
 }
 

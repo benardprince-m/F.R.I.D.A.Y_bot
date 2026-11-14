@@ -337,7 +337,7 @@ export async function runChannelsSetupWizard(
   const { snapshot } = writeSnapshot;
   if (snapshot.exists && !snapshot.valid) {
     throw new Error(
-      "FRIDAY config is invalid; run `openclaw doctor --fix`, then retry channel setup.",
+      "OpenClaw config is invalid; run `openclaw doctor --fix`, then retry channel setup.",
     );
   }
   const cfg = snapshot.sourceConfig;

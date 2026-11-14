@@ -315,7 +315,7 @@ describe("npm registry provenance verification", () => {
         verifyBundle,
       }),
     ).rejects.toThrow(
-      `does not bind ${releaseVersion} to the trusted FRIDAY GitHub release workflow`,
+      `does not bind ${releaseVersion} to the trusted OpenClaw GitHub release workflow`,
     );
     expect(verifyBundle).not.toHaveBeenCalled();
   });
@@ -340,7 +340,7 @@ describe("npm registry provenance verification", () => {
           attempts += 1;
           if (attempts === 1) {
             throw new Error(
-              "npm provenance attestation does not bind 2026.3.23 to the trusted FRIDAY GitHub release workflow.",
+              "npm provenance attestation does not bind 2026.3.23 to the trusted OpenClaw GitHub release workflow.",
             );
           }
           if (attempts === 2) {

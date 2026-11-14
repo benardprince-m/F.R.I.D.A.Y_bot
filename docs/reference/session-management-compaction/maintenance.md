@@ -78,7 +78,7 @@ not cancel the plan. Conflicting inputs receive at most three immediate planning
 attempts before maintenance pauses until a later write; settled refusals retain the
 worker connection. Retention policies and stored data formats are unchanged.
 
-FRIDAY no longer creates automatic `sessions.json.bak.*` rotation backups during Gateway writes. The current schema rejects the legacy `session.maintenance.rotateBytes` key, and `openclaw doctor --fix` removes it from older configs.
+OpenClaw no longer creates automatic `sessions.json.bak.*` rotation backups during Gateway writes. The current schema rejects the legacy `session.maintenance.rotateBytes` key, and `openclaw doctor --fix` removes it from older configs.
 
 Migration recovery originals and exact pre-Doctor recovery files are separate
 from ordinary session retention: they are excluded from the live session disk
@@ -170,7 +170,7 @@ database size therefore shrinks gradually; readers can delay reclamation.
 Use Doctor's offline `compact` operation when a full rewrite is needed.
 
 If an archive is missing or its recorded size or hash does not match, reading
-or restoring that transcript fails explicitly. FRIDAY does not substitute an
+or restoring that transcript fails explicitly. OpenClaw does not substitute an
 empty transcript. Restore the matching file from a backup, or restore a
 complete supported database backup; a checksum cannot reconstruct deleted
 bytes. Keep independent backups before enabling extraction.
@@ -196,7 +196,7 @@ table, so lowering the schema marker is not a downgrade procedure.
 
 ### Downgrading After The SQLite Flip
 
-Stop the Gateway and back up its state. Using the current SQLite-capable FRIDAY
+Stop the Gateway and back up its state. Using the current SQLite-capable OpenClaw
 version, restore archived legacy session stores and transcript artifacts before
 starting an older file-backed version:
 
@@ -223,7 +223,7 @@ disposal; see [Pre-update backups](/install/updating#before-updating-create-a-ve
 Restore does not export changes made only in SQLite after migration. Sessions
 created after the SQLite flip are SQLite-only and will not appear to an older
 file-backed runtime. If you re-upgrade after a downgrade, run the Doctor
-inspection and validation sequence again so FRIDAY can verify restored legacy
+inspection and validation sequence again so OpenClaw can verify restored legacy
 artifacts before importing.
 
 ## Cron sessions and run logs

@@ -151,7 +151,7 @@ write path, so update rollback can restore the previous config.
 
 ## Retention policy
 
-FRIDAY supports migrations from formats written by shipped releases on or after
+OpenClaw supports migrations from formats written by shipped releases on or after
 July 1, 2026. The publication date controls this cutoff: an older version number
 published later, including an extended-stable release, still counts. Retain a
 transform whenever a release in that window can still write its input format.
@@ -208,7 +208,7 @@ to repair. Back up the file, keep any existing current-format values, and replac
 - `retry.maxDelayMs` with `retry.provider.maxRetryDelayMs`, preserving the other
   `retry.provider` settings.
 
-Remove superseded keys after moving their values. FRIDAY `2026.9.7`
+Remove superseded keys after moving their values. OpenClaw `2026.9.7`
 retains the former settings reader if a staged upgrade is needed; see
 [upgrading very old versions](/install/updating#upgrading-very-old-versions) before
 using an older release with existing state. These embedded session files are
@@ -220,7 +220,7 @@ and `submit`, naming their replacements (`app.interrupt` and `tui.input.submit`)
 Back up the file and rename the reported entries, keeping existing current-format
 bindings when both names occur. A refused reload preserves the last accepted
 bindings and leaves the file untouched. Unknown custom action names remain
-supported. FRIDAY `2026.9.7` retains the former keybinding reader; current Doctor
+supported. OpenClaw `2026.9.7` retains the former keybinding reader; current Doctor
 does not rewrite retired keybinding names.
 
 ### Retired state and config formats
@@ -235,7 +235,7 @@ layouts and recovery route.
 Telegram's pre-July bot-info, sticker, thread-binding, update-offset, message,
 sent-message, and topic-name JSON sidecars are no longer inspected or archived.
 Their last file writers shipped in May 2026. To recover state held only in those
-files, use a pre-update backup with FRIDAY `2026.9.5` Doctor before updating.
+files, use a pre-update backup with OpenClaw `2026.9.5` Doctor before updating.
 See [legacy state migration](/cli/doctor/state-migrations).
 
 Telegram SQLite update-offset versions 1 and 2 remain supported because published
@@ -286,7 +286,7 @@ and rewrite these settings while plugin repair is deferred. Doctor owns their
 normalization, preserves current-format values, and backs up config before writing;
 runtime parsing accepts only the current shape.
 
-FRIDAY `v2026.9.7` can still write ownerless and mode-less cron jobs, and its
+OpenClaw `v2026.9.7` can still write ownerless and mode-less cron jobs, and its
 migration/import writers can preserve null, `deliver`, or mixed-case delivery
 modes. Those cron repairs remain supported. JSON quarantine files also remain supported:
 `v2026.7.35` still writes them.
@@ -632,9 +632,9 @@ A shared compatibility port closes when no account retains it. Doctor identifies
 the Gateway route and the external callback or proxy change still required.
 
 New separately installed Feishu, Microsoft Teams, Nextcloud Talk, and Telegram
-plugins require FRIDAY 2026.9.9 or newer so the host can preserve implicit listeners before
+plugins require OpenClaw 2026.9.9 or newer so the host can preserve implicit listeners before
 replacement. Older hosts refuse these packages and retain the installed plugin;
-upgrade FRIDAY first.
+upgrade OpenClaw first.
 
 For Telegram with no explicit listener setting, Doctor recognizes a Gateway
 destination when `webhookUrl` matches `gateway.publicOrigin` plus a usable
@@ -710,7 +710,7 @@ and source receipts.
 For an agent with `runtime.type: "acp"`, `agents.entries.*.model` (string form) or
 `agents.entries.*.model.primary` (object form) selects the ACP harness model. This
 also applies to harness selections that look like `provider/model` references.
-FRIDAY resolves a separate native default, using `agents.defaults.model` when
+OpenClaw resolves a separate native default, using `agents.defaults.model` when
 configured. Explicit native session, utility, and subagent model selections retain
 their precedence.
 
@@ -823,7 +823,7 @@ record actions from the retired plugin have no equivalent HTTP endpoint.
 
 ## Schema publication during a 2026.9.2 update
 
-When FRIDAY 2026.9.2 drives an update that needs a newer shared-state schema,
+When OpenClaw 2026.9.2 drives an update that needs a newer shared-state schema,
 Doctor applies the migration content and reports
 `schema content applied; version publication deferred until update run <id> finishes`.
 The old updater can finish its ledger access, while the new Gateway uses the
@@ -919,7 +919,7 @@ duplicate run IDs, malformed records, and unfinished work whose ownership no
 longer matches. It emits a
 recoverable warning identifying the Task and native run, without disabling the
 Gateway or unrelated sessions. Inspect the child in its original native Codex
-account, or restore the pre-update backup with its matching FRIDAY version to
+account, or restore the pre-update backup with its matching OpenClaw version to
 finish delivery. After resolving a repairable binding conflict, run
 `openclaw doctor --fix` again. The migration does not guess ownership from the
 current parent alone.
@@ -1040,7 +1040,7 @@ against the current SQLite owners before the import can rename profiles.
 
     When model migrations change a configured consumer between subscription/OAuth and metered API-key billing, Doctor reports the consumer, model, and old and new routes after saving the config. The warning also appears in the diagnostic log and update run record. A later Doctor run does not repeat it when the resolved billing route is unchanged. Missing credentials are not treated as proof of a billing change.
 
-    During an update, Doctor records model-retirement repairs that must wait until plugin installation finishes. The updated FRIDAY completes those repairs after plugin convergence, even when no plugin version changed. `openclaw update status` records their completion so retired subscription models do not fall through to metered API credentials.
+    During an update, Doctor records model-retirement repairs that must wait until plugin installation finishes. The updated OpenClaw completes those repairs after plugin convergence, even when no plugin version changed. `openclaw update status` records their completion so retired subscription models do not fall through to metered API credentials.
 
     Utility-model separation preserves an older config's implicit primary before recording `meta.migrations.utilityModelSeparation: true`. Doctor and normal config writes use the previous config to save that primary explicitly; existing primary selections, fallbacks, and credential bindings stay authoritative. This keeps regular chat available when the old implicit primary also served utility tasks. Fresh utility setup records the separation without choosing a primary, and a provider added during utility setup is not mistaken for the previous primary. See [agent model configuration](/gateway/config-agents/models#agents.defaults.model).
 

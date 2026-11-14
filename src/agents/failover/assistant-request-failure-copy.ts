@@ -45,17 +45,17 @@ export const ERROR_DETAILS_HINT =
 
 const STORAGE_FAILURE_COPY: Record<GatewayStorageFailure, string> = {
   SQLITE_BUSY:
-    "FRIDAY is busy saving your conversation. Wait a moment, then check the conversation before trying again.",
+    "OpenClaw is busy saving your conversation. Wait a moment, then check the conversation before trying again.",
   SQLITE_LOCKED:
-    "FRIDAY is busy saving your conversation. Wait a moment, then check the conversation before trying again.",
+    "OpenClaw is busy saving your conversation. Wait a moment, then check the conversation before trying again.",
   SQLITE_FULL:
-    "FRIDAY couldn't save your conversation because the disk is full. Free up space on the computer running FRIDAY before continuing.",
+    "OpenClaw couldn't save your conversation because the disk is full. Free up space on the computer running OpenClaw before continuing.",
   SQLITE_READONLY:
-    "FRIDAY doesn't have permission to save your conversation. Check folder permissions on the computer running FRIDAY.",
+    "OpenClaw doesn't have permission to save your conversation. Check folder permissions on the computer running OpenClaw.",
   SQLITE_IOERR:
-    "FRIDAY couldn't save your conversation. Check the storage on the computer running FRIDAY before continuing.",
+    "OpenClaw couldn't save your conversation. Check the storage on the computer running OpenClaw before continuing.",
   transcript_writer_fenced:
-    "This conversation changed while FRIDAY was working. Check its latest messages before continuing.",
+    "This conversation changed while OpenClaw was working. Check its latest messages before continuing.",
 };
 
 const RUNTIME_COORDINATION_FAILURE_CODE_COPY: Readonly<Record<string, string>> = {
@@ -123,7 +123,7 @@ export function renderAssistantRequestFailureCopy(
   if (!hasStatus && !facts.provider?.trim() && !facts.model?.trim()) {
     return undefined;
   }
-  return `⚠️ FRIDAY couldn't finish this reply. ${ERROR_DETAILS_HINT}`;
+  return `⚠️ OpenClaw couldn't finish this reply. ${ERROR_DETAILS_HINT}`;
 }
 
 /** Render already-classified coordination facts without loading provider runtime. */
@@ -152,7 +152,7 @@ export function renderFormatErrorCopy(raw: string): string {
     candidate = parsedMessage;
   }
   if (isSessionTranscriptValidationErrorMessage(candidate)) {
-    return "FRIDAY couldn't read this conversation's history. Ask the Gateway operator to try `openclaw doctor --fix`. If it still fails, preserve the history and contact support with the Gateway logs.";
+    return "OpenClaw couldn't read this conversation's history. Ask the Gateway operator to try `openclaw doctor --fix`. If it still fails, preserve the history and contact support with the Gateway logs.";
   }
   const embeddingModel = candidate.match(/^"([\w./:-]{1,200})" does not support chat$/u)?.[1];
   if (embeddingModel) {

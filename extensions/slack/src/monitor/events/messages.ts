@@ -259,7 +259,7 @@ export function registerSlackMessageEvents(params: {
                 eventScope,
               });
             if (!channelType) {
-              // FRIDAY manifests pair app_mention with message.channels/groups/im/mpim.
+              // OpenClaw manifests pair app_mention with message.channels/groups/im/mpim.
               // Never guess here: the canonical message event still owns delivery.
               const channelId = /^[CDG][A-Z0-9]{1,32}$/.test(mention.channel)
                 ? mention.channel

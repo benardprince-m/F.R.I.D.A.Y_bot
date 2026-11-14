@@ -91,7 +91,7 @@ GSTREAMER_TOOL_NAMES = (
     "gst-launch-1.0",
 )
 
-BUNDLED_BUN_PATH = Path("usr/lib/FRIDAY/desktop-runtime/bin/bun")
+BUNDLED_BUN_PATH = Path("usr/lib/OpenClaw/desktop-runtime/bin/bun")
 LINUX_RUNTIME_PREFIX = b"OPENCLAW-BUN-RUNTIME-V1\n"
 
 

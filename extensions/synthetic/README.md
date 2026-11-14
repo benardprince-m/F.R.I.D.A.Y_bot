@@ -1,9 +1,9 @@
-# FRIDAY Synthetic Provider
+# OpenClaw Synthetic Provider
 
-Official FRIDAY provider plugin for Synthetic's hosted Anthropic-compatible
+Official OpenClaw provider plugin for Synthetic's hosted Anthropic-compatible
 API.
 
-Install from FRIDAY:
+Install from OpenClaw:
 
 ```bash
 openclaw plugins install @openclaw/synthetic-provider

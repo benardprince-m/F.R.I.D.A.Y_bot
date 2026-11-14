@@ -37,7 +37,7 @@ const DISCORD_REALTIME_FORCED_CONSULT_FALLBACK_DELAY_MS = 200;
 
 const CANCELLED_CONSULT_RESULT = {
   status: "cancelled",
-  message: "FRIDAY cancelled this consult before completion. Do not restart it.",
+  message: "OpenClaw cancelled this consult before completion. Do not restart it.",
 } satisfies AgentProxyConsultResult;
 
 type AgentProxyConsultResult =
@@ -609,7 +609,7 @@ export class DiscordRealtimeConsults {
         : alreadyDelivered
           ? {
               status: "already_delivered",
-              message: "FRIDAY already delivered this answer to Discord voice. Do not repeat it.",
+              message: "OpenClaw already delivered this answer to Discord voice. Do not repeat it.",
             }
           : result;
     // Unsupported suppression still needs a terminal payload that prevents replay.

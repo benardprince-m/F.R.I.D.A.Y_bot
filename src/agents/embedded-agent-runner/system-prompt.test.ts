@@ -190,7 +190,7 @@ describe("buildConfiguredAgentSystemPrompt", () => {
     });
 
     expect(prompt).toContain("- sessions_spawn");
-    expect(prompt).not.toContain("FRIDAY lists the standard tools above");
+    expect(prompt).not.toContain("OpenClaw lists the standard tools above");
     expect(prompt).not.toContain("For long waits, avoid rapid poll loops");
     expect(prompt).not.toContain("Larger work: use `sessions_spawn`");
     expect(prompt).not.toContain("Do not poll `subagents list` / `sessions_list` in a loop");

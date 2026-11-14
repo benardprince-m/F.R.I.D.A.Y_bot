@@ -118,4 +118,4 @@ else
 fi
 chmod 0755 "$DESTINATION/bin/bun"
 cp "$PIN" "$DESTINATION/bun-manifest.json"
-echo "Staged FRIDAY Bun $TAG [$PLATFORM ${*}]"
+echo "Staged OpenClaw Bun $TAG [$PLATFORM ${*}]"

@@ -75,7 +75,7 @@ const defaultOptions = (): WindowsOptions => ({
   vmName: "Windows 11",
 });
 
-const windowsPortableGitPathScript = `$portableGit = Join-Path (Join-Path (Join-Path $env:LOCALAPPDATA 'FRIDAY\\deps') 'portable-git') ''
+const windowsPortableGitPathScript = `$portableGit = Join-Path (Join-Path (Join-Path $env:LOCALAPPDATA 'OpenClaw\\deps') 'portable-git') ''
 $env:PATH = "$portableGit\\cmd;$portableGit\\mingw64\\bin;$portableGit\\usr\\bin;$env:PATH"
 where.exe git.exe`;
 
@@ -249,11 +249,11 @@ class WindowsSmoke extends SmokeRunController<WindowsOptions> {
       installSmokeRuntimeCompanions({
         provider: this.options.provider,
         readCli: (args) =>
-          this.guestPowerShell(`Invoke-FRIDAY ${args.map(psSingleQuote).join(" ")}`),
+          this.guestPowerShell(`Invoke-OpenClaw ${args.map(psSingleQuote).join(" ")}`),
         installCli: (args) =>
           this.guestPowerShellBackground(
             "install-companion",
-            `Invoke-FRIDAY ${args.map(psSingleQuote).join(" ")}\nif ($LASTEXITCODE -ne 0) { throw "runtime companion install failed with exit code $LASTEXITCODE" }`,
+            `Invoke-OpenClaw ${args.map(psSingleQuote).join(" ")}\nif ($LASTEXITCODE -ne 0) { throw "runtime companion install failed with exit code $LASTEXITCODE" }`,
             600_000,
           ),
       }),
@@ -427,7 +427,7 @@ ${cleanScript}`,
 $script = Invoke-RestMethod -Uri ${psSingleQuote(this.options.installUrl)} -TimeoutSec 120
 & ([scriptblock]::Create($script))${versionArg} -NoOnboard
 if ($LASTEXITCODE -ne 0) { throw "installer failed with exit code $LASTEXITCODE" }
-Invoke-FRIDAY --version
+Invoke-OpenClaw --version
       if ($LASTEXITCODE -ne 0) { throw "openclaw --version failed with exit code $LASTEXITCODE" }`,
       this.phases.remainingTimeoutMs(WINDOWS_PACKAGE_INSTALL_TIMEOUT_MS) ??
         WINDOWS_PACKAGE_INSTALL_TIMEOUT_MS,
@@ -447,7 +447,7 @@ $tgz = Join-Path $env:TEMP ${psSingleQuote(tempName)}
 curl.exe -fsSL --connect-timeout 10 --max-time 120 --retry 2 --retry-delay 2 ${psSingleQuote(tgzUrl)} -o $tgz
 npm.cmd install -g $tgz --no-fund --no-audit --loglevel=error
 if ($LASTEXITCODE -ne 0) { throw "npm install failed with exit code $LASTEXITCODE" }
-Invoke-FRIDAY --version
+Invoke-OpenClaw --version
       if ($LASTEXITCODE -ne 0) { throw "openclaw --version failed with exit code $LASTEXITCODE" }`,
       this.phases.remainingTimeoutMs(WINDOWS_PACKAGE_INSTALL_TIMEOUT_MS) ??
         WINDOWS_PACKAGE_INSTALL_TIMEOUT_MS,
@@ -466,7 +466,7 @@ Invoke-FRIDAY --version
   }
 
   private verifyVersionContains(needle: string): void {
-    const version = this.guestPowerShell("Invoke-FRIDAY --version");
+    const version = this.guestPowerShell("Invoke-OpenClaw --version");
     if (!version.includes(needle)) {
       throw new Error(`version mismatch: expected substring ${needle}`);
     }
@@ -486,7 +486,7 @@ Invoke-FRIDAY --version
       `$ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $false
 Set-Item -Path ('Env:' + ${psSingleQuote(this.auth.apiKeyEnv)}) -Value ${psSingleQuote(this.auth.apiKeyValue)}
-Invoke-FRIDAY onboard --non-interactive --mode local --auth-choice ${psSingleQuote(this.auth.authChoice)}${tokenProviderArg} --secret-input-mode ref --gateway-port 18789 --gateway-bind loopback --install-daemon --skip-skills --skip-health --accept-risk --json
+Invoke-OpenClaw onboard --non-interactive --mode local --auth-choice ${psSingleQuote(this.auth.authChoice)}${tokenProviderArg} --secret-input-mode ref --gateway-port 18789 --gateway-bind loopback --install-daemon --skip-skills --skip-health --accept-risk --json
 if ($LASTEXITCODE -ne 0) { throw "openclaw onboard failed with exit code $LASTEXITCODE" }
 ${this.windowsPluginIsolationScript()}`,
       720_000,
@@ -544,12 +544,12 @@ $config | ConvertTo-Json -Depth 100 | Set-Content -Path $configPath -Encoding ut
 ${windowsScopedEnvFunction}
 $script:OpenClawUpdateExit = 0
 Invoke-WithScopedEnv @{ OPENCLAW_ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS = '1'${devTargetEntry} } {
-  Invoke-FRIDAY update --channel dev --yes --json --no-restart --timeout ${this.updateTimeoutSeconds}
+  Invoke-OpenClaw update --channel dev --yes --json --no-restart --timeout ${this.updateTimeoutSeconds}
   $script:OpenClawUpdateExit = $LASTEXITCODE
 }
 if ($script:OpenClawUpdateExit -ne 0) { throw "openclaw update failed with exit code $script:OpenClawUpdateExit" }
-Invoke-FRIDAY --version
-Invoke-FRIDAY update status --json`,
+Invoke-OpenClaw --version
+Invoke-OpenClaw update status --json`,
       this.updateTimeoutSeconds * 1000,
     );
   }
@@ -557,7 +557,7 @@ Invoke-FRIDAY update status --json`,
   private verifyDevChannelUpdate(): void {
     const status = this.guestPowerShell(
       `${windowsPortableGitPathScript}
-Invoke-FRIDAY update status --json`,
+Invoke-OpenClaw update status --json`,
     );
     assertDevChannelUpdate(status, this.devTargetCommit, () =>
       this.guestPowerShell(`${windowsPortableGitPathScript}
@@ -570,7 +570,7 @@ git.exe -C $checkoutPath rev-parse HEAD`),
     const gatewayArgs =
       action === "stop"
         ? `$gatewayArgs = @('gateway', 'stop')
-$stopHelp = (Invoke-FRIDAY gateway stop --help 2>&1 | Out-String)
+$stopHelp = (Invoke-OpenClaw gateway stop --help 2>&1 | Out-String)
 if ($stopHelp -match '(?m)^\\s+--force(?:\\s|$)') {
   $gatewayArgs += '--force'
 }`
@@ -580,7 +580,7 @@ if ($stopHelp -match '(?m)^\\s+--force(?:\\s|$)') {
       `$ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $false
 ${gatewayArgs}
-Invoke-FRIDAY @gatewayArgs
+Invoke-OpenClaw @gatewayArgs
 if ($LASTEXITCODE -ne 0) { throw "gateway ${action} failed with exit code $LASTEXITCODE" }`,
       420_000,
     );
@@ -593,7 +593,7 @@ if ($LASTEXITCODE -ne 0) { throw "gateway ${action} failed with exit code $LASTE
     const start = Date.now();
     while (Date.now() < deadline) {
       const probe = this.guestPowerShell(
-        "Invoke-FRIDAY gateway status --deep --require-rpc --timeout 30000 --json",
+        "Invoke-OpenClaw gateway status --deep --require-rpc --timeout 30000 --json",
         { check: false, timeoutMs: 60_000 },
       );
       const status = JSON.parse(probe || "{}") as { rpc?: { ok?: boolean } };
@@ -604,7 +604,7 @@ if ($LASTEXITCODE -ne 0) { throw "gateway ${action} failed with exit code $LASTE
         warn(
           `gateway-reachable recovery: gateway start after ${Math.floor((Date.now() - start) / 1000)}s`,
         );
-        this.guestPowerShell("Invoke-FRIDAY gateway start", {
+        this.guestPowerShell("Invoke-OpenClaw gateway start", {
           check: false,
           timeoutMs: 120_000,
         });
@@ -618,11 +618,11 @@ if ($LASTEXITCODE -ne 0) { throw "gateway ${action} failed with exit code $LASTE
   }
 
   private showGatewayStatusCompat(): void {
-    const help = this.guestPowerShell("Invoke-FRIDAY gateway status --help", {
+    const help = this.guestPowerShell("Invoke-OpenClaw gateway status --help", {
       check: false,
     });
     const suffix = help.includes("--require-rpc") ? "--deep --require-rpc" : "--deep";
-    this.guestPowerShell(`Invoke-FRIDAY gateway status ${suffix}`);
+    this.guestPowerShell(`Invoke-OpenClaw gateway status ${suffix}`);
   }
 
   private verifyTurn(): Promise<void> {
@@ -651,7 +651,7 @@ ${windowsAgentTurnScript({
     '${resolveParallelsModelTimeoutSeconds("windows")}',
     '--json'
   )
-  $output = Invoke-FRIDAY @args 2>&1`,
+  $output = Invoke-OpenClaw @args 2>&1`,
   sessionId: "parallels-windows-smoke",
   retryOnCommandFailure: true,
 })}`,
@@ -660,7 +660,7 @@ ${windowsAgentTurnScript({
   }
 
   private async extractLastVersion(phaseName: string): Promise<string> {
-    return await extractLastOpenClawVersion(this.runDir, phaseName, /FRIDAY\s+([0-9][^\s]*)/gi);
+    return await extractLastOpenClawVersion(this.runDir, phaseName, /OpenClaw\s+([0-9][^\s]*)/gi);
   }
 
   protected async writeSummary(): Promise<string> {

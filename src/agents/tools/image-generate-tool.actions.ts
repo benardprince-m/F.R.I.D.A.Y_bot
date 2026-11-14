@@ -64,7 +64,7 @@ export async function createImageGenerateListActionResult(params: {
     summarizeCapabilities: summarizeImageGenerationCapabilities,
     formatAuthHint: (provider) =>
       provider.id === "openai"
-        ? "set OPENAI_API_KEY or configure an FRIDAY Codex login OAuth profile (not SIWC) for openai/gpt-image-2"
+        ? "set OPENAI_API_KEY or configure an OpenClaw Codex login OAuth profile (not SIWC) for openai/gpt-image-2"
         : undefined,
   });
 }

@@ -98,7 +98,7 @@ type ResolveManagedCodexNativeCommandOptions = {
   resolvePackageJson?: (packageName: string, root: string) => string | undefined;
 };
 
-/** Records the process-stable plugin root prepared by FRIDAY's plugin loader. */
+/** Records the process-stable plugin root prepared by OpenClaw's plugin loader. */
 export function setManagedCodexPluginRoot(pluginRoot: string | undefined): void {
   registeredCodexPlugin.root = pluginRoot;
 }
@@ -290,7 +290,7 @@ async function decideInstalledCodexAppServer(
     return { reason: `installed ${found} ${version} is a prerelease` };
   }
   // App-server has no negotiated protocol version; a major bump is Codex's
-  // signal that FRIDAY's generated client may no longer match.
+  // signal that OpenClaw's generated client may no longer match.
   if (parsed.major !== bundled.major) {
     return { reason: `installed ${found} ${version} is a different major version` };
   }
@@ -447,7 +447,7 @@ export async function resolveManagedCodexAppServerStartOptions(
     throw new Error(
       [
         `Managed Codex app-server binary was not found for ${MANAGED_CODEX_APP_SERVER_PACKAGE}.`,
-        "Reinstall or update FRIDAY, or run pnpm install in a source checkout.",
+        "Reinstall or update OpenClaw, or run pnpm install in a source checkout.",
         "Set plugins.entries.codex.config.appServer.command or OPENCLAW_CODEX_APP_SERVER_BIN to use a custom Codex binary.",
       ].join(" "),
     );

@@ -3,7 +3,7 @@ import Foundation
 import Network
 import OpenClawChatUI
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 /// Real loopback WebSockets: URLSession and GatewayChannelActor own the client, not a socket mock.
 @MainActor

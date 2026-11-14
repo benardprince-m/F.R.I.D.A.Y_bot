@@ -112,7 +112,7 @@ function readVerifiedAssetNames(assets) {
 }
 
 export function requiresLinuxUpdaterObservation({ release, existingManifest }) {
-  return ["latest.json", `FRIDAY-${release.tagName?.slice(1)}-linux.json`].some((name) => {
+  return ["latest.json", `OpenClaw-${release.tagName?.slice(1)}-linux.json`].some((name) => {
     const selectors = readReleaseAssets(release).filter((asset) => asset.name === name);
     const recorded = existingManifest?.githubReleaseAssets?.find((asset) => asset.name === name);
     return (
@@ -166,7 +166,7 @@ export function verifyStableMainCloseout(params) {
 
   if (mainVersion && !isStableMainVersionAtLeast(mainVersion, version)) {
     errors.push(
-      `main package.json version is ${mainVersion}, expected shipped version ${version} or a later stable FRIDAY CalVer.`,
+      `main package.json version is ${mainVersion}, expected shipped version ${version} or a later stable OpenClaw CalVer.`,
     );
   }
   if (tagPackageVersion && tagPackageVersion !== version) {
@@ -218,22 +218,22 @@ export function verifyStableMainCloseout(params) {
 
   const macAssetVersion = version;
   const universalMacAssets = [
-    `FRIDAY-${macAssetVersion}.zip`,
-    `FRIDAY-${macAssetVersion}.dmg`,
-    `FRIDAY-${macAssetVersion}.dSYM.zip`,
+    `OpenClaw-${macAssetVersion}.zip`,
+    `OpenClaw-${macAssetVersion}.dmg`,
+    `OpenClaw-${macAssetVersion}.dSYM.zip`,
   ];
   const thinMacVariants = requiresThinMacArtifacts(params.tag) ? ["arm64", "x86_64"] : [];
   const expectedMacAssets = [
     ...universalMacAssets,
     ...thinMacVariants.flatMap((arch) => [
-      `FRIDAY-${macAssetVersion}-${arch}.zip`,
-      `FRIDAY-${macAssetVersion}-${arch}.dmg`,
-      `FRIDAY-${macAssetVersion}-${arch}.dSYM.zip`,
+      `OpenClaw-${macAssetVersion}-${arch}.zip`,
+      `OpenClaw-${macAssetVersion}-${arch}.dmg`,
+      `OpenClaw-${macAssetVersion}-${arch}.dSYM.zip`,
     ]),
   ];
   const platformAssets = {
     macos: expectedMacAssets,
-    android: ["FRIDAY-Android-SHA256SUMS.txt", "FRIDAY-Android.apk"],
+    android: ["OpenClaw-Android-SHA256SUMS.txt", "OpenClaw-Android.apk"],
     windows: [
       "OpenClawCompanion-SHA256SUMS.txt",
       "OpenClawCompanion-Setup-arm64.exe",
@@ -242,8 +242,8 @@ export function verifyStableMainCloseout(params) {
   };
   const allowedLateAssets = new Set([
     ...Object.values(platformAssets).flat(),
-    `FRIDAY-${tagVersion}-amd64.AppImage`,
-    `FRIDAY-${tagVersion}-amd64.deb`,
+    `OpenClaw-${tagVersion}-amd64.AppImage`,
+    `OpenClaw-${tagVersion}-amd64.deb`,
     "SHA256SUMS.linux-app.txt",
     "latest.json",
   ]);
@@ -295,7 +295,7 @@ export function verifyStableMainCloseout(params) {
         "New or changed Linux updater selector requires a validated observation bound to this carrier and asset digest.",
       );
     }
-    const immutableName = `FRIDAY-${tagVersion}-linux.json`;
+    const immutableName = `OpenClaw-${tagVersion}-linux.json`;
     const immutable = observedAssets.filter((asset) => asset.name === immutableName);
     if (immutable.length > 0) {
       const verified =
@@ -363,7 +363,7 @@ export function verifyStableMainCloseout(params) {
     ...thinMacVariants.map((arch) => ({
       name: `main appcast-${arch}.xml`,
       content: feed(`${arch === "arm64" ? "Arm64" : "X86_64"}Appcast`),
-      asset: `FRIDAY-${macAssetVersion}-${arch}.zip`,
+      asset: `OpenClaw-${macAssetVersion}-${arch}.zip`,
     })),
   ];
   // A deliberately withdrawn macOS build keeps an older newest Sparkle entry;

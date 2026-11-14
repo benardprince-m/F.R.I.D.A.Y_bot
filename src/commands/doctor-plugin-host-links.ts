@@ -100,7 +100,7 @@ export async function maybeRepairPluginOpenClawHostLinks(
         );
       }
     };
-    reportLinks(audit.peerLinkIssues, "Managed npm FRIDAY host peer links", "managed npm");
+    reportLinks(audit.peerLinkIssues, "Managed npm OpenClaw host peer links", "managed npm");
     for (const [label, failures] of [
       ["Managed npm plugin", audit.packageReadFailures],
       ["Registered plugin", audit.registeredPackageReadFailures],
@@ -119,7 +119,7 @@ export async function maybeRepairPluginOpenClawHostLinks(
     }
     reportLinks(
       audit.registeredPeerLinkIssues,
-      "Registered plugin FRIDAY host links",
+      "Registered plugin OpenClaw host links",
       "registered",
     );
     return false;
@@ -160,14 +160,14 @@ export async function maybeRepairPluginOpenClawHostLinks(
   ] as const) {
     if (count > 0) {
       note(
-        `Repaired FRIDAY host peer link(s) for ${count} ${kind} plugin package(s).`,
+        `Repaired OpenClaw host peer link(s) for ${count} ${kind} plugin package(s).`,
         "Plugin registry",
       );
     }
   }
   if (warnings.length > 0) {
     note(
-      ["Could not repair all managed FRIDAY host peer links:", ...warnings].join("\n"),
+      ["Could not repair all managed OpenClaw host peer links:", ...warnings].join("\n"),
       "Plugin registry",
     );
   }

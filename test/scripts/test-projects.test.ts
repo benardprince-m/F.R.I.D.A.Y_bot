@@ -2140,7 +2140,7 @@ export const single = {
   it("skips app-only changes because app tests are separate from Vitest lanes", () => {
     expect(
       buildVitestRunPlans(["--changed", "origin/main"], process.cwd(), () => [
-        "apps/macos/FRIDAY/AppDelegate.swift",
+        "apps/macos/OpenClaw/AppDelegate.swift",
       ]),
     ).toStrictEqual([]);
   });

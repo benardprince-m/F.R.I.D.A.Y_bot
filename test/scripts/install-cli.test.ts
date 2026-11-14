@@ -133,7 +133,7 @@ describe("install-cli.sh", () => {
       join(prefix, "bin", "openclaw"),
       `
       printf '%s\\n' "$*" >> "$COMMAND_LOG"
-      if [[ "$1" == --version ]]; then printf 'FRIDAY 2026.9.4\\n'; fi
+      if [[ "$1" == --version ]]; then printf 'OpenClaw 2026.9.4\\n'; fi
     `,
     );
     const result = runInstallCliShell(
@@ -624,12 +624,12 @@ fi
     {
       method: "npm",
       candidate: "2026.7.1-2",
-      message: "FRIDAY 2026.7.1-2 is older than config writer 2026.7.2",
+      message: "OpenClaw 2026.7.1-2 is older than config writer 2026.7.2",
     },
     {
       method: "git",
       candidate: "2026.7.1-2",
-      message: "FRIDAY 2026.7.1-2 is older than config writer 2026.7.2",
+      message: "OpenClaw 2026.7.1-2 is older than config writer 2026.7.2",
     },
   ])(
     "rejects $method $candidate before replacing an existing managed CLI",
@@ -728,7 +728,7 @@ fi
       [
         "#!/bin/bash",
         'printf "%s\\n" "$*" >> "$COMMAND_LOG"',
-        'if [[ "$1" == "--version" ]]; then printf "FRIDAY 2026.8.25\\n"; exit 0; fi',
+        'if [[ "$1" == "--version" ]]; then printf "OpenClaw 2026.8.25\\n"; exit 0; fi',
         'if [[ "$*" == "gateway install --force" ]]; then',
         '  printf "%s\\n" "Replacing unsupported Gateway service Node 22.23.1 (/old/node) with /new/node; refreshing the install."',
         '  if [[ "$SERVICE_STREAM" == stdout ]]; then printf "%s\\n" "$SERVICE_ERROR"; else printf "%s\\n" "$SERVICE_ERROR" >&2; fi',
@@ -787,9 +787,9 @@ fi
       );
 
       expect(result.status).toBe(1);
-      expect(result.stdout).toContain("Installed FRIDAY CLI did not return a version");
+      expect(result.stdout).toContain("Installed OpenClaw CLI did not return a version");
       expect(result.stdout).not.toContain('"event":"done"');
-      expect(result.stdout).not.toContain("FRIDAY installed.");
+      expect(result.stdout).not.toContain("OpenClaw installed.");
       expect(existsSync(refreshLog)).toBe(false);
     },
   );
@@ -803,7 +803,7 @@ fi
       const openclaw = join(bin, "openclaw");
       const refreshLog = join(tmp, "gateway-refresh.log");
       mkdirSync(bin, { recursive: true });
-      writeFileSync(openclaw, '#!/bin/bash\nprintf "FRIDAY 2026.8.1\\n"\nexit 1\n');
+      writeFileSync(openclaw, '#!/bin/bash\nprintf "OpenClaw 2026.8.1\\n"\nexit 1\n');
       chmodSync(openclaw, 0o755);
 
       const result = runInstallCliShell(
@@ -817,9 +817,9 @@ fi
       );
 
       expect(result.status).toBe(1);
-      expect(result.stdout).toContain("Installed FRIDAY CLI did not return a version");
+      expect(result.stdout).toContain("Installed OpenClaw CLI did not return a version");
       expect(result.stdout).not.toContain('"event":"done"');
-      expect(result.stdout).not.toContain("FRIDAY installed.");
+      expect(result.stdout).not.toContain("OpenClaw installed.");
       expect(existsSync(refreshLog)).toBe(false);
     },
   );
@@ -1541,7 +1541,7 @@ fi
     },
   );
 
-  it.each(["linux"])("rejects FRIDAY GitHub source targets for npm installs on %s", (os) => {
+  it.each(["linux"])("rejects OpenClaw GitHub source targets for npm installs on %s", (os) => {
     const result = runInstallCliShell(`
       set -euo pipefail
       os_detect() { printf '${os}\\n'; }
@@ -1550,7 +1550,7 @@ fi
     `);
 
     expect(result.status).toBe(1);
-    expect(result.stdout).toContain("npm installs do not support FRIDAY GitHub source targets");
+    expect(result.stdout).toContain("npm installs do not support OpenClaw GitHub source targets");
     expect(result.stdout).toContain("--install-method git --version main");
   });
 
@@ -1603,7 +1603,7 @@ fi
         if (produced) {
           expect(result.stderr).toContain("EACCES permission denied (attempt 2)");
         } else {
-          expect(result.stdout).toContain("npm install did not produce a usable FRIDAY package");
+          expect(result.stdout).toContain("npm install did not produce a usable OpenClaw package");
         }
       }
     },

@@ -399,7 +399,7 @@ describe("openclaw.setup auth retries", () => {
           ok: false,
           payload: undefined,
           error: expect.objectContaining({
-            message: "FRIDAY setup is already in progress; try again when it finishes.",
+            message: "OpenClaw setup is already in progress; try again when it finishes.",
           }),
         },
       ]);

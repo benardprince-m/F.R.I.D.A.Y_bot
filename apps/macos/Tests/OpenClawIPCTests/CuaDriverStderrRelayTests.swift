@@ -1,7 +1,7 @@
 import Darwin
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct CuaDriverStderrRelayTests {
     @Test(arguments: [false, true])

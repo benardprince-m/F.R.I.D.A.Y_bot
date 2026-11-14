@@ -960,7 +960,7 @@ describe("/acp command", () => {
 
   it("sanitizes leaked task and runtime details in ACP status output", async () => {
     const leakedDetails = [
-      "FRIDAY runtime context (internal):",
+      "OpenClaw runtime context (internal):",
       "This context is runtime-generated, not user-authored. Keep internal details private.",
       "",
       "[Internal task completion event]",
@@ -990,7 +990,7 @@ describe("/acp command", () => {
     expect(result?.reply?.text).toContain("agent session id: codex-sid-1");
     expect(result?.reply?.text).toContain("acpx session id: acpx-sid-1");
     expect(result?.reply?.text).toContain("capabilities:");
-    expect(result?.reply?.text).not.toContain("FRIDAY runtime context (internal):");
+    expect(result?.reply?.text).not.toContain("OpenClaw runtime context (internal):");
     expect(result?.reply?.text).not.toContain("Internal task completion event");
     expect(hoisted.getStatusMock).toHaveBeenCalledTimes(1);
   });

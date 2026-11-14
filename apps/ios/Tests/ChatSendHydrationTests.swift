@@ -1,7 +1,7 @@
 import Foundation
 import Observation
 import XCTest
-@testable import FRIDAY
+@testable import OpenClaw
 @testable import OpenClawChatUI
 @testable import OpenClawKit
 

@@ -75,7 +75,9 @@ export async function preflightOpenClawStateDatabasePath(
     configureSqliteReadOnlyPragmas(database);
     foundVersion = readSqliteUserVersion(database);
     if (!Number.isSafeInteger(foundVersion) || foundVersion < 0) {
-      throw new Error(`FRIDAY state database ${resolvedPath} has invalid schema version metadata.`);
+      throw new Error(
+        `OpenClaw state database ${resolvedPath} has invalid schema version metadata.`,
+      );
     }
     contentVersion =
       foundVersion > OPENCLAW_STATE_SCHEMA_VERSION
@@ -89,7 +91,7 @@ export async function preflightOpenClawStateDatabasePath(
       }
       return result("incompatible", {
         reason: createNewerSqliteSchemaVersionError(
-          "FRIDAY state database",
+          "OpenClaw state database",
           resolvedPath,
           contentVersion,
           OPENCLAW_STATE_SCHEMA_VERSION,

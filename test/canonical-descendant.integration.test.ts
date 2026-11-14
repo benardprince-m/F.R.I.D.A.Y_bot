@@ -168,7 +168,7 @@ function expectPolicyHandoff(
         content: [
           {
             type: "input_text",
-            text: expect.stringContaining(body || "current FRIDAY generic policy is empty"),
+            text: expect.stringContaining(body || "current OpenClaw generic policy is empty"),
           },
         ],
       },

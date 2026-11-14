@@ -1,5 +1,5 @@
 ---
-summary: "Optional Docker-based setup and onboarding for FRIDAY"
+summary: "Optional Docker-based setup and onboarding for OpenClaw"
 read_when:
   - You want a containerized Gateway instead of local installs
   - You are validating the Docker flow
@@ -44,7 +44,7 @@ Hosting mutually untrusted users? Run a separate Gateway for each trust boundary
     ./scripts/docker/setup.sh
     ```
 
-    Use `ghcr.io/openclaw/openclaw` or `openclaw/openclaw` and avoid unofficial mirrors, which don't share FRIDAY's release timing or retention policy. Version-specific tags include releases such as `2026.9.3` and prereleases such as `2026.9.1-beta.1`. Stable releases move `latest` and `main`; trailing-month Gateway releases move only `extended-stable`. Variants include `slim`, `main-slim`, `extended-stable-slim`, `latest-browser`, `main-browser`, and `extended-stable-browser`. The default images bundle the `codex` and `diagnostics-otel` plugins. A `-browser` variant also ships with Chromium baked in for the [Gateway-controlled browser](/install/docker#using-the-control-ui-browser). The agent sandbox browser uses a separate image.
+    Use `ghcr.io/openclaw/openclaw` or `openclaw/openclaw` and avoid unofficial mirrors, which don't share OpenClaw's release timing or retention policy. Version-specific tags include releases such as `2026.9.3` and prereleases such as `2026.9.1-beta.1`. Stable releases move `latest` and `main`; trailing-month Gateway releases move only `extended-stable`. Variants include `slim`, `main-slim`, `extended-stable-slim`, `latest-browser`, `main-browser`, and `extended-stable-browser`. The default images bundle the `codex` and `diagnostics-otel` plugins. A `-browser` variant also ships with Chromium baked in for the [Gateway-controlled browser](/install/docker#using-the-control-ui-browser). The agent sandbox browser uses a separate image.
 
   </Step>
 
@@ -154,7 +154,7 @@ The image supplies Chromium, not a replacement for your browser configuration:
 - Keep browser control enabled (`browser.enabled`). Use a local managed profile
   such as `openclaw` for the container's Chromium, not an extension, attach-only,
   or remote-CDP profile intended for another browser.
-- FRIDAY auto-detects the image's Playwright-managed Chromium on Linux. An
+- OpenClaw auto-detects the image's Playwright-managed Chromium on Linux. An
   explicit `browser.executablePath` or profile executable path must point to a
   binary inside the container; a path from your laptop will not work there.
 - A headless container needs headless browser operation. Check explicit
@@ -227,7 +227,7 @@ Run `docker compose` from the repo root. If you enabled `OPENCLAW_EXTRA_MOUNTS` 
 
 ### Upgrading container images
 
-When you replace the FRIDAY image but keep the same mounted state/config, the
+When you replace the OpenClaw image but keep the same mounted state/config, the
 image entrypoint runs `openclaw doctor --fix --non-interactive` under exclusive
 maintenance ownership before starting the Gateway. This covers the default image
 command and Compose's foreground Gateway command, including its selected profile.
@@ -248,7 +248,7 @@ Current images use the guarded filesystem fallback; keep native filesystem
 checks enabled. Doctor reports the underlying lock failure and recovery action
 instead of treating every acquisition error as an active Gateway. Permission
 errors require a writable state mount for the container user. If the filesystem
-cannot provide exclusive file creation for state ownership, stop FRIDAY, back
+cannot provide exclusive file creation for state ownership, stop OpenClaw, back
 up its state, and move the state volume to a local filesystem that supports it.
 Ordinary database transactions use SQLite locking on that volume. Do not delete
 state or lock files to bypass ownership.
@@ -365,7 +365,7 @@ does not select that plugin for the runtime image.
 
 For example, these commands build separate, multi-architecture standalone
 FakeCo Gateway images for ClickClack, Slack, and Microsoft Teams. ClawRouter is
-already part of the root FRIDAY runtime, so the ClickClack image selects only
+already part of the root OpenClaw runtime, so the ClickClack image selects only
 `clickclack`. The explicit empty browser argument keeps the default image free
 of Chromium:
 
@@ -409,9 +409,9 @@ docker buildx imagetools inspect \
 
 These images are for standalone OCI-based Gateways and generic Docker users.
 Crabhelm-managed Gateways do not consume them: that delivery path builds a
-separate x86_64 appliance archive containing an FRIDAY npm tarball and pins
+separate x86_64 appliance archive containing an OpenClaw npm tarball and pins
 the Node, archive, and manifest digests. Build that appliance independently
-from the same landed FRIDAY source.
+from the same landed OpenClaw source.
 
 To test bundled plugin source against a packaged image, mount one plugin source directory over its packaged source path, e.g. `OPENCLAW_EXTRA_MOUNTS=/path/to/fork/extensions/synology-chat:/app/extensions/synology-chat:ro`. That overrides the matching compiled `/app/dist/extensions/synology-chat` bundle for the same plugin id. Restart the Gateway after adding or changing a mount; runtime loading and setup use the mounted source.
 
@@ -508,5 +508,5 @@ docker compose exec openclaw-gateway sh -lc 'node dist/index.js gateway health -
 - [Kubernetes](/install/kubernetes) — a minimal Kustomize starting point for running the Gateway on a cluster
 - [Ansible](/install/ansible) — automated server deployment with Tailscale VPN and firewall isolation
 - [Cloudflare Containers](/install/cloudflare) — experimental Worker plus container deployment with Litestream backups to R2
-- [Updating](/install/updating) — keeping FRIDAY up to date
+- [Updating](/install/updating) — keeping OpenClaw up to date
 - [Configuration](/gateway/configuration) — Gateway configuration after install

@@ -2,7 +2,7 @@
 summary: "CLI reference for `openclaw proxy`, including operator-managed proxy validation and the local debug proxy capture inspector"
 read_when:
   - You need to validate operator-managed proxy routing before deployment
-  - You need to capture FRIDAY transport traffic locally for debugging
+  - You need to capture OpenClaw transport traffic locally for debugging
   - You want to inspect debug proxy sessions, blobs, or built-in query presets
 title: "Proxy"
 ---
@@ -28,7 +28,7 @@ openclaw proxy purge
 
 Checks the effective operator-managed proxy URL from `--proxy-url`, config (`proxy.proxyUrl`), or `OPENCLAW_PROXY_URL`, in that precedence order. Reports a config problem if no proxy is enabled and configured. Pass `--proxy-url` for a one-off preflight without touching config.
 
-Managed proxy URLs use `http://` for a plain forward-proxy listener, or `https://` when FRIDAY must open TLS to the proxy endpoint itself before sending proxy requests. Use `--proxy-ca-file` to trust a private CA for that TLS connection.
+Managed proxy URLs use `http://` for a plain forward-proxy listener, or `https://` when OpenClaw must open TLS to the proxy endpoint itself before sending proxy requests. Use `--proxy-ca-file` to trust a private CA for that TLS connection.
 
 By default it runs:
 
@@ -60,7 +60,7 @@ See [Network Proxy](/security/network-proxy) for deployment guidance and denial 
 
 `start` launches a local capturing proxy and prints its URL, CA cert path, and capture DB path. Stop it with Ctrl+C. Defaults to binding `127.0.0.1` unless `--host` is set.
 
-`run` starts a local debug proxy, then runs `<cmd...>` (after `--`) with the proxy env applied, under its own capture session. An FRIDAY child forwards instrumented HTTPS and WebSocket payloads to the parent through an ephemeral, session-bound capture token in its debug endpoint URL. Normal HTTP proxy variables and stored capture URLs remain credential-free. The parent remains the only persistence client; the child does not open a capture database. The private capture endpoint cannot read or purge captures and closes with the proxy. For child commands that mutate other FRIDAY state, run the Gateway first so those commands can route their writes. Offline capture retains exclusive parent ownership until the child exits.
+`run` starts a local debug proxy, then runs `<cmd...>` (after `--`) with the proxy env applied, under its own capture session. An OpenClaw child forwards instrumented HTTPS and WebSocket payloads to the parent through an ephemeral, session-bound capture token in its debug endpoint URL. Normal HTTP proxy variables and stored capture URLs remain credential-free. The parent remains the only persistence client; the child does not open a capture database. The private capture endpoint cannot read or purge captures and closes with the proxy. For child commands that mutate other OpenClaw state, run the Gateway first so those commands can route their writes. Offline capture retains exclusive parent ownership until the child exits.
 
 Capture persistence uses asynchronous worker operations. When a local Gateway owns the state directory, the CLI keeps the proxy listener and child command local and routes capture reads and writes through that Gateway. With the Gateway stopped, the CLI holds exclusive offline ownership through capture cleanup. A failed or uncertain Gateway request is never replayed locally. Older Gateways without capture routing require an update or an orderly stop before offline capture. On orderly shutdown,
 `start` and `run` wait for admitted capture writes and session cleanup. Capture
@@ -72,7 +72,7 @@ must await capture finalization and release their async store leases. Direct
 database maintenance close invalidates capture admission and is not a substitute
 for that cleanup; the synchronous finalizer cannot drain async capture work.
 
-The debug proxy's direct upstream forwarding opens upstream sockets for diagnostics. When FRIDAY managed proxy mode is active, direct forwarding for proxy requests and CONNECT tunnels is disabled by default. Set `OPENCLAW_DEBUG_PROXY_ALLOW_DIRECT_CONNECT_WITH_MANAGED_PROXY=1` only for approved local diagnostics.
+The debug proxy's direct upstream forwarding opens upstream sockets for diagnostics. When OpenClaw managed proxy mode is active, direct forwarding for proxy requests and CONNECT tunnels is disabled by default. Set `OPENCLAW_DEBUG_PROXY_ALLOW_DIRECT_CONNECT_WITH_MANAGED_PROXY=1` only for approved local diagnostics.
 
 `coverage` prints a JSON report (`summary` + per-transport `entries`) of which transports are captured, proxy-only, or uncovered.
 

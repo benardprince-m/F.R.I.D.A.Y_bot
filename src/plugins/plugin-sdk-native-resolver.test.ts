@@ -244,7 +244,7 @@ describe("installOpenClawPluginSdkNativeResolver", () => {
     expectResolved(externalPluginEntry, "openclaw/plugin-sdk/channel-outbound", source);
   });
 
-  it("lets built external plugins resolve FRIDAY SDK subpaths with createRequire", () => {
+  it("lets built external plugins resolve OpenClaw SDK subpaths with createRequire", () => {
     const { root, distRoot, options, externalPluginEntry, requireFromPlugin } = sdkFixture();
 
     const distMode = fs.statSync(distRoot).mode;
@@ -377,7 +377,7 @@ describe("installOpenClawPluginSdkNativeResolver", () => {
     expect(() => requireFromOutside.resolve("openclaw/plugin-sdk/channel-outbound")).toThrow();
   });
 
-  it("resolves internal core packages only for FRIDAY-owned source parents", () => {
+  it("resolves internal core packages only for OpenClaw-owned source parents", () => {
     const { root, options, requireFromPlugin } = sdkFixture();
     const packages = {
       "normalization-core": ["string-coerce", "boolean-coercion", "result", "agent-id"],

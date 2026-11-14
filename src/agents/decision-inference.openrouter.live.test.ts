@@ -31,7 +31,7 @@ function redSquareImage(): string {
 }
 
 it.skipIf(!live).each(["typesafe/jev-1.13", "typesafe/jev-1.14"])(
-  "evaluates native decisions with %s through the registered FRIDAY provider",
+  "evaluates native decisions with %s through the registered OpenClaw provider",
   { timeout: 60_000, retry: 0 },
   async (model) => {
     await withOpenClawTestState({ layout: "home" }, async (state) => {

@@ -5,7 +5,7 @@
     "configRepair": true
   },
   "name": "Nextcloud Talk",
-  "description": "FRIDAY Nextcloud Talk channel plugin for conversations.",
+  "description": "OpenClaw Nextcloud Talk channel plugin for conversations.",
   "activation": {
     "onStartup": false
   },

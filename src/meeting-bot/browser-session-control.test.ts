@@ -57,13 +57,13 @@ describe("meeting browser leave ownership", () => {
       { departed: false, sessionConflict: true, sessionMatched: false },
       true,
       true,
-      "Test meeting tab belongs to another FRIDAY meeting session; left its current call untouched.",
+      "Test meeting tab belongs to another OpenClaw meeting session; left its current call untouched.",
     ],
     [
       { departed: false, sessionMatched: false },
       true,
       false,
-      "Browser control could not verify that the Test meeting tab still belongs to this FRIDAY meeting session.",
+      "Browser control could not verify that the Test meeting tab still belongs to this OpenClaw meeting session.",
     ],
     [
       { departed: true },

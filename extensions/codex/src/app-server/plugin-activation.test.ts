@@ -431,7 +431,7 @@ describe("Codex plugin activation", () => {
     expect(request).toHaveBeenCalledTimes(1);
   });
 
-  it("requires workspace-directory plugins to be activated outside FRIDAY", async () => {
+  it("requires workspace-directory plugins to be activated outside OpenClaw", async () => {
     const request = vi.fn(async () => {
       throw new Error("workspace activation must not call app-server");
     });
@@ -448,7 +448,7 @@ describe("Codex plugin activation", () => {
       reason: "disabled",
       installAttempted: false,
     });
-    expect(result.diagnostics[0]?.message).toContain("installed and enabled outside FRIDAY");
+    expect(result.diagnostics[0]?.message).toContain("installed and enabled outside OpenClaw");
     expect(request).not.toHaveBeenCalled();
   });
 

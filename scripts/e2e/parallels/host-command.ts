@@ -1,4 +1,4 @@
-// Host Command script supports FRIDAY repository automation.
+// Host Command script supports OpenClaw repository automation.
 import { spawnSync, type SpawnSyncReturns } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import path from "node:path";

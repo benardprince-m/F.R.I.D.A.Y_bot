@@ -10,7 +10,7 @@ class BundledNpmCliNotFoundError extends Error {
 
   constructor(cliPath: string, cause?: unknown) {
     super(
-      `Bundled npm CLI is missing: ${cliPath}. Reinstall FRIDAY to restore npm/bin/npm-cli.js.`,
+      `Bundled npm CLI is missing: ${cliPath}. Reinstall OpenClaw to restore npm/bin/npm-cli.js.`,
       { cause },
     );
     this.name = "BundledNpmCliNotFoundError";

@@ -9,7 +9,7 @@ scenario:
       - agent-runtime.tool-grep
   objective: Verify grep-style search behavior is tracked through command execution while Codex owns exec/process natively.
   successCriteria:
-    - FRIDAY may expose FRIDAY exec while Codex app-server mode may omit duplicate FRIDAY dynamic exec/process.
+    - OpenClaw may expose OpenClaw exec while Codex app-server mode may omit duplicate OpenClaw dynamic exec/process.
     - Codex performs the search through its native command tool and projects a correlated bash receipt with the matched line.
     - The missing-match path produces a correlated failed command result.
   docsRefs:
@@ -33,8 +33,8 @@ scenario:
         tracking: "#80319"
         codexDefaultImpact: P4
         qaImpact: P1
-        action: execute native search/command behavior separately from FRIDAY dynamic tool parity
-        reason: Codex has no dedicated grep tool; its native command contract owns grep-style searches without requiring FRIDAY dynamic exec exposure.
+        action: execute native search/command behavior separately from OpenClaw dynamic tool parity
+        reason: Codex has no dedicated grep tool; its native command contract owns grep-style searches without requiring OpenClaw dynamic exec exposure.
       happyPrompt: >-
         tool search qa check target=exec. Use the shell command tool exec to run
         `grep -n 'before edit' runtime-tool-fixture-edit.txt` exactly once.

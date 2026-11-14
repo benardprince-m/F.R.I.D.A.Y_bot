@@ -94,7 +94,7 @@ in full.
 
 Direct file edits are treated as untrusted until they validate. The source's file adapter waits
 for editor temp-write/rename churn to settle, reads the final file, and rejects
-invalid external edits without rewriting `openclaw.json`. FRIDAY-owned config
+invalid external edits without rewriting `openclaw.json`. OpenClaw-owned config
 writes use the same schema gate before writing (see [Strict validation](/gateway/configuration#strict-validation)
 for the clobber/rollback rules that apply to every write).
 
@@ -177,7 +177,7 @@ stopped accounts; use an explicit channel start to resume those accounts.
 Model runtime selection keeps your authored settings separate from catalog defaults.
 Hot reload and secrets reload preserve that distinction: catalog compatibility
 metadata does not become a custom request override that switches a native runtime
-back to FRIDAY.
+back to OpenClaw.
 Changes to `agents.defaults.models`, agent model selection and fallbacks, and
 `models.providers` hot-apply without draining the Codex plugin. Changing Codex's
 own plugin settings still follows its plugin reload policy.
@@ -385,7 +385,7 @@ changes replace affected managed browser processes when next used; externally
 attached browsers stay running. Browser enablement, evaluation, and SSRF policy
 changes replace only the Browser control service: pending operations cancel and
 owned Chrome processes close before the new policy applies. Attached and remote
-browser processes stay open while FRIDAY disconnects its control sessions.
+browser processes stay open while OpenClaw disconnects its control sessions.
 When enabled, Browser control starts again on demand; managed tabs from the
 retired process are not kept. Changing extension relay legacy authentication replaces the owned relay generation;
 externally managed relay daemons retain their own lifecycle and policy. Snapshot defaults apply to the next snapshot, and tab-cleanup settings
@@ -487,7 +487,7 @@ When replacement ingress reports ready, old paths it did not reclaim are removed
 
 ### Reload planning
 
-When you edit a source file that is referenced through `$include`, FRIDAY plans
+When you edit a source file that is referenced through `$include`, OpenClaw plans
 the reload from the source-authored layout, not the flattened in-memory view.
 That keeps hot-reload decisions (hot-apply vs restart) predictable even when a
 single top-level section lives in its own included file such as

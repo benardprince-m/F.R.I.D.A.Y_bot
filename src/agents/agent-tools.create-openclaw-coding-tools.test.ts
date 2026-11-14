@@ -422,7 +422,7 @@ describe("createOpenClawCodingTools", () => {
     );
   });
 
-  it("keeps Tool Search controls when core FRIDAY tools are not materialized", () => {
+  it("keeps Tool Search controls when core OpenClaw tools are not materialized", () => {
     const createOpenClawToolsMock = vi.mocked(createOpenClawTools);
     createOpenClawToolsMock.mockClear();
 
@@ -443,7 +443,7 @@ describe("createOpenClawCodingTools", () => {
   it("keeps the injected ring-zero tool under policy and rejects a same-name replacement", () => {
     const injectedTool = {
       ...stubTool("openclaw"),
-      label: "FRIDAY",
+      label: "OpenClaw",
       description: "trusted ring-zero tool",
       execute: async () => ({ content: [], details: {} }),
     };

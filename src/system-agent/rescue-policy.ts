@@ -31,7 +31,7 @@ export function resolveSystemAgentRescuePolicy(
       allowed: false,
       reason: "sandbox-active",
       message:
-        "FRIDAY rescue is blocked because FRIDAY sandboxing is active. Fix the install locally or disable sandboxing before using remote rescue.",
+        "OpenClaw rescue is blocked because OpenClaw sandboxing is active. Fix the install locally or disable sandboxing before using remote rescue.",
     };
   }
   const globalExec = input.cfg.tools?.exec;
@@ -50,21 +50,21 @@ export function resolveSystemAgentRescuePolicy(
     return {
       allowed: false,
       reason: "disabled",
-      message: "FRIDAY rescue requires YOLO host posture with sandboxing off.",
+      message: "OpenClaw rescue requires YOLO host posture with sandboxing off.",
     };
   }
   if (!input.senderIsOwner) {
     return {
       allowed: false,
       reason: "not-owner",
-      message: "FRIDAY rescue only accepts commands from an FRIDAY owner.",
+      message: "OpenClaw rescue only accepts commands from an OpenClaw owner.",
     };
   }
   if (!input.isDirectMessage) {
     return {
       allowed: false,
       reason: "not-direct-message",
-      message: "FRIDAY rescue is restricted to owner DMs by default.",
+      message: "OpenClaw rescue is restricted to owner DMs by default.",
     };
   }
   return { allowed: true };

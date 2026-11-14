@@ -521,7 +521,7 @@ describe("official ClawHub Claw catalog", () => {
 
   it("refuses a non-official coordinate or forged publisher before resolving detail", async () => {
     await expect(readClawHubClawDetail({ packageName: "@other/impostor" })).rejects.toThrow(
-      /official FRIDAY/,
+      /official OpenClaw/,
     );
     expect(mocks.detail).not.toHaveBeenCalled();
 

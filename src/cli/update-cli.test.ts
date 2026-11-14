@@ -209,7 +209,7 @@ describe("update-cli", () => {
         });
       } else {
         const output = getLogOutput();
-        expect(output).toContain("FRIDAY update status");
+        expect(output).toContain("OpenClaw update status");
         expect(output).toContain(`Warning: ${issue}`);
         expect(output).toContain("openclaw doctor --fix");
         expect(output.indexOf(`Warning: ${issue}`)).toBeGreaterThan(output.indexOf("Channel"));
@@ -655,7 +655,7 @@ describe("update-cli", () => {
     await expect(updateCommand({ channel: "dev" })).rejects.toEqual(new ExitError(1));
 
     const logs = getLogOutput();
-    expect(logs).toContain(`FRIDAY update ${status === "error" ? "failed" : "skipped"}: dirty.`);
+    expect(logs).toContain(`OpenClaw update ${status === "error" ? "failed" : "skipped"}: dirty.`);
     expect(logs).toContain(
       "Local changes prevented this update before installation. Your checkout was preserved.",
     );

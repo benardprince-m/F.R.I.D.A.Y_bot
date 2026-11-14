@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct ExecApprovalHelpersTests {
     @Test func `allowlist pattern prefers resolution`() {

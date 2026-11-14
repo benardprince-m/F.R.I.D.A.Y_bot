@@ -21,7 +21,7 @@ a memory store outside the default built-in memory backend.
 openclaw plugins install @openclaw/memory-lancedb
 ```
 
-The plugin is published to npm; it is not bundled into the FRIDAY runtime
+The plugin is published to npm; it is not bundled into the OpenClaw runtime
 image. Installing it writes the plugin entry, enables it, and switches
 `plugins.slots.memory` to `memory-lancedb`. If another plugin currently owns
 the memory slot, that plugin is disabled with a warning.
@@ -146,7 +146,7 @@ base64-encoded float32 responses, so both response shapes work without config.
 
 ### Dimensions
 
-FRIDAY has a built-in dimension for `text-embedding-3-small` (1536) and
+OpenClaw has a built-in dimension for `text-embedding-3-small` (1536) and
 `text-embedding-3-large` (3072) only. Any other model needs an explicit
 `embedding.dimensions` so LanceDB can create the vector column, for example
 ZhiPu `embedding-3` at 2048 dimensions:
@@ -301,7 +301,7 @@ Agents get three tools from the active memory plugin:
 
 ## Storage
 
-LanceDB data defaults to `memory/lancedb` under the active FRIDAY state
+LanceDB data defaults to `memory/lancedb` under the active OpenClaw state
 directory: `~/.openclaw/memory/lancedb` for the default profile.
 `OPENCLAW_STATE_DIR` or `--profile <name>` (`~/.openclaw-<name>`) move it with
 the state directory. See [Paths and instances](/help/environment#paths-and-instances).

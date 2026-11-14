@@ -69,7 +69,7 @@ export class McpEventsIngress<TBinding extends BindingAuthority> {
     }
     const queue = this.openQueue(accountId);
     if (!queue.listUnsettled || !queue.enqueueAuthorized) {
-      throw new Error("MCP Events requires coherent durable ingress inspection; update FRIDAY");
+      throw new Error("MCP Events requires coherent durable ingress inspection; update OpenClaw");
     }
     const drain = this.deps.runtime.state.openChannelIngressDrain<QueuedEvent>({
       queue,

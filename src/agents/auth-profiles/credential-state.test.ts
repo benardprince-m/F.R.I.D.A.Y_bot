@@ -42,7 +42,7 @@ describe("evaluateStoredCredentialEligibility", () => {
 
   it.each([
     "openclaw onboard --non-interactive --auth-choice=zai-coding-global --zai-api-key $ZAI_API_KEY",
-  ])("marks pasted FRIDAY onboarding command %p as a malformed api key", (key) => {
+  ])("marks pasted OpenClaw onboarding command %p as a malformed api key", (key) => {
     const result = evaluateStoredCredentialEligibility({
       credential: {
         type: "api_key",

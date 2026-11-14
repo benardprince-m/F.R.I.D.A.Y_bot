@@ -462,7 +462,7 @@ clone_git_checkout_transactionally() {
     fi
     TMPFILES+=("$staging_dir")
 
-    installer_step "Cloning FRIDAY" git clone "$@" "$repo_url" "$staging_dir" || clone_status=$?
+    installer_step "Cloning OpenClaw" git clone "$@" "$repo_url" "$staging_dir" || clone_status=$?
     if (( clone_status != 0 )); then
         return "$clone_status"
     fi

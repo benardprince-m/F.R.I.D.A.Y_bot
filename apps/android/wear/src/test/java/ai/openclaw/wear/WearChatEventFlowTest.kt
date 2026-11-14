@@ -78,7 +78,7 @@ class WearChatEventFlowTest {
       flow.scrollAppTo(4)
       flow.captureApp("diagnosis-after-refresh")
       assertEquals(WearConversationFailure.INCOMPATIBLE, flow.state.failure)
-      assertTrue(flow.hasAppText("Update FRIDAY on both phone and watch."))
+      assertTrue(flow.hasAppText("Update OpenClaw on both phone and watch."))
       flow.gatewayConnected = true
       flow.connectionFailure = null
       flow.connection(true)
@@ -90,7 +90,7 @@ class WearChatEventFlowTest {
   @Test
   fun refreshUsesCurrentDiagnosisInsteadOfRetainingThePreviousFailure() {
     for ((failure, status, expected) in listOf(
-      Triple(null, "Update FRIDAY", WearConversationFailure.INCOMPATIBLE),
+      Triple(null, "Update OpenClaw", WearConversationFailure.INCOMPATIBLE),
       Triple("incompatible", "Versions differ", WearConversationFailure.INCOMPATIBLE),
       Triple("gateway_offline", "Offline", WearConversationFailure.GATEWAY_OFFLINE),
     )) {

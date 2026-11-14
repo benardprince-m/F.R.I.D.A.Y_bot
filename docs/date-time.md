@@ -6,7 +6,7 @@ read_when:
 title: "Date and time"
 ---
 
-FRIDAY uses the configured **user timezone** for message envelopes, system events, and
+OpenClaw uses the configured **user timezone** for message envelopes, system events, and
 per-turn runtime context. When `agents.defaults.userTimezone` is unset, those surfaces use the
 host timezone. Provider timestamps are preserved so tools keep their native semantics.
 When the agent needs the exact current time and `session_status` is available, it runs that tool.
@@ -59,7 +59,7 @@ The section travels in the current-turn runtime context without rewriting earlie
 date rollover preserves the complete system prompt and conversation-history prefix for caching.
 Chat Completions and native Ollama retain the hidden turn context in history by default; an
 explicit provider replay policy can override that behavior. Normal compaction budgets still apply.
-Raw model probes omit FRIDAY runtime context. When available, `session_status` remains the source
+Raw model probes omit OpenClaw runtime context. When available, `session_status` remains the source
 for exact current time.
 
 ## System event lines (local by default)
@@ -89,7 +89,7 @@ System: [2026-01-12 12:19:17 PST] Model switched.
 
 ## Time format detection
 
-Rendered clock values follow the operating system and locale preference. FRIDAY
+Rendered clock values follow the operating system and locale preference. OpenClaw
 detects 12-hour or 24-hour display on macOS and Windows, then falls back to locale
 formatting. The detected value is cached per process.
 

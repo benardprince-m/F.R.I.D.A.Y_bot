@@ -12,7 +12,7 @@ Sending messages into a running Codex turn, and uploading Codex thread logs with
 ## Queue steering
 
 Active-run queue steering maps onto Codex app-server `turn/steer`. With the
-default `messages.queue.mode: "steer"`, FRIDAY batches steer-mode chat
+default `messages.queue.mode: "steer"`, OpenClaw batches steer-mode chat
 messages for the configured quiet window and sends them as one `turn/steer`
 request in arrival order.
 
@@ -23,7 +23,7 @@ complete message remains queued for a follow-up turn. Preparation and the
 `turn/steer` acknowledgment do not confirm transcript commitment. A message sent
 to Codex without a confirmed transcript commit is not replayed automatically.
 
-When Codex confirms the transcript commit, FRIDAY saves completed visible assistant
+When Codex confirms the transcript commit, OpenClaw saves completed visible assistant
 items before the steered user message, including items before a tool or sleep
 handoff. Each item keeps its own identity so later steers do not duplicate it.
 This history prefix is separate from the turn's final-answer selection. A commit
@@ -31,7 +31,7 @@ confirms that the input entered history; it does not prove that a subsequent
 model request has read it.
 
 Codex review and manual compaction turns can reject same-turn steering. In
-that case, FRIDAY waits for the active run to finish before starting the
+that case, OpenClaw waits for the active run to finish before starting the
 prompt. Automatic compaction inside a regular turn keeps steering available;
 Codex buffers the input for the next model boundary.
 
@@ -41,7 +41,7 @@ by default instead of steering. See [Steering queue](/concepts/queue-steering).
 ## Configuration and policy warnings
 
 The Codex warning about an unknown `ultrafast_mode` feature requirement appears
-once per FRIDAY chat session, including bursts of separate native notifications
+once per OpenClaw chat session, including bursts of separate native notifications
 in one response. Later turns, retries, and replacement native threads or
 app-server connections reuse the chat's receipt. Different text, details, or
 diagnostic locations still get their own first notice. Other operational and
@@ -68,7 +68,7 @@ in the account's policy.
 
 ## Diagnostic-log warnings
 
-If Codex reports a process-wide failure to save its diagnostic logs, FRIDAY
+If Codex reports a process-wide failure to save its diagnostic logs, OpenClaw
 records that notice at warning level in the [Gateway logs](/gateway/logging).
 It records each native notice when received, rather than repeating it in every
 conversation sharing that app-server. A new app-server can report a new failure.
@@ -83,17 +83,17 @@ native connection, and these operator-only notices do not fall back to chat.
 ## Codex feedback upload
 
 When `/diagnostics [note]` is approved for a session on the native Codex
-harness, FRIDAY also calls Codex app-server `feedback/upload` for relevant
+harness, OpenClaw also calls Codex app-server `feedback/upload` for relevant
 Codex threads, including logs for each listed thread and spawned Codex
 subthreads when available.
 
 The upload goes through Codex's normal feedback path to OpenAI servers. If
 Codex feedback is disabled in that app-server, the command returns the
 app-server error. The completed diagnostics reply lists the channels,
-FRIDAY session ids, Codex thread ids, and local `codex resume <thread-id>`
+OpenClaw session ids, Codex thread ids, and local `codex resume <thread-id>`
 commands for the threads that were sent.
 
-If you deny or ignore the approval, FRIDAY does not print those Codex ids
+If you deny or ignore the approval, OpenClaw does not print those Codex ids
 and does not send Codex feedback. The upload does not replace the local
 Gateway diagnostics export. See [Diagnostics export](/gateway/diagnostics) for
 the approval, privacy, local bundle, and group-chat behavior.

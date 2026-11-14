@@ -128,7 +128,7 @@ process.stdin.on("end", () => {
     };
     child.on("error", () => {
       cleanup();
-      console.error("OpenShell worker could not start the configured FRIDAY executable");
+      console.error("OpenShell worker could not start the configured OpenClaw executable");
       process.exitCode = 1;
     });
     child.on("exit", (code, signal) => {

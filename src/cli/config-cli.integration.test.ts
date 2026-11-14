@@ -386,7 +386,7 @@ describe("config cli integration", () => {
           await reject(run("get", field, ...(json ? ["--json"] : [])));
           const message = json ? JSON.parse(logs[0] ?? "").error.message : errors[0];
           expect(message).toContain(`Config path is valid but unset: ${field}.`);
-          expect(message).toContain("managed automatically by FRIDAY");
+          expect(message).toContain("managed automatically by OpenClaw");
           expect(message).not.toContain("openclaw config set");
           expect(message).not.toContain("runtime default");
         }

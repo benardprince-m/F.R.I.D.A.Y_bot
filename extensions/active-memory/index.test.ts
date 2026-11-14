@@ -1001,7 +1001,7 @@ describe("active-memory plugin", () => {
     ].join("\n");
     const projectedPrompt = (label: string) =>
       [
-        "FRIDAY assembled context for this turn:",
+        "OpenClaw assembled context for this turn:",
         "<conversation_context>",
         `${label} ${"x".repeat(600_000)}`,
         "</conversation_context>",

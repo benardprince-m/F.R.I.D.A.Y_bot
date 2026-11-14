@@ -17,7 +17,7 @@ menus, full chat opens, and dashboard launch links. Switching experiences hides
 the previous experience's windows, keeps their loaded drafts, and cancels
 pending window opens. If a window was visible, the same Gateway opens in the
 selected experience. **Settings…** always opens web Dashboard settings;
-**Connection…** and **About FRIDAY** open the native Connection window; About selects its **About** tab.
+**Connection…** and **About OpenClaw** open the native Connection window; About selects its **About** tab.
 
 Gateway and account changes still refresh hidden Dashboard windows. Saved web
 drafts recover within the same Gateway address and authenticated account; they
@@ -264,8 +264,8 @@ and choose **Load more**, or search through **All sessions**.
 
 ## Session catalogs
 
-Plugins can add session catalogs to the native sidebar. **Open in FRIDAY** opens
-the conversation; sending its first message adopts it into FRIDAY. Adopted
+Plugins can add session catalogs to the native sidebar. **Open in OpenClaw** opens
+the conversation; sending its first message adopts it into OpenClaw. Adopted
 sessions stay in their catalog section without a duplicate in the ordinary thread
 list. Catalogs appear for a selected agent and are hidden in the all-agents and
 archived views. Adopted sessions remain reachable in **Search results**,
@@ -308,7 +308,7 @@ from **Online**. When healthy, it shows the current Gateway's name and **Primary
 when applicable; otherwise it shows **Connecting…**. Click it for the Gateway
 list, current and primary indicators, the option to make an eligible profile
 primary, **Manage Gateways…**, **Open Dashboard**, **Settings…**, **Usage**, and
-**About FRIDAY**. **Retry now** appears while disconnected. The adjacent
+**About OpenClaw**. **Retry now** appears while disconnected. The adjacent
 attention button counts requests of the same kind as the oldest pending request
 (questions or approvals); click it for details without changing conversations.
 A separate retry button appears if thread groups fail to load. Batch actions
@@ -416,7 +416,7 @@ window. **Manage Gateways…** opens **Connection → Gateways**, even when the 
 empty. For SSH-tunneled primaries, the primary row uses the SSH host name rather
 than the loopback tunnel endpoint, unless a matching saved Gateway supplies its name.
 
-Right-click the FRIDAY Dock icon for **Open Dashboard** and **Settings…**.
+Right-click the OpenClaw Dock icon for **Open Dashboard** and **Settings…**.
 When more than one Gateway is configured, this menu also lists every Gateway;
 the checkmark follows the selected experience's frontmost Gateway window.
 
@@ -510,7 +510,7 @@ IDs, and outcomes through `NSLog`. This tracing is off by default and excludes
 conversation content, session names, and arbitrary web error descriptions.
 
 Run the commands below from the repository root in a POSIX shell such as `zsh`
-or `bash`, after `./scripts/package-mac-app.sh` has produced `dist/FRIDAY.app`.
+or `bash`, after `./scripts/package-mac-app.sh` has produced `dist/OpenClaw.app`.
 
 Dashboard launch links also use the selected experience. Links inside the
 embedded Dashboard can open the app with either a pointer click or keyboard
@@ -521,7 +521,7 @@ connection confirmation rules.
 - Auto-open for testing:
 
   ```bash
-  dist/FRIDAY.app/Contents/MacOS/FRIDAY --chat
+  dist/OpenClaw.app/Contents/MacOS/OpenClaw --chat
   ```
 
   (`--webchat` is accepted as a legacy alias.)
@@ -529,7 +529,7 @@ connection confirmation rules.
 - Background automation/proof rigs:
 
   ```bash
-  dist/FRIDAY.app/Contents/MacOS/FRIDAY --no-activate --chat
+  dist/OpenClaw.app/Contents/MacOS/OpenClaw --no-activate --chat
   ```
 
   `--no-activate` keeps app-initiated windows and panels behind the active app
@@ -537,7 +537,7 @@ connection confirmation rules.
   `--chat` or `--dashboard`; `--background-only` still suppresses automatic windows.
   Drive the app through background Accessibility and capture a window by ID with
   `screencapture -l <windowId>`, which can capture occluded windows. When launching
-  through Launch Services, use `open -g -n dist/FRIDAY.app --args --no-activate --chat`
+  through Launch Services, use `open -g -n dist/OpenClaw.app --args --no-activate --chat`
   so the launcher also leaves focus alone.
 
   Sheets may become key within the inactive app. Update dialogs, macOS permission
@@ -557,7 +557,7 @@ connection confirmation rules.
 - Session groups: `sessions.groups.list`, `sessions.groups.put`, `sessions.groups.rename`, and `sessions.groups.delete` own the path-free group catalog. Write-scoped `sessions.groups.defaults` and `sessions.groups.update` own optional New Session folder/worktree defaults. Membership is the session `category` updated through `sessions.patch` or assigned during `sessions.create`.
 - Unread state: after a session activates and its live history loads successfully, the app clears the unread state it observed. A manual unread marker created while that session is already open remains through refreshes and run completion; leave and reopen the session, or mark it read explicitly, to clear it. Failed history loads do not clear unread state, and a transient patch failure retries on the next activation. During staggered upgrades, an older active app can still send a bare read acknowledgement that clears the marker. Cross-client protection therefore requires every active app to support the acknowledgement contract; update all connected clients before relying on the reminder.
 - Onboarding uses a dedicated session to keep first-run setup separate.
-- Offline storage: recent sessions and transcripts are cached per Gateway in `~/Library/Application Support/FRIDAY/databases/gateway-cache.sqlite`. Client-owned pending commands and routing state live separately in `client-state.sqlite` in the same directory. Cold opens paint cached transcripts before the connection is ready and refresh once the Gateway responds.
+- Offline storage: recent sessions and transcripts are cached per Gateway in `~/Library/Application Support/OpenClaw/databases/gateway-cache.sqlite`. Client-owned pending commands and routing state live separately in `client-state.sqlite` in the same directory. Cold opens paint cached transcripts before the connection is ready and refresh once the Gateway responds.
 
 ## Security surface
 

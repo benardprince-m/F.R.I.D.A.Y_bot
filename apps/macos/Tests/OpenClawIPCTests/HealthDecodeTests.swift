@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct HealthDecodeTests {
     private let sampleJSON: String = // minimal but complete payload

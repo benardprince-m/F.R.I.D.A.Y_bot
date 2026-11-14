@@ -1,14 +1,14 @@
 ---
-summary: "End-to-end architecture of FRIDAY memory: tiers, provenance, dreaming, recall lanes, the user model, and standing intents"
+summary: "End-to-end architecture of OpenClaw memory: tiers, provenance, dreaming, recall lanes, the user model, and standing intents"
 title: "Memory architecture"
 sidebarTitle: "Memory architecture"
 read_when:
-  - You want the complete picture of how FRIDAY memory works end to end
+  - You want the complete picture of how OpenClaw memory works end to end
   - You want to understand why memory behaves differently for trusted and untrusted content
   - You are deciding which memory surface a new feature or plugin should write to
 ---
 
-Memory Core, FRIDAY's default memory plugin, uses plain files and one SQLite
+Memory Core, OpenClaw's default memory plugin, uses plain files and one SQLite
 index, organized into tiers with different trust levels, write rules, and injection behavior. This
 page explains the whole system: what gets written where, how content earns its
 way into long-term memory, how recall works on every turn, and how the system
@@ -36,10 +36,10 @@ Five rules shape everything below:
    with far heavier designs; what degrades memory systems is unreliable
    write-time curation. Long-horizon evaluations consistently show that what
    was written matters more than how it is indexed (LongMemEval,
-   arXiv:2410.10813). FRIDAY therefore moves curation off the busy reply
+   arXiv:2410.10813). OpenClaw therefore moves curation off the busy reply
    path and into a dedicated background pass.
 3. **The write path is the security boundary.** Content-level scanning of
-   memory cannot catch poisoned facts reliably, so FRIDAY enforces
+   memory cannot catch poisoned facts reliably, so OpenClaw enforces
    provenance at write time and gates promotion structurally instead of
    trying to detect bad memories later.
 4. **Fixed checks, model judgment inside them.** Scoring, thresholds,
@@ -310,7 +310,7 @@ evicts the least-recent key beyond that cap. This set is ephemeral runtime
 state: it is not persisted or restored, so a new session or process starts with
 an empty set. The current repository identity remains a separate prepared fact
 used for write annotations; new repository-specific memories receive only that
-current key, not the whole active set. FRIDAY passes that key to memory prompt
+current key, not the whole active set. OpenClaw passes that key to memory prompt
 sections as `projectKey`, and `memory-core` owns the instruction that asks the
 agent to add the annotation. Other memory providers receive the same key but get
 no annotation instruction from core, so they can store project scope in their
@@ -367,7 +367,7 @@ storing intentions as prose in a memory file is the least reliable design
 available: prospective recall degrades sharply with context length even
 while retrospective recall stays near perfect, and models cannot be trusted
 to re-infer cancellation (TriggerBench, arXiv:2606.23459; ProEvent-class
-event benchmarks). FRIDAY therefore compiles intentions out of the model:
+event benchmarks). OpenClaw therefore compiles intentions out of the model:
 
 - **Time-based intents** ("remind me Friday") become cron jobs via
   [scheduled tasks](/automation/cron-jobs) at the moment they are uttered.
@@ -392,7 +392,7 @@ Memory is the persistence layer an injection attack wants: plant an
 instruction once, have it re-injected forever. Memory poisoning is a
 recognized attack class (OWASP Agentic Applications ASI06; memory injection
 research such as MINJA, arXiv:2503.03704), and detection-based defenses
-measure poorly. FRIDAY defends structurally:
+measure poorly. OpenClaw defends structurally:
 
 - **Unforgeable provenance.** Origin labels live in SQLite columns written
   by classification code, never parsed out of memory text. Prose claiming
@@ -413,7 +413,7 @@ measure poorly. FRIDAY defends structurally:
 
 The conservative posture is deliberate. Independent memory-poisoning
 benchmarks score agents better the less automatically they retrieve and the
-more conservatively they write; FRIDAY keeps those properties even with
+more conservatively they write; OpenClaw keeps those properties even with
 dreaming and lane-1 recall on by default, because promotion and injection
 are both gated on provenance rather than on content looking safe.
 

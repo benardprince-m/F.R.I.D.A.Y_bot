@@ -47,7 +47,7 @@ describe("codex MCP projection", () => {
     const applyPatchTool = {
       name: "apply_patch",
       label: "apply_patch",
-      description: "FRIDAY-owned apply_patch bridged into the Codex session.",
+      description: "OpenClaw-owned apply_patch bridged into the Codex session.",
       parameters: Type.Object({}),
       execute: async () => ({ content: [], details: {} }),
     } satisfies AnyAgentTool;

@@ -221,7 +221,7 @@ export async function createPackagedOwnerLoader(installedRoot: string, tarball: 
       } else if (specifier.startsWith("file:") || specifier.startsWith(".")) {
         required = localMember(new URL(specifier, context.parentURL).href) !== undefined;
       } else if (parent !== undefined && !isBuiltin(specifier) && !specifier.includes(":")) {
-        // FRIDAY artifacts have no external # aliases. Internal aliases and
+        // OpenClaw artifacts have no external # aliases. Internal aliases and
         // self-references must remain archive-bound; bare npm dependencies may not.
         required =
           specifier.startsWith("#") ||

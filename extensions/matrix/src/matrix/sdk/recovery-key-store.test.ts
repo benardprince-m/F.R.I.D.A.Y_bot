@@ -451,7 +451,7 @@ describe("MatrixRecoveryKeyStore", () => {
       const warn = vi.spyOn(LogService, "warn").mockImplementation(() => {});
       const { store, callbacks } = createStore(undefined, recoveryKeyPath);
       const remediation =
-        'Install FRIDAY 2026.9.5, run "openclaw doctor --fix", and start the Matrix channel once to migrate it, then upgrade to latest.';
+        'Install OpenClaw 2026.9.5, run "openclaw doctor --fix", and start the Matrix channel once to migrate it, then upgrade to latest.';
 
       await expect(store.getRecoveryKeySummary()).rejects.toThrow(remediation);
       await expect(store.getSecretStorageKeyCandidate("SSSS")).rejects.toThrow(remediation);

@@ -8,7 +8,7 @@
 export function createLocalEmbeddingProvider(..._args: unknown[]): Promise<never> {
   return Promise.reject(
     new Error(
-      "The legacy in-process llama.cpp embedding runtime is retired. Run `openclaw update repair` to install the managed llama-server provider, then restart FRIDAY.",
+      "The legacy in-process llama.cpp embedding runtime is retired. Run `openclaw update repair` to install the managed llama-server provider, then restart OpenClaw.",
     ),
   );
 }
@@ -60,9 +60,9 @@ export type {
   RemoteEmbeddingRequestAuth,
 } from "../../packages/memory-host-sdk/src/engine-embeddings.js";
 export { getMemoryEmbeddingProvider } from "../plugins/memory-embedding-provider-runtime.js";
-/** @deprecated Retained for plugins built against FRIDAY 2026.10.4 and earlier; tracked by `plugin-sdk-private-runtime-shipped-exports`. */
+/** @deprecated Retained for plugins built against OpenClaw 2026.10.4 and earlier; tracked by `plugin-sdk-private-runtime-shipped-exports`. */
 export { listMemoryEmbeddingProviders } from "../plugins/memory-embedding-provider-runtime.js";
-/** @deprecated Retained for plugins built against FRIDAY 2026.10.4 and earlier; tracked by `plugin-sdk-private-runtime-shipped-exports`. */
+/** @deprecated Retained for plugins built against OpenClaw 2026.10.4 and earlier; tracked by `plugin-sdk-private-runtime-shipped-exports`. */
 export { fetchRemoteEmbeddingVectors } from "../../packages/memory-host-sdk/src/host/embeddings-remote-fetch.js";
 export { registerRuntimeAuthProfileStoreMutationListener } from "../agents/auth-profiles/runtime-snapshots.js";
 export type {

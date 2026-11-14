@@ -1,7 +1,7 @@
 import AppKit
 import Testing
 import WebKit
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 extension DashboardWindowOwnershipTests {

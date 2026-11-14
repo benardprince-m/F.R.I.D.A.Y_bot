@@ -8,7 +8,7 @@ title: "Database engines (experimental)"
 doc-schema-version: 1
 ---
 
-FRIDAY uses SQLite by default. The experimental PostgreSQL adapter lets one
+OpenClaw uses SQLite by default. The experimental PostgreSQL adapter lets one
 Gateway keep supported stores in PostgreSQL while other stores stay on SQLite.
 The adapter owns connection setup, schema admission, transaction behavior, and
 commit notifications; stores keep their existing data and operation contracts.
@@ -785,7 +785,7 @@ engine does not add PostgreSQL support to an unported store.
 | Missing or unresolved connection secret   | Configure `database.postgres.connection` and verify the SecretRef provider is available to the Gateway. |
 | Unreachable PostgreSQL server             | Check the DSN, network access, role permissions, and server availability.                               |
 | Store UUID mismatch                       | Restore the matching anchor and PostgreSQL schema; do not pair an anchor with another store.            |
-| Newer schema or missing forward migration | Use a compatible FRIDAY binary; reverse-port with that binary before a downgrade.                       |
+| Newer schema or missing forward migration | Use a compatible OpenClaw binary; reverse-port with that binary before a downgrade.                     |
 | Gateway running during PostgreSQL backup  | Stop through the service owner, then rerun the backup command.                                          |
 | Update target lacks PostgreSQL support    | Stay on the current version or reverse-port with the current compatible binary before retrying.         |
 

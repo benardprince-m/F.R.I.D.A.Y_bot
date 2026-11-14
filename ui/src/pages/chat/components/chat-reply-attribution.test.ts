@@ -155,7 +155,7 @@ it.each([
     role: "user",
     sender: jordan,
     original: agentAnswer,
-    strip: "FRIDAY",
+    strip: "OpenClaw",
     senderName: "Jordan",
   },
   {
@@ -163,7 +163,7 @@ it.each([
     role: "assistant",
     sender: undefined,
     original: agentAnswer,
-    strip: "FRIDAY",
+    strip: "OpenClaw",
     senderName: null,
   },
   {
@@ -176,12 +176,12 @@ it.each([
       __openclaw: {
         id: "earlier",
         senderId: "namesake",
-        senderName: "FRIDAY",
+        senderName: "OpenClaw",
         senderIdentity: { type: "profile", id: "namesake" },
       },
     },
-    strip: "FRIDAY",
-    senderName: "FRIDAY",
+    strip: "OpenClaw",
+    senderName: "OpenClaw",
   },
   {
     // A peer's strip sits on the message itself, so the footer keeps their name.
@@ -207,7 +207,7 @@ it.each([
     container = document.body.appendChild(document.createElement("div"));
     const resolveReplyPreview = createReplyPreviewResolver(
       new Map([["earlier", { message: original, messageId: "earlier-key", senderLabel: strip }]]),
-      { assistantName: "FRIDAY", userId: "alice" },
+      { assistantName: "OpenClaw", userId: "alice" },
     );
     createMessageGroupHarness(container).render(
       {
@@ -236,7 +236,7 @@ it.each([
         showToolCalls: false,
         avatarPlacement: "none",
         userId: "alice",
-        assistantName: "FRIDAY",
+        assistantName: "OpenClaw",
         resolveReplyPreview,
       },
     );
@@ -508,8 +508,8 @@ it.each([
   {
     role: "assistant",
     identity: { type: "agent", id: "main" },
-    name: "FRIDAY",
-    label: "FRIDAY",
+    name: "OpenClaw",
+    label: "OpenClaw",
   },
   { role: "user", identity: { type: "profile", id: "alice" }, name: "Alice", label: "You" },
   { role: "user", identity: { type: "profile", id: "jordan" }, name: "Jordan", label: "Jordan" },
@@ -531,7 +531,7 @@ it.each([
       new Map([
         ["inline-source", { message: source, messageId: "inline-source", senderLabel: name }],
       ]),
-      { assistantName: "FRIDAY", userId: "alice", userName: "Alice" },
+      { assistantName: "OpenClaw", userId: "alice", userName: "Alice" },
     );
     const onOpenReply = vi.fn();
     createMessageGroupHarness(container).render(
@@ -587,7 +587,7 @@ function drawOwnReply(
 ) {
   container = document.body.appendChild(document.createElement("div"));
   const resolveReplyPreview = createReplyPreviewResolver(new Map(), {
-    assistantName: "FRIDAY",
+    assistantName: "OpenClaw",
     userId: "alice",
     replyMessageAccess: {
       read: (id) => (id === "older" ? original : undefined),

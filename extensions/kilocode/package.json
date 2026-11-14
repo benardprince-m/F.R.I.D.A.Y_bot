@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/kilocode-provider",
   "version": "2026.10.4",
-  "description": "FRIDAY Kilo Gateway provider plugin.",
+  "description": "OpenClaw Kilo Gateway provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

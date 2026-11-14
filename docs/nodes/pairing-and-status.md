@@ -54,7 +54,7 @@ Pending command-surface requests do not expire merely with time; they follow the
 
 - `nodes status` marks a node as **paired** when its device pairing role includes `node`.
 - A connected native Mac reports coalesced activity from interaction with
-  FRIDAY without extra permissions. Optional **Settings -> Permissions ->
+  OpenClaw without extra permissions. Optional **Settings -> Permissions ->
   System-wide presence detection** also includes physical input in other apps
   and requires Accessibility. The Gateway marks the freshest eligible Mac as
   `active`, gives the agent a stable node-id hint, and routes node connection

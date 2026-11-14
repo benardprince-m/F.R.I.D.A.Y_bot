@@ -3,7 +3,7 @@ import Foundation
 import OpenClawKit
 import PeekabooAutomationKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 /// Drives the real `ComputerWindowActionExecutor` reference lifecycle through the same
 /// case table the CUA provider runs in `ref-lifecycle.contract.test.ts`, so the two

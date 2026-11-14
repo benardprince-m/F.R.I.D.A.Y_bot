@@ -90,7 +90,7 @@ const stopSpy = vi.hoisted(() => vi.fn());
 const webhookBotInfo = vi.hoisted(() => ({
   id: 123,
   is_bot: true as const,
-  first_name: "FRIDAY",
+  first_name: "OpenClaw",
   username: "openclaw_bot",
   has_topics_enabled: false,
 }));

@@ -15,7 +15,7 @@ const ensurePendingTable = createSqliteSchemaEnsurer(
     extractSqliteTableSchema(OPENCLAW_AGENT_SCHEMA_SQL, SESSION_PENDING_INPUTS_TABLE, {
       endMarker: "-- Processing completion",
       includeEndMarker: false,
-      errorMessage: "FRIDAY pending-input schema marker is missing.",
+      errorMessage: "OpenClaw pending-input schema marker is missing.",
     }),
   {
     tables: [SESSION_PENDING_INPUTS_TABLE],
@@ -43,7 +43,7 @@ export function ensureSessionPendingInputsSchema(db: EngineConnection): void {
 const ensureInputCompletionsTable = createSqliteSchemaEnsurer(
   () =>
     extractSqliteTableSchema(OPENCLAW_AGENT_SCHEMA_SQL, SESSION_INPUT_COMPLETIONS_TABLE, {
-      errorMessage: "FRIDAY input-completion schema marker is missing.",
+      errorMessage: "OpenClaw input-completion schema marker is missing.",
     }),
   { tables: [SESSION_INPUT_COMPLETIONS_TABLE] },
 );

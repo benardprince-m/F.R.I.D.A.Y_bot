@@ -41,7 +41,7 @@ export function completeConfigContext(context: ApplicationContext): ApplicationC
   Object.assign(context, {
     basePath: context.basePath ?? "",
     router: context.router ?? { subscribe },
-    config: context.config ?? { current: { assistantIdentity: { name: "FRIDAY" } }, subscribe },
+    config: context.config ?? { current: { assistantIdentity: { name: "OpenClaw" } }, subscribe },
     settingsAgentSelection: context.settingsAgentSelection ?? {
       state: { selectedId: "main" },
       subscribe,
@@ -84,7 +84,7 @@ export function completeConfigContext(context: ApplicationContext): ApplicationC
     Object.assign(context.agentIdentity, { get: () => null });
   }
   Object.assign(context.config, {
-    current: context.config.current ?? { assistantIdentity: { name: "FRIDAY" } },
+    current: context.config.current ?? { assistantIdentity: { name: "OpenClaw" } },
   });
   Object.assign(context.overlays, { snapshot: context.overlays.snapshot ?? {} });
   Object.assign(context.webPush, { snapshot: context.webPush.snapshot ?? {} });

@@ -14,7 +14,7 @@ describe("gradium speech provider", () => {
     throw new Error("Expected Gradium provider synthesizeTelephony");
   }
   const request: SpeechSynthesisRequest = {
-    text: "FRIDAY test",
+    text: "OpenClaw test",
     cfg: {},
     providerConfig: { apiKey: "gsk_test123" },
     target: "audio-file",
@@ -66,7 +66,7 @@ describe("gradium speech provider", () => {
     expect(headers.get("x-api-key")).toBe("gsk_test123");
     expect(headers.get("content-type")).toBe("application/json");
     expect(JSON.parse(init.body as string)).toEqual({
-      text: "FRIDAY test",
+      text: "OpenClaw test",
       voice_id: "YTpq7expH9539ERJ",
       only_audio: true,
       output_format: "wav",

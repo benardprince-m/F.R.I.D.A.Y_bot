@@ -75,7 +75,7 @@ const publicationStatementSchema = z.object({
 function resolvePublishedNpmRun(repo: string, publication: NpmPublication) {
   const document = publicationDocumentSchema.parse(publication.document);
   if (!/^[a-f0-9]{128}$/u.test(publication.tarballSha512)) {
-    fail("FRIDAY npm resume requires the exact downloaded tarball's SHA-512.");
+    fail("OpenClaw npm resume requires the exact downloaded tarball's SHA-512.");
   }
   const publishers = new Map<
     string,
@@ -206,7 +206,7 @@ function hasAcceptedOpenClawNpmPublication(jobs: unknown): boolean {
 
 function requiredString(value: unknown, label: string): string {
   if (typeof value !== "string" || value.length === 0) {
-    fail(`FRIDAY npm resume run is missing ${label}.`);
+    fail(`OpenClaw npm resume run is missing ${label}.`);
   }
   return value;
 }
@@ -214,7 +214,7 @@ function requiredString(value: unknown, label: string): string {
 function requiredSha(value: unknown, label: string): string {
   const sha = requiredString(value, label);
   if (!SHA_PATTERN.test(sha)) {
-    fail(`FRIDAY npm resume run has invalid ${label}.`);
+    fail(`OpenClaw npm resume run has invalid ${label}.`);
   }
   return sha;
 }
@@ -234,7 +234,7 @@ export function validateOpenClawNpmResumeRun({
   const workflowFullRef = requiredString(trustedWorkflowFullRef, "trusted workflow full ref");
   const workflowRefMatch = RELEASE_PUBLISH_REF_PATTERN.exec(workflowRef);
   if (!workflowRefMatch || workflowFullRef !== `refs/tags/${workflowRef}`) {
-    fail(`FRIDAY npm resume run has an untrusted workflow ref: ${url}`);
+    fail(`OpenClaw npm resume run has an untrusted workflow ref: ${url}`);
   }
 
   const branch = requiredString(run?.head_branch, "head_branch");
@@ -249,13 +249,13 @@ export function validateOpenClawNpmResumeRun({
     branch !== workflowRef ||
     sha.slice(0, 12) !== workflowRefMatch[1]
   ) {
-    fail(`FRIDAY npm resume run has an untrusted workflow identity: ${url}`);
+    fail(`OpenClaw npm resume run has an untrusted workflow identity: ${url}`);
   }
 
   const tagObjectSha = requiredSha(tagRef?.object?.sha, "tooling tag object SHA");
   if (tagRef?.object?.type === "commit") {
     if (tagObjectSha !== sha) {
-      fail(`FRIDAY npm resume run protected tooling tag moved after dispatch: ${url}`);
+      fail(`OpenClaw npm resume run protected tooling tag moved after dispatch: ${url}`);
     }
   } else if (tagRef?.object?.type === "tag") {
     const tagCommitSha = requiredSha(tag?.object?.sha, "tooling tag commit SHA");
@@ -266,18 +266,18 @@ export function validateOpenClawNpmResumeRun({
       (compareStatus !== "ahead" && compareStatus !== "identical")
     ) {
       fail(
-        `FRIDAY npm resume run is not bound to a real, main-reachable protected tooling tag: ${url}`,
+        `OpenClaw npm resume run is not bound to a real, main-reachable protected tooling tag: ${url}`,
       );
     }
   } else {
-    fail(`FRIDAY npm resume run tooling ref is not a protected tag: ${url}`);
+    fail(`OpenClaw npm resume run tooling ref is not a protected tag: ${url}`);
   }
 
   if (
     !Array.isArray(jobs) ||
     !jobs.some((job) => job?.name === "validate_publish_request" && job?.conclusion === "success")
   ) {
-    fail(`FRIDAY npm resume run lacks successful parent release approval validation: ${url}`);
+    fail(`OpenClaw npm resume run lacks successful parent release approval validation: ${url}`);
   }
 
   return {
@@ -328,11 +328,11 @@ export function resolveOpenClawNpmResumeRun({
   runGh?: (args: string[]) => string;
 }) {
   if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(repo)) {
-    fail("FRIDAY npm resume repository must be owner/name.");
+    fail("OpenClaw npm resume repository must be owner/name.");
   }
   const publisher = resolvePublishedNpmRun(repo, publication);
   if (requestedRunId && requestedRunId !== publisher.runId) {
-    fail("FRIDAY npm resume run does not match the published package's original publisher.");
+    fail("OpenClaw npm resume run does not match the published package's original publisher.");
   }
   const runId = publisher.runId;
   const trustedWorkflowFullRef = publisher.workflowRef;
@@ -343,7 +343,7 @@ export function resolveOpenClawNpmResumeRun({
   const trustedRefMatch = RELEASE_PUBLISH_REF_PATTERN.exec(trustedWorkflowRef);
   if (!trustedRefMatch || trustedWorkflowFullRef !== `refs/tags/${trustedWorkflowRef}`) {
     fail(
-      "FRIDAY npm resume trusted workflow identity must be an exact protected release-publish tag.",
+      "OpenClaw npm resume trusted workflow identity must be an exact protected release-publish tag.",
     );
   }
 
@@ -357,7 +357,7 @@ export function resolveOpenClawNpmResumeRun({
     !Number.isSafeInteger(publisher.runAttempt) ||
     run.run_attempt !== publisher.runAttempt
   ) {
-    fail("FRIDAY npm resume run no longer matches the published workflow SHA and attempt.");
+    fail("OpenClaw npm resume run no longer matches the published workflow SHA and attempt.");
   }
   const canonicalWorkflow = api(`actions/workflows/${WORKFLOW_PATH.split("/").at(-1)}`);
   const tagRef = resumeTagRecord(api(`git/ref/tags/${trustedWorkflowRef}`));
@@ -386,7 +386,7 @@ export function resolveOpenClawNpmResumeRun({
   );
   if (!hasAcceptedOpenClawNpmPublication(jobs)) {
     fail(
-      "FRIDAY npm resume run lacks a successful npm publish job or recoverable registry-readback receipt; preserve the original publication evidence.",
+      "OpenClaw npm resume run lacks a successful npm publish job or recoverable registry-readback receipt; preserve the original publication evidence.",
     );
   }
 

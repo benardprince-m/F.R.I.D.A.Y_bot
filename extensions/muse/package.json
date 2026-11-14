@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/muse",
   "version": "2026.10.4",
-  "description": "FRIDAY Muse Code agent runtime plugin (registers a `muse` AgentHarness backed by @muse-code/sdk over the Muse Session Protocol to the Muse Code CLI)",
+  "description": "OpenClaw Muse Code agent runtime plugin (registers a `muse` AgentHarness backed by @muse-code/sdk over the Muse Session Protocol to the Muse Code CLI)",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

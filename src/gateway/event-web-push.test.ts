@@ -686,7 +686,7 @@ describe("event Web Push classification", () => {
         await vi.waitFor(() => expect(mocks.send).toHaveBeenCalledOnce());
         expectSend({
           payload: {
-            title: "FRIDAY mention",
+            title: "OpenClaw mention",
             body:
               detailLevel === "private"
                 ? "Someone mentioned you in a conversation."

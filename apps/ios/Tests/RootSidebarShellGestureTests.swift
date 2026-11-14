@@ -1,6 +1,6 @@
 import SwiftUI
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 struct RootSidebarShellGestureTests {

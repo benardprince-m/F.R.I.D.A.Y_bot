@@ -1,5 +1,5 @@
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct GatewayAccentColorTests {
     @Test func `user accent wins over seam color`() {

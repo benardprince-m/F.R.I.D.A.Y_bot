@@ -74,7 +74,7 @@ describe("doctor gateway service repair policy", () => {
       probes: "none",
     },
     {
-      name: "Docker without an installed FRIDAY service",
+      name: "Docker without an installed OpenClaw service",
       env: {},
       container: true,
       installed: false,
@@ -89,7 +89,7 @@ describe("doctor gateway service repair policy", () => {
       probes: "manager",
     },
     {
-      name: "Docker with an installed system-scoped FRIDAY service",
+      name: "Docker with an installed system-scoped OpenClaw service",
       env: {},
       container: true,
       scope: "system" as const,

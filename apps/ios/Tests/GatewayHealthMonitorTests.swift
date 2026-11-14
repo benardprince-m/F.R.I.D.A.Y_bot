@@ -1,7 +1,7 @@
 import Foundation
 import os
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @MainActor
 private final class HealthMonitorCheckGate {

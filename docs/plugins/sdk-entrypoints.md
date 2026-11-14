@@ -13,7 +13,7 @@ each entry shape: `defineToolPlugin`, `definePluginEntry`,
 `defineChannelPluginEntry`, `defineSetupPluginEntry`.
 
 All plugin APIs are [experimental](/plugins/sdk-overview#api-stability),
-including these entry helpers. Pin and test the FRIDAY host versions your
+including these entry helpers. Pin and test the OpenClaw host versions your
 plugin supports.
 
 Gateway adapters use the existing `core` or `gateway-runtime`
@@ -51,7 +51,7 @@ resolve here.
 
 ## Plugin shapes
 
-FRIDAY classifies loaded plugins by their registration behavior:
+OpenClaw classifies loaded plugins by their registration behavior:
 
 | Shape                 | Description                                        |
 | --------------------- | -------------------------------------------------- |
@@ -121,7 +121,7 @@ An agent harness that owns MCP connections can implement `acquireMcpAppRuntime` 
 
 For a cold session, call the optional lazy `prepareSession` callback. Core returns a versioned session-preparation envelope (`version: 1`, `purpose: "mcp-app"`), whose `params` carry required admitted host capabilities, prepared credentials, environment and session facts. Execute the existing native session/thread lifecycle inside its `run` callback, then borrow the resulting thread-owned connection. This is a session preparation operation, not a model attempt: it has no prompt or transcript artifact and must not submit a model turn. Warm sessions do not call the preparer. Retained callbacks must honor the source and host closure; return `undefined` only when no supported preparation or existing native binding is available.
 
-The current Codex app-server `mcpServer/resource/read` contract does not accept `_meta`. Native remote MCP resource reads therefore cannot request metadata-selected representations; FRIDAY reports that limitation rather than sending unsupported wire fields. Managed MCP clients still forward resource `_meta`, and host-file representations remain available through the local host-file owner.
+The current Codex app-server `mcpServer/resource/read` contract does not accept `_meta`. Native remote MCP resource reads therefore cannot request metadata-selected representations; OpenClaw reports that limitation rather than sending unsupported wire fields. Managed MCP clients still forward resource `_meta`, and host-file representations remain available through the local host-file owner.
 
 The runtime retains the native connection and thread subscription for each App view, exposes `assertOwnerCurrent` to revalidate its exact thread/client binding, and preserves server, tool, and connector boundaries. `callTool` accepts optional `_meta` and `assertCurrent`; run the guard immediately before upstream I/O after any preparation awaits. The host separately enforces session sharing, requester identity, effective tool policy, and approval policy. Metadata does not grant permission.
 
@@ -138,9 +138,9 @@ const { mcpStdioRuntime } = await import("openclaw/plugin-sdk/agent-harness-runt
 const { createMcpStdioClient } = await mcpStdioRuntime.load();
 ```
 
-Use `createMcpStdioClient(params)` for a caller-owned MCP proxy subprocess fronting a stateful driver. FRIDAY owns the subprocess and its descendants, newline framing and JSON-RPC validation, initialization, request admission, deadlines, and shutdown. The client starts connecting when the factory returns. Keep this runtime out of plugin registration and paths that do not open MCP connections.
+Use `createMcpStdioClient(params)` for a caller-owned MCP proxy subprocess fronting a stateful driver. OpenClaw owns the subprocess and its descendants, newline framing and JSON-RPC validation, initialization, request admission, deadlines, and shutdown. The client starts connecting when the factory returns. Keep this runtime out of plugin registration and paths that do not open MCP connections.
 
-Supply `command`, optional `args`, and an exact `env`. The child inherits no other environment variables. Set `clientInfo` (`name` and `version`), the required `protocolVersion`, `startupTimeoutMs`, `maxPendingRequests`, and `maxFrameBytes`. The server must return exactly the requested protocol version. FRIDAY retains a fixed 32 KiB stderr tail for unexpected-exit diagnostics. The decoder applies `maxFrameBytes` to each message, including its terminating newline, so a single stdout chunk can contain several valid messages. It rejects an oversized frame before retaining any bytes from that chunk, preserves fragmented UTF-8, skips empty lines, and requires safe integer response IDs.
+Supply `command`, optional `args`, and an exact `env`. The child inherits no other environment variables. Set `clientInfo` (`name` and `version`), the required `protocolVersion`, `startupTimeoutMs`, `maxPendingRequests`, and `maxFrameBytes`. The server must return exactly the requested protocol version. OpenClaw retains a fixed 32 KiB stderr tail for unexpected-exit diagnostics. The decoder applies `maxFrameBytes` to each message, including its terminating newline, so a single stdout chunk can contain several valid messages. It rejects an oversized frame before retaining any bytes from that chunk, preserves fragmented UTF-8, skips empty lines, and requires safe integer response IDs.
 
 The caller supplies `errors.unavailable(message, cause?)` and `errors.protocol(message, cause?)`, each returning an `Error`. The first classifies process, lifecycle, admission, deadline, and cancellation failures. The second classifies malformed frames, non-timeout JSON-RPC errors, and handshake contract violations. Plugin-specific tool-result normalization stays with the caller.
 
@@ -256,7 +256,7 @@ The paired-node file-transfer adapter also connects Skill discovery, resource re
 watching and dependency installation through `workspace.skills`. Its native worker
 launcher uses `resolveWorkspaceWorkerArgv("memory" | "skills")` from
 `agent-workspace-runtime`, then appends the operation arguments. Use the same
-FRIDAY version on Gateway and node.
+OpenClaw version on Gateway and node.
 
 This adapter does not implement remote Skill source install/update/remove or
 ClawHub lifecycle operations; those remain tracked in

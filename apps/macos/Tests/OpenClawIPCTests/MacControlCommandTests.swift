@@ -95,7 +95,7 @@ struct MacControlCommandTests {
             #expect(throws: Error.self) { try MacControlOptions.parse(["--profile", invalid, "status"]) }
         }
         let bundle = MacControlClient
-            .applicationBundle(executableURL: URL(fileURLWithPath: "/Example/FRIDAY.app/Contents/MacOS/openclaw-mac"))
-        #expect(bundle.path == "/Example/FRIDAY.app")
+            .applicationBundle(executableURL: URL(fileURLWithPath: "/Example/OpenClaw.app/Contents/MacOS/openclaw-mac"))
+        #expect(bundle.path == "/Example/OpenClaw.app")
     }
 }

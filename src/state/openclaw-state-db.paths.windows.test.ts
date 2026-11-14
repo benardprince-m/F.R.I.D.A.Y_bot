@@ -29,18 +29,18 @@ afterEach(() => vi.restoreAllMocks());
 describe("Windows agent database inventory paths", () => {
   it.each([
     {
-      stateDir: String.raw`\\kost\share\FRIDAY`,
-      canonicalRoot: String.raw`\\kost\share\FRIDAY`,
-      agentPath: String.raw`\\Kost\share\FRIDAY\agents\main\agent.sqlite`,
+      stateDir: String.raw`\\kost\share\OpenClaw`,
+      canonicalRoot: String.raw`\\kost\share\OpenClaw`,
+      agentPath: String.raw`\\Kost\share\OpenClaw\agents\main\agent.sqlite`,
     },
     {
-      stateDir: String.raw`\\server\share\FRIDAY`,
-      canonicalRoot: String.raw`\\server\share\FRIDAY`,
-      agentPath: String.raw`\\?\UNC\server\share\..\..\server\share\FRIDAY\agent.sqlite`,
+      stateDir: String.raw`\\server\share\OpenClaw`,
+      canonicalRoot: String.raw`\\server\share\OpenClaw`,
+      agentPath: String.raw`\\?\UNC\server\share\..\..\server\share\OpenClaw\agent.sqlite`,
     },
     {
-      stateDir: String.raw`C:\FRIDAY`,
-      canonicalRoot: String.raw`C:\FRIDAY`,
+      stateDir: String.raw`C:\OpenClaw`,
+      canonicalRoot: String.raw`C:\OpenClaw`,
       agentPath: String.raw`\\.\C:\..\UNC\server\share\agent.sqlite`,
     },
   ])(
@@ -77,7 +77,7 @@ describe("Windows agent database inventory paths", () => {
   );
 
   it("preserves a device namespace without a plain drive/share spelling", () => {
-    const registry = String.raw`C:\FRIDAY\state\openclaw.sqlite`;
+    const registry = String.raw`C:\OpenClaw\state\openclaw.sqlite`;
     const device = String.raw`\\?\Volume{00000000-0000-0000-0000-000000000001}\agent.sqlite`;
     expect(resolveOpenClawAgentDatabaseStoredPath(registry, device)).toBe(device);
   });

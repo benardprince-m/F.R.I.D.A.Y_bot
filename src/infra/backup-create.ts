@@ -413,8 +413,8 @@ async function createBackupArchiveInScope(
   if (plan.included.length === 0) {
     throw new Error(
       onlyConfig
-        ? "No FRIDAY config file was found to back up."
-        : "No local FRIDAY state was found to back up.",
+        ? "No OpenClaw config file was found to back up."
+        : "No local OpenClaw state was found to back up.",
     );
   }
 

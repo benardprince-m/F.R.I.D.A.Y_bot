@@ -362,7 +362,7 @@ function renderShellFunction() {
   case "$scenario" in
     empty|minimal|update-stable|upgrade-survivor|gateway-loopback|external-service) ;;
     *)
-      echo "unknown FRIDAY test-state scenario: $scenario" >&2
+      echo "unknown OpenClaw test-state scenario: $scenario" >&2
       return 1
       ;;
   esac

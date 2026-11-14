@@ -232,7 +232,7 @@ async function stagePreparedCandidate(
   });
   const agentRuntimeId =
     preparedRuntime.agentRuntimeId ?? (preparedCodexSignIn ? "codex" : "openclaw");
-  // A new sign-in belongs to FRIDAY even when the previous route shared Codex's home.
+  // A new sign-in belongs to OpenClaw even when the previous route shared Codex's home.
   let preparedConfig =
     params.credentialState === "new" && agentRuntimeId === "codex"
       ? withCodexHomeScope(preparedRuntime.config, "agent")

@@ -307,7 +307,7 @@ const WHATSAPP_STRUCTURED_CASES = [
 ];
 
 const TEST_RUNTIME_CONTEXT_CARRIER = [
-  "FRIDAY runtime context for the immediately preceding user message.",
+  "OpenClaw runtime context for the immediately preceding user message.",
   "This context is runtime-generated, not user-authored. Keep internal details private.",
   "",
   "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
@@ -1047,7 +1047,7 @@ describe("qa mock openai server", () => {
             `[Slack Driver (user) Fri 2026-07-31 10:00 UTC] ${seedPrompt}`,
             "[slack message id: 1.000000 channel: C123]",
             "",
-            `[Slack FRIDAY (this assistant) (assistant) Fri 2026-07-31 10:01 UTC] ${botReplyMarker}`,
+            `[Slack OpenClaw (this assistant) (assistant) Fri 2026-07-31 10:01 UTC] ${botReplyMarker}`,
             "[slack message id: 1.500000 channel: C123]",
             "",
             `[Slack Driver (user) Fri 2026-07-31 10:02 UTC] ${recallPrompt}`,
@@ -1365,7 +1365,7 @@ describe("qa mock openai server", () => {
           "# Personal task ledger\n\nRequired status contract:\n1. Read PERSONAL_TASK_LEDGER.md.\n2. Read FOLLOWTHROUGH_NOTE.md.\n3. Write ./personal-task-status.txt.\n",
         ),
         makeUserInput(
-          "Task: prepare a local FRIDAY PR readiness note.\nPending: wait for maintainer feedback before publishing.\nBlocked: publishing needs explicit user approval.\nDone: local evidence captured in personal-task-status.txt.\n",
+          "Task: prepare a local OpenClaw PR readiness note.\nPending: wait for maintainer feedback before publishing.\nBlocked: publishing needs explicit user approval.\nDone: local evidence captured in personal-task-status.txt.\n",
         ),
       ],
     });
@@ -2398,7 +2398,7 @@ describe("qa mock openai server", () => {
         }),
       );
       const instructions = final
-        ? "Visible source replies are not automatically delivered for this run. Use `message(action=send)` for user-visible source-channel output. For progress, set `final=false`. When the message is the completed reply to the current source conversation, set `final=true`; FRIDAY stops after confirming delivery."
+        ? "Visible source replies are not automatically delivered for this run. Use `message(action=send)` for user-visible source-channel output. For progress, set `final=false`. When the message is the completed reply to the current source conversation, set `final=true`; OpenClaw stops after confirming delivery."
         : "Current source visible reply MUST use `message(action=send)`; final text is private. Skip tool = user gets nothing.";
       const withInstructions = (input: unknown[]) => ({
         ...(final ? { instructions: "Follow the unrelated Codex base instructions." } : {}),
@@ -2665,7 +2665,7 @@ describe("qa mock openai server", () => {
     const callId = outputToolCallId(imageCall, "call_mock_image_generate_unavailable");
     const completionEvent = [
       "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
-      "FRIDAY runtime context (internal):",
+      "OpenClaw runtime context (internal):",
       "",
       "[Internal task completion event]",
       "source: image_generation",
@@ -2983,7 +2983,9 @@ describe("qa mock openai server", () => {
         makeUserInput(
           "Switch models now. Tool continuity check: reread QA_KICKOFF_TASK.md and mention the handoff in one short sentence.",
         ),
-        makeToolOutput("QA mission: Understand this FRIDAY repo from source + docs before acting."),
+        makeToolOutput(
+          "QA mission: Understand this OpenClaw repo from source + docs before acting.",
+        ),
       ],
     });
 
@@ -3576,7 +3578,7 @@ describe("qa mock openai server", () => {
       expect(toolPlan).toContain('"name":"read"');
       expect(toolPlan).toContain("QA_KICKOFF_TASK.md");
       const output = makeToolOutput(
-        "QA mission: Understand this FRIDAY repo from source + docs before acting.",
+        "QA mission: Understand this OpenClaw repo from source + docs before acting.",
       );
       const first = await expectOpenAiNonStreamingResponsesJson(server, {
         input: [makeUserInput(prompt), output],

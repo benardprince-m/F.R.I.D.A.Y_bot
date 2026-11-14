@@ -518,7 +518,7 @@ async function prepareUpdateCandidatePluginTreesWithHashing(
       if (excludesInferredRoot(owner)) {
         throw Object.assign(
           new Error(
-            `Cannot privately copy host-owned plugin link ${file} -> ${real}; this dependency reaches FRIDAY-owned files. Repair the link before retrying the update.`,
+            `Cannot privately copy host-owned plugin link ${file} -> ${real}; this dependency reaches OpenClaw-owned files. Repair the link before retrying the update.`,
           ),
           { code: "host-owned-plugin-link" },
         );

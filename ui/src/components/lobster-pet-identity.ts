@@ -68,7 +68,7 @@ const ACCESSORIES: Array<[LobsterPetAccessory, number]> = [
   ["crown", 10],
 ];
 
-// FRIDAY's repository was born 2025-11-24 (GitHub created_at); on the
+// OpenClaw's repository was born 2025-11-24 (GitHub created_at); on the
 // anniversary every visitor dresses as the classic logo and parties.
 const ANNIVERSARY = { month: 10, day: 24 } as const;
 

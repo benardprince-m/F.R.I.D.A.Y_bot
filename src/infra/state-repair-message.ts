@@ -10,7 +10,7 @@ export function describeUnreadableStateDatabase(
   return {
     problem: `shared state database is unreadable at ${path}: ${reason}`,
     recovery:
-      "Stop FRIDAY processes, then restore this file from a verified backup; the unreadable database was left unchanged.",
+      "Stop OpenClaw processes, then restore this file from a verified backup; the unreadable database was left unchanged.",
   };
 }
 

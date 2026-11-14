@@ -86,7 +86,7 @@ function collectVisibleReplyToolPolicyWarnings(cfg: OpenClawConfig): string[] {
         ({ path, fallback }) =>
           `- ${path} is set to "message_tool", but the message tool is unavailable for ${formatTargets(
             targets,
-          )}; FRIDAY falls back to automatic ${fallback} replies, so normal replies may post to the source chat. Enable the message tool or set ${path} to "automatic".`,
+          )}; OpenClaw falls back to automatic ${fallback} replies, so normal replies may post to the source chat. Enable the message tool or set ${path} to "automatic".`,
       );
 }
 

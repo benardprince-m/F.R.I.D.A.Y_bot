@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 struct ExecApprovalCommandDisplaySanitizerTests {
     @Test func `escapes invisible command spoofing characters`() {

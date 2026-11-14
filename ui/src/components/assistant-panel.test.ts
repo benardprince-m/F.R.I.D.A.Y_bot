@@ -666,7 +666,7 @@ describe("assistant panel", () => {
     expect(request.mock.calls.every((call) => call[1]?.message === undefined)).toBe(true);
   });
 
-  it("suppresses automatic Ask FRIDAY restores in Settings while keeping explicit opens usable", async () => {
+  it("suppresses automatic Ask OpenClaw restores in Settings while keeping explicit opens usable", async () => {
     const { panel } = await mountPanel({ custodianSuppressed: false });
     await toggle(panel, CUSTODIAN_PANEL_TOGGLE_EVENT);
     expect(panel.assistantPanelOpen).toBe(true);

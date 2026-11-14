@@ -1,4 +1,4 @@
-// Built-in FRIDAY harness tests cover logical thinking-mode boundaries.
+// Built-in OpenClaw harness tests cover logical thinking-mode boundaries.
 import { AsyncLocalStorage } from "node:async_hooks";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { EmbeddedRunAttemptParams } from "../embedded-agent-runner/run/types.js";

@@ -628,7 +628,7 @@ describe("session-share receiver catalog", () => {
       });
       await expect(
         fixture.catalog.read({ hostId: "node:alpha", threadId: nativeSession.threadId }),
-      ).rejects.toThrow("Invalid FRIDAY transcript");
+      ).rejects.toThrow("Invalid OpenClaw transcript");
     },
   );
 });

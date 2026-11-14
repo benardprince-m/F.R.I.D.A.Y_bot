@@ -1,4 +1,4 @@
-// Verifies FRIDAY tool registration, availability, and construction policy.
+// Verifies OpenClaw tool registration, availability, and construction policy.
 import { Value } from "typebox/value";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { OpenClawConfig } from "../config/config.js";

@@ -57,7 +57,7 @@ describe("worker desktop endpoint", () => {
     ).toThrow(error);
   });
 
-  it.each(["/opt/openclaw", "C:\\ProgramData\\FRIDAY"])(
+  it.each(["/opt/openclaw", "C:\\ProgramData\\OpenClaw"])(
     "admits provider-owned desktop paths and args for %s",
     (root) => {
       const desktop: WorkerDesktopEndpoint = {

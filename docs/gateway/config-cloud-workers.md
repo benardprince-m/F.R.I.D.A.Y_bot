@@ -14,16 +14,16 @@ For the full key index and the other top-level config domains, see [Configuratio
 
 ## Cloud worker environments
 
-Cloud workers are opt-in. If `cloudWorkers` is absent, or `profiles` is empty, FRIDAY accepts no new cloud-worker creation and does not advertise a Cloud destination. `sessions.dispatch` may remain available for eligible paired-device targets. The config schema and read-only `environments.list` and `environments.status` methods remain available. Durable records created earlier still reconcile and remain visible; the existing gateway/node projection is unchanged.
+Cloud workers are opt-in. If `cloudWorkers` is absent, or `profiles` is empty, OpenClaw accepts no new cloud-worker creation and does not advertise a Cloud destination. `sessions.dispatch` may remain available for eligible paired-device targets. The config schema and read-only `environments.list` and `environments.status` methods remain available. Durable records created earlier still reconcile and remain visible; the existing gateway/node projection is unchanged.
 
 SSH-backed `remote-exec` providers must return a trusted `hostKey` as exactly `algorithm base64`, without a hostname or comment. Bootstrap writes that key to an isolated `known_hosts` file, uses `StrictHostKeyChecking=yes`, and fails before opening a connection when the provider omits it. There is no trust-on-first-use fallback. These providers also carry workspace traffic over separate pinned SSH connections so rsync cannot block control traffic.
 
-Node-backed providers return an authenticated node device id for either `worker-turn` or `remote-exec`. The Gateway installs the current pinned bundle and transfers the workspace through the node transport; these leases do not return or resolve FRIDAY SSH endpoint credentials. `worker-turn` requires a node lease and launches a restricted FRIDAY worker child. `remote-exec` can use either an enrolled node or an existing SSH-backed provider and keeps the harness plus model authentication on the Gateway.
+Node-backed providers return an authenticated node device id for either `worker-turn` or `remote-exec`. The Gateway installs the current pinned bundle and transfers the workspace through the node transport; these leases do not return or resolve OpenClaw SSH endpoint credentials. `worker-turn` requires a node lease and launches a restricted OpenClaw worker child. `remote-exec` can use either an enrolled node or an existing SSH-backed provider and keeps the harness plus model authentication on the Gateway.
 
 ### Required worker profile
 
 Set `cloudWorkers.requiredProfile` to a configured profile ID when a Gateway
-must run every agent session on that FRIDAY worker profile. This is a server
+must run every agent session on that OpenClaw worker profile. This is a server
 policy, not a suggested value for the placement picker. Leave it unset to retain
 optional per-session placement and Gateway-local execution.
 
@@ -47,7 +47,7 @@ session-scoped writers and contains only the required profile's identity, infere
 placement, and supported required execution mode—not worker inventory, machine
 options, endpoint settings, or command grants. Ordinary `agents.list` replies are
 unchanged. Control UI shows the required destination without a placement,
-operating-system, or machine selector. Required placement uses the FRIDAY
+operating-system, or machine selector. Required placement uses the OpenClaw
 worker-turn runtime; a provider that supports only remote-exec cannot satisfy
 this policy. Ordinary session creation uses the server-owned placement
 flow; users do not need permission to choose or administer cloud workers. Manual
@@ -75,7 +75,7 @@ node-only credentials, configure the required profile and node as described in
 
 Manage profiles under **Settings → Connections → Cloud environments → Advanced → Machines**. Repository defaults, snapshot actions, pool limits, and retention are described in [Cloud environments](/gateway/cloud-workers/warm-images#inspect-snapshots-in-the-control-ui). Saving settings does not start a build.
 
-The bundled `crabbox` provider provisions a disposable machine through the local Crabbox CLI, enrolls it as an ephemeral outbound node, and returns the same node transport for FRIDAY `worker-turn` or Codex `remote-exec`. One configured profile can therefore be selected by both harnesses; the selected session runtime determines its execution semantics. The inner `settings.provider` selects the Crabbox backend; it is separate from the outer FRIDAY provider id.
+The bundled `crabbox` provider provisions a disposable machine through the local Crabbox CLI, enrolls it as an ephemeral outbound node, and returns the same node transport for OpenClaw `worker-turn` or Codex `remote-exec`. One configured profile can therefore be selected by both harnesses; the selected session runtime determines its execution semantics. The inner `settings.provider` selects the Crabbox backend; it is separate from the outer OpenClaw provider id.
 
 ```json5
 {
@@ -99,7 +99,7 @@ The bundled `crabbox` provider provisions a disposable machine through the local
           class: "standard",
           ttl: "4h",
           idleTimeout: "45m",
-          // Optional preferred executable. FRIDAY manages a current copy when needed.
+          // Optional preferred executable. OpenClaw manages a current copy when needed.
           binary: "/usr/local/bin/crabbox",
         },
       },
@@ -109,30 +109,30 @@ The bundled `crabbox` provider provisions a disposable machine through the local
 ```
 
 - `settings.provider` (required): backend from the [Crabbox provider reference](https://crabbox.sh/providers/index.html), passed through `--provider`. Direct or coordinator-backed operation follows Crabbox's configuration.
-- `settings.class`: optional Crabbox machine class passed to `--class`. Omission leaves selection to Crabbox unless the placement supplies `machineClass`; FRIDAY does not invent a default or hardware size. Explicit `null`, empty or whitespace strings, and nonstring values are invalid. Edit classless profiles through **Settings → Advanced**.
-- `settings.ttl` and `settings.idleTimeout` (required): positive Go duration strings passed to `--ttl` and `--idle-timeout`. TTL is total lifetime from creation, including provisioning; idle timeout is the inactivity window. The earlier deadline wins. Crabbox may clamp either request to effective policy; idle never exceeds TTL. The default maximum is `4h`, while explicit owner or organization overrides can permit longer requests, up to `24h`. FRIDAY accepts those longer configured values and uses the effective policy returned by Crabbox.
+- `settings.class`: optional Crabbox machine class passed to `--class`. Omission leaves selection to Crabbox unless the placement supplies `machineClass`; OpenClaw does not invent a default or hardware size. Explicit `null`, empty or whitespace strings, and nonstring values are invalid. Edit classless profiles through **Settings → Advanced**.
+- `settings.ttl` and `settings.idleTimeout` (required): positive Go duration strings passed to `--ttl` and `--idle-timeout`. TTL is total lifetime from creation, including provisioning; idle timeout is the inactivity window. The earlier deadline wins. Crabbox may clamp either request to effective policy; idle never exceeds TTL. The default maximum is `4h`, while explicit owner or organization overrides can permit longer requests, up to `24h`. OpenClaw accepts those longer configured values and uses the effective policy returned by Crabbox.
 - `settings.warmImage`: Linux snapshot capture and reuse. Enabled by default when the profile or session selects a machine class, including profiles with setup secrets. Without a class, omission stays cold; explicit `true` requires a class. `false` disables capture and reuse. Repository snapshots fix their capture point before enrollment; supported nonblocking AWS uploads can finish while the session runs. Empty workspaces share runtime images captured at eligible teardown. See [Warm images](/gateway/cloud-workers/warm-images) for compatibility, refresh, storage charges, and recovery.
 - `settings.setup`: optional, repeatable machine setup command. Snapshot forks reuse its filesystem results. Repository lifecycle commands belong in the [environment file](/gateway/cloud-workers/environment-file).
 - `settings.setupSecrets`: operator-approved environment-name to protected store SecretRef map; see [Setup secrets](/gateway/config-cloud-workers#setup-secrets).
-- `settings.binary`: optional absolute Crabbox executable path. FRIDAY requires Crabbox 0.77.0 or newer for every target and checks the sibling Crabbox checkout and `PATH` when the path is omitted. If the selected binary is missing or unsupported, it installs a checksum- and version-verified managed release under `$OPENCLAW_STATE_DIR/tools/crabbox` (default `~/.openclaw/tools/crabbox`), preserving existing binaries and settings. Later operations reuse it; damaged managed copies are replaced with the old directory retained for recovery. `openclaw doctor --fix` can install it before the first worker or configured sandbox operation. Read-only profile suggestions never install a CLI. Installation failure stops before allocation and reports the cause.
+- `settings.binary`: optional absolute Crabbox executable path. OpenClaw requires Crabbox 0.77.0 or newer for every target and checks the sibling Crabbox checkout and `PATH` when the path is omitted. If the selected binary is missing or unsupported, it installs a checksum- and version-verified managed release under `$OPENCLAW_STATE_DIR/tools/crabbox` (default `~/.openclaw/tools/crabbox`), preserving existing binaries and settings. Later operations reuse it; damaged managed copies are replaced with the old directory retained for recovery. `openclaw doctor --fix` can install it before the first worker or configured sandbox operation. Read-only profile suggestions never install a CLI. Installation failure stops before allocation and reports the cause.
 - `readyWorkers`: non-negative integer target per eligible local project or repository and profile; defaults to `1`. Empty committed workspaces share a separate runtime-only target per provider and profile, replenished after successful activation. The first empty session provisions normally; browser presence alone does not warm empty workspaces. Set `0` to disable this profile's reserves while keeping warm-image reuse.
 - `cloudWorkers.preparedPool.maxTotal`: non-negative integer Gateway-wide reserve cap; defaults to `4`. Preparing workers and unconfirmed cleanup count toward both limits. Set `0` to drain unused reserves and stop refill. Reserves incur running-machine charges and expire from successful session activation or explicit build demand using the provider's existing idle policy. See [Ready workers](/gateway/cloud-workers/warm-images#ready-workers).
 
-When a cloud-worker profile explicitly sets `settings.binary` and its version probe is rejected, FRIDAY warns once per configured path during the provider's lifetime. The warning names the configured path, the outdated version and required minimum or a bounded probe-failure reason, and the managed executable used instead. Implicit binary discovery and supported configured executables do not produce this warning.
+When a cloud-worker profile explicitly sets `settings.binary` and its version probe is rejected, OpenClaw warns once per configured path during the provider's lifetime. The warning names the configured path, the outdated version and required minimum or a bounded probe-failure reason, and the managed executable used instead. Implicit binary discovery and supported configured executables do not produce this warning.
 
 Errors inspecting an installed managed executable stop acquisition rather than treating it as missing. Fix the reported filesystem error and retry; no replacement is downloaded for that inspection failure.
 
 Managed release archives stream into private staging files, bounded to 128 MiB, before checksum verification and extraction. The managed installation retains the complete extracted distribution, including companion runtime files used by commands such as egress. Download progress has a 30-second idle limit and a separate ten-minute total limit; failed downloads are cleaned up before acquisition returns.
 
-The supported CLI is also required to inspect and stop existing leases. On hosts with restricted release-download access or managed-tool write permissions, provision the supported executable at the exact path used by existing profiles, or stage the managed distribution before rolling out an FRIDAY update. Supported executables and installed managed copies do not need release-download access. If neither is available, acquisition must succeed before lease inspection or teardown can continue; actual release stops heartbeats before attempting acquisition. An admitted source-dependent capture retains its heartbeat while the provider still requires the source.
+The supported CLI is also required to inspect and stop existing leases. On hosts with restricted release-download access or managed-tool write permissions, provision the supported executable at the exact path used by existing profiles, or stage the managed distribution before rolling out an OpenClaw update. Supported executables and installed managed copies do not need release-download access. If neither is available, acquisition must succeed before lease inspection or teardown can continue; actual release stops heartbeats before attempting acquisition. An admitted source-dependent capture retains its heartbeat while the provider still requires the source.
 
-Unknown settings are rejected. Backend credentials, coordinator access, networking, and provider-specific snapshot support remain configured in [Crabbox](https://crabbox.sh/providers/index.html), rather than FRIDAY settings. Keep Crabbox's state across Gateway restarts. Provisioning retries use one fixed lease ID; never bypass a fixed-ID capability error by allocating a replacement manually. See [provider requirements](/gateway/cloud-workers#crabbox-provider-support).
+Unknown settings are rejected. Backend credentials, coordinator access, networking, and provider-specific snapshot support remain configured in [Crabbox](https://crabbox.sh/providers/index.html), rather than OpenClaw settings. Keep Crabbox's state across Gateway restarts. Provisioning retries use one fixed lease ID; never bypass a fixed-ID capability error by allocating a replacement manually. See [provider requirements](/gateway/cloud-workers#crabbox-provider-support).
 
 Cloud-worker discovery and lifecycle commands run from the Gateway user's home directory, so a `crabbox.yaml` in the Gateway's repository working directory does not override Crabbox's global configuration. Project-scoped sandbox commands retain their explicit workspace directory.
 
-`--keep=true` delegates normal end-of-command cleanup to FRIDAY; it does not make a lease persistent or exempt it from expiry or direct cleanup. Plain heartbeats refresh idle time only. FRIDAY schedules them from the effective idle timeout and reports sanitized policy notices, including notices on successful commands. Total TTL still ends the session: save and reconcile work before that deadline, then use the normal stop, suspend, and new-allocation lifecycle. FRIDAY does not silently create an endless chain of replacement leases.
+`--keep=true` delegates normal end-of-command cleanup to OpenClaw; it does not make a lease persistent or exempt it from expiry or direct cleanup. Plain heartbeats refresh idle time only. OpenClaw schedules them from the effective idle timeout and reports sanitized policy notices, including notices on successful commands. Total TTL still ends the session: save and reconcile work before that deadline, then use the normal stop, suspend, and new-allocation lifecycle. OpenClaw does not silently create an endless chain of replacement leases.
 
-The coordinator defaults to a 30-minute TTL and idle timeout when no values are requested. Its effective owner or organization policy can shorten live leases on inspection or heartbeat. Extensions require owner authority, policy permission, and budget. Before source-dependent image capture, FRIDAY requests a bounded total TTL only when the remaining lifetime is insufficient and the provider supports runtime extension; a denied extension skips optional capture visibly or fails required preparation. Creation-fixed providers such as Daytona need enough TTL at creation. See [capture lifetime](/gateway/cloud-workers/warm-images#capture-lifetime).
+The coordinator defaults to a 30-minute TTL and idle timeout when no values are requested. Its effective owner or organization policy can shorten live leases on inspection or heartbeat. Extensions require owner authority, policy permission, and budget. Before source-dependent image capture, OpenClaw requests a bounded total TTL only when the remaining lifetime is insufficient and the provider supports runtime extension; a denied extension skips optional capture visibly or fails required preparation. Creation-fixed providers such as Daytona need enough TTL at creation. See [capture lifetime](/gateway/cloud-workers/warm-images#capture-lifetime).
 
 Crabbox also owns whether direct leases are permitted. Its trusted `directLeases: deny` configuration blocks remote direct allocation unless the selected provider is explicitly permitted by `directLeaseAllow`. Repository configuration cannot relax that policy. Use the configured coordinator path when direct allocation is denied; do not switch credentials to bypass it.
 
@@ -223,8 +223,8 @@ the Gateway to load configuration changes.
 
 <Warning>
   The `static-ssh` provider is a source-tree QA Lab `remote-exec` harness and is excluded from packaged distributions. A worker running on its shared host can read unrelated host data, so do not use this provider as a production isolation boundary.
-  Its operator must supply the expected `hostKey`; FRIDAY will not learn or accept a key from the first connection.
-  Destroying its lease only releases FRIDAY's logical record; it does not stop or clean the host.
+  Its operator must supply the expected `hostKey`; OpenClaw will not learn or accept a key from the first connection.
+  Destroying its lease only releases OpenClaw's logical record; it does not stop or clean the host.
 </Warning>
 
 ---

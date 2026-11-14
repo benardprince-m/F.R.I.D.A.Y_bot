@@ -2,7 +2,7 @@ import Foundation
 import OpenClawKit
 import SQLite3
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 @Suite(.serialized)
 struct ExecApprovalsStoreRefactorTests {

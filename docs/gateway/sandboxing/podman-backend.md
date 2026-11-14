@@ -45,22 +45,22 @@ podman build -t openclaw-sandbox:bookworm-slim -f scripts/docker/sandbox/Dockerf
 
 ## Changing connections and upgrading existing sandboxes
 
-FRIDAY follows the installed Podman **client** when both environment selectors are set:
+OpenClaw follows the installed Podman **client** when both environment selectors are set:
 Podman 4.8 and newer prefer a nonempty `CONTAINER_CONNECTION`; Podman 4.7 prefers
 `CONTAINER_HOST` when it is present. The engine's server version does not decide
-this precedence. If FRIDAY cannot identify the client version with both selectors
+this precedence. If OpenClaw cannot identify the client version with both selectors
 set, it refuses the ambiguous selection. Unset the unused selector or repair the
 client's `podman --version` command.
 
 Each sandbox records its engine URI and, for Podman Machine, its SSH identity.
-Earlier FRIDAY versions could pin `CONTAINER_HOST` even when the client selected
+Earlier OpenClaw versions could pin `CONTAINER_HOST` even when the client selected
 `CONTAINER_CONNECTION`. After upgrading, those existing sandboxes can report
-"The active Podman connection changed." FRIDAY preserves the old sandbox and
+"The active Podman connection changed." OpenClaw preserves the old sandbox and
 registry entry rather than removing a container on the newly selected engine.
 
 Retire the old sandbox through its recorded endpoint before switching:
 
-1. Pause runs that use the affected sandbox. Use the same OS user, FRIDAY profile,
+1. Pause runs that use the affected sandbox. Use the same OS user, OpenClaw profile,
    config, and state directory as the Gateway for the commands below.
 2. Restore the original `CONTAINER_HOST` and, for Podman Machine, the original
    `CONTAINER_SSHKEY`. Unset `CONTAINER_CONNECTION` in that command environment.
@@ -86,7 +86,7 @@ it does not bypass endpoint validation.
 
 ## Host init prerequisite
 
-FRIDAY creates Podman sandboxes with `--init` so orphaned tool processes are reaped. The Podman engine host needs its init executable, normally `catatonit`. Installing it only inside the sandbox image does not satisfy this requirement. For Podman Machine, the executable belongs inside the machine, not on the client host.
+OpenClaw creates Podman sandboxes with `--init` so orphaned tool processes are reaped. The Podman engine host needs its init executable, normally `catatonit`. Installing it only inside the sandbox image does not satisfy this requirement. For Podman Machine, the executable belongs inside the machine, not on the client host.
 
 On Debian or Ubuntu, minimal installs using `--no-install-recommends` can omit the helper. Include it explicitly when provisioning the engine host:
 
@@ -100,7 +100,7 @@ Podman notes:
 
 - Browser sandboxing is not supported by Podman; keep `sandbox.browser.enabled` off, or install Docker and select `backend: "docker"`.
 - Local Podman engines and Podman Machine are supported. Podman Machine bind sources must be under the host home directory, which is its default shared volume. Arbitrary remote Podman connections are rejected; use the SSH backend for remote execution.
-- Custom `tmpfs` or bind mounts must not cover `/run/podman-init`; FRIDAY rejects them so sandbox cleanup continues to work.
+- Custom `tmpfs` or bind mounts must not cover `/run/podman-init`; OpenClaw rejects them so sandbox cleanup continues to work.
 
 <Warning>
 **Podman-outside-of-Podman constraints**

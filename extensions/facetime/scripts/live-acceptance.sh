@@ -92,8 +92,8 @@ status_has_ready_paired_call() {
       return call.audioReady === true
         && call.realtimeActive === true
         && transport
-        && transport.feedDevice === "FRIDAY-Feed"
-        && transport.microphoneDevice === "FRIDAY-Mic"
+        && transport.feedDevice === "OpenClaw-Feed"
+        && transport.microphoneDevice === "OpenClaw-Mic"
         && transport.processInputVerified === true
         && transport.processOutputSuppressed === true;
     });
@@ -138,7 +138,7 @@ require_yes() {
 
 echo "Log: $log_file"
 echo
-echo "The native capture helper will verify FRIDAY-Mic against the actual call process before answer."
+echo "The native capture helper will verify OpenClaw-Mic against the actual call process before answer."
 
 echo
 echo "== Preflight =="
@@ -165,7 +165,7 @@ pgrep -fl 'facetime-audio-capture|caffeinate -d -i -w' || true
 
 echo
 echo "Place the configured owner-handle FaceTime call from the iPhone now."
-echo "Select FRIDAY-Mic as the FaceTime or Phone microphone if the app has not retained it."
+echo "Select OpenClaw-Mic as the FaceTime or Phone microphone if the app has not retained it."
 echo "This script will wait up to ${wait_seconds}s for a paired-device realtime session."
 deadline=$((SECONDS + wait_seconds))
 call_seen=false
@@ -195,7 +195,7 @@ done
 echo
 echo "== Active call status =="
 printf '%s\n' "$status_json"
-echo "Internal stages are ready: process tap, native player, FRIDAY-Feed, FRIDAY-Mic, and local suppression."
+echo "Internal stages are ready: process tap, native player, OpenClaw-Feed, OpenClaw-Mic, and local suppression."
 require_yes "Did the iPhone hear an actual model response clearly?"
 
 echo
@@ -229,8 +229,8 @@ printf '%s\n' "$status_json"
 require_yes "Did the agent stop speaking promptly when interrupted?"
 
 echo
-echo "The script can now hang up through FRIDAY."
-read -r -p "Hang up the active FaceTime call through FRIDAY? [Y/n] " hangup_answer
+echo "The script can now hang up through OpenClaw."
+read -r -p "Hang up the active FaceTime call through OpenClaw? [Y/n] " hangup_answer
 case "$hangup_answer" in
   ""|y|Y|yes|YES)
     echo

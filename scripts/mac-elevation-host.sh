@@ -6,8 +6,8 @@ ELEVATION_LABEL="ai.openclaw.mac.elevation-host"
 NORMAL_LABEL="ai.openclaw.mac"
 EXPECTED_BUNDLE_ID="ai.openclaw.mac"
 EXPECTED_TEAM_ID="FWJYW4S8P8"
-EXPECTED_AUTHORITY="Developer ID Application: FRIDAY Foundation (FWJYW4S8P8)"
-DEFAULT_APP="/Applications/FRIDAY.app"
+EXPECTED_AUTHORITY="Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)"
+DEFAULT_APP="/Applications/OpenClaw.app"
 RECOVERY_APP_PLAN_XATTR="com.openclaw.elevation.recovery-app-plan"
 RECOVERY_MIGRATION_IDENTITY_XATTR="com.openclaw.elevation.recovery-migration-identity"
 
@@ -127,7 +127,7 @@ Usage:
   scripts/mac-elevation-host.sh uninstall [--app <path>] [--state-dir <dir>]
   scripts/mac-elevation-host.sh print-plist [--app <path>] [--state-dir <dir>] [--config-path <file>]
 
-The elevation host uses a separate launchd job, never rewrites ordinary FRIDAY
+The elevation host uses a separate launchd job, never rewrites ordinary OpenClaw
 Launch at login, and never opens System Settings. Missing TCC is reported by status.
 HELP
 }
@@ -217,7 +217,7 @@ fi
 PLIST_PATH="${HOME}/Library/LaunchAgents/${ELEVATION_LABEL}.plist"
 NORMAL_PLIST_PATH="${HOME}/Library/LaunchAgents/${NORMAL_LABEL}.plist"
 RECEIPT_PATH="${STATE_DIR}/elevation-host-install.json"
-BRIDGE_SOCKET="${HOME}/Library/Application Support/FRIDAY/bridge.sock"
+BRIDGE_SOCKET="${HOME}/Library/Application Support/OpenClaw/bridge.sock"
 
 cleanup_work_root() {
   if [[ -n "$WORK_ROOT" && -d "$WORK_ROOT" ]]; then
@@ -606,7 +606,7 @@ elevation_plist_binds_app() {
   [[ -n "$plist" && -f "$plist" && ! -L "$plist" ]] || return 1
   label="$(plist_file_value "$plist" Label)"
   [[ "$label" == "$ELEVATION_LABEL" ]] || return 1
-  executable="$APP_PATH/Contents/MacOS/FRIDAY"
+  executable="$APP_PATH/Contents/MacOS/OpenClaw"
   if program="$(plutil -extract Program raw -o - "$plist" 2>/dev/null)"; then
     [[ "$program" == "$executable" ]] || return 1
   elif plutil -extract Program xml1 -o /dev/null "$plist" 2>/dev/null; then
@@ -641,7 +641,7 @@ loaded_elevation_job_binds_app() {
   snapshot="$(job_snapshot "$job_domain")"
   [[ -n "$snapshot" ]] || return 1
   program="$(awk -F' = ' '/^[[:space:]]*program = / {print $2; exit}' <<<"$snapshot")"
-  [[ "$program" == "$APP_PATH/Contents/MacOS/FRIDAY" ]] || return 1
+  [[ "$program" == "$APP_PATH/Contents/MacOS/OpenClaw" ]] || return 1
   grep -Eq '^[[:space:]]*--elevation-host[[:space:]]*$' <<<"$snapshot"
 }
 
@@ -742,7 +742,7 @@ quarantine_entry_unsafe_elevation_app() {
   fi
   if [[ "$quarantine_failed" == "0" ]]; then
     if quarantine_container="$(mktemp -d "$STATE_DIR/elevation-host.quarantined-app.XXXXXX")"; then
-      quarantine_app="$quarantine_container/FRIDAY.app"
+      quarantine_app="$quarantine_container/OpenClaw.app"
       rename_app_exclusively "$APP_PATH" "$quarantine_app" || quarantine_failed=1
       if path_matches_identity "$quarantine_app" "$app_identity" &&
         { [[ "$app_kind" == "symlink" && -L "$quarantine_app" ]] ||
@@ -1146,7 +1146,7 @@ verify_artifact_receipt() {
     fail 'artifact receipt installer checksum name mismatch'
   [[ "$(receipt_string "$receipt" '.installerSha256' installerSha256)" == "$installer_sha" ]] ||
     fail 'artifact receipt installer digest mismatch'
-  [[ "$(receipt_string "$receipt" '.sourceCommit' sourceCommit)" == "$source_commit" ]] || fail 'artifact receipt FRIDAY source mismatch'
+  [[ "$(receipt_string "$receipt" '.sourceCommit' sourceCommit)" == "$source_commit" ]] || fail 'artifact receipt OpenClaw source mismatch'
   [[ "$(receipt_string "$receipt" '.peekabooCommit' peekabooCommit)" == "$peekaboo_commit" ]] || fail 'artifact receipt Peekaboo source mismatch'
   [[ "$(receipt_string "$receipt" '.version' version)" == "$(plist_value "$app" CFBundleShortVersionString)" ]] || fail 'artifact receipt version mismatch'
   [[ "$(receipt_string "$receipt" '.build' build)" == "$(plist_value "$app" CFBundleVersion)" ]] || fail 'artifact receipt build mismatch'
@@ -1158,9 +1158,9 @@ verify_artifact_receipt() {
     fail 'artifact receipt arm64 CDHash mismatch'
   [[ "$(receipt_string "$receipt" '.cdhashes.x86_64' cdhashes.x86_64)" == "$x86_64_cdhash" ]] ||
     fail 'artifact receipt x86_64 CDHash mismatch'
-  [[ "$(receipt_string "$receipt" '.architectures.main' architectures.main)" == "$(lipo -archs "$app/Contents/MacOS/FRIDAY")" ]] || fail 'artifact receipt main architecture mismatch'
+  [[ "$(receipt_string "$receipt" '.architectures.main' architectures.main)" == "$(lipo -archs "$app/Contents/MacOS/OpenClaw")" ]] || fail 'artifact receipt main architecture mismatch'
   [[ "$(receipt_string "$receipt" '.architectures.helper' architectures.helper)" == "$(lipo -archs "$app/Contents/MacOS/openclaw-mlx-tts")" ]] || fail 'artifact receipt helper architecture mismatch'
-  [[ "$(receipt_string "$receipt" '.entitlementsSha256.main' entitlementsSha256.main)" == "$(entitlements_for "$app/Contents/MacOS/FRIDAY" | shasum -a 256 | awk '{print $1}')" ]] || fail 'artifact receipt main entitlement mismatch'
+  [[ "$(receipt_string "$receipt" '.entitlementsSha256.main' entitlementsSha256.main)" == "$(entitlements_for "$app/Contents/MacOS/OpenClaw" | shasum -a 256 | awk '{print $1}')" ]] || fail 'artifact receipt main entitlement mismatch'
   [[ "$(receipt_string "$receipt" '.entitlementsSha256.helper' entitlementsSha256.helper)" == "$(entitlements_for "$app/Contents/MacOS/openclaw-mlx-tts" | shasum -a 256 | awk '{print $1}')" ]] || fail 'artifact receipt helper entitlement mismatch'
 
   VERIFIED_ARTIFACT_RECEIPT_SHA="$receipt_sha"
@@ -1183,26 +1183,26 @@ extract_verified_artifact() {
   WORK_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/openclaw-elevation.XXXXXX")"
   ditto -x -k "$AUTHENTICATED_ARCHIVE_PATH" "$WORK_ROOT" || return $?
   entries="$(find "$WORK_ROOT" -mindepth 1 -maxdepth 1 -print | sort)"
-  [[ "$entries" == "$WORK_ROOT/FRIDAY.app" && -d "$WORK_ROOT/FRIDAY.app" &&
-    ! -L "$WORK_ROOT/FRIDAY.app" ]] || fail 'elevation archive root must contain exactly physical FRIDAY.app'
+  [[ "$entries" == "$WORK_ROOT/OpenClaw.app" && -d "$WORK_ROOT/OpenClaw.app" &&
+    ! -L "$WORK_ROOT/OpenClaw.app" ]] || fail 'elevation archive root must contain exactly physical OpenClaw.app'
   # Capture untrusted helper bytes before the final audit; publish authority only
   # after the complete app/receipt check. Later helper use rechecks this digest.
-  candidate_helper="$WORK_ROOT/FRIDAY.app/Contents/MacOS/FRIDAY"
+  candidate_helper="$WORK_ROOT/OpenClaw.app/Contents/MacOS/OpenClaw"
   [[ -f "$candidate_helper" && ! -L "$candidate_helper" && -x "$candidate_helper" ]] ||
     fail 'authenticated elevation rename helper is unavailable'
   candidate_helper_sha="$(shasum -a 256 "$candidate_helper" | awk '{print $1}')" || return $?
   verify_artifact_receipt \
-    "$AUTHENTICATED_RECEIPT_PATH" "$AUTHENTICATED_ARCHIVE_PATH" "$WORK_ROOT/FRIDAY.app" "$installer" || return $?
+    "$AUTHENTICATED_RECEIPT_PATH" "$AUTHENTICATED_ARCHIVE_PATH" "$WORK_ROOT/OpenClaw.app" "$installer" || return $?
   AUTHENTICATED_RENAME_HELPER="$candidate_helper"
   AUTHENTICATED_RENAME_HELPER_SHA="$candidate_helper_sha"
-  printf -v "$output_variable" '%s' "$WORK_ROOT/FRIDAY.app"
+  printf -v "$output_variable" '%s' "$WORK_ROOT/OpenClaw.app"
 }
 
 stage_verified_app_for_install() {
   local source_app="$1" source_commit="$2" peekaboo_commit="$3"
   cleanup_staged_install_app
   STAGED_APP_CONTAINER="$(mktemp -d "${APP_PATH}.incoming-${source_commit}.XXXXXX")"
-  STAGED_INSTALL_APP_PATH="$STAGED_APP_CONTAINER/FRIDAY.app"
+  STAGED_INSTALL_APP_PATH="$STAGED_APP_CONTAINER/OpenClaw.app"
   ditto "$source_app" "$STAGED_INSTALL_APP_PATH"
   [[ "$(plist_value "$STAGED_INSTALL_APP_PATH" OpenClawGitCommit)" == "$source_commit" ]] ||
     fail 'same-filesystem staged app source mismatch'
@@ -1222,10 +1222,10 @@ prepare_current_app_rename_helper() {
     fail 'current recovery app cannot authenticate the exclusive rename helper'
   cleanup_work_root
   WORK_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/openclaw-elevation-current.XXXXXX")"
-  ditto "$source_app" "$WORK_ROOT/FRIDAY.app"
-  verify_recorded_current_app "$WORK_ROOT/FRIDAY.app" ||
+  ditto "$source_app" "$WORK_ROOT/OpenClaw.app"
+  verify_recorded_current_app "$WORK_ROOT/OpenClaw.app" ||
     fail 'copied recovery app cannot authenticate the exclusive rename helper'
-  AUTHENTICATED_RENAME_HELPER="$WORK_ROOT/FRIDAY.app/Contents/MacOS/FRIDAY"
+  AUTHENTICATED_RENAME_HELPER="$WORK_ROOT/OpenClaw.app/Contents/MacOS/OpenClaw"
   [[ -f "$AUTHENTICATED_RENAME_HELPER" && ! -L "$AUTHENTICATED_RENAME_HELPER" &&
     -x "$AUTHENTICATED_RENAME_HELPER" ]] || fail 'authenticated elevation rename helper is unavailable'
   AUTHENTICATED_RENAME_HELPER_SHA="$(shasum -a 256 "$AUTHENTICATED_RENAME_HELPER" | awk '{print $1}')"
@@ -1262,7 +1262,7 @@ preserve_current_app_for_recovery() {
   else
     failed_container="$(mktemp -d "${APP_PATH}.failed-elevation-host-${ROLLBACK_FAILED_SOURCE}.XXXXXX")" ||
       return 1
-    failed_path="$failed_container/FRIDAY.app"
+    failed_path="$failed_container/OpenClaw.app"
   fi
   if ! rename_app_exclusively "$APP_PATH" "$failed_path"; then
     rmdir "$failed_container" 2>/dev/null || true
@@ -1292,7 +1292,7 @@ preserve_current_app_for_recovery() {
 
 render_plist() {
   local destination="$1"
-  local executable="$APP_PATH/Contents/MacOS/FRIDAY"
+  local executable="$APP_PATH/Contents/MacOS/OpenClaw"
   local log_path="$STATE_DIR/logs/mac-app.log"
   local environment_json
   environment_json="$(jq -cn \
@@ -1376,7 +1376,7 @@ resolve_migration_inputs() {
   args="$(plutil -extract ProgramArguments json -o - "$MIGRATE_LAUNCH_AGENT" 2>/dev/null || true)"
   jq -e 'type == "array" and length > 0 and all(.[]; type == "string")' <<<"$args" >/dev/null 2>&1 ||
     fail 'migration LaunchAgent must have a string ProgramArguments array'
-  app_binary="$APP_PATH/Contents/MacOS/FRIDAY"
+  app_binary="$APP_PATH/Contents/MacOS/OpenClaw"
   if jq -e --arg appBinary "$app_binary" '
       .[0] == $appBinary and
       (.[1:] | index("--background-only") != null) and
@@ -1488,7 +1488,7 @@ try:
     lines = raw.decode("utf-8").split("\n")
 except UnicodeDecodeError:
     raise SystemExit("ERROR: canonical node environment must be UTF-8") from None
-header = "# Generated by FRIDAY. Do not edit while the gateway service is installed."
+header = "# Generated by OpenClaw. Do not edit while the gateway service is installed."
 if not lines or lines[0] != header:
     raise SystemExit("ERROR: canonical node environment lacks its generated header")
 
@@ -1554,7 +1554,7 @@ migration_receipt_matches_backup_plist() {
   args="$(plutil -extract ProgramArguments json -o - "$plist_path" 2>/dev/null)" || return 1
   jq -e 'type == "array" and length > 0 and all(.[]; type == "string")' <<<"$args" >/dev/null 2>&1 ||
     return 1
-  app_binary="$APP_PATH/Contents/MacOS/FRIDAY"
+  app_binary="$APP_PATH/Contents/MacOS/OpenClaw"
   if jq -e --arg appBinary "$app_binary" '
       .[0] == $appBinary and
       (.[1:] | index("--background-only") != null) and
@@ -1585,7 +1585,7 @@ migration_receipt_matches_backup_plist() {
 }
 
 background_app_records() {
-  local app_binary="$APP_PATH/Contents/MacOS/FRIDAY" pid command_line executable attach_only
+  local app_binary="$APP_PATH/Contents/MacOS/OpenClaw" pid command_line executable attach_only
   while IFS= read -r pid; do
     [[ "$pid" =~ ^[0-9]+$ ]] || continue
     executable="$(lsof -a -p "$pid" -d txt -Fn 2>/dev/null | sed -n 's/^n//p' | head -n 1)"
@@ -1598,13 +1598,13 @@ background_app_records() {
       *) continue ;;
     esac
     printf '%s %s\n' "$pid" "$attach_only"
-  done < <(pgrep -x FRIDAY 2>/dev/null || true)
+  done < <(pgrep -x OpenClaw 2>/dev/null || true)
 }
 
 app_binary_pids() {
-  local app_binary="$APP_PATH/Contents/MacOS/FRIDAY" pid executable lsof_output listed_status
+  local app_binary="$APP_PATH/Contents/MacOS/OpenClaw" pid executable lsof_output listed_status
   local pids="" pgrep_status=0
-  pids="$(pgrep -x FRIDAY 2>/dev/null)" || pgrep_status=$?
+  pids="$(pgrep -x OpenClaw 2>/dev/null)" || pgrep_status=$?
   case "$pgrep_status" in
     0) ;;
     1) return 0 ;;
@@ -1635,7 +1635,7 @@ app_binary_pids() {
 
 openclaw_pid_is_listed() {
   local _expected_pid="$1" pgrep_status=0
-  pgrep -x FRIDAY >/dev/null 2>&1 || pgrep_status=$?
+  pgrep -x OpenClaw >/dev/null 2>&1 || pgrep_status=$?
   case "$pgrep_status" in
     0) return 0 ;;
     1) return 1 ;;
@@ -1665,7 +1665,7 @@ resolve_adoption_inputs() {
     [[ -n "$record" ]] && records+=("$record")
   done < <(background_app_records)
   [[ "${#records[@]}" == "1" ]] ||
-    fail 'adoption requires exactly one unsupervised background-only FRIDAY process'
+    fail 'adoption requires exactly one unsupervised background-only OpenClaw process'
   ADOPTION_PID="${records[0]%% *}"
   ADOPTION_ATTACH_ONLY="${records[0]##* }"
   local elevation_pid
@@ -1882,8 +1882,8 @@ ensure_no_normal_owner() {
     [[ -n "$MIGRATE_LAUNCH_AGENT" && "$candidate_plist" == "$MIGRATE_LAUNCH_AGENT" ]] && continue
     candidate_label="$(plutil -extract Label raw -o - "$candidate_plist" 2>/dev/null || true)"
     candidate_program="$(plutil -extract ProgramArguments.0 raw -o - "$candidate_plist" 2>/dev/null || true)"
-    if [[ "$candidate_program" == "$APP_PATH/Contents/MacOS/FRIDAY" ]]; then
-      fail "conflicting FRIDAY launch agent is installed: ${candidate_label:-$candidate_plist}"
+    if [[ "$candidate_program" == "$APP_PATH/Contents/MacOS/OpenClaw" ]]; then
+      fail "conflicting OpenClaw launch agent is installed: ${candidate_label:-$candidate_plist}"
     fi
   done < <(find "$(dirname "$PLIST_PATH")" -maxdepth 1 -type f -name '*.plist' -print0 2>/dev/null)
 
@@ -1896,12 +1896,12 @@ ensure_no_normal_owner() {
   while IFS= read -r pid; do
     [[ -n "$pid" ]] || continue
     command_line="$(ps -p "$pid" -o command= 2>/dev/null || true)"
-    [[ "$command_line" == "$APP_PATH/Contents/MacOS/FRIDAY"* ]] || continue
+    [[ "$command_line" == "$APP_PATH/Contents/MacOS/OpenClaw"* ]] || continue
     [[ -n "$elevation_pid" && "$pid" == "$elevation_pid" ]] ||
       [[ -n "$migration_pid" && "$pid" == "$migration_pid" ]] ||
       [[ -n "$ADOPTION_PID" && "$pid" == "$ADOPTION_PID" ]] ||
-      fail "unsupervised or conflicting FRIDAY process is running: $pid"
-  done < <(pgrep -x FRIDAY 2>/dev/null || true)
+      fail "unsupervised or conflicting OpenClaw process is running: $pid"
+  done < <(pgrep -x OpenClaw 2>/dev/null || true)
 }
 
 peekaboo_bin() {
@@ -2163,7 +2163,7 @@ package_host() {
   local source_commit prefix zip_path receipt_path checksum_path installer_path installer_checksum_path notary_result
   source_commit="$(git -C "$ROOT_DIR" rev-parse HEAD)"
   [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]] || fail 'could not resolve exact source commit'
-  prefix="FRIDAY-${source_commit}-Peekaboo-${EXPECTED_PEEKABOO_SOURCE_COMMIT}-stable"
+  prefix="OpenClaw-${source_commit}-Peekaboo-${EXPECTED_PEEKABOO_SOURCE_COMMIT}-stable"
   zip_path="$OUTPUT_DIR/${prefix}.zip"
   receipt_path="$OUTPUT_DIR/${prefix}.json"
   checksum_path="$zip_path.sha256"
@@ -2184,7 +2184,7 @@ package_host() {
     SKIP_DSYM=1 \
     "$ROOT_DIR/scripts/package-mac-dist.sh"
 
-  local app="$ROOT_DIR/dist/FRIDAY.app"
+  local app="$ROOT_DIR/dist/OpenClaw.app"
   verify_elevation_app "$app"
   [[ "$(plist_value "$app" OpenClawGitCommit)" == "$source_commit" ]] ||
     fail 'packaged elevation source does not match HEAD'
@@ -2192,7 +2192,7 @@ package_host() {
     fail 'packaged elevation Peekaboo source does not match the requested release head'
   local version source_zip
   version="$(plist_value "$app" CFBundleShortVersionString)"
-  source_zip="$ROOT_DIR/dist/FRIDAY-${version}.zip"
+  source_zip="$ROOT_DIR/dist/OpenClaw-${version}.zip"
   [[ -f "$source_zip" ]] || fail "distribution zip missing: $source_zip"
   local tmp_zip="${zip_path}.tmp.$$"
   cp "$source_zip" "$tmp_zip"
@@ -2210,9 +2210,9 @@ package_host() {
     fail 'portable installer does not match the selected source commit'
   notary_id="$(jq -r '.id // empty' "$notary_result")"
   [[ -n "$notary_id" ]] || fail 'accepted notarization id was not recorded'
-  main_archs="$(lipo -archs "$app/Contents/MacOS/FRIDAY")"
+  main_archs="$(lipo -archs "$app/Contents/MacOS/OpenClaw")"
   helper_archs="$(lipo -archs "$app/Contents/MacOS/openclaw-mlx-tts")"
-  main_entitlements="$(entitlements_for "$app/Contents/MacOS/FRIDAY" | shasum -a 256 | awk '{print $1}')"
+  main_entitlements="$(entitlements_for "$app/Contents/MacOS/OpenClaw" | shasum -a 256 | awk '{print $1}')"
   helper_entitlements="$(entitlements_for "$app/Contents/MacOS/openclaw-mlx-tts" | shasum -a 256 | awk '{print $1}')"
   arm64_cdhash="$(codesign_value_for_arch "$app" CDHash arm64)"
   x86_64_cdhash="$(codesign_value_for_arch "$app" CDHash x86_64)"
@@ -2289,10 +2289,10 @@ install_host() {
   ROLLBACK_APP_CDHASH_X86_64=""
   if [[ -e "$APP_PATH" || -L "$APP_PATH" ]]; then
     [[ -d "$APP_PATH" && ! -L "$APP_PATH" ]] ||
-      fail 'installed FRIDAY app is missing, symlinked, or not a bundle directory'
+      fail 'installed OpenClaw app is missing, symlinked, or not a bundle directory'
     local installed_commit
     installed_commit="$(plist_value "$APP_PATH" OpenClawGitCommit)"
-    [[ "$installed_commit" =~ ^[0-9a-f]{40}$ ]] || fail 'installed FRIDAY app has no exact source receipt'
+    [[ "$installed_commit" =~ ^[0-9a-f]{40}$ ]] || fail 'installed OpenClaw app has no exact source receipt'
     ROLLBACK_APP_PATH="$(mktemp -u "${APP_PATH}.rollback-elevation-host-${installed_commit}.XXXXXX")"
     # The unpredictable name is consumed only by renamex_np(RENAME_EXCL); any entry that
     # appears before custody atomically refuses without nesting or overwrite.
@@ -2301,9 +2301,9 @@ install_host() {
     ROLLBACK_APP_CDHASH_ARM64="$(codesign_value_for_arch "$APP_PATH" CDHash arm64)"
     ROLLBACK_APP_CDHASH_X86_64="$(codesign_value_for_arch "$APP_PATH" CDHash x86_64)"
     [[ -n "$ROLLBACK_APP_CDHASH_ARM64" && -n "$ROLLBACK_APP_CDHASH_X86_64" ]] ||
-      fail 'installed FRIDAY app has no signed per-architecture CDHashes'
+      fail 'installed OpenClaw app has no signed per-architecture CDHashes'
     verify_recorded_rollback_app "$APP_PATH" ||
-      fail 'installed FRIDAY app does not pass strict signature and identity validation'
+      fail 'installed OpenClaw app does not pass strict signature and identity validation'
   fi
   ROLLBACK_INSTALL_RECEIPT=""
   ROLLBACK_INSTALL_RECEIPT_SHA=""
@@ -2417,12 +2417,12 @@ install_host() {
       fail "could not stop migration LaunchAgent: $MIGRATION_LABEL"
   fi
   if [[ -n "$ADOPTION_PID" ]]; then
-    adopted_app_is_current || fail 'adopted FRIDAY process changed after migration planning'
+    adopted_app_is_current || fail 'adopted OpenClaw process changed after migration planning'
     trap 'adoption_signal=INT' INT
     trap 'adoption_signal=TERM' TERM
     trap 'adoption_signal=HUP' HUP
     CUTOVER_ADOPTION_STOPPED=1
-    kill "$ADOPTION_PID" 2>/dev/null || fail "could not stop adopted FRIDAY process: $ADOPTION_PID"
+    kill "$ADOPTION_PID" 2>/dev/null || fail "could not stop adopted OpenClaw process: $ADOPTION_PID"
     CUTOVER_ADOPTION_TERMINATION_SENT=1
     finish_custody_signal_deferral "$adoption_signal"
   fi
@@ -2446,14 +2446,14 @@ install_host() {
       kill -0 "$ADOPTION_PID" 2>/dev/null || break
       sleep 0.25
     done
-    kill -0 "$ADOPTION_PID" 2>/dev/null && fail "adopted FRIDAY process did not exit: $ADOPTION_PID"
+    kill -0 "$ADOPTION_PID" 2>/dev/null && fail "adopted OpenClaw process did not exit: $ADOPTION_PID"
   fi
   if [[ -n "$MIGRATION_LABEL" ]]; then
     current_migration_state="$(job_loaded_state "$launch_domain/$MIGRATION_LABEL")"
     [[ "$current_migration_state" == "absent" ]] ||
       fail 'migration LaunchAgent remained loaded after bootout'
   fi
-  wait_for_app_binary_exit || fail 'an FRIDAY app process survived owner shutdown'
+  wait_for_app_binary_exit || fail 'an OpenClaw app process survived owner shutdown'
   if [[ -n "$MIGRATION_LABEL" ]]; then
     current_migration_state="$(job_loaded_state "$launch_domain/$MIGRATION_LABEL")"
     [[ "$current_migration_state" == "absent" ]] ||
@@ -2464,12 +2464,12 @@ install_host() {
   CUTOVER_APP_MUTATED=1
   if [[ -n "$ROLLBACK_APP_PATH" ]]; then
     verify_recorded_rollback_app "$APP_PATH" ||
-      fail 'installed FRIDAY app changed before rollback custody'
+      fail 'installed OpenClaw app changed before rollback custody'
     rename_app_exclusively "$APP_PATH" "$ROLLBACK_APP_PATH" || true
     verify_recorded_rollback_app "$ROLLBACK_APP_PATH" ||
-      fail 'could not take verified custody of the installed FRIDAY app'
+      fail 'could not take verified custody of the installed OpenClaw app'
     [[ ! -e "$APP_PATH" && ! -L "$APP_PATH" ]] ||
-      fail 'installed FRIDAY app path was recreated during rollback custody'
+      fail 'installed OpenClaw app path was recreated during rollback custody'
   fi
   staged_install_identity="$(path_identity "$STAGED_INSTALL_APP_PATH")" ||
     fail 'same-filesystem staged app identity could not be inspected before install'
@@ -3030,7 +3030,7 @@ status_host() {
   [[ -f "$PLIST_PATH" ]] || fail "elevation launch agent is not installed: $PLIST_PATH"
   local args loaded_pid plist_config
   args="$(plutil -extract ProgramArguments json -o - "$PLIST_PATH")"
-  [[ "$(jq -c . <<<"$args")" == "$(jq -cn --arg executable "$APP_PATH/Contents/MacOS/FRIDAY" '[$executable,"--elevation-host"]')" ]] ||
+  [[ "$(jq -c . <<<"$args")" == "$(jq -cn --arg executable "$APP_PATH/Contents/MacOS/OpenClaw" '[$executable,"--elevation-host"]')" ]] ||
     fail 'elevation launch agent arguments are not canonical'
   [[ "$(plutil -extract RunAtLoad raw -o - "$PLIST_PATH")" == 'true' ]] || fail 'RunAtLoad is not enabled'
   [[ "$(plutil -extract KeepAlive raw -o - "$PLIST_PATH")" == 'true' ]] || fail 'KeepAlive is not enabled'
@@ -3092,10 +3092,10 @@ recover_host() {
   if [[ ! -e "$APP_PATH" && ! -L "$APP_PATH" ]]; then
     RECOVERY_CURRENT_APP_STATE="absent"
   elif [[ -L "$APP_PATH" || ! -d "$APP_PATH" ]]; then
-    fail 'current FRIDAY app has an unsupported entry type; inspect it before recovery'
+    fail 'current OpenClaw app has an unsupported entry type; inspect it before recovery'
   else
     RECOVERY_CURRENT_APP_IDENTITY="$(durable_path_identity "$APP_PATH")" ||
-      fail 'current FRIDAY app identity could not be inspected before recovery'
+      fail 'current OpenClaw app identity could not be inspected before recovery'
     if (verify_elevation_app "$APP_PATH") >/dev/null 2>&1; then
       RECOVERY_CURRENT_APP_STATE="valid"
       current_app_valid=1
@@ -3103,7 +3103,7 @@ recover_host() {
       RECOVERY_CURRENT_APP_STATE="damaged"
     fi
     path_matches_identity "$APP_PATH" "$RECOVERY_CURRENT_APP_IDENTITY" ||
-      fail 'current FRIDAY app changed during recovery planning'
+      fail 'current OpenClaw app changed during recovery planning'
   fi
   select_recovery_receipt
   verify_install_receipt 0
@@ -3144,7 +3144,7 @@ recover_host() {
   ROLLBACK_ADOPTED_APP_WAS_RUNNING="$(jq -r 'if .adoptedApp.wasRunning then 1 else 0 end' "$RECEIPT_PATH")"
   ROLLBACK_ADOPTED_APP_ATTACH_ONLY="$(jq -r 'if .adoptedApp.attachOnly then 1 else 0 end' "$RECEIPT_PATH")"
   current_receipt_sha="$(shasum -a 256 "$RECEIPT_PATH" | awk '{print $1}')"
-  RECOVERY_FAILED_APP_PLANNED_PATH="${APP_PATH}.failed-elevation-host-${ROLLBACK_FAILED_SOURCE}.${current_receipt_sha:0:12}/FRIDAY.app"
+  RECOVERY_FAILED_APP_PLANNED_PATH="${APP_PATH}.failed-elevation-host-${ROLLBACK_FAILED_SOURCE}.${current_receipt_sha:0:12}/OpenClaw.app"
   read_optional_receipt_xattr plan_value "$RECOVERY_APP_PLAN_XATTR" ||
     fail 'could not inspect the recovery app transaction binding'
   if [[ -n "$plan_value" ]]; then
@@ -3338,7 +3338,7 @@ recover_host() {
           "$RECOVERY_RESTORED_MIGRATION_IDENTITY" ||
         ! backup_file_matches "$ROLLBACK_MIGRATION_SOURCE" "$ROLLBACK_MIGRATION_PLIST_SHA"
       then
-        fail 'could not restore the previous FRIDAY installation completely: migration source no longer matches its durable recovery transaction'
+        fail 'could not restore the previous OpenClaw installation completely: migration source no longer matches its durable recovery transaction'
       fi
       RECOVERY_RESUMED=1
     fi
@@ -3415,10 +3415,10 @@ recover_host() {
     fi
     if restore_current_generation_after_recovery_failure; then
       finish_custody_signal_deferral "$recovery_signal"
-      fail 'could not restore the previous FRIDAY installation completely'
+      fail 'could not restore the previous OpenClaw installation completely'
     fi
     finish_custody_signal_deferral "$recovery_signal"
-    fail 'recovery failed and the current FRIDAY installation could not be restored completely'
+    fail 'recovery failed and the current OpenClaw installation could not be restored completely'
   fi
 
   if [[ -n "$receipt_restore_tmp" ]]; then
@@ -3428,7 +3428,7 @@ recover_host() {
         fail 'could not restore the previous elevation install receipt'
       fi
       finish_custody_signal_deferral "$recovery_signal"
-      fail 'receipt restoration failed and the current FRIDAY installation could not be restored completely'
+      fail 'receipt restoration failed and the current OpenClaw installation could not be restored completely'
     fi
     if ! fsync_file_and_parent "$FINAL_RECEIPT_PATH"; then
       CUTOVER_COMMITTED=1
@@ -3443,7 +3443,7 @@ recover_host() {
         fail 'could not remove the replaced elevation install receipt'
       fi
       finish_custody_signal_deferral "$recovery_signal"
-      fail 'receipt removal failed and the current FRIDAY installation could not be restored completely'
+      fail 'receipt removal failed and the current OpenClaw installation could not be restored completely'
     fi
     if ! fsync_parent "$FINAL_RECEIPT_PATH"; then
       CUTOVER_COMMITTED=1
@@ -3461,7 +3461,7 @@ recover_host() {
   CUTOVER_COMMITTED=1
   CUTOVER_ACTIVE=0
   finish_custody_signal_deferral "$recovery_signal"
-  printf 'Recovered previous FRIDAY app from %s; replaced app preserved at %s; receipt preserved at %s\n' \
+  printf 'Recovered previous OpenClaw app from %s; replaced app preserved at %s; receipt preserved at %s\n' \
     "$ROLLBACK_APP_PATH" "$RECOVERED_FAILED_APP_PATH" "$recovered_receipt"
 }
 

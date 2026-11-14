@@ -234,7 +234,7 @@ enum CommandResolver {
                 desktopSharingEnabled: desktopSharingEnabled),
             currentDirectoryURL: root)
         #else
-        throw MacNodeHostWorker.WorkerError.unavailable(reason: "The node worker requires a packaged FRIDAY.app")
+        throw MacNodeHostWorker.WorkerError.unavailable(reason: "The node worker requires a packaged OpenClaw.app")
         #endif
     }
 
@@ -286,7 +286,7 @@ enum CommandResolver {
             if let openclawPath = openclawExecutable(searchPaths: searchPaths) {
                 return .executable([openclawPath])
             }
-            return .unavailable("FRIDAY's bundled runtime is not prepared. Retry setup in FRIDAY.app.")
+            return .unavailable("OpenClaw's bundled runtime is not prepared. Retry setup in OpenClaw.app.")
         }
         let root = projectRoot ?? self.projectRoot()
         if let openclawPath = projectOpenClawExecutable(projectRoot: root) {
@@ -305,7 +305,7 @@ enum CommandResolver {
         switch runtimeResult {
         case .success:
             return .unavailable(
-                "openclaw CLI not found. Install the CLI, or run pnpm build in an FRIDAY source checkout.")
+                "openclaw CLI not found. Install the CLI, or run pnpm build in an OpenClaw source checkout.")
         case let .failure(error):
             return .unavailable(RuntimeLocator.describeFailure(error))
         }

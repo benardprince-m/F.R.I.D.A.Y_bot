@@ -2,7 +2,7 @@ import ConcurrencyExtras
 import Foundation
 import OpenClawKit
 import Testing
-@testable import FRIDAY
+@testable import OpenClaw
 
 private actor DashboardReconnectAuthGate {
     private var token: String?

@@ -23,7 +23,7 @@ export type CuaToolResult = import("@trycua/cua-driver").ToolResult & {
 };
 
 // These numeric values are part of the pinned SDK contract. Keeping
-// them local avoids loading the native library while FRIDAY is only
+// them local avoids loading the native library while OpenClaw is only
 // registering the bundled plugin.
 export const ClickButton = {
   Left: 0 as DriverClickButton,
@@ -81,7 +81,7 @@ class DirectCuaDriverSession {
 
   constructor(private readonly sdk: CuaDriverSdk) {
     const unrestricted = sdk.SessionPermissionMode.Unrestricted;
-    // This is an FRIDAY-owned ceiling, not plugin configuration or tool input.
+    // This is an OpenClaw-owned ceiling, not plugin configuration or tool input.
     // The model cannot select a session or widen this authorization after start.
     const authorization = {
       allowedModes: [unrestricted],

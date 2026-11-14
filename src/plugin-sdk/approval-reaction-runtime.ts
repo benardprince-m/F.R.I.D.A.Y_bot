@@ -35,7 +35,7 @@ export {
   readApprovalReactionPresentationBinding,
   type ApprovalReactionDeliveryBinding,
 } from "./approval-reaction-binding.js";
-/** @deprecated Retained for plugins built against FRIDAY 2026.10.4 and earlier; tracked by `plugin-sdk-private-runtime-shipped-exports`. */
+/** @deprecated Retained for plugins built against OpenClaw 2026.10.4 and earlier; tracked by `plugin-sdk-private-runtime-shipped-exports`. */
 export { readApprovalReactionDeliveryMetadata } from "./approval-reaction-binding.js";
 
 type KeyedStore<TValue> = {
@@ -400,7 +400,10 @@ function buildApprovalReactionPromptText(params: {
     info.push(`**Full id:** \`${view.approvalId}\``);
     sections.push(info.join("\n"));
   } else if (view.approvalKind === "system-agent") {
-    const details = ["**FRIDAY change requires approval**", `**Change:** ${view.operationSummary}`];
+    const details = [
+      "**OpenClaw change requires approval**",
+      `**Change:** ${view.operationSummary}`,
+    ];
     if (view.agentId) {
       details.push(`**Agent:** ${view.agentId}`);
     }

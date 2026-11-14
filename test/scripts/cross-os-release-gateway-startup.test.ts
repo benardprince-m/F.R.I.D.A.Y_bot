@@ -79,7 +79,7 @@ it.each([
         exitCode = 1;
         stderr =
           scenario === "migration"
-            ? "FRIDAY plugin migration inputs changed during startup convergence; refusing to report the gateway ready.\n"
+            ? "OpenClaw plugin migration inputs changed during startup convergence; refusing to report the gateway ready.\n"
             : scenario === "current-refusal"
               ? `port ${port} is still busy after --force, but no listener PID could be determined\n`
               : scenario === "stale-refusal" || scenario === "unrelated-failure"

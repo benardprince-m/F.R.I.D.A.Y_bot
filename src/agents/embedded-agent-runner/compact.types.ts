@@ -103,7 +103,7 @@ export type CompactEmbeddedAgentSessionParams = Pick<
   cliSessionBinding?: CliSessionBinding;
   /** Owning session facts required for placement and runtime preparation. */
   sessionEntry?: SessionEntry;
-  /** FRIDAY-owned runtime policy prepared for this compaction path. */
+  /** OpenClaw-owned runtime policy prepared for this compaction path. */
   runtimePlan?: AgentRuntimePlan;
   /** Host-prepared route and credential selection for native harness compaction. */
   runtimeAuthPlan?: AgentRuntimeAuthPlan;

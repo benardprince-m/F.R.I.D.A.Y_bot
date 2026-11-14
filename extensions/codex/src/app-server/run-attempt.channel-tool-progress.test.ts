@@ -126,8 +126,8 @@ describe("Codex channel tool progress", () => {
         name: "web_search",
         item: {
           type: "webSearch",
-          query: "FRIDAY repository",
-          action: { type: "search", query: "FRIDAY repository" },
+          query: "OpenClaw repository",
+          action: { type: "search", query: "OpenClaw repository" },
         },
         completion: { durationMs: 1 },
       },
@@ -143,7 +143,7 @@ describe("Codex channel tool progress", () => {
         },
         completion: { result: { content: [{ type: "text", text: "ok" }] }, durationMs: 1 },
       },
-      { label: "FRIDAY dynamic tool", toolCallId: "dynamic-1", name: "agents_list" },
+      { label: "OpenClaw dynamic tool", toolCallId: "dynamic-1", name: "agents_list" },
     ];
 
     for (const testCase of cases) {

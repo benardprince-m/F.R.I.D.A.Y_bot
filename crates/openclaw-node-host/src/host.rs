@@ -29,7 +29,7 @@ use crate::{
     RuntimeBuildError, RuntimeErrorClass,
 };
 
-// Avoid FRIDAY's reserved Gateway-adjacent ports by asking the OS for a free
+// Avoid OpenClaw's reserved Gateway-adjacent ports by asking the OS for a free
 // loopback port. Managed hosts can configure a stable healthListen explicitly.
 const DEFAULT_HEALTH_LISTEN: &str = "127.0.0.1:0";
 const DEFAULT_STATUS_COMMAND: &str = "rust-node.status";

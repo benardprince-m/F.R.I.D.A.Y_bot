@@ -18,7 +18,7 @@ defineDiscordVoiceTests(
       const clock = vi.spyOn(Date, "now").mockReturnValue(1_700_000_000_000);
       try {
         beginSpeakerTurn(entry, { senderIsOwner: false }).close();
-        bridgeParams.onTranscript?.("user", "FRIDAY", true);
+        bridgeParams.onTranscript?.("user", "OpenClaw", true);
         bridgeParams.onTranscript?.("user", "Summarize this note.", true);
         await vi.advanceTimersByTimeAsync(260);
 

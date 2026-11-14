@@ -3,7 +3,7 @@ import { isSystemAgentInferenceUnavailableError } from "./inference-error.js";
 function unavailable(reason: string): string {
   return [
     `⚠ The write was applied, but post-write verification is unavailable: ${reason}.`,
-    "Run `openclaw doctor --fix` on the machine running FRIDAY, then verify the configuration before continuing.",
+    "Run `openclaw doctor --fix` on the machine running OpenClaw, then verify the configuration before continuing.",
   ].join("\n");
 }
 
@@ -48,9 +48,9 @@ export async function resolveConfigWriteRepair(
     if (!isSystemAgentInferenceUnavailableError(error)) {
       throw error;
     }
-    return `${notice}\n${applied ? "The write was applied, but inference" : "Inference"} could not propose a repair. Run \`openclaw doctor --fix\` on the machine running FRIDAY, then try again.`;
+    return `${notice}\n${applied ? "The write was applied, but inference" : "Inference"} could not propose a repair. Run \`openclaw doctor --fix\` on the machine running OpenClaw, then try again.`;
   }
   return recovery.text
     ? `${notice}\n\n${recovery.text}`
-    : `${notice}\nUse \`config schema <path>\` here to check the expected shape. Or, with FRIDAY stopped, run \`openclaw doctor --fix\` on the machine running it.`;
+    : `${notice}\nUse \`config schema <path>\` here to check the expected shape. Or, with OpenClaw stopped, run \`openclaw doctor --fix\` on the machine running it.`;
 }

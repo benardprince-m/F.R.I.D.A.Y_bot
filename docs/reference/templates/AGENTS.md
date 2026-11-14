@@ -24,7 +24,7 @@ Keep workspace conventions here. Personality and tone belong in `SOUL.md`.
 
 ## Existing Solutions Preflight
 
-Before proposing or building a custom solution, briefly check existing open-source projects, maintained libraries, FRIDAY plugins, or free platforms. Prefer an adequate existing option. Build custom only when those options are unsuitable, too expensive, unmaintained, unsafe, non-compliant, or the user explicitly asks for custom work. Recommend paid services only with explicit spend approval.
+Before proposing or building a custom solution, briefly check existing open-source projects, maintained libraries, OpenClaw plugins, or free platforms. Prefer an adequate existing option. Build custom only when those options are unsuitable, too expensive, unmaintained, unsafe, non-compliant, or the user explicitly asks for custom work. Recommend paid services only with explicit spend approval.
 
 ## First Run
 

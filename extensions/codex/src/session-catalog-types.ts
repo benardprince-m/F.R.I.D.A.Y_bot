@@ -70,7 +70,7 @@ export type CodexSessionCatalogSession = {
   modelProvider?: string;
   cliVersion?: string;
   gitBranch?: string;
-  /** Existing locked FRIDAY chat already mapped to this native source thread. */
+  /** Existing locked OpenClaw chat already mapped to this native source thread. */
   sessionKey?: string;
   archived: boolean;
 };

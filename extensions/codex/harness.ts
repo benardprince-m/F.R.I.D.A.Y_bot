@@ -35,7 +35,7 @@ function requireCodexCompactionCapabilities<T extends AgentHarnessCompactParams>
     typeof capabilities.retainSourceAuthority !== "function"
   ) {
     throw new Error(
-      "This host did not provide compaction source authority. Update FRIDAY before compacting this session.",
+      "This host did not provide compaction source authority. Update OpenClaw before compacting this session.",
     );
   }
   capabilities.assertActive();

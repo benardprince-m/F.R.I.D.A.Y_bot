@@ -434,7 +434,7 @@ it("distinguishes unsupported exec methods from missing filesystem resources", a
   for (const method of ["fs/walk", "unsupported/method"]) {
     await expect(rpc(socket, method, {})).rejects.toMatchObject({
       code: -32601,
-      message: `Unsupported FRIDAY sandbox exec-server method: ${method}`,
+      message: `Unsupported OpenClaw sandbox exec-server method: ${method}`,
     });
   }
   await expect(

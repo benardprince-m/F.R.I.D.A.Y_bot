@@ -277,7 +277,7 @@ describe("ensureConfigReady", () => {
     } else {
       await expect(ready).rejects.toMatchObject({ name: "ExitError", code: 1 });
       expect(plainErrorCalls(runtime)).toEqual([
-        "FRIDAY config is invalid",
+        "OpenClaw config is invalid",
         "File: /tmp/openclaw.json",
         "Problem:",
         "  - channels.quietchat: invalid",
@@ -442,7 +442,7 @@ describe("ensureConfigReady", () => {
       ok: false,
       error: {
         type: "cli_error",
-        message: "FRIDAY config is invalid: /tmp/openclaw.json",
+        message: "OpenClaw config is invalid: /tmp/openclaw.json",
       },
       issues: [{ path: "channels.quietchat", message: "invalid" }],
     });

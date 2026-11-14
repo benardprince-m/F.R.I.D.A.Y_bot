@@ -1,4 +1,4 @@
-/** MCP SDK OAuth provider backed by canonical FRIDAY state. */
+/** MCP SDK OAuth provider backed by canonical OpenClaw state. */
 import { randomUUID } from "node:crypto";
 import type { OAuthClientProvider } from "@modelcontextprotocol/sdk/client/auth.js";
 import type { OAuthClientMetadata, OAuthTokens } from "@modelcontextprotocol/sdk/shared/auth.js";
@@ -158,7 +158,7 @@ export async function createMcpOAuthClientProvider(params: {
       const redirectUrl = resolveOAuthRedirectUrl(config, preparedStore());
       const scope = normalizeOptionalString(config.scope);
       return {
-        client_name: "FRIDAY MCP",
+        client_name: "OpenClaw MCP",
         redirect_uris: [redirectUrl],
         grant_types: ["authorization_code", "refresh_token"],
         response_types: ["code"],

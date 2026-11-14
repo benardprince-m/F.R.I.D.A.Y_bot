@@ -14,7 +14,7 @@ struct AboutSettings: View {
                 .accessibilityHidden(true)
 
             VStack(spacing: 5) {
-                Text("FRIDAY")
+                Text("OpenClaw")
                     .font(.system(size: 24, weight: .bold))
                 Text(String(format: String(localized: "Version %@"), self.build.versionDisplay))
                     .foregroundStyle(.secondary)
@@ -67,7 +67,7 @@ struct AboutSettings: View {
             }
             .controlSize(.small)
 
-            Text("© 2026 FRIDAY Foundation — MIT License.")
+            Text("© 2026 OpenClaw Foundation — MIT License.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }

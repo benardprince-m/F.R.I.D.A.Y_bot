@@ -15,7 +15,7 @@ loader. It is not part of `api.runtime.gateway` or a tool invocation.
 
 A plugin must check `capabilityVersion === 2` before calling `open()` or
 `bindPrincipal()`. An older host could otherwise ignore a person option and open
-an owner connection. If the capability is absent or older, report that FRIDAY
+an owner connection. If the capability is absent or older, report that OpenClaw
 needs an update and keep delegated access disabled; do not substitute a loopback
 connection or a synthetic Gateway client. The factory requires an explicit `principal`.
 The factory capability version is separate from the Gateway wire protocol.
@@ -35,7 +35,7 @@ async function openRemoteUi(
   assertCurrent: () => void,
 ) {
   if (!factory || factory.capabilityVersion !== 2) {
-    throw new Error("Update FRIDAY to enable principal-bound remote ingress.");
+    throw new Error("Update OpenClaw to enable principal-bound remote ingress.");
   }
   return factory.open({
     audienceId: "example-grant-id",

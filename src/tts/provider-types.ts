@@ -112,7 +112,7 @@ export type SpeechListVoicesRequest = {
   timeoutMs?: number;
 };
 
-/** Provider hook input for resolving normalized config from raw FRIDAY config. */
+/** Provider hook input for resolving normalized config from raw OpenClaw config. */
 export type SpeechProviderResolveConfigContext = {
   cfg: OpenClawConfig;
   rawConfig: Record<string, unknown>;
