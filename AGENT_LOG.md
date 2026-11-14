@@ -6,6 +6,32 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-14T09:37Z — WS-D: skill acquisition protocol + manifest validation
+
+**Goal:** Build WS-D, the last workstream with no implementation — the controlled capability-acquisition protocol (§7.6) and the skill manifest (§6.3).
+
+**Scope:** `src/friday/skills/` (new) — `acquisition.ts` + test, `manifest.ts` + test. No engine internals modified.
+
+**Execution:**
+
+- `acquisition.ts`: `mayAdvance(record, next)` enforces the 8-step protocol as a gated state machine — one stage at a time; assessment must pass before sandbox; sandbox must be clean and a disable path recorded before registration; production/paid access requires explicit owner approval.
+- `manifest.ts`: `validateManifest()` requires name/version/description/permissions/dataClasses/egress/cost/failureBehavior/disablePath. Rejects a `customer` data class (DeepMark boundary open, §12 #7) and a `credential` data class (secrets come from the vault); warns on paid skills.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test src/friday --maxWorkers=1` → **17 files, 106 tests passed** (2.5s).
+- `pnpm tsgo:core` → **exit 0**.
+
+**Side effects:** Four new files; board updated (D-01, D-02 → DONE-PROOF). Repository still private.
+
+**Outcome:** Completed — WS-D contracts implemented and proven. Phase 0 soul layer is now broadly complete at unit level.
+
+**Known risks:** Not wired into the engine's skill registry yet. D-03 (Agent-Reach) remains BLOCKED-INPUT.
+
+**Next action:** Engine wiring phase (turn pipeline, secret intake, integrity, correction, degradation, acquisition) at the real entry points — the point at which a full build is required to prove it.
+
+---
+
 ## 2026-11-14T09:36Z — WS-B/WS-G: five-layer memory map + degradation ladder
 
 **Goal:** Close the five-layer memory contract (B-01) and the degradation ladder with honest status (G-02).

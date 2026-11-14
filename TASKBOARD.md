@@ -49,11 +49,11 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 
 ### WS-D · Skill Factory & Library — registry, acquisition protocol
 
-| ID   | Task                                                                         | Spec | Owner     | Status                          | Proof |
-| ---- | ---------------------------------------------------------------------------- | ---- | --------- | ------------------------------- | ----- |
-| D-01 | Acquisition protocol contract: detect→research→assess→sandbox→registry→log   | §7.6 | OpenHands | TODO                            | —     |
-| D-02 | Skill manifest: permissions, data classes, egress, cost, failure behavior    | §6.3 | OpenHands | TODO                            | —     |
-| D-03 | Agent-Reach as first acquisition: read docs, sandbox, per-channel diagnostic | §7.6 | OpenHands | BLOCKED-INPUT (source/backends) | —     |
+| ID   | Task                                                                         | Spec | Owner     | Status                          | Proof                                           |
+| ---- | ---------------------------------------------------------------------------- | ---- | --------- | ------------------------------- | ----------------------------------------------- |
+| D-01 | Acquisition protocol contract: detect→research→assess→sandbox→registry→log   | §7.6 | OpenHands | DONE-PROOF (unit)               | `src/friday/skills/acquisition.ts` · tests pass |
+| D-02 | Skill manifest: permissions, data classes, egress, cost, failure behavior    | §6.3 | OpenHands | DONE-PROOF (unit)               | `src/friday/skills/manifest.ts` · tests pass    |
+| D-03 | Agent-Reach as first acquisition: read docs, sandbox, per-channel diagnostic | §7.6 | OpenHands | BLOCKED-INPUT (source/backends) | —                                               |
 
 ### WS-E · Task Ledger & Debriefs — durable records, checkpoints, resume
 
