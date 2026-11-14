@@ -18,26 +18,28 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 
 **Build gate:** full `pnpm build` proven green on this host (`EXIT=0`, 5m25s, zero errors) — 2026-11-14. It must run as a polled background job: the `write-unified-entry-dts` step spawns the TS7 native `tsc` (~8 GiB RSS) and the host has no swap.
 
+**Packaging:** the soul layer is a bundled plugin (`extensions/friday/`, id `friday`), wired through Plugin SDK hooks — not core `src/` code. `index.ts` is the only wiring layer; `src/` holds pure policy. Disabled by default; fail-closed until `ownerIds` is set.
+
 ### WS-A · Gateway & Messaging — owner auth, unknown-sender denial, queue
 
-| ID   | Task                                                                                              | Spec           | Owner     | Status                            | Proof                                                            |
-| ---- | ------------------------------------------------------------------------------------------------- | -------------- | --------- | --------------------------------- | ---------------------------------------------------------------- |
-| A-01 | Owner-auth decision policy: authenticated owner only; unknown senders denied tool + memory access | MSG-01, §9     | OpenHands | DONE-PROOF (unit)                 | `src/friday/policy/owner-auth.ts` · commit 6c91d742 · tests pass |
-| A-02 | Wire owner identity to the engine allowlist/owner concept (contract, not a new allowlist)         | MSG-01         | OpenHands | BLOCKED-INPUT (owner Telegram id) | —                                                                |
-| A-03 | Telegram text round-trip: message → reply, live                                                   | MSG-01, MSG-04 | OpenHands | BLOCKED-INPUT (bot token)         | —                                                                |
-| A-04 | Conversation continuity via checkpoint, not transcript dump                                       | MSG-02         | OpenHands | TODO                              | —                                                                |
-| A-05 | Quiet-mode batching + one-follow-up ceiling policy                                                | MSG-06, §5.3   | OpenHands | DONE-PROOF (unit)                 | `src/friday/policy/quiet-modes.ts` · tests pass                  |
+| ID   | Task                                                                                              | Spec           | Owner     | Status                            | Proof                                                                                                      |
+| ---- | ------------------------------------------------------------------------------------------------- | -------------- | --------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| A-01 | Owner-auth decision policy: authenticated owner only; unknown senders denied tool + memory access | MSG-01, §9     | OpenHands | DONE-PROOF (unit + entry point)   | `extensions/friday/src/policy/owner-auth.ts` · wired at `before_agent_run` in `index.ts` · `index.test.ts` |
+| A-02 | Wire owner identity to the engine allowlist/owner concept (contract, not a new allowlist)         | MSG-01         | OpenHands | BLOCKED-INPUT (owner Telegram id) | —                                                                                                          |
+| A-03 | Telegram text round-trip: message → reply, live                                                   | MSG-01, MSG-04 | OpenHands | BLOCKED-INPUT (bot token)         | —                                                                                                          |
+| A-04 | Conversation continuity via checkpoint, not transcript dump                                       | MSG-02         | OpenHands | TODO                              | —                                                                                                          |
+| A-05 | Quiet-mode batching + one-follow-up ceiling policy                                                | MSG-06, §5.3   | OpenHands | DONE-PROOF (unit)                 | `extensions/friday/src/policy/quiet-modes.ts` · tests pass                                                 |
 
 ### WS-B · Memory — five-layer model, Librarian, forget-with-evidence
 
-| ID   | Task                                                                          | Spec      | Owner     | Status                       | Proof                                                             |
-| ---- | ----------------------------------------------------------------------------- | --------- | --------- | ---------------------------- | ----------------------------------------------------------------- |
-| B-01 | Map FRIDAY's five memory layers onto the engine's memory subsystem (contract) | §7.4      | OpenHands | DONE-PROOF (unit)            | `src/friday/memory/layers.ts` · tests pass                        |
-| B-02 | Librarian classify: ADD / UPDATE / MERGE / NOOP with importance×recency×use   | §7.4      | OpenHands | DONE-PROOF (unit)            | `src/friday/memory/librarian.ts` · commit b7ae3617 · tests pass   |
-| B-03 | Provenance on every memory (source + date); confidence labels                 | §7.4      | OpenHands | DONE-PROOF (unit)            | `Provenance`/`Confidence` types · `docs/contracts/friday-core.md` |
-| B-04 | "Forget X" purge across all layers + verifiable evidence report               | §7.4, §14 | OpenHands | DONE-PROOF (unit)            | `src/friday/memory/forget.ts` · commit b7ae3617 · tests pass      |
-| B-05 | Correction path: update fact, keep audit trail, no revival                    | §7.4      | OpenHands | DONE-PROOF (unit)            | `src/friday/memory/correction.ts` · tests pass                    |
-| B-06 | Nightly consolidation: merge/compress/decay, idempotent                       | §7.4      | OpenHands | DEFERRED (Phase 1 heartbeat) | —                                                                 |
+| ID   | Task                                                                          | Spec      | Owner     | Status                       | Proof                                                                      |
+| ---- | ----------------------------------------------------------------------------- | --------- | --------- | ---------------------------- | -------------------------------------------------------------------------- |
+| B-01 | Map FRIDAY's five memory layers onto the engine's memory subsystem (contract) | §7.4      | OpenHands | DONE-PROOF (unit)            | `extensions/friday/src/memory/layers.ts` · tests pass                      |
+| B-02 | Librarian classify: ADD / UPDATE / MERGE / NOOP with importance×recency×use   | §7.4      | OpenHands | DONE-PROOF (unit)            | `extensions/friday/src/memory/librarian.ts` · commit b7ae3617 · tests pass |
+| B-03 | Provenance on every memory (source + date); confidence labels                 | §7.4      | OpenHands | DONE-PROOF (unit)            | `Provenance`/`Confidence` types · `docs/contracts/friday-core.md`          |
+| B-04 | "Forget X" purge across all layers + verifiable evidence report               | §7.4, §14 | OpenHands | DONE-PROOF (unit)            | `extensions/friday/src/memory/forget.ts` · commit b7ae3617 · tests pass    |
+| B-05 | Correction path: update fact, keep audit trail, no revival                    | §7.4      | OpenHands | DONE-PROOF (unit)            | `extensions/friday/src/memory/correction.ts` · tests pass                  |
+| B-06 | Nightly consolidation: merge/compress/decay, idempotent                       | §7.4      | OpenHands | DEFERRED (Phase 1 heartbeat) | —                                                                          |
 
 ### WS-C · Model Router — free-tier chain, failover, cost tracking
 
@@ -51,43 +53,43 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 
 ### WS-D · Skill Factory & Library — registry, acquisition protocol
 
-| ID   | Task                                                                         | Spec | Owner     | Status                          | Proof                                           |
-| ---- | ---------------------------------------------------------------------------- | ---- | --------- | ------------------------------- | ----------------------------------------------- |
-| D-01 | Acquisition protocol contract: detect→research→assess→sandbox→registry→log   | §7.6 | OpenHands | DONE-PROOF (unit)               | `src/friday/skills/acquisition.ts` · tests pass |
-| D-02 | Skill manifest: permissions, data classes, egress, cost, failure behavior    | §6.3 | OpenHands | DONE-PROOF (unit)               | `src/friday/skills/manifest.ts` · tests pass    |
-| D-03 | Agent-Reach as first acquisition: read docs, sandbox, per-channel diagnostic | §7.6 | OpenHands | BLOCKED-INPUT (source/backends) | —                                               |
+| ID   | Task                                                                         | Spec | Owner     | Status                          | Proof                                                      |
+| ---- | ---------------------------------------------------------------------------- | ---- | --------- | ------------------------------- | ---------------------------------------------------------- |
+| D-01 | Acquisition protocol contract: detect→research→assess→sandbox→registry→log   | §7.6 | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/skills/acquisition.ts` · tests pass |
+| D-02 | Skill manifest: permissions, data classes, egress, cost, failure behavior    | §6.3 | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/skills/manifest.ts` · tests pass    |
+| D-03 | Agent-Reach as first acquisition: read docs, sandbox, per-channel diagnostic | §7.6 | OpenHands | BLOCKED-INPUT (source/backends) | —                                                          |
 
 ### WS-E · Task Ledger & Debriefs — durable records, checkpoints, resume
 
-| ID   | Task                                                                                            | Spec         | Owner     | Status               | Proof                                                       |
-| ---- | ----------------------------------------------------------------------------------------------- | ------------ | --------- | -------------------- | ----------------------------------------------------------- |
-| E-01 | Durable task record: owner, goal, status, start, checkpoint, tools, budget, next-wake, evidence | §6.2, AUT-01 | OpenHands | DONE-PROOF (unit)    | `src/friday/tasks/ledger.ts` · commit b7ae3617 · tests pass |
-| E-02 | Restart-resume from a verified checkpoint; no silent loss                                       | §6.2, AUT-02 | OpenHands | TODO (engine wiring) | `resume()` unit-tested                                      |
-| E-03 | Idempotency keys for money/public writes; no duplicate side effect                              | AUT-06       | OpenHands | DONE-PROOF (unit)    | `src/friday/tasks/idempotency.ts` · tests pass              |
-| E-04 | Debrief generator: outcome / proof / cost / failures / next action                              | §5.1, AUT-04 | OpenHands | DONE-PROOF (unit)    | `renderDebrief()` · commit b7ae3617 · tests pass            |
+| ID   | Task                                                                                            | Spec         | Owner     | Status               | Proof                                                                  |
+| ---- | ----------------------------------------------------------------------------------------------- | ------------ | --------- | -------------------- | ---------------------------------------------------------------------- |
+| E-01 | Durable task record: owner, goal, status, start, checkpoint, tools, budget, next-wake, evidence | §6.2, AUT-01 | OpenHands | DONE-PROOF (unit)    | `extensions/friday/src/tasks/ledger.ts` · commit b7ae3617 · tests pass |
+| E-02 | Restart-resume from a verified checkpoint; no silent loss                                       | §6.2, AUT-02 | OpenHands | TODO (engine wiring) | `resume()` unit-tested                                                 |
+| E-03 | Idempotency keys for money/public writes; no duplicate side effect                              | AUT-06       | OpenHands | DONE-PROOF (unit)    | `extensions/friday/src/tasks/idempotency.ts` · tests pass              |
+| E-04 | Debrief generator: outcome / proof / cost / failures / next action                              | §5.1, AUT-04 | OpenHands | DONE-PROOF (unit)    | `renderDebrief()` · commit b7ae3617 · tests pass                       |
 
 ### WS-F · Security & Vault — PII filter, injection scrub, kill-switch
 
-| ID   | Task                                                                                    | Spec        | Owner     | Status                        | Proof                                                                 |
-| ---- | --------------------------------------------------------------------------------------- | ----------- | --------- | ----------------------------- | --------------------------------------------------------------------- |
-| F-01 | PII + secret filter before any third-party model call                                   | §7.15, §9   | OpenHands | DONE-PROOF (unit)             | `src/friday/policy/redaction.ts` · commit b7ae3617 · tests pass       |
-| F-02 | Prompt-injection scrubber + label untrusted content                                     | §7.15       | OpenHands | DONE-PROOF (unit)             | `src/friday/policy/injection-guard.ts` · commit b7ae3617 · tests pass |
-| F-03 | `/lockdown` kill switch: stop non-essential egress, keep owner messaging                | §7.15       | OpenHands | DONE-PROOF (unit)             | `src/friday/policy/kill-switch.ts` · commit b7ae3617 · tests pass     |
-| F-04 | Secret store: just-in-time fetch, never in memory/logs/prompts/Git                      | §7.11, §6.3 | OpenHands | TODO (engine provides store)  | —                                                                     |
-| F-05 | Constitution/persona integrity check vs owner-approved baseline                         | §7.5        | OpenHands | DONE-PROOF (unit)             | `src/friday/policy/integrity.ts` · tests pass                         |
-| F-06 | Vault dual-auth + $10 unattended cap at the enforcement layer                           | §7.11       | OpenHands | BLOCKED-INPUT (vault factors) | —                                                                     |
-| F-07 | Turn pipeline: compose admission → trust label → egress scrub → egress gate at one seam | §6.3, §7.15 | OpenHands | DONE-PROOF (unit)             | `src/friday/turn.ts` · commit 6c91d742 · 9 tests pass                 |
+| ID   | Task                                                                                    | Spec        | Owner     | Status                          | Proof                                                                                                                                        |
+| ---- | --------------------------------------------------------------------------------------- | ----------- | --------- | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| F-01 | PII + secret filter before any third-party model call                                   | §7.15, §9   | OpenHands | DONE-PROOF (unit + entry point) | `extensions/friday/src/policy/redaction.ts` · wired at `before_message_write` in `index.ts` · `index.test.ts`                                |
+| F-02 | Prompt-injection scrubber + label untrusted content                                     | §7.15       | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/policy/injection-guard.ts` · commit b7ae3617 · tests pass                                                             |
+| F-03 | `/lockdown` kill switch: stop non-essential egress, keep owner messaging                | §7.15       | OpenHands | DONE-PROOF (unit + entry point) | `extensions/friday/src/policy/kill-switch.ts` · wired at `before_agent_run` + `/lockdown`,`/unlock` commands in `index.ts` · `index.test.ts` |
+| F-04 | Secret store: just-in-time fetch, never in memory/logs/prompts/Git                      | §7.11, §6.3 | OpenHands | TODO (engine provides store)    | —                                                                                                                                            |
+| F-05 | Constitution/persona integrity check vs owner-approved baseline                         | §7.5        | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/policy/integrity.ts` · tests pass                                                                                     |
+| F-06 | Vault dual-auth + $10 unattended cap at the enforcement layer                           | §7.11       | OpenHands | BLOCKED-INPUT (vault factors)   | —                                                                                                                                            |
+| F-07 | Turn pipeline: compose admission → trust label → egress scrub → egress gate at one seam | §6.3, §7.15 | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/turn.ts` · commit 6c91d742 · 9 tests pass                                                                             |
 
 ### WS-G · Heartbeat & Ops — watchdog, health, doctor, docker
 
-| ID   | Task                                                                                                               | Spec            | Owner     | Status               | Proof                                           |
-| ---- | ------------------------------------------------------------------------------------------------------------------ | --------------- | --------- | -------------------- | ----------------------------------------------- |
-| G-01 | Heartbeat loop (≈1 min) over the engine's cron/heartbeat                                                           | §7.8            | OpenHands | TODO                 | —                                               |
-| G-02 | Component checks + degradation ladder + honest status                                                              | §7.9            | OpenHands | DONE-PROOF (unit)    | `src/friday/policy/degradation.ts` · tests pass |
-| G-03 | `doctor` in chat: healthy / degraded / incident with evidence                                                      | §7.8, §9        | OpenHands | TODO                 | —                                               |
-| G-04 | Docker compose for the VPS host (must ship with a phone-triggerable deploy path)                                   | §6.1, §11       | OpenHands | BLOCKED-INPUT (host) | —                                               |
-| G-05 | systemd watchdog units (or the managed-host equivalent)                                                            | §7.9            | OpenHands | BLOCKED-INPUT (host) | —                                               |
-| G-06 | Phone-only control path: chat command to deploy/update/restart + ingest a secret from chat then delete the message | §4.1 law 2, §14 | OpenHands | TODO                 | —                                               |
+| ID   | Task                                                                                                               | Spec            | Owner     | Status               | Proof                                                      |
+| ---- | ------------------------------------------------------------------------------------------------------------------ | --------------- | --------- | -------------------- | ---------------------------------------------------------- |
+| G-01 | Heartbeat loop (≈1 min) over the engine's cron/heartbeat                                                           | §7.8            | OpenHands | TODO                 | —                                                          |
+| G-02 | Component checks + degradation ladder + honest status                                                              | §7.9            | OpenHands | DONE-PROOF (unit)    | `extensions/friday/src/policy/degradation.ts` · tests pass |
+| G-03 | `doctor` in chat: healthy / degraded / incident with evidence                                                      | §7.8, §9        | OpenHands | TODO                 | —                                                          |
+| G-04 | Docker compose for the VPS host (must ship with a phone-triggerable deploy path)                                   | §6.1, §11       | OpenHands | BLOCKED-INPUT (host) | —                                                          |
+| G-05 | systemd watchdog units (or the managed-host equivalent)                                                            | §7.9            | OpenHands | BLOCKED-INPUT (host) | —                                                          |
+| G-06 | Phone-only control path: chat command to deploy/update/restart + ingest a secret from chat then delete the message | §4.1 law 2, §14 | OpenHands | TODO                 | —                                                          |
 
 ---
 
