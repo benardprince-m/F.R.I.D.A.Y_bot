@@ -16,6 +16,8 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 
 ## Phase 0 — Alive (the only active phase)
 
+**Build gate:** full `pnpm build` proven green on this host (`EXIT=0`, 5m25s, zero errors) — 2026-11-14. It must run as a polled background job: the `write-unified-entry-dts` step spawns the TS7 native `tsc` (~8 GiB RSS) and the host has no swap.
+
 ### WS-A · Gateway & Messaging — owner auth, unknown-sender denial, queue
 
 | ID   | Task                                                                                              | Spec           | Owner     | Status                            | Proof                                                            |
