@@ -197,8 +197,8 @@ export function reusedEvidenceChildren() {
   return [
     ["normalCi", "101", "CI"],
     ["pluginPrerelease", "202", "Plugin Prerelease"],
-    ["releaseChecks", "303", "OpenClaw Release Checks"],
-    ["productPerformance", "505", "OpenClaw Performance"],
+    ["releaseChecks", "303", "FRIDAY Release Checks"],
+    ["productPerformance", "505", "FRIDAY Performance"],
   ].map(([role, runId, name]) => ({
     displayTitle: `${name} full-release-validation-99-1`,
     headBranch: "release-ci/tooling",

@@ -91,7 +91,7 @@ describe("formatCliJsonFailure", () => {
       argv: ["node", "openclaw", "update", "--json"],
       env: {},
     }).join("\n");
-    expect(output).toContain("[openclaw] OpenClaw needs a manual recovery step.");
+    expect(output).toContain("[openclaw] FRIDAY needs a manual recovery step.");
     expect(output).toContain("Let the updater restore the previous package and exit");
     expect(output).toContain("openclaw doctor --fix");
     expect(formatCliJsonFailure(error, { env: {} })).toMatchObject({
@@ -136,7 +136,7 @@ describe("formatCliJsonFailure", () => {
 
 describe("formatCliFailureLines", () => {
   const maintenanceReason =
-    "OpenClaw state at ~/.openclaw/state/openclaw.sqlite is undergoing offline maintenance; retry when it finishes.";
+    "FRIDAY state at ~/.openclaw/state/openclaw.sqlite is undergoing offline maintenance; retry when it finishes.";
 
   it.each([
     ["gateway"],

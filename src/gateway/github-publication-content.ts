@@ -35,7 +35,7 @@ export async function prepareGitHubPublicationContent(params: {
     trailers,
     commitMessage: `${appendGitHubPublicationMessage(
       credit ? `${title}\n\nWorked on by:\n${credit}` : title,
-      [...trailers, `OpenClaw-Publication: ${row.request_id}`],
+      [...trailers, `FRIDAY-Publication: ${row.request_id}`],
     )}\n`,
     assertAction: () => {
       params.assertCurrent();
@@ -51,7 +51,7 @@ export async function prepareGitHubPublicationContent(params: {
       });
       const participants = credit ? `\n\n## Worked on by\n\n${credit}` : "";
       const footer = sessionUrl?.startsWith("https://")
-        ? `\n\n---\n[View the OpenClaw team session](${sessionUrl})`
+        ? `\n\n---\n[View the FRIDAY team session](${sessionUrl})`
         : "";
       return `${params.description}${participants}\n\n<!-- openclaw-publication:${row.request_id} -->${footer}`;
     },

@@ -52,8 +52,8 @@ function qualify(run: Record<string, unknown>, failFast: string | boolean = atte
 
 it.each([
   ["historical canonical rerun", attemptAwareFailFast, 2, "openclaw/openclaw", true],
-  ["scoped canonical rerun", repositoryScopedFailFast, 2, "OpenClaw/OpenClaw", false],
-  ["historical canonical first attempt", attemptAwareFailFast, 1, "OpenClaw/OpenClaw", false],
+  ["scoped canonical rerun", repositoryScopedFailFast, 2, "FRIDAY/FRIDAY", false],
+  ["historical canonical first attempt", attemptAwareFailFast, 1, "FRIDAY/FRIDAY", false],
   ["historical fork first attempt", attemptAwareFailFast, 1, "example/openclaw", true],
   ["scoped fork first attempt", repositoryScopedFailFast, 1, "example/openclaw", true],
   ["missing attempt", attemptAwareFailFast, undefined, "example/openclaw", false],

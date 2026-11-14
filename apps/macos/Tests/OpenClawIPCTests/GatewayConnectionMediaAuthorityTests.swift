@@ -2,7 +2,7 @@ import CryptoKit
 import Foundation
 import OpenClawChatUI
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawKit
 
 @Suite(.serialized, .testWaitLimit)

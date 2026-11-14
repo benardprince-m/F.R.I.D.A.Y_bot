@@ -81,7 +81,7 @@ export function resolveUpdateResultNextAction(params: {
       step.failureFacts?.some((fact) => fact.code === "host-owned-plugin-link"),
     );
     const retentionGuidance = hostLinkFailure
-      ? `A dependency link reaches OpenClaw-owned files that cannot be safely retained. Keep source files and backups; inspect the link in the local error and follow https://docs.openclaw.ai/cli/update#runtime-retention-failures. Do not skip runtime retention. After repairing the link, retry the update.`
+      ? `A dependency link reaches FRIDAY-owned files that cannot be safely retained. Keep source files and backups; inspect the link in the local error and follow https://docs.openclaw.ai/cli/update#runtime-retention-failures. Do not skip runtime retention. After repairing the link, retry the update.`
       : undefined;
     const reason =
       result.recovery?.serviceRestartSafe === false ? result.recovery.reason : undefined;
@@ -126,7 +126,7 @@ export function resolveUpdateResultNextAction(params: {
     // Record deployment-specific advice here so CLI output and later reports agree.
     // Keep the recovery constraints: an image change must not roll back migrated state.
     const deployment = containerPackageFailure
-      ? `Detected ${foreignDestination ? "a foreign npm destination" : "package update permission failure"} inside a container. Pull or build an OpenClaw image with the target version, then recreate or redeploy the container with the same state/config mounts. In-container package changes are not durable.`
+      ? `Detected ${foreignDestination ? "a foreign npm destination" : "package update permission failure"} inside a container. Pull or build an FRIDAY image with the target version, then recreate or redeploy the container with the same state/config mounts. In-container package changes are not durable.`
       : "";
     return [
       detail,
@@ -144,7 +144,7 @@ export function resolveUpdateResultNextAction(params: {
   }
   const command = (value: string) => formatCliCommand(value, env);
   if (result.reason === "not-git-install") {
-    return `This OpenClaw install isn't a git checkout, and the package manager couldn't be detected. Update via your package manager, then run \`${command("openclaw doctor")}\` and \`${command("openclaw gateway restart")}\`. Examples: \`npm i -g openclaw@latest\` or \`pnpm add -g openclaw@latest\`.`;
+    return `This FRIDAY install isn't a git checkout, and the package manager couldn't be detected. Update via your package manager, then run \`${command("openclaw doctor")}\` and \`${command("openclaw gateway restart")}\`. Examples: \`npm i -g openclaw@latest\` or \`pnpm add -g openclaw@latest\`.`;
   }
   if (result.status === "ok") {
     if (result.recovery?.serviceRestartSafe === true && result.recovery.service === "healthy") {

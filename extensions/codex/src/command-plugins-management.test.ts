@@ -162,7 +162,7 @@ describe("Codex /codex plugins subcommand", () => {
       },
     });
     expect(runtime.install).toHaveBeenCalledOnce();
-    expect(result.text).toContain("was installed in Codex but could not be authorized in OpenClaw");
+    expect(result.text).toContain("was installed in Codex but could not be authorized in FRIDAY");
     expect(result.text).toContain("Command owner was revoked");
     expect(io.current()).toEqual({});
   });

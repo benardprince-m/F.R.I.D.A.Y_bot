@@ -38,7 +38,7 @@ function parseOutput(output: unknown): Record<string, unknown> {
     return record(parsed);
   }
   // Codex native exec/wait returns a status header followed by content items,
-  // not the OpenClaw JSON envelope. Failed/terminated headers never prove success.
+  // not the FRIDAY JSON envelope. Failed/terminated headers never prove success.
   const header = text([parsed[0]]);
   const cellId = /^Script running with cell ID ([^\s\n]+)/u.exec(header)?.[1];
   if (cellId) {

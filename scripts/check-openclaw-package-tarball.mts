@@ -74,10 +74,10 @@ function parseArgs(argv: string[]) {
       continue;
     }
     if (arg.startsWith("-")) {
-      throw new Error(`Unknown OpenClaw package tarball check option: ${arg}`);
+      throw new Error(`Unknown FRIDAY package tarball check option: ${arg}`);
     }
     if (tarball) {
-      throw new Error(`Unexpected OpenClaw package tarball check argument: ${arg}`);
+      throw new Error(`Unexpected FRIDAY package tarball check argument: ${arg}`);
     }
     tarball = arg;
   }
@@ -100,7 +100,7 @@ if (cliArgs.help) {
 
 const { tarball } = cliArgs;
 if (!fs.existsSync(tarball)) {
-  fail(`OpenClaw package tarball does not exist: ${tarball}`);
+  fail(`FRIDAY package tarball does not exist: ${tarball}`);
 }
 
 const PACKAGE_DEPENDENCY_SECTIONS = [
@@ -415,7 +415,7 @@ try {
   );
 } catch (error) {
   fs.rmSync(archiveRoot, { recursive: true, force: true });
-  fail(`OpenClaw package tarball preflight failed:\n${coerceErrorMessage(error)}`);
+  fail(`FRIDAY package tarball preflight failed:\n${coerceErrorMessage(error)}`);
 }
 const entrySet = new Set(normalized);
 const errors: string[] = [];
@@ -671,11 +671,11 @@ errors.push(
 
 if (errors.length > 0) {
   fs.rmSync(archiveRoot, { recursive: true, force: true });
-  fail(`OpenClaw package tarball integrity failed:\n${errors.join("\n")}`);
+  fail(`FRIDAY package tarball integrity failed:\n${errors.join("\n")}`);
 }
 
 for (const warning of warnings) {
-  console.warn(`OpenClaw package tarball integrity warning: ${warning}`);
+  console.warn(`FRIDAY package tarball integrity warning: ${warning}`);
 }
 fs.rmSync(archiveRoot, { recursive: true, force: true });
-console.log("OpenClaw package tarball integrity passed.");
+console.log("FRIDAY package tarball integrity passed.");

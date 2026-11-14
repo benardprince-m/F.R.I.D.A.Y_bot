@@ -78,7 +78,7 @@ async function reconcileCodexComputerUseStartArtifactsOnce(
     computerUseConfig.enabled && computerUseConfig.autoInstall && ownsIsolatedCodexHome;
   const provisioningAgentDir = shouldProvisionComputerUse ? params.agentDir : undefined;
   if (shouldProvisionComputerUse && !provisioningAgentDir) {
-    throw new Error("Managed Codex Computer Use requires an OpenClaw agent directory");
+    throw new Error("Managed Codex Computer Use requires an FRIDAY agent directory");
   }
   if (provisioningAgentDir) {
     await ensureOwnedCodexHome(codexHome, provisioningAgentDir);

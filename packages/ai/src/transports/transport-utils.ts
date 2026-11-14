@@ -9,7 +9,7 @@ export { parseRetryAfterHeadersSeconds as parseRetryAfterSeconds } from "../inte
 export { parsePositiveInteger } from "./positive-integer.js";
 
 export const MALFORMED_STREAMING_FRAGMENT_ERROR_MESSAGE =
-  "OpenClaw transport error: malformed_streaming_fragment";
+  "FRIDAY transport error: malformed_streaming_fragment";
 
 /** Keep provider payloads out of parse errors without replacing unrelated failures. */
 export function streamFragmentError(

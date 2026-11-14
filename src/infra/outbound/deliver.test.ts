@@ -2427,7 +2427,7 @@ describe("deliverOutboundPayloads", () => {
           text: [
             "visible",
             "<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>",
-            "OpenClaw runtime context (internal):",
+            "FRIDAY runtime context (internal):",
             "<<<BEGIN_UNTRUSTED_CHILD_RESULT>>>",
             "raw child output",
             "<<<END_UNTRUSTED_CHILD_RESULT>>>",
@@ -2478,7 +2478,7 @@ describe("deliverOutboundPayloads", () => {
       ...matrixChunkConfig,
       tools: { fs: { workspaceOnly: true } },
     } as OpenClawConfig;
-    // Deliberately outside the OpenClaw temp root: that root is itself a default
+    // Deliberately outside the FRIDAY temp root: that root is itself a default
     // media root, so a state dir inside it would admit the source by containment
     // and hide whether the agent-scoped capability is what grants access.
     const openClawState = await createOpenClawTestState({

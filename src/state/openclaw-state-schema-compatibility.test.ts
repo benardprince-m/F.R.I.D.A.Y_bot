@@ -8,7 +8,7 @@ import {
 } from "./openclaw-state-schema-compatibility.js";
 import { OPENCLAW_STATE_SCHEMA_SQL } from "./openclaw-state-schema.js";
 
-describe("OpenClaw state runtime schema projection", () => {
+describe("FRIDAY state runtime schema projection", () => {
   it.each([
     { name: "absent lazy tables", full: false, change: "", issues: [] },
     { name: "present lazy tables", full: true, change: "", issues: [] },

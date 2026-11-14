@@ -49,7 +49,7 @@ function createDispatchRepository(root: string, options: DispatchRepositoryOptio
   execFileSync("git", ["init", "--bare", origin], { stdio: "ignore" });
   execFileSync("git", ["init", "-b", "main"], { cwd: checkout, stdio: "ignore" });
   runGit(checkout, ["config", "user.email", "release-test@openclaw.invalid"]);
-  runGit(checkout, ["config", "user.name", "OpenClaw Release Test"]);
+  runGit(checkout, ["config", "user.name", "FRIDAY Release Test"]);
   mkdirSync(join(checkout, ".github", "workflows"), { recursive: true });
   mkdirSync(join(checkout, "scripts"), { recursive: true });
   // Historical diagnostics intentionally exercise pre-bundled-AI, root-only sources.

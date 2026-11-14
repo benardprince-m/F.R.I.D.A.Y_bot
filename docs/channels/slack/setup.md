@@ -8,7 +8,7 @@ title: "Slack setup"
 sidebarTitle: "Setup"
 ---
 
-Install the plugin, create the Slack app, and give OpenClaw the tokens it needs.
+Install the plugin, create the Slack app, and give FRIDAY the tokens it needs.
 
 ## Install
 
@@ -35,18 +35,18 @@ Enterprise Grid organization installation, use the dedicated
 ```json Recommended
 {
   "display_information": {
-    "name": "OpenClaw",
-    "description": "Slack connector for OpenClaw"
+    "name": "FRIDAY",
+    "description": "Slack connector for FRIDAY"
   },
   "features": {
-    "bot_user": { "display_name": "OpenClaw", "always_online": true },
+    "bot_user": { "display_name": "FRIDAY", "always_online": true },
     "app_home": {
       "home_tab_enabled": true,
       "messages_tab_enabled": true,
       "messages_tab_read_only_enabled": false
     },
     "agent_view": {
-      "agent_description": "OpenClaw connects Slack Agent View conversations to OpenClaw agents.",
+      "agent_description": "FRIDAY connects Slack Agent View conversations to FRIDAY agents.",
       "suggested_prompts": [
         { "title": "What can you do?", "message": "What can you help me with?" },
         {
@@ -59,7 +59,7 @@ Enterprise Grid organization installation, use the dedicated
     "slash_commands": [
       {
         "command": "/openclaw",
-        "description": "Send a message to OpenClaw",
+        "description": "Send a message to FRIDAY",
         "should_escape": false
       }
     ]
@@ -122,18 +122,18 @@ Enterprise Grid organization installation, use the dedicated
 ```json Minimal
 {
   "display_information": {
-    "name": "OpenClaw",
-    "description": "Slack connector for OpenClaw"
+    "name": "FRIDAY",
+    "description": "Slack connector for FRIDAY"
   },
   "features": {
-    "bot_user": { "display_name": "OpenClaw", "always_online": true },
+    "bot_user": { "display_name": "FRIDAY", "always_online": true },
     "app_home": {
       "home_tab_enabled": true,
       "messages_tab_enabled": true,
       "messages_tab_read_only_enabled": false
     },
     "agent_view": {
-      "agent_description": "OpenClaw connects Slack Agent View conversations to OpenClaw agents.",
+      "agent_description": "FRIDAY connects Slack Agent View conversations to FRIDAY agents.",
       "suggested_prompts": [
         { "title": "What can you do?", "message": "What can you help me with?" },
         {
@@ -146,7 +146,7 @@ Enterprise Grid organization installation, use the dedicated
     "slash_commands": [
       {
         "command": "/openclaw",
-        "description": "Send a message to OpenClaw",
+        "description": "Send a message to FRIDAY",
         "should_escape": false
       }
     ]
@@ -200,7 +200,7 @@ Enterprise Grid organization installation, use the dedicated
 
       </Step>
 
-      <Step title="Configure OpenClaw">
+      <Step title="Configure FRIDAY">
 
         Recommended SecretRef setup:
 
@@ -255,18 +255,18 @@ openclaw gateway
 ```json Recommended
 {
   "display_information": {
-    "name": "OpenClaw",
-    "description": "Slack connector for OpenClaw"
+    "name": "FRIDAY",
+    "description": "Slack connector for FRIDAY"
   },
   "features": {
-    "bot_user": { "display_name": "OpenClaw", "always_online": true },
+    "bot_user": { "display_name": "FRIDAY", "always_online": true },
     "app_home": {
       "home_tab_enabled": true,
       "messages_tab_enabled": true,
       "messages_tab_read_only_enabled": false
     },
     "agent_view": {
-      "agent_description": "OpenClaw connects Slack Agent View conversations to OpenClaw agents.",
+      "agent_description": "FRIDAY connects Slack Agent View conversations to FRIDAY agents.",
       "suggested_prompts": [
         { "title": "What can you do?", "message": "What can you help me with?" },
         {
@@ -279,7 +279,7 @@ openclaw gateway
     "slash_commands": [
       {
         "command": "/openclaw",
-        "description": "Send a message to OpenClaw",
+        "description": "Send a message to FRIDAY",
         "should_escape": false,
         "url": "https://gateway-host.example.com/slack/events"
       }
@@ -348,18 +348,18 @@ openclaw gateway
 ```json Minimal
 {
   "display_information": {
-    "name": "OpenClaw",
-    "description": "Slack connector for OpenClaw"
+    "name": "FRIDAY",
+    "description": "Slack connector for FRIDAY"
   },
   "features": {
-    "bot_user": { "display_name": "OpenClaw", "always_online": true },
+    "bot_user": { "display_name": "FRIDAY", "always_online": true },
     "app_home": {
       "home_tab_enabled": true,
       "messages_tab_enabled": true,
       "messages_tab_read_only_enabled": false
     },
     "agent_view": {
-      "agent_description": "OpenClaw connects Slack Agent View conversations to OpenClaw agents.",
+      "agent_description": "FRIDAY connects Slack Agent View conversations to FRIDAY agents.",
       "suggested_prompts": [
         { "title": "What can you do?", "message": "What can you help me with?" },
         {
@@ -372,7 +372,7 @@ openclaw gateway
     "slash_commands": [
       {
         "command": "/openclaw",
-        "description": "Send a message to OpenClaw",
+        "description": "Send a message to FRIDAY",
         "should_escape": false,
         "url": "https://gateway-host.example.com/slack/events"
       }
@@ -426,7 +426,7 @@ openclaw gateway
         </Note>
 
         <Info>
-          The three URL fields (`slash_commands[].url`, `event_subscriptions.request_url`, and `interactivity.request_url` / `message_menu_options_url`) all point at the same OpenClaw endpoint. Slack's manifest schema requires them named separately, but OpenClaw routes by payload type so a single `webhookPath` (default `/slack/events`) is enough. Slash commands without `slash_commands[].url` silently no-op in HTTP mode.
+          The three URL fields (`slash_commands[].url`, `event_subscriptions.request_url`, and `interactivity.request_url` / `message_menu_options_url`) all point at the same FRIDAY endpoint. Slack's manifest schema requires them named separately, but FRIDAY routes by payload type so a single `webhookPath` (default `/slack/events`) is enough. Slash commands without `slash_commands[].url` silently no-op in HTTP mode.
         </Info>
 
         After Slack creates the app:
@@ -436,7 +436,7 @@ openclaw gateway
 
       </Step>
 
-      <Step title="Configure OpenClaw">
+      <Step title="Configure FRIDAY">
 
         Recommended SecretRef setup:
 
@@ -482,7 +482,7 @@ openclaw gateway
 
 ## User identity (post as a real person)
 
-User identity lets OpenClaw read and post as the human who authorizes the Slack app. The `userToken` is the acting identity; a companion Slack app carries Events API traffic over Socket Mode or an HTTP Request URL. The companion app does not need a bot user or bot token.
+User identity lets FRIDAY read and post as the human who authorizes the Slack app. The `userToken` is the acting identity; a companion Slack app carries Events API traffic over Socket Mode or an HTTP Request URL. The companion app does not need a bot user or bot token.
 
 Set up the companion app as follows:
 
@@ -504,7 +504,7 @@ Set up the companion app as follows:
 3. Choose one event transport:
 
    - **Socket Mode:** enable Socket Mode and create an app-level token with `connections:write`. Configure it as `appToken`.
-   - **HTTP Request URL:** point Event Subscriptions at the public OpenClaw Slack endpoint and copy **Basic Information -> App Credentials -> Signing Secret**. Configure it as `signingSecret`.
+   - **HTTP Request URL:** point Event Subscriptions at the public FRIDAY Slack endpoint and copy **Basic Information -> App Credentials -> Signing Secret**. Configure it as `signingSecret`.
 
 4. Install or reinstall the app, authorize it as the intended human, and copy the resulting user OAuth token into `userToken`.
 
@@ -539,10 +539,10 @@ HTTP Request URL configuration:
 ```
 
 <Warning>
-  DMs and group DMs work only through the user-scope event subscription above. A bot cannot join a human 1:1 DM or be inserted into an existing group DM. The companion app is invisible plumbing: other Slack members see messages from the authorizing human, not from an OpenClaw bot.
+  DMs and group DMs work only through the user-scope event subscription above. A bot cannot join a human 1:1 DM or be inserted into an existing group DM. The companion app is invisible plumbing: other Slack members see messages from the authorizing human, not from an FRIDAY bot.
 </Warning>
 
-OpenClaw automatically drops user-scope message events authored by the resolved human identity, so messages it sends do not trigger self-replies.
+FRIDAY automatically drops user-scope message events authored by the resolved human identity, so messages it sends do not trigger self-replies.
 
 ## Token model
 

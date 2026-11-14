@@ -254,7 +254,7 @@ openclaw_live_run_staged_script() {
     node "${stem}.mjs" "$@"
     return
   fi
-  echo "staged OpenClaw script entrypoint not found: ${stem}.{mts,mjs}" >&2
+  echo "staged FRIDAY script entrypoint not found: ${stem}.{mts,mjs}" >&2
   return 1
 }
 

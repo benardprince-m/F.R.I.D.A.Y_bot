@@ -163,7 +163,7 @@ describe("update progress", () => {
       ];
       await printResult(result, { run: context });
       const lines = log.mock.calls.flat();
-      expect(lines.join("\n")).toContain("OpenClaw update in progress: verifying.");
+      expect(lines.join("\n")).toContain("FRIDAY update in progress: verifying.");
       expect(phaseLines()).toEqual(["Phase: requested", "Phase: verifying"]);
     } finally {
       // Replace and dispose a leaked observer when this regression runs on old code.
@@ -233,7 +233,7 @@ describe("update progress", () => {
           present ? ["Phase: requested", "Phase: verifying"] : ["Phase: requested"],
         );
         expect(lines.join("\n")).toContain(
-          present ? "OpenClaw update in progress: verifying." : "OpenClaw updated.",
+          present ? "FRIDAY update in progress: verifying." : "FRIDAY updated.",
         );
         expect(log).not.toHaveBeenCalledWith("Phase: repairing");
       } finally {
@@ -249,7 +249,7 @@ describe("update progress", () => {
     });
     await printResult({ ...result, status: "error", reason: "doctor-failed" }, { run: context });
     const text = printed();
-    expect(text).toContain("OpenClaw update failed: doctor-failed");
+    expect(text).toContain("FRIDAY update failed: doctor-failed");
     expect(text).toContain(`Report: ${reportPath}`);
   });
 
@@ -407,7 +407,7 @@ describe("update progress", () => {
     const lines = log.mock.calls.flat();
     const finalPhase = lines.indexOf("Phase: finished");
     const report = lines.findIndex(
-      (line) => typeof line === "string" && line.includes("OpenClaw updated to 2026.9.3"),
+      (line) => typeof line === "string" && line.includes("FRIDAY updated to 2026.9.3"),
     );
     expect(finalPhase).toBeGreaterThan(-1);
     expect(report).toBeGreaterThan(finalPhase);
@@ -482,8 +482,8 @@ describe("update progress", () => {
       const output = printed();
       expect(output).toContain(
         rolledBack
-          ? "OpenClaw update rolled back to 2026.9.4: doctor-failed"
-          : "OpenClaw update failed: doctor-failed",
+          ? "FRIDAY update rolled back to 2026.9.4: doctor-failed"
+          : "FRIDAY update failed: doctor-failed",
       );
       const identity = rolledBack ? "version verified" : "version mismatch";
       expect(output).toContain(identity);
@@ -632,7 +632,7 @@ describe("update progress", () => {
     await printResult(stale, { run: context }, { record: captured });
 
     const output = printed();
-    expect(output).toContain("OpenClaw updated to 2026.9.5");
+    expect(output).toContain("FRIDAY updated to 2026.9.5");
     expect(output).toContain("Recorded recovery: verified serving 2026.9.5.");
     expect(output).not.toContain("stale-readiness-failure");
     expect(output).not.toContain("state-migration-started");

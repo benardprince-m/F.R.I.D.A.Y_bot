@@ -536,8 +536,8 @@ describe("Discord model picker rendering", () => {
             },
             {
               id: "openclaw",
-              label: "OpenClaw Default",
-              description: "Use the built-in OpenClaw runtime.",
+              label: "FRIDAY Default",
+              description: "Use the built-in FRIDAY runtime.",
             },
           ],
         ],
@@ -592,8 +592,8 @@ describe("Discord model picker rendering", () => {
             },
             {
               id: "openclaw",
-              label: "OpenClaw Default",
-              description: "Use the built-in OpenClaw runtime.",
+              label: "FRIDAY Default",
+              description: "Use the built-in FRIDAY runtime.",
             },
           ],
         ],
@@ -945,8 +945,8 @@ describe("Discord model picker rendering", () => {
             },
             {
               id: "openclaw",
-              label: "OpenClaw Default",
-              description: "Use the built-in OpenClaw runtime.",
+              label: "FRIDAY Default",
+              description: "Use the built-in FRIDAY runtime.",
             },
           ],
         ],
@@ -1008,8 +1008,8 @@ describe("Discord model picker rendering", () => {
             },
             {
               id: "openclaw",
-              label: "OpenClaw Default",
-              description: "Use the built-in OpenClaw runtime.",
+              label: "FRIDAY Default",
+              description: "Use the built-in FRIDAY runtime.",
             },
           ],
         ],
@@ -1307,7 +1307,7 @@ describe("Discord model picker recents view", () => {
 /* oxlint-disable max-lines -- TODO: split this grandfathered oversized file. */
 
 describe("model-specific runtime view", () => {
-  const builtin = { id: "openclaw", label: "OpenClaw", description: "Built-in runtime" };
+  const builtin = { id: "openclaw", label: "FRIDAY", description: "Built-in runtime" };
   const native = { id: "codex", label: "Codex", description: "Native runtime" };
   it("renders the selected model's choices instead of the provider union", () => {
     const data = {

@@ -38,7 +38,7 @@ The capability is absent when no current session is bound; a retained callback
 rejects calls after the handler settles. Do not retain it or reconstruct
 compaction with session-store patches and harness calls. The result contains
 `compacted`, optional `reason`, and optional `tokensBefore` and `tokensAfter`
-snapshots; OpenClaw owns all persistence and lifecycle coordination.
+snapshots; FRIDAY owns all persistence and lifecycle coordination.
 
 ## Auth-profile resolution
 
@@ -423,7 +423,7 @@ Each `SessionTranscriptMessageEntry` contains:
     });
     ```
 
-    `runEmbeddedAgent(...)` is the neutral helper for starting a normal OpenClaw agent turn from plugin code. It uses the same provider/model resolution and agent-harness selection as channel-triggered replies.
+    `runEmbeddedAgent(...)` is the neutral helper for starting a normal FRIDAY agent turn from plugin code. It uses the same provider/model resolution and agent-harness selection as channel-triggered replies.
 
     The caller owns `terminalReplyExpectation`: `"required"` for a normally requested response, `"optional"` for optional work, or `"result-required"` for internal work that must return a result. External turns may explicitly finish with an entire final that trims to uppercase `NO_REPLY` under either default reply expectation. The terminal producer prepares the full payload once and publishes `meta.terminalReply`; delivery consumes that fact without reparsing text. Producer preparation strips one literal leading `NO_REPLY\n`, preserving the remaining bytes as visible text. Otherwise, a standalone `NO_REPLY` on the last non-empty line is removed and the preceding answer is delivered; whitespace around that final line is allowed. Lowercase, punctuation, quoted or JSON forms, and inline or mid-text mentions are ordinary visible text. Internal result-required turns need a completed current-source final result, not a silent payload or progress update. `NO_REPLY` discards anything written this turn that was not sent, so send confirmations before ending silently. Empty output is not silence: recovery after settled tools uses a tool-free finalization pass rather than repeating completed actions.
 
@@ -503,11 +503,11 @@ Each `SessionTranscriptMessageEntry` contains:
 
     Before advertising an ACP-backed action, use `resolveAcpSessionAvailability(...)` from `openclaw/plugin-sdk/acp-runtime`. It applies the shared enablement, dispatch, allowed-agent, registered-backend, and backend-health checks; recheck it immediately before creating the session.
 
-    ACP manager inputs accept an optional `agentId` identifying the OpenClaw session owner; `agent` selects the external harness. Carry the resolved owner from `resolveSession(...)` through subsequent calls, including controls and cleanup. `expectedOwnerKey` retains its parent-session meaning.
+    ACP manager inputs accept an optional `agentId` identifying the FRIDAY session owner; `agent` selects the external harness. Carry the resolved owner from `resolveSession(...)` through subsequent calls, including controls and cleanup. `expectedOwnerKey` retains its parent-session meaning.
 
     Backends can advertise `ownerAwareSessions: 1` on `AcpRuntime`, including their lazy facade. This promises owner isolation for both `ensureSession(...)` and `prepareFreshSession(...)`. Their optional `agentId` and the handle's optional `agentId` preserve existing backend source compatibility. Qualified keys continue to work with older backends; bare sessions requiring isolation reject backends without the capability before effects. The logical `sessionKey` remains the SDK/tool identity. An optional `persistedHandle` is a projection for detecting old backend locators, not execution authority. Migration-required errors must propagate through reset and recovery without clearing metadata.
 
-    ACP backends can return `AcpRuntimeConfigOptionResult` from `setConfigOption(...)`: a complete `configOptions` array of `{ id, category?, currentValue, options? }`, where `currentValue` is a string or boolean. Select `options` contain `{ value }` entries or groups of `{ options: [{ value }] }`. OpenClaw reconciles an already-selected thinking override from the accepted `thought_level` category or a recognized thinking key. Automatic model replay preserves a pending thinking value only when it is still current or selectable; explicit controls always use the accepted value. An empty array removes that override; omitted or null `category` is allowed, and backend defaults are not pinned. Existing third-party backends returning `void` retain requested-value persistence. Return the snapshot after backend persistence succeeds; reject failed writes.
+    ACP backends can return `AcpRuntimeConfigOptionResult` from `setConfigOption(...)`: a complete `configOptions` array of `{ id, category?, currentValue, options? }`, where `currentValue` is a string or boolean. Select `options` contain `{ value }` entries or groups of `{ options: [{ value }] }`. FRIDAY reconciles an already-selected thinking override from the accepted `thought_level` category or a recognized thinking key. Automatic model replay preserves a pending thinking value only when it is still current or selectable; explicit controls always use the accepted value. An empty array removes that override; omitted or null `category` is allowed, and backend defaults are not pinned. Existing third-party backends returning `void` retain requested-value persistence. Return the snapshot after backend persistence succeeds; reject failed writes.
 
     Creation holds the session lifecycle mutation fence through `afterCreate`, so new work waits for plugin-owned initialization to finish and pre-existing admitted work makes creation fail. The callback receives a clone of the created state. If it returns a patch, that patch may contain only `pluginExtensions`, and its value is the complete final `pluginExtensions` field. A callback or final-persistence failure rolls back the unchanged new row and transcript; guarded rollback preserves a row changed or claimed concurrently. `recoverMatchingInitialEntry: true` is only for retrying interrupted initialization when the persisted trusted fields match exactly, and recovery requires `afterCreate` to return a final patch.
 

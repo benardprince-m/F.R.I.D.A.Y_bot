@@ -44,7 +44,7 @@ function createRefreshShell(gateway: ApplicationRuntime["context"]["gateway"]) {
   return { shell, snapshot };
 }
 
-describe("OpenClaw shell Control UI refresh", () => {
+describe("FRIDAY shell Control UI refresh", () => {
   let store: ReturnType<typeof createGatewayStoreTestStore>;
   let probe: ReturnType<typeof createDeferred<Response>>;
   let replace: ReturnType<typeof vi.fn<(url: string) => void>>;

@@ -267,7 +267,7 @@ export function createSessionShareCatalog(api: OpenClawPluginApi): SessionCatalo
               : {
                   code: "NODE_INVOKE_FAILED",
                   message:
-                    "Cannot refresh OpenClaw sessions. Check the paired node's session-share configuration and connection.",
+                    "Cannot refresh FRIDAY sessions. Check the paired node's session-share configuration and connection.",
                 };
         } finally {
           releasePermit?.();
@@ -484,7 +484,7 @@ export function createSessionShareCatalog(api: OpenClawPluginApi): SessionCatalo
 
   return {
     id: "openclaw",
-    label: "OpenClaw sessions",
+    label: "FRIDAY sessions",
     supportsProcessHomeIsolation: true,
     audience: "session-viewers",
     async list(query) {
@@ -532,7 +532,7 @@ export function createSessionShareCatalog(api: OpenClawPluginApi): SessionCatalo
     },
     async read(request) {
       if (!request.hostId.startsWith("node:") || !request.hostId.slice(5)) {
-        throw new Error("Select a paired node host to read an OpenClaw session");
+        throw new Error("Select a paired node host to read an FRIDAY session");
       }
       const nodeId = request.hostId.slice(5);
       const node = (await api.runtime.nodes.list()).nodes.find(
@@ -541,7 +541,7 @@ export function createSessionShareCatalog(api: OpenClawPluginApi): SessionCatalo
       );
       if (!node) {
         throw new Error(
-          "OpenClaw session node is unavailable. Reconnect it and refresh the catalog.",
+          "FRIDAY session node is unavailable. Reconnect it and refresh the catalog.",
         );
       }
       const raw = await api.runtime.nodes.invoke({

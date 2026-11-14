@@ -56,7 +56,7 @@ describe("managed worktree creation groups", () => {
     const remoteHead = await git(
       remote,
       "-c",
-      "user.name=OpenClaw Test",
+      "user.name=FRIDAY Test",
       "-c",
       "user.email=openclaw-test@example.invalid",
       "commit-tree",
@@ -197,7 +197,7 @@ describe("managed worktree creation groups", () => {
     const newHead = await git(
       remote,
       "-c",
-      "user.name=OpenClaw Test",
+      "user.name=FRIDAY Test",
       "-c",
       "user.email=openclaw-test@example.invalid",
       "commit-tree",

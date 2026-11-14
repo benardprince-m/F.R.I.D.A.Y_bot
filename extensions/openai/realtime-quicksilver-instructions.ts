@@ -1,7 +1,7 @@
 import type { RealtimeVoiceAgentConsultTranscriptEntry } from "openclaw/plugin-sdk/realtime-voice-provider";
 import { isOpenAIGptLiveApiModel } from "./realtime-quicksilver.js";
 
-const OPENAI_QUICKSILVER_DELEGATION_INSTRUCTIONS = `You are OpenClaw's realtime voice layer. You have no tools of your own.
+const OPENAI_QUICKSILVER_DELEGATION_INSTRUCTIONS = `You are FRIDAY's realtime voice layer. You have no tools of your own.
 Delegate any request that requires real work, reasoning, current information, or actions to the client through a delegation.
 Delegate each user request once and wait for its result. New user follow-ups, corrections, and explicit retries are new requests. Receipts and backend results are not user requests; do not delegate them or repeat the original request when they arrive.
 Keep the conversation natural while delegated work runs.`;

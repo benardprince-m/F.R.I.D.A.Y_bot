@@ -332,12 +332,7 @@ describe("cli program (nodes push)", () => {
     },
   ])(
     "keeps successful APNs push $label output at exit zero",
-    async ({
-      extraArgs,
-      environment,
-      title = "OpenClaw",
-      body = "Push test for node ios-node",
-    }) => {
+    async ({ extraArgs, environment, title = "FRIDAY", body = "Push test for node ios-node" }) => {
       const result = pushResult({ apnsId: "apns-id" });
       mockPushResult(result);
 

@@ -1,4 +1,4 @@
-// Verifies OpenClaw-owned tool hooks preserve adjusted params and telemetry.
+// Verifies FRIDAY-owned tool hooks preserve adjusted params and telemetry.
 import type { AgentTool } from "openclaw/plugin-sdk/agent-core";
 import {
   installOpenClawOwnedToolHooks,
@@ -113,7 +113,7 @@ async function expectAfterToolCall(
   });
 }
 
-describe("OpenClaw-owned tool runtime contract - embedded agent adapter", () => {
+describe("FRIDAY-owned tool runtime contract - embedded agent adapter", () => {
   afterEach(resetOpenClawOwnedToolHooks);
 
   it("preserves partially adjusted before_tool_call params through execution and after_tool_call", async () => {

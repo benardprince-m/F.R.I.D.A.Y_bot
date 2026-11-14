@@ -290,9 +290,7 @@ describe("explicit direct Responses continuation", () => {
       expect(f.requests).toHaveLength(1);
       expect(f.requests[0]?.input).toEqual([
         ...reviewedInput,
-        messageInput(
-          `OpenClaw runtime context:\n${carrier.content}\nEnd OpenClaw runtime context.`,
-        ),
+        messageInput(`FRIDAY runtime context:\n${carrier.content}\nEnd FRIDAY runtime context.`),
       ]);
       expect(JSON.stringify(messages)).toBe(before);
       expect(messages.at(-1)).toMatchObject({ role: "user", runtimeContext: {} });

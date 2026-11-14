@@ -18,7 +18,7 @@ const scripts = [
 for (const script of scripts) {
   const outputPath = path.join(
     repoRoot,
-    `apps/macos/Sources/OpenClaw/${script.name}.generated.swift`,
+    `apps/macos/Sources/FRIDAY/${script.name}.generated.swift`,
   );
   // Avoid both raw-string terminators and Swift interpolation in the page source.
   let delimiter = "#";

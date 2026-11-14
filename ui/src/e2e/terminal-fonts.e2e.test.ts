@@ -50,7 +50,7 @@ suite.define(() => {
         const canvas = page.locator(".tp-host canvas");
         await canvas.waitFor();
         const output =
-          "\x1b[?25l\x1b[1m  OpenClaw · ZSH prompt\x1b[0m\r\n\r\n" +
+          "\x1b[?25l\x1b[1m  FRIDAY · ZSH prompt\x1b[0m\r\n\r\n" +
           "\x1b[30;46m \uf007 jacob@workstation \x1b[36;44m\ue0b0\x1b[37m \uf07b ~/workspace \x1b[34;42m\ue0b0\x1b[30m \ue0a0 main \x1b[32;49m\ue0b0\x1b[0m\r\n" +
           "\x1b[32m❯\x1b[0m git status\r\nOn branch main\r\nNothing to commit, working tree clean\r\n\r\n" +
           "Nerd Font symbols   \uf013  \uf120  \uf17c  \uf121  \udb80\udf44  \ue0b0 \ue0b2\r\n" +
@@ -74,7 +74,7 @@ suite.define(() => {
           .poll(() =>
             page.evaluate(() =>
               [...document.fonts].some(
-                (font) => font.family.includes("OpenClaw Nerd Symbols") && font.status === "loaded",
+                (font) => font.family.includes("FRIDAY Nerd Symbols") && font.status === "loaded",
               ),
             ),
           )
@@ -90,7 +90,7 @@ suite.define(() => {
         const initial = await terminalState();
         expect(initial.width).toBe(initial.cssWidth * initial.dpr);
         expect(initial.family).toContain('"JetBrains Mono"');
-        expect(initial.text).toContain("OpenClaw");
+        expect(initial.text).toContain("FRIDAY");
         const settings = await context.newPage();
         await installMockGateway(settings);
         await settings.goto(suite.server.baseUrl + "settings/appearance");
@@ -161,7 +161,7 @@ suite.define(() => {
         .poll(() =>
           page.evaluate(() =>
             [...document.fonts].some(
-              (font) => font.family.includes("OpenClaw Nerd Symbols") && font.status === "error",
+              (font) => font.family.includes("FRIDAY Nerd Symbols") && font.status === "error",
             ),
           ),
         )

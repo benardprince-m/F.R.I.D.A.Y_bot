@@ -288,9 +288,9 @@ describe("renderTable", () => {
   it("preserves OSC-8 parameters when reopening wrapped links", () => {
     const open = "\x1b]8;id=docs;https://openclaw.ai\x07";
     const close = "\x1b]8;;\x07";
-    const out = renderValue(`${open}${"OpenClaw".repeat(5)}${close} after`, 20);
+    const out = renderValue(`${open}${"FRIDAY".repeat(5)}${close} after`, 20);
 
-    const linkLines = out.split("\n").filter((line) => line.includes("OpenClaw"));
+    const linkLines = out.split("\n").filter((line) => line.includes("FRIDAY"));
     expect(linkLines.length).toBeGreaterThan(1);
     for (const line of linkLines) {
       expect(line).toContain(open);
@@ -311,7 +311,7 @@ describe("renderTable", () => {
   it.each([["BEL ST", "\x1b]8;;https://openclaw.ai\x07", "\x1b]8;;\x07"]])(
     "does not reopen a leading OSC-8 link onto wrapped suffix lines (%s)",
     (_label, openSeq, closeSeq) => {
-      const link = `${openSeq}OpenClaw${closeSeq}`;
+      const link = `${openSeq}FRIDAY${closeSeq}`;
       const out = renderValue(`${link} after`, 20);
       expectIntroducersToStartCompleteSequences(out, openSeq.charAt(0), [openSeq, closeSeq]);
 
@@ -324,8 +324,8 @@ describe("renderTable", () => {
       for (const line of afterLines) {
         expect(line.includes(openSeq)).toBe(false);
       }
-      // The link itself stays intact on the OpenClaw line: open + close present.
-      const linkLine = lines.find((line) => line.includes("OpenClaw"));
+      // The link itself stays intact on the FRIDAY line: open + close present.
+      const linkLine = lines.find((line) => line.includes("FRIDAY"));
       expect(linkLine).toBeDefined();
       expect(linkLine?.includes(openSeq)).toBe(true);
       expect(linkLine?.includes(closeSeq)).toBe(true);

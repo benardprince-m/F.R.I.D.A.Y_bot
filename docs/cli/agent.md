@@ -35,11 +35,11 @@ openclaw agent exec --message-file task.md --cwd ./repo
 cat task.md | openclaw agent exec --message-file - --json
 ```
 
-By default, the command creates a temporary state directory and removes it after confirmed cleanup, including accepted database work and the run's database resources. It runs against your ordinary OpenClaw config, so configured providers, credentials, and `agentRuntime` harness selection apply exactly as they do elsewhere. `--cwd` defaults to the process working directory and is passed as both the agent workspace and tool working directory.
+By default, the command creates a temporary state directory and removes it after confirmed cleanup, including accepted database work and the run's database resources. It runs against your ordinary FRIDAY config, so configured providers, credentials, and `agentRuntime` harness selection apply exactly as they do elsewhere. `--cwd` defaults to the process working directory and is passed as both the agent workspace and tool working directory.
 
 Config is layered entirely in memory: exec composes the run config and publishes it as this process's runtime config rather than writing a copy to disk. Exec defaults apply only where your config leaves a setting unset: the agent sandbox is off, the `coding` tool profile is selected, filesystem tools are restricted to `--cwd`, and exec runs under the full execution policy a headless turn needs. Anything your config sets wins over those defaults, so a configured sandbox, shell env, or tool profile is never downgraded, and exec host routing stays with the sandbox when your config enables one. The invocation itself always wins last: the run is scoped to `--cwd` and sets `skipBootstrap: true` to prevent creating workspace bootstrap files.
 
-With the Codex runtime, `agent exec` uses OpenClaw's shell and filesystem tools
+With the Codex runtime, `agent exec` uses FRIDAY's shell and filesystem tools
 instead of Codex-native execution, keeping tool cleanup under the one-shot run's
 owner. Ordinary Gateway-backed Codex turns keep their native tool surface.
 
@@ -64,9 +64,9 @@ Overrides apply after loading the ordinary, `--config`, or `--isolated` base. Ne
 
 Overrides use JSON syntax and normal runtime normalization, including `~` paths. File includes and login-shell imports belong to the selected base's loader. Overridden `env` variables apply for the run, preserve existing process-environment precedence, and are restored during cleanup.
 
-Stored credentials are used by default, so a folder-scoped run reaches the same logins as the rest of the CLI. Pass `--auth-env-only` to restrict the run to provider keys already present in the process environment. That mode loads no config at all, and pairing it with `--config` or `--config-override` is rejected rather than silently ignored, because a config supplies provider credentials through several surfaces at once: [inline keys and secret headers](/reference/secretref-credential-surface), an `env` block, and login-shell import. It also skips OpenClaw auth profiles and external Codex, Claude, or other CLI credential stores. Provider auth variables remain available to model authentication but are omitted from agent-launched host commands.
+Stored credentials are used by default, so a folder-scoped run reaches the same logins as the rest of the CLI. Pass `--auth-env-only` to restrict the run to provider keys already present in the process environment. That mode loads no config at all, and pairing it with `--config` or `--config-override` is rejected rather than silently ignored, because a config supplies provider credentials through several surfaces at once: [inline keys and secret headers](/reference/secretref-credential-surface), an `env` block, and login-shell import. It also skips FRIDAY auth profiles and external Codex, Claude, or other CLI credential stores. Provider auth variables remain available to model authentication but are omitted from agent-launched host commands.
 
-On a clean installation without the Codex plugin, OpenAI API-key runs use the built-in OpenClaw runtime. The implicit Codex preference does not require installing a native harness before `--auth-env-only` can run. An explicitly configured Codex runtime or an existing Codex session pin still requires that harness.
+On a clean installation without the Codex plugin, OpenAI API-key runs use the built-in FRIDAY runtime. The implicit Codex preference does not require installing a native harness before `--auth-env-only` can run. An explicitly configured Codex runtime or an existing Codex session pin still requires that harness.
 
 Select a primary and ordered fallback chain with repeatable flags:
 
@@ -128,7 +128,7 @@ Plain output writes only the final assistant text to stdout. Diagnostics use std
 Run-stat fields are additive and may be absent:
 
 - `costUsd`: sum of recorded per-call USD costs, preserving request pricing tiers and retry-model prices, including cache reads/writes. When per-call costs are incomplete, only flat-price estimates are available; tiered estimates are omitted rather than pricing combined usage as one request. Omitted when cost is unavailable.
-- `codeModeEngaged`: `true` only when [code mode](/tools/code-mode) actually owned the model tool surface for the run. `tools.codeMode.enabled=true` alone does not guarantee engagement, and harnesses that own their native tool surface always read `false` because OpenClaw code mode never owns their tools.
+- `codeModeEngaged`: `true` only when [code mode](/tools/code-mode) actually owned the model tool surface for the run. `tools.codeMode.enabled=true` alone does not guarantee engagement, and harnesses that own their native tool surface always read `false` because FRIDAY code mode never owns their tools.
 - `assistantTurns`: completed assistant/provider round trips in the run; omitted when none completed.
 - `bridgeCalls`: inner tool-search/code-mode bridge call counts (`search`/`describe`/`call`). These are invisible to the provider; outer tool calls stay in `meta.toolSummary.calls` of the full run metadata.
 - `toolSummary`: outer model-visible tool-call count, tool names, failures, and total tool time from the embedded run.
@@ -143,7 +143,7 @@ From a source checkout, run the bounded evaluation matrix against any explicit m
 pnpm qa:code-mode-models -- --model ollama/qwen3.5:9b
 ```
 
-Repeat `--model` to compare models, or use `--mode`, `--task`, and `--repetitions` to narrow the selection. Basic and file-workflow tasks run through isolated `agent exec` invocations; Gateway tasks below use a disposable Gateway and explicitly select the OpenClaw agent runtime. Each cell records model/provider identity, timing, result status, failure class, tool activity, and task-specific correctness checks.
+Repeat `--model` to compare models, or use `--mode`, `--task`, and `--repetitions` to narrow the selection. Basic and file-workflow tasks run through isolated `agent exec` invocations; Gateway tasks below use a disposable Gateway and explicitly select the FRIDAY agent runtime. Each cell records model/provider identity, timing, result status, failure class, tool activity, and task-specific correctness checks.
 
 The default remains two tasks (`read` and `dependent-read-write`), three modes, and three repetitions: 18 cells per model. Extended tasks are opt-in, so the default model-call budget does not grow:
 
@@ -178,12 +178,12 @@ This is evaluation-only evidence, not a CI or release gate. Results do not chang
 
 #### Paired performance workloads
 
-These opt-in workloads compare Code Mode with normal OpenClaw tool exposure.
+These opt-in workloads compare Code Mode with normal FRIDAY tool exposure.
 `--mode direct` explicitly disables Code Mode and retains normal Tool Search;
 `--mode code` enables it. Both arms use the same prompt, seeded inputs, allowed
-tools, model, and thinking setting. They reject `--mode auto`, pin the OpenClaw
+tools, model, and thinking setting. They reject `--mode auto`, pin the FRIDAY
 runtime, disable fast mode, and skip follow-up interviews. OpenAI models use
-OpenClaw here, rather than their native agent harness.
+FRIDAY here, rather than their native agent harness.
 
 Performance selections require both treatment arms and cannot be mixed with
 code-only interview tasks. Built artifacts are rehashed after each wave; drift
@@ -367,7 +367,7 @@ a clamp notice. JSON output includes the effective level in
 at the top level for `--local`). The saved preference remains available when you
 switch back to a supporting model.
 
-Gateway commands using OpenClaw's managed agent loop return their completed reply before optional memory
+Gateway commands using FRIDAY's managed agent loop return their completed reply before optional memory
 flushing and compaction. That work has its own session owner and uses the command's
 remaining time. A new turn in the same session cancels and settles it before
 starting inference. One-shot `--local` commands skip optional post-turn work;
@@ -394,7 +394,7 @@ openclaw agent --agent ops --message "Run locally" --local
 ## Notes
 
 - Pass exactly one of `--message` or `--message-file`. `--message-file` strips a leading UTF-8 BOM and preserves multiline content; it rejects files that are not valid UTF-8. Files larger than 4 MiB are rejected before dispatch.
-- `--message` does not run the channel slash-command dispatcher. Recognized `$skill-name` references and leading `/skill-name [input]` are the scoped exception: OpenClaw expands them into model instructions to read the skill before acting. Other slash-prefixed messages keep normal agent-turn behavior; `/compact` is rejected with a pointer to `openclaw sessions compact <key>`.
+- `--message` does not run the channel slash-command dispatcher. Recognized `$skill-name` references and leading `/skill-name [input]` are the scoped exception: FRIDAY expands them into model instructions to read the skill before acting. Other slash-prefixed messages keep normal agent-turn behavior; `/compact` is rejected with a pointer to `openclaw sessions compact <key>`.
 - `--local` runs are one-shot: cached provider connections, bundled MCP loopback resources, and warm Claude stdio sessions opened for the run are retired after the reply, so scripted invocations do not leave sockets or local child processes running. Gateway-backed runs keep Gateway-owned resources under the running Gateway process instead.
 - `--local` requires exclusive ownership of the configured state directory. It refuses to start while a Gateway or another `agent --local` run owns that directory, then holds the same state lock for the full embedded turn. Run without `--local` to use the active Gateway, or stop it first with `openclaw gateway stop`.
 - Standalone embedded execution with `--local` refuses to reuse an existing main session while restart recovery is pending. Run the turn through a healthy Gateway, or reset it there with `/new` or `/reset`; an independent embedded process cannot safely coordinate that recovery owner with the Gateway scanner.

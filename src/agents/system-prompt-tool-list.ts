@@ -47,7 +47,7 @@ export function buildSystemPromptToolLines(params: SystemPromptToolListParams): 
     gateway:
       "Read this Gateway's config/schema; owner-only self-update on explicit request; automatic restart and completion notice",
     agents_list: acpSpawnRuntimeEnabled
-      ? "List allowed OpenClaw subagent ids; not ACP ids"
+      ? "List allowed FRIDAY subagent ids; not ACP ids"
       : "List allowed subagent ids",
     sessions_list: "List visible sessions; filters/last",
     sessions_history: "Read visible session/subagent history",
@@ -118,7 +118,7 @@ export function buildSystemPromptToolingSection(params: {
       : []),
     ...(params.webSearchUnconfigured && !availableTools.has("web_search")
       ? [
-          "Web search is supported but not configured. Set it up with `openclaw configure --section web` or Settings → Ask OpenClaw; `web_search` is unavailable until configured.",
+          "Web search is supported but not configured. Set it up with `openclaw configure --section web` or Settings → Ask FRIDAY; `web_search` is unavailable until configured.",
         ]
       : []),
   ];

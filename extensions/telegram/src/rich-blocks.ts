@@ -100,7 +100,7 @@ function resolveTelegramLinkAction(
     if (isAutoLinkedFileRef(href, label)) {
       return context.skipEntityDetection ? null : { kind: "code" };
     }
-    // With Telegram-side detection off, OpenClaw marks the safe bare URLs
+    // With Telegram-side detection off, FRIDAY marks the safe bare URLs
     // itself so they stay tappable. URLs carrying `&` remain plain because
     // typed URLs mangle query separators (#102162, #171111).
     if (

@@ -13,7 +13,7 @@ Registering custom providers under `models.providers`, what a custom `baseUrl` i
 
 Provider plugins publish their own model catalog rows. Add custom providers via `models.providers` in config or `~/.openclaw/agents/<agentId>/agent/models.json`.
 
-Configuring a custom/local provider `baseUrl` is also the narrow network trust decision for model HTTP requests: OpenClaw allows that exact `scheme://host:port` origin through the guarded fetch path, without adding a separate config option or trusting other private origins.
+Configuring a custom/local provider `baseUrl` is also the narrow network trust decision for model HTTP requests: FRIDAY allows that exact `scheme://host:port` origin through the guarded fetch path, without adding a separate config option or trusting other private origins.
 
 ```json5
 {
@@ -97,11 +97,11 @@ Configuring a custom/local provider `baseUrl` is also the narrow network trust d
     - `models.providers.*.models.*.input`: model input modalities. Use `["text"]` for text-only models and `["text", "image"]` for native image/vision models. Image attachments are only injected into agent turns when the selected model is marked image-capable.
     - `models.providers.*.models.*.contextWindow`: native context-window metadata for that model.
     - `models.providers.*.models.*.contextTokens`: optional active-input cap for that model; use it when you want an effective budget distinct from the model's native `contextWindow`; `openclaw models list` shows both when they differ.
-    - `models.providers.*.models.*.responseModelEquivalent`: optional boolean for a user-authored custom-provider row in config. Set `true` when a router or broker resolves this model id itself and reports the concrete model it served. OpenClaw then treats any response model from that endpoint as the requested route, including endpoint-internal substitutions. The served model id and usage remain visible in metadata, but no model route change is announced to parent agents. OpenClaw fallbacks and overrides to another configured model or provider still produce a notice. Bundled and official provider policy remains authoritative; this key cannot override it, even if the provider has no equivalence hook. Plugin/catalog rows, agent `models.json` rows, and rows marked `metadataSource: "models-add"` cannot grant equivalence. Omitted or `false` preserves normal route detection. This optional key requires no Doctor migration.
+    - `models.providers.*.models.*.responseModelEquivalent`: optional boolean for a user-authored custom-provider row in config. Set `true` when a router or broker resolves this model id itself and reports the concrete model it served. FRIDAY then treats any response model from that endpoint as the requested route, including endpoint-internal substitutions. The served model id and usage remain visible in metadata, but no model route change is announced to parent agents. FRIDAY fallbacks and overrides to another configured model or provider still produce a notice. Bundled and official provider policy remains authoritative; this key cannot override it, even if the provider has no equivalence hook. Plugin/catalog rows, agent `models.json` rows, and rows marked `metadataSource: "models-add"` cannot grant equivalence. Omitted or `false` preserves normal route detection. This optional key requires no Doctor migration.
 
     #### Custom provider capability declarations
 
-    Provider catalogs own `compat` for bundled and catalog-known model routes. Do not copy those flags into config: OpenClaw uses the catalog row when the configured `api` and `baseUrl` still identify that route. `openclaw doctor --fix` removes matching legacy overrides and reports divergent values for review.
+    Provider catalogs own `compat` for bundled and catalog-known model routes. Do not copy those flags into config: FRIDAY uses the catalog row when the configured `api` and `baseUrl` still identify that route. `openclaw doctor --fix` removes matching legacy overrides and reports divergent values for review.
 
     A `compat` block remains supported for a genuinely custom provider, custom model, or catalog model routed to a different endpoint. Set only capabilities verified against that endpoint:
 
@@ -120,7 +120,7 @@ Configuring a custom/local provider `baseUrl` is also the narrow network trust d
     | `strictMessageKeys` | Requires outgoing messages to contain only accepted keys. |
     | `visibleReasoningDetailTypes` | Names reasoning detail block types safe to show in transcripts. |
     | `supportedReasoningEfforts` | Lists the endpoint's accepted reasoning labels. Requests are clamped to this ladder. Unknown models default to `low`, `medium`, and `high`. |
-    | `reasoningEffortMap` | Maps OpenClaw thinking labels to endpoint-specific labels. Custom Completions routes omit effort for `off` by default; an explicit off mapping can send the endpoint's accepted disable value. |
+    | `reasoningEffortMap` | Maps FRIDAY thinking labels to endpoint-specific labels. Custom Completions routes omit effort for `off` by default; an explicit off mapping can send the endpoint's accepted disable value. |
     | `maxTokensField` | Selects `max_tokens` or `max_completion_tokens`. |
     | `thinkingFormat` | Selects the endpoint's reasoning payload dialect. |
     | `requiresToolResultName` | Requires a tool name on tool-result messages. |
@@ -134,9 +134,9 @@ Configuring a custom/local provider `baseUrl` is also the narrow network trust d
 
     After upgrading, existing custom `openai-completions` models with `reasoning: true` start sending `reasoning_effort` for enabled thinking unless explicitly opted out. If the server rejects the field, the request error names the remedy: set `compat.supportsReasoningEffort: false` on that entry in `models.providers.<provider>.models`. See [custom endpoint thinking](/tools/thinking#custom-openai-compatible-endpoints) for effort mapping and `/think off` behavior.
 
-    Unknown remote `openai-completions` endpoints default to `supportsUsageInStreaming: false`, so OpenClaw does not request `stream_options.include_usage`. Loopback endpoints and the bundled llama.cpp, LM Studio, Ollama, and vLLM providers already request or collect usage. For a custom remote server that supports this option, set `compat.supportsUsageInStreaming: true` on each model entry. Ollama `/v1` and LM Studio return streamed usage when this option is enabled.
+    Unknown remote `openai-completions` endpoints default to `supportsUsageInStreaming: false`, so FRIDAY does not request `stream_options.include_usage`. Loopback endpoints and the bundled llama.cpp, LM Studio, Ollama, and vLLM providers already request or collect usage. For a custom remote server that supports this option, set `compat.supportsUsageInStreaming: true` on each model entry. Ollama `/v1` and LM Studio return streamed usage when this option is enabled.
 
-    When a successful stream returns no usage, OpenClaw marks provider context usage unavailable so compaction uses content estimates instead of treating missing counts as zero. Estimates are approximate; token and cost accounting cannot be recovered from a missing usage record. Custom remote endpoints with streaming usage disabled also log `<provider>/<model> returned no token usage` once per model, with the config hint above.
+    When a successful stream returns no usage, FRIDAY marks provider context usage unavailable so compaction uses content estimates instead of treating missing counts as zero. Estimates are approximate; token and cost accounting cannot be recovered from a missing usage record. Custom remote endpoints with streaming usage disabled also log `<provider>/<model> returned no token usage` once per model, with the config hint above.
 
   </Accordion>
   <Accordion title="Amazon Bedrock discovery">

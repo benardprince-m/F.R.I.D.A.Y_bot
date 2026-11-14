@@ -2,7 +2,7 @@
   "name": "@openclaw/migrate-hermes",
   "version": "2026.10.4",
   "private": true,
-  "description": "Hermes to OpenClaw migration provider",
+  "description": "Hermes to FRIDAY migration provider",
   "type": "module",
   "dependencies": {
     "dotenv": "18.0.7",

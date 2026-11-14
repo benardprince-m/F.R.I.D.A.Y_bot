@@ -87,7 +87,7 @@ export function resolveCanonicalStateOwnerPath(canonical: string): string {
           os.homedir(),
           "AppData",
           "Local",
-          "OpenClaw",
+          "FRIDAY",
           "locks",
           uid === undefined ? "openclaw-state-owners" : `openclaw-state-owners-${uid}`,
         )

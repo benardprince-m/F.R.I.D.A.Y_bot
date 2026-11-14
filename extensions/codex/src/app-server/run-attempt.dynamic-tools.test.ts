@@ -447,7 +447,7 @@ describe("runCodexAppServerAttempt dynamic tools", () => {
         }),
       ).toMatchObject({
         success: false,
-        contentItems: [{ type: "inputText", text: "Unknown OpenClaw tool: lookup" }],
+        contentItems: [{ type: "inputText", text: "Unknown FRIDAY tool: lookup" }],
       });
 
       await harness.completeTurn({ threadId: "thread-1", turnId: "turn-1" });
@@ -476,7 +476,7 @@ describe("runCodexAppServerAttempt dynamic tools", () => {
       commandBearing: true,
       toolCallId: "call-1",
       isError: true,
-      result: { content: [{ type: "text", text: "Unknown OpenClaw tool: lookup" }] },
+      result: { content: [{ type: "text", text: "Unknown FRIDAY tool: lookup" }] },
     });
     expect(resultEvent?.data.result).not.toHaveProperty("success");
     expect(resultEvent?.data.result).not.toHaveProperty("contentItems");

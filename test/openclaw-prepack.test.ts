@@ -1,4 +1,4 @@
-// OpenClaw prepack tests validate package prepack output.
+// FRIDAY prepack tests validate package prepack output.
 import { spawnSync } from "node:child_process";
 import {
   copyFileSync,

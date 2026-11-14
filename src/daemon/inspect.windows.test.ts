@@ -51,27 +51,27 @@ describe("findExtraGatewayServices (win32)", () => {
 
   it("keeps verified Node and legacy services while rejecting an unrelated branded monitor", async () => {
     listScheduledTasksMock.mockReturnValue([
-      task("\\OpenClaw Gateway", "C:\\OpenClaw\\openclaw.exe", "gateway run"),
-      task("\\OpenClaw Gateway (dev)", "C:\\OpenClaw\\openclaw.exe", "gateway run --profile dev"),
-      task("\\OpenClaw Gateway Backup", "C:\\OpenClaw\\openclaw.exe", "gateway run"),
+      task("\\FRIDAY Gateway", "C:\\FRIDAY\\openclaw.exe", "gateway run"),
+      task("\\FRIDAY Gateway (dev)", "C:\\FRIDAY\\openclaw.exe", "gateway run --profile dev"),
+      task("\\FRIDAY Gateway Backup", "C:\\FRIDAY\\openclaw.exe", "gateway run"),
       task(
-        "\\OpenClaw Node",
+        "\\FRIDAY Node",
         "C:\\Program Files\\nodejs\\node.exe",
-        '"C:\\OpenClaw\\dist\\entry.js" node run',
+        '"C:\\FRIDAY\\dist\\entry.js" node run',
       ),
       task("\\Clawdbot Legacy", "C:\\clawdbot\\clawdbot.exe", "run"),
       task(
-        "\\OpenClaw Gateway Monitor",
+        "\\FRIDAY Gateway Monitor",
         "C:\\tools\\monitor.exe",
         "--gateway-url http://127.0.0.1:18789",
       ),
       {
-        taskPath: "\\OpenClaw CrossAction",
+        taskPath: "\\FRIDAY CrossAction",
         state: null,
         actions: [
           {
             type: 0,
-            path: "C:\\OpenClaw\\openclaw.exe",
+            path: "C:\\FRIDAY\\openclaw.exe",
             arguments: "node run",
             workingDirectory: "",
           },
@@ -90,14 +90,14 @@ describe("findExtraGatewayServices (win32)", () => {
     expect(result.errors).toEqual([]);
     expect(result.services).toEqual([
       expect.objectContaining({
-        label: "\\OpenClaw Gateway Backup",
+        label: "\\FRIDAY Gateway Backup",
         marker: "openclaw",
         legacy: false,
       }),
-      expect.objectContaining({ label: "\\OpenClaw Node", marker: "openclaw", legacy: false }),
+      expect.objectContaining({ label: "\\FRIDAY Node", marker: "openclaw", legacy: false }),
       expect.objectContaining({ label: "\\Clawdbot Legacy", marker: "clawdbot", legacy: true }),
       expect.objectContaining({
-        label: "\\OpenClaw CrossAction",
+        label: "\\FRIDAY CrossAction",
         marker: "openclaw",
         legacy: false,
       }),
@@ -106,9 +106,9 @@ describe("findExtraGatewayServices (win32)", () => {
     const managed = await listManagedOpenClawGatewayServices(nativeEnv);
     expect(managed.errors).toEqual([]);
     expect(managed.services.map((service) => service.label)).toEqual([
-      "\\OpenClaw Gateway",
-      "\\OpenClaw Gateway (dev)",
-      "\\OpenClaw Gateway Backup",
+      "\\FRIDAY Gateway",
+      "\\FRIDAY Gateway (dev)",
+      "\\FRIDAY Gateway Backup",
     ]);
     for (const service of result.services) {
       expect(service).not.toHaveProperty("windowsProfile");
@@ -154,24 +154,24 @@ describe("findExtraGatewayServices (win32)", () => {
     message?: string;
     exact?: boolean;
   };
-  const knownLabels = ["\\OpenClaw Gateway (dev)", "\\Clawdbot Gateway"];
+  const knownLabels = ["\\FRIDAY Gateway (dev)", "\\Clawdbot Gateway"];
   const missingLabels = [...knownLabels, "\\Custom Service"];
   const custom = "\\Custom Assistant";
   it.each<IncompleteCase>([
     ...[undefined].map((actions) => ({
       name: `known selectors with ${actions ? "empty" : "missing"} actions`,
-      tasks: ["\\OpenClaw Gateway", "\\Selected Custom"].map((taskPath) => ({
+      tasks: ["\\FRIDAY Gateway", "\\Selected Custom"].map((taskPath) => ({
         taskPath,
         state: null,
         actions,
       })),
       selected: "\\Selected Custom",
       projection: "both" as const,
-      sources: ["\\OpenClaw Gateway", "\\Selected Custom"],
+      sources: ["\\FRIDAY Gateway", "\\Selected Custom"],
     })),
     {
-      name: "disappeared OpenClaw launchers with unknown native state",
-      tasks: missingLabels.map((label) => task(label, "C:\\OpenClaw\\gateway.cmd", "")),
+      name: "disappeared FRIDAY launchers with unknown native state",
+      tasks: missingLabels.map((label) => task(label, "C:\\FRIDAY\\gateway.cmd", "")),
       read: "missing",
       sources: missingLabels,
       exact: true,
@@ -183,7 +183,7 @@ describe("findExtraGatewayServices (win32)", () => {
           ...task("\\Mixed Assistant", "C:\\clawdbot\\clawdbot.exe", "run"),
           actions: [
             task(custom, "C:\\clawdbot\\clawdbot.exe", "run").actions[0]!,
-            task(custom, "C:\\OpenClaw\\openclaw.exe", "gateway run").actions[0]!,
+            task(custom, "C:\\FRIDAY\\openclaw.exe", "gateway run").actions[0]!,
           ],
         },
       ],

@@ -556,7 +556,7 @@ describe("Hermes migration config mapping", () => {
     expect(providers?.["xai-direct"]?.api).toBe("openai-responses");
   });
 
-  it("keeps built-in Hermes provider overrides on OpenClaw's canonical provider IDs", async () => {
+  it("keeps built-in Hermes provider overrides on FRIDAY's canonical provider IDs", async () => {
     const { root, source } = makeHermesPaths(testWorkspace.dir);
     await writeFile(
       path.join(source, "config.yaml"),

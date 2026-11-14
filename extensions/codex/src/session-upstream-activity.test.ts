@@ -192,7 +192,7 @@ describe("Codex upstream activity", () => {
     ]);
   });
 
-  it("filters a batched OpenClaw steer by its component transcript texts", async () => {
+  it("filters a batched FRIDAY steer by its component transcript texts", async () => {
     await expect(
       checkTurns({
         probe: probe({

@@ -35,7 +35,7 @@ openclaw nodes list
 openclaw nodes describe --node <idOrNameOrIp>
 ```
 
-`status` and `list` both accept `--connected` (only connected nodes) and `--last-connected <duration>` (for example `24h` or `7d`, matching only nodes that connected within the duration). Both use the Gateway's recorded last connection time, including recent reconnects and disconnected nodes with known connection history. `list` shows pending and paired nodes in separate tables. Paired rows carry the most recent connect age (Last Connect). `status` shows one merged table with per-node capability, version, and last-input detail. A connected macOS node reports activity from interaction with OpenClaw without extra permissions. Optional **System-wide presence detection** also reports physical activity in other apps and requires Accessibility. The freshest row is marked `active`. See [Active computer presence](/nodes/presence). `describe` prints one node's capabilities, permissions, activity, and effective/pending invoke commands.
+`status` and `list` both accept `--connected` (only connected nodes) and `--last-connected <duration>` (for example `24h` or `7d`, matching only nodes that connected within the duration). Both use the Gateway's recorded last connection time, including recent reconnects and disconnected nodes with known connection history. `list` shows pending and paired nodes in separate tables. Paired rows carry the most recent connect age (Last Connect). `status` shows one merged table with per-node capability, version, and last-input detail. A connected macOS node reports activity from interaction with FRIDAY without extra permissions. Optional **System-wide presence detection** also reports physical activity in other apps and requires Accessibility. The freshest row is marked `active`. See [Active computer presence](/nodes/presence). `describe` prints one node's capabilities, permissions, activity, and effective/pending invoke commands.
 
 When host stats are available, `status` includes a detail fragment such as
 `load 3.2/24 · mem 151/192 GB · disk 1.2 TB free`. `describe` shows the same
@@ -99,13 +99,13 @@ The invocation timeout covers Gateway checks, node wake-up, readiness retries, a
 
 ```bash
 openclaw nodes notify --node <id> --title "Build" --body "Done" --priority timeSensitive
-openclaw nodes push --node <id> --title "OpenClaw" --environment sandbox
+openclaw nodes push --node <id> --title "FRIDAY" --environment sandbox
 openclaw nodes location get --node <id> --accuracy precise
 openclaw nodes screen record --node <id> --duration 10s --fps 10 --out ./clip.mp4
 ```
 
-- `notify` sends a local notification on a node that declares `system.notify`, including macOS, iOS, Android, and direct watchOS nodes. Direct watchOS delivery requires OpenClaw to be active. Requires `--title` or `--body`. Options: `--sound <name>`, `--priority <passive|active|timeSensitive>`, `--delivery <system|overlay|auto>` (default `system`), `--invoke-timeout <ms>` (default `15000`).
-- `push` sends an APNs test push to an iOS node. Options: `--title <text>` (default `OpenClaw`), `--body <text>`, `--environment <sandbox|production>` to override the detected APNs environment. Accepted delivery exits `0`. A typed APNs rejection preserves the complete text or JSON diagnostic and exits non-zero.
+- `notify` sends a local notification on a node that declares `system.notify`, including macOS, iOS, Android, and direct watchOS nodes. Direct watchOS delivery requires FRIDAY to be active. Requires `--title` or `--body`. Options: `--sound <name>`, `--priority <passive|active|timeSensitive>`, `--delivery <system|overlay|auto>` (default `system`), `--invoke-timeout <ms>` (default `15000`).
+- `push` sends an APNs test push to an iOS node. Options: `--title <text>` (default `FRIDAY`), `--body <text>`, `--environment <sandbox|production>` to override the detected APNs environment. Accepted delivery exits `0`. A typed APNs rejection preserves the complete text or JSON diagnostic and exits non-zero.
 - `location get` fetches the node's current location. Options: `--max-age <ms>` (reuse a cached fix), `--accuracy <coarse|balanced|precise>`, `--location-timeout <ms>` (default `10000`), `--invoke-timeout <ms>` (default `20000`).
 - `screen record` captures a short clip and prints the saved path (or writes JSON with `--json`). Options: `--screen <index>` (default `0`), `--duration <ms|10s>` (default `10000`), `--fps <fps>` (default `10`), `--no-audio`, `--out <path>`, `--invoke-timeout <ms>` (default `120000`).
 - Explicit screen output paths are staged beside the destination. They replace it only after a complete write. A failed write leaves an existing file unchanged.

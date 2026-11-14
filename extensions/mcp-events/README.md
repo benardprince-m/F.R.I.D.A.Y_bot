@@ -1,16 +1,16 @@
 # MCP Events
 
-Optional bundled source for event-driven OpenClaw automations. This implements
+Optional bundled source for event-driven FRIDAY automations. This implements
 OpenAI's versioned MCP Events webhook profile for MCP 2.0 (protocol version
 2026-07-28), not the experimental polling, streaming, gap, or terminated controls.
 
 ## Setup
 
-1. Configure and authenticate an HTTP MCP server through OpenClaw's existing MCP
+1. Configure and authenticate an HTTP MCP server through FRIDAY's existing MCP
    connection settings. This plugin does not store a second set of credentials.
 2. Enable `mcp-events` and configure `callbackOrigin` with a public HTTPS origin.
    Forward only `/plugins/mcp-events/callback/*` through your reverse proxy. Do not
-   expose the Gateway administration surface. OpenClaw neither creates a tunnel
+   expose the Gateway administration surface. FRIDAY neither creates a tunnel
    nor changes network exposure for you. DNS/public-address preflight does not
    prove reachability; the server's signed challenge does.
 3. Create an automation with an authored agent-turn instruction and this schedule:

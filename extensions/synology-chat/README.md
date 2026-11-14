@@ -1,11 +1,11 @@
-# OpenClaw Synology Chat
+# FRIDAY Synology Chat
 
-Official OpenClaw channel plugin for Synology Chat conversations and direct messages.
+Official FRIDAY channel plugin for Synology Chat conversations and direct messages.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/synology-chat
 ```
 
-Configure Synology Chat credentials and allowed conversations in OpenClaw, then use the plugin to route messages between Synology Chat and OpenClaw agents.
+Configure Synology Chat credentials and allowed conversations in FRIDAY, then use the plugin to route messages between Synology Chat and FRIDAY agents.

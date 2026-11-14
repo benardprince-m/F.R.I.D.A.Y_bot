@@ -1,7 +1,7 @@
 import Darwin
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct PipeReadStreamTests {
     @Test func `cancelled finish still joins reader cleanup`() async throws {

@@ -1,5 +1,5 @@
 ---
-summary: "Typed workflow runtime for OpenClaw with resumable approval and input gates."
+summary: "Typed workflow runtime for FRIDAY with resumable approval and input gates."
 title: Lobster
 read_when:
   - You want repeatable multi-step workflows with approvals or structured questions
@@ -187,7 +187,7 @@ For a **structured LLM step** inside a workflow, enable the optional
 
 The installed Lobster plugin runs workflows **in-process** inside the gateway.
 In that embedded mode, `openclaw.invoke` does **not** automatically inherit a
-gateway URL/auth context for nested OpenClaw CLI tool calls.
+gateway URL/auth context for nested FRIDAY CLI tool calls.
 
 That means this pattern is **not currently reliable in the embedded runner**:
 
@@ -368,7 +368,7 @@ correction. A resume can return another question or approval request.
 This is a chat/tool interaction, not an Inbox card or form. The plugin does not
 list pending checkpoints; retain the returned token to resume later. As with
 approval tokens, possession of an input token permits resume by a caller allowed
-to use the tool; tokens are not bound to an OpenClaw user or session.
+to use the tool; tokens are not bound to an FRIDAY user or session.
 
 ## Output envelope
 
@@ -401,7 +401,7 @@ pointer to that state, not the full pipeline state.
 
 - **Local in-process only** - workflows execute inside the gateway process; no
   network calls from the plugin itself.
-- **No secrets** - Lobster doesn't manage OAuth; it calls OpenClaw tools that
+- **No secrets** - Lobster doesn't manage OAuth; it calls FRIDAY tools that
   do.
 - **Sandbox-aware** - disabled when the tool context is sandboxed.
 - **Hardened** - timeouts and output caps enforced by the embedded runner.

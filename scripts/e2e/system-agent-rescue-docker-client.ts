@@ -1,4 +1,4 @@
-// OpenClaw rescue-message Docker harness.
+// FRIDAY rescue-message Docker harness.
 // Imports packaged dist modules so the Docker lane verifies the npm tarball,
 // while this small test driver stays mounted from the checkout.
 import childProcess from "node:child_process";
@@ -197,7 +197,7 @@ async function main() {
   );
   const revokedApproval = await runGatewayCommand("/openclaw yes");
   assert(
-    revokedApproval === "No pending OpenClaw rescue change is waiting for approval.",
+    revokedApproval === "No pending FRIDAY rescue change is waiting for approval.",
     "fresh rescue command did not revoke the older pending change",
   );
   assert(gatewayRestarts.length === 0, "revoked gateway restart was invoked");
@@ -289,7 +289,7 @@ async function main() {
     "gateway restart audit operation missing",
   );
 
-  console.log("OpenClaw rescue Docker E2E passed");
+  console.log("FRIDAY rescue Docker E2E passed");
 }
 
 main()

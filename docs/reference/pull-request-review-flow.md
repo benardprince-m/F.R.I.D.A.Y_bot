@@ -1,5 +1,5 @@
 ---
-summary: "How Barnacle and ClawSweeper feedback helps move OpenClaw pull requests through review."
+summary: "How Barnacle and ClawSweeper feedback helps move FRIDAY pull requests through review."
 read_when:
   - Following up after Barnacle or ClawSweeper feedback
   - Asking ClawSweeper for review
@@ -8,7 +8,7 @@ title: "Pull request review flow"
 sidebarTitle: "PR review flow"
 ---
 
-This page explains the review flow after you open or update an OpenClaw pull
+This page explains the review flow after you open or update an FRIDAY pull
 request: what Barnacle and ClawSweeper do, how to improve the PR from their
 feedback, and what to check when automation stays quiet.
 
@@ -38,7 +38,7 @@ not need to add labels themselves.
 
 ## ClawSweeper
 
-ClawSweeper is the AI-assisted review and maintenance bot for OpenClaw
+ClawSweeper is the AI-assisted review and maintenance bot for FRIDAY
 repositories. It can review PRs, evaluate proof, leave durable review comments,
 and help maintainers with guarded repair or automerge flows.
 
@@ -114,7 +114,7 @@ to review production-path, provider-request, and failure/reconstruction evidence
 Redacting sensitive data is the contributor's responsibility. Remove secrets,
 tokens, private URLs, user data, and unrelated logs before posting proof.
 
-OpenClaw also uses separate stale automation. Unassigned issues and PRs can be
+FRIDAY also uses separate stale automation. Unassigned issues and PRs can be
 marked stale after 14 days of inactivity, then closed after 7 more idle days.
 Assigned PRs are marked stale 27 days after opening, regardless of later
 updates, then closed after 7 stale days without activity. If an assigned PR is

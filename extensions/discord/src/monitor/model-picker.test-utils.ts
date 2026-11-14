@@ -22,8 +22,8 @@ export function createModelsProviderData(
       : (insertionProvider ?? "openai");
   const builtin = {
     id: "openclaw",
-    label: "OpenClaw Default",
-    description: "Use the built-in OpenClaw runtime.",
+    label: "FRIDAY Default",
+    description: "Use the built-in FRIDAY runtime.",
   };
   const runtimeChoicesByProvider = new Map(providers.map((provider) => [provider, [builtin]]));
   const runtimeChoicesByModel = new Map(

@@ -7,7 +7,7 @@ scenario:
   coverage:
     secondary:
       - agent-runtime.tool-fs-list
-  objective: Verify directory inspection uses the existing OpenClaw ls tool across runtimes.
+  objective: Verify directory inspection uses the existing FRIDAY ls tool across runtimes.
   successCriteria:
     - The ls tool lists the workspace directory and returns a linked successful result.
     - A valid ls request for a missing directory returns a linked failure result.
@@ -32,7 +32,7 @@ scenario:
         codexDefaultImpact: P4
         qaImpact: P2
         action: require linked directory listing and missing-directory failure results
-        reason: OpenClaw exposes ls in the coding profile and Codex retains it as a dynamic tool.
+        reason: FRIDAY exposes ls in the coding profile and Codex retains it as a dynamic tool.
       happyPrompt: >-
         tool search qa check target=ls. Call ls exactly once with path="."
         to list the workspace directory, then summarize the actual tool result.

@@ -796,7 +796,7 @@ echo "==> Fixing data-directory permissions"
 # Run a no-dereference chown from each entry's directory. This keeps ownership
 # repair for sockets/FIFOs while preventing a swapped symlink leaf from
 # redirecting the root operation outside the mounted tree.
-# After fixing the config dir, only the OpenClaw metadata subdirectory
+# After fixing the config dir, only the FRIDAY metadata subdirectory
 # (.openclaw/) inside the workspace gets chowned, not the user's project files.
 run_prestart_gateway --user root --entrypoint sh openclaw-gateway -c \
   'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin; export PATH; \

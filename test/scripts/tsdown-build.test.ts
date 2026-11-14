@@ -1318,7 +1318,7 @@ describe("resolveTsdownBuildInvocation", () => {
       const root = createTempDir("tsdown-app-");
       const app = writeFixtureFile(
         root,
-        "dist/candidates/OpenClaw.app/Contents/Resources/worker.js",
+        "dist/candidates/FRIDAY.app/Contents/Resources/worker.js",
         "signed worker",
       );
       const stale = writeFixtureFile(root, "dist/stale.js", "stale");

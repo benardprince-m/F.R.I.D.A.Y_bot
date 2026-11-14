@@ -113,7 +113,7 @@ class SensitivePhoneCapabilitiesSettingsTest {
     capture()
     for (label in listOf(
       "Allow control of other apps?",
-      "Enabling lets OpenClaw observe and control other apps' screens when armed. Android accessibility access is required.",
+      "Enabling lets FRIDAY observe and control other apps' screens when armed. Android accessibility access is required.",
       "Enable and Open Settings",
       "Not Now",
     )) {

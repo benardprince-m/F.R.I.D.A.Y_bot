@@ -477,9 +477,9 @@ export async function provisionMatrixQaRoom(params: {
       registrationToken: params.registrationToken,
     });
   const [driver, sut, observer] = await Promise.all([
-    registerActor("driver", "OpenClaw Matrix QA Driver"),
-    registerActor("sut", "OpenClaw Matrix QA SUT"),
-    registerActor("observer", "OpenClaw Matrix QA Observer"),
+    registerActor("driver", "FRIDAY Matrix QA Driver"),
+    registerActor("sut", "FRIDAY Matrix QA SUT"),
+    registerActor("observer", "FRIDAY Matrix QA Observer"),
   ]);
   const topology = await provisionMatrixQaTopology({
     accounts: {
@@ -507,7 +507,7 @@ export async function provisionMatrixQaRoom(params: {
   // ignores them. Passive readers must never share the encrypted actor's device.
   const createObservationAccount = (account: MatrixQaRegisteredAccount) =>
     anonClient.loginWithPassword({
-      deviceName: "OpenClaw Matrix QA Room Observation",
+      deviceName: "FRIDAY Matrix QA Room Observation",
       password: account.password,
       userId: account.userId,
     });

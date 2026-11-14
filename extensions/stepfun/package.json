@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/stepfun-provider",
   "version": "2026.10.4",
-  "description": "OpenClaw StepFun provider plugin.",
+  "description": "FRIDAY StepFun provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

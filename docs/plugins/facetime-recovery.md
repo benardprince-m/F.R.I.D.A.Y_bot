@@ -8,7 +8,7 @@ title: "FaceTime recovery and removal"
 
 This procedure removes the FaceTime plugin's native artifacts and describes
 the separate operator actions needed to restore the Mac's standard security
-posture. OpenClaw never changes SIP automatically.
+posture. FRIDAY never changes SIP automatically.
 
 ## Remove driver and helper artifacts
 
@@ -27,7 +27,7 @@ Quit and reopen FaceTime and Phone so neither app retains a mapped helper.
 If an app will not quit normally, terminate only that exact app from Activity
 Monitor and reopen it. Do not use broad process-name kill commands.
 
-Verify that `OpenClaw-Mic` and `OpenClaw-Feed` no longer appear:
+Verify that `FRIDAY-Mic` and `FRIDAY-Feed` no longer appear:
 
 ```bash
 system_profiler SPAudioDataType

@@ -277,7 +277,7 @@ describe("CustodianSessionStore", () => {
       Promise.resolve({ sessionId: params.sessionId, reply: "Ready.", action: "none" });
     const error = new GatewayRequestError({
       code: live ? "UNAVAILABLE" : "INVALID_REQUEST",
-      message: live ? "OpenClaw session expired." : "OpenClaw session belongs to another caller.",
+      message: live ? "FRIDAY session expired." : "FRIDAY session belongs to another caller.",
       details: buildSystemAgentSessionInvalidatedErrorDetails(),
     });
     const request = live
@@ -354,7 +354,7 @@ describe("CustodianSessionStore", () => {
         question: {
           id: "repair",
           header: "Repair",
-          question: "What should OpenClaw repair?",
+          question: "What should FRIDAY repair?",
           options: [{ label: "Gateway" }, { label: "Channel" }],
           isOther: false,
         },

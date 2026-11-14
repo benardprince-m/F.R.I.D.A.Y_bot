@@ -1,8 +1,8 @@
-# OpenClaw Qianfan Provider
+# FRIDAY Qianfan Provider
 
-Official OpenClaw provider plugin for Qianfan.
+Official FRIDAY provider plugin for Qianfan.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/qianfan-provider

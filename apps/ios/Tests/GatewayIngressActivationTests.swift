@@ -6,7 +6,7 @@ import OpenClawKit
 import OpenClawProtocol
 import SafariServices
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 extension GatewayIngressControllerTests {
     @Test(arguments: [false, true]) @MainActor

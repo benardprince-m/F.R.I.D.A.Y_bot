@@ -1852,7 +1852,7 @@ describe("Codex plugin thread config", () => {
     expect(installedParams).toEqual([{ forceRefresh: true }]);
   });
 
-  it("does not expose apps for plugins that OpenClaw policy leaves disabled", async () => {
+  it("does not expose apps for plugins that FRIDAY policy leaves disabled", async () => {
     const appCache = await cacheApps([appInfo("google-calendar-app", true)]);
 
     const config = await buildCodexPluginThreadConfig({

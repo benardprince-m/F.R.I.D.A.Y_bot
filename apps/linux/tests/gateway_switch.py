@@ -563,8 +563,8 @@ class GatewayOnboardingFixture(GatewaySwitchFixture):
             click("On this computer", prefix=True)
             click("Continue")
             wait("Choose a release channel", "heading")
-            click("Install OpenClaw")
-            wait("OpenClaw needs attention", "heading")
+            click("Install FRIDAY")
+            wait("FRIDAY needs attention", "heading")
             expect_install_error()
             attempts = Path("fixture-runtime-install-attempts").read_text().splitlines()
             if len(attempts) != 2:

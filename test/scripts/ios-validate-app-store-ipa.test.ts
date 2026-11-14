@@ -178,7 +178,7 @@ async function writeValidFixture(
   mkdirSync(fixturesDir, { recursive: true });
   const zip = new JSZip();
   const appFile = (name: string, body: string) =>
-    zip.file(`Payload/OpenClaw.app/${name}`, body, { date: new Date(0) });
+    zip.file(`Payload/FRIDAY.app/${name}`, body, { date: new Date(0) });
   const writeSigningFixture = (name: string, body: Record<string, PlistValue>) => {
     const file = path.join(fixturesDir, `${name}.plist`);
     writeFileSync(file, plist(body), "utf8");
@@ -193,10 +193,10 @@ cat "${file}"
     return executable;
   };
 
-  const healthUsage = "OpenClaw reads Health data for Health Summaries.";
+  const healthUsage = "FRIDAY reads Health data for Health Summaries.";
   const infoBody = {
     CFBundleIdentifier: "ai.openclawfoundation.app",
-    CFBundleDisplayName: options.displayName ?? "OpenClaw",
+    CFBundleDisplayName: options.displayName ?? "FRIDAY",
     OpenClawGitCommit: options.buildCommit ?? BUILD_COMMIT,
     OpenClawBuildTimestamp: BUILD_TIMESTAMP,
     OpenClawPushMode: "appStore",
@@ -213,7 +213,7 @@ cat "${file}"
     "de.lproj/InfoPlist.strings",
     plist(
       options.localizedDisplayName === undefined
-        ? { NSCameraUsageDescription: "OpenClaw verwendet die Kamera." }
+        ? { NSCameraUsageDescription: "FRIDAY verwendet die Kamera." }
         : { CFBundleDisplayName: options.localizedDisplayName },
     ),
   );
@@ -231,7 +231,7 @@ cat "${file}"
     "com.apple.developer.devicecheck.appattest-environment": "production",
   });
   const security = writeSigningFixture("security", {
-    Name: "OpenClaw App Store ai.openclawfoundation.app",
+    Name: "FRIDAY App Store ai.openclawfoundation.app",
     TeamIdentifier: ["FWJYW4S8P8"],
     Entitlements: {
       ...sharedEntitlements,
@@ -242,7 +242,7 @@ cat "${file}"
   const plistBuddy = path.join(toolsDir, "plistbuddy");
   const plutil = path.join(toolsDir, "plutil");
   const unzip = path.join(toolsDir, "unzip");
-  const ipaPath = path.join(root, "OpenClaw.ipa");
+  const ipaPath = path.join(root, "FRIDAY.ipa");
   writeFileSync(ipaPath, await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" }));
   return { ipaPath, plistBuddy, plutil, codesign, security, unzip };
 }
@@ -332,7 +332,7 @@ describe("scripts/ios-validate-app-store-ipa.sh", () => {
   });
 
   it("rejects an IPA with the wrong canonical display name", async () => {
-    await expectRejected({ displayName: "OpenClaw Debug" }, "display name mismatch");
+    await expectRejected({ displayName: "FRIDAY Debug" }, "display name mismatch");
   });
 
   it("rejects unresolved build settings in localized plist resources", async () => {

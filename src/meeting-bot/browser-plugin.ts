@@ -159,7 +159,7 @@ export function defineBrowserMeetingPlugin<
         speech: {
           audioBridgeUnavailable: "Realtime speech requires an active Chrome audio bridge.",
           browserUnverified: `${labels.brand} browser state has not been verified yet.`,
-          microphoneMuted: `Turn on the OpenClaw ${labels.microphone} microphone before asking OpenClaw to speak.`,
+          microphoneMuted: `Turn on the FRIDAY ${labels.microphone} microphone before asking FRIDAY to speak.`,
           microphoneMutedReason: spec.microphoneMutedReason,
           notInCall:
             spec.notInCallMessage ??

@@ -173,7 +173,7 @@ export function startOpenAiCompatibleStream(params: {
       }
       const text = textStream.complete(
         resolveAssistantResultText(settled.result),
-        settled.toolCalls ? "" : "No response from OpenClaw.",
+        settled.toolCalls ? "" : "No response from FRIDAY.",
       );
       if (!text.startsWith(textStream.streamedText)) {
         fail(

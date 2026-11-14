@@ -689,7 +689,7 @@ export async function buildQaConfidenceReport(params: {
 
 export function renderQaConfidenceMarkdownReport(report: QaConfidenceReport): string {
   const lines = [
-    `# OpenClaw QA Confidence Report - ${report.profile}`,
+    `# FRIDAY QA Confidence Report - ${report.profile}`,
     "",
     `- Generated at: ${report.generatedAt}`,
     `- Verdict: ${report.pass ? "pass" : "fail"}`,

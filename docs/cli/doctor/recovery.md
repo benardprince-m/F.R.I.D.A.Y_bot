@@ -116,8 +116,8 @@ lock wait or an offline-maintenance refusal; requester revocation still stops re
 When maintenance cannot acquire state ownership, Doctor includes the underlying
 schema or filesystem error. Manual `openclaw doctor --fix` reports contention
 immediately. Updater-run Doctor first waits, up to 20 minutes by default, for a non-Gateway
-OpenClaw process, such as a CLI command, to release state or close its agent
-database, printing the holder's PID and progress (see [how updates run](/cli/update/how-updates-run#when-restart-is-skipped-or-fails)). A shared-state database from a newer OpenClaw build
+FRIDAY process, such as a CLI command, to release state or close its agent
+database, printing the holder's PID and progress (see [how updates run](/cli/update/how-updates-run#when-restart-is-skipped-or-fails)). A shared-state database from a newer FRIDAY build
 stays unchanged; rerun Doctor with a build that supports that database version.
 
 If Doctor's output pipe closes (for example, `openclaw doctor --fix | head -20`),
@@ -169,7 +169,7 @@ the failed native check:
   Keep the same `HOME`, `OPENCLAW_STATE_DIR`, and `OPENCLAW_CONFIG_PATH` selectors
   used by the service. See [Existing system LaunchDaemons](/gateway#existing-system-launchdaemons).
 
-OpenClaw does not manage custom system LaunchDaemons. Running Doctor as root
+FRIDAY does not manage custom system LaunchDaemons. Running Doctor as root
 with another account's `HOME` does not add that capability and can create
 root-owned state files.
 

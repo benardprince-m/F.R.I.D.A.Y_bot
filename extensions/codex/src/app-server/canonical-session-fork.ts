@@ -49,7 +49,7 @@ export async function forkCanonicalCodexSession(params: {
   const context = control.forkContext;
   if (!context?.localSessionsRoot || !resolved.canonical.thread.path) {
     throw new Error(
-      "Forking an OpenClaw Codex session requires the verified local rollout on its selected connection. Fork an original imported message instead.",
+      "Forking an FRIDAY Codex session requires the verified local rollout on its selected connection. Fork an original imported message instead.",
     );
   }
   const model = normalizeOptionalString(resolved.canonical.thread.model);
@@ -77,7 +77,7 @@ export async function forkCanonicalCodexSession(params: {
         initialEntry: { agentHarnessId: params.harnessRuntimeId, modelSelectionLocked: true },
         afterCreate: async (created) => {
           if (!created.initialization) {
-            throw new Error("Forking an OpenClaw Codex session requires host creation authority");
+            throw new Error("Forking an FRIDAY Codex session requires host creation authority");
           }
           const host = created.initialization;
           const initialization = prepareCodexSessionInitialization({

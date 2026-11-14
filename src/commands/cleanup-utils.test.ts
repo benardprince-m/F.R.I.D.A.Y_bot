@@ -468,7 +468,7 @@ describe("cleanup path removals", () => {
     });
 
     await expect(remove({ oauthDir, oauthInsideState: false })).rejects.toThrow(
-      /Failed to remove non-preserved OpenClaw state/,
+      /Failed to remove non-preserved FRIDAY state/,
     );
     await expect(fs.readFile(configPath, "utf8")).resolves.toBe("{}\n");
     await expect(fs.readFile(oauthPath, "utf8")).resolves.toBe("keep me");

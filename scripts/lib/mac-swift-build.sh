@@ -532,7 +532,7 @@ build_swift_architecture() {
   # The linker coalesces bodies and frame descriptors separately, so mixed targets can pair a
   # 128-byte body with a 112-byte descriptor. Compile every module for the app's minimum.
   local deployment_target
-  deployment_target="$(/usr/libexec/PlistBuddy -c 'Print :LSMinimumSystemVersion' "$ROOT_DIR/apps/macos/Sources/OpenClaw/Resources/Info.plist")"
+  deployment_target="$(/usr/libexec/PlistBuddy -c 'Print :LSMinimumSystemVersion' "$ROOT_DIR/apps/macos/Sources/FRIDAY/Resources/Info.plist")"
   local target_flags=(-Xswiftc -target -Xswiftc "$arch-apple-macosx$deployment_target")
   echo "🔨 Building $PRODUCT ($BUILD_CONFIG) [$arch]"
   verify_snapshot_swift_lock
@@ -571,7 +571,7 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   PEEKABOO_LOCKED_SOURCE_COMMIT="$6"
   SKIP_MLX_TTS="$7"
   SWIFT_WORK_ROOT="$8"
-  PRODUCT=OpenClaw
+  PRODUCT=FRIDAY
   MLX_TTS_HELPER_PRODUCT=openclaw-mlx-tts
   BUILD_ROOT="$ROOT_DIR/apps/macos/.build"
   MLX_TTS_HELPER_BUILD_ROOT="$ROOT_DIR/apps/macos-mlx-tts/.build"

@@ -151,7 +151,7 @@ async function replay(
     },
   };
   const hostArguments = [
-    "/Applications/OpenClawCloudWorker.app/Contents/MacOS/OpenClaw",
+    "/Applications/OpenClawCloudWorker.app/Contents/MacOS/FRIDAY",
     "--cloud-worker-host",
     ...Object.entries({
       "--node-executable": "/usr/bin/node",
@@ -168,7 +168,7 @@ async function replay(
       if (args[0] !== cli) {
         throw new Error("Unexpected runtime executable");
       }
-      return processResult(args[1] === "--version" ? "OpenClaw 2026.8.1" : "");
+      return processResult(args[1] === "--version" ? "FRIDAY 2026.8.1" : "");
     }
     if (failure === "unavailable") {
       return processResult("", 1);

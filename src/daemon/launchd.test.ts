@@ -348,7 +348,7 @@ describe("launchd runtime state", () => {
 });
 
 describe("launchctl list detection", () => {
-  it("discovers stale OpenClaw updater jobs from launchctl list", async () => {
+  it("discovers stale FRIDAY updater jobs from launchctl list", async () => {
     vi.spyOn(process, "platform", "get").mockReturnValue("darwin");
     state.listOutput = [
       "123 0 ai.openclaw.gateway",
@@ -402,7 +402,7 @@ describe("launchctl list detection", () => {
   }
   it.runIf(process.platform === "darwin").each([
     scanCase(
-      "profile commands require an OpenClaw update command",
+      "profile commands require an FRIDAY update command",
       [
         [profileUpdater, 4321, [...updateArgs, "--json"]],
         [gateway, 9876, gatewayArgs],

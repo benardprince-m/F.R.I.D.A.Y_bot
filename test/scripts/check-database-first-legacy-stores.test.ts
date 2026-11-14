@@ -809,11 +809,11 @@ describe("check-database-first-legacy-stores", () => {
   it("keeps legacy PortGuardian filenames inside the native migration owner", () => {
     const runtimeViolations = collectDatabaseFirstNativeLegacyStoreViolations(
       'let path = root.appendingPathComponent("port-guard.json")\n',
-      "apps/macos/Sources/OpenClaw/PortGuardian.swift",
+      "apps/macos/Sources/FRIDAY/PortGuardian.swift",
     );
     const migrationViolations = collectDatabaseFirstNativeLegacyStoreViolations(
       'let path = root.appendingPathComponent("port-guard.json")\n',
-      "apps/macos/Sources/OpenClaw/PortGuardianRecordStore.swift",
+      "apps/macos/Sources/FRIDAY/PortGuardianRecordStore.swift",
     );
 
     expect(runtimeViolations).toEqual([{ kind: "legacy PortGuardian file reference", line: 1 }]);

@@ -34,7 +34,7 @@ describe("readConfiguredLogTail redaction", () => {
       logFile,
       [
         `Authorization: Basic ${basicSecret}`,
-        `X-OpenClaw-Token: ${openClawToken}`,
+        `X-FRIDAY-Token: ${openClawToken}`,
         `x-pomerium-jwt-assertion: ${pomeriumJwt}`,
         "normal diagnostic line",
       ].join("\n") + "\n",
@@ -49,7 +49,7 @@ describe("readConfiguredLogTail redaction", () => {
     const text = payload.lines.join("\n");
 
     expect(text).toContain("Authorization: Basic ***");
-    expect(text).toContain("X-OpenClaw-Token: supers…7890");
+    expect(text).toContain("X-FRIDAY-Token: supers…7890");
     expect(text).toContain("x-pomerium-jwt-assertion: eyJhea…3456");
     expect(text).toContain("normal diagnostic line");
     expect(text).not.toContain(basicSecret);

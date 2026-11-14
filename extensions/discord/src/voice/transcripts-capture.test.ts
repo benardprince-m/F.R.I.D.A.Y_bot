@@ -433,7 +433,7 @@ defineDiscordVoiceTests(
       beginSpeakerTurn(entry);
       await emitFinalRealtimeUserTranscript(
         lastRealtimeBridgeParams(),
-        "OpenClaw, are you still listening?",
+        "FRIDAY, are you still listening?",
       );
       expect(agentCommandMock).toHaveBeenCalledOnce();
       expect(connection.destroy).not.toHaveBeenCalled();

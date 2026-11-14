@@ -3,7 +3,7 @@ import OpenClawKit
 import SwiftUI
 import Testing
 import UIKit
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct SidebarGatewayPickerTests {
     static func entry(_ id: String, name: String? = nil) -> GatewaySettingsStore.GatewayRegistryEntry {

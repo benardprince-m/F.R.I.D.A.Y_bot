@@ -15,7 +15,7 @@ Shares instruction files across selected agents without editing their workspace 
 ## Distribution
 
 - Package: `@openclaw/agent-guidance`
-- Install route: included in OpenClaw
+- Install route: included in FRIDAY
 
 ## Surface
 

@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct MacGatewayProfilesTests {
     @Test func `canonical route identity normalizes authority but preserves path`() throws {

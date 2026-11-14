@@ -261,7 +261,7 @@ export async function resolveConversationAppServerRuntime(params: {
 }
 
 export const CODEX_CONVERSATION_THREAD_DEVELOPER_INSTRUCTIONS =
-  "This Codex thread is bound to an OpenClaw conversation. Answer normally; OpenClaw will deliver your final response back to the conversation.";
+  "This Codex thread is bound to an FRIDAY conversation. Answer normally; FRIDAY will deliver your final response back to the conversation.";
 
 type CodexThreadBindingParams = Parameters<typeof resolveConversationAppServerRuntime>[0] & {
   bindingStore: CodexAppServerBindingStore;

@@ -104,7 +104,7 @@ it.each([false, true])(
     }));
     registerIsolatedHarness({
       id: "openclaw",
-      label: "OpenClaw",
+      label: "FRIDAY",
       runIsolatedCompletionV2: dispatch,
     });
     const prepared = await prepareUtilityCompletionForAgent({

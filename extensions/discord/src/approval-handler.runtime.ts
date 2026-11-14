@@ -110,7 +110,7 @@ function createApprovalContainer(view: ApprovalViewModel): Container {
   const plugin = view.approvalKind === "plugin";
   const systemAgent = view.approvalKind === "system-agent";
   const pending = view.phase === "pending";
-  const approvalLabel = plugin ? "Plugin" : systemAgent ? "OpenClaw Change" : "Exec";
+  const approvalLabel = plugin ? "Plugin" : systemAgent ? "FRIDAY Change" : "Exec";
   const commandPreview = formatCommandPreview(
     plugin ? view.title : view.commandText,
     plugin ? 700 : pending ? 1000 : 500,
@@ -136,7 +136,7 @@ function createApprovalContainer(view: ApprovalViewModel): Container {
     ? plugin
       ? "A plugin action needs your approval."
       : systemAgent
-        ? "An OpenClaw change needs your approval."
+        ? "An FRIDAY change needs your approval."
         : "A command needs your approval."
     : view.phase === "expired"
       ? "This approval request has expired."

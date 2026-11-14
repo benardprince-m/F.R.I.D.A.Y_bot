@@ -87,12 +87,12 @@ class WindowChromeFixture:
             self.command("xdotool", "mouseup", "1")
 
     def exercise(self, app, _binary, wait, Atspi):
-        wait("Welcome to OpenClaw", "heading")
+        wait("Welcome to FRIDAY", "heading")
 
         def find_window():
             for line in self.command("wmctrl", "-lp").splitlines():
                 parts = line.split(None, 4)
-                if len(parts) == 5 and parts[2] == str(app.pid) and "OpenClaw" in parts[4]:
+                if len(parts) == 5 and parts[2] == str(app.pid) and "FRIDAY" in parts[4]:
                     return parts[0]
             return None
 

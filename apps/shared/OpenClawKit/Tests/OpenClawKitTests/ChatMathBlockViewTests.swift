@@ -27,7 +27,7 @@ struct ChatMathBlockViewTests {
                     markdownVariant: .standard,
                     userAccent: nil,
                     displayOptions: [],
-                    assistantName: "OpenClaw",
+                    assistantName: "FRIDAY",
                     assistantAvatarText: "OC",
                     assistantAvatarTint: nil,
                     showsAssistantAvatar: usesSplitView,

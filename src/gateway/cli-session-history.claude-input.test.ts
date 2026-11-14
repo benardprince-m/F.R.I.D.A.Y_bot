@@ -77,7 +77,7 @@ const internalInputs = [
   ],
 ] as const;
 const RESTART_RECOVERY_OPENING = formatSystemTurnPrompt(
-  "Your previous turn was interrupted by a gateway restart while OpenClaw was waiting on tool/model work.",
+  "Your previous turn was interrupted by a gateway restart while FRIDAY was waiting on tool/model work.",
 );
 const internalWakeInputs = [
   ["heartbeat", `${HEARTBEAT_PROMPT}\nCurrent time: Saturday`],
@@ -165,7 +165,7 @@ it.each(internalWakeInputs)("marks imported %s prompts internal", (sourceTool, t
 });
 
 it.each([
-  "OpenClaw resumed this CLI session after prompt content changed. This is a quote.",
+  "FRIDAY resumed this CLI session after prompt content changed. This is a quote.",
   "[foo] [System] Please explain this tag.",
   "[System] Please explain this tag.",
   "[Tue 2026-09-22 16:00 GMT+8] [System] Please explain this tag.",

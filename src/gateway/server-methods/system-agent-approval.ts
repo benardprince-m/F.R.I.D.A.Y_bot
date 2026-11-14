@@ -128,7 +128,7 @@ export async function prepareDelegatedSystemAgentApproval(params: {
       ? getActiveAgentRunDelegatedAuthority(callerIdentity.operationalRunInstance)
       : undefined);
   if (!approvalAuthority) {
-    throw new Error("delegated OpenClaw approval requires an active run authority");
+    throw new Error("delegated FRIDAY approval requires an active run authority");
   }
   const runtimeApprovalAuthority: AgentRuntimeDelegatedAuthority = callerIdentity?.workerTurnClaim
     ? { kind: "worker", ...approvalAuthority, turnClaim: callerIdentity.workerTurnClaim }
@@ -194,7 +194,7 @@ export async function prepareDelegatedSystemAgentApproval(params: {
         if (pending?.proposalHash === proposal.hash) {
           return { kind: "approval", ...pending };
         }
-        throw new Error("OpenClaw change is no longer pending. Retry the request.");
+        throw new Error("FRIDAY change is no longer pending. Retry the request.");
       }
       const applyDecision = async (
         decision: ExecApprovalDecision | null,
@@ -229,8 +229,8 @@ export async function prepareDelegatedSystemAgentApproval(params: {
         if (corrective || !active) {
           await retireSystemAgentProposal(params.session, manager, correction.hash);
           const notice = active
-            ? "OpenClaw repair stopped after one corrective attempt. Check the current settings before making a new request."
-            : "OpenClaw correction cancelled because its approval authority ended. Check the current settings before making a new request.";
+            ? "FRIDAY repair stopped after one corrective attempt. Check the current settings before making a new request."
+            : "FRIDAY correction cancelled because its approval authority ended. Check the current settings before making a new request.";
           params.session.engine.noteAssistantMessage(notice);
           return { kind: "completed", reply: { ...reply, text: `${reply.text}\n\n${notice}` } };
         }
@@ -248,16 +248,16 @@ export async function prepareDelegatedSystemAgentApproval(params: {
       if (callerIdentity?.fullPermission === true) {
         const reply = await applyDecision("allow-once");
         if (!reply) {
-          throw new Error("OpenClaw change is no longer pending. Retry the request.");
+          throw new Error("FRIDAY change is no longer pending. Retry the request.");
         }
         return (await resolveCorrection(reply)) ?? { kind: "completed", reply };
       }
       if (!manager) {
-        throw new Error("OpenClaw approval registry unavailable");
+        throw new Error("FRIDAY approval registry unavailable");
       }
       const description = describeSystemAgentPersistentOperation(proposal.operation);
       const request: SystemAgentApprovalRequestPayload = {
-        title: "OpenClaw change",
+        title: "FRIDAY change",
         description,
         command: description,
         proposalHash: proposal.hash,
@@ -328,7 +328,7 @@ export async function prepareDelegatedSystemAgentApproval(params: {
           .forwardSystemAgentApprovalResolved?.(resolvedEvent)
           .catch((error: unknown) => {
             params.context.logGateway?.error?.(
-              `OpenClaw approval chat resolution failed: ${String(error)}`,
+              `FRIDAY approval chat resolution failed: ${String(error)}`,
             );
           });
       };
@@ -350,7 +350,7 @@ export async function prepareDelegatedSystemAgentApproval(params: {
             );
           } catch (error) {
             params.context.logGateway?.error?.(
-              `OpenClaw approval chat delivery failed: ${String(error)}`,
+              `FRIDAY approval chat delivery failed: ${String(error)}`,
             );
             return false;
           }
@@ -371,9 +371,7 @@ export async function prepareDelegatedSystemAgentApproval(params: {
                   const transcript = createSystemAgentTranscriptStore({
                     assertCurrent: () => {
                       if (params.sessions.get(params.sessionId) !== params.session) {
-                        throw new Error(
-                          "OpenClaw approval session changed during audit persistence",
-                        );
+                        throw new Error("FRIDAY approval session changed during audit persistence");
                       }
                     },
                   });
@@ -427,7 +425,7 @@ export async function prepareDelegatedSystemAgentApproval(params: {
             throw error;
           }
         },
-        afterDecisionErrorLabel: "OpenClaw approval apply failed",
+        afterDecisionErrorLabel: "FRIDAY approval apply failed",
       }).catch((error: unknown) => {
         // Gateway closure retires observation; a genuine decision still owns completion.
         if (!(error instanceof ApprovalObserverClosedError)) {

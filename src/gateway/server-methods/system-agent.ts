@@ -408,7 +408,7 @@ export const systemAgentHandlers: GatewayRequestHandlers = {
     // Accepted logbook work belongs to the serialized task, not socket cancellation.
     const assertSessionCurrent = () => {
       if (context.systemAgentSessions.get(params.sessionId) !== ownedSession) {
-        throw new Error("OpenClaw session changed during audit persistence");
+        throw new Error("FRIDAY session changed during audit persistence");
       }
     };
     const transcript = createSystemAgentTranscriptStore({
@@ -439,7 +439,7 @@ export const systemAgentHandlers: GatewayRequestHandlers = {
           reject(authenticatedProfileUnavailableError());
           return undefined;
         }
-        reject(errorShape(ErrorCodes.INVALID_REQUEST, "OpenClaw caller identity unavailable."));
+        reject(errorShape(ErrorCodes.INVALID_REQUEST, "FRIDAY caller identity unavailable."));
         return undefined;
       }
       const boundSession = sessions.get(sessionId);
@@ -447,7 +447,7 @@ export const systemAgentHandlers: GatewayRequestHandlers = {
         // Structured invalidation details let clients with a persisted id mint a
         // fresh one instead of retry-looping against the foreign live session.
         reject(
-          errorShape(ErrorCodes.INVALID_REQUEST, "OpenClaw session belongs to another caller.", {
+          errorShape(ErrorCodes.INVALID_REQUEST, "FRIDAY session belongs to another caller.", {
             details: buildSystemAgentSessionInvalidatedErrorDetails(),
           }),
         );
@@ -473,8 +473,8 @@ export const systemAgentHandlers: GatewayRequestHandlers = {
           errorShape(
             ErrorCodes.INVALID_REQUEST,
             params.wizardCancel !== undefined
-              ? "No active OpenClaw chat session is awaiting that wizard cancel."
-              : "No active OpenClaw chat session is awaiting that wizard answer.",
+              ? "No active FRIDAY chat session is awaiting that wizard cancel."
+              : "No active FRIDAY chat session is awaiting that wizard answer.",
             { details: buildSystemAgentSessionInvalidatedErrorDetails() },
           ),
         );
@@ -496,7 +496,7 @@ export const systemAgentHandlers: GatewayRequestHandlers = {
           reject(
             errorShape(
               ErrorCodes.UNAVAILABLE,
-              `OpenClaw requires working inference: ${inference.error}`,
+              `FRIDAY requires working inference: ${inference.error}`,
               {
                 details: buildSystemAgentInferenceUnavailableErrorDetails(),
               },
@@ -656,7 +656,7 @@ export const systemAgentHandlers: GatewayRequestHandlers = {
           input: params,
         });
         if (!turnReply) {
-          reject(errorShape(ErrorCodes.INVALID_REQUEST, "OpenClaw chat input is missing."));
+          reject(errorShape(ErrorCodes.INVALID_REQUEST, "FRIDAY chat input is missing."));
           return undefined;
         }
         reply = turnReply;

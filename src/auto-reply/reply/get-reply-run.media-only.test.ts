@@ -2085,7 +2085,7 @@ describe("runPreparedReply media-only handling", () => {
     expect(call?.followupRun.currentInboundContext?.text).toContain(
       "#35675 obviyus ->#35674: Are you fr fr",
     );
-    expect(call?.followupRun.currentInboundContext?.text).toContain("[OpenClaw room event]");
+    expect(call?.followupRun.currentInboundContext?.text).toContain("[FRIDAY room event]");
     expect(call?.followupRun.currentInboundContext?.text).toContain(
       ROOM_EVENT_MESSAGE_TOOL_DIRECTIVE,
     );
@@ -2174,8 +2174,8 @@ describe("runPreparedReply media-only handling", () => {
   });
 
   it.each([
-    ["heartbeat", "background-task", "background-task", "[OpenClaw session event]"],
-    ["heartbeat", "exec-event", "exec-event", "[OpenClaw exec completion]"],
+    ["heartbeat", "background-task", "background-task", "[FRIDAY session event]"],
+    ["heartbeat", "exec-event", "exec-event", "[FRIDAY exec completion]"],
   ] as const)(
     "keeps %s wake metadata private and preserves %s event provenance",
     async (source, suppliedSourceTool, expectedSourceTool, transcriptPrompt) => {

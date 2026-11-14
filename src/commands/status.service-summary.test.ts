@@ -81,7 +81,7 @@ describe("readServiceStatusSummary", () => {
     const aligned = await readServiceStatusSummary(service, "Daemon", undefined, alias);
     expect(aligned.installationDrift).toBeUndefined();
     expect(getStatusOverviewRowValue("Gateway service", { gatewayService: aligned })).not.toContain(
-      "different OpenClaw install",
+      "different FRIDAY install",
     );
   });
   it("marks running unmanaged services as externally managed", async () => {

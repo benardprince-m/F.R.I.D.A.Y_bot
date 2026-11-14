@@ -53,7 +53,7 @@ function renderGroupedMessage(
         options: {
           showReasoning: true,
           showToolCalls: true,
-          assistantName: "OpenClaw",
+          assistantName: "FRIDAY",
           assistantAvatar: null,
           ...opts,
         },

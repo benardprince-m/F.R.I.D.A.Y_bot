@@ -4,7 +4,7 @@ import { en } from "./en.ts";
 // Session setup messages load with their consumers instead of every UI startup.
 const enNewSessionSetup = {
   newSession: {
-    openClawWorker: "OpenClaw worker",
+    openClawWorker: "FRIDAY worker",
     deviceFolder: "Existing folder on device",
     deviceFolderDescription:
       "Work in place on the selected device. Files are not copied to the Gateway.",
@@ -147,7 +147,7 @@ const enNewSessionSetup = {
     created: "Session created",
     startInTerminal: "Start in terminal",
     nativeTerminalHint:
-      "Start the native CLI on the selected machine using its own account and configuration. This does not create an OpenClaw Chat.",
+      "Start the native CLI on the selected machine using its own account and configuration. This does not create an FRIDAY Chat.",
     chooseNativeHost: "Choose a native CLI host",
     nativeHostsUnavailable:
       "No native CLI is available. Install it on the Gateway or connect a machine with CLI access, then reconnect to the Gateway.",
@@ -221,7 +221,7 @@ const enNewSessionSetup = {
       "Native CLI host unavailable. Check that the CLI is installed and the node is connected with its fresh-start command approved, then retry the catalog.",
     terminalDisabled: "Enable CLI agents and terminals in Gateway settings to start a native CLI.",
     terminalPlacementUnsupported:
-      "Native CLI sessions use a specific host, not OpenClaw worker placement. Reset this draft and choose a native host.",
+      "Native CLI sessions use a specific host, not FRIDAY worker placement. Reset this draft and choose a native host.",
     terminalNeedsFolder: "Pick a folder before starting in a terminal.",
     noSessionHosts:
       "No devices have session hosting enabled. Connect a machine with session hosting enabled, or enable it on a paired device.",
@@ -241,7 +241,7 @@ const enNewSessionSetup = {
     connectMachineTeamHint:
       "Installs a background node service that pairs this machine with your team and can run agent sessions.",
     connectMachineCommandOnly: "Command access only (no agent sessions)",
-    connectMachineInstalled: "Already have OpenClaw installed? Run:",
+    connectMachineInstalled: "Already have FRIDAY installed? Run:",
     connectMachineSingleUse: "This link is single-use and expires soon.",
     connectMachineSingleUseExpires: "This link is single-use and expires at {time}.",
     connectMachineFreshCode: "Mint fresh code",

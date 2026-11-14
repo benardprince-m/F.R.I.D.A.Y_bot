@@ -138,7 +138,7 @@ suite.define(() => {
         });
         await page.goto(suite.server.baseUrl + "new");
         if (required) {
-          await page.getByText("OpenClaw worker", { exact: true }).waitFor();
+          await page.getByText("FRIDAY worker", { exact: true }).waitFor();
           expect(await page.locator("#new-session-where-trigger").count()).toBe(0);
           expect(await page.locator("#new-session-project-trigger").count()).toBe(0);
         } else {

@@ -112,7 +112,7 @@ export async function stageSandboxMedia(params: {
   }
 
   // For remote attachments without sandbox, use ~/.openclaw/media (not agent workspace for privacy).
-  // Managed local inbound refs are already in OpenClaw's media store; when no sandbox is
+  // Managed local inbound refs are already in FRIDAY's media store; when no sandbox is
   // active, copy them into the runner workspace so host-mode shell/doc readers get a path.
   const remoteMediaCacheDir = ctx.MediaRemoteHost
     ? path.join(CONFIG_DIR, "media", "remote-cache", slugifySessionKey(sessionKey))
@@ -153,7 +153,7 @@ export async function stageSandboxMedia(params: {
           signal: abortSignal,
         });
         if (created !== "created") {
-          throw new Error("Input staging directory is not owned by OpenClaw");
+          throw new Error("Input staging directory is not owned by FRIDAY");
         }
       } else {
         await ensureStagedInputDirectory(destination.root, inputDirectory, abortSignal);

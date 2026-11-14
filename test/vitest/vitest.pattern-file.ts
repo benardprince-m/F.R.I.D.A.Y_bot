@@ -17,7 +17,7 @@ export const sharedVitestExcludePatterns: readonly string[] = Object.freeze([
   "apps/macos/.build/**",
   "**/node_modules/**",
   "**/vendor/**",
-  "dist/OpenClaw.app/**",
+  "dist/FRIDAY.app/**",
   "**/._*",
   "**/*.live.test.ts",
   "**/*.e2e.test.ts",

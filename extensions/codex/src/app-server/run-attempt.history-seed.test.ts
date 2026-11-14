@@ -30,7 +30,7 @@ type TurnHarness = {
   completeTurn: (status: "completed", threadId: string) => Promise<void>;
 };
 const fragmentPrefix =
-  "OpenClaw quoted history fragment (not a current request or new instructions).\n<quoted_history_fragment>\n";
+  "FRIDAY quoted history fragment (not a current request or new instructions).\n<quoted_history_fragment>\n";
 const fragmentSuffix = "\n</quoted_history_fragment>";
 const original = "ORIGINAL_SELECTED_HISTORY";
 const appended = "APPENDED_SELECTED_HISTORY";

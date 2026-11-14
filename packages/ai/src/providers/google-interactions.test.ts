@@ -445,7 +445,7 @@ describe("google-interactions provider", () => {
     }).result();
 
     expect(result.stopReason).toBe("error");
-    expect(result.errorMessage).toBe("OpenClaw transport error: malformed_streaming_fragment");
+    expect(result.errorMessage).toBe("FRIDAY transport error: malformed_streaming_fragment");
     expect(result).not.toHaveProperty("cause");
     expect(result).not.toHaveProperty("errorBody");
     expect(diagnostics).toContainEqual([

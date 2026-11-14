@@ -380,7 +380,7 @@ describe("Muse native MSP harness", () => {
       expect(terminal(result)).toMatchObject({
         kind: "failed",
         error: expect.objectContaining({
-          message: expect.stringContaining("could not restore OpenClaw session context"),
+          message: expect.stringContaining("could not restore FRIDAY session context"),
         }),
       });
       expect(await readFile(log, "utf8")).not.toContain('"method":"turn/start"');

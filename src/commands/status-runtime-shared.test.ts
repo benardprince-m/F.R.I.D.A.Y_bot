@@ -185,7 +185,7 @@ describe("status-runtime-shared", () => {
     });
   });
 
-  it("does not add Codex synthetic usage for OpenAI routes pinned to OpenClaw runtime", async () => {
+  it("does not add Codex synthetic usage for OpenAI routes pinned to FRIDAY runtime", async () => {
     await resolveStatusUsageSummary(usageParams("openclaw"));
 
     expect(mocks.loadProviderUsageSummary).toHaveBeenCalledOnce();

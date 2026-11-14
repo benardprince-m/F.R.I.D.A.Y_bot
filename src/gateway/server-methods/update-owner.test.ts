@@ -221,7 +221,7 @@ it.each(promptUpdateCases)(
         "hosting Gateway guidance",
       );
       const action = expectDefined(
-        guidance.match(/Update OpenClaw: `gateway` action ([\w.]+)/u)?.[1],
+        guidance.match(/Update FRIDAY: `gateway` action ([\w.]+)/u)?.[1],
         "prompt-advertised update action",
       );
       const result = await tool.execute("update", {
@@ -433,7 +433,7 @@ it.each([false, true])(
     expect(notice).toHaveBeenLastCalledWith(
       expect.objectContaining({
         message:
-          "ℹ️ OpenClaw wasn't updated.\nFor details, open Settings → Updates in the Control UI or run `openclaw update status` in your terminal.",
+          "ℹ️ FRIDAY wasn't updated.\nFor details, open Settings → Updates in the Control UI or run `openclaw update status` in your terminal.",
       }),
       expect.any(Object),
     );

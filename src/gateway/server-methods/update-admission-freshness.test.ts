@@ -72,7 +72,7 @@ beforeEach(async () => {
   await git("init", "--initial-branch=main");
   await git(
     "-c",
-    "user.name=OpenClaw Test",
+    "user.name=FRIDAY Test",
     "-c",
     "user.email=test@example.invalid",
     "-c",

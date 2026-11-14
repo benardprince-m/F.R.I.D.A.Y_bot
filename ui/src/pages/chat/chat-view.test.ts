@@ -2142,7 +2142,7 @@ describe("chat voice controls", () => {
 
   it.each([
     ["connecting", "Connecting voice input..."],
-    ["thinking", "Asking OpenClaw..."],
+    ["thinking", "Asking FRIDAY..."],
   ] as const)("renders %s voice activity with the appropriate status region", (status, label) => {
     const inputLevel = new RealtimeTalkLevelSignal();
     inputLevel.set(0.64);

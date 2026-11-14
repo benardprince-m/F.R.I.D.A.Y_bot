@@ -100,7 +100,7 @@ it.for(authorityCases)("enforces $contract", async ({ contract, modes }, { signa
       const source = state.path("source");
       await fs.mkdir(source);
       await git(source, ["init", "-b", "main"]);
-      await git(source, ["config", "user.name", "OpenClaw Test"]);
+      await git(source, ["config", "user.name", "FRIDAY Test"]);
       await git(source, ["config", "user.email", "test@example.invalid"]);
       await fs.writeFile(path.join(source, "result.txt"), "base\n");
       await git(source, ["add", "."]);

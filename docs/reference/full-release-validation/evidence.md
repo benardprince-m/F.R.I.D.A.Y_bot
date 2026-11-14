@@ -42,7 +42,7 @@ Useful artifacts:
   the original successful admission and guarded upload, not an overall successful
   sealer job: an interrupted sealer can still write and upload a complete plan.
   Later attempts never replace that original artifact.
-- `release-package-under-test` from `OpenClaw Release Checks`
+- `release-package-under-test` from `FRIDAY Release Checks`
 - Docker release-path artifacts under `.artifacts/docker-tests/`
 - Package Acceptance `package-under-test` and Docker acceptance artifacts
 - Cross-OS release-check artifacts for each OS and suite

@@ -11,7 +11,7 @@ read_when:
   - You see a memory file-watching pressure warning
 ---
 
-This page lists every configuration knob for OpenClaw memory search. For conceptual overviews, see:
+This page lists every configuration knob for FRIDAY memory search. For conceptual overviews, see:
 
 <CardGroup cols={2}>
   <Card title="Memory overview" href="/concepts/memory">
@@ -73,7 +73,7 @@ override. Any configured DM isolation defaults it off. An explicit `true` or
 `false` always wins. Enabling it implies session transcript indexing and adds
 `sessions` to the agent's resolved memory sources.
 
-OpenClaw's built-in memory provider supports this protected path. Alternate memory providers can keep using their own
+FRIDAY's built-in memory provider supports this protected path. Alternate memory providers can keep using their own
 recall hooks and advanced Active Memory tools, but this setting is skipped
 unless the current provider supports protected private transcript recall.
 `openclaw doctor` reports an unsupported provider or an explicit Active Memory
@@ -113,7 +113,7 @@ models; see [interactive memory setup](/cli/configure#memory-section).
 | `model`    | `string`  | provider default | Embedding model name                                                                                                                                                                                                                                                                                |
 | `fallback` | `string`  | `"none"`         | Fallback adapter ID when the primary fails                                                                                                                                                                                                                                                          |
 
-When `provider` is not set, OpenClaw uses OpenAI embeddings. Set `provider`
+When `provider` is not set, FRIDAY uses OpenAI embeddings. Set `provider`
 explicitly to use Bedrock, DeepInfra, Gemini, GitHub Copilot, Mistral, Ollama,
 Voyage, a local GGUF model, or an OpenAI-compatible `/v1/embeddings` endpoint.
 Legacy configs that still say `provider: "auto"` resolve to `openai`.
@@ -127,7 +127,7 @@ explicitly, for example to `"${OMLX_API_KEY}"`.
 <Warning>
 Changing the embedding provider, model, provider settings, sources, scope,
 chunking, or tokenizer can make the existing SQLite vector index incompatible.
-OpenClaw pauses vector search and reports an index identity warning instead of
+FRIDAY pauses vector search and reports an index identity warning instead of
 automatically re-embedding everything. Rebuild when you are ready with
 `openclaw memory status --index --agent <id>` or
 `openclaw memory index --force --agent <id>`.
@@ -160,7 +160,7 @@ to Azure OpenAI and Azure AI Foundry hosts move that header into the URL query;
 an existing non-empty `api-version` query value takes precedence. Other
 OpenAI-compatible hosts keep the configured header unchanged.
 
-`memory.search.provider` can point at a custom `models.providers.<id>` entry for memory-specific provider adapters such as `ollama`, or for OpenAI-compatible model APIs such as `openai-responses` / `openai-completions`. OpenClaw resolves that provider's `api` owner for the embedding adapter while preserving the custom provider id for endpoint, auth, and model-prefix handling. This lets multi-GPU or multi-host setups dedicate memory embeddings to a specific local endpoint:
+`memory.search.provider` can point at a custom `models.providers.<id>` entry for memory-specific provider adapters such as `ollama`, or for OpenAI-compatible model APIs such as `openai-responses` / `openai-completions`. FRIDAY resolves that provider's `api` owner for the embedding adapter while preserving the custom provider id for endpoint, auth, and model-prefix handling. This lets multi-GPU or multi-host setups dedicate memory embeddings to a specific local endpoint:
 
 ```json5
 {
@@ -279,7 +279,7 @@ authentication.
     migration to the stable model.
 
     <Warning>
-    Changing model or `outputDimensionality` changes the index identity. OpenClaw
+    Changing model or `outputDimensionality` changes the index identity. FRIDAY
     pauses vector search until you explicitly rebuild the memory index.
 
     Upgrading any existing configuration that already uses
@@ -329,7 +329,7 @@ authentication.
   <Accordion title="Bedrock">
     ### Bedrock embedding config
 
-    Bedrock uses the AWS SDK default credential chain plus an OpenClaw-checked bearer token, so no API keys are stored in config. If OpenClaw runs on EC2 with a Bedrock-enabled instance role, just set the provider and model:
+    Bedrock uses the AWS SDK default credential chain plus an FRIDAY-checked bearer token, so no API keys are stored in config. If FRIDAY runs on EC2 with a Bedrock-enabled instance role, just set the provider and model:
 
     ```json5
     {
@@ -368,7 +368,7 @@ authentication.
 
     **Region:** resolved in this order: the `memory.search.remote.baseUrl` override, the `models.providers.amazon-bedrock.baseUrl` config, `AWS_REGION`, `AWS_DEFAULT_REGION`, then a default of `us-east-1`.
 
-    **Authentication:** OpenClaw checks for `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY` or `AWS_BEARER_TOKEN_BEDROCK` first, then falls through to the standard AWS SDK default credential provider chain:
+    **Authentication:** FRIDAY checks for `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY` or `AWS_BEARER_TOKEN_BEDROCK` first, then falls through to the standard AWS SDK default credential provider chain:
 
     1. Environment variables (`AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY`), unless `AWS_PROFILE` is also set
     2. SSO (only when SSO fields are configured)
@@ -400,7 +400,7 @@ authentication.
     | `local.modelPath` | `string` | auto-downloaded | Path to GGUF model file |
 
     Install the official [llama.cpp provider](/plugins/llama-cpp), then choose llama.cpp once in
-    interactive setup. OpenClaw installs a pinned, verified `llama-server` and
+    interactive setup. FRIDAY installs a pinned, verified `llama-server` and
     writes its loopback `localService` configuration. Default model:
     `embeddinggemma-300m-qat-Q8_0.gguf` (~0.3 GB, auto-downloaded).
 
@@ -425,7 +425,7 @@ authentication.
 ## Indexing behavior
 
 Memory engines own synchronization, batching, watch, and post-compaction
-indexing heuristics. OpenClaw keeps these behaviors enabled with maintained
+indexing heuristics. FRIDAY keeps these behaviors enabled with maintained
 defaults rather than exposing per-install timing switches.
 
 ### File-watcher pressure
@@ -642,7 +642,7 @@ separate runtime-only authorization limited to same-agent private
 transcripts during the bounded Active Memory pass.
 
 An explicit `memory_search` request for the `sessions` corpus requires session
-search to be enabled for that agent. If it is unavailable, OpenClaw explains
+search to be enabled for that agent. If it is unavailable, FRIDAY explains
 how to enable session indexing instead of silently searching memory files.
 
 The examples below place these settings under top-level `memory.search`. You can also
@@ -677,13 +677,13 @@ default `all`:
 
 For Bun on macOS, install Homebrew SQLite to enable extension loading; see [Bun SQLite setup](/install/bun-compatibility#sqlite-library-selection) for automatic discovery and the `OPENCLAW_SQLITE_LIBRARY` library override.
 
-When sqlite-vec is unavailable, OpenClaw falls back to in-process cosine similarity automatically.
+When sqlite-vec is unavailable, FRIDAY falls back to in-process cosine similarity automatically.
 
 ---
 
 ## Index storage
 
-Built-in memory indexes live in each agent's OpenClaw SQLite database at
+Built-in memory indexes live in each agent's FRIDAY SQLite database at
 `agents/<agentId>/agent/openclaw-agent.sqlite`.
 
 | Key                   | Type     | Default     | Description                               |

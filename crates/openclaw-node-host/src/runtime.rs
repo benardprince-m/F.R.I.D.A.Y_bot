@@ -124,7 +124,7 @@ pub enum RuntimeBuildError {
     EmptyCapability,
     #[error("command name must not be empty")]
     EmptyCommand,
-    #[error("OpenClaw-owned system command namespace is reserved: {0}")]
+    #[error("FRIDAY-owned system command namespace is reserved: {0}")]
     ReservedCommand(String),
     #[error("duplicate command registration: {0}")]
     DuplicateCommand(String),
@@ -186,7 +186,7 @@ impl Default for CommandRuntimeBuilder {
 }
 
 impl CommandRuntimeBuilder {
-    /// Register an OpenClaw-owned native system handler with mandatory local admission.
+    /// Register an FRIDAY-owned native system handler with mandatory local admission.
     /// Ordinary registrations cannot claim this namespace; the product must revalidate
     /// its current permission/route policy before every system handler entry.
     #[must_use]

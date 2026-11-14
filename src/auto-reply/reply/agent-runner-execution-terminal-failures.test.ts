@@ -593,7 +593,7 @@ describe("executeAgentTurn: terminal failures", () => {
       code: "cli_max_turns",
       recoveryText:
         "Claude CLI stopped after reaching the maximum number of turns (limit: 1). " +
-        "OpenClaw run: run-max-turns. OpenClaw session: session-1. Claude session: claude-session-1. " +
+        "FRIDAY run: run-max-turns. FRIDAY session: session-1. Claude session: claude-session-1. " +
         "Tool actions may already have run; verify their effects before retrying. " +
         "Retry with a higher --max-turns value or a narrower task.",
     },

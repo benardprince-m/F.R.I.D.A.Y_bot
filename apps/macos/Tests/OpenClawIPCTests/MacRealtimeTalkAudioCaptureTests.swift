@@ -2,7 +2,7 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 private final class SendableTapHandler: @unchecked Sendable {
     private let handler: AVAudioNodeTapBlock

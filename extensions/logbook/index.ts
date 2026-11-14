@@ -125,7 +125,7 @@ export default definePluginEntry({
       apiVersion: 2,
       start: async (ctx) => {
         if (!api.runtimeSource) {
-          throw new Error("Logbook requires an OpenClaw host with runtime entrypoint metadata");
+          throw new Error("Logbook requires an FRIDAY host with runtime entrypoint metadata");
         }
         const next = new LogbookService(config, {
           runtime: api.runtime,

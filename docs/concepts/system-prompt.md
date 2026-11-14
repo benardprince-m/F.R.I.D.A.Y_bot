@@ -1,12 +1,12 @@
 ---
-summary: "What the OpenClaw system prompt contains and how it is assembled"
+summary: "What the FRIDAY system prompt contains and how it is assembled"
 read_when:
   - Editing system prompt text, tools list, or temporal sections
   - Changing workspace bootstrap or skills injection behavior
 title: "System prompt"
 ---
 
-OpenClaw owns the system prompt for every agent run; there is no runtime default prompt. Runtime adapters can reuse session preparation while applying current turn context and explicit refreshes.
+FRIDAY owns the system prompt for every agent run; there is no runtime default prompt. Runtime adapters can reuse session preparation while applying current turn context and explicit refreshes.
 
 Assembly has three layers:
 
@@ -16,7 +16,7 @@ Assembly has three layers:
 
 This keeps exported/debug prompt surfaces aligned with live runs without turning every runtime detail into one monolithic builder.
 
-Node-hosted OpenClaw sessions use the same prompt and bootstrap preparation as
+Node-hosted FRIDAY sessions use the same prompt and bootstrap preparation as
 Gateway-local sessions. The Gateway selects agent instructions, persona files,
 skills, memory guidance, and conversation context under the session's existing
 privacy and tool policies. The node supplies its own workspace path, host, OS,
@@ -28,7 +28,7 @@ Context-engine selection, history preparation, and turn settlement remain
 Gateway-owned. Direct post-turn hooks run after the node's workspace results
 are accepted and before its placement claim is released.
 
-Provider plugins can contribute cache-aware guidance without replacing the OpenClaw-owned prompt. A provider runtime can:
+Provider plugins can contribute cache-aware guidance without replacing the FRIDAY-owned prompt. A provider runtime can:
 
 - replace one of three named core sections: `interaction_style`, `tool_call_style`, `execution_bias`
 - inject a **stable prefix** above the prompt cache boundary
@@ -46,10 +46,10 @@ The prompt is compact, with fixed sections:
 - **Execution Bias**: act in-turn on actionable requests, continue until done or blocked, recover from weak tool results, check mutable state live, and verify before finalizing. A requested action with an available tool is authorized: tool policy, sandboxing, and exec approvals gate risk at runtime, so the prompt does not ask the model to pre-refuse, warn, or seek extra permission.
 - **Promised Work**: promising future, background, delegated, or continued work creates follow-through ownership: arrange an available completion or watch path before ending the turn, proactively return with the result or a concrete blocker, and never treat progress (like `running`) as completion.
 - **Care**: inspect and merge before editing existing config or scheduler files, use or store credentials the user shares as asked, private delivery of short-lived login codes in groups, and a terminal setup route when no control tools are available.
-- **Runtime Context**: common guidance for all providers above the cache boundary; tool-specific instructions stay below it with the current tool capabilities. OpenClaw attaches a separate, typed runtime-context message for the current request. This includes the local date and time zone, compact facts about active exec sessions, active subagents, and media-generation progress, plus advisory approved-executable hints on Windows when `exec` is available. [Runtime context and provider roles](/concepts/context#runtime-context-and-provider-roles) explains the native operator channel, user-role compatibility carriers, and quoted-data boundary. Use it without replying to or describing it, keep its internal details private, and continue without waiting for another message.
+- **Runtime Context**: common guidance for all providers above the cache boundary; tool-specific instructions stay below it with the current tool capabilities. FRIDAY attaches a separate, typed runtime-context message for the current request. This includes the local date and time zone, compact facts about active exec sessions, active subagents, and media-generation progress, plus advisory approved-executable hints on Windows when `exec` is available. [Runtime context and provider roles](/concepts/context#runtime-context-and-provider-roles) explains the native operator channel, user-role compatibility carriers, and quoted-data boundary. Use it without replying to or describing it, keep its internal details private, and continue without waiting for another message.
 - **Skills** (when available): tells the model how to load skill instructions on demand.
-- **OpenClaw Control**: inspect config with `gateway` (`config.get` / `config.schema.lookup`); request restart, config, channel, plugin, agent, and model/provider changes through `openclaw` when available. Delegated changes follow [effective permissions](/gateway/permission-modes#delegated-setup-and-repair). For the Gateway hosting this session, owner-requested updates use the `gateway` action `update.run` only on explicit user request, with automatic restart and a completion or failure notice. Without `gateway`, direct the user to the OpenClaw owner, `openclaw update` in a terminal, or the Control UI for updates to that Gateway. Never modify that Gateway's installation or control its service through exec or detached jobs; do not invent CLI commands. When `exec` is available, the prompt also says: "For a user-requested update on another host, verify it is not this Gateway, then use exec/SSH with `openclaw update --yes`; normal exec approvals still apply." See [Automation and SSH](/cli/update#automation-and-ssh).
-- **Messaging**: use OpenClaw routing for connected channel replies and actions, not shell or HTTP workarounds. This does not prohibit user-authorized CLI or API actions for other services, such as sending email; normal tool permissions and approvals still apply.
+- **FRIDAY Control**: inspect config with `gateway` (`config.get` / `config.schema.lookup`); request restart, config, channel, plugin, agent, and model/provider changes through `openclaw` when available. Delegated changes follow [effective permissions](/gateway/permission-modes#delegated-setup-and-repair). For the Gateway hosting this session, owner-requested updates use the `gateway` action `update.run` only on explicit user request, with automatic restart and a completion or failure notice. Without `gateway`, direct the user to the FRIDAY owner, `openclaw update` in a terminal, or the Control UI for updates to that Gateway. Never modify that Gateway's installation or control its service through exec or detached jobs; do not invent CLI commands. When `exec` is available, the prompt also says: "For a user-requested update on another host, verify it is not this Gateway, then use exec/SSH with `openclaw update --yes`; normal exec approvals still apply." See [Automation and SSH](/cli/update#automation-and-ssh).
+- **Messaging**: use FRIDAY routing for connected channel replies and actions, not shell or HTTP workarounds. This does not prohibit user-authorized CLI or API actions for other services, such as sending email; normal tool permissions and approvals still apply.
 - **Workspace**: working directory (`agents.defaults.workspace`).
 - **Documentation**: local docs/source path and when to read them.
 - **Workspace Files (injected)**: notes that bootstrap files are included below.
@@ -82,7 +82,7 @@ Tooling also carries long-running-work guidance:
 - treat a child completion as the end of that run, not proof that the delegated user goal is complete; continue persistent sessions when in-scope work remains
 - do not poll `subagents list` / `sessions_list` in a loop just to wait for completion
 
-`agents.defaults.subagents.delegationMode` can strengthen this. With no explicit setting, OpenClaw uses `"prefer"` in each agent's main session and `"suggest"` elsewhere; an explicit default or per-agent override always wins. `"prefer"` adds a dedicated **Delegation** section telling the agent to stay responsive, use hidden sub-agents for internal legwork, and use visible sidebar sessions for work the user will follow or return to. This is prompt-only; tool policy still controls whether `sessions_spawn` is available.
+`agents.defaults.subagents.delegationMode` can strengthen this. With no explicit setting, FRIDAY uses `"prefer"` in each agent's main session and `"suggest"` elsewhere; an explicit default or per-agent override always wins. `"prefer"` adds a dedicated **Delegation** section telling the agent to stay responsive, use hidden sub-agents for internal legwork, and use visible sidebar sessions for work the user will follow or return to. This is prompt-only; tool policy still controls whether `sessions_spawn` is available.
 
 At the `ultra` thinking level, a **Proactive Sub-Agent Orchestration** section is also added when `sessions_spawn` is available: it tells the model to parallelize independent investigation, implementation, and verification through sub-agents, keep simple or tightly coupled work local, give each sub-agent a bounded objective, and synthesize results before replying.
 
@@ -141,7 +141,7 @@ On channels with native approval cards/buttons, the prompt tells the agent to re
 
 ## Prompt modes
 
-OpenClaw renders smaller system prompts for sub-agents. The runtime sets a `promptMode` per run (not user-facing config):
+FRIDAY renders smaller system prompts for sub-agents. The runtime sets a `promptMode` per run (not user-facing config):
 
 - `full` (default): all sections above.
 - `minimal`: used for sub-agents; omits the memory prompt section (bundled as **Memory Recall**), **Model Aliases**, **User Identity**, **Assistant Output Directives**, **Messaging**, **Collapsible Details**, and **Silent Replies**. Tooling, **Care**, **Skills** (when supplied), Workspace, Sandbox, Runtime, and injected context stay available. The current date and time zone still arrive through turn context.
@@ -153,17 +153,17 @@ The **Silent Replies** section applies to external message channels, including m
 
 ## Prompt snapshots
 
-OpenClaw keeps committed prompt snapshots for the Codex runtime happy path under `test/fixtures/agents/prompt-snapshots/codex-runtime-happy-path/`. They render selected app-server thread/turn params plus a reconstructed model-bound prompt layer stack for Telegram direct, Discord group, and heartbeat turns: a pinned Codex `gpt-5.5` model prompt fixture, the Codex happy-path permission developer text, parent-local request instructions, OpenClaw developer instructions, native collaboration-mode instructions, user turn input, and references to dynamic tool specs.
+FRIDAY keeps committed prompt snapshots for the Codex runtime happy path under `test/fixtures/agents/prompt-snapshots/codex-runtime-happy-path/`. They render selected app-server thread/turn params plus a reconstructed model-bound prompt layer stack for Telegram direct, Discord group, and heartbeat turns: a pinned Codex `gpt-5.5` model prompt fixture, the Codex happy-path permission developer text, parent-local request instructions, FRIDAY developer instructions, native collaboration-mode instructions, user turn input, and references to dynamic tool specs.
 
 Refresh the pinned Codex model prompt fixture with `pnpm prompt:snapshots:sync-codex-model`. By default it looks for `$CODEX_HOME/models_cache.json`, then `~/.codex/models_cache.json`, then the maintainer checkout convention `~/code/codex/codex-rs/models-manager/models.json`; if none exist it exits without changing the committed fixture. Pass `--catalog <path>` to refresh from a specific `models_cache.json` or `models.json` file.
 
-These snapshots are not a byte-for-byte raw OpenAI request capture. Codex can add runtime-owned workspace context (`AGENTS.md`, environment context, memories, app/plugin instructions, built-in Default collaboration-mode instructions) after OpenClaw sends thread and turn params.
+These snapshots are not a byte-for-byte raw OpenAI request capture. Codex can add runtime-owned workspace context (`AGENTS.md`, environment context, memories, app/plugin instructions, built-in Default collaboration-mode instructions) after FRIDAY sends thread and turn params.
 
 Regenerate with `pnpm prompt:snapshots:gen`; verify drift with `pnpm prompt:snapshots:check`. CI runs the drift check alongside the additional-boundary shards, so prompt changes and snapshot updates land in the same PR.
 
 ## Workspace bootstrap injection
 
-Agent identity, instructions, and memory are resolved from the configured agent workspace and routed to the prompt surface matching their lifetime. When a session runs from another folder or managed worktree, that folder remains the execution workspace. Its `AGENTS.md` is appended after the configured workspace files as project context; OpenClaw does not load `SOUL.md`, `IDENTITY.md`, `USER.md`, `MEMORY.md`, or `BOOTSTRAP.md` from the execution folder.
+Agent identity, instructions, and memory are resolved from the configured agent workspace and routed to the prompt surface matching their lifetime. When a session runs from another folder or managed worktree, that folder remains the execution workspace. Its `AGENTS.md` is appended after the configured workspace files as project context; FRIDAY does not load `SOUL.md`, `IDENTITY.md`, `USER.md`, `MEMORY.md`, or `BOOTSTRAP.md` from the execution folder.
 
 Turn startup seeds missing bootstrap templates only in the configured agent workspace, never in a separate execution folder. This also applies to spawned child sessions and session-bound cron turns.
 
@@ -174,11 +174,11 @@ Turn startup seeds missing bootstrap templates only in the configured agent work
 - `BOOTSTRAP.md` (only on brand-new workspaces)
 - `MEMORY.md` when present
 
-On the native Codex harness, OpenClaw avoids repeating stable workspace files in every user turn. Codex loads the execution folder's `AGENTS.md`, including its `## Tools` section, through native project-doc discovery, so OpenClaw does not inject that file again. When execution uses another folder, OpenClaw adds the configured agent workspace's bounded `AGENTS.md` snapshot to the thread-level developer instructions so native Codex sub-agents inherit it. On the managed bundled stdio app-server, `SOUL.md`, `IDENTITY.md`, and `USER.md` are appended to parent-only model request instructions rather than native history, so newly delivered persona does not automatically flow to native subagents. Connections without a managed inference relay, including external and Desktop connections, deliver shared persona through refreshable thread developer instructions that native children can inherit. Selected personal `users/<profile-id>/USER.md` overlays are omitted on those connections because they lack a parent-only carrier; OpenClaw logs a warning when one is selected. Older history is preserved. `MEMORY.md` content is not pasted into every native Codex turn either: when memory tools are available for the agent workspace, Codex turns get a small workspace-memory note directing the model to `memory_search` or `memory_get`. If tools are disabled or memory search is unavailable, `MEMORY.md` falls back to the normal bounded turn-context path. `BOOTSTRAP.md` keeps the normal turn-context role.
+On the native Codex harness, FRIDAY avoids repeating stable workspace files in every user turn. Codex loads the execution folder's `AGENTS.md`, including its `## Tools` section, through native project-doc discovery, so FRIDAY does not inject that file again. When execution uses another folder, FRIDAY adds the configured agent workspace's bounded `AGENTS.md` snapshot to the thread-level developer instructions so native Codex sub-agents inherit it. On the managed bundled stdio app-server, `SOUL.md`, `IDENTITY.md`, and `USER.md` are appended to parent-only model request instructions rather than native history, so newly delivered persona does not automatically flow to native subagents. Connections without a managed inference relay, including external and Desktop connections, deliver shared persona through refreshable thread developer instructions that native children can inherit. Selected personal `users/<profile-id>/USER.md` overlays are omitted on those connections because they lack a parent-only carrier; FRIDAY logs a warning when one is selected. Older history is preserved. `MEMORY.md` content is not pasted into every native Codex turn either: when memory tools are available for the agent workspace, Codex turns get a small workspace-memory note directing the model to `memory_search` or `memory_get`. If tools are disabled or memory search is unavailable, `MEMORY.md` falls back to the normal bounded turn-context path. `BOOTSTRAP.md` keeps the normal turn-context role.
 
 Heartbeat monitor scratch is not a bootstrap file. The heartbeat runner appends it only to the scheduled heartbeat user message; normal turns do not receive it, and the system prompt contains no heartbeat-specific section.
 
-On non-Codex harnesses, the remaining bootstrap files compose into the OpenClaw prompt per their existing gates. Keep injected files concise, especially non-Codex `MEMORY.md`: it should stay a curated long-term summary, with detailed daily notes in `memory/*.md` retrievable on demand via `memory_search` / `memory_get`. Oversized non-Codex `MEMORY.md` files increase prompt usage and can be partially injected under the bootstrap file limits below.
+On non-Codex harnesses, the remaining bootstrap files compose into the FRIDAY prompt per their existing gates. Keep injected files concise, especially non-Codex `MEMORY.md`: it should stay a curated long-term summary, with detailed daily notes in `memory/*.md` retrievable on demand via `memory_search` / `memory_get`. Oversized non-Codex `MEMORY.md` files increase prompt usage and can be partially injected under the bootstrap file limits below.
 
 <Note>
 `memory/*.md` daily files are **not** part of the normal bootstrap Project Context. On ordinary turns they are accessed on demand via `memory_search` / `memory_get`, so they do not count against the context window unless the model explicitly reads them. Bare `/new` and `/reset` turns are the exception: the runtime can prepend recent daily memory as a one-shot startup-context block for that first turn.
@@ -191,7 +191,7 @@ Large files are truncated with a marker:
 | Per-file max characters | `agents.defaults.bootstrapMaxChars`      | 20000   |
 | Total across all files  | `agents.defaults.bootstrapTotalMaxChars` | 60000   |
 
-When truncation happens, OpenClaw always injects a concise notice into the system prompt saying some bootstrap files were truncated and to read the affected files directly; this notice is built in and not configurable, and it deliberately omits per-file details. Missing files inject a short missing-file marker. File names and raw/injected counts stay in diagnostics such as `/context`, `/status`, doctor, and logs.
+When truncation happens, FRIDAY always injects a concise notice into the system prompt saying some bootstrap files were truncated and to read the affected files directly; this notice is built in and not configurable, and it deliberately omits per-file details. Missing files inject a short missing-file marker. File names and raw/injected counts stay in diagnostics such as `/context`, `/status`, doctor, and logs.
 
 For memory files, truncation is not data loss: the file stays intact on disk. On native Codex, `MEMORY.md` is read on demand through memory tools when available, with bounded prompt fallback otherwise. On other harnesses, the model only sees the shortened injected copy until it reads or searches memory directly. If `MEMORY.md` is repeatedly truncated, distill it into a shorter durable summary, move detailed history into `memory/*.md`, or intentionally raise the bootstrap limits.
 
@@ -205,7 +205,7 @@ To inspect how much each injected file contributes (raw vs injected, truncation,
 
 ## Time handling
 
-The **Temporal Context** section carries the user-local calendar date and time zone in the current-turn runtime context, outside the system prompt. It refreshes each turn without rewriting earlier messages. Day rollover therefore leaves the complete system prompt and prior conversation bytes unchanged, preserving prefix-cache reuse on local and hosted providers. Raw model probes omit OpenClaw runtime context.
+The **Temporal Context** section carries the user-local calendar date and time zone in the current-turn runtime context, outside the system prompt. It refreshes each turn without rewriting earlier messages. Day rollover therefore leaves the complete system prompt and prior conversation bytes unchanged, preserving prefix-cache reuse on local and hosted providers. Raw model probes omit FRIDAY runtime context.
 
 Chat Completions and native Ollama retain these hidden per-turn messages by default, so the next request extends the previous request's prefix. Provider replay policies can explicitly opt out. Retained runtime facts include empty snapshots to clear earlier active state and count toward normal history and compaction budgets; transient routes still omit empty producer snapshots.
 
@@ -219,7 +219,7 @@ See [Timezones](/concepts/timezone) and [Date & Time](/date-time) for full behav
 
 ## Skills
 
-When eligible skills exist, OpenClaw injects a compact `<available_skills>` list (`formatSkillsForPrompt`) with the **file path** for each skill. The prompt instructs the model to use `read` to load the SKILL.md at the listed location (workspace, managed, or bundled). If no skills are eligible, the Skills section is omitted.
+When eligible skills exist, FRIDAY injects a compact `<available_skills>` list (`formatSkillsForPrompt`) with the **file path** for each skill. The prompt instructs the model to use `read` to load the SKILL.md at the listed location (workspace, managed, or bundled). If no skills are eligible, the Skills section is omitted.
 
 Managed native Codex turns receive this list through parent-local model request instructions instead of per-turn user input, except lightweight cron turns that preserve the exact scheduled prompt. Connections without that relay use thread developer instructions so model-owned collaboration instructions cannot replace the catalog. Other harnesses keep the normal prompt section.
 
@@ -248,11 +248,11 @@ The runtime excerpt budget covers `memory_get`, live tool results, and post-comp
 
 ## Documentation
 
-The **Documentation** section points to local docs when available (`docs/` in a Git checkout or the bundled npm package docs), falling back to [https://docs.openclaw.ai](https://docs.openclaw.ai) otherwise. It also lists the OpenClaw source location: Git checkouts expose the local source root, package installs get the GitHub source URL with instructions to review source there when docs are incomplete or stale.
+The **Documentation** section points to local docs when available (`docs/` in a Git checkout or the bundled npm package docs), falling back to [https://docs.openclaw.ai](https://docs.openclaw.ai) otherwise. It also lists the FRIDAY source location: Git checkouts expose the local source root, package installs get the GitHub source URL with instructions to review source there when docs are incomplete or stale.
 
-Sandboxed runs receive local references only through their existing mounts, using paths inside the sandbox (such as `/workspace/docs` or `/agent/docs`). Host-only paths fall back to the public URLs; OpenClaw does not add mounts for documentation. When neither local docs nor a web tool is available, the prompt tells the model to acknowledge that it could not check the docs and mark recalled behavior as unverified.
+Sandboxed runs receive local references only through their existing mounts, using paths inside the sandbox (such as `/workspace/docs` or `/agent/docs`). Host-only paths fall back to the public URLs; FRIDAY does not add mounts for documentation. When neither local docs nor a web tool is available, the prompt tells the model to acknowledge that it could not check the docs and mark recalled behavior as unverified.
 
-The prompt frames docs as the authority for OpenClaw self-knowledge before the model understands how OpenClaw works (memory/daily notes, sessions, tools, Gateway, config, commands, project context), and tells the model to treat `AGENTS.md`, project context, workspace/profile/memory notes, and `memory_search` as instruction context or user memory rather than OpenClaw design/implementation knowledge. If docs are silent or stale, the model should say so and inspect source. It also tells the model to run `openclaw status` itself when possible, asking the user only when it lacks access.
+The prompt frames docs as the authority for FRIDAY self-knowledge before the model understands how FRIDAY works (memory/daily notes, sessions, tools, Gateway, config, commands, project context), and tells the model to treat `AGENTS.md`, project context, workspace/profile/memory notes, and `memory_search` as instruction context or user memory rather than FRIDAY design/implementation knowledge. If docs are silent or stale, the model should say so and inspect source. It also tells the model to run `openclaw status` itself when possible, asking the user only when it lacks access.
 
 For configuration specifically, it points agents to the `gateway` tool action `config.schema.lookup` for exact field-level docs and constraints, then to `docs/gateway/configuration.md` and `docs/gateway/configuration-reference.md` for broader guidance.
 

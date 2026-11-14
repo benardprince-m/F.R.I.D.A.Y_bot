@@ -2,25 +2,25 @@
 summary: "Meta setup, authentication, and Muse Wonder and Muse Spark model selection"
 title: "Meta"
 read_when:
-  - You want to use Meta with OpenClaw
+  - You want to use Meta with FRIDAY
   - You need the MODEL_API_KEY env var or CLI auth choice
 ---
 
 The **Meta API** uses the OpenAI-compatible **Responses API** (`POST /v1/responses`)
-for the Muse Wonder and Muse Spark reasoning models. OpenClaw provides Meta as an official external
+for the Muse Wonder and Muse Spark reasoning models. FRIDAY provides Meta as an official external
 plugin.
 
-| Property                   | Value                              |
-| -------------------------- | ---------------------------------- |
-| Provider id                | `meta`                             |
-| Plugin                     | `@openclaw/meta-provider`          |
-| Auth env var               | `MODEL_API_KEY`                    |
-| Onboarding flag            | `--auth-choice meta-api-key`       |
-| Direct CLI flag            | `--meta-api-key <key>`             |
-| API                        | Responses API (`openai-responses`) |
-| Base URL                   | `https://api.meta.ai/v1`           |
-| Default model              | `meta/muse-spark-1.3`              |
-| OpenClaw reasoning default | `high` (`reasoning.effort`)        |
+| Property                 | Value                              |
+| ------------------------ | ---------------------------------- |
+| Provider id              | `meta`                             |
+| Plugin                   | `@openclaw/meta-provider`          |
+| Auth env var             | `MODEL_API_KEY`                    |
+| Onboarding flag          | `--auth-choice meta-api-key`       |
+| Direct CLI flag          | `--meta-api-key <key>`             |
+| API                      | Responses API (`openai-responses`) |
+| Base URL                 | `https://api.meta.ai/v1`           |
+| Default model            | `meta/muse-spark-1.3`              |
+| FRIDAY reasoning default | `high` (`reasoning.effort`)        |
 
 ## Getting started
 
@@ -89,14 +89,14 @@ Meta's [model catalog](https://dev.meta.ai/docs/models) positions Muse Wonder fo
 complex coding and long-running agents, and Muse Spark for lower-cost workloads.
 New setups keep Muse Spark 1.3 as their default; Wonder is an explicit selection.
 
-| Model ref                         | Name                       | OpenClaw input | Reasoning | Context window | Input / cached input / output per 1M tokens |
-| --------------------------------- | -------------------------- | -------------- | --------- | -------------- | ------------------------------------------- |
-| `meta/muse-wonder-1.0`            | Muse Wonder                | text, image    | yes       | 1,048,576      | $4.00 / $0.20 / $20.00                      |
-| `meta/muse-spark-1.3`             | Muse Spark 1.3             | text, image    | yes       | 1,048,576      | $1.25 / $0.15 / $4.25                       |
-| `meta/muse-spark-1.3-contributor` | Muse Spark 1.3 Contributor | text, image    | yes       | 1,048,576      | $0.10 / $0.002 / $0.20                      |
-| `meta/muse-spark-1.2`             | Muse Spark 1.2             | text, image    | yes       | 1,048,576      | $1.25 / $0.15 / $4.25                       |
-| `meta/muse-spark-1.2-contributor` | Muse Spark 1.2 Contributor | text, image    | yes       | 1,048,576      | $0.10 / $0.002 / $0.20                      |
-| `meta/muse-spark-1.1`             | Muse Spark 1.1             | text, image    | yes       | 1,048,576      | $1.25 / $0.15 / $4.25                       |
+| Model ref                         | Name                       | FRIDAY input | Reasoning | Context window | Input / cached input / output per 1M tokens |
+| --------------------------------- | -------------------------- | ------------ | --------- | -------------- | ------------------------------------------- |
+| `meta/muse-wonder-1.0`            | Muse Wonder                | text, image  | yes       | 1,048,576      | $4.00 / $0.20 / $20.00                      |
+| `meta/muse-spark-1.3`             | Muse Spark 1.3             | text, image  | yes       | 1,048,576      | $1.25 / $0.15 / $4.25                       |
+| `meta/muse-spark-1.3-contributor` | Muse Spark 1.3 Contributor | text, image  | yes       | 1,048,576      | $0.10 / $0.002 / $0.20                      |
+| `meta/muse-spark-1.2`             | Muse Spark 1.2             | text, image  | yes       | 1,048,576      | $1.25 / $0.15 / $4.25                       |
+| `meta/muse-spark-1.2-contributor` | Muse Spark 1.2 Contributor | text, image  | yes       | 1,048,576      | $0.10 / $0.002 / $0.20                      |
+| `meta/muse-spark-1.1`             | Muse Spark 1.1             | text, image  | yes       | 1,048,576      | $1.25 / $0.15 / $4.25                       |
 
 Muse Wonder is available in Standard mode only on Meta Model API. There is no
 `muse-wonder-1.0-contributor` API model. **Muse Wonder Full**
@@ -126,28 +126,28 @@ Standard Services.
 
 Capabilities:
 
-- Text and image input through OpenClaw
+- Text and image input through FRIDAY
 - Tool calling and streaming
-- Reasoning effort: `minimal`, `low`, `medium`, `high`, `xhigh` (OpenClaw default: `high`)
+- Reasoning effort: `minimal`, `low`, `medium`, `high`, `xhigh` (FRIDAY default: `high`)
 - `max` effort for Muse Wonder and Muse Spark 1.3 Standard; not for Contributor models
 - Stateless encrypted reasoning replay (`store: false`, `include: ["reasoning.encrypted_content"]`)
 
 Meta's [model catalog](https://dev.meta.ai/docs/models) lists text, image, video,
-audio, and PDF input for these models. OpenClaw's model catalog directly represents
+audio, and PDF input for these models. FRIDAY's model catalog directly represents
 text and image input only; the other upstream modalities are not model-manifest input
 values.
 
-OpenClaw uses a 131,072-token catalog output cap for these models. Meta does not
+FRIDAY uses a 131,072-token catalog output cap for these models. Meta does not
 publish an exact maximum-output figure; this cap is not a claim about Meta's
 maximum. Output tokens include both reasoning and visible text.
 
-OpenClaw explicitly selects `high` when no thinking level is configured. This is an
-OpenClaw default, not Meta's omitted-parameter behavior: Meta's
+FRIDAY explicitly selects `high` when no thinking level is configured. This is an
+FRIDAY default, not Meta's omitted-parameter behavior: Meta's
 [reasoning documentation](https://dev.meta.ai/docs/reasoning/) says that when
 `reasoning.effort` is omitted, the model reasons at a model-determined level.
 
 <Warning>
-Muse Wonder and Muse Spark do not accept `reasoning.effort: "none"`. OpenClaw maps
+Muse Wonder and Muse Spark do not accept `reasoning.effort: "none"`. FRIDAY maps
 `--thinking off` to `minimal` for this provider.
 </Warning>
 
@@ -177,7 +177,7 @@ separately.
 
 ## Muse Code runtime
 
-By default, `meta/*` models run on the built-in OpenClaw runtime through the
+By default, `meta/*` models run on the built-in FRIDAY runtime through the
 Responses API. To run them through Meta's Muse Code CLI instead, install the
 `@openclaw/muse` plugin and set `agentRuntime: { id: "muse" }` on the model or
 provider. See [Muse Code agent runtime](/plugins/muse).

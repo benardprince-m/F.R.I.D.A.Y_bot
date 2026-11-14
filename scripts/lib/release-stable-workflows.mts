@@ -247,7 +247,7 @@ export function manualSweepCommands(ctx: ReleaseContext): string[] {
         "api",
         `repos/${repo}/actions/runs?status=${status}&per_page=100`,
         "--jq",
-        '.workflow_runs[] | select(.event=="workflow_dispatch" and .actor.login=="github-actions[bot]") | select(.name | test("plugin-clawhub|Plugin ClawHub Release|Plugin NPM Release|OpenClaw NPM Release|openclaw-npm-release")) | [.id,.name,.created_at] | @tsv',
+        '.workflow_runs[] | select(.event=="workflow_dispatch" and .actor.login=="github-actions[bot]") | select(.name | test("plugin-clawhub|Plugin ClawHub Release|Plugin NPM Release|FRIDAY NPM Release|openclaw-npm-release")) | [.id,.name,.created_at] | @tsv',
       ]),
     ),
     `env_id=$(${shellCommand("gh", ["api", endpoint, "--jq", ".[0].environment.id"])})`,

@@ -3,7 +3,7 @@ import CryptoKit
 import Foundation
 import Testing
 import WebKit
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawKit
 
 @Suite(.serialized)

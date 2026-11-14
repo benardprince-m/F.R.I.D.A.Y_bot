@@ -214,7 +214,7 @@ describe("update.run acknowledgement", () => {
           channel: "slack",
           to: "C0123ABC",
           threadId: "1234567890.123456",
-          message: "⬆️ Updating OpenClaw… You'll get a message here when it's done.",
+          message: "⬆️ Updating FRIDAY… You'll get a message here when it's done.",
           deliveryIntentId: expect.stringMatching(/^update-run-ack:/),
         }),
         expect.any(Object),
@@ -293,7 +293,7 @@ describe("update.run acknowledgement", () => {
     expect(sendNotice).toHaveBeenCalledTimes(2);
     expect(sendNotice).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        message: "⏳ Restarting OpenClaw…",
+        message: "⏳ Restarting FRIDAY…",
       }),
       expect.any(Object),
     );
@@ -326,7 +326,7 @@ describe("update.run acknowledgement", () => {
             type: "message",
             message: expect.objectContaining({
               idempotencyKey: `update-run-activating:${runId}`,
-              content: [{ type: "text", text: "⏳ Restarting OpenClaw…" }],
+              content: [{ type: "text", text: "⏳ Restarting FRIDAY…" }],
             }),
           }),
         );

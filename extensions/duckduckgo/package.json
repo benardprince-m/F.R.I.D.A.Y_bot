@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/duckduckgo-plugin",
   "version": "2026.10.4",
-  "description": "OpenClaw DuckDuckGo plugin.",
+  "description": "FRIDAY DuckDuckGo plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

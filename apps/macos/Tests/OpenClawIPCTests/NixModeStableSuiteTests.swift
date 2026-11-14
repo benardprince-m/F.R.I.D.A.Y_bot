@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawKit
 
 @Suite(.serialized)
@@ -102,7 +102,7 @@ struct NixModeStableSuiteTests {
             bundleURLs: [URL(fileURLWithPath: "/tmp/OpenClawTests.xctest")]))
         #expect(!OpenClawProcessInfo.resolveIsRunningTests(
             environment: [:],
-            processName: "OpenClaw",
+            processName: "FRIDAY",
             arguments: [],
             bundleURLs: []))
     }

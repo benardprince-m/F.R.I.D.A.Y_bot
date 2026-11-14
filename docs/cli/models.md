@@ -48,7 +48,7 @@ An explicit `provider/model` that matches a configured provider model keeps its 
 Bare `openclaw models` is equivalent to `openclaw models status`.
 `openclaw models --json` returns the same object as `openclaw models status --json`.
 
-`openclaw models status` shows the resolved default/fallbacks plus an auth overview. Active profile cooldowns appear under **Unavailable auth profiles** with the stored reason and recovery action; JSON output exposes the same data in `auth.unusableProfiles`. For plugin-owned agent runtimes such as Codex, status also checks whether the owning plugin is enabled and passed startup payload verification. A route with valid credentials but an unavailable runtime reports `status: unavailable` instead of `usable`; JSON output includes separate `authStatus`, `runtimeStatus`, and bounded runtime diagnostics. When provider usage snapshots are available, the OAuth/API-key status section includes provider usage windows and quota snapshots. Current usage-window providers: Anthropic, GitHub Copilot, OpenAI, MiniMax, SuperGrok via xAI OAuth, Xiaomi, and z.ai. Usage auth comes from provider-specific hooks when available; otherwise OpenClaw falls back to matching OAuth/API-key credentials from auth profiles, env, or config.
+`openclaw models status` shows the resolved default/fallbacks plus an auth overview. Active profile cooldowns appear under **Unavailable auth profiles** with the stored reason and recovery action; JSON output exposes the same data in `auth.unusableProfiles`. For plugin-owned agent runtimes such as Codex, status also checks whether the owning plugin is enabled and passed startup payload verification. A route with valid credentials but an unavailable runtime reports `status: unavailable` instead of `usable`; JSON output includes separate `authStatus`, `runtimeStatus`, and bounded runtime diagnostics. When provider usage snapshots are available, the OAuth/API-key status section includes provider usage windows and quota snapshots. Current usage-window providers: Anthropic, GitHub Copilot, OpenAI, MiniMax, SuperGrok via xAI OAuth, Xiaomi, and z.ai. Usage auth comes from provider-specific hooks when available; otherwise FRIDAY falls back to matching OAuth/API-key credentials from auth profiles, env, or config.
 
 Use an explicit agent when diagnosing that agent's selection:
 
@@ -122,7 +122,7 @@ Options:
 
 Check rows can come from auth profiles, env credentials, or `models.json`. Check status buckets: `ok`, `auth`, `rate_limit`, `billing`, `timeout`, `format`, `unknown`, `no_model`.
 
-Checks make a fresh, prompt-only request through OpenClaw's provider transport without creating a normal agent session. OAuth profiles retain the normal persistent credential-refresh owner. Reported per-credential latency measures the request round-trip, excluding model and credential preparation; checks that fail before sending a request have no latency. The overall check can take longer when several credentials are tested.
+Checks make a fresh, prompt-only request through FRIDAY's provider transport without creating a normal agent session. OAuth profiles retain the normal persistent credential-refresh owner. Reported per-credential latency measures the request round-trip, excluding model and credential preparation; checks that fail before sending a request have no latency. The overall check can take longer when several credentials are tested.
 
 Direct `models status --probe` runs require exclusive ownership of the configured state directory. Stop a running Gateway with `openclaw gateway stop` before checking. Temporary auth directories and the state lock remain held until accepted work and cleanup settle, including after interruption. Cleanup failures are reported; a timeout does not certify that resources have closed.
 
@@ -131,7 +131,7 @@ Check detail/reason codes to expect when a check never reaches a model call:
 - `excluded_by_auth_order`: a stored profile exists, but explicit `auth.order.<provider>` omitted it, so the check reports the exclusion instead of trying it.
 - `missing_credential`, `invalid_expires`, `expired`, `unresolved_ref`: profile is present but not eligible or resolvable.
 - `ineligible_profile`: profile is incompatible with provider config for another reason.
-- `no_model`: provider auth exists, but OpenClaw could not resolve a model candidate that can be tested for that provider.
+- `no_model`: provider auth exists, but FRIDAY could not resolve a model candidate that can be tested for that provider.
 
 For OpenAI ChatGPT/Codex OAuth troubleshooting, `openclaw models status`, `openclaw models auth list --provider openai`, and `openclaw config get agents.defaults.model --json` are the quickest way to confirm whether an agent has a usable `openai` OAuth profile for `openai/*` through the native Codex runtime. See [OpenAI provider setup](/providers/openai/setup#check-and-recover-codex-oauth-routing).
 
@@ -266,7 +266,7 @@ openclaw models set-image <model-or-alias>
 
 `set` writes `agents.defaults.model.primary`; `set-image` writes `agents.defaults.imageModel.primary`. Both accept `provider/model` or a configured alias. `set` also repairs Codex/Copilot runtime plugin installs when the newly selected model needs one; `set-image` does not. Neither command accepts `--agent`; they always write agent defaults.
 
-If you omit the provider when selecting a model, OpenClaw tries a configured alias,
+If you omit the provider when selecting a model, FRIDAY tries a configured alias,
 then a unique configured-provider match for that exact model ID, and finally the
 configured default provider with a deprecation warning. If that provider no longer
 exposes the configured default, the first configured provider/model is used.
@@ -275,7 +275,7 @@ exposes the configured default, the first configured provider/model is used.
 
 `models scan` reads OpenRouter's public `:free` catalog and ranks candidates for fallback use. The catalog itself is public, so metadata-only scans do not need an OpenRouter key.
 
-By default OpenClaw tries to check tool and image support with live model calls. If no OpenRouter key is configured, the command falls back to metadata-only output and explains that `:free` models still require `OPENROUTER_API_KEY` for checks and inference.
+By default FRIDAY tries to check tool and image support with live model calls. If no OpenRouter key is configured, the command falls back to metadata-only output and explains that `:free` models still require `OPENROUTER_API_KEY` for checks and inference.
 
 Options:
 
@@ -327,9 +327,9 @@ Use `models accounts` for accounts owned by your signed-in person on the selecte
 | Scope          | Command                                            | Where the credential belongs                                        |
 | -------------- | -------------------------------------------------- | ------------------------------------------------------------------- |
 | Personal       | `models accounts login [provider]`                 | Your verified profile on the selected Gateway, which may be remote. |
-| System / agent | `models auth login --provider <id> [--agent <id>]` | The OpenClaw installation on the machine running the command.       |
+| System / agent | `models auth login --provider <id> [--agent <id>]` | The FRIDAY installation on the machine running the command.         |
 
-To configure system/agent credentials for a remote server, run `models auth` on that server with its OpenClaw state/config. Configuring a remote Gateway URL on your laptop does not make `models auth` write to the server.
+To configure system/agent credentials for a remote server, run `models auth` on that server with its FRIDAY state/config. Configuring a remote Gateway URL on your laptop does not make `models auth` write to the server.
 
 ```bash
 openclaw models accounts list
@@ -368,7 +368,7 @@ openclaw models accounts list --timeout 45000 --json
 
 ## Auth profiles
 
-These commands manage **System / agent** credentials, not personal Gateway accounts. Before provider sign-in, `models auth login` shows the selected agent and that it is operating on the machine running OpenClaw.
+These commands manage **System / agent** credentials, not personal Gateway accounts. Before provider sign-in, `models auth login` shows the selected agent and that it is operating on the machine running FRIDAY.
 
 `models auth paste-api-key --provider <id>` can save a key while the local Gateway
 is running. The CLI sends the key to that state owner's authenticated Gateway;
@@ -456,14 +456,14 @@ openclaw models auth order clear --provider <id>
 
 `models auth login` runs a provider plugin's auth flow (OAuth/API key). Use `openclaw plugins list` to see which providers are installed. `login` accepts `--profile-id <id>` for providers that support named profiles during login (use this to keep multiple logins for the same provider separate), `--method <id>` to pick a specific auth method, `--device-code` as a shortcut for `--method device-code`, `--set-default` to apply the provider's recommended default model, and `--force` to remove existing profiles for that provider first (use when a cached OAuth profile is stuck or you want to switch accounts).
 
-After credentials are saved, an existing model restriction can prompt **Show all &lt;Provider&gt; models** or **Keep current restrictions**. Only the first choice adds that provider's wildcard to the current restriction. Credentials stay saved either way. The CLI, private-chat login, and Control UI use the same choice. No prompt appears when the provider is already unrestricted. If restrictions change during sign-in, OpenClaw preserves the newer settings and asks you to choose model access again.
+After credentials are saved, an existing model restriction can prompt **Show all &lt;Provider&gt; models** or **Keep current restrictions**. Only the first choice adds that provider's wildcard to the current restriction. Credentials stay saved either way. The CLI, private-chat login, and Control UI use the same choice. No prompt appears when the provider is already unrestricted. If restrictions change during sign-in, FRIDAY preserves the newer settings and asks you to choose model access again.
 
 The CLI reports saved model access separately from confirmed Gateway application.
 Offline changes become active when the Gateway next starts.
 
 Without `--set-default`, login preserves the current default, including an unset default, and keeps unrelated configuration edits made while login is running. If credentials are saved but provider settings cannot be applied, the error reports the saved credentials separately. A Gateway refresh warning does not undo a saved change; start the Gateway after the offline operation finishes.
 
-For the shared-main agent, `--force` clears the provider's shared credentials and main-agent local overrides, including their order and health state. For another agent it clears only that agent's local profiles, leaving shared credentials unchanged. A busy auth store stops the command before login starts; close other OpenClaw commands using the same state directory and retry. SQLite lock diagnostics can name either the shared state database or an agent database, so checking only the legacy auth file for open handles does not rule out contention.
+For the shared-main agent, `--force` clears the provider's shared credentials and main-agent local overrides, including their order and health state. For another agent it clears only that agent's local profiles, leaving shared credentials unchanged. A busy auth store stops the command before login starts; close other FRIDAY commands using the same state directory and retry. SQLite lock diagnostics can name either the shared state database or an agent database, so checking only the legacy auth file for open handles does not rule out contention.
 
 `models auth activate <profileId>` tests a saved sign-in and selects its verified model and account for the chosen agent. Use the exact command printed after unattended replacement setup, or find the saved id with `models auth list --json`. This command confirms activation without another prompt; a failed test leaves the current connection unchanged.
 
@@ -501,7 +501,7 @@ Notes:
 - `paste-token` requires `--provider`, prompts for the token value by default, and writes it to the default profile id `<provider>:manual` unless you pass `--profile-id`. In automation, pipe the token on stdin instead of passing it as an argument so provider credentials do not appear in shell history or process lists.
 - `paste-token --expires-in <duration>` stores an absolute token expiry from a relative duration such as `365d` or `12h`.
 - For `openai`, OpenAI API keys and ChatGPT/OAuth token material are different auth shapes. Use `paste-api-key` for `sk-...` OpenAI API keys and `paste-token` only for token auth material.
-- Anthropic: `setup-token`/`paste-token` are supported OpenClaw auth paths for `anthropic`, but OpenClaw prefers reusing the Claude CLI (`claude -p`) on the host when it is available.
+- Anthropic: `setup-token`/`paste-token` are supported FRIDAY auth paths for `anthropic`, but FRIDAY prefers reusing the Claude CLI (`claude -p`) on the host when it is available.
 - `auth order get/set/clear` manages a per-agent auth profile order override for one provider in the SQLite auth store, separate from the `auth.order.<provider>` config key. `set` takes one or more profile ids in priority order. The stored order takes precedence over config for profile selection and CLI runtime routing; `clear` falls back to config/round-robin ordering.
 
 ## Related

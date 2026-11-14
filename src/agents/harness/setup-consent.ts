@@ -25,7 +25,7 @@ export async function requestNativeRuntimeConsent(params: {
   }
   const agentName = config.agents?.entries?.[agentId]?.name ?? agentId;
   await prompter.select({
-    message: `Use ${harness.label}’s native permissions?\n\n${harness.label} will run on the Gateway host under its own permissions. OpenClaw’s optional native tool and sandbox restrictions, including workspace-only restrictions, will not be enforced for this harness. OpenClaw-hosted tools keep their own policy checks.\n\nRemember this choice for ${agentName}. New chats using ${harness.label} will use Full access with sandbox off.`,
+    message: `Use ${harness.label}’s native permissions?\n\n${harness.label} will run on the Gateway host under its own permissions. FRIDAY’s optional native tool and sandbox restrictions, including workspace-only restrictions, will not be enforced for this harness. FRIDAY-hosted tools keep their own policy checks.\n\nRemember this choice for ${agentName}. New chats using ${harness.label} will use Full access with sandbox off.`,
     options: [{ value: "continue", label: "Continue" }],
   });
   params.assertCurrent?.();

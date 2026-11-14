@@ -41,7 +41,7 @@ function publicationFixture({
   git(["add", "."]);
   git([
     "-c",
-    "user.name=OpenClaw Test",
+    "user.name=FRIDAY Test",
     "-c",
     "user.email=test@openclaw.invalid",
     "-c",
@@ -191,9 +191,9 @@ it("renders the extended-stable context through the real publication entry point
   expect(
     readFileSync(join(root, "release-notes.md"), "utf8").startsWith(
       "This is a gateway-only `extended-stable` release, which is our current equivalent to LTS. " +
-        "This release is OpenClaw from the end of August 2026, plus critical security updates, " +
+        "This release is FRIDAY from the end of August 2026, plus critical security updates, " +
         "reliability and performance fixes, and features like new model support. " +
-        "The latest version of OpenClaw at the time of this release is " +
+        "The latest version of FRIDAY at the time of this release is " +
         "[2026.9.5](https://github.com/openclaw/openclaw/releases#release-v2026.9.5)\n\n",
     ),
   ).toBe(true);

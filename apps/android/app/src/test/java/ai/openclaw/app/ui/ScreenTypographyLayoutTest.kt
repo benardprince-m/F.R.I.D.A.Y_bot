@@ -245,7 +245,7 @@ class ScreenTypographyLayoutTest {
     showApp { OnboardingFlow(model) }
     val layouts = mutableListOf<TextLayoutResult>()
     composeRule
-      .onNodeWithText("Welcome to OpenClaw", useUnmergedTree = true)
+      .onNodeWithText("Welcome to FRIDAY", useUnmergedTree = true)
       .performSemanticsAction(SemanticsActions.GetTextLayoutResult) { assertTrue(it(layouts)) }
     assertEquals(
       1.25f,
@@ -380,7 +380,7 @@ class ScreenTypographyLayoutTest {
     assertTextStyle("Threads", type.display)
     assertPhoneGutter()
     composeRule.onNodeWithText(AndroidScreenshotFixture.primarySessionTitle).performScrollTo().assertIsDisplayed()
-    assertTextStyle(composeRule.onAllNodesWithText("OpenClaw thread", useUnmergedTree = true)[0], type.caption)
+    assertTextStyle(composeRule.onAllNodesWithText("FRIDAY thread", useUnmergedTree = true)[0], type.caption)
     composeRule.onNodeWithContentDescription("Toggle thread layout").performScrollTo().performClick()
     composeRule.onNodeWithText("Layout: Compact").assertIsDisplayed()
   }
@@ -429,7 +429,7 @@ class ScreenTypographyLayoutTest {
     show { SettingsDetailScreen(model, SettingsRoute.Profile, onBack = {}) }
     capture("profile-detail-dark")
     assertTextStyle("Profile", type.display)
-    assertTextStyle("How this phone appears to OpenClaw.", type.body)
+    assertTextStyle("How this phone appears to FRIDAY.", type.body)
     composeRule.onNodeWithText("Save Profile").assertIsDisplayed()
   }
 

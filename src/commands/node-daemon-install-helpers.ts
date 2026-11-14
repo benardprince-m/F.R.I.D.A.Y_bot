@@ -116,7 +116,7 @@ export async function buildNodeInstallPlan(params: {
   return {
     programArguments,
     installationMessage: [
-      `OpenClaw ${VERSION}`,
+      `FRIDAY ${VERSION}`,
       `Runtime: ${runtime} (${programArguments[0]})`,
       `Service command: ${programArguments.map(quoteCliArg).join(" ")}`,
       `Update this node: ${formatCliCommand("openclaw node install --force", params.env).replace("openclaw", "npx -y openclaw@latest")}`,
@@ -129,6 +129,6 @@ export async function buildNodeInstallPlan(params: {
       CF_ACCESS_CLIENT_ID: "file",
       CF_ACCESS_CLIENT_SECRET: "file", // pragma: allowlist secret
     },
-    description: "OpenClaw Node Host",
+    description: "FRIDAY Node Host",
   };
 }

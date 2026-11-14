@@ -52,7 +52,7 @@ function parseLearnCommand(raw: string): LearnCommand | null {
     : { kind: "learn", request: request || DEFAULT_LEARN_REQUEST };
 }
 
-/** /learn needs a harness that exposes OpenClaw tools and a policy that allows skill_workshop. */
+/** /learn needs a harness that exposes FRIDAY tools and a policy that allows skill_workshop. */
 async function isWorkshopAvailable(params: HandleCommandsParams): Promise<boolean> {
   if (
     params.opts?.disableTools ||

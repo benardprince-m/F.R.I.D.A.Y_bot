@@ -44,7 +44,7 @@ export function registerSharedClientManagedFallbackTests(params: {
     });
     expect(desktop.process.stdin.destroyed).toBe(false);
     expect(params.warn).toHaveBeenCalledExactlyOnceWith(
-      "codex app-server is newer than OpenClaw's managed runtime; continuing with normal startup validation",
+      "codex app-server is newer than FRIDAY's managed runtime; continuing with normal startup validation",
       {
         detectedVersion: desktopVersion,
         validatedVersion: CODEX_APP_SERVER_VERSION,

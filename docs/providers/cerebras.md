@@ -2,7 +2,7 @@
 summary: "Cerebras setup (auth + model selection)"
 title: "Cerebras"
 read_when:
-  - You want to use Cerebras with OpenClaw
+  - You want to use Cerebras with FRIDAY
   - You need the Cerebras API key env var or CLI auth choice
 ---
 
@@ -81,7 +81,7 @@ up provider credentials on the server.
 ## Discovery and pricing
 
 When Cerebras auth is configured and the inference base URL is the official
-`https://api.cerebras.ai/v1`, OpenClaw reads
+`https://api.cerebras.ai/v1`, FRIDAY reads
 [`GET /public/v1/models`](https://inference-docs.cerebras.ai/api-reference/models/public-models).
 This request uses public headers only: inference API keys and discovery
 credentials are never sent to the metadata endpoint. A custom base URL skips
@@ -91,12 +91,12 @@ metadata listing does not establish account entitlement.
 
 Live rows supply the native context and completion limits, reasoning and vision
 capabilities, and prompt/completion prices. Cerebras returns those prices as USD
-per-token strings; OpenClaw converts them to USD per million tokens. The public
-feed does not provide a separate cache tariff, so OpenClaw uses the input price
+per-token strings; FRIDAY converts them to USD per million tokens. The public
+feed does not provide a separate cache tariff, so FRIDAY uses the input price
 for cache reads, matching Cerebras' standard input billing for cached tokens.
 
 Successful catalogs are cached for 60 seconds. If discovery fails, returns an
-empty catalog, or has no usable model rows, OpenClaw uses the bundled offline
+empty catalog, or has no usable model rows, FRIDAY uses the bundled offline
 seed. In the default `models.mode: "merge"`, fresh onboarding does not copy
 generated model rows or prices into your config, allowing prices to refresh.
 Explicitly authored model rows and costs remain intact. In
@@ -119,7 +119,7 @@ in the bundled catalog; existing explicit selections are not rewritten.
 ## Prompt caching
 
 Cerebras automatically caches matching prompt prefixes. On the native API,
-OpenClaw sends a stable `prompt_cache_key` for each conversation to improve cache
+FRIDAY sends a stable `prompt_cache_key` for each conversation to improve cache
 routing. Cached tokens reduce prompt processing and uncached-token rate-limit
 usage; they are billed at the standard input token price. See
 [Cerebras prompt caching](https://inference-docs.cerebras.ai/capabilities/prompt-caching).

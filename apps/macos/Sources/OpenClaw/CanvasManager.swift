@@ -18,7 +18,7 @@ final class CanvasManager {
 
     private nonisolated static let canvasRoot: URL = {
         let base = FileManager().urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        return base.appendingPathComponent("OpenClaw/canvas", isDirectory: true)
+        return base.appendingPathComponent("FRIDAY/canvas", isDirectory: true)
     }()
 
     func show(

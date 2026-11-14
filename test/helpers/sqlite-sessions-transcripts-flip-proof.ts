@@ -872,7 +872,7 @@ async function requireLegacyStartupRefusal(inst: OpenClawTestInstance, context: 
           Array.isArray(entry.paths) &&
           entry.paths.includes(context.agentDbPath) &&
           entry.reason ===
-            `Legacy session store requires migration: ${legacyStorePath}. Run "${formatCliCommand("openclaw doctor --fix", inst.env)}" against the same state/config before starting OpenClaw.` &&
+            `Legacy session store requires migration: ${legacyStorePath}. Run "${formatCliCommand("openclaw doctor --fix", inst.env)}" against the same state/config before starting FRIDAY.` &&
           typeof entry.repairHint === "string" &&
           entry.repairHint.includes("doctor --fix"),
       );

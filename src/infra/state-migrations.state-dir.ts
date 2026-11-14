@@ -243,7 +243,7 @@ function renameLegacyPath(source: string, target: string, kind: "directory" | "f
     }
   } catch (cause) {
     throw new Error(
-      `Could not complete legacy rename ${source} → ${target}; stop OpenClaw and inspect both paths before retrying Doctor.`,
+      `Could not complete legacy rename ${source} → ${target}; stop FRIDAY and inspect both paths before retrying Doctor.`,
       { cause },
     );
   }

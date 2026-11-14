@@ -1,4 +1,4 @@
-/** Tests projecting OpenClaw user MCP servers into Codex app-server config. */
+/** Tests projecting FRIDAY user MCP servers into Codex app-server config. */
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { McpServerConfig } from "../../config/types.mcp.js";
 import type { OpenClawConfig } from "../../config/types.openclaw.js";
@@ -154,7 +154,7 @@ describe("buildCodexUserMcpServersThreadConfigPatchForRuntime", () => {
     });
   });
 
-  it("rejects wildcard OpenClaw MCP tool filters that Codex cannot project exactly", async () => {
+  it("rejects wildcard FRIDAY MCP tool filters that Codex cannot project exactly", async () => {
     await expect(
       project({
         docs: http("https://docs.example.com/mcp", { toolFilter: { include: ["search_*"] } }),
@@ -164,7 +164,7 @@ describe("buildCodexUserMcpServersThreadConfigPatchForRuntime", () => {
     );
   });
 
-  it("filters Codex-scoped user MCP servers by OpenClaw agent id", async () => {
+  it("filters Codex-scoped user MCP servers by FRIDAY agent id", async () => {
     const servers = {
       atlas: http("https://atlas.example.com/mcp", { codex: { agents: ["atlas"] } }),
       apolo: http("https://apolo.example.com/mcp", { codex: { agents: ["apolo"] } }),
@@ -232,7 +232,7 @@ describe("buildCodexUserMcpServersThreadConfigPatchForRuntime", () => {
     expectProjection(patch, { global: { command: "node", args: ["global-mcp.js"] } });
   });
 
-  it("omits scoped Codex MCP servers when no OpenClaw agent id is available", async () => {
+  it("omits scoped Codex MCP servers when no FRIDAY agent id is available", async () => {
     const patch = await project({
       atlas: http("https://atlas.example.com/mcp", { codex: { agents: ["atlas"] } }),
     });

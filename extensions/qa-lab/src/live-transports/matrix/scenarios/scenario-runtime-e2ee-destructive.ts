@@ -70,7 +70,7 @@ async function registerMatrixQaDestructiveOwner(
 ) {
   return await registerMatrixQaE2eeScenarioAccount({
     context,
-    deviceName: "OpenClaw Matrix QA Destructive Owner",
+    deviceName: "FRIDAY Matrix QA Destructive Owner",
     kind: "destructive",
     scenarioId,
   });
@@ -289,7 +289,7 @@ export async function runMatrixQaE2eeStateLossExternalRecoveryKeyScenario(
         status: readStatus,
       } = await createRecovery({
         accountId: "external-key",
-        deviceName: "OpenClaw Matrix QA External Key Restore",
+        deviceName: "FRIDAY Matrix QA External Key Restore",
         label: "state-loss-external-recovery-key",
       });
       const restored = await restore("restore-with-external-key", setup.encodedRecoveryKey);
@@ -320,7 +320,7 @@ export async function runMatrixQaE2eeStateLossExternalRecoveryKeyScenario(
           verificationExitCode: diagnostics.result.exitCode,
         },
         details: [
-          "deleted Matrix state simulated with a fresh OpenClaw CLI state root",
+          "deleted Matrix state simulated with a fresh FRIDAY CLI state root",
           `encrypted room id: ${setup.roomId}`,
           `seeded encrypted event: ${setup.seededEventId}`,
           `recovery device: ${device.deviceId}`,
@@ -355,7 +355,7 @@ export async function runMatrixQaE2eeStateLossStoredRecoveryKeyScenario(
         status: readStatus,
       } = await createRecovery({
         accountId: "stored-key",
-        deviceName: "OpenClaw Matrix QA Stored Key Restore",
+        deviceName: "FRIDAY Matrix QA Stored Key Restore",
         label: "state-loss-stored-recovery-key",
       });
       const initial = await restore("initial-restore-stores-key", setup.encodedRecoveryKey);
@@ -405,7 +405,7 @@ export async function runMatrixQaE2eeStateLossNoRecoveryKeyScenario(
     async (setup, createRecovery) => {
       const { device, restore } = await createRecovery({
         accountId: "no-key",
-        deviceName: "OpenClaw Matrix QA No Key Restore",
+        deviceName: "FRIDAY Matrix QA No Key Restore",
         label: "state-loss-no-recovery-key",
       });
       const restored = await restore("restore-without-key", undefined, { allowNonZero: true });
@@ -454,7 +454,7 @@ export async function runMatrixQaE2eeStaleRecoveryKeyAfterBackupResetScenario(
       }
       const { device, restore } = await createRecovery({
         accountId: "stale-key",
-        deviceName: "OpenClaw Matrix QA Stale Key Restore",
+        deviceName: "FRIDAY Matrix QA Stale Key Restore",
         label: "stale-recovery-key-after-backup-reset",
       });
       const restored = await restore("restore-with-stale-key", setup.encodedRecoveryKey, {
@@ -581,7 +581,7 @@ export async function runMatrixQaE2eeServerBackupDeletedLocalReuploadRestoresSce
     async (setup, createRecovery) => {
       const { device, restore } = await createRecovery({
         accountId: "backup-reupload",
-        deviceName: "OpenClaw Matrix QA Backup Reupload Restore",
+        deviceName: "FRIDAY Matrix QA Backup Reupload Restore",
         label: "server-backup-deleted-local-reupload-restores",
       });
       const { before, deleteStatus, afterDelete } = await deleteMatrixQaOwnerRoomKeyBackup(
@@ -634,7 +634,7 @@ export async function runMatrixQaE2eeCorruptCryptoIdbSnapshotScenario(
     async (setup, createRecovery) => {
       const { cli, device, restore } = await createRecovery({
         accountId: "corrupt-idb",
-        deviceName: "OpenClaw Matrix QA Corrupt IDB Restore",
+        deviceName: "FRIDAY Matrix QA Corrupt IDB Restore",
         label: "corrupt-crypto-idb-snapshot",
       });
       const initial = await restore("initial-restore-before-corruption", setup.encodedRecoveryKey);
@@ -675,7 +675,7 @@ export async function runMatrixQaE2eeServerDeviceDeletedLocalStateIntactScenario
   try {
     const device = await loginMatrixQaRecoveryDevice({
       context,
-      deviceName: "OpenClaw Matrix QA Deleted Device",
+      deviceName: "FRIDAY Matrix QA Deleted Device",
       password: setup.ownerPassword,
       userId: setup.ownerUserId,
     });
@@ -755,7 +755,7 @@ export async function runMatrixQaE2eeServerDeviceDeletedReloginRecoversScenario(
     async (setup, createRecovery) => {
       const deleted = await createRecovery({
         accountId: "deleted-device-recovery",
-        deviceName: "OpenClaw Matrix QA Deleted Device Recovery Source",
+        deviceName: "FRIDAY Matrix QA Deleted Device Recovery Source",
         label: "server-device-deleted-relogin-source",
       });
       const preflight = await deleted.restore(
@@ -785,7 +785,7 @@ export async function runMatrixQaE2eeServerDeviceDeletedReloginRecoversScenario(
 
       const replacement = await createRecovery({
         accountId: "deleted-device-recovery-relogin",
-        deviceName: "OpenClaw Matrix QA Deleted Device Recovery Relogin",
+        deviceName: "FRIDAY Matrix QA Deleted Device Recovery Relogin",
         label: "server-device-deleted-relogin-recovery",
       });
       const restored = await replacement.restore("restore-after-relogin", setup.encodedRecoveryKey);
@@ -1005,7 +1005,7 @@ export async function runMatrixQaE2eeWrongAccountRecoveryKeyScenario(
     );
     device = await loginMatrixQaRecoveryDevice({
       context,
-      deviceName: "OpenClaw Matrix QA Wrong Account Key",
+      deviceName: "FRIDAY Matrix QA Wrong Account Key",
       password: targetSetup.ownerPassword,
       userId: targetSetup.ownerUserId,
     });
@@ -1069,7 +1069,7 @@ export async function runMatrixQaE2eeHistoryExistsBackupEmptyScenario(
       }
       const { device, restore } = await createRecovery({
         accountId: "empty-backup",
-        deviceName: "OpenClaw Matrix QA Empty Backup",
+        deviceName: "FRIDAY Matrix QA Empty Backup",
         label: "history-exists-backup-empty",
       });
       const restored = await waitForMatrixQaNonEmptyCliBackupRestore({

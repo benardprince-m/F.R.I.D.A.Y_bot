@@ -1,5 +1,5 @@
 ---
-summary: "Fix Chrome/Brave/Edge/Chromium CDP startup issues for OpenClaw browser control on Linux"
+summary: "Fix Chrome/Brave/Edge/Chromium CDP startup issues for FRIDAY browser control on Linux"
 read_when: "Browser control fails on Linux, especially with snap Chromium"
 title: "Browser troubleshooting"
 ---
@@ -20,13 +20,13 @@ Note, selecting 'chromium-browser' instead of 'chromium'
 chromium-browser is already the newest version (2:1snap1-0ubuntu2).
 ```
 
-Snap's AppArmor confinement interferes with how OpenClaw spawns and monitors
+Snap's AppArmor confinement interferes with how FRIDAY spawns and monitors
 the browser process.
 
 Other common Linux launch failures:
 
 - `The profile appears to be in use by another Chromium process`: stale
-  `Singleton*` lock files in the managed profile directory. OpenClaw removes
+  `Singleton*` lock files in the managed profile directory. FRIDAY removes
   these locks and retries once when the lock points at a dead process on the
   current host. Locks naming another hostname are preserved until you verify
   that the profile is no longer in use, including after a machine rename.
@@ -37,7 +37,7 @@ Other common Linux launch failures:
   `browser.profiles.<name>.headless: false`, remove that headed override, set
   `OPENCLAW_BROWSER_HEADLESS=1`, start `Xvfb`, run
   `openclaw browser start --headless` for a one-shot managed launch, or run
-  OpenClaw in a real desktop session.
+  FRIDAY in a real desktop session.
 
 ### Solution 1: install Google Chrome (recommended)
 
@@ -62,7 +62,7 @@ Update `~/.openclaw/openclaw.json`:
 
 ### Solution 2: use snap Chromium in attach-only mode
 
-If you must keep snap Chromium, configure OpenClaw to attach to a
+If you must keep snap Chromium, configure FRIDAY to attach to a
 manually-started browser instead of launching it:
 
 ```json
@@ -90,7 +90,7 @@ Optionally auto-start it with a systemd user service:
 ```ini
 # ~/.config/systemd/user/openclaw-browser.service
 [Unit]
-Description=OpenClaw Browser (Chrome CDP)
+Description=FRIDAY Browser (Chrome CDP)
 After=network.target
 
 [Service]
@@ -108,7 +108,7 @@ systemctl --user enable --now openclaw-browser.service
 
 ### Verify the browser works
 
-These calls go to the OpenClaw browser control service, not to the Chrome CDP
+These calls go to the FRIDAY browser control service, not to the Chrome CDP
 port used above. Its port is derived from `gateway.port` (default `18791` =
 gateway port + 2), so adjust the number if you moved the Gateway port. `jq` only
 pretty-prints the response; drop the pipe if you do not have it installed.
@@ -155,7 +155,7 @@ Notes:
   limits: ref-driven actions only, one file per upload, no dialog `timeoutMs`
   overrides, no `wait --load networkidle`, and no `responsebody`, PDF export,
   download interception, or batch actions.
-- Local `openclaw`-driver profiles get a `cdpPort` allocated when OpenClaw
+- Local `openclaw`-driver profiles get a `cdpPort` allocated when FRIDAY
   creates them; a profile you declare by hand must set `cdpPort` itself, or
   `cdpUrl` for remote CDP.
 - Remote CDP profiles accept `http://`, `https://`, `ws://`, and `wss://`.

@@ -170,7 +170,7 @@ function prepareCodexSimpleTransportModel<TApi extends Api>(
   }
 
   // Static Codex provider catalogs intentionally omit credentials; the simple
-  // completion path must use OpenClaw's transport so resolved request auth is applied.
+  // completion path must use FRIDAY's transport so resolved request auth is applied.
   const transportModel = projectModel(model, {
     baseUrl: normalizeCodexResponsesBaseUrlForOpenAISdk(model.baseUrl),
   });

@@ -33,7 +33,7 @@ const POLL_INTERVAL_MS = 5_000;
 const MAX_POLL_ATTEMPTS = 240;
 const TOGETHER_MIN_DURATION_SECONDS = 1;
 const TOGETHER_MAX_DURATION_SECONDS = 10;
-// Wan's documented minimum is 2s; retain OpenClaw's existing 10s ceiling.
+// Wan's documented minimum is 2s; retain FRIDAY's existing 10s ceiling.
 const TOGETHER_WAN_DURATIONS = [2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 const TOGETHER_MODEL_DURATIONS = {
   "Wan-AI/wan2.7-t2v": TOGETHER_WAN_DURATIONS,

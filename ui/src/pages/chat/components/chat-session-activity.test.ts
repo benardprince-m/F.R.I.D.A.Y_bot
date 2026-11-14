@@ -95,7 +95,7 @@ describe("session activity", () => {
       container.querySelector(".chat-avatar, .chat-group--forwarded, .chat-bubble"),
     ).toBeNull();
     expect(
-      projectTranscriptIndex(projection, expanded, { assistantName: "OpenClaw" }).positionIndex
+      projectTranscriptIndex(projection, expanded, { assistantName: "FRIDAY" }).positionIndex
         .markers,
     ).toHaveLength(0);
     expect(latestTranscriptAnnouncement(projection.collapsedItems)?.text).toBe(
@@ -110,7 +110,7 @@ describe("session activity", () => {
     );
     expect(disclosure?.querySelector(".chat-message-disclosure__toggle")).toBeNull();
     expect(
-      projectTranscriptIndex(projection, expanded, { assistantName: "OpenClaw" }).positionIndex
+      projectTranscriptIndex(projection, expanded, { assistantName: "FRIDAY" }).positionIndex
         .markers,
     ).toHaveLength(1);
   });
@@ -174,14 +174,14 @@ describe("session activity", () => {
       "3 updates from Visualize tool icons",
     );
     const expansions = new Map<string, boolean>();
-    const index = projectTranscriptIndex(projection, expansions, { assistantName: "OpenClaw" });
+    const index = projectTranscriptIndex(projection, expansions, { assistantName: "FRIDAY" });
     expect([...index.messageRowKeysById.values()]).toEqual([group.key, group.key, group.key]);
     expect(index.loadedReplySources.get("second")?.message).toBe(messages[1]);
     expect(index.positionIndex.markers).toHaveLength(0);
     expandReplyTargetWork(projection.transcriptItems, expansions, "second");
     expect(expansions.get("session-activity:" + group.key)).toBe(true);
     expect(
-      projectTranscriptIndex(projection, expansions, { assistantName: "OpenClaw" }).positionIndex
+      projectTranscriptIndex(projection, expansions, { assistantName: "FRIDAY" }).positionIndex
         .markers,
     ).toHaveLength(1);
   });
@@ -218,7 +218,7 @@ describe("session activity", () => {
       view.render(group, {
         showReasoning: false,
         showToolCalls: false,
-        assistantName: "OpenClaw",
+        assistantName: "FRIDAY",
         agentId: "main",
         isToolMessageExpanded: (id) => expanded.get(id),
         onToggleToolMessageExpanded: (id, previous) => {

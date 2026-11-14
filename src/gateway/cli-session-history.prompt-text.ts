@@ -12,7 +12,7 @@ import {
 // Some local inter-session rows store the routed text without the envelope the
 // CLI received. Equal bodies only count as one message when they came from the
 // same sender, so the view keeps the source next to the body.
-// CLI prompts can carry OpenClaw context around the envelope and below it.
+// CLI prompts can carry FRIDAY context around the envelope and below it.
 export function readRoutedPromptView(
   provenanceValue: unknown,
   rawText: string,
@@ -89,11 +89,11 @@ function stripLeadingSystemEventLines(text: string, preserveRequesterGuidance: b
   return retainedContext + source.slice(endOffset).replace(/^(?:\r?\n)+/u, "");
 }
 
-// Correlation/provenance-only view without the context OpenClaw added around
+// Correlation/provenance-only view without the context FRIDAY added around
 // the user's text before handing it to the CLI. Never replace stored content.
 export function stripCliPromptDecorations(text: string, preserveRequesterGuidance = false): string {
   const withoutGapNote = text.replace(
-    /^\[OpenClaw: \d+ (?:messages occurred outside this Claude session|messages recorded in this chat since your last reply here \(possibly already in this session\)|earlier messages in this chat) from [^\n]+\. Their contents are not included here\.[^\n]*\]\r?\n\r?\n/u,
+    /^\[FRIDAY: \d+ (?:messages occurred outside this Claude session|messages recorded in this chat since your last reply here \(possibly already in this session\)|earlier messages in this chat) from [^\n]+\. Their contents are not included here\.[^\n]*\]\r?\n\r?\n/u,
     "",
   );
   return stripLeadingSystemEventLines(

@@ -25,7 +25,7 @@ export function parseFrontmatterBool(value: string | undefined, fallback: boolea
   return parsed === undefined ? fallback : parsed;
 }
 
-/** Parses the JSON5 OpenClaw manifest block embedded inside a string frontmatter field. */
+/** Parses the JSON5 FRIDAY manifest block embedded inside a string frontmatter field. */
 export function resolveOpenClawManifestBlock(params: {
   frontmatter: Record<string, unknown>;
   key?: string;
@@ -47,7 +47,7 @@ export function resolveOpenClawManifestBlock(params: {
   }
 }
 
-/** Extracts normalized runtime requirement lists from an OpenClaw manifest block. */
+/** Extracts normalized runtime requirement lists from an FRIDAY manifest block. */
 export function resolveOpenClawManifestRequires(
   metadataObj: Record<string, unknown>,
 ): Omit<Requirements, "os"> | undefined {
@@ -74,7 +74,7 @@ export function resolveOpenClawManifestInstall<T>(
     .filter((entry): entry is T => Boolean(entry));
 }
 
-/** Extracts normalized OS allowlist entries from an OpenClaw manifest block. */
+/** Extracts normalized OS allowlist entries from an FRIDAY manifest block. */
 export function resolveOpenClawManifestOs(metadataObj: Record<string, unknown>): string[] {
   return normalizeCsvOrLooseStringList(metadataObj.os);
 }

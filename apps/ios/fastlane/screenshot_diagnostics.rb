@@ -2,7 +2,7 @@
 class ScreenshotDiagnostics
   attr_reader :events
 
-  PROCESSES = %w[OpenClaw OpenClawUITests-Runner testmanagerd DTServiceHub Simulator com.apple.CoreSimulator.CoreSimulatorService].freeze
+  PROCESSES = %w[FRIDAY OpenClawUITests-Runner testmanagerd DTServiceHub Simulator com.apple.CoreSimulator.CoreSimulatorService].freeze
 
   def initialize(&persist)
     @events = []

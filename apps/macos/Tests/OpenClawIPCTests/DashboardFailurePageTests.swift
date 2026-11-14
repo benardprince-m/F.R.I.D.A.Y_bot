@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct DashboardFailurePageTests {
     @Test func `generic failure page offers reload through the native bridge`() {

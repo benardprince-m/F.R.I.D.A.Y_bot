@@ -1,7 +1,7 @@
 ---
-summary: "Connect OpenClaw to Ollama: auth rules, onboarding, and cloud models through a local host"
+summary: "Connect FRIDAY to Ollama: auth rules, onboarding, and cloud models through a local host"
 read_when:
-  - You are connecting OpenClaw to Ollama for the first time
+  - You are connecting FRIDAY to Ollama for the first time
   - You need the auth rules for local, LAN, remote, or cloud hosts
   - You want cloud and local models served through one Ollama host
 title: "Ollama setup"
@@ -12,7 +12,7 @@ sidebarTitle: "Setup"
 
 <AccordionGroup>
   <Accordion title="Local and LAN hosts">
-    Loopback, private-network, `.local`, and bare-hostname Ollama URLs do not need a real bearer token. OpenClaw uses the `ollama-local` marker for these.
+    Loopback, private-network, `.local`, and bare-hostname Ollama URLs do not need a real bearer token. FRIDAY uses the `ollama-local` marker for these.
   </Accordion>
   <Accordion title="Remote and Ollama Cloud hosts">
     Public remote hosts and `https://ollama.com` require a real credential: `OLLAMA_API_KEY`, an auth profile, or the provider's `apiKey`. For direct hosted use, prefer the `ollama-cloud` provider.
@@ -45,12 +45,12 @@ sidebarTitle: "Setup"
 
         Select **Ollama**, then pick a mode: **Cloud + Local** or **Local only**. For hosted models without a local Ollama host, choose **Ollama Cloud** instead.
 
-        On a fresh guided setup, OpenClaw first checks the default or configured
+        On a fresh guided setup, FRIDAY first checks the default or configured
         Ollama host. Automatic discovery considers only models already loaded in
         memory, as reported by `/api/ps`, with tool support and at least 16K of
         context confirmed by `/api/show`. An eligible model installed on disk but
         not loaded is not an automatic candidate. The selected route still needs
-        a real completion before OpenClaw saves it; discovery never pulls or
+        a real completion before FRIDAY saves it; discovery never pulls or
         loads an idle model.
 
         To use an installed but idle model in desktop Model Setup, choose
@@ -151,7 +151,7 @@ sidebarTitle: "Setup"
 Ollama host — this is Ollama's hybrid flow and the mode to pick during setup
 when you want both.
 
-OpenClaw prompts for the base URL, discovers local models, and checks
+FRIDAY prompts for the base URL, discovers local models, and checks
 `ollama signin` status. When signed in, it suggests hosted defaults
 (`minimax-m2.7:cloud`, `minimax-m3:cloud`, `kimi-k3:cloud`, `glm-5.2:cloud`).
 If not signed in, setup stays local-only until you run
@@ -166,4 +166,4 @@ openclaw models set ollama-cloud/minimax-m2.7:cloud
 
 The Ollama Cloud model list comes from live `https://ollama.com/api/tags`
 discovery with your key, so the picker reflects the current hosted catalog.
-Without a usable key, OpenClaw shows its bundled Ollama Cloud catalog.
+Without a usable key, FRIDAY shows its bundled Ollama Cloud catalog.

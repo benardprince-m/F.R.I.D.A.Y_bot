@@ -58,10 +58,10 @@ function dispatchError(status: number, body: BrowserDispatchResponse["body"]) {
 
 const noRetry = "Do NOT retry the browser tool";
 const retry = "Retry the browser tool once";
-const noRestart = "Restart the OpenClaw gateway";
-const external = "browser profile is external to OpenClaw";
+const noRestart = "Restart the FRIDAY gateway";
+const external = "browser profile is external to FRIDAY";
 const retryOnce = [retry, "If the same error persists"];
-const externalProfile = [external, "Restarting the OpenClaw gateway will not launch it"];
+const externalProfile = [external, "Restarting the FRIDAY gateway will not launch it"];
 
 const okDispatchResponse: BrowserDispatchResponse = { status: 200, body: { ok: true } };
 
@@ -220,7 +220,7 @@ describe("fetchBrowserJson loopback auth", () => {
 
     await expectThrownBrowserFetchError("/tabs", {
       contains: ["Chrome CDP handshake timeout", "openclaw browser doctor", ...retryOnce],
-      omits: ["Can't reach the OpenClaw browser control service", noRetry],
+      omits: ["Can't reach the FRIDAY browser control service", noRetry],
     });
   });
 

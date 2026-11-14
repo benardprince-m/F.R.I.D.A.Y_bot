@@ -1,9 +1,9 @@
-# OpenClaw Volcengine Provider
+# FRIDAY Volcengine Provider
 
-Official OpenClaw provider plugin for Volcengine models, the Volcengine coding
+Official FRIDAY provider plugin for Volcengine models, the Volcengine coding
 plan, and Volcengine Speech text-to-speech.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/volcengine-provider

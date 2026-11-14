@@ -20,13 +20,13 @@ on the model template, available cache slots, and unchanged instructions/tools.
 
 Ollama 0.40.1 and later can proxy `GET /api/balance` through a signed-in local
 server. When the `ollama` provider has a configured local `apiKey: "ollama-local"`,
-OpenClaw includes its balance in chat `/status` and `openclaw status --usage`. Legacy
+FRIDAY includes its balance in chat `/status` and `openclaw status --usage`. Legacy
 plans show session and weekly usage with reset times; current plans show the
 included balance and its period reset. Purchased credits appear separately.
 
 The local server must be signed in to Ollama Cloud. Local-only models have no
 cloud quota. Unsigned-in servers and servers without the balance endpoint are
-quietly omitted from usage reports. OpenClaw fetches the balance only during the
+quietly omitted from usage reports. FRIDAY fetches the balance only during the
 existing usage refresh; it does not poll separately or need your Ollama web
 session cookie. If `plugins.allow` is set, include `ollama` so its usage hook can load.
 Other balance failures include guidance for checking the server or its access permissions.
@@ -64,7 +64,7 @@ Other balance failures include guidance for checking the server or its access pe
     its usage, reasoning, and tool calls. Streaming remains enabled when unset;
     this setting does not change native Ollama `/api/chat` requests.
 
-    OpenClaw injects `options.num_ctx` by default in this mode so Ollama does
+    FRIDAY injects `options.num_ctx` by default in this mode so Ollama does
     not silently fall back to a 4096-token context. If your proxy rejects
     unknown `options` fields, disable it:
 
@@ -87,9 +87,9 @@ Other balance failures include guidance for checking the server or its access pe
   </Accordion>
 
   <Accordion title="Context windows">
-    For auto-discovered models, OpenClaw uses the context window `/api/show`
+    For auto-discovered models, FRIDAY uses the context window `/api/show`
     reports, including larger `PARAMETER num_ctx` values from custom
-    Modelfiles; otherwise it falls back to OpenClaw's default Ollama context
+    Modelfiles; otherwise it falls back to FRIDAY's default Ollama context
     window.
 
     Per-model `contextWindow` declares native window metadata, and per-model
@@ -98,7 +98,7 @@ Other balance failures include guidance for checking the server or its access pe
     `/api/chat` requests set `options.num_ctx` from a positive `params.num_ctx`
     first, then from the effective model `contextTokens` when present. Local
     discovery normally caps `contextTokens` at 32,768 (or the model's smaller
-    native window), so OpenClaw can override a smaller Modelfile context even
+    native window), so FRIDAY can override a smaller Modelfile context even
     without an explicit `params.num_ctx`. Invalid, zero, negative, or non-finite
     `params.num_ctx` values are ignored. Only when neither value is available
     does Ollama choose its own model, Modelfile, `OLLAMA_CONTEXT_LENGTH`, or
@@ -125,20 +125,20 @@ Other balance failures include guidance for checking the server or its access pe
     `presencePenalty`, and `seed`) override the matching model defaults,
     including explicit zero values. The Gateway's Chat Completions API maps
     `top_p`, `frequency_penalty`, and `presence_penalty` to these controls.
-    With `temperature: 0`, OpenClaw still normalizes `top_p` to `1` for greedy
+    With `temperature: 0`, FRIDAY still normalizes `top_p` to `1` for greedy
     sampling after applying overrides.
     A few keys (`format`, `keep_alive`, `truncate`, `shift`) are forwarded as
     top-level request fields instead of nested `options`. Local native chat
     requests default to `truncate: false` and `shift: false`, so supporting
     servers reject overflowing input instead of silently dropping history.
-    OpenClaw then attempts compaction and retries. If recovery cannot make the
+    FRIDAY then attempts compaction and retries. If recovery cannot make the
     request fit, a replay-safe turn can use the configured model fallback chain,
     preferring candidates with known context headroom; otherwise it reports the failure.
     Generation that fills the window can still produce a labeled partial reply.
     This behavior is verified with Ollama 0.33.3; older servers may ignore the
     fields. Explicit per-model values override these defaults. Hosted models
     and the OpenAI-compatible endpoint keep their existing behavior.
-    OpenClaw only
+    FRIDAY only
     forwards these Ollama request keys, so runtime-only params such as
     `streaming` are never sent to Ollama. Use `params.think` (or
     `params.thinking`) to set top-level `think`; `false` disables API-level
@@ -182,7 +182,7 @@ Other balance failures include guidance for checking the server or its access pe
     preference. Existing per-model `params.think`/`params.thinking` settings
     keep their normal precedence. Hosted routes keep their compaction defaults.
 
-    OpenClaw forwards thinking as Ollama expects it: top-level `think`, not
+    FRIDAY forwards thinking as Ollama expects it: top-level `think`, not
     `options.think`. Auto-discovered models whose `/api/show` reports a
     `thinking` capability expose `/think low`, `/think medium`, `/think high`,
     and `/think max`; non-thinking models expose only `/think off`. When
@@ -191,10 +191,10 @@ Other balance failures include guidance for checking the server or its access pe
     supported effort strings. Advertised `xhigh` is also available through
     `/think xhigh` and `--thinking xhigh`.
 
-    Existing selections map to the nearest supported tier using OpenClaw's
+    Existing selections map to the nearest supported tier using FRIDAY's
     shared thinking ladder. For example, a model advertising `low`, `medium`,
     and `xhigh` receives `xhigh` for High and Maximum. If the model cannot
-    disable thinking, Off uses its lowest supported tier. OpenClaw keeps its
+    disable thinking, Off uses its lowest supported tier. FRIDAY keeps its
     existing Off default rather than adopting `thinking.default`. Discovery
     caches these mappings with model metadata; turns do not fetch them again.
 
@@ -226,7 +226,7 @@ Other balance failures include guidance for checking the server or its access pe
     ```
 
     Per-model `params.think`/`params.thinking` can disable or force API
-    thinking for a specific model. OpenClaw preserves that explicit config
+    thinking for a specific model. FRIDAY preserves that explicit config
     when the active run only has the implicit `off` default; a non-off
     runtime command such as `/think medium` still overrides it. A model marked
     `reasoning: false` suppresses enabled runtime selections. However, a
@@ -266,7 +266,7 @@ Other balance failures include guidance for checking the server or its access pe
     redirects, including changes to the scheme or port.
 
     When `proxy.enabled=true`, embedding requests to the exact host-local
-    loopback origin derived from the configured `baseUrl` use OpenClaw's
+    loopback origin derived from the configured `baseUrl` use FRIDAY's
     guarded direct path instead of the managed forward proxy. The configured
     hostname must itself be `localhost` or a loopback IP literal — DNS names
     that merely resolve to loopback still use the managed proxy path. LAN,
@@ -284,7 +284,7 @@ Other balance failures include guidance for checking the server or its access pe
 
     Before indexing memory, run `ollama pull nomic-embed-text` on the configured
     Ollama host (or pull the model selected by `memory.search.model`). A missing
-    model returns HTTP 404; OpenClaw does not download it automatically.
+    model returns HTTP 404; FRIDAY does not download it automatically.
 
     Query-time embeddings use retrieval prefixes for models that require or
     recommend them: `nomic-embed-text`, `qwen3-embedding`, and

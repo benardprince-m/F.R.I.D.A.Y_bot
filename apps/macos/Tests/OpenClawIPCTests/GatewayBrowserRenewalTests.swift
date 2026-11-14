@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct GatewayBrowserRenewalTests {
     private let now = Date(timeIntervalSince1970: 2_000_000_000)

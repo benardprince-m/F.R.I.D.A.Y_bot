@@ -55,7 +55,7 @@ Example with a stable public host:
 ## CLI
 
 ```bash
-openclaw voicecall call --to "+15555550123" --message "Hello from OpenClaw"
+openclaw voicecall call --to "+15555550123" --message "Hello from FRIDAY"
 openclaw voicecall start --to "+15555550123"   # alias for call
 openclaw voicecall continue --call-id <id> --message "Any questions?"
 openclaw voicecall speak --call-id <id> --message "One moment"
@@ -80,7 +80,7 @@ accepted command work, and pending reaper hangups before closing its resources.
 analysis to the last N records (default 200). Output includes min/max/avg,
 p50, and p95 for turn latency and listen-wait times.
 
-Voice Call JSONL logs are retired pre-July state. Upgrade through OpenClaw
+Voice Call JSONL logs are retired pre-July state. Upgrade through FRIDAY
 2026.9.7 and run `openclaw doctor --fix` to import them into SQLite before
 updating. That release preserves call data, event ordering, and the original
 log as `calls.jsonl.migrated`. Current Doctor preserves any remaining source

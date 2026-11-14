@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawKit
 
 enum TalkIncompleteReplyKind: CaseIterable, Sendable {

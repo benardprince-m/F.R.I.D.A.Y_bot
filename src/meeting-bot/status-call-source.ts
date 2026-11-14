@@ -64,7 +64,7 @@ export function createMeetingStatusCallSource(options: MeetingStatusCallSourceOp
       if (!output?.deviceId) {
         audioOutputRouted = false;
         if (media.length > 0 && canMutateSession) suspendOwnedAudioBridges();
-        notes.push("The OpenClaw virtual audio speaker output was not visible to ${options.platform.displayName}.");
+        notes.push("The FRIDAY virtual audio speaker output was not visible to ${options.platform.displayName}.");
       } else if (media.length === 0) {
         // Retry an in-call rerender only after proving the required output still exists.
         audioOutputRouteRetryable = true;
@@ -295,7 +295,7 @@ export function createMeetingStatusCallSource(options: MeetingStatusCallSourceOp
       // Suspend ownership until the source returns; call teardown retires it.
       if (canMutateSession) suspendOwnedAudioBridges();
     } else if (!audioOutputRouted && audioOutputRouteError) {
-      notes.push("Could not route ${options.platform.displayName} speaker output to the OpenClaw virtual audio device: " + audioOutputRouteError);
+      notes.push("Could not route ${options.platform.displayName} speaker output to the FRIDAY virtual audio device: " + audioOutputRouteError);
     }
   } else if (inCall && allowMicrophone) {
     audioOutputRouted = false;
@@ -618,7 +618,7 @@ ${withLiveOwnership("  }\n")}${
   }
   if (inCall && allowMicrophone && !manualAction) {
     if (audioInputRouted !== true || audioOutputRouted !== true) {
-      manualAction = manualActionFor("${options.platform.manualActionReasonPrefix}-audio-choice-required", "Verify the OpenClaw virtual audio device is selected as both the ${options.platform.displayName} microphone and speaker before starting talk-back.");
+      manualAction = manualActionFor("${options.platform.manualActionReasonPrefix}-audio-choice-required", "Verify the FRIDAY virtual audio device is selected as both the ${options.platform.displayName} microphone and speaker before starting talk-back.");
     } else if (micMuted !== false) {
       manualAction = manualActionFor("${options.platform.manualActionReasonPrefix}-microphone-required", "Unmute the ${options.platform.displayName} microphone and verify the microphone control shows it is on before starting talk-back.");
     }

@@ -2,7 +2,7 @@
 summary: "Setting up ACP agents: acpx harness config, plugin setup, permissions"
 read_when:
   - Installing or configuring the acpx harness for Claude Code / Codex / Gemini CLI
-  - Enabling the plugin-tools or OpenClaw-tools MCP bridge
+  - Enabling the plugin-tools or FRIDAY-tools MCP bridge
   - Configuring ACP permission modes
 title: "ACP agents — setup"
 ---
@@ -16,7 +16,7 @@ app-server runtime config, use [Codex harness](/plugins/codex-harness). For
 OpenAI API keys or Codex OAuth model-provider config, use
 [OpenAI](/providers/openai).
 
-Codex has two OpenClaw routes:
+Codex has two FRIDAY routes:
 
 | Route                      | Config/command                                         | Setup page                              |
 | -------------------------- | ------------------------------------------------------ | --------------------------------------- |
@@ -46,7 +46,7 @@ Built-in acpx harness aliases (from the pinned `acpx` dependency):
 | `mcode`      | MiniMax Code (`mcode acp`; install and authenticate its CLI on the Gateway host)                       |
 | `mux`        | [Mux](https://mux.coder.com)                                                                           |
 | `opencode`   | [OpenCode](https://opencode.ai)                                                                        |
-| `openclaw`   | OpenClaw ACP bridge (native `openclaw acp`)                                                            |
+| `openclaw`   | FRIDAY ACP bridge (native `openclaw acp`)                                                              |
 | `pi`         | [Pi Coding Agent](https://github.com/earendil-works/pi)                                                |
 | `pool`       | Pool (`pool acp`)                                                                                      |
 | `qoder`      | [Qoder CLI](https://docs.qoder.com/cli/acp)                                                            |
@@ -56,23 +56,23 @@ Built-in acpx harness aliases (from the pinned `acpx` dependency):
 
 `factory-droid` and `factorydroid` also resolve to the built-in `droid` adapter.
 
-When OpenClaw uses the acpx backend, prefer these values for `agentId` unless your acpx config defines custom agent aliases.
-`grok-build` is an ACPX agent target, not the xAI model id `xai/grok-build-0.1`. Use `agentId: "grok-build"` to launch the Grok Build CLI through ACP; use `xai/grok-build-0.1` only when selecting that model on OpenClaw's xAI provider route.
+When FRIDAY uses the acpx backend, prefer these values for `agentId` unless your acpx config defines custom agent aliases.
+`grok-build` is an ACPX agent target, not the xAI model id `xai/grok-build-0.1`. Use `agentId: "grok-build"` to launch the Grok Build CLI through ACP; use `xai/grok-build-0.1` only when selecting that model on FRIDAY's xAI provider route.
 If your local Cursor install still exposes ACP as `agent acp`, override the `cursor` agent command in your acpx config instead of changing the built-in default.
 
-Direct acpx CLI usage can also target arbitrary adapters via `--agent <command>`, but that raw escape hatch is an acpx CLI feature (not the normal OpenClaw `agentId` path).
+Direct acpx CLI usage can also target arbitrary adapters via `--agent <command>`, but that raw escape hatch is an acpx CLI feature (not the normal FRIDAY `agentId` path).
 
 Model control is adapter-capability dependent. Codex ACP model refs are
-normalized by OpenClaw before startup. Other harnesses need an advertised model
+normalized by FRIDAY before startup. Other harnesses need an advertised model
 config option with `session/set_config_option`, or legacy ACP `models` with
 `session/set_model`. Without supported ACP model control or an adapter-specific
-startup model flag, OpenClaw/acpx cannot force a model selection.
+startup model flag, FRIDAY/acpx cannot force a model selection.
 
 ## GitHub Copilot CLI in native chat
 
-GitHub Copilot CLI can serve ordinary OpenClaw chat through the installed-agent
+GitHub Copilot CLI can serve ordinary FRIDAY chat through the installed-agent
 model picker, including web chat and channels. This route uses the local
-`copilot --acp --stdio` process, not an OpenClaw API-provider credential.
+`copilot --acp --stdio` process, not an FRIDAY API-provider credential.
 
 Install an ACP-capable CLI and sign in under the same OS account that runs the
 Gateway. Copilot CLI 1.0.86 supports model discovery and selection over ACP:
@@ -83,7 +83,7 @@ copilot --version
 copilot login
 ```
 
-Refresh the model catalog, then choose an `acp-copilot/<model-id>` entry. OpenClaw
+Refresh the model catalog, then choose an `acp-copilot/<model-id>` entry. FRIDAY
 uses only the models advertised by that CLI; it does not supply a static model
 list. Installation detection alone does not prove authentication or model access.
 To prevent new native Copilot turns and catalog discovery, set
@@ -101,8 +101,8 @@ Copilot owns authentication and billing:
 - Explicit CLI BYOK configuration (`COPILOT_PROVIDER_*`,
   `COPILOT_PROVIDERS_CONFIG`, or the CLI's `providers.json`) can route model
   requests to a separately billed provider even when GitHub login is available.
-  Configure that route deliberately. OpenClaw does not choose it or copy an
-  OpenClaw API credential into the native harness.
+  Configure that route deliberately. FRIDAY does not choose it or copy an
+  FRIDAY API credential into the native harness.
 
 See GitHub's [CLI authentication guide](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/authenticate-copilot-cli)
 and [Copilot billing guide](https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/billing)
@@ -110,7 +110,7 @@ for account and plan requirements. Native chat permission and sandbox boundaries
 below still apply.
 
 Installed native agents keep their own sign-in. During discovery, `/models` can
-report **Checking native agent** without requiring an OpenClaw API key. If
+report **Checking native agent** without requiring an FRIDAY API key. If
 availability is unconfirmed, check the native app on the Gateway host and run
 `/models` again.
 
@@ -119,15 +119,15 @@ availability is unconfirmed, check the native app on the Gateway host and run
 ## Permissions for native chat runtimes
 
 Enable an installed agent from **Models → Installed agents**. For a runtime that
-uses its own native permissions, OpenClaw asks **Use {runtime}’s native permissions?**
-before enabling it. Accepting remembers consent for the selected OpenClaw agent
+uses its own native permissions, FRIDAY asks **Use {runtime}’s native permissions?**
+before enabling it. Accepting remembers consent for the selected FRIDAY agent
 in the same config update as enablement. New chats using that runtime then start
 with **Full access** and optional sandboxing off, without repeating the prompt.
 Enabling a native app does not sign you in to that app.
 
-The native agent uses its own permissions on the Gateway host. OpenClaw does not
+The native agent uses its own permissions on the Gateway host. FRIDAY does not
 claim to enforce its optional tool restrictions inside that agent. Other agents
-and their chats stay unchanged, and tools hosted by OpenClaw retain their policy.
+and their chats stay unchanged, and tools hosted by FRIDAY retain their policy.
 Remove the runtime ID from `agents.entries.<agentId>.nativeRuntimeConsent` to
 revoke remembered consent. Disabling and re-enabling the app does not erase it.
 
@@ -209,7 +209,7 @@ See [Configuration Reference](/gateway/configuration-reference).
 
 ## Repair existing bare-session histories
 
-ACPX isolates bare session names by OpenClaw owner. If a session reports
+ACPX isolates bare session names by FRIDAY owner. If a session reports
 `SESSION_OWNER_MIGRATION_REQUIRED`, stop the Gateway and run
 `openclaw doctor --fix`, then restart. Doctor uses the same service workspace
 as the Gateway; ACPX's default state directory is `<service workspace>/state`.
@@ -316,16 +316,16 @@ See [Plugins](/tools/plugin).
 
 `acpx` auto-downloads ACP adapters (for example the Claude and Codex ACP
 bridges) via `npx` on first use. You do not need to install adapter packages
-manually, and there is no separate postinstall step for OpenClaw itself. If an
+manually, and there is no separate postinstall step for FRIDAY itself. If an
 adapter download or spawn fails, `/acp doctor` reports the failure.
 
 ### Plugin tools MCP bridge
 
-By default, ACPX sessions do **not** expose OpenClaw plugin-registered tools to
+By default, ACPX sessions do **not** expose FRIDAY plugin-registered tools to
 the ACP harness.
 
 If you want ACP agents such as Codex or Claude Code to call installed
-OpenClaw plugin tools such as memory recall/store, enable the dedicated bridge:
+FRIDAY plugin tools such as memory recall/store, enable the dedicated bridge:
 
 ```bash
 openclaw config set plugins.entries.acpx.config.pluginToolsMcpBridge true
@@ -335,7 +335,7 @@ What this does:
 
 - Injects a built-in MCP server named `openclaw-plugin-tools` into ACPX session
   bootstrap.
-- Exposes plugin tools already registered by installed and enabled OpenClaw
+- Exposes plugin tools already registered by installed and enabled FRIDAY
   plugins.
 - Passes the active ACP session identity to plugin tool factories, so
   agent-scoped tools stay in that agent's namespace.
@@ -346,15 +346,15 @@ Security and trust notes:
 - This expands the ACP harness tool surface.
 - ACP agents get access only to plugin tools already active in the gateway.
 - Treat this as the same trust boundary as letting those plugins execute in
-  OpenClaw itself.
+  FRIDAY itself.
 - Review installed plugins before enabling it.
 
 Custom `mcpServers` still work as before. The built-in plugin-tools bridge is an
 additional opt-in convenience, not a replacement for generic MCP server config.
 
-### OpenClaw tools MCP bridge
+### FRIDAY tools MCP bridge
 
-By default, ACPX sessions also do **not** expose built-in OpenClaw tools through
+By default, ACPX sessions also do **not** expose built-in FRIDAY tools through
 MCP. Enable the separate core-tools bridge when an ACP agent needs selected
 built-in tools such as `cron`:
 
@@ -366,7 +366,7 @@ What this does:
 
 - Injects a built-in MCP server named `openclaw-tools` into ACPX session
   bootstrap.
-- Exposes selected built-in OpenClaw tools. The initial server exposes `cron`.
+- Exposes selected built-in FRIDAY tools. The initial server exposes `cron`.
 - Keeps core-tool exposure explicit and default-off.
 
 ### Runtime operation timeout configuration
@@ -380,7 +380,7 @@ different operation limit:
 openclaw config set plugins.entries.acpx.config.timeoutSeconds 180
 ```
 
-Runtime turns use OpenClaw agent/run timeouts, including `/acp timeout`.
+Runtime turns use FRIDAY agent/run timeouts, including `/acp timeout`.
 An interactive turn can continue beyond the plugin operation limit until its
 turn budget expires, the harness finishes, or you cancel it.
 `sessions_spawn` does not accept per-call timeout overrides; the operator path
@@ -412,9 +412,9 @@ channel-delivered turn: those requests use transient Gateway questions instead.
 The acpx plugin provides two config keys that control harness permissions,
 `permissionMode` and `nonInteractivePermissions`, both described below.
 
-These ACPX harness permissions are separate from OpenClaw exec approvals and separate from CLI-backend vendor bypass flags such as Claude CLI `--permission-mode bypassPermissions`. ACPX `approve-all` is the harness-level break-glass switch for ACP sessions.
+These ACPX harness permissions are separate from FRIDAY exec approvals and separate from CLI-backend vendor bypass flags such as Claude CLI `--permission-mode bypassPermissions`. ACPX `approve-all` is the harness-level break-glass switch for ACP sessions.
 
-For the broader comparison between OpenClaw `tools.exec.mode`, Codex Guardian
+For the broader comparison between FRIDAY `tools.exec.mode`, Codex Guardian
 approvals, and ACPX harness permissions, see
 [Permission modes](/tools/permission-modes).
 
@@ -450,7 +450,7 @@ With the default hybrid reload mode, these changes automatically reload the plug
 See [Config hot reload](/gateway/configuration/hot-reload) for other reload modes.
 
 <Warning>
-OpenClaw defaults to `permissionMode=approve-reads` and `nonInteractivePermissions=fail`. In non-interactive ACP sessions, any write or exec that triggers a permission prompt can fail with `PermissionPromptUnavailableError: Permission prompt unavailable in non-interactive mode`.
+FRIDAY defaults to `permissionMode=approve-reads` and `nonInteractivePermissions=fail`. In non-interactive ACP sessions, any write or exec that triggers a permission prompt can fail with `PermissionPromptUnavailableError: Permission prompt unavailable in non-interactive mode`.
 
 If you need to restrict permissions, set `nonInteractivePermissions` to `deny` so sessions deny restricted actions instead of crashing.
 </Warning>

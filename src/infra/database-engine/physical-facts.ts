@@ -34,7 +34,7 @@ export type PostgresPhysicalFacts = {
   catalog: readonly PostgresCatalogFact[];
 };
 const recovery =
-  "Use the matching OpenClaw version or restore the matching PostgreSQL schema and anchor.";
+  "Use the matching FRIDAY version or restore the matching PostgreSQL schema and anchor.";
 const admissionKey: SqliteDatabaseAdmissionKey<PostgresPhysicalFacts> = {
   name: "database.engine.schema",
   schemaDependent: true,

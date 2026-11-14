@@ -287,7 +287,7 @@ describe("status-all diagnosis port checks", () => {
 
     const output = params.lines.join("\n");
     expect(output).toContain("✓ Port 18789");
-    expect(output).toContain("Detected OpenClaw Gateway listener on the configured port.");
+    expect(output).toContain("Detected FRIDAY Gateway listener on the configured port.");
     expect(output).not.toContain("Port 18789 is already in use.");
   });
 
@@ -301,7 +301,7 @@ describe("status-all diagnosis port checks", () => {
 
     const output = params.lines.join("\n");
     expect(output).toContain("! Port 18789");
-    expect(output).toContain("2 OpenClaw gateway processes appear to be listening on port 18789");
+    expect(output).toContain("2 FRIDAY gateway processes appear to be listening on port 18789");
     expect(output).toContain("Port 18789 is already in use.");
   });
 
@@ -316,20 +316,20 @@ describe("status-all diagnosis port checks", () => {
     const output = params.lines.join("\n");
     expect(output).toContain("! Port 18789");
     expect(output).toContain("Port 18789 availability could not be determined.");
-    expect(output).not.toContain("Detected OpenClaw Gateway listener");
+    expect(output).not.toContain("Detected FRIDAY Gateway listener");
   });
 
   it.each([
     {
       status: "error",
       reason: "managed-service-handoff-failed",
-      headline: "⚠️ OpenClaw update failed: managed-service-handoff-failed.",
+      headline: "⚠️ FRIDAY update failed: managed-service-handoff-failed.",
       hint: "Run openclaw triage to diagnose and repair the failed update.",
     },
     {
       status: "skipped",
       reason: "restart-health-pending",
-      headline: "⬆️ OpenClaw update in progress: restarting.",
+      headline: "⬆️ FRIDAY update in progress: restarting.",
       hint: "Check progress with openclaw update status.",
     },
   ] as const)(

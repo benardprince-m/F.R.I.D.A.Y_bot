@@ -261,7 +261,7 @@ wait_for_model_auth_prompt() {
 
 send_guided_skip_ui_flow() {
   local model_auth_prompt
-  wait_for_log "Help make OpenClaw better?" 120 || return $?
+  wait_for_log "Help make FRIDAY better?" 120 || return $?
   send $'\r' 0.8
   wait_for_first_agent_prompt log_contains 120 0.8 || return $?
   send $'\r' 0.8
@@ -278,11 +278,11 @@ send_guided_skip_ui_flow() {
 validate_guided_skip_ui_log() {
   local log_path="$1"
   local mock_request_log="$2"
-  log_contains "Hi — I'm OpenClaw. I keep this system running. Let's get you set up." || {
+  log_contains "Hi — I'm FRIDAY. I keep this system running. Let's get you set up." || {
     echo "Guided onboarding introduction was not rendered"
     return 1
   }
-  log_contains "OpenClaw is ready." || {
+  log_contains "FRIDAY is ready." || {
     echo "Guided onboarding did not reach its skip-UI completion"
     return 1
   }

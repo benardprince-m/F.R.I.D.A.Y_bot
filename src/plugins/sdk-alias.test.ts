@@ -655,7 +655,7 @@ describe("plugin sdk alias helpers", () => {
 
   it.each([
     {
-      name: "does not derive plugin-sdk subpaths from cwd fallback when package root is not an OpenClaw root",
+      name: "does not derive plugin-sdk subpaths from cwd fallback when package root is not an FRIDAY root",
       fixture: () =>
         createPluginSdkAliasFixture({
           trustedRootIndicators: false,
@@ -1649,7 +1649,7 @@ describe("plugin sdk alias helpers", () => {
 
   it.each([
     {
-      name: "does not resolve plugin-sdk alias files from cwd fallback when package root is not an OpenClaw root",
+      name: "does not resolve plugin-sdk alias files from cwd fallback when package root is not an FRIDAY root",
       fixture: () =>
         createPluginSdkAliasFixture({
           srcFile: "channel-runtime-context.ts",
@@ -2105,7 +2105,7 @@ export const syntheticRuntimeMarker = {
 });
 
 describe("buildPluginLoaderJitiOptions", () => {
-  it("scopes the jiti cache to the durable user cache and OpenClaw install", () => {
+  it("scopes the jiti cache to the durable user cache and FRIDAY install", () => {
     const root = createTrustedOpenClawPackageFixture("2.0.0");
     const tmpDir = path.join(root, "tmp");
     const cacheRoot = path.join(root, "cache");

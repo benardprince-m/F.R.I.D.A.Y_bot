@@ -171,7 +171,7 @@ function expectAlterAppendedLegacyRepair(strict: boolean): void {
   seedRow(db, "exec");
 
   expect(repairOperatorApprovalSchema(db)).toEqual([
-    "Migrated shared state operator approvals → OpenClaw system changes",
+    "Migrated shared state operator approvals → FRIDAY system changes",
   ]);
 
   expect(() => assertCanonicalOperatorApprovalKinds(db, ":memory:")).not.toThrow();
@@ -199,7 +199,7 @@ describe("repairOperatorApprovalKinds", () => {
     );
 
     expect(repairOperatorApprovalSchema(db)).toEqual([
-      "Migrated shared state operator approvals → OpenClaw system changes",
+      "Migrated shared state operator approvals → FRIDAY system changes",
     ]);
 
     expect(() => assertCanonicalOperatorApprovalKinds(db, ":memory:")).not.toThrow();
@@ -246,7 +246,7 @@ describe("repairOperatorApprovalKinds", () => {
     `).run(Buffer.from("ref0000000000000000000000000000000000000000"));
 
     expect(repairOperatorApprovalSchema(db)).toEqual([
-      "Migrated shared state operator approvals → OpenClaw system changes",
+      "Migrated shared state operator approvals → FRIDAY system changes",
     ]);
 
     expect(() => assertCanonicalOperatorApprovalKinds(db, ":memory:")).not.toThrow();

@@ -12,7 +12,7 @@ const end = runner.indexOf("\nrun_npm_global_smoke()", callerStart);
 const functions = runner.slice(start < 0 ? callerStart : start, end);
 const verifyPath = path.resolve("scripts/docker/install-sh-common/cli-verify.sh");
 const historicalWarning =
-  "Your OpenClaw config was written by version 2026.9.5, but this command is running 2026.9.4.";
+  "Your FRIDAY config was written by version 2026.9.5, but this command is running 2026.9.4.";
 const posixIt = process.platform === "win32" ? it.skip : it;
 
 type Fixture = {
@@ -40,7 +40,7 @@ function runFixture(options: Fixture = {}) {
   const body = `#!/usr/bin/env bash
 case "$1" in
   update) cat "$PAYLOAD"; printf '%s\\n' "$UPDATE_WARNING" >&2; exit "$UPDATE_EXIT" ;;
-  --version) printf 'OpenClaw %s\\n' "$FRESH_VERSION"; printf '%s' "$FRESH_WARNING" >&2; exit "$FRESH_EXIT" ;;
+  --version) printf 'FRIDAY %s\\n' "$FRESH_VERSION"; printf '%s' "$FRESH_WARNING" >&2; exit "$FRESH_EXIT" ;;
   --help) printf 'fresh-help\\n' >> "$HELP_MARKER" ;;
   *) exit 90 ;;
 esac
@@ -129,7 +129,7 @@ describe("published 9.4 installer warning after verified 9.5 update", () => {
       name: "fresh process future-config warning",
       fixture: {
         freshWarning:
-          "Your OpenClaw config was written by version 2026.9.6, but this command is running 2026.9.5.",
+          "Your FRIDAY config was written by version 2026.9.6, but this command is running 2026.9.5.",
       },
     },
     { name: "nonzero updater exit", fixture: { updateExit: 7 } },
@@ -147,7 +147,7 @@ describe("published 9.4 installer warning after verified 9.5 update", () => {
     {
       name: "additional future-config warning",
       fixture: {
-        updateWarning: `${historicalWarning}\nYour OpenClaw config was written by version 2026.9.6, but this command is running 2026.9.4.`,
+        updateWarning: `${historicalWarning}\nYour FRIDAY config was written by version 2026.9.6, but this command is running 2026.9.4.`,
       },
     },
     {

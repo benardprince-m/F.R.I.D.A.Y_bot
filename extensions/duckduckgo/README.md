@@ -1,8 +1,8 @@
-# OpenClaw DuckDuckGo Plugin
+# FRIDAY DuckDuckGo Plugin
 
-Official OpenClaw plugin for DuckDuckGo web search.
+Official FRIDAY plugin for DuckDuckGo web search.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/duckduckgo-plugin

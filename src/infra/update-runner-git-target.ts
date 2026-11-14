@@ -82,7 +82,7 @@ export async function classifyPartialCloneGitFailure(params: {
     return withDiagnostic(`Git verified repository corruption with git fsck: ${fsckOutput}`);
   }
   return withDiagnostic(
-    "Git reported an object-database inconsistency, but OpenClaw did not verify repository " +
+    "Git reported an object-database inconsistency, but FRIDAY did not verify repository " +
       "corruption with git fsck. Retry the update; if it recurs, inspect the repository with " +
       "git fsck before attempting repair.",
   );

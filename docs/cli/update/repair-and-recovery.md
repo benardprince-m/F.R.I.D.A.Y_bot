@@ -12,7 +12,7 @@ What happens when an update fails, and the subcommands that finish the job. Part
 
 ## Recover a failed update
 
-After a failed interactive update or repair, OpenClaw finishes cleanup and offers
+After a failed interactive update or repair, FRIDAY finishes cleanup and offers
 **Diagnose update failure**, **Report update failure**, or **Exit**. Reporting
 previews the sanitized issue body and requires separate confirmation.
 
@@ -63,7 +63,7 @@ openclaw triage --agent codex
 Use `openclaw triage --non-interactive` to collect diagnostics without starting
 an agent. Add `--update-result <path>` to include a saved update-failure artifact.
 
-OpenClaw retains the selected update target and candidate admission result.
+FRIDAY retains the selected update target and candidate admission result.
 Concurrent edits to configuration, included files, or the stored update channel
 do not reselect the target or restart candidate validation. Activation-time
 configuration and schema checks, and config-write conflict checks, still apply.
@@ -72,7 +72,7 @@ fail, correct it or run `openclaw doctor` before restarting. A candidate that
 rejects the selected configuration still fails validation.
 
 Validation failures leave the serving Gateway untouched. If stopping the managed
-service unloads it and then fails before activation, OpenClaw attempts to restore
+service unloads it and then fails before activation, FRIDAY attempts to restore
 the verified original runtime after rechecking service ownership. After activation, a
 failed verification can [restore the previous package](/cli/update/how-updates-run#validation-and-activation)
 when database schemas are unchanged and the config file still matches the
@@ -88,7 +88,7 @@ rewrite its definition. A later refusal still uses the recorded stop to restore
 the previous Gateway; a service that was already stopped remains stopped.
 
 On macOS, a failed LaunchAgent state probe is recorded as a failed recovery
-attempt with its reason. OpenClaw leaves the service definition unchanged and
+attempt with its reason. FRIDAY leaves the service definition unchanged and
 prints `LaunchAgent state could not be inspected`. Run
 `openclaw gateway status --deep` to inspect the service before retrying recovery.
 
@@ -170,7 +170,7 @@ when you need a long-term copy. Review and retire superseded captures with
 On Linux filesystems that reject native no-replace rename, fs-safe uses exclusive
 hard-link publication followed by source removal in native `auto` mode. Existing
 captures are never overwritten; native `require` mode still refuses unsupported
-publication. If publication stops with both names present, OpenClaw retains the
+publication. If publication stops with both names present, FRIDAY retains the
 capture as incomplete evidence. A remaining `manifest.json.partial` prevents
 reuse or automatic retirement even when `manifest.json` contains complete JSON.
 Keep both names for manual inspection; their presence does not authorize restoration.
@@ -322,7 +322,7 @@ copy remains available for rollback until activation is confirmed.
 The first update from **2026.9.7 or 2026.9.8** still needs a manual installation
 hop: those installed updaters run their own publication code, so the candidate
 cannot supply this fallback. Prefer rebuilding the Docker image with the desired
-OpenClaw version. For an in-container replacement, follow the
+FRIDAY version. For an in-container replacement, follow the
 [manual update precautions](/install/updating/update-methods#alternative-manual-npm-pnpm-or-bun),
 including a verified backup and stopping the managed Gateway, then run
 `npm install -g openclaw@<version>`. Run Doctor and, if needed, `openclaw update repair`
@@ -527,7 +527,7 @@ before retrying repair. Verified completed rollback and settlement receipts perm
 repair, including installations without a running Gateway. Skipped rollback steps
 and diagnostic warnings alone do not prevent repair.
 
-When update, post-core continuation, or repair runs under Bun, its OpenClaw
+When update, post-core continuation, or repair runs under Bun, its FRIDAY
 maintenance children use that same Bun executable, including fresh Doctor,
 config validation, readiness, completion, and non-interactive failure diagnostics.
 Managed-service runtime selection stays with the service definition and its runtime pin.
@@ -667,7 +667,7 @@ a corrected local plugin finish its pending confirmation in the same repair run.
 Doctor preserves the plugin's configuration when compatibility checks prevent
 discovery, so correcting the plugin does not require recreating its allowlist or
 enabled entry.
-Configured runtime plugins whose versions follow OpenClaw are checked against
+Configured runtime plugins whose versions follow FRIDAY are checked against
 the newly installed core during post-update repair, even when the updater process
 started on the previous version.
 It does not install a new core package or request update activation. The repair
@@ -706,7 +706,7 @@ an existing update keeps exit code **0**, so an older updater can finish with
 warnings. When Doctor could not run, the saved standalone run is `skipped` with
 reason `doctor-maintenance-pending`, and the report leads with the next action:
 stop the Gateway through its service owner (`openclaw gateway stop --force` for
-the managed service), stop other OpenClaw processes using that state, then rerun
+the managed service), stop other FRIDAY processes using that state, then rerun
 `openclaw update repair` with the same profile and state overrides. The stop
 command also needs the same profile and state overrides; `--force` confirms the
 intentional stop in a non-interactive shell. A standalone
@@ -727,7 +727,7 @@ after completion by a Doctor child. Unrelated warnings and reintroduced pending
 obligations remain visible; the original update history is preserved.
 
 After post-update or finalization work fails and its child processes settle,
-OpenClaw checks the installed Gateway using the normal startup and readiness
+FRIDAY checks the installed Gateway using the normal startup and readiness
 budget. If maintenance found no Gateway service or listener, recovery records
 that readiness observation was skipped instead of waiting for a Gateway to appear.
 Package and database restoration checks still apply, and the original failure
@@ -984,7 +984,7 @@ captures through their sealed manifests; it never reads the captured payload:
   keeps every capture protected.
 
 Older `doctor-*` directories classified as `candidate` are also safe to delete by
-hand while OpenClaw is stopped. Keep the newest retained copies and never manually
+hand while FRIDAY is stopped. Keep the newest retained copies and never manually
 delete incomplete, unreadable, or active-recovery-referenced captures. Prefer cleanup
 so the same protection checks run again under exclusive ownership.
 

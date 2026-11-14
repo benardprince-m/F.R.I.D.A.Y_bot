@@ -863,7 +863,7 @@ export function buildStatusMessageParts(args: StatusArgs) {
     : null;
   const fallbackLine = fallbackValue ? `↪️ Fallback: ${fallbackValue}` : null;
   const commit = resolveRuntimeServiceCommit();
-  const versionLine = `🦞 OpenClaw ${VERSION}${commit ? ` (${commit})` : ""}`;
+  const versionLine = `🦞 FRIDAY ${VERSION}${commit ? ` (${commit})` : ""}`;
   const tokensValue =
     usageReport?.state === "unavailable"
       ? "unavailable (incomplete response)"

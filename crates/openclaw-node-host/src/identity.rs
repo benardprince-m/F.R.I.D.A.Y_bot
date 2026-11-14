@@ -19,7 +19,7 @@ pub enum IdentityError {
     InvalidSignature,
 }
 
-/// Canonical `OpenClaw` v3 payload prepared for an embedding-owned Ed25519 key.
+/// Canonical `FRIDAY` v3 payload prepared for an embedding-owned Ed25519 key.
 ///
 /// Native embedders can keep the private key in Keychain, a TPM, or another
 /// platform credential store. The crate owns the exact payload construction;
@@ -119,7 +119,7 @@ impl DeviceSigningRequest {
     }
 }
 
-/// A stable Ed25519 identity used to sign `OpenClaw` Gateway challenges.
+/// A stable Ed25519 identity used to sign `FRIDAY` Gateway challenges.
 ///
 /// The library deliberately does not choose a persistence mechanism. Callers
 /// can store the 32 secret bytes in their platform credential store and restore

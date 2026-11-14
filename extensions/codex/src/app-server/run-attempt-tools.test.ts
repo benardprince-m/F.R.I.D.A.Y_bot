@@ -108,7 +108,7 @@ describe("Codex direct tool loading", () => {
       expect(result).toMatchObject({
         success: false,
         contentItems: [
-          { type: "inputText", text: "OpenClaw tool is not available for this turn: message" },
+          { type: "inputText", text: "FRIDAY tool is not available for this turn: message" },
         ],
       });
     }
@@ -116,7 +116,7 @@ describe("Codex direct tool loading", () => {
   });
 });
 
-it("keeps OpenClaw control-path tools direct when code-mode-only is enabled", () => {
+it("keeps FRIDAY control-path tools direct when code-mode-only is enabled", () => {
   const tools = [
     createRuntimeDynamicTool("message"),
     createRuntimeDynamicTool("web_search"),

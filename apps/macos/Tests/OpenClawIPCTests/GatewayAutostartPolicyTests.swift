@@ -1,5 +1,5 @@
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct GatewayAutostartPolicyTests {
     @Test(arguments: [

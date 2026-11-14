@@ -936,7 +936,7 @@ describe("installPluginFromDir", () => {
       "INCOMPATIBLE_HOST_VERSION",
       "2026.3.21",
       { install: { minHostVersion: ">=2026.3.22" } },
-      ["requires OpenClaw >=2026.3.22, but this host is 2026.3.21"],
+      ["requires FRIDAY >=2026.3.22, but this host is 2026.3.21"],
     ),
     compatibility(
       "INVALID_MIN_HOST_VERSION",

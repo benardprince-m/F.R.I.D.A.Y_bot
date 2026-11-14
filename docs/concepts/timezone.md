@@ -1,12 +1,12 @@
 ---
-summary: "Where timezones show up in OpenClaw — envelopes, tool payloads, runtime context"
+summary: "Where timezones show up in FRIDAY — envelopes, tool payloads, runtime context"
 read_when:
   - You want a quick mental model for timezone handling
   - You are deciding where to set or override a timezone
 title: "Timezones"
 ---
 
-OpenClaw standardizes timestamps so the model sees a **single reference time** instead of a mix of provider-local clocks. Three surfaces show timezones, each with its own purpose:
+FRIDAY standardizes timestamps so the model sees a **single reference time** instead of a mix of provider-local clocks. Three surfaces show timezones, each with its own purpose:
 
 ## Three timezone surfaces
 
@@ -30,7 +30,7 @@ The date and zone travel in the current-turn runtime context, outside the system
 }
 ```
 
-If `userTimezone` is unset, OpenClaw resolves the host timezone at runtime via
+If `userTimezone` is unset, FRIDAY resolves the host timezone at runtime via
 `Intl.DateTimeFormat().resolvedOptions().timeZone` without writing config. The same
 resolved zone is used for message envelopes, queued system events, the prompt's local
 date, and heartbeat active hours.

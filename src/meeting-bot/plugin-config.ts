@@ -53,7 +53,7 @@ type MeetingPluginConfigOptions = {
 const DEFAULT_AUDIO_BUFFER_BYTES = 4_096;
 const DEFAULT_AUDIO_FORMAT: MeetingRealtimeAudioFormat = "pcm16-24khz";
 const DEFAULT_MODE_HELP =
-  "Agent consults OpenClaw, bidi uses direct realtime voice, and transcribe observes only.";
+  "Agent consults FRIDAY, bidi uses direct realtime voice, and transcribe observes only.";
 const CHROME_NODE_HELP = "Node id/name/IP that owns Chrome and the native virtual-audio backend.";
 
 function resolveBoolean(value: unknown, fallback: boolean): boolean {

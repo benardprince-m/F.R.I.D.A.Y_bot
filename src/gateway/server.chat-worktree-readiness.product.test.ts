@@ -266,7 +266,7 @@ it(
     try {
       setHeartbeatsEnabled(false);
       await requireGit(repo, ["init", "-b", "main"]);
-      await requireGit(repo, ["config", "user.name", "OpenClaw Test"]);
+      await requireGit(repo, ["config", "user.name", "FRIDAY Test"]);
       await requireGit(repo, ["config", "user.email", "test@example.invalid"]);
       await fs.writeFile(path.join(repo, "AGENTS.md"), `${instruction}\n`);
       await fs.mkdir(path.join(repo, "src"));

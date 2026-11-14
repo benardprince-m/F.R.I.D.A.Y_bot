@@ -61,7 +61,7 @@ try {
   console.log("Muse conversation recall survived a Gateway restart.");
 
   stage = "recall after native session replacement";
-  // A model change starts a new Muse session; OpenClaw must seed it with the retained conversation.
+  // A model change starts a new Muse session; FRIDAY must seed it with the retained conversation.
   await harness.stop();
   harness.config.agents.defaults.model = "meta/muse-spark-1.2";
   harness.config.agents.defaults.models = {
@@ -72,7 +72,7 @@ try {
   const replaced = await harness.turn(recallPrompt);
   assert.ok(
     replaced.text.includes(token),
-    "A replacement Muse session must receive the retained OpenClaw conversation",
+    "A replacement Muse session must receive the retained FRIDAY conversation",
   );
   console.log("Muse recalled the conversation in a replacement native session.");
 
@@ -91,7 +91,7 @@ try {
   );
   assert.ok(
     shell.approvals.length > 0,
-    "Native Muse shell execution must request an OpenClaw approval",
+    "Native Muse shell execution must request an FRIDAY approval",
   );
   // Muse 1.3 names its native shell tool `bash`.
   assert.ok(
@@ -119,13 +119,13 @@ try {
     `Use your native shell tool to execute exactly this command once: printf denied > ${quote(deniedFile)}\nRequest approval when required and wait for it. Do not use file-editing tools or any other command. Then reply briefly.`,
     { decision: "deny", expectError: true },
   );
-  assert.ok(denied.approvals.length > 0, "The denied command must request an OpenClaw approval");
+  assert.ok(denied.approvals.length > 0, "The denied command must request an FRIDAY approval");
   await assert.rejects(
     access(deniedFile),
     { code: "ENOENT" },
     "A denied native shell command must not run",
   );
-  console.log("Muse respected an OpenClaw deny: the command did not run.");
+  console.log("Muse respected an FRIDAY deny: the command did not run.");
 
   stage = "cancellation after approval";
   const lateFile = path.join(fixture, "late.txt");
@@ -141,7 +141,7 @@ try {
         }, 3000),
     },
   );
-  assert.ok(cancelled.approvals.length > 0, "The long command must request an OpenClaw approval");
+  assert.ok(cancelled.approvals.length > 0, "The long command must request an FRIDAY approval");
   assert.notEqual(cancelled.wait.status, "ok", "The aborted run must not report success");
   // Wait past the command's sleep: an interrupted native command must leave no late effect.
   await delay(25_000);

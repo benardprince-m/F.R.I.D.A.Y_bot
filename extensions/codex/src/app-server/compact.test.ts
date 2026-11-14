@@ -881,7 +881,7 @@ describe("maybeCompactCodexAppServerSession", () => {
       expect(result.ok).toBe(false);
       expect(result.compacted).toBe(false);
       expect(result.reason).toContain(
-        "Codex-native native compaction is unavailable because OpenClaw sandboxing is active for this session.",
+        "Codex-native native compaction is unavailable because FRIDAY sandboxing is active for this session.",
       );
     }
     expect(fake.request).not.toHaveBeenCalled();
@@ -894,7 +894,7 @@ describe("maybeCompactCodexAppServerSession", () => {
 
     expect(result).toMatchObject({ ok: false, compacted: false });
     expect(result.reason).toContain(
-      "Codex-native native compaction is unavailable because OpenClaw exec host=node is active for this session.",
+      "Codex-native native compaction is unavailable because FRIDAY exec host=node is active for this session.",
     );
     expect(fake.request).not.toHaveBeenCalled();
   });
@@ -929,7 +929,7 @@ describe("maybeCompactCodexAppServerSession", () => {
       expect(result.ok).toBe(false);
       expect(result.compacted).toBe(false);
       expect(result.reason).toContain(
-        "Codex-native native compaction is unavailable because OpenClaw exec host=node is active for this session.",
+        "Codex-native native compaction is unavailable because FRIDAY exec host=node is active for this session.",
       );
       expect(fake.request).not.toHaveBeenCalled();
     },
@@ -1344,7 +1344,7 @@ describe("maybeCompactCodexAppServerSession", () => {
     await expect(readCodexAppServerBinding(sessionFile)).resolves.toBeUndefined();
   });
 
-  it("warns when stale OpenClaw compaction overrides are ignored", async () => {
+  it("warns when stale FRIDAY compaction overrides are ignored", async () => {
     const warn = vi.spyOn(embeddedAgentLog, "warn").mockImplementation(() => undefined);
     const { fake, sessionFile } = await setupCompaction();
 
@@ -1366,7 +1366,7 @@ describe("maybeCompactCodexAppServerSession", () => {
 
     expectCompactStartRequest(fake.request, "thread-1", compactUnboundedRequestOptions);
     expect(warn).toHaveBeenCalledWith(
-      "ignoring OpenClaw compaction overrides for Codex app-server compaction; Codex uses native server-side compaction",
+      "ignoring FRIDAY compaction overrides for Codex app-server compaction; Codex uses native server-side compaction",
       {
         sessionId: "session-1",
         sessionKey: "agent:main:session-1",

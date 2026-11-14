@@ -1,7 +1,7 @@
 {
   "id": "cloudflare",
   "name": "Cloudflare",
-  "description": "Cloudflare R2 storage for named OpenClaw storage locations.",
+  "description": "Cloudflare R2 storage for named FRIDAY storage locations.",
   "categories": ["infrastructure"],
   "activation": { "onStartup": false },
   "contracts": { "storageProviders": ["r2"] },

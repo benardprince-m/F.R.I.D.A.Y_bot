@@ -92,7 +92,7 @@ the refusal, and deep status reports it instead of an unavailable shutdown recor
 When the shared-state database cannot be read at all (for example, the file is
 damaged), `openclaw gateway status --deep` fails with exit status `1` and names
 the database path and read error instead of reporting a config read failure.
-Stop OpenClaw processes, then restore that file from a verified backup, as
+Stop FRIDAY processes, then restore that file from a verified backup, as
 `openclaw doctor` also advises.
 
 Foreground/manual Gateways, in-process restarts selected by `OPENCLAW_NO_RESPAWN=1`, and other supervisors retain exit status `1` when
@@ -146,7 +146,7 @@ terminal. The handoff does not end its own Scheduled Task: on installations with
 Job Object containment, doing so could terminate the observer before it records
 the result. A stale running task can still require this external recovery.
 
-On macOS, when `openclaw gateway restart`, `stop`, `install`, or `uninstall` runs inside the managed LaunchAgent's process tree, including an agent's shell command, OpenClaw detects that from launchd's service environment or, when a hand-written plist omits those variables, from process ancestry against the PID launchd reports for the job. Restart hands off to a detached helper so `kickstart -k` cannot kill the caller. Stop, install, and uninstall refuse and ask you to run the command from an external shell.
+On macOS, when `openclaw gateway restart`, `stop`, `install`, or `uninstall` runs inside the managed LaunchAgent's process tree, including an agent's shell command, FRIDAY detects that from launchd's service environment or, when a hand-written plist omits those variables, from process ancestry against the PID launchd reports for the job. Restart hands off to a detached helper so `kickstart -k` cannot kill the caller. Stop, install, and uninstall refuse and ask you to run the command from an external shell.
 
 External terminals without Gateway-service markers, externally supervised Gateways, node services, and non-Windows callers keep their existing routing. Explicit `--force`, `--wait`, `--preserve-definition`, or `--skip-deferral` also retain their existing behavior and validation; they do not implicitly enable `--safe`.
 
@@ -158,7 +158,7 @@ Inline `--password` can be exposed in local process listings. Prefer `--password
 
 Service management (`install`, `start`, `stop`, `restart`, `uninstall`, Doctor service repair, and self-update service handling) belongs to the install that owns the host service. That is the standard `.openclaw` directory under the OS account home, or the `.openclaw-<profile>` directory a named profile projects there. Named profiles use distinct native service identities.
 
-`OPENCLAW_HOME` may explicitly select the OS account home, including a filesystem alias of that home. Both the process home (`HOME` or `USERPROFILE`) and the effective OpenClaw home must resolve to the account home. An `OPENCLAW_HOME`, `OPENCLAW_STATE_DIR`, or `OPENCLAW_CONFIG_PATH` that points elsewhere is treated as isolated state and skipped. A relocated or copied state tree cannot adopt and rewrite the account's host service.
+`OPENCLAW_HOME` may explicitly select the OS account home, including a filesystem alias of that home. Both the process home (`HOME` or `USERPROFILE`) and the effective FRIDAY home must resolve to the account home. An `OPENCLAW_HOME`, `OPENCLAW_STATE_DIR`, or `OPENCLAW_CONFIG_PATH` that points elsewhere is treated as isolated state and skipped. A relocated or copied state tree cannot adopt and rewrite the account's host service.
 
 Doctor also validates the environment saved in the installed service. A standard `OPENCLAW_HOME` there does not prevent `openclaw doctor --fix` from entering maintenance and importing legacy credentials. Doctor remains the migration owner: it verifies the imported credentials and archives the original bytes before normal runtime reads resume.
 
@@ -166,7 +166,7 @@ On macOS and Windows, native service-managed profile names must be lowercase. Ru
 
 Named profiles must also use the native service identity derived from `OPENCLAW_PROFILE`. Unset `OPENCLAW_LAUNCHD_LABEL`, `OPENCLAW_SYSTEMD_UNIT`, or `OPENCLAW_WINDOWS_TASK_NAME` before service management; custom identities remain available for the default profile or runtime-only/external-supervisor setups.
 
-On Linux, discovery also recognizes legacy `openclaw-<profile>` unit names. A custom system unit can belong to the default installation when its OpenClaw launcher, service account, profile, and state/config paths identify that installation. Discovery uses systemd's effective command and environment, including drop-ins and environment files. If multiple custom units match or a wrapper makes their identity unclear, specify the intended unit with `OPENCLAW_SYSTEMD_UNIT`; OpenClaw does not choose the first unit carrying its marker.
+On Linux, discovery also recognizes legacy `openclaw-<profile>` unit names. A custom system unit can belong to the default installation when its FRIDAY launcher, service account, profile, and state/config paths identify that installation. Discovery uses systemd's effective command and environment, including drop-ins and environment files. If multiple custom units match or a wrapper makes their identity unclear, specify the intended unit with `OPENCLAW_SYSTEMD_UNIT`; FRIDAY does not choose the first unit carrying its marker.
 
 Doctor offers duplicate user-unit cleanup only when both managers' loaded Gateway commands identify the selected account, profile, state/config paths, and matching port selection. It rechecks the units after confirmation. Different or unverifiable identities leave the user unit in place. Cleanup removes only the confirmed user unit, then reports any remaining matching user unit or unverifiable discovery; another unit requires its own inspection and confirmation on a later Doctor run.
 
@@ -204,7 +204,7 @@ Set `OPENCLAW_SUPERVISOR_MODE=external` only when another process manager owns t
 
 - `openclaw gateway restart` preserves the existing safe, forced, and bounded-wait behavior while targeting the verified running Gateway instead of launchd, systemd, or Task Scheduler. Exact-lock restart delivery runs inside that Gateway, so a replacement CLI does not migrate shared state before the old process hands off.
 - Native service install, start, stop, and uninstall operations are refused with guidance to use the external supervisor.
-- OpenClaw self-update is refused so the supervisor can stop the Gateway, replace and finalize the runtime, and restart it safely.
+- FRIDAY self-update is refused so the supervisor can stop the Gateway, replace and finalize the runtime, and restart it safely.
 - A fresh-process restart writes a bounded SQLite handoff before clean exit. If persistence fails, the Gateway falls back to an in-process restart instead of exiting without a consumable handoff.
 
 An external supervisor can also claim durable ownership of shared-state writes:
@@ -231,7 +231,7 @@ openclaw gateway restart-handoff consume --expected-pid <pid> --json
 
 Protocol version `1` supports the `consume` operation. Consumption validates the expected PID and bounded handoff fields inside one immediate SQLite transaction. An accepted handoff is deleted before success is returned, so concurrent or replayed consumers cannot both accept it. A PID mismatch is retained for the matching owner; missing, expired, and invalid rows do not authorize a restart.
 
-Valid machine requests return JSON with exit code `0`, including non-restart results. Invalid arguments return `reason: "invalid-expected-pid"` with exit code `2`; state-store failures return `reason: "store-unavailable"` with exit code `1`. Supervisors should check `capabilities` on the exact runtime or launcher they will use rather than infer support from an OpenClaw version string or read the private SQLite schema directly.
+Valid machine requests return JSON with exit code `0`, including non-restart results. Invalid arguments return `reason: "invalid-expected-pid"` with exit code `2`; state-store failures return `reason: "store-unavailable"` with exit code `1`. Supervisors should check `capabilities` on the exact runtime or launcher they will use rather than infer support from an FRIDAY version string or read the private SQLite schema directly.
 
 External supervisor implementations should also apply these acceptance rules:
 

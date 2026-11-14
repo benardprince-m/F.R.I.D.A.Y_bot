@@ -1,9 +1,9 @@
-# OpenClaw GMI Cloud Provider
+# FRIDAY GMI Cloud Provider
 
-Official OpenClaw provider plugin for hosted GMI Cloud models through an
+Official FRIDAY provider plugin for hosted GMI Cloud models through an
 OpenAI-compatible API.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/gmi-provider

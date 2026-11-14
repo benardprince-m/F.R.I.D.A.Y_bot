@@ -118,7 +118,7 @@ describe("public reader operator handoff", () => {
     probe.resolve({ status });
     await probe.promise;
     expect(main.hasAttribute("data-entry-pending")).toBe(false);
-    expect(f.document.title).toBe("Conversation unavailable · OpenClaw");
+    expect(f.document.title).toBe("Conversation unavailable · FRIDAY");
     expect(f.loginVisibility()).toBe("visible");
     expect(f.replace).not.toHaveBeenCalled();
   });
@@ -130,7 +130,7 @@ describe("public reader operator handoff", () => {
     probe.resolve({ status: 0, type: "opaqueredirect" });
     await probe.promise;
     expect(main.hasAttribute("data-entry-pending")).toBe(false);
-    expect(f.document.title).toBe("Conversation unavailable · OpenClaw");
+    expect(f.document.title).toBe("Conversation unavailable · FRIDAY");
     expect(f.loginVisibility()).toBe("visible");
     expect(f.replace).not.toHaveBeenCalled();
   });
@@ -240,7 +240,7 @@ describe("public reader operator handoff", () => {
     await Promise.resolve();
     expect(f.replace).not.toHaveBeenCalled();
     expect(f.document.querySelector("main")!.hasAttribute("data-entry-pending")).toBe(false);
-    expect(f.document.title).toBe("Conversation unavailable · OpenClaw");
+    expect(f.document.title).toBe("Conversation unavailable · FRIDAY");
     expect(f.fetch).toHaveBeenCalledWith(
       `${entry}&probe=1`,
       expect.objectContaining({ credentials: "same-origin", redirect: "manual" }),

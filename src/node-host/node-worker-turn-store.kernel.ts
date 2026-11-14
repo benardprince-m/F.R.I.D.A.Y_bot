@@ -39,7 +39,7 @@ const turnSchema = createSqliteSchemaEnsurer(
   () =>
     getOpenClawStateFeatureSchemaSql("node_worker_turns", {
       endMarker: "\n  WHERE state = 'running';",
-      errorMessage: "OpenClaw node worker turn schema marker is missing.",
+      errorMessage: "FRIDAY node worker turn schema marker is missing.",
     }),
   {
     tables: ["node_worker_turns"],

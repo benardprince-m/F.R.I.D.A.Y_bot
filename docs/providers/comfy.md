@@ -1,8 +1,8 @@
 ---
-summary: "ComfyUI workflow generation and Comfy Cloud MCP OAuth setup in OpenClaw"
+summary: "ComfyUI workflow generation and Comfy Cloud MCP OAuth setup in FRIDAY"
 title: "ComfyUI"
 read_when:
-  - You want to use local ComfyUI workflows with OpenClaw
+  - You want to use local ComfyUI workflows with FRIDAY
   - You want to use Comfy Cloud with image, video, or music workflows
   - You want to connect Comfy Cloud with account OAuth through MCP
   - You need the comfy plugin config keys
@@ -10,7 +10,7 @@ read_when:
 
 Use Comfy Cloud's hosted MCP server for account OAuth and Comfy's own discovery
 and generation tools. Use the `comfy` plugin for workflow-driven runs through
-OpenClaw's shared media tools, with an API key for cloud workflows.
+FRIDAY's shared media tools, with an API key for cloud workflows.
 
 ## Comfy Cloud with MCP OAuth
 
@@ -30,7 +30,7 @@ for callback, refresh, and sign-in recovery details.
 After authorization, ask your agent to discover Comfy templates or generate media
 through the MCP tools. Comfy requires an active Cloud subscription for generation.
 Its [MCP setup guide](https://docs.comfy.org/agent-tools/mcp) also documents an
-optional OpenClaw skill.
+optional FRIDAY skill.
 
 MCP credentials belong to the `https://cloud.comfy.org/mcp` resource. This
 connection does not configure `comfy/workflow` or supply the workflow plugin's
@@ -49,7 +49,7 @@ openclaw plugins install @openclaw/comfy-provider
 Installation applies to a running Gateway automatically; otherwise it takes effect
 on the next startup. See [Apply changes and inspect](/plugins/manage-plugins#apply-changes-and-inspect).
 
-The plugin is entirely workflow-driven: OpenClaw does not map generic `size`,
+The plugin is entirely workflow-driven: FRIDAY does not map generic `size`,
 `aspectRatio`, `resolution`, `durationSeconds`, or TTS-style controls onto
 your graph.
 
@@ -81,7 +81,7 @@ Choose between running ComfyUI on your own machine or using Comfy Cloud.
         Make sure your local ComfyUI instance is running (defaults to `http://127.0.0.1:8188`).
       </Step>
       <Step title="Prepare your workflow JSON">
-        Export or create a ComfyUI workflow JSON file. Note the node IDs for the prompt input node and the output node you want OpenClaw to read from.
+        Export or create a ComfyUI workflow JSON file. Note the node IDs for the prompt input node and the output node you want FRIDAY to read from.
       </Step>
       <Step title="Configure the provider">
         Set `mode: "local"` and point at your workflow file. Minimal image example:
@@ -107,7 +107,7 @@ Choose between running ComfyUI on your own machine or using Comfy Cloud.
         ```
       </Step>
       <Step title="Set the default model">
-        Point OpenClaw at the `comfy/workflow` model for the capability you configured:
+        Point FRIDAY at the `comfy/workflow` model for the capability you configured:
 
         ```json5
         {
@@ -356,7 +356,7 @@ The `image` and `video` sections also support a reference-image input node:
     Comfy video workflows support text-to-video and image-to-video through the configured graph.
 
     <Note>
-    OpenClaw does not pass input videos into Comfy workflows. Only text prompts and single reference images are supported as inputs.
+    FRIDAY does not pass input videos into Comfy workflows. Only text prompts and single reference images are supported as inputs.
     </Note>
 
   </Accordion>
@@ -391,7 +391,7 @@ The `image` and `video` sections also support a reference-image input node:
     }
     ```
 
-    OpenClaw treats that legacy shape as the image workflow config. You do not need to migrate immediately, but the nested `image` / `video` / `music` sections are recommended for new setups. If you only use image generation, the legacy flat config and the new nested `image` section are functionally equivalent.
+    FRIDAY treats that legacy shape as the image workflow config. You do not need to migrate immediately, but the nested `image` / `video` / `music` sections are recommended for new setups. If you only use image generation, the legacy flat config and the new nested `image` section are functionally equivalent.
 
   </Accordion>
 

@@ -610,7 +610,7 @@ export function createManagedHandoffLeaseDatabase(
         if (writeLockRoot && !entered && isSqliteLockError(error)) {
           throw Object.assign(
             new Error(
-              "The managed handoff database is locked. Another OpenClaw update or Doctor from an older release may still be using it. Wait for it to finish, then rerun this command.",
+              "The managed handoff database is locked. Another FRIDAY update or Doctor from an older release may still be using it. Wait for it to finish, then rerun this command.",
               { cause: error },
             ),
             { code: sqliteErrorCode(error), errcode: sqliteExtendedResultCode(error) },

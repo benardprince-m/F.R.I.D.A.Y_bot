@@ -14,7 +14,7 @@ const contextStart = {
 };
 const contextEnd = { text: "Use this context to continue responding to the user's request." };
 const temporalContext =
-  "OpenClaw runtime context:\nCurrent date: 2026-10-14\nTime zone: America/Los_Angeles\nEnd OpenClaw runtime context.";
+  "FRIDAY runtime context:\nCurrent date: 2026-10-14\nTime zone: America/Los_Angeles\nEnd FRIDAY runtime context.";
 const request = { role: "user", content: "Run pwd, then read README.md.", timestamp: 1 } as const;
 const reply: AssistantMessage = {
   role: "assistant",
@@ -72,8 +72,7 @@ describe.each(["managed", "signed-parts"] as const)("Google runtime context (%s)
       { role: "user", content: "Summarize it.", timestamp: 4 },
       {
         role: "user",
-        content:
-          "OpenClaw runtime context:\nCurrent date: 2026-10-15\nEnd OpenClaw runtime context.",
+        content: "FRIDAY runtime context:\nCurrent date: 2026-10-15\nEnd FRIDAY runtime context.",
         timestamp: 5,
         runtimeContext: { retained: false },
       },
@@ -89,7 +88,7 @@ describe.each(["managed", "signed-parts"] as const)("Google runtime context (%s)
         parts: [
           contextStart,
           {
-            text: "OpenClaw runtime context:\nCurrent date: 2026-10-15\nEnd OpenClaw runtime context.",
+            text: "FRIDAY runtime context:\nCurrent date: 2026-10-15\nEnd FRIDAY runtime context.",
           },
           contextEnd,
         ],

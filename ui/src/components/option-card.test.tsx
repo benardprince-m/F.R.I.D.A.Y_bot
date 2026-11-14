@@ -23,7 +23,7 @@ describe("option card", () => {
     container.addEventListener("option-select", selected);
     const props = {
       header: "Access",
-      question: "How should OpenClaw help?",
+      question: "How should FRIDAY help?",
       options: [
         { value: "guarded", label: "Ask first" },
         {

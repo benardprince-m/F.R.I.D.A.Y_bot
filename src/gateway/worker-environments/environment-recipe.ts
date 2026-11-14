@@ -188,7 +188,7 @@ export async function resolveEnvironmentRecipe(
       detectedInstall = ["npm", "ci"];
     } else {
       detectedInstall =
-        'if command -v bun >/dev/null 2>&1; then bun install --frozen-lockfile; else printf "%s\\n" "OpenClaw: bun install skipped because bun is not on PATH" >&2; fi';
+        'if command -v bun >/dev/null 2>&1; then bun install --frozen-lockfile; else printf "%s\\n" "FRIDAY: bun install skipped because bun is not on PATH" >&2; fi';
     }
     return {
       source: "detected",

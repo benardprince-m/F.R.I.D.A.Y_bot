@@ -1,8 +1,8 @@
-# OpenClaw Vydra Provider
+# FRIDAY Vydra Provider
 
-Official OpenClaw provider plugin for Vydra image, video, and speech generation.
+Official FRIDAY provider plugin for Vydra image, video, and speech generation.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/vydra-provider

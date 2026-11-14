@@ -142,7 +142,7 @@ export class UiTunnel {
       grantId,
       new UiTunnelError(
         "grant_revoked",
-        "This connection was revoked. Pair OpenClaw again to reconnect.",
+        "This connection was revoked. Pair FRIDAY again to reconnect.",
       ),
     );
   }
@@ -195,7 +195,7 @@ export class UiTunnel {
         existing,
         new UiTunnelError(
           "unavailable",
-          "The relay changed the Control UI origins. Open OpenClaw from ChatGPT again.",
+          "The relay changed the Control UI origins. Open FRIDAY from ChatGPT again.",
         ),
       );
     }

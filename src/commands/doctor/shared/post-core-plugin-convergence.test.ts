@@ -285,7 +285,7 @@ describe("runPostCorePluginConvergence", () => {
       });
     });
     expect(result.changes).toEqual([
-      "Repaired OpenClaw host peer link(s) for 1 managed npm plugin package(s).",
+      "Repaired FRIDAY host peer link(s) for 1 managed npm plugin package(s).",
     ]);
     expect(mocks.relinkPeers.mock.invocationCallOrder[0]).toBeLessThan(
       expectDefined(mocks.smokeCheck.mock.invocationCallOrder[0], "smoke check called"),
@@ -483,7 +483,7 @@ describe("runPostCorePluginConvergence", () => {
       pluginId: "__proto__",
       reason: expect.stringContaining("unreadable-package-json"),
       guidance: [
-        `Fix file access for ${path.join(installPath, "package.json")} so it is readable by the user running OpenClaw. For EACCES or EPERM, correct its ownership or permissions; otherwise resolve the reported filesystem I/O error, then retry.`,
+        `Fix file access for ${path.join(installPath, "package.json")} so it is readable by the user running FRIDAY. For EACCES or EPERM, correct its ownership or permissions; otherwise resolve the reported filesystem I/O error, then retry.`,
         "Run `openclaw plugins inspect __proto__ --runtime --json` for details.",
       ],
     });
@@ -509,7 +509,7 @@ describe("runPostCorePluginConvergence", () => {
         env: { OPENCLAW_STATE_DIR: stateDir },
       });
       const message =
-        "Failed to repair installed OpenClaw host peer links: EACCES: permission denied";
+        "Failed to repair installed FRIDAY host peer links: EACCES: permission denied";
       expect(result.warnings).toStrictEqual(tracked ? [] : [repairWarning(message)]);
       expect(mocks.smokeCheck).toHaveBeenCalledWith({ records: {}, env: expect.any(Object) });
       expect(result.errored).toBe(false);

@@ -226,7 +226,7 @@ internal fun copyChatText(
   text: String,
 ) {
   val clipboard = context.getSystemService(ClipboardManager::class.java)
-  clipboard.setPrimaryClip(ClipData.newPlainText("OpenClaw text", text))
+  clipboard.setPrimaryClip(ClipData.newPlainText("FRIDAY text", text))
   Toast.makeText(context, nativeString("Text copied"), Toast.LENGTH_SHORT).show()
 }
 

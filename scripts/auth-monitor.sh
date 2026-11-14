@@ -6,7 +6,7 @@
 # Suggested cron: */30 * * * * /path/to/openclaw/scripts/auth-monitor.sh
 #
 # Environment variables:
-#   NOTIFY_PHONE - Phone number to send OpenClaw notification (e.g., +1234567890)
+#   NOTIFY_PHONE - Phone number to send FRIDAY notification (e.g., +1234567890)
 #   NOTIFY_NTFY  - ntfy.sh topic for push notifications (e.g., openclaw-alerts)
 #   WARN_HOURS   - Hours before expiry to warn (default: 2)
 
@@ -46,7 +46,7 @@ send_notification() {
         # Expiring credentials remain usable; the status helper reports them with exit 2.
         if [[ "$auth_exit" -eq 0 && "$auth_status" == "OK" ]] ||
            [[ "$auth_exit" -eq 2 && ( "$auth_status" == "CLAUDE_EXPIRING" || "$auth_status" == "OPENCLAW_EXPIRING" ) ]]; then
-            echo "Sending via OpenClaw to $NOTIFY_PHONE..."
+            echo "Sending via FRIDAY to $NOTIFY_PHONE..."
             if openclaw message send --target "$NOTIFY_PHONE" --message "$message" 2>/dev/null; then
                 notification_sent=1
             fi
@@ -56,7 +56,7 @@ send_notification() {
     if [ -n "$NOTIFY_NTFY" ]; then
         echo "Sending via ntfy.sh to $NOTIFY_NTFY..."
         if curl -fsS --connect-timeout 5 --max-time 15 -o /dev/null \
-            -H "Title: OpenClaw Auth Alert" \
+            -H "Title: FRIDAY Auth Alert" \
             -H "Priority: $priority" \
             -H "Tags: warning,key" \
             -d "$message" \
@@ -84,7 +84,7 @@ HOURS_LEFT=$((DIFF_MS / 3600000))
 MINS_LEFT=$(((DIFF_MS % 3600000) / 60000))
 
 if [ "$DIFF_MS" -lt 0 ]; then
-    send_notification "Claude Code auth EXPIRED! OpenClaw is down. Run on the OpenClaw host: ${SCRIPT_DIR}/mobile-reauth.sh" "urgent"
+    send_notification "Claude Code auth EXPIRED! FRIDAY is down. Run on the FRIDAY host: ${SCRIPT_DIR}/mobile-reauth.sh" "urgent"
     exit 1
 elif [ "$HOURS_LEFT" -lt "$WARN_HOURS" ]; then
     send_notification "Claude Code auth expires in ${HOURS_LEFT}h ${MINS_LEFT}m. Consider re-auth soon." "high"

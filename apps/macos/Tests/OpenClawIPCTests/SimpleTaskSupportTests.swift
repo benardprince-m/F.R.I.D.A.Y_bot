@@ -1,6 +1,6 @@
 import Testing
 import XCTest
-@testable import OpenClaw
+@testable import FRIDAY
 
 private actor SimpleTaskSignal {
     private var signaled = false

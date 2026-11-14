@@ -96,7 +96,7 @@ it("reacquires state after SIGUSR2 retires its emitting scope and asynchronously
       expect(starts).toBe(1);
       // Delayed close retains real custody; another startup cannot enter it.
       await expect(acquireGatewayLock({ timeoutMs: 0 })).rejects.toThrow(
-        "OpenClaw state database is busy",
+        "FRIDAY state database is busy",
       );
       releaseClose.resolve();
       const second = await awaitGateBeforeSettlement(

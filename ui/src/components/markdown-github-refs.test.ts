@@ -92,7 +92,7 @@ describe("github item references", () => {
       },
     ],
     [
-      "OpenClaw PR #42",
+      "FRIDAY PR #42",
       "openclaw/openclaw/pull/42",
       { githubRepo, githubRepositories: [{ owner: "other", repo: "project", aliases: ["Claw"] }] },
     ],
@@ -169,12 +169,12 @@ describe("github item references", () => {
       { githubRepo, githubRepositories: [...githubRepositories, { aliases: ["ClawSweeper"] }] },
     ],
     [
-      "OpenClaw PR #1576",
+      "FRIDAY PR #1576",
       {
         githubRepo,
         githubRepositories: [
           ...githubRepositories,
-          { owner: "fork", repo: "openclaw", aliases: ["OpenClaw"] },
+          { owner: "fork", repo: "openclaw", aliases: ["FRIDAY"] },
         ],
       },
     ],

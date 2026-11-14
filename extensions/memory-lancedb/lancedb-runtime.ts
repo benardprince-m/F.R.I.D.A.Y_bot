@@ -15,7 +15,7 @@ export async function loadLanceDbModule(): Promise<LanceDbModule> {
         );
       }
       throw new Error(
-        `memory-lancedb: bundled @lancedb/lancedb dependency is unavailable. Install or repair the memory-lancedb plugin package dependencies, then restart OpenClaw. ${String(error)}`,
+        `memory-lancedb: bundled @lancedb/lancedb dependency is unavailable. Install or repair the memory-lancedb plugin package dependencies, then restart FRIDAY. ${String(error)}`,
         { cause: error },
       );
     });

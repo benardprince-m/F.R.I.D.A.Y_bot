@@ -31,7 +31,7 @@ function shellQuote(value) {
 export function writeNodeSentinels(binDir, ledgerPath, names = nodeLaunchers) {
   fs.mkdirSync(binDir, { recursive: true });
   const script = `#!/bin/sh
-# OpenClaw Bun-only smoke: stand-in for a Node executable. Records the attempt, then fails.
+# FRIDAY Bun-only smoke: stand-in for a Node executable. Records the attempt, then fails.
 ledger=${shellQuote(ledgerPath)}
 b64() { printf '%s' "$1" | /usr/bin/base64 | /usr/bin/tr -d '\\n'; }
 argv=''

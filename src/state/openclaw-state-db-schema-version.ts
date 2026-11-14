@@ -47,7 +47,7 @@ export function readStateSchemaContentVersion(
     const facts = getStateSchemaVersionAdmission(db);
     if (!facts) {
       throw new Error(
-        "Missing PostgreSQL state schema admission; use the matching OpenClaw version or restore the matching PostgreSQL schema and anchor.",
+        "Missing PostgreSQL state schema admission; use the matching FRIDAY version or restore the matching PostgreSQL schema and anchor.",
       );
     }
     return Math.max(published ?? facts.userVersion, facts.contentVersion);
@@ -121,7 +121,7 @@ export function admitStateSchemaFacts(database: EngineConnection, pathname: stri
     }
     if (version > OPENCLAW_STATE_SCHEMA_VERSION) {
       throw createNewerSqliteSchemaVersionError(
-        "OpenClaw state database",
+        "FRIDAY state database",
         pathname,
         version,
         OPENCLAW_STATE_SCHEMA_VERSION,
@@ -153,7 +153,7 @@ export function assertSupportedStateSchemaVersion(
         : readStateSchemaContentVersion(db, userVersion, readRow));
     if (contentVersion > OPENCLAW_STATE_SCHEMA_VERSION) {
       throw createNewerSqliteSchemaVersionError(
-        "OpenClaw state database",
+        "FRIDAY state database",
         pathname,
         contentVersion,
         OPENCLAW_STATE_SCHEMA_VERSION,

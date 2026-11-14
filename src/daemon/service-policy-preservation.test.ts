@@ -132,7 +132,7 @@ it.each(["migrated", "registration-rejected"])(
     await fs.writeFile(hiddenPath, launcher);
     f.setTask(
       buildScheduledTaskXml({
-        taskDescription: "OpenClaw Gateway",
+        taskDescription: "FRIDAY Gateway",
         taskUser: "operator",
         launchPath: hiddenPath,
         interactive: true,

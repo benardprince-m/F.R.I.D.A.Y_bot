@@ -81,7 +81,7 @@ sockets.on("connection", (socket) => {
             status: failure === "workload" || failure === "diagnostic" ? "error" : "ok",
             terminalReply: {
               disposition: "visible",
-              text: "OpenClaw gateway concurrency benchmark streaming response.",
+              text: "FRIDAY gateway concurrency benchmark streaming response.",
             },
             terminalReceipt: {
               runId: frame.params.runId,

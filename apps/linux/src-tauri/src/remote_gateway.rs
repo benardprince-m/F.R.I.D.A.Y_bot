@@ -69,7 +69,7 @@ impl TunnelManager {
     pub fn begin(&self) -> Result<TunnelWork<'_>, String> {
         let mut state = self.state.lock().expect("tunnel state");
         if state.closing {
-            return Err("OpenClaw is quitting.".to_string());
+            return Err("FRIDAY is quitting.".to_string());
         }
         state.preparing += 1;
         Ok(TunnelWork(self))
@@ -371,19 +371,19 @@ fn read_config(path: &Path) -> Result<Option<Value>, String> {
     let metadata = match fs::symlink_metadata(path) {
         Ok(metadata) => metadata,
         Err(error) if error.kind() == ErrorKind::NotFound => return Ok(None),
-        Err(error) => return Err(format!("Could not inspect OpenClaw configuration: {error}")),
+        Err(error) => return Err(format!("Could not inspect FRIDAY configuration: {error}")),
     };
     if metadata.file_type().is_symlink() || !metadata.is_file() {
-        return Err("OpenClaw configuration must be a regular file, not a symlink.".to_string());
+        return Err("FRIDAY configuration must be a regular file, not a symlink.".to_string());
     }
     let raw = fs::read_to_string(path)
-        .map_err(|error| format!("Could not read OpenClaw configuration: {error}"))?;
+        .map_err(|error| format!("Could not read FRIDAY configuration: {error}"))?;
     let value: Value = tauri_utils::config::parse::parse_json5_value(&raw, path).map_err(|_| {
-        "OpenClaw configuration is not valid JSON5. Run `openclaw doctor --fix`, then try again."
+        "FRIDAY configuration is not valid JSON5. Run `openclaw doctor --fix`, then try again."
             .to_string()
     })?;
     if !value.is_object() {
-        return Err("OpenClaw configuration must contain a JSON object.".to_string());
+        return Err("FRIDAY configuration must contain a JSON object.".to_string());
     }
     Ok(Some(value))
 }
@@ -838,13 +838,13 @@ fn ensure_private_parent(parent: &Path) -> Result<(), String> {
             builder.mode(0o700);
         }
         builder.create(parent).map_err(|error| {
-            format!("Could not create OpenClaw configuration directory: {error}")
+            format!("Could not create FRIDAY configuration directory: {error}")
         })?;
     }
     let metadata = fs::symlink_metadata(parent)
-        .map_err(|error| format!("Could not inspect OpenClaw configuration directory: {error}"))?;
+        .map_err(|error| format!("Could not inspect FRIDAY configuration directory: {error}"))?;
     if metadata.file_type().is_symlink() || !metadata.is_dir() {
-        return Err("OpenClaw configuration directory must not be a symlink.".to_string());
+        return Err("FRIDAY configuration directory must not be a symlink.".to_string());
     }
     Ok(())
 }
@@ -861,7 +861,7 @@ pub(crate) fn save_config_at(
     }
     let parent = path
         .parent()
-        .ok_or_else(|| "OpenClaw configuration path has no parent directory.".to_string())?;
+        .ok_or_else(|| "FRIDAY configuration path has no parent directory.".to_string())?;
     ensure_private_parent(parent)?;
     let mut root = read_config(path)?.unwrap_or_else(|| json!({}));
     let root_object = root
@@ -871,7 +871,7 @@ pub(crate) fn save_config_at(
         .entry("gateway")
         .or_insert_with(|| json!({}))
         .as_object_mut()
-        .ok_or_else(|| "OpenClaw Gateway configuration must contain a JSON object.".to_string())?;
+        .ok_or_else(|| "FRIDAY Gateway configuration must contain a JSON object.".to_string())?;
     gateway.insert("mode".to_string(), json!("remote"));
     let old_remote = gateway
         .get("remote")
@@ -935,27 +935,27 @@ pub(crate) fn save_config_at(
     }
     let mut file = options
         .open(&temporary)
-        .map_err(|error| format!("Could not prepare secure OpenClaw configuration: {error}"))?;
+        .map_err(|error| format!("Could not prepare secure FRIDAY configuration: {error}"))?;
     let result = (|| {
         serde_json::to_writer_pretty(&mut file, &root)
-            .map_err(|error| format!("Could not serialize OpenClaw configuration: {error}"))?;
+            .map_err(|error| format!("Could not serialize FRIDAY configuration: {error}"))?;
         file.write_all(b"\n")
             .and_then(|()| file.sync_all())
-            .map_err(|error| format!("Could not save OpenClaw configuration: {error}"))?;
+            .map_err(|error| format!("Could not save FRIDAY configuration: {error}"))?;
         if path.exists() {
             let metadata = fs::symlink_metadata(path)
-                .map_err(|error| format!("Could not verify OpenClaw configuration: {error}"))?;
+                .map_err(|error| format!("Could not verify FRIDAY configuration: {error}"))?;
             if metadata.file_type().is_symlink() || !metadata.is_file() {
-                return Err("OpenClaw configuration must remain a regular file.".to_string());
+                return Err("FRIDAY configuration must remain a regular file.".to_string());
             }
         }
         fs::rename(&temporary, path)
-            .map_err(|error| format!("Could not replace OpenClaw configuration: {error}"))?;
+            .map_err(|error| format!("Could not replace FRIDAY configuration: {error}"))?;
         #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt;
             fs::set_permissions(path, fs::Permissions::from_mode(0o600))
-                .map_err(|error| format!("Could not secure OpenClaw configuration: {error}"))?;
+                .map_err(|error| format!("Could not secure FRIDAY configuration: {error}"))?;
         }
         Ok(())
     })();

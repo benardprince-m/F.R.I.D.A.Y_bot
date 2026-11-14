@@ -19,7 +19,7 @@ const codex = await loadBundledPluginFacade<{
 const tempDirs = useAutoCleanupTempDirTracker(afterAll);
 
 describe("Codex subagent native tool policy", () => {
-  it("preserves native tools for OpenClaw admin/status-only denial", async () => {
+  it("preserves native tools for FRIDAY admin/status-only denial", async () => {
     const deny = ["agents_list", "openclaw", "session_status", "progress_card"];
     const policy = await preparePluginHarnessToolPolicies(
       {
@@ -97,7 +97,7 @@ describe("Codex subagent native tool policy", () => {
       codex.CODEX_TOOL_POLICY_SAFE_DENY_NAMES,
       codex.CODEX_NATIVE_TOOL_REQUIREMENTS,
     );
-    // Direct OpenClaw denial and native restriction must agree on the denied effect.
+    // Direct FRIDAY denial and native restriction must agree on the denied effect.
     for (const tool of ["gateway", "openclaw", "sessions_send", "conversations_turn"]) {
       expect(isToolAllowedByPolicies(tool, policy.runtimePolicies), tool).toBe(false);
     }

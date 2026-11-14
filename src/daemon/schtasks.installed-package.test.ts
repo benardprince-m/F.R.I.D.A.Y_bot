@@ -471,7 +471,7 @@ describe("published installed update progress", () => {
 
   const task: InstalledTask = {
     profile: "synthetic-update",
-    taskName: "OpenClaw Gateway (synthetic-update)",
+    taskName: "FRIDAY Gateway (synthetic-update)",
     stateDir: "C:\\synthetic-update\\state",
     configPath: "C:\\synthetic-update\\state\\openclaw.json",
     scriptPath: "C:\\synthetic-update\\gateway.cmd",

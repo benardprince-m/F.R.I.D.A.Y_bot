@@ -95,7 +95,7 @@ export function parseArgs(argv: string[]) {
 function printHelp() {
   console.log(`Usage: node --import tsx scripts/openclaw-performance-source-summary.mts --source-dir <dir> [--baseline-source-dir <dir>] [--output <summary.md>]
 
-Summarizes OpenClaw-native performance probe artifacts for CI reports.`);
+Summarizes FRIDAY-native performance probe artifacts for CI reports.`);
 }
 
 function readJsonIfExists(filePath: string): JsonValue {
@@ -858,7 +858,7 @@ export function buildMarkdown(sourceDir: string, baselineSourceDir: string | nul
   const memoryDeltaRows = buildMemoryDeltaRows(current, baseline);
 
   const lines = [
-    "# OpenClaw Source Performance",
+    "# FRIDAY Source Performance",
     "",
     `Generated: ${new Date().toISOString()}`,
     "",

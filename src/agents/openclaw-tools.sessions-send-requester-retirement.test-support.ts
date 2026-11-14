@@ -255,7 +255,7 @@ export function registerSessionsSendRequesterRetirementTests({
         await settleSessionWork();
         expect(requesterCalls()).toHaveLength(1);
         expect(requesterCalls()[0]?.params).toMatchObject({
-          message: "Continue the OpenClaw runtime event.",
+          message: "Continue the FRIDAY runtime event.",
           internalEvents: [
             {
               type: "task_completion",

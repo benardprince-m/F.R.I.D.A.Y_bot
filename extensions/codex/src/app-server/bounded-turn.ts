@@ -286,7 +286,7 @@ async function runBoundedCodexAppServerTurnInWorkspace(
           cwd: workspace.cwd,
           approvalPolicy: "on-request",
           sandbox: "read-only",
-          serviceName: "OpenClaw",
+          serviceName: "FRIDAY",
           ...(params.requireNoExternalCapabilities ? { baseInstructions: "" } : {}),
           developerInstructions: params.developerInstructions,
           config: threadConfig,
@@ -481,7 +481,7 @@ function buildPrivateCodexAppServerStartOptions(
       !path.isAbsolute(start.command) && /[\\/]/u.test(start.command)
         ? path.resolve(launchCwd, start.command)
         : start.command,
-    // A fresh private home has no native account; bridge OpenClaw auth even
+    // A fresh private home has no native account; bridge FRIDAY auth even
     // when the operator's ordinary harness uses their native Codex home.
     homeScope: "agent",
     cwd,
@@ -529,7 +529,7 @@ function createCodexBoundedApprovalHandler(taskLabel: string) {
     ) {
       return {
         decision: "decline",
-        reason: `OpenClaw Codex ${taskLabel} does not grant tool or file approvals.`,
+        reason: `FRIDAY Codex ${taskLabel} does not grant tool or file approvals.`,
       };
     }
     if (request.method === "item/permissions/requestApproval") {
@@ -538,12 +538,12 @@ function createCodexBoundedApprovalHandler(taskLabel: string) {
     if (request.method.includes("requestApproval")) {
       return {
         decision: "decline",
-        reason: `OpenClaw Codex ${taskLabel} does not grant native approvals.`,
+        reason: `FRIDAY Codex ${taskLabel} does not grant native approvals.`,
       };
     }
     if (request.method === "mcpServer/elicitation/request") {
       return createCodexElicitationResponse("decline", null, {
-        message: `OpenClaw Codex ${taskLabel} does not support interactive input.`,
+        message: `FRIDAY Codex ${taskLabel} does not support interactive input.`,
       });
     }
     return undefined;

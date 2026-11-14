@@ -256,7 +256,7 @@ async function runCodexSessionAction(
   }
   writeLine(
     "sessionKey" in result
-      ? `OpenClaw session: ${singleLineTerminalText(result.sessionKey)}`
+      ? `FRIDAY session: ${singleLineTerminalText(result.sessionKey)}`
       : `Archived Codex thread ${singleLineTerminalText(threadId)}.`,
   );
 }
@@ -280,7 +280,7 @@ export function registerCodexSessionCli(program: Command): void {
   ).action(listCodexSessions);
 
   for (const [action, description] of [
-    ["continue", "Continue a Gateway-local Codex thread as an OpenClaw branch"],
+    ["continue", "Continue a Gateway-local Codex thread as an FRIDAY branch"],
     ["archive", "Archive a stored or idle Gateway-local Codex thread"],
   ] as const) {
     const command = codex
@@ -291,7 +291,7 @@ export function registerCodexSessionCli(program: Command): void {
     if (action === "archive") {
       command.option(
         "--confirm-no-other-runner",
-        "Confirm no other Codex client or OpenClaw runner is using this thread",
+        "Confirm no other Codex client or FRIDAY runner is using this thread",
         false,
       );
     }

@@ -177,7 +177,7 @@ run_failure_scenario() {
 run_kitchen_sink_sweep_main() {
   if [[ "$KITCHEN_SINK_SCENARIOS" == *"clawhub:"* ]]; then
     if [[ "${OPENCLAW_KITCHEN_SINK_LIVE_CLAWHUB:-0}" = "1" ]]; then
-      echo "The OpenClaw Kitchen Sink package is delisted from ClawHub; use the local ClawHub fixture or npm scenarios." >&2
+      echo "The FRIDAY Kitchen Sink package is delisted from ClawHub; use the local ClawHub fixture or npm scenarios." >&2
       return 2
     else
       if [[ -n "${OPENCLAW_CLAWHUB_URL:-}" || -n "${CLAWHUB_URL:-}" ]]; then

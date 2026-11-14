@@ -154,12 +154,10 @@ describe("shortenHomePath", () => {
   );
 
   it.skipIf(process.platform === "win32")("preserves POSIX home path boundaries and case", () => {
-    withEnv({ OPENCLAW_HOME: "/srv/OpenClaw-Home", HOME: "/home/other" }, () => {
+    withEnv({ OPENCLAW_HOME: "/srv/FRIDAY-Home", HOME: "/home/other" }, () => {
       expect(shortenHomePath("/srv/openclaw-home/workspace")).toBe("/srv/openclaw-home/workspace");
-      expect(shortenHomePath("/srv/OpenClaw-Home\\workspace")).toBe(
-        "/srv/OpenClaw-Home\\workspace",
-      );
-      expect(shortenHomePath("/srv/OpenClaw-Home/work\\space")).toBe("$OPENCLAW_HOME/work\\space");
+      expect(shortenHomePath("/srv/FRIDAY-Home\\workspace")).toBe("/srv/FRIDAY-Home\\workspace");
+      expect(shortenHomePath("/srv/FRIDAY-Home/work\\space")).toBe("$OPENCLAW_HOME/work\\space");
     });
   });
 
@@ -203,7 +201,7 @@ describe("shortenHomeInString", () => {
   it.skipIf(process.platform === "win32")(
     "keeps embedded POSIX home matching case-sensitive",
     () => {
-      withEnv({ OPENCLAW_HOME: "/srv/OpenClaw-Home", HOME: "/home/other" }, () => {
+      withEnv({ OPENCLAW_HOME: "/srv/FRIDAY-Home", HOME: "/home/other" }, () => {
         expect(shortenHomeInString("config: /srv/openclaw-home/openclaw.json")).toBe(
           "config: /srv/openclaw-home/openclaw.json",
         );

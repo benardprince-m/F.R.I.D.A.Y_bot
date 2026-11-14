@@ -1,4 +1,4 @@
-# fastlane setup (OpenClaw iOS)
+# fastlane setup (FRIDAY iOS)
 
 Install the pinned Ruby bundle:
 
@@ -75,7 +75,7 @@ Code signing variable (optional in `.env`):
 IOS_DEVELOPMENT_TEAM=YOUR_TEAM_ID
 ```
 
-Tip: run `scripts/ios-team-id.sh --require-canonical` from repo root to verify the official OpenClaw iOS team (`FWJYW4S8P8`) is available locally. Fastlane uses the same official-team-only path when `IOS_DEVELOPMENT_TEAM` is missing, and rejects other teams for release archives.
+Tip: run `scripts/ios-team-id.sh --require-canonical` from repo root to verify the official FRIDAY iOS team (`FWJYW4S8P8`) is available locally. Fastlane uses the same official-team-only path when `IOS_DEVELOPMENT_TEAM` is missing, and rejects other teams for release archives.
 
 App Store release signing is manual and profile-pinned. The signing manifest is `apps/ios/Config/AppStoreSigning.json`, and Fastlane `match` owns the encrypted signing repo and branch named there.
 
@@ -381,7 +381,7 @@ Versioning rules:
 - Fastlane resolves `CFBundleVersion` from the maximum awaiting, processing, failed, or complete build-upload record plus one
 - The notes baseline is the build attached to the latest public App Store version, independent of later TestFlight uploads
 - `pnpm ios:version:check` validates version inputs without requiring changelog notes
-- The release flow regenerates `apps/ios/OpenClaw.xcodeproj` from `apps/ios/project.yml` before archiving
+- The release flow regenerates `apps/ios/FRIDAY.xcodeproj` from `apps/ios/project.yml` before archiving
 - Local App Store signing uses a temporary generated xcconfig with profile names from `apps/ios/Config/AppStoreSigning.json` and leaves local development signing overrides untouched
 - App Store release uses `OpenClawPushMode=appStore`, which derives the official production hosted relay, production APNs, production relay profile, and `appleStrict` proof. The release lane rejects custom production relay URL overrides.
 - The exported IPA is validated before upload by inspecting its push mode, signed entitlements, and embedded App Store profile.

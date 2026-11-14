@@ -89,9 +89,9 @@ In Nix mode (`OPENCLAW_NIX_MODE=1`), `openclaw.json` is immutable. `install`, `u
 </Note>
 
 <Note>
-Bundled plugins ship with OpenClaw. A little over half are enabled by default — mostly model and speech providers, plus a few others such as the bundled browser plugin. Other bundled plugins need explicit enablement or relevant configuration. Enabled does not mean currently in use. Provider use depends on configuration and requests. Providers that require authentication need credentials; keyless providers such as Microsoft speech do not. An enabled entry in `plugins list` does not mean the plugin is doing work.
+Bundled plugins ship with FRIDAY. A little over half are enabled by default — mostly model and speech providers, plus a few others such as the bundled browser plugin. Other bundled plugins need explicit enablement or relevant configuration. Enabled does not mean currently in use. Provider use depends on configuration and requests. Providers that require authentication need credentials; keyless providers such as Microsoft speech do not. An enabled entry in `plugins list` does not mean the plugin is doing work.
 
-Native OpenClaw plugins ship `openclaw.plugin.json` with an inline JSON Schema (`configSchema`, even if empty). Compatible bundles use their own bundle manifests instead.
+Native FRIDAY plugins ship `openclaw.plugin.json` with an inline JSON Schema (`configSchema`, even if empty). Compatible bundles use their own bundle manifests instead.
 
 `plugins list` shows `Format: openclaw` or `Format: bundle`. Verbose list/info output also shows the bundle subtype (`agent (Agent Plugins)`, `codex`, `claude`, or `cursor`) plus detected bundle capabilities.
 </Note>

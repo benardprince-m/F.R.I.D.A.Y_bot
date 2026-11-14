@@ -1,5 +1,5 @@
 ---
-summary: "Install and use the OpenClaw macOS menu bar app"
+summary: "Install and use the FRIDAY macOS menu bar app"
 read_when:
   - Installing the macOS app
   - Deciding between local and remote Gateway mode on macOS
@@ -7,7 +7,7 @@ read_when:
 title: "macOS app"
 ---
 
-The macOS app is the OpenClaw **menu bar companion**: native tray UI, macOS
+The macOS app is the FRIDAY **menu bar companion**: native tray UI, macOS
 permission prompts, notifications, WebChat, voice input, a hosted-widget panel,
 and Mac-hosted node tools such as `system.run`.
 
@@ -29,7 +29,7 @@ Only need the CLI and Gateway? Start with [Getting started](/start/getting-start
 
 ## Requirements
 
-**OpenClaw.app requires macOS 26.2 (Tahoe) or later.** This also applies to
+**FRIDAY.app requires macOS 26.2 (Tahoe) or later.** This also applies to
 its native `openclaw-mac` helper and [Voice Wake and push-to-talk](/platforms/mac/voicewake#requirements).
 
 The Node-based CLI and Gateway need a [supported Node version](/install/node)
@@ -46,21 +46,21 @@ Building from source also requires the toolchain listed in
 
 Download a macOS installer from the published **2026.10.3** release:
 
-| Your Mac                              | Installer                                                                                                           |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Apple Silicon                         | [Apple Silicon DMG](https://github.com/openclaw/openclaw/releases/download/v2026.10.3/OpenClaw-2026.10.3-arm64.dmg) |
-| Intel                                 | [Intel DMG](https://github.com/openclaw/openclaw/releases/download/v2026.10.3/OpenClaw-2026.10.3-x86_64.dmg)        |
-| Either architecture, or you're unsure | [Universal DMG](https://github.com/openclaw/openclaw/releases/download/v2026.10.3/OpenClaw-2026.10.3.dmg)           |
+| Your Mac                              | Installer                                                                                                         |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Apple Silicon                         | [Apple Silicon DMG](https://github.com/openclaw/openclaw/releases/download/v2026.10.3/FRIDAY-2026.10.3-arm64.dmg) |
+| Intel                                 | [Intel DMG](https://github.com/openclaw/openclaw/releases/download/v2026.10.3/FRIDAY-2026.10.3-x86_64.dmg)        |
+| Either architecture, or you're unsure | [Universal DMG](https://github.com/openclaw/openclaw/releases/download/v2026.10.3/FRIDAY-2026.10.3.dmg)           |
 
 These download links are pinned to **2026.10.3**. For newer builds or ZIP archives,
-see [OpenClaw GitHub releases](https://github.com/openclaw/openclaw/releases).
+see [FRIDAY GitHub releases](https://github.com/openclaw/openclaw/releases).
 Some releases only ship CLI, evidence, or Windows assets. If the newest release
 has no macOS app asset, use the newest one that does, or build from source with
 [macOS dev setup](/platforms/mac/dev-setup).
 
 ## First run
 
-Install and launch **OpenClaw.app**. On a fresh installation with no saved Gateway
+Install and launch **FRIDAY.app**. On a fresh installation with no saved Gateway
 or configuration, a progress window appears while the app prepares its bundled
 runtime, starts a Gateway on **This Mac**, and opens the dashboard's onboarding conversation. It never joins
 a discovered Gateway automatically. The window shows the current step and closes
@@ -70,7 +70,7 @@ setup instead.
 
 The dashboard connects your AI, shows what it selected, and offers alternatives.
 You can choose another Gateway or review this Mac's permissions from the setup
-card. OpenClaw then guides the remaining setup (memory import, channels, and
+card. FRIDAY then guides the remaining setup (memory import, channels, and
 permissions) in the same conversation. Grant macOS permissions any time from
 **Dashboard → Settings → This Mac → Permissions**.
 
@@ -89,7 +89,7 @@ you select it. A verified existing model opens the normal dashboard without
 replacing the configured route.
 
 Automatic setup preserves an existing configured model. Otherwise it tries saved
-OpenClaw auth profiles, a stored Codex login, a Claude CLI login, `OPENAI_API_KEY`,
+FRIDAY auth profiles, a stored Codex login, a Claude CLI login, `OPENAI_API_KEY`,
 `ANTHROPIC_API_KEY`, then eligible loaded models in Ollama, LM Studio, or
 llama.cpp. It activates the first connection that passes a live completion. If
 none works, it installs or enables the official Codex plugin and uses its login
@@ -98,9 +98,9 @@ as the primary model, and native Claude/Codex conversation discovery stays off.
 
 When setup reuses Codex, the card says **Using your existing Codex login ·
 sessions shared with Codex**. Codex owns authentication and token refresh in the
-Gateway user's `CODEX_HOME` (or `~/.codex`); OpenClaw does not copy the OAuth
+Gateway user's `CODEX_HOME` (or `~/.codex`); FRIDAY does not copy the OAuth
 tokens. Choose **Use a separate login** on the card to sign in to an isolated
-OpenClaw agent home. You can also change providers or sign in separately through
+FRIDAY agent home. You can also change providers or sign in separately through
 **Model Setup**. See [Codex login and isolation](/start/onboarding#codex-login-and-isolation).
 
 For the CLI/Gateway setup path, use [Getting started](/start/getting-started).
@@ -139,7 +139,7 @@ options, Tailscale, and discovery; **Gateways** manages saved Gateway profiles.
 A **Debug** tab appears while the developer toggle in **This Mac → Developer**
 is enabled. The same toggle enables **Inspect Element** in the Dashboard and
 widget panel context menus; changes apply to open windows without restarting.
-**About OpenClaw** selects the **About** tab in this window, with the app version,
+**About FRIDAY** selects the **About** tab in this window, with the app version,
 build information, and resource links. **Copy Build Info** copies the full version,
 commit, and build timestamp. About works offline.
 
@@ -260,7 +260,7 @@ Drag the empty space beside the side-panel tabs to move the window. The full hei
 
 Mac tabs stay visible when a menu or hover card opens elsewhere in the dashboard. A tab's page temporarily hides only when the menu overlaps its Browser pane, or while a modal dialog or the command palette is open, and returns when the obstruction clears.
 
-Drag the empty header space or title in the docked OpenClaw chat panel to move the app window. Its dock-position and close buttons remain clickable.
+Drag the empty header space or title in the docked FRIDAY chat panel to move the app window. Its dock-position and close buttons remain clickable.
 
 Right-click an external link in the dashboard to choose **Open in Browser Panel**, **Open in Default Browser**, or **Copy Link**. Modified clicks still open the default browser. New-window links inside a Mac tab open another Mac tab; pointer-activated downloads hand off to the default browser. Responses WebKit cannot display hand off only for pointer-activated main-frame navigation; other non-displayable responses are cancelled silently. Regular browser-hosted Control UI pages keep their normal link and context-menu behavior unless you enable the Browser panel link preference.
 

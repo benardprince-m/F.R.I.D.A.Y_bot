@@ -113,7 +113,7 @@ terminates the matching process tree. Existing request/response commands are unc
 ## Codex sessions on a node
 
 A session host using the Codex runtime also needs the `codex` plugin installed and
-enabled in the **node host's** OpenClaw configuration. `--session-host` alone does not
+enabled in the **node host's** FRIDAY configuration. `--session-host` alone does not
 install or enable this plugin. On the node, install it if missing, then enable it:
 
 ```bash

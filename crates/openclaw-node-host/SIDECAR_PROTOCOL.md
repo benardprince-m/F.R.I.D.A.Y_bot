@@ -1,4 +1,4 @@
-# OpenClaw node sidecar protocol v1
+# FRIDAY node sidecar protocol v1
 
 This document describes the byte contract implemented by
 `sidecar_protocol.rs`. It is the portable authenticated channel beneath a
@@ -164,7 +164,7 @@ retirement blocks new native work and cancels in-flight adapter work. The bridge
 accepts one immutable connection manifest and requires its
 concurrency/input/output limits to remain within the negotiated sidecar envelope. Command and capability names
 use the shared ASCII grammar `[A-Za-z0-9._-]{1,128}`, are duplicate-free, and
-are sorted bytewise before acknowledgement; the OpenClaw-owned `system.*`
+are sorted bytewise before acknowledgement; the FRIDAY-owned `system.*`
 namespace remains reserved.
 
 The configured output limit must also fit the largest bridge-owned stable

@@ -126,7 +126,7 @@ ${sources.virtualAudioInput({
 `,
 })}
 ${sources.prejoinMicrophone({
-  unroutedSource: `      controlManualAction = manualActionFor("teams-audio-choice-required", "Select the OpenClaw virtual audio device as the Teams microphone and verify it is selected before enabling talk-back.");`,
+  unroutedSource: `      controlManualAction = manualActionFor("teams-audio-choice-required", "Select the FRIDAY virtual audio device as the Teams microphone and verify it is selected before enabling talk-back.");`,
   afterRoutedSource: `    if (audioInputRouted && microphoneState !== "on") {
       controlManualAction = manualActionFor("teams-microphone-required", "Unmute the Teams microphone and verify the microphone control shows it is on, then retry joining.");
     }
@@ -141,7 +141,7 @@ ${sources.inCallMicrophone}
     if (!microphone) {
       controlManualAction = manualActionFor("teams-microphone-required", "Open Teams device settings and verify the microphone control before enabling talk-back.");
     } else if (audioInputRouted !== true) {
-      controlManualAction = manualActionFor("teams-audio-choice-required", "Select the OpenClaw virtual audio device as the Teams microphone and verify it is selected before enabling talk-back.");
+      controlManualAction = manualActionFor("teams-audio-choice-required", "Select the FRIDAY virtual audio device as the Teams microphone and verify it is selected before enabling talk-back.");
     } else if (microphoneState !== "on") {
       controlManualAction = manualActionFor("teams-microphone-required", "Unmute the Teams microphone and verify the microphone control shows it is on, then retry joining.");
     }

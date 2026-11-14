@@ -144,7 +144,7 @@ it.each([
     const details = notice?.querySelector("details");
     expect(details).toMatchObject({ open: false });
     expect(details?.querySelector("strong")?.textContent).toBe(
-      "OpenClaw is busy. Check status before trying again.",
+      "FRIDAY is busy. Check status before trying again.",
     );
     expect(details?.querySelector("pre")?.textContent).toBe(diagnostic);
     expect(notice?.querySelector("img")).toBeNull();

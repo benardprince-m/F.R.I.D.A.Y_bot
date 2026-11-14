@@ -40,7 +40,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("OpenClaw shell locale preferences", () => {
+describe("FRIDAY shell locale preferences", () => {
   beforeEach(() => {
     resetServerUiPrefsSync();
     patchSettings({ gatewayUrl: "ws://locale.test" });

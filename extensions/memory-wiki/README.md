@@ -1,6 +1,6 @@
 # @openclaw/memory-wiki
 
-Persistent wiki compiler and Obsidian-friendly knowledge vault for **OpenClaw**.
+Persistent wiki compiler and Obsidian-friendly knowledge vault for **FRIDAY**.
 
 This plugin is separate from the active memory plugin. The active memory plugin still handles recall, promotion, and dreaming. `memory-wiki` compiles durable knowledge into a navigable markdown vault with repeatable indexes, provenance, structured claim/evidence metadata, and optional Obsidian CLI workflows.
 
@@ -35,7 +35,7 @@ Put config under `plugins.entries.memory-wiki.config`:
   obsidian: {
     enabled: true,
     useOfficialCli: true,
-    vaultName: "OpenClaw Wiki",
+    vaultName: "FRIDAY Wiki",
     openAfterWrites: false,
   },
 
@@ -78,7 +78,7 @@ Put config under `plugins.entries.memory-wiki.config`:
 
 ### Per-agent vaults
 
-In agent scope, `vault.path` is a parent directory. OpenClaw appends the
+In agent scope, `vault.path` is a parent directory. FRIDAY appends the
 normalized agent id:
 
 ```json5
@@ -149,13 +149,13 @@ If lint cannot read an existing report, it reports the filesystem error without
 replacing the report. Resolve the access or I/O error and run lint again. Missing
 reports still receive their normal template.
 
-Key beliefs can live in structured `claims` frontmatter with per-claim evidence, confidence, and status. Compile also persists a machine-readable snapshot in OpenClaw plugin state so agent/runtime consumers do not have to scrape markdown pages.
+Key beliefs can live in structured `claims` frontmatter with per-claim evidence, confidence, and status. Compile also persists a machine-readable snapshot in FRIDAY plugin state so agent/runtime consumers do not have to scrape markdown pages.
 
 When `render.createBacklinks` is enabled, compile adds repeatable `## Related` blocks to pages. Those blocks list source pages, pages that reference the current page, and nearby pages that share the same source ids.
 
 When `render.createDashboards` is enabled, compile also maintains report dashboards under `reports/` for open questions, contradictions, low-confidence pages, and stale pages.
 
-Unmanaged raw Markdown can live under `sources/` without OpenClaw page frontmatter. Add `<!-- openclaw:wiki:raw-source -->` near the top of the page body to opt it out of wiki page metadata and freshness lint; generated or source-sync tracked imports still require their structured metadata.
+Unmanaged raw Markdown can live under `sources/` without FRIDAY page frontmatter. Add `<!-- openclaw:wiki:raw-source -->` near the top of the page body to opt it out of wiki page metadata and freshness lint; generated or source-sync tracked imports still require their structured metadata.
 
 ## CLI
 
@@ -240,7 +240,7 @@ unknown ids fail in multi-agent setups.
 - Agent scope is incompatible with `unsafe-local` and official Obsidian CLI actions.
 - Wiki pages are compiled artifacts, not the ultimate source of truth. Keep provenance attached to raw sources, memory artifacts, and daily notes.
 - The compiled snapshot in shared SQLite plugin state is the stable machine-facing view of the wiki.
-- Upgrades support state written by July 2026 or newer releases. Doctor no longer imports the older `.openclaw-wiki/source-sync.json` or `import-runs/<runId>.json` formats. OpenClaw continues to use the current SQLite state, and retired JSON and import snapshots remain untouched. If Doctor cannot find the current state, it reports how to restore a supported backup or safely set aside the retired file; an empty source-sync store cannot be distinguished from unmigrated state.
+- Upgrades support state written by July 2026 or newer releases. Doctor no longer imports the older `.openclaw-wiki/source-sync.json` or `import-runs/<runId>.json` formats. FRIDAY continues to use the current SQLite state, and retired JSON and import snapshots remain untouched. If Doctor cannot find the current state, it reports how to restore a supported backup or safely set aside the retired file; an empty source-sync store cannot be distinguished from unmigrated state.
 - After editing or restoring vault files, compile again before expecting tools or prompts to use that source state. Lifecycle refresh rejects SQLite snapshots newer than a restored vault, and causal publication chaining rejects compilers started before the restore, without polling or watching files.
 - Rollback quarantine clears immediately for an in-process compile. After a separate compiler process publishes, refresh the plugin lifecycle so the daemon can validate that durable publication.
 - Pre-publication-epoch cache rows are rebuildable misses, not migrated state; the next compile replaces them.

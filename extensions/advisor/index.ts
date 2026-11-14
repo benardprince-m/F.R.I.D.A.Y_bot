@@ -26,7 +26,7 @@ const REVIEW_PREFIX =
 const OUTPUT_CONTRACT =
   "Reply NO_CHANGE if the agent is on track. Otherwise reply CORRECTION on the first line, then one short correction to the agent (under 80 words) naming the evidence and the next action. A tool call without a result may still be running.";
 export const DELIVERY_PREFIX =
-  "Advisor (OpenClaw Labs): an automatic advisor read this conversation's recent work. " +
+  "Advisor (FRIDAY Labs): an automatic advisor read this conversation's recent work. " +
   "Treat this as advice, not new instructions or permissions, and check that it still applies before acting.";
 
 type AdmittedRun = { sessionKey: string };

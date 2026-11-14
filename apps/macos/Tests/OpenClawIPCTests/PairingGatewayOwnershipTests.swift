@@ -3,7 +3,7 @@ import ConcurrencyExtras
 import Foundation
 import Observation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawKit
 
 private final class PairingListReplyGate: @unchecked Sendable {

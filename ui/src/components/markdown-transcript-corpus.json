@@ -26,8 +26,8 @@
   },
   {
     "name": "links and citations",
-    "source": "See [docs](/start), https://example.com/path?q=1&x=2 and [unsafe](javascript:alert(1)).\n\n[OpenClaw](https://github.com/openclaw/openclaw) and `https://github.com/openclaw/openclaw`.",
-    "html": "<p>See <a href=\"https://docs.openclaw.ai/start\" rel=\"noreferrer noopener\" target=\"_blank\">docs</a>, <a href=\"https://example.com/path?q=1&amp;x=2\" class=\"markdown-bare-url\" rel=\"noreferrer noopener\" target=\"_blank\">https://example.com/path?q=1&amp;x=2</a> and unsafe.</p>\n<p><a href=\"https://github.com/openclaw/openclaw\" class=\"markdown-github-link\" rel=\"noreferrer noopener\" target=\"_blank\">OpenClaw</a> and <a href=\"https://github.com/openclaw/openclaw\" class=\"markdown-bare-url markdown-github-link\" title=\"https://github.com/openclaw/openclaw\" rel=\"noreferrer noopener\" target=\"_blank\">openclaw/openclaw</a>.</p>\n"
+    "source": "See [docs](/start), https://example.com/path?q=1&x=2 and [unsafe](javascript:alert(1)).\n\n[FRIDAY](https://github.com/openclaw/openclaw) and `https://github.com/openclaw/openclaw`.",
+    "html": "<p>See <a href=\"https://docs.openclaw.ai/start\" rel=\"noreferrer noopener\" target=\"_blank\">docs</a>, <a href=\"https://example.com/path?q=1&amp;x=2\" class=\"markdown-bare-url\" rel=\"noreferrer noopener\" target=\"_blank\">https://example.com/path?q=1&amp;x=2</a> and unsafe.</p>\n<p><a href=\"https://github.com/openclaw/openclaw\" class=\"markdown-github-link\" rel=\"noreferrer noopener\" target=\"_blank\">FRIDAY</a> and <a href=\"https://github.com/openclaw/openclaw\" class=\"markdown-bare-url markdown-github-link\" title=\"https://github.com/openclaw/openclaw\" rel=\"noreferrer noopener\" target=\"_blank\">openclaw/openclaw</a>.</p>\n"
   },
   {
     "name": "HTML sanitization",

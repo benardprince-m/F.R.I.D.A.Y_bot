@@ -60,7 +60,7 @@ export function activationFailure(error: string, status?: "auth" | "timeout" | "
 }
 
 export function localPrepareOptions(
-  llamaHint = "Install a verified llama.cpp server and run a private GGUF model managed by OpenClaw",
+  llamaHint = "Install a verified llama.cpp server and run a private GGUF model managed by FRIDAY",
 ) {
   return [
     {

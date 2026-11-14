@@ -348,7 +348,7 @@ enum GatewayLaunchAgentManager {
         installedRuntimePath: String?,
         stateDirectory: URL) -> String?
     {
-        guard appManaged else { return "Gateway service is not managed by OpenClaw.app" }
+        guard appManaged else { return "Gateway service is not managed by FRIDAY.app" }
         guard let installedRuntimePath else { return "Gateway service runtime could not be inspected" }
         let directory = stateDirectory.appendingPathComponent("runtime", isDirectory: true)
         let pin = URL(fileURLWithPath: installedRuntimePath)
@@ -751,7 +751,7 @@ extension GatewayLaunchAgentManager {
                   ], options: [.sortedKeys, .withoutEscapingSlashes]),
                   let restoration = String(bytes: data, encoding: .utf8)
             else {
-                return .failure("Gateway recovery requires this app's bundled installer. Reinstall OpenClaw.app.")
+                return .failure("Gateway recovery requires this app's bundled installer. Reinstall FRIDAY.app.")
             }
             selectedCLI = InstalledServiceCLI(
                 prefix: runtime.cliCommand,

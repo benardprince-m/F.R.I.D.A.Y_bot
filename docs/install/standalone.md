@@ -1,13 +1,13 @@
 ---
-summary: "Build a standalone OpenClaw executable with Bun and a companion runtime directory"
+summary: "Build a standalone FRIDAY executable with Bun and a companion runtime directory"
 read_when:
-  - You want to build or package OpenClaw as a standalone executable
+  - You want to build or package FRIDAY as a standalone executable
   - You need the standalone output or macOS signing contract
   - You are comparing JIT, bytecode, and experimental AOT builds
 title: "Standalone builds"
 ---
 
-The standalone builder packages OpenClaw and Bun into one executable, with a
+The standalone builder packages FRIDAY and Bun into one executable, with a
 companion `runtime/` directory for native libraries, plugins, and other resources.
 This is also called a **fat binary** build. It runs without a separate Node or Bun
 installation, but the executable and its sidecar must stay together.
@@ -36,7 +36,7 @@ where the result will run; choose a matching pinned Bun artifact. The staging he
 verifies the download's checksums and Bun identity. Use a fresh output directory
 for each build so an earlier runtime snapshot cannot leak into the result.
 
-The manifest reads the OpenClaw version and commit from `dist/build-info.json`.
+The manifest reads the FRIDAY version and commit from `dist/build-info.json`.
 Rerun `pnpm build` after source changes; changing the checkout alone does not update
 the identity of an existing runtime build.
 
@@ -123,7 +123,7 @@ runtime in `runtime/npm/` is retained regardless of the plugin selection.
 | `mode`          | `jit`, `bytecode`, or `aot`.                                                                                      |
 | `target`        | `platform` and `arch` for the compiled executable.                                                                |
 | `bun`           | Compiler `version`, `revision`, `commit`, and `executableSha256`.                                                 |
-| `openclaw`      | OpenClaw `version` and source `commit`.                                                                           |
+| `openclaw`      | FRIDAY `version` and source `commit`.                                                                             |
 | `executable`    | Relative `path`, `sizeBytes`, and `sha256`.                                                                       |
 | `runtime`       | Relative `path`, `sizeBytes`, `sha256`, `fileCount`, `symlinkCount`, resource `categories`, and `sidecarPlugins`. |
 | `embedded`      | Counts for `workers`, `plugins`, `modules`, and `inlineWorkers`.                                                  |
@@ -240,7 +240,7 @@ Private `docs/internal/` content and the root documentation authoring instructio
 
 Bundled hook handlers and plugin helper programs use the executable's embedded
 child entrypoints. Browser scripts and HTML export scripts remain physical assets
-because they run in the browser rather than the OpenClaw process.
+because they run in the browser rather than the FRIDAY process.
 
 The resource policy is declarative and derived from the compiled dependency
 graph. Runtime traces verify the exercised paths; they are not a frozen list of
@@ -255,12 +255,12 @@ Native dependencies must match the target platform and architecture. A
 standalone build does not make an arbitrary plugin portable, provide a signing
 identity, install a service, or migrate user state during compilation.
 
-The executable is an OpenClaw launcher, not a general-purpose Bun CLI. The
+The executable is an FRIDAY launcher, not a general-purpose Bun CLI. The
 builder embeds known worker and child programs. Plugins that use
 `process.execPath` to run arbitrary scripts or Bun flags need a separate runtime
 or their own standalone integration and qualification.
 
-The shared `cli-invocation.mjs` module owns OpenClaw CLI launch arguments for
+The shared `cli-invocation.mjs` module owns FRIDAY CLI launch arguments for
 startup respawns, native hook relays, ACP and TUI launches, update helpers, and service launchers. A standalone invocation
 passes CLI arguments directly to the executable, including root options such as
 `--profile`; it does not prepend a script path or interpreter flags. A loose
@@ -279,7 +279,7 @@ are manual because their resource cost is too high for routine PR checks.
 
 For each production-pinned JIT and bytecode artifact:
 
-1. Record compiler revision and checksum, OpenClaw commit, output sizes and
+1. Record compiler revision and checksum, FRIDAY commit, output sizes and
    hashes, and the mode-specific signing entitlements.
 2. Use isolated HOME, configuration, state, workspace, and temporary directories.
    Pass the same explicit `--profile <isolated-name>` on every CLI launch,
@@ -300,7 +300,7 @@ For each production-pinned JIT and bytecode artifact:
    Include a real Codex-backed reply and a tool-using turn. Verify the tool's
    result and observe the native hook child running `<executable> hooks relay`
    without a loose entry script. Reuse native Codex login with
-   `appServer.homeScope: "user"`; keep OpenClaw state isolated and do not copy
+   `appServer.homeScope: "user"`; keep FRIDAY state isolated and do not copy
    credentials into the artifact or test state.
 4. Run the signed functional campaign with only the declared entitlements.
    Remove each declared entitlement in a separate negative control and record

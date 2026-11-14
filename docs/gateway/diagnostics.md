@@ -7,7 +7,7 @@ read_when:
   - Reviewing what diagnostics data is recorded or redacted
 ---
 
-OpenClaw can build a local diagnostics `.zip` for bug reports: sanitized Gateway
+FRIDAY can build a local diagnostics `.zip` for bug reports: sanitized Gateway
 status, health, logs, config shape, and recent payload-free stability events.
 
 Treat diagnostics bundles like secrets until reviewed. Payloads and credentials
@@ -38,13 +38,13 @@ Owners can run `/diagnostics [note]` in any conversation to request a local
 Gateway export as one copy-pasteable support report:
 
 1. Send `/diagnostics`, optionally with a short note (`/diagnostics bad tool choice`).
-2. OpenClaw sends a preamble and asks for one explicit exec approval, which runs
+2. FRIDAY sends a preamble and asks for one explicit exec approval, which runs
    `openclaw gateway diagnostics export --json`. Do not approve diagnostics via
    an allow-all rule.
-3. After approval, OpenClaw replies with the local bundle path, manifest
+3. After approval, FRIDAY replies with the local bundle path, manifest
    summary, privacy notes, and relevant session ids.
 
-In group chats, an owner can still run `/diagnostics`, but OpenClaw sends the
+In group chats, an owner can still run `/diagnostics`, but FRIDAY sends the
 export result, approval prompts, and Codex session/thread breakdown to the
 owner privately. The group sees only a short status notice: approval pending,
 private delivery confirmed, delivery pending, or delivery suppressed. Pending
@@ -52,11 +52,11 @@ delivery does not trigger another private send. If no private owner route exists
 the command asks the owner to run it from a DM.
 
 When the active session uses the native OpenAI Codex harness, the same exec
-approval also covers an OpenAI feedback upload for the Codex threads OpenClaw
+approval also covers an OpenAI feedback upload for the Codex threads FRIDAY
 knows about. That upload is separate from the local Gateway zip and only
 happens for Codex harness sessions. The approval prompt states that approving
 also sends Codex feedback, without listing Codex session or thread ids. After
-approval, the reply lists channels, OpenClaw session ids, Codex thread ids, and
+approval, the reply lists channels, FRIDAY session ids, Codex thread ids, and
 local resume commands for the threads that were sent to OpenAI. Denying or
 ignoring the approval skips the export, the Codex feedback upload, and the
 Codex id list.
@@ -365,7 +365,7 @@ main JavaScript isolate:
 openclaw gateway call diagnostics.cpuProfile --params '{}' --timeout 30000 --json
 ```
 
-The RPC supports Node and OpenClaw's Bun runtime. It requests five seconds of sampling at a 10 ms interval and opens
+The RPC supports Node and FRIDAY's Bun runtime. It requests five seconds of sampling at a 10 ms interval and opens
 no debugger port and sends no process signal. A disconnected caller or Gateway
 shutdown cancels the capture and runs profiler cleanup. Overlapping requests fail
 instead of queuing. No profile is written to disk or included in diagnostics exports.
@@ -378,7 +378,7 @@ The complete result is limited to 1 MiB. When the full graph exceeds that limit,
 the result contains `summary` instead of `profile`, with `truncated: true`,
 `originalNodeCount`, `sampleCount`, and `omittedSampleCount`. Each summary row
 contains a leaf-first `stack` of up to eight frames and its recorded `sampleCount`.
-If those frames contain no OpenClaw code, the nearest `openclaw:` caller toward
+If those frames contain no FRIDAY code, the nearest `openclaw:` caller toward
 the root is appended when available, for at most nine frames. `elidedFrameCount`
 counts frames skipped between the first eight frames and that appended caller;
 it is zero when there is no gap. Stacks with identical frames and elision counts
@@ -388,7 +388,7 @@ This preserves useful attribution during busy startup windows, when deep stacks
 and V8 deoptimization samples can enlarge the graph despite the sampling interval.
 The input limits of 16,384 nodes and 65,536 samples still apply; captures exceeding
 either limit remain unavailable to bound processing work.
-Code locations inside the OpenClaw package use `openclaw:` paths;
+Code locations inside the FRIDAY package use `openclaw:` paths;
 Node builtin locations use `node:` paths. External paths, eval labels, and other
 unrecognized names are redacted. Bounded code-symbol names at recognized locations
 are retained; their syntax does not prove that a computed name is public. Review
@@ -456,7 +456,7 @@ isolate, including objects allocated before the request:
 openclaw gateway call diagnostics.heapSnapshot --params '{"reason":"retention baseline"}' --timeout 180000 --json
 ```
 
-The RPC supports Node and OpenClaw's Bun runtime and writes V8-compatible snapshot JSON.
+The RPC supports Node and FRIDAY's Bun runtime and writes V8-compatible snapshot JSON.
 It accepts only an optional `reason` (at most 256 characters),
 recorded in the warning before capture. No configuration switch is needed. It
 writes `<state>/diagnostics/heap-<timestamp>.heapsnapshot` with owner-only file
@@ -566,7 +566,7 @@ openclaw gateway call diagnostics.heapProfile --params '{"durationMs":10000,"sam
 openclaw gateway call diagnostics.heapProfile --params '{"includeCollected":true}' --timeout 30000 --json
 ```
 
-The RPC supports Node and OpenClaw's Bun runtime. It defaults to five seconds and an average sampling interval of
+The RPC supports Node and FRIDAY's Bun runtime. It defaults to five seconds and an average sampling interval of
 32 KiB. `durationMs` and `samplingIntervalBytes` must be positive integers. With
 both collection flags false, durations are capped at 15 minutes (900,000 ms).
 Enabling either collection flag keeps the duration cap at 30 seconds;

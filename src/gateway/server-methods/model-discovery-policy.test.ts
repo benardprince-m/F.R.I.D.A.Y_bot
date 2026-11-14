@@ -337,7 +337,7 @@ describe("operator model discovery at registered reads", () => {
           expect(defaultModels?.utilityRuntime).toEqual({
             id: "openclaw",
             kind: "api",
-            label: "OpenClaw Default",
+            label: "FRIDAY Default",
           });
         } else {
           expect(defaultModels).toBeDefined();

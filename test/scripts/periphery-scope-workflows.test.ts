@@ -10,7 +10,7 @@ import { useAutoCleanupTempDirTracker } from "../helpers/temp-dir.js";
 const WORKFLOW_CASES = (
   [
     ["ios", "apps/ios/Sources/Test.swift"],
-    ["macos", "apps/macos/Sources/OpenClaw/Test.swift"],
+    ["macos", "apps/macos/Sources/FRIDAY/Test.swift"],
     ["shared-openclawkit", "apps/shared/OpenClawKit/Sources/OpenClawKit/Test.swift"],
   ] as const
 ).map(([name, scopedPath]) =>
@@ -128,7 +128,7 @@ function makeRepo() {
     git("commit", "-m", message);
   };
   git("init", "--initial-branch=main");
-  git("config", "user.name", "OpenClaw Test");
+  git("config", "user.name", "FRIDAY Test");
   git("config", "user.email", "openclaw-test@example.com");
   return { root, git, write, commit };
 }

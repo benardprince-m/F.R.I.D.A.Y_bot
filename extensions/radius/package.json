@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/radius-provider",
   "version": "2026.10.4",
-  "description": "OpenClaw Radius model gateway provider plugin.",
+  "description": "FRIDAY Radius model gateway provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

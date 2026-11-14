@@ -234,7 +234,7 @@ export function wrapStreamFnWithSessionFork(
 }
 
 const EMBEDDED_FORK_REQUIRES_PARENT =
-  "Cache-parity session fork requires a parent turn prepared by this OpenClaw runtime. Send a normal message first.";
+  "Cache-parity session fork requires a parent turn prepared by this FRIDAY runtime. Send a normal message first.";
 
 function stripNewCacheMarkers(value: unknown): unknown {
   if (Array.isArray(value)) {

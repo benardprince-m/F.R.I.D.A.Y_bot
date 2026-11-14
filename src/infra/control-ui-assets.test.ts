@@ -284,7 +284,7 @@ if (process.exitCode === 0) {
     ).resolves.toEqual({
       ok: false,
       built: false,
-      message: `Missing Control UI assets at ${indexPath}. Reinstall OpenClaw to restore bundled Control UI assets.`,
+      message: `Missing Control UI assets at ${indexPath}. Reinstall FRIDAY to restore bundled Control UI assets.`,
     });
   });
 

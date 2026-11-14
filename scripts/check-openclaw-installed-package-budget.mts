@@ -44,7 +44,7 @@ export async function measureInstalledPackageTree(root: string): Promise<Measure
     }
   } catch (error) {
     throw new UsageError(
-      `Expected an installed OpenClaw package root such as <prefix>/lib/node_modules/openclaw with a package.json containing a string version: ${error instanceof Error ? error.message : String(error)}`,
+      `Expected an installed FRIDAY package root such as <prefix>/lib/node_modules/openclaw with a package.json containing a string version: ${error instanceof Error ? error.message : String(error)}`,
     );
   }
 

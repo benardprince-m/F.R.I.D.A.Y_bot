@@ -85,7 +85,7 @@ function barnacleIssueContext(
       issue: {
         ...pull_request,
         number: 456,
-        title: "OpenClaw issue",
+        title: "FRIDAY issue",
         body: "",
         ...issue,
       },

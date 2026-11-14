@@ -218,7 +218,7 @@ it("retains failed rollback for recovery without replaying settled siblings", as
 });
 
 it.each([false, true])("retains peer-link failure (rollbackFails=%s)", async (rollbackFails) => {
-  const root = new Error("Cannot repair OpenClaw peer link: target is not a directory");
+  const root = new Error("Cannot repair FRIDAY peer link: target is not a directory");
   const cleanup = new Error("Cannot restore plugin backup");
   repairPeerLinks.mockRejectedValueOnce(root);
   const rollback = vi.fn(async () => {

@@ -36,7 +36,7 @@ it("keeps MCP App raw details reachable from its widget menu", async () => {
     view.render(group, {
       showReasoning: true,
       showToolCalls: true,
-      assistantName: "OpenClaw",
+      assistantName: "FRIDAY",
       assistantAvatar: null,
       sessionKey: "agent:main:main",
     });

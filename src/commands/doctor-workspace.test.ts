@@ -210,7 +210,7 @@ describe("root memory repair", () => {
         "Split root durable memory files detected:",
         `- current: ${path.join(tmpDir, "MEMORY.md")} (28 bytes)`,
         `- legacy: ${path.join(tmpDir, "memory.md")} (20 bytes)`,
-        "OpenClaw uses MEMORY.md as the current durable memory file.",
+        "FRIDAY uses MEMORY.md as the current durable memory file.",
         "Dreaming writes durable promotions to MEMORY.md, so older facts in memory.md can be shadowed.",
         'Run "openclaw doctor --fix" to merge the legacy file into MEMORY.md with a backup.',
       ].join("\n"),

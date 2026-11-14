@@ -1,9 +1,9 @@
-# OpenClaw Xiaomi Provider
+# FRIDAY Xiaomi Provider
 
-Official OpenClaw provider plugin for Xiaomi MiMo pay-as-you-go and Token Plan
+Official FRIDAY provider plugin for Xiaomi MiMo pay-as-you-go and Token Plan
 models, usage tracking, and text-to-speech.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/xiaomi-provider

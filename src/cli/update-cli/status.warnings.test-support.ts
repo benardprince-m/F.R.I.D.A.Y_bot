@@ -34,7 +34,7 @@ export function registerUpdateStatusWarningTests(readConsoleOutput: () => string
         {
           step: "warning:local-package-overrides",
           detail:
-            "Local package overrides: preserved; 0 replayed. Recovery bundle: /fixture/update-recovery/openclaw-local-overrides-test. Local OpenClaw changes were preserved in the recovery bundle and were not reapplied.",
+            "Local package overrides: preserved; 0 replayed. Recovery bundle: /fixture/update-recovery/openclaw-local-overrides-test. Local FRIDAY changes were preserved in the recovery bundle and were not reapplied.",
         },
         ...[1, 2, 3].map((index) => ({
           step: `warning:doctor:${index}`,

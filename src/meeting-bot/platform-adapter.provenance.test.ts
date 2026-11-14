@@ -191,7 +191,7 @@ describe("meeting observation provenance parsing", () => {
             },
           ],
         }),
-      ).rejects.toThrow(gate === "urlMatched" ? "meeting URL" : "another OpenClaw meeting session");
+      ).rejects.toThrow(gate === "urlMatched" ? "meeting URL" : "another FRIDAY meeting session");
     },
   );
 });

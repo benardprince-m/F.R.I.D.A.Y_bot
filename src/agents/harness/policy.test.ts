@@ -104,14 +104,14 @@ describe("resolveAgentHarnessPolicy", () => {
     ],
     ["agent params", agentParams, "writer"],
     ["session agent params", agentParams, undefined, "agent:writer:main"],
-  ])("keeps %s on OpenClaw", (_name, agents, agentId, sessionKey) => {
+  ])("keeps %s on FRIDAY", (_name, agents, agentId, sessionKey) => {
     expect(policy(providerConfig({}, agents), { agentId, sessionKey })).toEqual({
       runtime: "openclaw",
       runtimeSource: "implicit",
     });
   });
 
-  it("keeps prepared request overrides on OpenClaw", () => {
+  it("keeps prepared request overrides on FRIDAY", () => {
     expect(
       policy(createCanonicalAgentConfigFixture().config, {
         modelApi: "openai-responses",

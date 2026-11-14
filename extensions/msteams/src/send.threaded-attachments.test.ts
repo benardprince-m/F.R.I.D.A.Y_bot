@@ -94,7 +94,7 @@ function mockSendContext(
     conversationId,
     ref: {
       serviceUrl,
-      agent: { id: "28:bot", name: "OpenClaw", role: "bot" },
+      agent: { id: "28:bot", name: "FRIDAY", role: "bot" },
       user: { id: "29:user" },
       conversation: { id: conversationId, conversationType },
       ...(threadId ? { threadId } : {}),
@@ -147,7 +147,7 @@ async function withRealTeamsSdkHttp<T>(
   try {
     const port = (server.address() as AddressInfo).port;
     const api = new TeamsApiClient(serviceUrl);
-    // OpenClaw's minimal SDK ambient declaration omits the real client's public HTTP transport.
+    // FRIDAY's minimal SDK ambient declaration omits the real client's public HTTP transport.
     const transport = (api as unknown as { http: TeamsSdkHttpTransport }).http;
     for (const method of ["post", "put"] as const) {
       vi.spyOn(transport, method).mockImplementation(async (destination, data) => {

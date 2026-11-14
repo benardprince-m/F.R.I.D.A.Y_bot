@@ -192,7 +192,7 @@ export const GatewayStateOwnerContentionError = resolveGlobalSingleton(
         public readonly holder?: Pick<LockPayload, "pid" | "role">,
       ) {
         super(
-          `OpenClaw state database is busy at ${databasePath}. ${holderDetail ? `${holderDetail} ` : ""}Wait for the other OpenClaw process to finish, then retry. If it persists, run \`openclaw gateway status\` and check for other OpenClaw processes using the same state directory. A running Gateway can hold this ownership until it stops; stop it through its service manager or original terminal before retrying.`,
+          `FRIDAY state database is busy at ${databasePath}. ${holderDetail ? `${holderDetail} ` : ""}Wait for the other FRIDAY process to finish, then retry. If it persists, run \`openclaw gateway status\` and check for other FRIDAY processes using the same state directory. A running Gateway can hold this ownership until it stops; stop it through its service manager or original terminal before retrying.`,
         );
         this.name = "GatewayStateOwnerContentionError";
       }
@@ -336,7 +336,7 @@ function leaseForFile(
     path: pathname,
     assertCurrent() {
       if (released || !holdsPhysicalLease()) {
-        throw new Error("OpenClaw state ownership is no longer current");
+        throw new Error("FRIDAY state ownership is no longer current");
       }
     },
     assertDatabaseAccess(databasePath) {
@@ -346,7 +346,7 @@ function leaseForFile(
         resolveGatewayStateOwnerPath(databasePath) !== pathname ||
         !holdsPhysicalLease()
       ) {
-        throw new Error("OpenClaw state maintenance does not own this database");
+        throw new Error("FRIDAY state maintenance does not own this database");
       }
     },
     run(operation) {
@@ -444,7 +444,7 @@ export function acquireGatewayStateOwner(params: {
     assertCurrent() {
       owner.lost.signal.throwIfAborted();
       if (!owner.accepting || owners.get(pathname) !== owner) {
-        throw new Error("OpenClaw state process owner is no longer current");
+        throw new Error("FRIDAY state process owner is no longer current");
       }
       lease.assertCurrent();
     },
@@ -671,7 +671,7 @@ function assertStateDatabaseReadAtOwnerPath(
     // A recorded loss already names the lock and the restart step; rethrow it unwrapped.
     owner.lost.signal.throwIfAborted();
     throw new Error(
-      `OpenClaw state ownership at ${databasePath} was lost: owner lock was removed or replaced; restart the Gateway.`,
+      `FRIDAY state ownership at ${databasePath} was lost: owner lock was removed or replaced; restart the Gateway.`,
     );
   }
   readOwnerPaths.set(key, owner);
@@ -721,7 +721,7 @@ function assertStateDatabaseAccessAtOwnerPath(
     const scope = captured ? captured.maintenanceScope : getOpenClawDatabaseMaintenanceScope();
     if (!scope) {
       throw new StateDatabaseAccessError(
-        `OpenClaw state at ${databasePath} is undergoing offline maintenance; retry when it finishes.`,
+        `FRIDAY state at ${databasePath} is undergoing offline maintenance; retry when it finishes.`,
       );
     }
     scope.assertDatabaseAccess(databasePath);
@@ -731,7 +731,7 @@ function assertStateDatabaseAccessAtOwnerPath(
     if (!hasPhysicalOwnership(local)) {
       local.lost.signal.throwIfAborted();
       throw new Error(
-        `OpenClaw state ownership at ${databasePath} was lost: owner lock was removed or replaced; restart the Gateway.`,
+        `FRIDAY state ownership at ${databasePath} was lost: owner lock was removed or replaced; restart the Gateway.`,
       );
     }
     const role = local.payload.role ?? "gateway";

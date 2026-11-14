@@ -85,7 +85,7 @@ export type DeviceIdentity = {
 
 export type { DeviceAuthTokenRecord } from "./client-device-auth.js";
 
-// The package stays reusable by depending on host callbacks for OpenClaw-owned
+// The package stays reusable by depending on host callbacks for FRIDAY-owned
 // state: device keys, token storage, proxy routing, logging, and TLS formatting.
 export type GatewayClientHostDeps = GatewayClientDeviceAuthStorage & {
   loadOrCreateDeviceIdentity?: () => DeviceIdentity | undefined;

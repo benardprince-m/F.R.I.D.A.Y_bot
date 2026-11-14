@@ -8,7 +8,7 @@ title: "Silent turns and the memory flush"
 
 ## Silent housekeeping (`NO_REPLY`)
 
-OpenClaw supports "silent" turns for background tasks where the user should not see intermediate output.
+FRIDAY supports "silent" turns for background tasks where the user should not see intermediate output.
 
 - The assistant returns an entire final that trims to uppercase `NO_REPLY` to request no user-visible text. Lowercase, punctuation, quotes, JSON, and trailing tokens remain visible.
 - The terminal producer records the decision and prepares output once; delivery and clients consume that fact instead of parsing text. One literal leading `NO_REPLY\n` removes only that control line and preserves the remainder as visible text.
@@ -17,10 +17,10 @@ OpenClaw supports "silent" turns for background tasks where the user should not 
 
 ## Pre-compaction memory flush
 
-Before auto-compaction happens, OpenClaw can run a silent agentic turn that
+Before auto-compaction happens, FRIDAY can run a silent agentic turn that
 persists durable state through the selected memory provider so compaction cannot
 erase critical context. Memory Core writes `memory/YYYY-MM-DD.md` in the agent
-workspace; other providers can expose their own persistence tools. OpenClaw
+workspace; other providers can expose their own persistence tools. FRIDAY
 monitors session context usage, and once it crosses a soft threshold below the
 compaction threshold, it sends a silent "write memory now" directive using the
 exact silent token `NO_REPLY` so the user sees nothing.
@@ -66,11 +66,11 @@ Notes:
 - The built-in prompt and system prompt include a `NO_REPLY` hint to suppress delivery.
 - When `model` is set, the flush turn uses that model without inheriting the active session's fallback chain, so local-only housekeeping does not silently fall back to a paid conversation model on failure.
 - The flush runs once per compaction cycle (tracked in the session row).
-- The flush runs only for embedded OpenClaw sessions; CLI backends and heartbeat turns skip it.
+- The flush runs only for embedded FRIDAY sessions; CLI backends and heartbeat turns skip it.
 - Memory Core's file flush is skipped when the session workspace is read-only (`workspaceAccess: "ro"` or `"none"`). A tools-arm provider does not require writable workspace access.
 - See [Memory](/concepts/memory) for the workspace file layout and write patterns.
 
-OpenClaw exposes a `session_before_compact` hook in the extension API, but the
+FRIDAY exposes a `session_before_compact` hook in the extension API, but the
 flush logic above lives on the Gateway side
 (`src/auto-reply/reply/memory-flush-plan.ts`,
 `src/auto-reply/reply/memory-flush.ts`, and

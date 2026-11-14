@@ -207,7 +207,7 @@ if [[ "${SKIP_DMG_STYLE:-0}" != "1" ]]; then
     echo "WARN: DMG background missing: $DMG_BACKGROUND_SMALL / $DMG_BACKGROUND_PATH" >&2
   fi
 
-  ICON_SRC="$ROOT_DIR/apps/macos/Sources/OpenClaw/Resources/OpenClaw.icns"
+  ICON_SRC="$ROOT_DIR/apps/macos/Sources/FRIDAY/Resources/FRIDAY.icns"
   if [[ -f "$ICON_SRC" ]]; then
     cp "$ICON_SRC" "$MOUNT_POINT/.VolumeIcon.icns"
     if command -v SetFile >/dev/null 2>&1; then

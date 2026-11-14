@@ -163,7 +163,7 @@ suite.define(() => {
           .poll(() => inventory.locator(".systems-machine__meta").allTextContents())
           .toEqual(["macOS", "macOS 27.0.0"]);
 
-        const enable = page.getByRole("button", { name: "Enable desktop access in OpenClaw" });
+        const enable = page.getByRole("button", { name: "Enable desktop access in FRIDAY" });
         const connectionCount = await gateway.getSocketCount();
         await gateway.deferNext("config.patch");
         await enable.click();
@@ -256,7 +256,7 @@ suite.define(() => {
           });
           await page.goto(suite.server.baseUrl + "systems");
           const next = page.getByRole("button", {
-            name: state === "managed" ? "Enable desktop access in OpenClaw" : "Check again",
+            name: state === "managed" ? "Enable desktop access in FRIDAY" : "Check again",
           });
           await next.waitFor();
           expect(await gateway.getRequests("config.patch")).toHaveLength(0);

@@ -87,7 +87,7 @@ struct BundledRuntime: Sendable {
             }
         } catch {
             throw MacNodeHostWorker.WorkerError.unavailable(
-                reason: "The bundled runtime is missing or incompatible. Rebuild or reinstall OpenClaw.app.",
+                reason: "The bundled runtime is missing or incompatible. Rebuild or reinstall FRIDAY.app.",
                 diagnostic: error.localizedDescription)
         }
         return runtime
@@ -104,7 +104,7 @@ struct BundledRuntime: Sendable {
         let entry = self.packageRoot.appendingPathComponent("dist/\(entry)")
         guard FileManager.default.isReadableFile(atPath: entry.path) else {
             throw MacNodeHostWorker.WorkerError.unavailable(
-                reason: "The bundled runtime entry point is missing. Rebuild or reinstall OpenClaw.app.")
+                reason: "The bundled runtime entry point is missing. Rebuild or reinstall FRIDAY.app.")
         }
         return [self.bun.path, entry.path]
     }

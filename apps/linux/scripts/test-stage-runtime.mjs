@@ -36,7 +36,7 @@ test("leaves macOS and FreeBSD Tauri runtime behavior unchanged", () => {
 });
 
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
-const signerSubject = "CN=OpenClaw Foundation, O=OpenClaw Foundation, L=Mill Valley, S=California, C=US";
+const signerSubject = "CN=FRIDAY Foundation, O=FRIDAY Foundation, L=Mill Valley, S=California, C=US";
 // Synthetic PE header in a stored ZIP; no executable code or real runtime is included.
 const archive = Buffer.from("UEsDBBQAAAAAALiRS12hAcWLYAAAAGAAAAAXAAAAYnVuLXdpbmRvd3MteDY0L2J1bi5leGVNWgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAUEUAAGSGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQSwECFAMUAAAAAAC4kUtdoQHFi2AAAABgAAAAFwAAAAAAAAAAAAAAgAEAAAAAYnVuLXdpbmRvd3MteDY0L2J1bi5leGVQSwUGAAAAAAEAAQBFAAAAlQAAAAAA", "base64");
 const executable = archive.subarray(53, 149);

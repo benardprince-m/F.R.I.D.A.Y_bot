@@ -26,7 +26,7 @@ export function observeTerminalFonts(
   document.fonts.addEventListener("loadingdone", refresh);
   if (!symbols) {
     symbols = new FontFace(
-      "OpenClaw Nerd Symbols",
+      "FRIDAY Nerd Symbols",
       `url("${inferControlUiPublicAssetPath("fonts/symbols-nerd-font-mono.woff2")}")`,
       { display: "swap" },
     );

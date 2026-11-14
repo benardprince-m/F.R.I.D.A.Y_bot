@@ -16,7 +16,7 @@ What `workspaceAccess` exposes to the sandbox, how a role-required sandbox caps 
 | `ro`             | Mounts the agent workspace read-only at `/agent` (disables `write`/`edit`/`apply_patch`).                                 |
 | `rw`             | Mounts the agent workspace read/write at `/workspace`.                                                                    |
 
-For a role-required sandbox, OpenClaw caps configured `rw` workspace access at
+For a role-required sandbox, FRIDAY caps configured `rw` workspace access at
 `ro` and logs an `agent/sandbox` warning. The guest keeps a separate sandbox
 workspace, while the shared agent workspace is available only as a read-only
 mount. This prevents guests from sharing the writable agent workspace; `none`
@@ -110,7 +110,7 @@ Other sandbox backends cannot use this local managed-project projection and
 fail with an explanation rather than falling back to host execution.
 
 The managed worktree remains the source of truth for files, snapshots, and
-publication. OpenClaw pauses the exact execution and browser runtimes that mount
+publication. FRIDAY pauses the exact execution and browser runtimes that mount
 this checkout while capturing or applying changes, records pending results and
 rollback journals in SQLite, and resumes
 only after settlement. New shell calls and command preparation wait for an active
@@ -158,7 +158,7 @@ reload changes sandbox policy, workspace selection, or the media size limit befo
 a copy, staging stops with the same warning while the original remains available.
 
 <Note>
-**Skills**: the `read` tool is sandbox-rooted. With `workspaceAccess: "none"`, OpenClaw mirrors eligible skills into the sandbox workspace (`.../skills`) as read-only instruction roots; other private workspace files remain writable. With `"rw"`, workspace skills are readable from `/workspace/skills`, and eligible managed, bundled, or plugin skills are materialized into the generated read-only path `/workspace/.openclaw/sandbox-skills/skills`.
+**Skills**: the `read` tool is sandbox-rooted. With `workspaceAccess: "none"`, FRIDAY mirrors eligible skills into the sandbox workspace (`.../skills`) as read-only instruction roots; other private workspace files remain writable. With `"rw"`, workspace skills are readable from `/workspace/skills`, and eligible managed, bundled, or plugin skills are materialized into the generated read-only path `/workspace/.openclaw/sandbox-skills/skills`.
 
 Local container mounts and sandbox file tools enforce these read-only roots.
 Generated skill copies carry their own Git ignore rule, so ordinary Git discovery

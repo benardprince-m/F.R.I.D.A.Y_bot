@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawProtocol
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct CronJobsListLiteTests {
     @Test @MainActor func `cron collector preserves page order`() async throws {

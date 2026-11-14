@@ -151,8 +151,8 @@ struct ConnectionSettingsView: View {
         switch self.state.connectionMode {
         case .local:
             return self.gatewayManager.installation == .external
-                ? "OpenClaw connects to an independently managed Gateway on this Mac."
-                : "OpenClaw starts and monitors the Gateway on this Mac."
+                ? "FRIDAY connects to an independently managed Gateway on this Mac."
+                : "FRIDAY starts and monitors the Gateway on this Mac."
         case .remote:
             let target = self.state.remoteTransport == .ssh ? self.state.remoteTarget : self.state.remoteUrl
             let trimmed = target.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -201,7 +201,7 @@ struct ConnectionSettingsView: View {
                     .labelsHidden()
                         .fixedSize()
             } label: {
-                Text("OpenClaw runs")
+                Text("FRIDAY runs")
                 Text("Own a Gateway on this Mac, or attach to one on another host.")
             }
         } header: {

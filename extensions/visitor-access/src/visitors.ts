@@ -295,7 +295,7 @@ export class VisitorAccessService {
   private actionStore(assertCurrent?: () => void): PluginStateKeyedStore<VisitorGrant, 2> {
     if (!this.store.withCurrent) {
       throw new VisitorAccessError(
-        "This Gateway cannot authorize visitor grant writes. Update OpenClaw before managing visitors.",
+        "This Gateway cannot authorize visitor grant writes. Update FRIDAY before managing visitors.",
       );
     }
     return this.store.withCurrent({
@@ -318,7 +318,7 @@ export class VisitorAccessService {
     }
     if (!this.resolveGitHubAccount) {
       throw new VisitorAccessError(
-        "This Gateway cannot resolve GitHub accounts. Update OpenClaw before managing GitHub visitors.",
+        "This Gateway cannot resolve GitHub accounts. Update FRIDAY before managing GitHub visitors.",
       );
     }
     const result = await this.resolveGitHubAccount({ login: input.github, signal: this.signal });

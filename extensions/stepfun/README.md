@@ -1,8 +1,8 @@
-# OpenClaw StepFun Provider
+# FRIDAY StepFun Provider
 
-Official OpenClaw provider plugin for StepFun.
+Official FRIDAY provider plugin for StepFun.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/stepfun-provider

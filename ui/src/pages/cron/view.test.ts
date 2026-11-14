@@ -175,7 +175,7 @@ describe("cron view list pane", () => {
       expectAbsent(empty, testId("cron-jobs-loading"));
       const guidance = getElement(empty, ".cron-empty-state", HTMLDivElement);
       expect(guidance.textContent).toContain("No automations yet");
-      expect(guidance.textContent).toContain("Describe what OpenClaw should do");
+      expect(guidance.textContent).toContain("Describe what FRIDAY should do");
       expect(getElement(empty, ".cron-table", HTMLDivElement).getAttribute("aria-busy")).toBe(
         loading ? "true" : null,
       );

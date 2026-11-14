@@ -142,7 +142,7 @@ struct MacControlClient {
         if bundle.pathExtension == "app", executable.deletingLastPathComponent().lastPathComponent == "MacOS" {
             return bundle
         }
-        return URL(fileURLWithPath: "/Applications/OpenClaw.app")
+        return URL(fileURLWithPath: "/Applications/FRIDAY.app")
     }
 
     private func launchApp(deadline: ContinuousClock.Instant) throws {
@@ -177,7 +177,7 @@ struct MacControlClient {
         MacControlError(
             code: "unreachable",
             message: """
-            OpenClaw app is not reachable for this profile. \
+            FRIDAY app is not reachable for this profile. \
             Start the app or retry with --launch and a longer --timeout.
             """)
     }

@@ -266,7 +266,7 @@ const DOCTOR_DEPRECATION_COMPAT_RECORDS = [
     replacement: "models.providers.<id>.timeoutSeconds",
     docsPath: "/gateway/config-agents",
     notes:
-      "Pre-June configs must pass through OpenClaw 2026.9.5 Doctor before upgrading; current Doctor no longer migrates this key.",
+      "Pre-June configs must pass through FRIDAY 2026.9.5 Doctor before upgrading; current Doctor no longer migrates this key.",
   }),
   compatRecord("doctor-memory-search-owner-consolidation", "deprecated", {
     previousRemoveAfter: "2026-09-18",
@@ -294,7 +294,7 @@ const DOCTOR_DEPRECATION_COMPAT_RECORDS = [
     replacement: "agents.defaults.heartbeat and channels.defaults.heartbeat",
     docsPath: "/automation",
     notes:
-      "Pre-June configs must pass through OpenClaw 2026.9.5 Doctor before upgrading; current Doctor no longer migrates this key.",
+      "Pre-June configs must pass through FRIDAY 2026.9.5 Doctor before upgrading; current Doctor no longer migrates this key.",
   }),
   compatRecord("doctor-mcp-server-type-alias", "removal-pending", {
     owner: "config",
@@ -304,7 +304,7 @@ const DOCTOR_DEPRECATION_COMPAT_RECORDS = [
     replacement: "mcp.servers.*.transport",
     docsPath: "/cli/mcp",
     notes:
-      "OpenClaw stores transport names; CLI backends receive their own type fields through runtime adapters.",
+      "FRIDAY stores transport names; CLI backends receive their own type fields through runtime adapters.",
   }),
   compatRecord("doctor-gateway-bind-host-aliases", "removal-pending", {
     owner: "gateway",

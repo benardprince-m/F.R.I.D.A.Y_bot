@@ -39,7 +39,7 @@ function desktopFixture(readiness: Readiness) {
     fs.mkdirSync(directory, { recursive: true });
   }
   fs.writeFileSync(path.join(provider, "vnc.password"), "synthetic-vnc-password\n");
-  for (const suffix of ["Contents/MacOS/OpenClaw", "Contents/Resources/cua-driver"]) {
+  for (const suffix of ["Contents/MacOS/FRIDAY", "Contents/Resources/cua-driver"]) {
     executable(path.join(app, suffix), "#!/bin/sh\nexit 99\n");
   }
   executable(
@@ -63,7 +63,7 @@ case "$FIXTURE_READINESS" in
   *) printf 'Authority=Developer ID Application: Fixture\\nTeamIdentifier=ABCDEFGHIJ\\n' ;;
 esac`,
     PlistBuddy: `case "$2" in
-  'Print :CFBundleExecutable') echo OpenClaw ;;
+  'Print :CFBundleExecutable') echo FRIDAY ;;
   'Print :CFBundleIdentifier') echo ai.openclaw.cloud-worker ;;
   'Print :OpenClawCloudWorkerHostVersion') echo 1 ;;
   *) exit 1 ;;

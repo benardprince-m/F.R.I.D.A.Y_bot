@@ -103,7 +103,7 @@ if (kind === "git" && args.join(" ") === "--version") {
     "gateway status --json",
     "doctor --fix --non-interactive",
   ].includes(args.join(" "))) {
-    throw new Error("Unexpected OpenClaw command: " + args.join(" "));
+    throw new Error("Unexpected FRIDAY command: " + args.join(" "));
   }
 } else {
   throw new Error("Unexpected fixture command: " + kind);
@@ -120,7 +120,7 @@ if (kind === "git" && args.join(" ") === "--version") {
     join(bin, "node.cmd"),
     '@echo off\r\n"%OPENCLAW_TEST_NODE%" %*\r\nexit /b %errorlevel%\r\n',
   );
-  // Exercise native command discovery without ambient OpenClaw or npm configuration.
+  // Exercise native command discovery without ambient FRIDAY or npm configuration.
   const env = Object.fromEntries(
     Object.entries(process.env).filter(
       ([key]) =>
@@ -223,10 +223,10 @@ $beforeMachinePath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
 $script:InstallerTempDirectory = Join-Path $root 'temp'
 $script:Scenario = ''
 $script:Extractions = 0
-function Check-ExistingOpenClaw { throw 'unexpected OpenClaw lookup' }
+function Check-ExistingOpenClaw { throw 'unexpected FRIDAY lookup' }
 function Install-Node { throw 'unexpected package-manager install' }
-function Install-OpenClaw { throw 'unexpected OpenClaw install' }
-function Ensure-OpenClawOnPath { throw 'unexpected OpenClaw PATH update' }
+function Install-FRIDAY { throw 'unexpected FRIDAY install' }
+function Ensure-OpenClawOnPath { throw 'unexpected FRIDAY PATH update' }
 function Add-ToProcessPath { throw 'unexpected process PATH update' }
 function Add-ToUserPath { throw 'unexpected user PATH update' }
 function Refresh-GatewayServiceIfLoaded { throw 'unexpected Gateway update' }
@@ -965,7 +965,7 @@ function Install-PortableNode {
     $script:portableCalls += 1
     if ($script:portableFailure -eq 'throw') { throw 'fixture portable failure' }
 }
-function Install-OpenClaw { throw 'package install must not run without a supported Node' }
+function Install-FRIDAY { throw 'package install must not run without a supported Node' }
 foreach ($script:portableFailure in @('throw', 'unsupported')) {
     $script:InstallExitCode = 0
     $script:portableCalls = 0
@@ -975,7 +975,7 @@ foreach ($script:portableFailure in @('throw', 'unsupported')) {
           ...entrypointLines.map((line) => `        ${line}`),
           String.raw`
     } catch {
-        if ($_.Exception.Message -ne 'OpenClaw installation failed with exit code 1.') { throw }
+        if ($_.Exception.Message -ne 'FRIDAY installation failed with exit code 1.') { throw }
         $caught = $true
     }
     if (-not $caught -or $script:InstallExitCode -ne 1 -or $script:portableCalls -ne 1) {
@@ -997,7 +997,7 @@ foreach ($script:portableFailure in @('throw', 'unsupported')) {
           "try {",
           ...entrypointLines.map((line) => `  ${line}`),
           "} catch {",
-          "  if ($_.Exception.Message -ne 'OpenClaw installation failed with exit code 1.') { throw }",
+          "  if ($_.Exception.Message -ne 'FRIDAY installation failed with exit code 1.') { throw }",
           "  $caught = $true",
           "}",
           "if (-not $caught) { throw 'Install failure did not reach the caller' }",
@@ -1032,10 +1032,10 @@ foreach ($script:portableFailure in @('throw', 'unsupported')) {
           "",
           "function Check-Node { return $true }",
           "function Check-ExistingOpenClaw { return $false }",
-          "function Install-OpenClaw { Write-Output 'npm stdout'; return $true }",
+          "function Install-FRIDAY { Write-Output 'npm stdout'; return $true }",
           "function Ensure-OpenClawOnPath { return $true }",
           "function Refresh-GatewayServiceIfLoaded { }",
-          "function Invoke-OpenClawCommand { return 'OpenClaw test-version' }",
+          "function Invoke-OpenClawCommand { return 'FRIDAY test-version' }",
           "$NoOnboard = $true",
           "$result = Main",
           "if ($result -is [array]) { throw 'Main returned an array' }",
@@ -1050,13 +1050,13 @@ foreach ($script:portableFailure in @('throw', 'unsupported')) {
           "",
           "function Check-Node { return $true }",
           "function Check-ExistingOpenClaw { return $false }",
-          "function Install-OpenClaw {",
+          "function Install-FRIDAY {",
           "  Write-Output 'native chatter'",
           "  return $true",
           "}",
           "function Ensure-OpenClawOnPath { return $true }",
           "function Refresh-GatewayServiceIfLoaded { }",
-          "function Invoke-OpenClawCommand { return 'OpenClaw test-version' }",
+          "function Invoke-OpenClawCommand { return 'FRIDAY test-version' }",
           "$NoOnboard = $true",
           ...entrypointLines,
           "",
@@ -1795,7 +1795,7 @@ try {
             "  if ($Arguments[0] -eq 'config' -and $Arguments[2] -eq 'prefix') { Write-Output $env:USERPROFILE; $global:LASTEXITCODE = 0; return }",
             "  throw 'unexpected npm command'",
             "}",
-            "function Install-OpenClaw { return $true }",
+            "function Install-FRIDAY { return $true }",
             "function Ensure-OpenClawOnPath { return $true }",
             "function Add-ToUserPath { param([string]$Path) }",
             "function Get-OpenClawCommandPath { return 'cmd.exe' }",
@@ -1916,7 +1916,7 @@ try {
               "try {",
               `  & ([scriptblock]::Create([IO.File]::ReadAllText(${toPowerShellSingleQuotedLiteral(scriptPath)}))) -InstallMethod npm -NoOnboard -Tag 2026.9.19`,
               "} catch {",
-              "  if ($_.Exception.Message -ne 'OpenClaw installation failed with exit code 1.') { throw }",
+              "  if ($_.Exception.Message -ne 'FRIDAY installation failed with exit code 1.') { throw }",
               "  Write-Output 'CAUGHT_CANONICAL_INSTALL_FAILURE'",
               "}",
               "Write-Output 'INSTALL_CALLER_SURVIVED'",
@@ -1947,8 +1947,8 @@ try {
             const label = `${engine} ${mode} usable=${usableCommand}: ${output}`;
             expect(result.error, label).toBeUndefined();
             expect(result.status, label).toBe(!usableCommand && mode === "file" ? 1 : 0);
-            expect(output, label).toContain("Existing OpenClaw installation detected");
-            expect(output, label).toContain("[OK] OpenClaw installed");
+            expect(output, label).toContain("Existing FRIDAY installation detected");
+            expect(output, label).toContain("[OK] FRIDAY installed");
             const calls = readFileSync(join(root, "commands.jsonl"), "utf8")
               .trim()
               .split("\n")
@@ -1973,7 +1973,7 @@ try {
               ]);
             } else {
               expect(output, label).toContain(
-                "OpenClaw was installed, but its command is not on PATH.",
+                "FRIDAY was installed, but its command is not on PATH.",
               );
               expect(output, label).toContain("Open a new terminal, then run: openclaw doctor");
               expect(output, label).not.toContain("installed successfully");
@@ -2198,7 +2198,7 @@ function Test-PreviousGitWrapper { return $false }
 function Get-NpmCommandPath { return 'fixture-npm' }
 function Get-WindowsCommandSafeDirectory { return $env:USERPROFILE }
 function Invoke-NpmCommand { return $env:USERPROFILE }
-function Install-OpenClaw { $global:Advanced++; return $true }
+function Install-FRIDAY { $global:Advanced++; return $true }
 function Ensure-OpenClawOnPath { return $true }
 function Refresh-GatewayServiceIfLoaded { }
 function Invoke-OpenClawCommand { return 'fixture-version' }

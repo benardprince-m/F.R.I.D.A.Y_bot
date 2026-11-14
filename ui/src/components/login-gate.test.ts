@@ -174,10 +174,10 @@ describe("login gate failure recovery", () => {
     expect(part(element, "failure").dataset.kind).toBe("profile-unavailable");
     expectText(element, "failure-title").toBe("Couldn't verify your account");
     expectText(element, "failure-summary").toBe(
-      "OpenClaw couldn't check your account right now. Please try again shortly.",
+      "FRIDAY couldn't check your account right now. Please try again shortly.",
     );
     expectText(element, "failure-steps").toContain("Retry");
-    expectText(element, "failure-steps").toContain("person who manages OpenClaw");
+    expectText(element, "failure-steps").toContain("person who manages FRIDAY");
     expect(part(element, "failure-steps").querySelectorAll("code")).toHaveLength(0);
     expectText(element, "failure-raw").toBe(error);
   });

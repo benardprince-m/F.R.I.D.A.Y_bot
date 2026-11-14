@@ -282,7 +282,7 @@ describe("getBashShellConfig", () => {
 });
 
 describe("getBashShellEnv", () => {
-  it("returns an env object with the OpenClaw bin dir on PATH", () => {
+  it("returns an env object with the FRIDAY bin dir on PATH", () => {
     process.env.PATH = "/usr/bin";
     const env = getBashShellEnv();
 

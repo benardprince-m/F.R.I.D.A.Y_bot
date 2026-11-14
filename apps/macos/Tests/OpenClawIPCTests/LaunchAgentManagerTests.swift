@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @MainActor
 struct LaunchAgentManagerTests {
@@ -18,8 +18,8 @@ struct LaunchAgentManagerTests {
         var loaded: Bool?
         await manager.loadStatus(profile: profile) { loaded = $0 }.value
         #expect(loaded == false)
-        #expect(await !manager.set(enabled: true, bundlePath: "/Applications/OpenClaw.app", profile: profile).value)
-        #expect(await !manager.set(enabled: false, bundlePath: "/Applications/OpenClaw.app", profile: profile).value)
+        #expect(await !manager.set(enabled: true, bundlePath: "/Applications/FRIDAY.app", profile: profile).value)
+        #expect(await !manager.set(enabled: false, bundlePath: "/Applications/FRIDAY.app", profile: profile).value)
         #expect(await !manager.restart(profile: profile).value)
         #expect(try String(contentsOf: plistURL, encoding: .utf8) == "original")
         #expect(await calls.arguments.isEmpty)
@@ -37,13 +37,13 @@ struct LaunchAgentManagerTests {
         }
         let reloaded = await manager.set(
             enabled: true,
-            bundlePath: "/Applications/OpenClaw.app",
+            bundlePath: "/Applications/FRIDAY.app",
             profile: AppProfile(environment: [:])).value
 
         #expect(reloaded == !loaded)
         let plist = try #require(PropertyListSerialization.propertyList(
             from: Data(contentsOf: plistURL), format: nil) as? [String: Any])
-        #expect(plist["ProgramArguments"] as? [String] == ["/Applications/OpenClaw.app/Contents/MacOS/OpenClaw"])
+        #expect(plist["ProgramArguments"] as? [String] == ["/Applications/FRIDAY.app/Contents/MacOS/FRIDAY"])
         let operations = await calls.arguments.map(\.first)
         #expect(operations == (loaded ? ["print"] : ["print", "bootout", "bootstrap", "kickstart"]))
     }
@@ -67,7 +67,7 @@ struct LaunchAgentManagerTests {
         }
         let applied = await manager.set(
             enabled: true,
-            bundlePath: "/Applications/OpenClaw.app",
+            bundlePath: "/Applications/FRIDAY.app",
             profile: AppProfile(environment: [:])).value
 
         #expect(!applied)
@@ -92,13 +92,13 @@ struct LaunchAgentManagerTests {
         let hydration = manager.loadStatus(profile: profile) { delivered.append($0) }
         await entered.wait()
         let disabled = await manager.set(
-            enabled: false, bundlePath: "/Applications/OpenClaw.app", profile: profile).value
+            enabled: false, bundlePath: "/Applications/FRIDAY.app", profile: profile).value
         release.open()
         await hydration.value
 
         #expect(disabled)
         #expect(await manager.set(
-            enabled: false, bundlePath: "/Applications/OpenClaw.app", profile: profile).value)
+            enabled: false, bundlePath: "/Applications/FRIDAY.app", profile: profile).value)
         #expect(delivered.isEmpty)
         #expect(!FileManager.default.fileExists(atPath: plistURL.path))
     }
@@ -120,9 +120,9 @@ struct LaunchAgentManagerTests {
             return 0
         }
         let profile = AppProfile(environment: [:])
-        let enabling = manager.set(enabled: true, bundlePath: "/Applications/OpenClaw.app", profile: profile)
+        let enabling = manager.set(enabled: true, bundlePath: "/Applications/FRIDAY.app", profile: profile)
         await entered.wait()
-        let disabling = manager.set(enabled: false, bundlePath: "/Applications/OpenClaw.app", profile: profile)
+        let disabling = manager.set(enabled: false, bundlePath: "/Applications/FRIDAY.app", profile: profile)
         release.open()
         #expect(await !enabling.value)
         #expect(await disabling.value)
@@ -131,7 +131,7 @@ struct LaunchAgentManagerTests {
     }
 
     @Test func `launch at login plist does not keep app alive after manual quit`() throws {
-        let data = try LaunchAgentManager.plistContents(bundlePath: "/Applications/OpenClaw.app")
+        let data = try LaunchAgentManager.plistContents(bundlePath: "/Applications/FRIDAY.app")
         let object = try #require(
             PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any])
 
@@ -139,12 +139,12 @@ struct LaunchAgentManagerTests {
         #expect(object["KeepAlive"] == nil)
 
         let args = try #require(object["ProgramArguments"] as? [String])
-        #expect(args == ["/Applications/OpenClaw.app/Contents/MacOS/OpenClaw"])
+        #expect(args == ["/Applications/FRIDAY.app/Contents/MacOS/FRIDAY"])
     }
 
     @MainActor
     @Test func `launch at login plist preserves normalized profile environment once`() async throws {
-        let bundlePath = "/Applications/R&D <Team>/OpenClaw.app"
+        let bundlePath = "/Applications/R&D <Team>/FRIDAY.app"
         let logDirectory = "/tmp/openclaw-login-&<logs>"
         try await TestIsolation.withEnvValues([
             "OPENCLAW_CONFIG_PATH": "  /tmp/custom&<openclaw>\"'.json  ",
@@ -159,7 +159,7 @@ struct LaunchAgentManagerTests {
                 PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any])
 
             let environment = try #require(object["EnvironmentVariables"] as? [String: String])
-            #expect(object["ProgramArguments"] as? [String] == ["\(bundlePath)/Contents/MacOS/OpenClaw"])
+            #expect(object["ProgramArguments"] as? [String] == ["\(bundlePath)/Contents/MacOS/FRIDAY"])
             #expect(object["StandardOutPath"] as? String == "\(logDirectory)/openclaw-stdout.log")
             #expect(object["StandardErrorPath"] as? String == "\(logDirectory)/openclaw-stdout.log")
             #expect(environment["OPENCLAW_CONFIG_PATH"] == "/tmp/custom&<openclaw>\"'.json")
@@ -176,7 +176,7 @@ struct LaunchAgentManagerTests {
             "OPENCLAW_CONFIG_PATH": nil,
             "OPENCLAW_STATE_DIR": " \n ",
         ]) {
-            let data = try LaunchAgentManager.plistContents(bundlePath: "/Applications/OpenClaw.app")
+            let data = try LaunchAgentManager.plistContents(bundlePath: "/Applications/FRIDAY.app")
             let object = try #require(
                 PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any])
 

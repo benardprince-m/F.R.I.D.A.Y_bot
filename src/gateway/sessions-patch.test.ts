@@ -269,8 +269,8 @@ describe("gateway sessions patch", () => {
 
   test("keeps manual renames independent of automatic device-label writes and clears", async () => {
     const key = "agent:main:node-1234567890ab";
-    const autoLabel = "OpenClaw App · Pixel · 1234567890ab";
-    const label = "OpenClaw App · Release planning · 1234567890ab";
+    const autoLabel = "FRIDAY App · Pixel · 1234567890ab";
+    const label = "FRIDAY App · Release planning · 1234567890ab";
     const store: Record<string, SessionEntry> = {};
     const patch = async (fields: { label?: string | null; autoLabel?: string | null }) =>
       await patchOk({ store, storeKey: key, patch: { key, ...fields } });

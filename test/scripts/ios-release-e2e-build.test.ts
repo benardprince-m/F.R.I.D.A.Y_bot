@@ -32,7 +32,7 @@ function fixture() {
   const build = vi.fn(async () => {
     write("OpenClawUITests_iphonesimulator.xctestrun", "fixture test configuration");
     for (const bundle of [
-      "OpenClaw.app",
+      "FRIDAY.app",
       "OpenClawUITests-Runner.app",
       "OpenClawUITests-Runner.app/PlugIns/OpenClawUITests.xctest",
     ]) {
@@ -40,7 +40,7 @@ function fixture() {
       const executable = path.basename(bundle).replace(/\.(app|xctest)$/u, "");
       fs.chmodSync(write(`Debug-iphonesimulator/${bundle}/${executable}`), 0o755);
     }
-    const framework = "Debug-iphonesimulator/OpenClaw.app/Frameworks/Fixture.framework";
+    const framework = "Debug-iphonesimulator/FRIDAY.app/Frameworks/Fixture.framework";
     const library = write(`${framework}/Versions/A/Fixture`);
     fs.symlinkSync("A", path.join(path.dirname(path.dirname(library)), "Current"));
   });
@@ -91,14 +91,14 @@ describe("retained iOS qualification native build", () => {
       await prepareIOSReleaseNativeBuild(options);
       const executable = path.join(
         options.buildDir,
-        "DerivedData/Build/Products/Debug-iphonesimulator/OpenClaw.app/OpenClaw",
+        "DerivedData/Build/Products/Debug-iphonesimulator/FRIDAY.app/FRIDAY",
       );
       if (change === "missing") {
         fs.rmSync(executable);
       } else if (change === "changed") {
         fs.writeFileSync(executable, "changed app");
       } else if (change === "extra") {
-        write("Debug-iphonesimulator/OpenClaw.app/unrecorded.dylib");
+        write("Debug-iphonesimulator/FRIDAY.app/unrecorded.dylib");
       } else if (change === "mode") {
         fs.chmodSync(executable, 0o644);
       } else {

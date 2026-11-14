@@ -20,8 +20,8 @@ export function configFailureHeading(
   snapshot: Pick<ConfigFileSnapshot, "issues" | "readError">,
 ): string {
   return isConfigReadFailure(snapshot)
-    ? "OpenClaw config could not be read"
-    : "OpenClaw config is invalid";
+    ? "FRIDAY config could not be read"
+    : "FRIDAY config is invalid";
 }
 
 /** Formats validation issues as terminal-safe bullet lines for config load failures. */

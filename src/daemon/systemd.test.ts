@@ -135,7 +135,7 @@ function gatewayUnit(...directives: string[]) {
 function legacyGatewayUnit(version: string, ...directives: string[]) {
   return [
     "[Unit]",
-    `Description=OpenClaw Gateway (v${version})`,
+    `Description=FRIDAY Gateway (v${version})`,
     "[Service]",
     "Environment=OPENCLAW_SERVICE_MARKER=openclaw",
     "Environment=OPENCLAW_SERVICE_KIND=gateway",
@@ -1362,7 +1362,7 @@ describe("stageSystemdService", () => {
       unitPath,
       [
         "[Unit]",
-        "Description=OpenClaw Gateway (v2026.7.1-2)",
+        "Description=FRIDAY Gateway (v2026.7.1-2)",
         "",
         "[Service]",
         comment,
@@ -1380,7 +1380,7 @@ describe("stageSystemdService", () => {
     await expect(refreshLegacySystemdServiceMetadata(env, 5_000)).resolves.toBe(true);
 
     const unit = await fs.readFile(unitPath, "utf8");
-    expect(unit).toContain("Description=OpenClaw Gateway\n");
+    expect(unit).toContain("Description=FRIDAY Gateway\n");
     expect(unit).toContain('Environment="OTHER_SETTING=kept value %h/%%h"');
     expect(unit).toContain("Environment=OPENCLAW_GATEWAY_PORT=18789");
     expect(unit).not.toContain("OPENCLAW_SERVICE_VERSION");
@@ -1756,11 +1756,11 @@ describe("systemd service install and uninstall", () => {
     const { install, unitPath } = await createSystemdFixture("node");
     queueUserCommands(["status"], ["daemon-reload"], ["restart", NODE_SERVICE]);
 
-    await install({ preserveAutoStart: true, description: "OpenClaw Node Host" });
+    await install({ preserveAutoStart: true, description: "FRIDAY Node Host" });
 
     const unit = await fs.readFile(unitPath, "utf8");
     expect(unitPath).toMatch(/openclaw-node\.service$/);
-    expect(unit).toContain("Description=OpenClaw Node Host");
+    expect(unit).toContain("Description=FRIDAY Node Host");
     expect(unit).toContain("openclaw node run");
     expect(unit).not.toContain("OPENCLAW_SERVICE_VERSION");
     expect(execFileMock).toHaveBeenCalledTimes(3);
@@ -1924,7 +1924,7 @@ describe("systemd service install and uninstall", () => {
     const detail =
       "Failed to disable unit: Access denied.\nUnit openclaw-node.service is not active.";
     const { env, unitPath, nodeEnvFilePath } = await createSystemdFixture("node");
-    await writeUnitFixture(unitPath, "[Unit]\nDescription=OpenClaw Node\n");
+    await writeUnitFixture(unitPath, "[Unit]\nDescription=FRIDAY Node\n");
     await writeUnitFixture(nodeEnvFilePath, "OPENCLAW_GATEWAY_TOKEN=preserved-token\n", 0o600);
     execFileMock
       .mockImplementationOnce(systemctlUserSuccess("status"))
@@ -1935,7 +1935,7 @@ describe("systemd service install and uninstall", () => {
     await expect(uninstallSystemdService({ env, stdout })).rejects.toThrow(
       `systemctl disable failed: ${detail}`,
     );
-    await expect(fs.readFile(unitPath, "utf8")).resolves.toContain("OpenClaw Node");
+    await expect(fs.readFile(unitPath, "utf8")).resolves.toContain("FRIDAY Node");
     await expect(fs.readFile(nodeEnvFilePath, "utf8")).resolves.toContain("preserved-token");
   });
 
@@ -1962,9 +1962,9 @@ describe("systemd service install and uninstall", () => {
     "uninstalls the selected node unit and cleans credentials only after removal: %s",
     async (scenario) => {
       const { env, unitPath, nodeEnvFilePath } = await createSystemdFixture("node");
-      await writeUnitFixture(unitPath, "[Unit]\nDescription=OpenClaw Node\n");
+      await writeUnitFixture(unitPath, "[Unit]\nDescription=FRIDAY Node\n");
       if (scenario !== "password-only") {
-        await writeUnitFixture(`${unitPath}.bak`, "[Unit]\nDescription=Previous OpenClaw Node\n");
+        await writeUnitFixture(`${unitPath}.bak`, "[Unit]\nDescription=Previous FRIDAY Node\n");
       }
       const retained =
         ["OPENROUTER_API_KEY=operator-key", 'LITERAL_API_KEY="\\$SECRET_FROM_SHELL"'].join("\n") +
@@ -2009,9 +2009,9 @@ describe("systemd service install and uninstall", () => {
         await expect(fs.readFile(nodeEnvFilePath, "utf8")).resolves.toBe(retained);
       } else if (scenario === "unlink-refused") {
         await expect(operation).rejects.toThrow("EACCES: permission denied");
-        await expect(fs.readFile(unitPath, "utf8")).resolves.toContain("OpenClaw Node");
+        await expect(fs.readFile(unitPath, "utf8")).resolves.toContain("FRIDAY Node");
         await expect(fs.readFile(`${unitPath}.bak`, "utf8")).resolves.toContain(
-          "Previous OpenClaw Node",
+          "Previous FRIDAY Node",
         );
         await expect(fs.readFile(nodeEnvFilePath, "utf8")).resolves.toBe(previous);
       } else if (scenario === "read-refused") {
@@ -2186,8 +2186,8 @@ it.each(["absent", "unavailable", "legacy", "reload-failed"] as const)(
       await writeUnitFixture(
         unitPath,
         scenario === "legacy"
-          ? "[Unit]\nDescription=OpenClaw Gateway (profile: lisa)\n"
-          : "[Unit]\nDescription=OpenClaw Gateway\n",
+          ? "[Unit]\nDescription=FRIDAY Gateway (profile: lisa)\n"
+          : "[Unit]\nDescription=FRIDAY Gateway\n",
       );
     }
     if (scenario === "absent" || scenario === "legacy") {

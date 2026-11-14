@@ -566,7 +566,7 @@ it("never starts the candidate after plugin post-update invalidates config", asy
     [serviceEntrypoint, "config", "validate", "--json"],
     expect.objectContaining({ env: { OPENCLAW_UPDATE_IN_PROGRESS: "0" } }),
   );
-  expect(checks.getLogOutput()).toContain("OpenClaw update failed: post-update-plugins.");
+  expect(checks.getLogOutput()).toContain("FRIDAY update failed: post-update-plugins.");
   expect(checks.getErrorOutput()).not.toContain("Update failed during plugin post-update sync.");
 });
 

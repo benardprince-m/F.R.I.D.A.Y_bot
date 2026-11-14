@@ -32,7 +32,7 @@ import { getSubCliParentDefaultHelpCommands } from "./program/subcli-descriptors
 import type { BareRootLaunchTarget } from "./run-main.gateway-types.js";
 
 export const TUI_REQUIRES_TTY =
-  "OpenClaw TUI needs an interactive TTY. Use `openclaw agent --local ...` for automation.";
+  "FRIDAY TUI needs an interactive TTY. Use `openclaw agent --local ...` for automation.";
 const ROOT_HELP_ALIASES = new Set(["tools", "help"]);
 const SETUP_ONBOARD_CONFIGURE_HELP_COMMANDS = new Set(["setup", "onboard", "configure"]);
 const BARE_PARENT_DEFAULT_HELP_COMMANDS = new Set([
@@ -179,7 +179,7 @@ export function resolveBareRootLaunchPolicy(target: BareRootLaunchTarget): {
     // Onboarding probes providers from this process, like `openclaw onboard`.
     return {
       ttyMessage: target.classic
-        ? "OpenClaw config is invalid. Run `openclaw doctor --fix` before onboarding."
+        ? "FRIDAY config is invalid. Run `openclaw doctor --fix` before onboarding."
         : "Onboarding needs an interactive TTY. Use `openclaw onboard --non-interactive --accept-risk ...` for automation.",
       startProxy: true,
     };

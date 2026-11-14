@@ -34,7 +34,7 @@ function incompatibleRequirement(
     minHostVersion: install?.minHostVersion,
     allowLegacyBareSemver: installed,
   });
-  return !host.ok && host.kind === "incompatible" ? `OpenClaw ${host.requirement.raw}` : undefined;
+  return !host.ok && host.kind === "incompatible" ? `FRIDAY ${host.requirement.raw}` : undefined;
 }
 
 /** Report unavailable replacements without vetoing the core package update. */

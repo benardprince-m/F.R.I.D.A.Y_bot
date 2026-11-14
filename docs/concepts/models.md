@@ -1,5 +1,5 @@
 ---
-summary: "How OpenClaw resolves provider/model refs, config keys, and the `/model` chat command"
+summary: "How FRIDAY resolves provider/model refs, config keys, and the `/model` chat command"
 read_when:
   - Changing model fallback behavior or selection UX
   - Debugging "model is not allowed" or a stale default provider fallback
@@ -28,7 +28,7 @@ agent runtime. With runtime policy unset or `auto`, OpenAI's provider-owned
 route policy may select Codex only for an exact official HTTPS Platform
 Responses or ChatGPT Responses route with no authored request override. The
 `openai/*` prefix alone never selects Codex. Completions adapters, custom
-endpoints, and authored request behavior stay on OpenClaw. Plaintext official
+endpoints, and authored request behavior stay on FRIDAY. Plaintext official
 HTTP endpoints are rejected. See [OpenAI implicit agent runtime](/providers/openai/runtimes#implicit-agent-runtime).
 
 Subscription Copilot refs (`github-copilot/*`) can be opted into the external
@@ -57,7 +57,7 @@ the session.
     `agents.defaults.model.fallbacks`, tried in order.
   </Step>
   <Step title="Auth failover">
-    Auth-profile rotation happens inside a provider before OpenClaw moves to the next fallback model.
+    Auth-profile rotation happens inside a provider before FRIDAY moves to the next fallback model.
   </Step>
 </Steps>
 
@@ -66,7 +66,7 @@ Related model-config surfaces:
 - `agents.defaults.models` stores aliases and per-model settings. After legacy-policy migration, adding an entry does not restrict model overrides.
 - `agents.defaults.modelSelectionScope` chooses the scope of chat commands and Gateway session model updates without an explicit scope. The default is the current session. See [Model selection scope](/gateway/config-agents/models#agentsdefaultsmodelselectionscope).
 - `agents.defaults.modelPolicy.allow` is the optional override allowlist. Use exact refs or trailing prefix wildcards such as `provider/*` and `provider/namespace/*`. Omit it or set `[]` to allow any model. Per-agent `agents.entries.*.modelPolicy.allow` replaces the default policy for that agent.
-- `agents.defaults.utilityModel` is an optional lower-cost model for short internal tasks. It accepts a `provider/model` string, alias, or `{ primary, fallbacks }` object. Those tasks include generated dashboard session titles, supported channel thread or topic titles, progress narration, rolling [Activity recaps](/web/control-ui/settings#activity-tab), Side chat, and saved transcript summaries. Utility fallbacks use the same retry policy, alias resolution, and model-selection policy as configured model fallbacks, independently of `model.fallbacks`. Per-agent `agents.entries.*.utilityModel` inherits the default chain when unset. A fallback-only object inherits the primary; an explicit primary without `fallbacks`, or `fallbacks: []`, clears the inherited list. When unset, OpenClaw uses the primary provider's declared small-model default when one exists, otherwise the agent's primary model. Set it to an empty string to disable utility routing. Generated titles retry once with the primary model when a distinct utility chain is exhausted. For dashboard titles, automatic utility derivation and the regular fallback follow the effective session provider and auth profile. An explicit utility model keeps its configured provider and auth. An empty utility model skips only the alternate small-model route, not dashboard title generation. Utility tasks are separate model calls and may send bounded task content to the selected model provider. Activity recaps use bounded transcript excerpts and the previous recap, preserve cached text when the utility chain is exhausted, and do not fall back to the primary model.
+- `agents.defaults.utilityModel` is an optional lower-cost model for short internal tasks. It accepts a `provider/model` string, alias, or `{ primary, fallbacks }` object. Those tasks include generated dashboard session titles, supported channel thread or topic titles, progress narration, rolling [Activity recaps](/web/control-ui/settings#activity-tab), Side chat, and saved transcript summaries. Utility fallbacks use the same retry policy, alias resolution, and model-selection policy as configured model fallbacks, independently of `model.fallbacks`. Per-agent `agents.entries.*.utilityModel` inherits the default chain when unset. A fallback-only object inherits the primary; an explicit primary without `fallbacks`, or `fallbacks: []`, clears the inherited list. When unset, FRIDAY uses the primary provider's declared small-model default when one exists, otherwise the agent's primary model. Set it to an empty string to disable utility routing. Generated titles retry once with the primary model when a distinct utility chain is exhausted. For dashboard titles, automatic utility derivation and the regular fallback follow the effective session provider and auth profile. An explicit utility model keeps its configured provider and auth. An empty utility model skips only the alternate small-model route, not dashboard title generation. Utility tasks are separate model calls and may send bounded task content to the selected model provider. Activity recaps use bounded transcript excerpts and the previous recap, preserve cached text when the utility chain is exhausted, and do not fall back to the primary model.
 - `agents.defaults.decisionModel` selects a plugin's typed decision model as `provider/model` for choices, scores, and boolean probabilities. It is disabled when unset or empty. Per-agent `agents.entries.*.decisionModel` inherits when unset and disables decisions when empty. The Control UI has a separate **Decision** picker beside Utility; decision models never appear in chat, primary, fallback, or utility choices. Supporting plugins call the [decision runtime](/plugins/sdk-overview/capabilities#decision-models-contract-version-1); selection alone does not start background work or replace the chat model.
 - `agents.defaults.imageModel` is used only when the primary model cannot accept images.
 - `agents.defaults.pdfModel` is used by the `pdf` tool. If unset, the tool falls back to `imageModel`, then the resolved session/default model.
@@ -112,7 +112,7 @@ The same `provider/model` behaves differently depending on where it came from:
 | Native agent primary                                 | Strict unless the agent supplies `model.fallbacks`; an explicit `[]` disables fallback.                                                                                                                                                                                                                                                |
 | ACP agent primary                                    | Selects the external harness model. Native calls use the configured native default and inherit its fallback list unless the agent supplies `model.fallbacks`. Explicit native session and subagent selections still apply.                                                                                                             |
 | Automatically pinned creation/spawn model            | A concrete model selected at creation can be stored with `modelOverrideSource: "auto"`. It keeps that model across later default changes and allows configured fallbacks. Without fallback-origin metadata, it is a creation pin, not a temporary fallback awaiting recovery.                                                          |
-| Auto fallback                                        | Temporary recovery state, stored as `modelOverrideSource: "auto"`. OpenClaw periodically reprobes the original primary, clears the auto selection on recovery, and announces fallback/recovery transitions once per state change.                                                                                                      |
+| Auto fallback                                        | Temporary recovery state, stored as `modelOverrideSource: "auto"`. FRIDAY periodically reprobes the original primary, clears the auto selection on recovery, and announces fallback/recovery transitions once per state change.                                                                                                        |
 | User session selection                               | Selecting a model other than the effective agent default is exact and strict (`modelOverrideSource: "user"`). If that provider/model becomes unreachable, the run fails visibly instead of falling through to another configured model. Selecting the effective default clears the model pin and keeps its configured fallback policy. |
 | Cron `--model` / payload `model`                     | Per-job primary. Still uses configured fallbacks unless the job supplies its own payload `fallbacks` (`fallbacks: []` forces a strict run).                                                                                                                                                                                            |
 
@@ -189,7 +189,7 @@ also refresh the affected catalog. Use **Refresh** in Models or
 `openclaw models list --refresh` to request another refresh, including newly
 released models. **Retry** requests discovery again after a failure.
 
-If a credential refresh loses its plugin generation, OpenClaw retries publication
+If a credential refresh loses its plugin generation, FRIDAY retries publication
 once against current plugins. If that retry fails, the recorded failure and Gateway
 warning identify the failed fresh-generation retry.
 
@@ -199,7 +199,7 @@ native login. When Claude Code is logged out, its models stay listed as unavaila
 and the Control UI picker and `/models` suggest `claude auth login`.
 
 If discovery fails, **Settings > Models** and `openclaw models list` report the
-failure and keep the last compatible model list. Without one, OpenClaw shows
+failure and keep the last compatible model list. Without one, FRIDAY shows
 prepared starter models. Chat and native Quick Chat model pickers keep usable
 choices without a catalog-wide warning; selected-model availability still applies.
 Other providers can still update. A successful empty response clears that
@@ -238,7 +238,7 @@ setup select the exact `openai/gpt-6-astra` catalog ref. The bare direct-API
 `openai/gpt-5.6` alias remains supported and resolves to the Sol tier.
 Reauthentication preserves an existing explicit primary model, including
 `openai/gpt-5.5`. If GPT-5.6 is unavailable to the account, select
-`openai/gpt-5.5` explicitly. OpenClaw does not silently downgrade it.
+`openai/gpt-5.5` explicitly. FRIDAY does not silently downgrade it.
 
 ## "Model is not allowed" (and why replies stop)
 
@@ -324,7 +324,7 @@ openclaw config set agents.defaults.modelPolicy.allow '["openai/gpt-5.4","anthro
 ### Choose the same model with different runtimes
 
 Set `pickerRuntimes` on an exact model entry to offer additional runtime choices
-in the Control UI. Each entry shows its harness label. When both OpenClaw and
+in the Control UI. Each entry shows its harness label. When both FRIDAY and
 Codex are configured for the same model, the Codex choice appends `codex` to its
 name. A model with only one configured harness keeps its plain name. The
 configured `agentRuntime` remains the default:
@@ -454,7 +454,7 @@ Without a scope flag, selections change only the current session. `agents.defaul
 - If you select another model while a live switch is queued, the newer selection stays pending for the next safe retry opportunity.
 - `/model status` is the detailed view: auth candidates per provider, and (when configured) the provider endpoint `baseUrl` plus `api` mode.
 - `/status` and `session_status` report the selected credential source, including `models.json` for configured keys and `environment` for environment credentials. Custom providers sharing an endpoint keep their own credential selection; a different saved profile does not replace the selected source in status output.
-- Model refs are parsed by splitting on the first `/`. Type `provider/model`. If the model ID itself contains `/` (OpenRouter-style), include the provider prefix, for example `/model openrouter/moonshotai/kimi-k2`. If you omit the provider, OpenClaw tries an alias match first. It then tries a unique configured-provider match for that exact unprefixed model id. It then tries the configured default provider, which is a deprecated fallback. If that provider no longer exposes the configured default model, OpenClaw uses the first configured provider and model instead. This avoids surfacing a stale removed-provider default.
+- Model refs are parsed by splitting on the first `/`. Type `provider/model`. If the model ID itself contains `/` (OpenRouter-style), include the provider prefix, for example `/model openrouter/moonshotai/kimi-k2`. If you omit the provider, FRIDAY tries an alias match first. It then tries a unique configured-provider match for that exact unprefixed model id. It then tries the configured default provider, which is a deprecated fallback. If that provider no longer exposes the configured default model, FRIDAY uses the first configured provider and model instead. This avoids surfacing a stale removed-provider default.
 - An alias cannot redirect an explicit registered or configured provider ref to another provider, including when the ref has an auth-profile suffix. A colliding alias remains usable with its own provider prefix. Slash-form aliases whose leading segment is a model namespace still work.
 - When inferring a provider, exact model ID case takes precedence over case-insensitive matches within the same configuration scope. A case-insensitive match is used only when it identifies one provider. Per-agent model entries take precedence over global entries and configured provider catalogs.
 - Provider IDs are normalized to lowercase. Model IDs follow the provider's normalization rules. Use the spelling advertised by the plugin.
@@ -491,7 +491,7 @@ openclaw models auth list|add|login|paste-api-key|paste-token|setup-token|order
 
 ## Models registry (`models.json`)
 
-When a saved catalog has a malformed model `cost` block, OpenClaw skips that model
+When a saved catalog has a malformed model `cost` block, FRIDAY skips that model
 and records a warning naming it. Other valid models in the same catalog remain
 available. Normal loading leaves the saved catalog unchanged. For generated
 provider catalogs in agent SQLite, `openclaw doctor --fix` completes missing
@@ -503,8 +503,8 @@ even on a model with malformed pricing.
 
 ### Hosted catalog updates
 
-OpenClaw can refresh the model metadata shipped by installed provider plugins
-without waiting for a new OpenClaw release. The Gateway makes one background
+FRIDAY can refresh the model metadata shipped by installed provider plugins
+without waiting for a new FRIDAY release. The Gateway makes one background
 JSON `GET` at startup and then checks at most every six hours. The request sends
 no prompts, credentials, model usage, or configuration payload beyond the
 normal HTTP user agent and conditional cache headers.
@@ -558,7 +558,7 @@ missing or renamed upstream provider only skips that provider's hydration; its
 manifest rows still publish, so one provider cannot block catalog updates for
 the rest. Hydration runs at publication time, not in the Gateway. Downloaded
 metadata follows the shared catalog generation publication described above.
-Its scheduled workflow checks OpenClaw's default-branch plugin manifests and
+Its scheduled workflow checks FRIDAY's default-branch plugin manifests and
 public pricing sources every four hours. Every catalog content change is
 preserved as a public commit. Catalog v2 also lists each provider's matches from
 the [curated recommended models list](/concepts/recommended-models). Provider-owned
@@ -566,7 +566,7 @@ policies select complete price schedules, including context tiers, without
 mixing rates from different sources.
 Declared native sources read the public Cerebras, Chutes, DeepInfra, OpenCode, and Venice
 catalogs, so connected installations can receive advertised price changes without
-a new OpenClaw release. When a valid native feed no longer supplies a model's
+a new FRIDAY release. When a valid native feed no longer supplies a model's
 price, publication preserves the model metadata without an estimate. A missing
 price alone does not retire the model or substitute another source's rate.
 Explicit user costs still win. DeepInfra uses its agent projection for model
@@ -636,11 +636,11 @@ apart from built-in corrections for retired Google and Together model names.
   </Accordion>
 </AccordionGroup>
 
-Marker persistence is source-authoritative. OpenClaw writes markers from the active source config snapshot (pre-resolution), not from resolved runtime secret values. It does this whenever it regenerates `models.json`, including command-driven paths like `openclaw agent`.
+Marker persistence is source-authoritative. FRIDAY writes markers from the active source config snapshot (pre-resolution), not from resolved runtime secret values. It does this whenever it regenerates `models.json`, including command-driven paths like `openclaw agent`.
 
 ## Related
 
-- [Agent runtimes](/concepts/agent-runtimes) — OpenClaw, Codex, and other agent loop runtimes
+- [Agent runtimes](/concepts/agent-runtimes) — FRIDAY, Codex, and other agent loop runtimes
 - [Configuration reference](/gateway/config-agents#agent-defaults) — model config keys
 - [Image generation](/tools/image-generation) — image model configuration
 - [Model failover](/concepts/model-failover) — fallback chains

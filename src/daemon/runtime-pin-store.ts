@@ -130,7 +130,7 @@ export function withDaemonRuntimePinStore<T>(
         });
       } else if (version !== DAEMON_RUNTIME_PIN_SCHEMA_VERSION) {
         throw new Error(
-          `Runtime pin store has unsupported schema version ${String(version)}. Use a compatible OpenClaw version.`,
+          `Runtime pin store has unsupported schema version ${String(version)}. Use a compatible FRIDAY version.`,
         );
       }
       if (version !== 0) {

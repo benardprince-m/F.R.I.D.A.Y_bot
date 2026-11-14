@@ -150,7 +150,7 @@ describe("prompt hook context with native background commands", () => {
         expect(received[index]?.split(`${hookContext} clock`)).toHaveLength(2);
         expect(received[index]?.split(hookContext)).toHaveLength(3);
         expect(received[index]).toMatch(
-          /Native model-owned policy[\s\S]*<available_skills>[\s\S]*OpenClaw plugin-injected system context\./,
+          /Native model-owned policy[\s\S]*<available_skills>[\s\S]*FRIDAY plugin-injected system context\./,
         );
       }
       expect(received[1]).not.toContain("Synthetic first-turn recall");

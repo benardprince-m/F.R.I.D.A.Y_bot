@@ -298,7 +298,7 @@ it("accepts a newer app-server version for normal startup validation", async () 
   expect(harness.frame(1)).toEqual({ method: "initialized" });
   expect(warn).toHaveBeenCalledOnce();
   expect(warn).toHaveBeenCalledWith(
-    "codex app-server is newer than OpenClaw's managed runtime; continuing with normal startup validation",
+    "codex app-server is newer than FRIDAY's managed runtime; continuing with normal startup validation",
     {
       detectedVersion: version,
       validatedVersion: CODEX_APP_SERVER_VERSION,
@@ -317,7 +317,7 @@ it.each(["0.149.0-alpha.2", undefined])(
 
     await expect(initializing).rejects.toThrow(
       `Codex app-server ${MIN_SUPPORTED_CODEX_APP_SERVER_VERSION} or newer is required, but ${
-        version ? `detected ${version}` : "OpenClaw could not determine the running Codex version"
+        version ? `detected ${version}` : "FRIDAY could not determine the running Codex version"
       }`,
     );
     expect(harness.writes).toHaveLength(1);
@@ -519,7 +519,7 @@ it.each([
     {
       action: "decline",
       content: null,
-      _meta: { message: "OpenClaw has no interactive handler for this elicitation." },
+      _meta: { message: "FRIDAY has no interactive handler for this elicitation." },
     },
   ],
 ])("fails closed for unhandled %s", async (method, result) => {

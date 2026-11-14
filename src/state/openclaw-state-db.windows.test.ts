@@ -38,7 +38,7 @@ const tempDirs = useAutoCleanupTempDirTracker((cleanup) => {
   });
 });
 
-it.each([String.raw`C:\OpenClaw`, String.raw`\\Server\Share\OpenClaw`])(
+it.each([String.raw`C:\FRIDAY`, String.raw`\\Server\Share\FRIDAY`])(
   "shares the native writer and admission across Windows spellings under %s",
   async (windowsRoot) => {
     const hostPlatform = process.platform;

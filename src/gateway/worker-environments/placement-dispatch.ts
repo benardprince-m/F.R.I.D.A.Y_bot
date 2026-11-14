@@ -193,7 +193,7 @@ export function createWorkerPlacementDispatchService(options: WorkerPlacementDis
         (request.deviceId !== workspace.deviceId || request.executionMode !== "worker-turn")
       ) {
         throw new Error(
-          "Device folders require an explicit dispatch to their original paired device using the OpenClaw harness.",
+          "Device folders require an explicit dispatch to their original paired device using the FRIDAY harness.",
         );
       }
       if (

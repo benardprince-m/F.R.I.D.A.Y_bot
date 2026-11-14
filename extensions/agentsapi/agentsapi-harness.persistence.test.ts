@@ -275,7 +275,7 @@ it("retains immutable forwarding bindings across policy changes and permits expl
             kind: "failed",
             error: expect.objectContaining({
               message: expect.stringContaining(
-                "forwarding policy changed; reset the OpenClaw session",
+                "forwarding policy changed; reset the FRIDAY session",
               ),
             }),
           },
@@ -304,9 +304,7 @@ it("retains immutable forwarding bindings across policy changes and permits expl
         terminal: {
           kind: "failed",
           error: expect.objectContaining({
-            message: expect.stringContaining(
-              "forwarding policy changed; reset the OpenClaw session",
-            ),
+            message: expect.stringContaining("forwarding policy changed; reset the FRIDAY session"),
           }),
         },
       });
@@ -717,7 +715,7 @@ it("can reset a retained executor after a restarted harness rejects a configurat
           kind: "failed",
           error: expect.objectContaining({
             message:
-              "Agents API executor controller changed; reset the OpenClaw session before continuing",
+              "Agents API executor controller changed; reset the FRIDAY session before continuing",
           }),
         },
       });
@@ -771,7 +769,7 @@ it("cleans up with the stored controller after selecting a different registered 
           kind: "failed",
           error: expect.objectContaining({
             message:
-              "Agents API executor controller changed; reset the OpenClaw session before continuing",
+              "Agents API executor controller changed; reset the FRIDAY session before continuing",
           }),
         },
       });

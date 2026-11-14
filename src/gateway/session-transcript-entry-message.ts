@@ -4,7 +4,7 @@ import type { TranscriptDisplayPosition } from "../chat/transcript-display-posit
 import type { SessionTranscriptMessageEvent } from "../config/sessions/session-accessor.sqlite-projection-read.js";
 import { isVisibleTranscriptRecord } from "../sessions/transcript-visible-record.js";
 
-/** Attach OpenClaw metadata to a transcript message without dropping existing metadata. */
+/** Attach FRIDAY metadata to a transcript message without dropping existing metadata. */
 export function attachOpenClawTranscriptMeta(
   message: unknown,
   meta: Record<string, unknown>,

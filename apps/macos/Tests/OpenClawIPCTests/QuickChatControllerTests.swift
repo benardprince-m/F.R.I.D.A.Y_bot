@@ -3,7 +3,7 @@ import Foundation
 import OpenClawChatUI
 import OpenClawProtocol
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @Suite(.serialized)
 @MainActor

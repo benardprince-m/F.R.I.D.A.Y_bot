@@ -54,7 +54,7 @@ it("passes the raw Tool Search invocation to tool-result plugin replacements", a
     },
   } as unknown as ApplicationContext;
   const provider = createSolidApplicationContextProvider(context);
-  const input = { id: "web_search", args: { query: "OpenClaw release notes" } };
+  const input = { id: "web_search", args: { query: "FRIDAY release notes" } };
   const card: ToolCard = {
     id: "search-release",
     callId: "search-release",

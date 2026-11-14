@@ -196,7 +196,7 @@ export async function updateFinalizeCommand(
                 error instanceof DoctorMaintenanceRefusalError &&
                 error.refusal.kind === "deferred"
               ) {
-                const nextAction = `Stop the Gateway through its service owner (\`${formatCliCommand("openclaw gateway stop --force")}\` for the managed service), stop other OpenClaw processes using this state, then rerun \`${formatCliCommand("openclaw update repair")}\`.`;
+                const nextAction = `Stop the Gateway through its service owner (\`${formatCliCommand("openclaw gateway stop --force")}\` for the managed service), stop other FRIDAY processes using this state, then rerun \`${formatCliCommand("openclaw update repair")}\`.`;
                 const warnings = normalizeUpdatePostInstallDoctorWarnings([
                   `Doctor and plugin maintenance remain pending. ${nextAction} ${error.message}`,
                 ]);

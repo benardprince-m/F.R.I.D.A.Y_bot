@@ -616,7 +616,7 @@ describe("createCodexDynamicToolBridge", () => {
 
     expectInputText(
       result,
-      `OpenClaw tool is not available for this turn: ${HEARTBEAT_RESPONSE_TOOL_NAME}`,
+      `FRIDAY tool is not available for this turn: ${HEARTBEAT_RESPONSE_TOOL_NAME}`,
       false,
     );
     expect(result.executionStarted).toBe(false);
@@ -718,7 +718,7 @@ describe("createCodexDynamicToolBridge", () => {
 
     const result = await bridge.handleToolCall(createDynamicToolCall("fuzzplugin_move_angles"));
 
-    expectInputText(result, "Unknown OpenClaw tool: fuzzplugin_move_angles", false);
+    expectInputText(result, "Unknown FRIDAY tool: fuzzplugin_move_angles", false);
     expect(result.executionStarted).toBe(false);
     expect(result.executedArguments).toEqual({});
     expect(badExecute).not.toHaveBeenCalled();
@@ -773,7 +773,7 @@ describe("createCodexDynamicToolBridge", () => {
     expect(invalidResult.contentItems).toEqual([
       {
         type: "inputText",
-        text: `Unknown OpenClaw tool: ${testCase.name}`,
+        text: `Unknown FRIDAY tool: ${testCase.name}`,
       },
     ]);
   });

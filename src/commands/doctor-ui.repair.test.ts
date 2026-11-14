@@ -73,8 +73,8 @@ describe("Control UI doctor repair owner", () => {
       JSON.stringify({
         schemaVersion: 1,
         owner: "macos-app",
-        displayName: "OpenClaw.app",
-        updateHint: "Update OpenClaw.app to update this Gateway.",
+        displayName: "FRIDAY.app",
+        updateHint: "Update FRIDAY.app to update this Gateway.",
       }),
     );
     const prompter = createPrompter();
@@ -82,9 +82,7 @@ describe("Control UI doctor repair owner", () => {
     await maybeRepairUiProtocolFreshness(runtime, prompter);
 
     expect(mocks.note).toHaveBeenCalledWith(
-      expect.stringContaining(
-        "Managed by OpenClaw.app. Update OpenClaw.app to update this Gateway.",
-      ),
+      expect.stringContaining("Managed by FRIDAY.app. Update FRIDAY.app to update this Gateway."),
       "UI",
     );
     expect(prompter.confirmAutoFix).not.toHaveBeenCalled();
@@ -134,7 +132,7 @@ describe("Control UI doctor repair owner", () => {
         expect(mocks.note).not.toHaveBeenCalled();
       } else {
         expect(mocks.note).toHaveBeenCalledWith(
-          expect.stringContaining("Reinstall OpenClaw to restore bundled Control UI assets."),
+          expect.stringContaining("Reinstall FRIDAY to restore bundled Control UI assets."),
           expect.any(String),
         );
       }

@@ -39,7 +39,7 @@ describe("Copilot request facts", () => {
   ])("keeps $name runtime context transparent to request initiator ownership", ({ marker }) => {
     const runtimeContext = {
       role: "user",
-      content: "OpenClaw runtime context:\ncurrent runtime facts",
+      content: "FRIDAY runtime context:\ncurrent runtime facts",
       ...marker,
     };
     expect(

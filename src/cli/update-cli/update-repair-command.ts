@@ -180,7 +180,7 @@ async function repairUpdate(opts: UpdateFinalizeOptions): Promise<void> {
           reportRepairResult(
             opts,
             [lastRun.runId],
-            `OpenClaw ${currentVersion} satisfies the package target ${targetVersion}. Acknowledged the package-owner refusal; no maintenance or service restart was needed.`,
+            `FRIDAY ${currentVersion} satisfies the package target ${targetVersion}. Acknowledged the package-owner refusal; no maintenance or service restart was needed.`,
           );
           return;
         }

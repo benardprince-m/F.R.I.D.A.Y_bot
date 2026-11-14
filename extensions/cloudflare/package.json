@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/cloudflare",
   "version": "2026.10.4",
-  "description": "Cloudflare R2 storage provider for OpenClaw.",
+  "description": "Cloudflare R2 storage provider for FRIDAY.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

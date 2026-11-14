@@ -554,7 +554,7 @@ const hint = buildTtsSystemPromptHint(config, agentId);
 // After
 const prepareHint = api.runtime.tts.buildSystemPromptHintAsync;
 if (!prepareHint) {
-  throw new Error("Update OpenClaw to use async TTS prompt preparation.");
+  throw new Error("Update FRIDAY to use async TTS prompt preparation.");
 }
 const hint = await prepareHint(config, agentId);
 ```

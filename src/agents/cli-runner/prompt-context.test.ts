@@ -43,7 +43,7 @@ it.each([false, true])(
 
 it("keeps a transient session notice at the top of the native user prompt", () => {
   const session = { mode: "reuse", sessionId: "native-session" } as const;
-  const note = "[OpenClaw: Messages occurred outside this Claude session.]";
+  const note = "[FRIDAY: Messages occurred outside this Claude session.]";
   const render = createCliCurrentPromptRenderer({}, session, { sessionGapContext: note });
   expect(render("Read the latest token.")).toBe(`${note}\n\nRead the latest token.`);
   expect(render("Read the latest token.", true)).toBe(`${note}\n\nRead the latest token.`);

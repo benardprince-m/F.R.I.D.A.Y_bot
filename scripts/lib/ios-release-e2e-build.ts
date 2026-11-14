@@ -24,8 +24,8 @@ export type IOSReleaseNativeBuildIdentity = {
 };
 
 const REQUIRED_PRODUCTS = [
-  "Debug-iphonesimulator/OpenClaw.app/Info.plist",
-  "Debug-iphonesimulator/OpenClaw.app/OpenClaw",
+  "Debug-iphonesimulator/FRIDAY.app/Info.plist",
+  "Debug-iphonesimulator/FRIDAY.app/FRIDAY",
   "Debug-iphonesimulator/OpenClawUITests-Runner.app/Info.plist",
   "Debug-iphonesimulator/OpenClawUITests-Runner.app/OpenClawUITests-Runner",
   "Debug-iphonesimulator/OpenClawUITests-Runner.app/PlugIns/OpenClawUITests.xctest/Info.plist",

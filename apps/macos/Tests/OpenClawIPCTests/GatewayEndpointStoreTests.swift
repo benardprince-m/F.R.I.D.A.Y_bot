@@ -1,7 +1,7 @@
 import ConcurrencyExtras
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawKit
 
 private actor GatewayEndpointSourceGate {

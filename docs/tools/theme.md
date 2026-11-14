@@ -1,14 +1,14 @@
 ---
-summary: "Let an agent select plugin themes or create a personal OpenClaw theme"
+summary: "Let an agent select plugin themes or create a personal FRIDAY theme"
 title: "Theme"
 sidebarTitle: "Theme"
 read_when:
-  - You want an agent to change your OpenClaw theme
+  - You want an agent to change your FRIDAY theme
   - You want to create a custom theme and apply it in one call
   - You need the theme catalog and profile selection contract
 ---
 
-The `theme` tool lets an agent list, inspect, select, and create OpenClaw
+The `theme` tool lets an agent list, inspect, select, and create FRIDAY
 appearance themes. Settings and the agent use the same catalog of built-in,
 plugin, and personal themes. Theme descriptions explain their palette,
 typography, and character so the agent can choose a theme from a request such
@@ -27,7 +27,7 @@ It does not require a connected browser. Personal changes require a trusted
 participant profile.
 
 CRT and Phosphor use a neutral terminal mark, dot working indicators, and no
-Lobsterdex. They retain the OpenClaw name and help links. Other built-in themes,
+Lobsterdex. They retain the FRIDAY name and help links. Other built-in themes,
 including Claw, keep their existing mascot and branding. Hiding Lobsterdex does
 not delete the browser's collection or saved favicon preference.
 
@@ -100,7 +100,7 @@ definitions cannot load external stylesheets or resources.
 Definitions can also supply these optional presentation fields, shared by built-in, plugin, and personal themes:
 
 - `mascot`: `"claw"` (the default) or `"none"`. `"none"` defaults to a neutral prompt mark and hides the resident lobster and visiting lobster strangers. Ordinary critters can still cross the composer ledge when Lobster visits is enabled; the theme does not change that toggle.
-- `brandName`: a display name of 1–80 printable characters, trimmed before saving. Omit it to keep “OpenClaw.” This is appearance text, not a change to agent identities or product configuration.
+- `brandName`: a display name of 1–80 printable characters, trimmed before saving. Omit it to keep “FRIDAY.” This is appearance text, not a change to agent identities or product configuration.
 - `brandIcon`: `"claw"` or the neutral `"mark"`. Omission follows `mascot`: claw for `"claw"`, mark for `"none"`. Plugin themes can also select a declared icon artwork ID.
 - `workingIndicator`: `"claw"`, `"dots"`, `"brand"` (the selected brand icon), or `"none"`. Omission uses claw for the claw mascot and dots for no mascot. This choice is independent of long-wait phrases.
 - `lobsterdex` and `communityLinks`: booleans controlling their respective navigation entries. Both default to `true`, independently of `mascot`. Hiding an entry does not delete discoveries or change access permissions.

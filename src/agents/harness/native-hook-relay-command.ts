@@ -147,5 +147,5 @@ function resolveNativeHookRelayExecutable(): { executable: string; kind: "worker
       return { executable: resolved, kind: "cli" };
     }
   }
-  throw new Error("Cannot resolve OpenClaw CLI executable path for native hook relay");
+  throw new Error("Cannot resolve FRIDAY CLI executable path for native hook relay");
 }

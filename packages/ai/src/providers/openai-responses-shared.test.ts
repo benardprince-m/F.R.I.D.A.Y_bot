@@ -206,7 +206,7 @@ function createAssistantOutput(): AssistantMessage {
 
 describe("convertResponsesToolPayload", () => {
   beforeEach(() => {
-    // Mimic the OpenClaw host strict-tool policy: native OpenAI routes force
+    // Mimic the FRIDAY host strict-tool policy: native OpenAI routes force
     // strict=true; compatible routes opt in to sending strict=false.
     const capabilities = getAiTransportHost().resolveProviderRequestCapabilities({});
     configureAiTransportHost({

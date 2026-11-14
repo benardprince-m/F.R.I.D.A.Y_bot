@@ -9,7 +9,7 @@ read_when:
 ## Tool policy
 
 Sub-agents use the same profile and tool-policy pipeline as the parent or
-target agent first. After that, OpenClaw applies the sub-agent restriction
+target agent first. After that, FRIDAY applies the sub-agent restriction
 layer.
 
 For a newly created child, a permitted `github_publish` capability is inherited
@@ -29,7 +29,7 @@ tool restrictions and live revocation checks still apply at execution; the
 handoff does not grant additional tools or infer a sender identity.
 
 An automatic completion turn for a requester on the Claude CLI backend keeps that same
-captured policy. The tools reach the CLI only through OpenClaw's policy-filtered
+captured policy. The tools reach the CLI only through FRIDAY's policy-filtered
 MCP surface, so native CLI tools stay disabled for the turn and every inherited
 deny still applies. Other CLI backends, node-hosted Claude CLI sessions, and
 settle batches do not regain requester tools. Message-tool-only replies keep
@@ -97,7 +97,7 @@ ACP retains its original inheritance and admission checks.
 The initial handoff requires a Gateway-side native tool surface and local
 placement. Cloud-worker and CLI-mediated spawn surfaces cannot originate or
 propagate the exception. Supported CLI and plugin harness targets use
-OpenClaw-mediated tools, not an ambient native command surface, so grant
+FRIDAY-mediated tools, not an ambient native command surface, so grant
 revocation can be checked before effects. Backends that cannot enforce that
 projection refuse the run.
 

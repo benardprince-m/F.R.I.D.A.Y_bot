@@ -800,7 +800,7 @@ async function isPnpmGlobalPackageRoot(pkgRoot?: string | null): Promise<boolean
   );
 }
 
-/** Resolves an installed pnpm project's identity and its active OpenClaw package link. */
+/** Resolves an installed pnpm project's identity and its active FRIDAY package link. */
 export async function resolvePnpmGlobalInstallOwner(
   pkgRoot: string,
 ): Promise<{ ownerRoot: string; packageRoot: string } | null> {
@@ -1102,7 +1102,7 @@ export async function detectGlobalInstallManagerForRoot(
 }
 
 /**
- * Detects an installed global OpenClaw package by probing package-manager roots
+ * Detects an installed global FRIDAY package by probing package-manager roots
  * when no trusted package root is already available.
  */
 export async function detectGlobalInstallManagerByPresence(
@@ -1127,8 +1127,8 @@ export async function detectGlobalInstallManagerByPresence(
 }
 
 /**
- * Builds the primary package-manager argv for a global OpenClaw install.
- * npm receives quiet/freshness-bypass flags; pnpm and Bun approve OpenClaw's lifecycle.
+ * Builds the primary package-manager argv for a global FRIDAY install.
+ * npm receives quiet/freshness-bypass flags; pnpm and Bun approve FRIDAY's lifecycle.
  */
 export function globalInstallArgs(
   managerOrCommand: GlobalInstallManager | ResolvedGlobalInstallCommand,

@@ -1,5 +1,5 @@
 ---
-summary: "How OpenClaw manages conversation sessions"
+summary: "How FRIDAY manages conversation sessions"
 read_when:
   - You want to understand session routing and isolation
   - You want to configure DM scope for multi-user setups
@@ -7,7 +7,7 @@ read_when:
 title: "Session management"
 ---
 
-OpenClaw routes every inbound message to a **session** based on where it came
+FRIDAY routes every inbound message to a **session** based on where it came
 from: DMs, group chats, cron jobs, etc. All session state is owned by the
 **gateway**; UI clients query the gateway for session data.
 
@@ -25,7 +25,7 @@ DM channels, with group activity and background work flowing into it — see
 [The main session](/concepts/main-session).
 
 Delivered command exchanges from the shared dispatcher are conversation history
-too. OpenClaw appends the user's command and delivered reply as ordinary
+too. FRIDAY appends the user's command and delivered reply as ordinary
 user/assistant messages. Native menus and command acknowledgements on Discord
 and Telegram, Slack argument menus, and Mattermost model pickers are also retained after delivery.
 Later turns and chat history can read these exchanges.
@@ -162,17 +162,17 @@ context, and replies to the source room remain unchanged.
 
 ## Incognito sessions
 
-Incognito sessions are available only from the Control UI's **New thread** screen. Turn on **Incognito** before starting the thread to keep its session entry, transcript, and compaction state in process memory instead of on disk. The thread expires 24 hours after creation or when the Gateway restarts, whichever comes first. Finishing a turn does not close the thread, and activity does not extend its lifetime. Expiry stops active work and deletes the session and transcript without an archive. Incognito does not run OpenClaw's automatic memory flush, and does not create a transcript archive when you reset or delete it. Codex-backed runs also start their harness thread in ephemeral mode, so Codex writes no rollout or local session-state files; other model providers use HTTP APIs and keep no local provider transcript in OpenClaw.
+Incognito sessions are available only from the Control UI's **New thread** screen. Turn on **Incognito** before starting the thread to keep its session entry, transcript, and compaction state in process memory instead of on disk. The thread expires 24 hours after creation or when the Gateway restarts, whichever comes first. Finishing a turn does not close the thread, and activity does not extend its lifetime. Expiry stops active work and deletes the session and transcript without an archive. Incognito does not run FRIDAY's automatic memory flush, and does not create a transcript archive when you reset or delete it. Codex-backed runs also start their harness thread in ephemeral mode, so Codex writes no rollout or local session-state files; other model providers use HTTP APIs and keep no local provider transcript in FRIDAY.
 
 <Warning>
-On the Codex runtime, the Codex app-server still writes each message you submit to its own diagnostic log database (`logs_2.sqlite` in that agent's Codex home), including messages in incognito threads. Codex currently offers no setting that turns this log off, so OpenClaw cannot prevent it. For conversations that must not reach disk, use an agent on the OpenClaw runtime.
+On the Codex runtime, the Codex app-server still writes each message you submit to its own diagnostic log database (`logs_2.sqlite` in that agent's Codex home), including messages in incognito threads. Codex currently offers no setting that turns this log off, so FRIDAY cannot prevent it. For conversations that must not reach disk, use an agent on the FRIDAY runtime.
 </Warning>
 
 Delegated work uses its native execution and completion owners. Live subagent activity and completion delivery remain available.
 
 The `incognito-` segment is reserved for dashboard, subagent, and hidden internal session keys; `openclaw doctor --fix` renames any colliding legacy durable keys.
 
-Incognito does not restrict the agent's normal tools. An explicit request to save information, or any tool-driven file write, can still persist data outside the incognito session store. Your configured model provider still processes the messages you send. Incognito content is excluded from ordinary Gateway output, delivery and response diagnostics, WebSocket event previews, raw-stream, cache-trace, and Anthropic payload logs. Live replies remain available, and OpenClaw still records operational diagnostics and content-free audit metadata such as HMAC references.
+Incognito does not restrict the agent's normal tools. An explicit request to save information, or any tool-driven file write, can still persist data outside the incognito session store. Your configured model provider still processes the messages you send. Incognito content is excluded from ordinary Gateway output, delivery and response diagnostics, WebSocket event previews, raw-stream, cache-trace, and Anthropic payload logs. Live replies remain available, and FRIDAY still records operational diagnostics and content-free audit metadata such as HMAC references.
 
 On multi-user gateways, incognito threads are visible only to admin-scope connections and never appear through another session's agent session tools or transcript search. This limits persisted session history and access through other gateway-mediated sessions; it does not make all tool, upload, approval, or configured diagnostic data ephemeral. The gateway owner or process operator can still observe live sessions.
 
@@ -253,11 +253,11 @@ Opt into automatic resets globally, then override them per chat type or channel:
 An incoming message does not trigger a delivery-uncertainty notice while the
 previous reply is still being sent or its delivery result is being recorded.
 If a send settles with an unknown outcome, or restart recovery finds an
-unconfirmed final reply, OpenClaw retains the warning for the next turn on the
+unconfirmed final reply, FRIDAY retains the warning for the next turn on the
 same route.
 
 When a Gateway restart interrupts an admitted turn, including one still waiting
-in the queue or preparing to execute, OpenClaw tries to continue the existing
+in the queue or preparing to execute, FRIDAY tries to continue the existing
 session automatically. Shutdown records recovery before canceling queued work.
 If restart cancellation finishes a collected run before that record commits,
 shutdown retains its recovery custody unless the session or run owner changes.
@@ -390,7 +390,7 @@ sequence](/cli/doctor#session-sqlite-migration) for inspection and validation.
 
 ## Session maintenance
 
-OpenClaw bounds session storage over time via `session.maintenance`, defaults
+FRIDAY bounds session storage over time via `session.maintenance`, defaults
 shown:
 
 ```json5

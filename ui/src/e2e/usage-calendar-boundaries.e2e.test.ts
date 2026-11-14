@@ -94,7 +94,7 @@ suite.define(() => {
                 mainKey: "main",
                 scope: "per-sender",
                 agents: [
-                  { id: "main", name: "OpenClaw" },
+                  { id: "main", name: "FRIDAY" },
                   { id: "research", name: "Research" },
                 ],
               },

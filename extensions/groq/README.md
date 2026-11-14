@@ -1,8 +1,8 @@
-# OpenClaw Groq Provider
+# FRIDAY Groq Provider
 
-Official OpenClaw provider plugin for Groq.
+Official FRIDAY provider plugin for Groq.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/groq-provider

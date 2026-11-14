@@ -6,7 +6,7 @@ read_when:
 title: "Background exec and process tool"
 ---
 
-OpenClaw runs shell commands through the `exec` tool and keeps long-running tasks in memory. The `process` tool manages background sessions from gateway, sandbox, and worker-local execution. Remote `host=node` calls use synchronous `system.run` and never create a process session, even when `process` is enabled.
+FRIDAY runs shell commands through the `exec` tool and keeps long-running tasks in memory. The `process` tool manages background sessions from gateway, sandbox, and worker-local execution. Remote `host=node` calls use synchronous `system.run` and never create a process session, even when `process` is enabled.
 
 ## exec tool
 
@@ -28,7 +28,7 @@ Parameters:
 Behavior:
 
 - Foreground runs return retained output directly and disclose when earlier output exceeded the aggregate cap.
-- Set `awaitResults: true` when a command result is needed to finish the task. It stays an owned tool call through process settlement and terminal collection instead of returning an uncollected background handle. This works with `notifyOnExit=false`; no completion notification is enabled. `awaitResults: true` cannot be combined with `background: true`, which explicitly selects an independently running service. Run, tool, and process deadlines still apply. In OpenClaw Code Mode, the cell retains required calls and resumes on their settlement without model polling.
+- Set `awaitResults: true` when a command result is needed to finish the task. It stays an owned tool call through process settlement and terminal collection instead of returning an uncollected background handle. This works with `notifyOnExit=false`; no completion notification is enabled. `awaitResults: true` cannot be combined with `background: true`, which explicitly selects an independently running service. Run, tool, and process deadlines still apply. In FRIDAY Code Mode, the cell retains required calls and resumes on their settlement without model polling.
 - When backgrounded (explicit or via `yieldMs` timeout), the tool returns `status: "running"` + `sessionId` and a short output tail. On the Gateway and in its sandbox, a yielded handle does not make an ordinary command independent: the browser's **Stop** button and typed `/stop` cancel the selected request's commands. Stop waits for process cleanup and reports when cleanup could not be confirmed. Completed output remains available, and canceled commands do not emit a new completion notification. Managed workers retain the separate behavior described below.
 - Use `background: true` only for a deliberately independent service. Request Stop leaves that service running; use its process handle to stop it separately. Normal turn completion also preserves ordinary commands that are still running.
 - Launch failures return the operating-system error and release worker cleanup even when no process starts.
@@ -80,7 +80,7 @@ Behavior:
 ### Disable automatic completion turns
 
 Background exec completion notifications are enabled by default. They can run a
-model turn marked `[OpenClaw exec completion]` even when
+model turn marked `[FRIDAY exec completion]` even when
 `agents.defaults.heartbeat.every` is `"0m"`: that setting disables recurring polls,
 not completion follow-ups.
 
@@ -100,7 +100,7 @@ automatic model call without disabling `background: true` or the `process` tool.
 
 ## Worker environments
 
-For managed background work on a paired device, enable [session hosting](/nodes/session-hosting) and select that device for an OpenClaw session. Use the worker's local `exec` with `background: true` and its `process` tool when permitted by the session's tool and exec policy. This runs the session on the device instead of sending individual remote `host=node` commands.
+For managed background work on a paired device, enable [session hosting](/nodes/session-hosting) and select that device for an FRIDAY session. Use the worker's local `exec` with `background: true` and its `process` tool when permitted by the session's tool and exec policy. This runs the session on the device instead of sending individual remote `host=node` commands.
 
 On a paired-node or node-backed cloud worker, background processes belong to the
 session's environment. Finishing or cancelling a turn leaves already-backgrounded
@@ -117,7 +117,7 @@ the environment, replacing its ownership, or stopping the node also stops its
 processes. Process handles do not survive a worker or node restart.
 
 If the node's pairing is revoked or its provider no longer recognizes the lease,
-the session placement fails. Physical cleanup can remain pending until OpenClaw
+the session placement fails. Physical cleanup can remain pending until FRIDAY
 confirms that the exact worker has stopped; an unconfirmed stop does not release
 its ownership record.
 
@@ -141,7 +141,7 @@ an interactive terminal or enumerate unrelated operating-system processes.
 
 ## Child process bridging
 
-After a host exec command finishes, OpenClaw releases its retained process
+After a host exec command finishes, FRIDAY releases its retained process
 scope before reporting completion. Children left behind by shell backgrounding
 (`&`) are stopped with that scope. To continue ordinary work across turns, let the
 long-running command yield a handle with `yieldMs` and use `process` to collect its

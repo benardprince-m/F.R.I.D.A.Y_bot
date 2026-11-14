@@ -23,10 +23,10 @@ installation cards. Compact tool calls use separate
 [inline activity icons](#inline-activity-icons), so improving a chat glyph does
 not change the plugin's branding elsewhere.
 
-OpenClaw adopts this fixed package path as its icon convention, matching the path proposed in
-Agent Plugins spec proposal [agent-plugins-spec#66](https://github.com/agentplugins/agent-plugins-spec/pull/66). OpenClaw itself implements Agent Plugins 1.0.0. Other Agent Plugins
+FRIDAY adopts this fixed package path as its icon convention, matching the path proposed in
+Agent Plugins spec proposal [agent-plugins-spec#66](https://github.com/agentplugins/agent-plugins-spec/pull/66). FRIDAY itself implements Agent Plugins 1.0.0. Other Agent Plugins
 consumers may not discover it unless that proposal is adopted. The fixed path keeps packages
-portable and inspectable, avoids manifest path indirection and precedence rules, and lets OpenClaw
+portable and inspectable, avoids manifest path indirection and precedence rules, and lets FRIDAY
 render the icon without a runtime network request. Top-level plugin-branding icon URLs are not
 loaded; provider-auth artwork remains server-owned catalog metadata.
 
@@ -34,8 +34,8 @@ Prefer top-level `sessionRouteStateOwners` for static doctor ownership. The
 older `doctorContract.sessionRouteStateOwners: true` declaration plus a
 `sessionRouteStateOwners` export from `doctor-contract-api` remains supported
 for external plugins, but is deprecated. When the manifest field is present,
-OpenClaw uses it without loading the doctor-contract module. Removal plan:
-remove the module fallback in OpenClaw 2027.1 after the external-plugin
+FRIDAY uses it without loading the doctor-contract module. Removal plan:
+remove the module fallback in FRIDAY 2027.1 after the external-plugin
 migration window.
 
 Set `doctorContract.configRepair: true` when the doctor-contract module exports
@@ -110,7 +110,7 @@ Codex health registration without preventing other checks; a declared but
 missing or broken API remains an error. This does not grant plugin capabilities
 or replace upgrade consent.
 
-Channel plugins maintained in the OpenClaw source tree also expose these config
+Channel plugins maintained in the FRIDAY source tree also expose these config
 exports through a pure `config-doctor-api.ts` entrypoint. The core package retains
 that entrypoint alongside its channel schemas when the plugin runtime is
 distributed separately. This lets `doctor --fix` migrate older configuration
@@ -160,13 +160,13 @@ example:
 </svg>
 ```
 
-OpenClaw validates the SVG and rasterizes it before using it as an activity
+FRIDAY validates the SVG and rasterizes it before using it as an activity
 mask; it never inserts package SVG markup into the chat DOM. Missing or invalid
 artwork falls back to the existing tool glyph, without showing the packaged
 brand image. The plugin remains usable.
 
 Include both `assets/activity.svg` and `assets/activity/*.svg` in the published
-package's `files` list when used. OpenClaw's bundled metadata copier and plugin
+package's `files` list when used. FRIDAY's bundled metadata copier and plugin
 runtime package builder include these paths automatically. Asset discovery
 uses the Gateway's prepared plugin metadata; restart or explicitly reload the
 plugin after changing its artwork.
@@ -241,7 +241,7 @@ Hats overlay the avatar's full square; place the hat near the top of the SVG
 viewBox and leave the lower area transparent.
 
 `backgrounds` maps `light` and/or `dark` to a relative PNG, JPEG, or WebP path
-with the same containment rules. Each file must be at most 512 KiB; OpenClaw
+with the same containment rules. Each file must be at most 512 KiB; FRIDAY
 checks its image signature when it captures the theme. When the theme is
 selected and **Appearance → Background** uses theme artwork, the Control UI
 paints the image for the matching color mode instead of the neutral plugin
@@ -256,7 +256,7 @@ dark palette no longer hides a dark image a viewer has asked to see. The
 built-in images are lossless WebP files of about 20–35 KiB.
 
 Include the definition JSON and every declared SVG and background in the published
-package's `files` list. OpenClaw's bundled metadata copier and runtime package builder
+package's `files` list. FRIDAY's bundled metadata copier and runtime package builder
 include these declared paths automatically. An unreadable or invalid artwork file omits
 the whole theme from the catalog with a plugin warning diagnostic; other plugin
 capabilities remain available.
@@ -275,7 +275,7 @@ diagnostic; other plugin capabilities remain available.
 The source JSON also accepts optional presentation fields. They belong in the definition referenced by `themes[].source`, alongside `name`, `description`, and the palettes:
 
 - `mascot`: `"claw"` (the default) or `"none"`; `"none"` defaults to neutral branding and hides the resident lobster and visiting lobster strangers. Ordinary critters can still cross the composer ledge when Lobster visits is enabled, and the toggle stays unchanged.
-- `brandName`: a trimmed display name of 1–80 printable characters; defaults to “OpenClaw.”
+- `brandName`: a trimmed display name of 1–80 printable characters; defaults to “FRIDAY.”
 - `brandIcon`: `"claw"`, `"mark"`, or an ID from this theme's declared `icons` map. Omission follows `mascot`: claw for `"claw"`, mark for `"none"`. An ID declared only as a hat or critter is not a brand icon.
 - `workingIndicator`: `"claw"`, `"dots"`, `"brand"` (the selected brand icon), or `"none"`. Omission uses claw for the claw mascot and dots otherwise; it does not change long-wait phrases.
 - `lobsterdex` and `communityLinks`: booleans controlling their respective navigation entries; each defaults to `true` independently of the mascot. These are presentation choices, not deletion or authorization controls.
@@ -287,7 +287,7 @@ These fields count toward the same 4096-byte normalized definition limit and are
 Definitions carry IDs only, never SVG markup or URLs. Personal themes imported
 through the agent's `theme` tool remain limited to built-in artwork IDs.
 
-Only enabled plugins contribute themes. OpenClaw retains validated definitions
+Only enabled plugins contribute themes. FRIDAY retains validated definitions
 and artwork bytes with the current plugin inventory. After editing a source,
 artwork file, or manifest, run
 `openclaw plugins reload starship` or choose **Reload** in the plugin's Lifecycle
@@ -335,14 +335,14 @@ source edits preserve configured fields when metadata is unavailable.
 ## backupResources reference
 
 Use `backupResources` to declare plugin-owned durable data that backups must
-include, or generated data that OpenClaw can safely omit and regenerate after
+include, or generated data that FRIDAY can safely omit and regenerate after
 restore. The backup planner reads this metadata without loading plugin runtime
 or modifying plugin files. Only effectively activated, loadable plugins
 contribute ordinary resources; disabled or unloadable plugins cannot exclude data.
 Declared database resources remain included for retained accounts even when
 the plugin is disabled.
 
-An `include` declaration also asks OpenClaw to manage SQLite backups for that
+An `include` declaration also asks FRIDAY to manage SQLite backups for that
 resource. SQLite files at or below the declared path receive verified online
 snapshots and offline compaction, with their committed write-ahead log (WAL)
 content included and sidecars omitted. Creation refuses a declared database
@@ -350,7 +350,7 @@ when its required SQLite capabilities are unavailable. Declare every hardlink
 alias within these resources so backup can identify its journal owner.
 
 Other plugin SQLite files remain opaque byte copies, including their sidecars,
-unless they alias a primary OpenClaw database. Backup reports each opaque
+unless they alias a primary FRIDAY database. Backup reports each opaque
 SQLite file and sidecar in `warnings`; verification and restore preserve its bytes
 without applying SQLite validation or compaction. Merely placing a database
 under the state or agent directory does not opt it into managed snapshots.
@@ -422,12 +422,12 @@ plugin can recreate.
 }
 ```
 
-OpenClaw includes these servers only while the owning plugin is enabled. Relative `command`, `args`, `cwd`, and `workingDirectory` paths resolve from the plugin root. User configuration remains authoritative: `mcp.servers.<name>` can replace a plugin default or set `enabled: false` to omit it. MCP App rendering and server-tool calls still require the normal MCP Apps setting and effective tool policy; declaring a server does not bypass either boundary.
+FRIDAY includes these servers only while the owning plugin is enabled. Relative `command`, `args`, `cwd`, and `workingDirectory` paths resolve from the plugin root. User configuration remains authoritative: `mcp.servers.<name>` can replace a plugin default or set `enabled: false` to omit it. MCP App rendering and server-tool calls still require the normal MCP Apps setting and effective tool policy; declaring a server does not bypass either boundary.
 
 ## UI capabilities
 
 Declare `uiCapabilities` in `openclaw.plugin.json` to describe what the plugin adds
-to the OpenClaw interface. The plugin detail page shows these kinds in its
+to the FRIDAY interface. The plugin detail page shows these kinds in its
 **Capabilities** section before installation and while the plugin is disabled or
 enabled. Display reads static manifest or catalog metadata without executing
 plugin code.
@@ -450,9 +450,9 @@ plugin code.
 | `link-reader` | A reader or preview for supported links.             |
 
 The field is optional. Omission means unspecified; `[]` explicitly declares no
-UI contributions. OpenClaw ignores an invalid declaration (unknown values or a
+UI contributions. FRIDAY ignores an invalid declaration (unknown values or a
 non-array value) and reports a plugin warning; the plugin still loads. Older
-OpenClaw versions ignored this field, so malformed display metadata does not
+FRIDAY versions ignored this field, so malformed display metadata does not
 break existing installs after an update. Duplicates are removed, and values use
 the order above. Declare kinds only,
 not instance counts or live availability. Conditional registrations may be absent
@@ -467,7 +467,7 @@ explicit declaration; omission skips that comparison. These diagnostics do not
 block activation.
 
 For a catalog listing, publish the same metadata with the selected plugin
-version. If the catalog omits it, OpenClaw leaves the UI contribution kinds
+version. If the catalog omits it, FRIDAY leaves the UI contribution kinds
 unspecified rather than loading the plugin to infer them. For native browser
 modules, explicit UI reload reads the updated declaration and creates a new
 revision even when browser code is unchanged.
@@ -536,7 +536,7 @@ replacements, reload, and activation receipts.
 }
 ```
 
-The manifest ids are plugin-local. Widget grants use `<plugin-id>.<id>`, such as `example.items.list` and `example.refresh`. To keep the persisted grant namespace unambiguous, OpenClaw escapes `%` and `.` in the plugin-id segment as `%25` and `%2E`; ordinary plugin ids keep the natural form. `paramShape` is an optional JSON Schema applied to the action params object before OpenClaw invokes the plugin RPC.
+The manifest ids are plugin-local. Widget grants use `<plugin-id>.<id>`, such as `example.items.list` and `example.refresh`. To keep the persisted grant namespace unambiguous, FRIDAY escapes `%` and `.` in the plugin-id segment as `%25` and `%2E`; ordinary plugin ids keep the natural form. `paramShape` is an optional JSON Schema applied to the action params object before FRIDAY invokes the plugin RPC.
 
 ## catalog reference
 
@@ -576,7 +576,7 @@ The manifest row is the source of help text. Register the same command at runtim
 
 ## commandAliases reference
 
-Use `commandAliases` when a plugin owns a runtime command name that users may mistakenly put in `plugins.allow` or try to run as a root CLI command. OpenClaw uses this metadata for diagnostics without importing plugin runtime code.
+Use `commandAliases` when a plugin owns a runtime command name that users may mistakenly put in `plugins.allow` or try to run as a root CLI command. FRIDAY uses this metadata for diagnostics without importing plugin runtime code.
 
 If a plugin fails to load, invoking its declared `runtime-slash` command in chat returns the plugin name, a short failure reason, and recovery guidance (`openclaw doctor` and gateway logs). Unknown commands and commands belonging to intentionally disabled plugins keep their normal handling; manifest ownership alone does not make a command executable.
 
@@ -669,14 +669,14 @@ for the SDK contract.
 
 Use `channelConfigs` when a channel plugin needs cheap config metadata before runtime loads. Read-only channel setup/status discovery can use this metadata directly for configured external channels when no setup entry is available, or when `setup.requiresRuntime: false` declares setup runtime unnecessary.
 
-`channelConfigs` is plugin manifest metadata, not a new top-level user config section. Users still configure channel instances under `channels.<channel-id>`. OpenClaw reads manifest metadata to decide which plugin owns that configured channel before plugin runtime code executes.
+`channelConfigs` is plugin manifest metadata, not a new top-level user config section. Users still configure channel instances under `channels.<channel-id>`. FRIDAY reads manifest metadata to decide which plugin owns that configured channel before plugin runtime code executes.
 
 For a channel plugin, `configSchema` and `channelConfigs` describe different paths:
 
 - `configSchema` validates `plugins.entries.<plugin-id>.config`
 - `channelConfigs.<channel-id>.schema` validates `channels.<channel-id>`
 
-Non-bundled plugins that declare `channels[]` should also declare matching `channelConfigs` entries. Without them, OpenClaw can still load the plugin, but cold-path config schema, setup, and Control UI surfaces cannot know the channel-owned option shape or display-only UI hints until plugin runtime executes.
+Non-bundled plugins that declare `channels[]` should also declare matching `channelConfigs` entries. Without them, FRIDAY can still load the plugin, but cold-path config schema, setup, and Control UI surfaces cannot know the channel-owned option shape or display-only UI hints until plugin runtime executes.
 
 `channelConfigs.<channel-id>.commands.nativeCommandsAutoEnabled` and `nativeSkillsAutoEnabled` can declare static `auto` defaults for command config checks that run before channel runtime loads. Bundled channels can also publish the same defaults through `package.json#openclaw.channel.commands` alongside their other package-owned channel catalog metadata.
 
@@ -743,6 +743,6 @@ Use `preferOver` when your plugin is the preferred owner for a channel id that a
 }
 ```
 
-When `channels.chat` is configured, OpenClaw considers both the channel id and the preferred plugin id. If the lower-priority plugin was only selected because it is bundled or enabled by default, OpenClaw disables it in the effective runtime config so one plugin owns the channel and its tools. Explicit user selection still wins: if the user explicitly enables both plugins (via `plugins.allow` or a material `plugins.entries` config), OpenClaw preserves that choice and reports duplicate channel/tool diagnostics instead of silently changing the requested plugin set.
+When `channels.chat` is configured, FRIDAY considers both the channel id and the preferred plugin id. If the lower-priority plugin was only selected because it is bundled or enabled by default, FRIDAY disables it in the effective runtime config so one plugin owns the channel and its tools. Explicit user selection still wins: if the user explicitly enables both plugins (via `plugins.allow` or a material `plugins.entries` config), FRIDAY preserves that choice and reports duplicate channel/tool diagnostics instead of silently changing the requested plugin set.
 
 Keep `preferOver` scoped to plugin ids that can really provide the same channel. It is not a general priority field and it does not rename user config keys.

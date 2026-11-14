@@ -31,7 +31,7 @@ import {
 
 const REPOSITORY = "openclaw/openclaw";
 const CHANNEL = "linux-stable";
-const INITIAL_BODY = "OpenClaw Linux update channel. Publication is not complete.";
+const INITIAL_BODY = "FRIDAY Linux update channel. Publication is not complete.";
 const METADATA_LIMIT = 1024 * 1024;
 const BUNDLE_LIMIT = 2 * 1024 * 1024 * 1024;
 const SHA = /^[0-9a-f]{40}$/u;
@@ -174,18 +174,18 @@ function assetUrl(tag, name) {
 }
 
 function manifestName(version) {
-  return `OpenClaw-${version}-linux.json`;
+  return `FRIDAY-${version}-linux.json`;
 }
 
 function bundleNames(version) {
   return {
-    appimage: `OpenClaw-${version}-amd64.AppImage`,
-    deb: `OpenClaw-${version}-amd64.deb`,
-    windows: `OpenClaw-${version}-windows-x86_64.exe`,
+    appimage: `FRIDAY-${version}-amd64.AppImage`,
+    deb: `FRIDAY-${version}-amd64.deb`,
+    windows: `FRIDAY-${version}-windows-x86_64.exe`,
     desktop: [
-      `OpenClaw-${version}-darwin-aarch64.dmg`,
-      `OpenClaw-${version}-darwin-aarch64.app.tar.gz`,
-      `OpenClaw-${version}-windows-x86_64.exe`,
+      `FRIDAY-${version}-darwin-aarch64.dmg`,
+      `FRIDAY-${version}-darwin-aarch64.app.tar.gz`,
+      `FRIDAY-${version}-windows-x86_64.exe`,
     ],
     checksums: "SHA256SUMS.linux-app.txt",
   };
@@ -913,10 +913,10 @@ function publishDesktopChannel(github, options, directory, windows = false) {
       "--prerelease",
       "--latest=false",
       "--title",
-      windows ? "OpenClaw Windows update channel" : "OpenClaw desktop test update channel",
+      windows ? "FRIDAY Windows update channel" : "FRIDAY desktop test update channel",
       "--notes",
       windows
-        ? "Updater manifest for the OpenClaw Windows desktop app."
+        ? "Updater manifest for the FRIDAY Windows desktop app."
         : "Opt-in updater manifest for unsigned macOS Tauri test builds.",
     ]);
     channel = github.release(tag);
@@ -1178,7 +1178,7 @@ function publish(github, options, publicKey) {
       "--prerelease",
       "--latest=false",
       "--title",
-      "OpenClaw Linux update channel",
+      "FRIDAY Linux update channel",
       "--notes",
       INITIAL_BODY,
     ]);

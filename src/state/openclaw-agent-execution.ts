@@ -161,7 +161,7 @@ export function captureOpenClawAgentDatabaseExecution(
   }
   if (existing.agentId !== agentId) {
     throw new Error(
-      `OpenClaw agent database ${pathname} is already open for agent ${existing.agentId}; requested agent ${agentId}.`,
+      `FRIDAY agent database ${pathname} is already open for agent ${existing.agentId}; requested agent ${agentId}.`,
     );
   }
   assertAgentDatabaseExecutionSharedState(options, existing.sharedDatabaseKey);

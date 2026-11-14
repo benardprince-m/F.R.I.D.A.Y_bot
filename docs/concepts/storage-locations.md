@@ -9,7 +9,7 @@ read_when:
 
 # Storage locations
 
-A storage location names a destination for OpenClaw artifacts. Core storage owns
+A storage location names a destination for FRIDAY artifacts. Core storage owns
 location identity, encryption, and health checks. Providers transfer objects, and
 each consumer decides what to store and retain. Configuring a location does not
 schedule a backup or move existing data.
@@ -26,7 +26,7 @@ SecretRefs, and initialize an `r2` location.
 ## Configure and initialize a directory
 
 Mount the intended disk and create the destination directory on it before
-initializing storage. OpenClaw never creates the configured root directory. Use
+initializing storage. FRIDAY never creates the configured root directory. Use
 an absolute path as seen by the process running the CLI or Gateway.
 
 Set `OPENCLAW_STORAGE_PASSPHRASE` in that process's environment and keep a recoverable

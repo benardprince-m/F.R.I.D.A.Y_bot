@@ -1,16 +1,16 @@
 ---
-summary: "How OpenClaw installs plugin packages and resolves plugin dependencies"
+summary: "How FRIDAY installs plugin packages and resolves plugin dependencies"
 read_when:
   - You are debugging plugin package installs
   - You are changing plugin startup, doctor, or package-manager install behavior
-  - You are maintaining packaged OpenClaw installs or bundled plugin manifests
+  - You are maintaining packaged FRIDAY installs or bundled plugin manifests
 title: "Plugin dependency resolution"
 sidebarTitle: "Dependencies"
 ---
 
-OpenClaw handles plugin dependencies at install/update time only. Runtime
+FRIDAY handles plugin dependencies at install/update time only. Runtime
 loading never runs a package manager, repairs a dependency tree, or mutates
-the OpenClaw package directory.
+the FRIDAY package directory.
 
 ## Responsibility split
 
@@ -18,11 +18,11 @@ Plugin packages own their dependency graph:
 
 - Runtime dependencies live in the plugin package's `dependencies` or
   `optionalDependencies`.
-- SDK/core imports are peer or supplied OpenClaw imports.
+- SDK/core imports are peer or supplied FRIDAY imports.
 - Local development plugins bring their own already-installed dependencies.
-- npm and git plugins install into OpenClaw-owned package roots.
+- npm and git plugins install into FRIDAY-owned package roots.
 
-OpenClaw owns only the plugin lifecycle:
+FRIDAY owns only the plugin lifecycle:
 
 - Discover the plugin source.
 - Install or update the package when explicitly requested.
@@ -32,7 +32,7 @@ OpenClaw owns only the plugin lifecycle:
 
 ## Install roots
 
-OpenClaw uses stable per-source roots:
+FRIDAY uses stable per-source roots:
 
 - npm packages install into per-plugin projects under
   `~/.openclaw/npm/projects/<encoded-package>`.
@@ -55,7 +55,7 @@ npm install --omit=dev --omit=peer --legacy-peer-deps --ignore-scripts --no-audi
 ### npm-pack tarball installs
 
 `openclaw plugins install npm-pack:<path.tgz>` uses the same per-plugin npm
-project root for a local npm-pack tarball: OpenClaw reads the tarball's npm
+project root for a local npm-pack tarball: FRIDAY reads the tarball's npm
 metadata, adds it to the managed project as a copied `file:` dependency, runs
 the normal npm install above, then verifies the installed lockfile metadata
 before trusting the plugin. This path exists for package-acceptance and
@@ -87,13 +87,13 @@ update recreates the project from package metadata.
 ### Hoisted transitive dependencies
 
 npm may hoist transitive dependencies to the per-plugin project's
-`node_modules` beside the plugin package. OpenClaw scans the managed project
+`node_modules` beside the plugin package. FRIDAY scans the managed project
 root before trusting the install, and removes that project on uninstall, so
 hoisted runtime dependencies stay inside that plugin's cleanup boundary.
 
 ### Lockfile policy
 
-OpenClaw-owned npm plugin packages never ship npm lockfiles. The repository
+FRIDAY-owned npm plugin packages never ship npm lockfiles. The repository
 uses `pnpm-lock.yaml` as its committed product dependency review boundary, then
 generates npm package locks only in temporary directories to validate the
 publishable dependency graph:
@@ -106,7 +106,7 @@ pnpm deps:npm-lock:check:changed
 The checker strips plugin `devDependencies`, applies the workspace override
 policy, and rejects generated versions absent from `pnpm-lock.yaml`. Nothing
 is written into the checkout. Third-party plugin packages may still contain
-lockfiles according to their own packaging policy; OpenClaw's installer leaves
+lockfiles according to their own packaging policy; FRIDAY's installer leaves
 that npm behavior to the installed npm version.
 
 ### Verify a package tarball
@@ -135,7 +135,7 @@ rm -rf "$tmpdir"
 
 ### Bundled runtime dependencies
 
-OpenClaw-owned npm plugin packages can also publish with explicit
+FRIDAY-owned npm plugin packages can also publish with explicit
 `bundledDependencies`. The npm publish path overlays the runtime dependency
 name list, strips dev-only workspace metadata from the published manifest,
 stages a separate package directory without source `node_modules`, and runs a
@@ -165,10 +165,10 @@ bundle its full dependency tree. See
 ### Host peer dependency
 
 Plugins that import `openclaw/plugin-sdk/*` declare `openclaw` as a peer
-dependency. OpenClaw does not let npm install a separate registry copy of the
+dependency. FRIDAY does not let npm install a separate registry copy of the
 host package into a managed project, because a stale host package can affect
 npm's peer resolution inside that plugin. Managed npm installs skip npm peer
-resolution/materialization, and OpenClaw reasserts plugin-local
+resolution/materialization, and FRIDAY reasserts plugin-local
 `node_modules/openclaw` links for installed packages that declare the host
 peer, after install or update.
 
@@ -186,7 +186,7 @@ for a normal Node package.
 
 ## Local plugins
 
-Local plugins are developer-controlled directories. OpenClaw never runs
+Local plugins are developer-controlled directories. FRIDAY never runs
 `npm install`, `pnpm install`, or dependency repair for them; if a local
 plugin has dependencies, install them in that plugin before loading it.
 
@@ -215,7 +215,7 @@ already-installed local plugin.
 
 ## Bundled plugins
 
-Lightweight and core-critical bundled plugins ship as part of OpenClaw. They
+Lightweight and core-critical bundled plugins ship as part of FRIDAY. They
 should either carry no heavy runtime dependency tree, or move out to a
 downloadable package on ClawHub/npm.
 
@@ -229,7 +229,7 @@ installed through the same npm/git/ClawHub path as third-party plugins.
 
 Internal bundled plugins retain their dependency declarations in their own
 manifests. Runtime dependencies that are not compiled into `dist` must also
-be declared in the root OpenClaw package's `dependencies` or
+be declared in the root FRIDAY package's `dependencies` or
 `optionalDependencies`, because the root package ships their runtime.
 External plugins keep their runtime dependencies plugin-local.
 
@@ -253,7 +253,7 @@ outside plugin regions remain root references. Public package entrypoints always
 count as root-owned. Present but invalid metadata never falls back to region ownership. This
 verification does not change Node's runtime dependency resolution.
 
-In source checkouts, use `pnpm install` followed by `pnpm build`. OpenClaw
+In source checkouts, use `pnpm install` followed by `pnpm build`. FRIDAY
 prefers `dist/extensions`, then `dist-runtime/extensions`, and falls back to
 `extensions` when neither built tree is available. pnpm owns the source dependency
 trees: postinstall and build preparation preserve plugin-local versions and
@@ -269,7 +269,7 @@ standalone build below also supports packages that are not yet tracked.
 
 | Install shape                                   | Bundled plugin location                              | Dependency owner                                       |
 | ----------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
-| Global npm install                              | Built runtime tree inside the package                | Root OpenClaw package for internal bundled runtime     |
+| Global npm install                              | Built runtime tree inside the package                | Root FRIDAY package for internal bundled runtime       |
 | Git checkout plus `pnpm install` + `pnpm build` | `dist/extensions`, then `dist-runtime/extensions`    | Root runtime declarations plus plugin manifests        |
 | Unbuilt source checkout                         | `extensions/<id>` fallback when no built tree exists | pnpm workspace with explicit root runtime dependencies |
 | `openclaw plugins install ...`                  | Managed npm project/git/ClawHub root                 | The plugin install/update flow                         |
@@ -323,7 +323,7 @@ this setup or runs a package manager.
 
 ## Legacy cleanup
 
-Older OpenClaw versions generated bundled-plugin dependency roots at startup
+Older FRIDAY versions generated bundled-plugin dependency roots at startup
 or during doctor repair. Packaged postinstall now cleans only its own
 installation: obsolete bundled-plugin `node_modules` and
 `.openclaw-install-stage*` directories under `dist/extensions`, `dist` files

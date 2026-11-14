@@ -25,7 +25,7 @@ afterEach(() => {
 });
 
 describe("native Bash execution policy", () => {
-  it("rejects native Bash when OpenClaw owns shell execution", async () => {
+  it("rejects native Bash when FRIDAY owns shell execution", async () => {
     // Worker startup must not expire a policy fixture before the native request.
     vi.useFakeTimers({ toFake: ["Date"] });
     const { context } = await createExecution({ nativeTools: ["Bash"] });
@@ -40,7 +40,7 @@ describe("native Bash execution policy", () => {
     });
     expect(decision).toEqual({
       behavior: "deny",
-      message: "Use OpenClaw exec; its native equivalent is unavailable.",
+      message: "Use FRIDAY exec; its native equivalent is unavailable.",
     });
     expect(runExit).toMatchObject({ reason: "exit", exitCode: 0 });
     expect(mockCallGatewayTool).not.toHaveBeenCalled();

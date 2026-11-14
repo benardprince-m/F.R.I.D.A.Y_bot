@@ -327,7 +327,7 @@ describe("tool matcher scoping", () => {
         { toolName: "spawn_agent", params: {} },
         { toolName: "spawn_agent" },
       ),
-    ).rejects.toThrow("tool hook matcher entries must use canonical OpenClaw tool ids");
+    ).rejects.toThrow("tool hook matcher entries must use canonical FRIDAY tool ids");
     expect(handler).not.toHaveBeenCalled();
   });
 });

@@ -216,7 +216,7 @@ function getTerminalAgentWaitError(result: AgentWaitResult | undefined): Error |
   }
   const message = result.error?.trim();
   if (result.status === "error") {
-    return new Error(message || "OpenClaw tool call failed");
+    return new Error(message || "FRIDAY tool call failed");
   }
   if (result.status !== "timeout" || result.pendingError) {
     return undefined;
@@ -236,7 +236,7 @@ function getTerminalAgentWaitError(result: AgentWaitResult | undefined): Error |
     timeoutPhase === "post_turn" ||
     result.providerStarted === true;
   return hasTerminalTimeoutMetadata
-    ? new Error(message || "OpenClaw tool call timed out")
+    ? new Error(message || "FRIDAY tool call timed out")
     : undefined;
 }
 
@@ -251,17 +251,17 @@ export function waitForChatResult(params: {
 }): Promise<string> {
   return new Promise((resolve, reject) => {
     if (params.signal?.aborted) {
-      reject(new DOMException("OpenClaw tool call aborted", "AbortError"));
+      reject(new DOMException("FRIDAY tool call aborted", "AbortError"));
       return;
     }
     const timer = window.setTimeout(() => {
-      settle(new Error(params.timeoutMessage ?? "OpenClaw tool call timed out"));
+      settle(new Error(params.timeoutMessage ?? "FRIDAY tool call timed out"));
     }, params.timeoutMs);
     let settled = false;
     let emptyFinalWaitStarted = false;
     let emptyFinalFallbackTimer: number | undefined;
     const onAbort = () => {
-      settle(new DOMException("OpenClaw tool call aborted", "AbortError"));
+      settle(new DOMException("FRIDAY tool call aborted", "AbortError"));
     };
     params.signal?.addEventListener("abort", onAbort, { once: true });
     let unsubscribe: () => void = () => undefined;
@@ -305,7 +305,7 @@ export function waitForChatResult(params: {
             return;
           }
           emptyFinalFallbackTimer = window.setTimeout(() => {
-            settle("OpenClaw finished with no text.");
+            settle("FRIDAY finished with no text.");
           }, EMPTY_FINAL_FALLBACK_GRACE_MS);
         })
         .catch((error: unknown) => {
@@ -329,11 +329,9 @@ export function waitForChatResult(params: {
         }
         waitForEmptyFinalFallback();
       } else if (payload.state === "aborted") {
-        settle(
-          new DOMException(payload.errorMessage ?? "OpenClaw tool call aborted", "AbortError"),
-        );
+        settle(new DOMException(payload.errorMessage ?? "FRIDAY tool call aborted", "AbortError"));
       } else if (payload.state === "error") {
-        settle(new Error(payload.errorMessage ?? "OpenClaw tool call failed"));
+        settle(new Error(payload.errorMessage ?? "FRIDAY tool call failed"));
       }
     });
   });

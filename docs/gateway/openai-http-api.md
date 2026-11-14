@@ -77,7 +77,7 @@ Notes:
 
 ## Agent-first model contract
 
-OpenClaw treats the OpenAI `model` field as an **agent target**, not a raw provider model id.
+FRIDAY treats the OpenAI `model` field as an **agent target**, not a raw provider model id.
 
 | `model` value                                | Routes to                                                                                                                |
 | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
@@ -107,7 +107,7 @@ Embedding model overrides stay within the agent's configured embedding provider.
 
 By default the endpoint is **stateless per request** (a new session key is generated each call).
 
-If the request includes an OpenAI `user` string, the Gateway derives a stable session key from it so repeated calls can share an agent session. For custom apps, reuse the same `user` value per conversation thread; avoid account-level identifiers unless you want multiple conversations/devices to share one OpenClaw session. Use `x-openclaw-session-key` only when you need explicit routing control across multiple clients/threads, with application-owned keys that avoid the reserved namespaces above.
+If the request includes an OpenAI `user` string, the Gateway derives a stable session key from it so repeated calls can share an agent session. For custom apps, reuse the same `user` value per conversation thread; avoid account-level identifiers unless you want multiple conversations/devices to share one FRIDAY session. Use `x-openclaw-session-key` only when you need explicit routing control across multiple clients/threads, with application-owned keys that avoid the reserved namespaces above.
 
 If that session is archived, non-streaming requests return HTTP `409` with
 `invalid_request_error` and guidance to restore it in the Control UI. Streaming
@@ -177,7 +177,7 @@ Image settings default to:
 | `images.maxRedirects` | 3                                                                   |
 | `images.timeoutMs`    | 10s                                                                 |
 
-HEIC/HEIF `image_url` sources are accepted and normalized to JPEG before provider delivery through the shared OpenClaw image processor (Rastermill), which falls back to a system converter (`sips`, ImageMagick, GraphicsMagick, or ffmpeg) for formats needing external codec support.
+HEIC/HEIF `image_url` sources are accepted and normalized to JPEG before provider delivery through the shared FRIDAY image processor (Rastermill), which falls back to a system converter (`sips`, ImageMagick, GraphicsMagick, or ffmpeg) for formats needing external codec support.
 
 Security note: allowlisting a hostname does not bypass private/internal IP blocking. For internet-exposed gateways, apply network egress controls in addition to app-level guards. See [Security](/gateway/security).
 
@@ -216,7 +216,7 @@ Returns `400 invalid_request_error` for:
 - `tool_choice` variants such as `allowed_tools` and `custom`
 - `tool_choice.function.name` values that do not match a provided tool
 
-For `tool_choice: "required"` and function-pinned `tool_choice`, the endpoint narrows the exposed client function-tool set, instructs the runtime to call a client tool before responding, and errors if the agent response has no matching structured client-tool call. This applies to the caller-supplied HTTP `tools` list, not every internal OpenClaw agent tool.
+For `tool_choice: "required"` and function-pinned `tool_choice`, the endpoint narrows the exposed client function-tool set, instructs the runtime to call a client tool before responding, and errors if the agent response has no matching structured client-tool call. This applies to the caller-supplied HTTP `tools` list, not every internal FRIDAY agent tool.
 
 ### Non-streaming tool response shape
 
@@ -344,7 +344,7 @@ curl -sS http://127.0.0.1:18789/v1/embeddings \
 
 `/v1/embeddings` supports `input` as a string or array of strings.
 
-Responses include `usage.prompt_tokens` and `usage.total_tokens`. Native Ollama and OpenAI-compatible embedding providers pass through their reported token counts, including zero. Providers without usage reporting return zero for both fields; OpenClaw does not estimate token usage.
+Responses include `usage.prompt_tokens` and `usage.total_tokens`. Native Ollama and OpenAI-compatible embedding providers pass through their reported token counts, including zero. Providers without usage reporting return zero for both fields; FRIDAY does not estimate token usage.
 
 Provider failures use the same error mapping as chat completions: missing provider credentials return `401 authentication_error` with setup guidance, unknown provider models return `404 invalid_request_error`, and provider overload returns `503 api_error`. Credential values are redacted. Unexpected failures return `500 api_error` with `internal error`.
 

@@ -257,7 +257,7 @@ extension SettingsProTab {
                     ? String(
                         localized: "Relay remains available; direct mode adds an independent Gateway node.")
                     : String(
-                        localized: "Install the OpenClaw watch app before enabling direct mode.")),
+                        localized: "Install the FRIDAY watch app before enabling direct mode.")),
                 value: .verbatim(
                     watchStatus.reachable
                         ? String(localized: "Reachable")
@@ -321,7 +321,7 @@ extension SettingsProTab {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Notifications are off")
                     .font(OpenClawType.subheadSemiBold)
-                Text("Enable Notifications to receive approval alerts while OpenClaw is not open.")
+                Text("Enable Notifications to receive approval alerts while FRIDAY is not open.")
                     .font(OpenClawType.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -535,7 +535,7 @@ extension SettingsProTab {
                     }
                 }
             } footer: {
-                Text("OpenClaw appreciates its partners in the open-source community.")
+                Text("FRIDAY appreciates its partners in the open-source community.")
                     .font(OpenClawType.footnote)
             }
             .accessibilityIdentifier("settings-licenses-list")
@@ -575,7 +575,7 @@ extension SettingsProTab {
                     OpenClawProMark(size: 96, shadowRadius: 18, interactive: true)
                         .accessibilityHidden(true)
                     VStack(spacing: 2) {
-                        Text("OpenClaw")
+                        Text("FRIDAY")
                             .font(OpenClawType.title2SemiBold)
                         Text("Personal AI on your devices")
                             .font(OpenClawType.footnote)
@@ -621,7 +621,7 @@ extension SettingsProTab {
                     color: .indigo,
                     url: URL(string: "https://discord.gg/clawd")!)
             } footer: {
-                Text("© 2026 OpenClaw Foundation — MIT License.")
+                Text("© 2026 FRIDAY Foundation — MIT License.")
                     .font(OpenClawType.footnote)
             }
         }

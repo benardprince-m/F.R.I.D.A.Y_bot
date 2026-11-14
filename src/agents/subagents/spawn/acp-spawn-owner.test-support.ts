@@ -22,7 +22,7 @@ export function registerAcpSpawnOwnerTests(fixture: {
     createTargetWorkspace?: boolean;
   }) => Promise<{ workspaceRoot: string; mainWorkspace: string; targetWorkspace: string }>;
 }) {
-  it("keeps a raw ACP harness under the requester OpenClaw owner and workspace", async () => {
+  it("keeps a raw ACP harness under the requester FRIDAY owner and workspace", async () => {
     const workspace = await fixture.createCrossAgentWorkspaceFixture();
     try {
       fixture.state.cfg.acp = { ...fixture.state.cfg.acp, allowedAgents: ["codex"] };

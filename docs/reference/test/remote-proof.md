@@ -3,7 +3,7 @@ summary: "When agents use Crabbox or Testbox, and the wrapper, lease, and trust 
 title: "Remote test proof"
 read_when:
   - You are deciding between local and remote proof
-  - You are running OpenClaw tests on Crabbox or Testbox
+  - You are running FRIDAY tests on Crabbox or Testbox
 ---
 
 <a id="agent-default" />
@@ -60,7 +60,7 @@ delegation. Source-only edits and commits can reuse that prepared box. The
 allocation receipt remains unchanged, while each command records its current
 source revision and syncs the checkout. Source edits during preparation are best
 effort; finish editing before starting proof, or rerun from the intended candidate.
-This source-refresh contract belongs to the OpenClaw wrapper's trusted task
+This source-refresh contract belongs to the FRIDAY wrapper's trusted task
 path; it does not permit raw native callers or untrusted proof to reuse a
 lease across revisions.
 Older or missing receipts require stopping the owned lease and allocating a
@@ -82,7 +82,7 @@ or changes the selected rsync binary.
 
 Workspace preparation changes require a fresh lease. A missing or overlapping
 execution-workspace binding stops the payload; stop that lease and warm a new one.
-Use the OpenClaw wrapper for proof: direct native Blacksmith commands target the
+Use the FRIDAY wrapper for proof: direct native Blacksmith commands target the
 transport checkout, which deliberately has no hydrated runtime.
 
 Testbox requests with `--artifact-glob` or `--require-artifact` collect from the
@@ -205,11 +205,11 @@ See [runner limits](/ci/runners#testbox-spending-limits) for queue behavior.
 
 The [Crabbox skill](https://github.com/openclaw/openclaw/blob/main/.agents/skills/crabbox/SKILL.md)
 owns portable lease, trust, sync, and cleanup procedures. This section owns the
-OpenClaw wrapper and workflow inputs. Routine task-needed Crabbox/Testbox use
+FRIDAY wrapper and workflow inputs. Routine task-needed Crabbox/Testbox use
 and task-owned worktrees do not require another confirmation; preserve unrelated
 work and existing credential, production, budget, and publication boundaries.
 
-Run trusted OpenClaw remote proof through the wrapper from the repository root:
+Run trusted FRIDAY remote proof through the wrapper from the repository root:
 
 ```bash
 node scripts/crabbox-wrapper.mjs run --help
@@ -529,7 +529,7 @@ For an explicitly selected local-container lane, the existing example image is
 `node:24-bookworm` and the install command is
 `corepack pnpm install --frozen-lockfile --store-dir .pnpm-store`, followed by
 the chosen test. Keep `--no-hydrate` and a repository-local dependency store
-when host caches cannot cross filesystems. The OpenClaw broker login endpoint
+when host caches cannot cross filesystems. The FRIDAY broker login endpoint
 is `https://crabbox.openclaw.ai`; normal brokered validation does not require
 asking for AWS keys.
 

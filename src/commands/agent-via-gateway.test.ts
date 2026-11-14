@@ -539,7 +539,7 @@ it("holds one agent-embedded state lock for the run and rejects a concurrent --l
     );
     await expect(secondRun).rejects.toBeInstanceOf(GatewayLockError);
     await expect(secondRun).rejects.toMatchObject({
-      message: expect.stringContaining("wait for the current OpenClaw operation to finish"),
+      message: expect.stringContaining("wait for the current FRIDAY operation to finish"),
       cause: expect.any(GatewayStateOwnerContentionError),
     });
     await expect(secondRun).rejects.toMatchObject({

@@ -1,8 +1,8 @@
-# OpenClaw Voyage Provider
+# FRIDAY Voyage Provider
 
-Official OpenClaw memory embedding provider plugin for Voyage AI.
+Official FRIDAY memory embedding provider plugin for Voyage AI.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/voyage-provider

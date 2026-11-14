@@ -4,7 +4,7 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 staged_dir="${HOME}/Library/Containers/com.apple.FaceTime/Data/tmp"
 staged_dylib="${staged_dir}/FaceTimeHelper.dylib"
-auth_dir="${HOME}/Library/Application Support/OpenClaw/FaceTime"
+auth_dir="${HOME}/Library/Application Support/FRIDAY/FaceTime"
 build_stamp_file="${auth_dir}/helper-build.sha256"
 native_dirs=(
   "/opt/homebrew/opt/openclaw-facetime/libexec"

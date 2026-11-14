@@ -54,7 +54,7 @@ export function validateAgentModelSelectionUpdate(
     return "Runtime selection requires a model-only update.";
   }
   if (splitTrailingAuthProfile(params.model).profile) {
-    return "Choose a model without an OpenClaw sign-in override for this runtime.";
+    return "Choose a model without an FRIDAY sign-in override for this runtime.";
   }
   return undefined;
 }

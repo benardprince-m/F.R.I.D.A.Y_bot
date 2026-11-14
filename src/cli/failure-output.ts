@@ -248,10 +248,10 @@ export function formatCliFailureLines(options: FormatCliFailureOptions): string[
     const error = options.error;
     return [
       error.kind === "timeout"
-        ? "OpenClaw took too long to respond."
+        ? "FRIDAY took too long to respond."
         : error.requestDispatched
-          ? "Lost the connection to OpenClaw."
-          : "Couldn't connect to OpenClaw.",
+          ? "Lost the connection to FRIDAY."
+          : "Couldn't connect to FRIDAY.",
       ...(error.requestDispatched
         ? ["Your request may have completed. Check its result before trying again."]
         : []),
@@ -281,7 +281,7 @@ export function formatCliFailureLines(options: FormatCliFailureOptions): string[
           options.error.name === "OpenClawDatabaseSchemaPreflightError"))
     ) {
       // Doctor cannot repair these refusals; their producers own the required recovery steps.
-      return ["[openclaw] OpenClaw needs a manual recovery step.", reason(options.error)];
+      return ["[openclaw] FRIDAY needs a manual recovery step.", reason(options.error)];
     }
     if (stateRefusal) {
       return [`[openclaw] ${options.title}`, reason(stateRefusal)];
@@ -294,7 +294,7 @@ export function formatCliFailureLines(options: FormatCliFailureOptions): string[
       `[openclaw] ${options.title}`,
       ...(showReason ? [reason(options.error)] : []),
       stateBusy
-        ? "[openclaw] Another OpenClaw process is using your data. Wait for it to finish before trying again."
+        ? "[openclaw] Another FRIDAY process is using your data. Wait for it to finish before trying again."
         : options.includeDoctorHint === false
           ? `[openclaw] For details, open Settings → Logs in the Control UI or run \`${formatCliCommand("openclaw logs --follow", env)}\`.`
           : `[openclaw] For help, run \`${formatCliCommand("openclaw doctor", env)}\`.`,

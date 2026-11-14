@@ -353,7 +353,7 @@ describe("redirect boundaries", () => {
       "X-Trace": "1",
       Accept: "application/json",
       "Content-Type": "application/json",
-      "User-Agent": "OpenClaw-Test/1.0",
+      "User-Agent": "FRIDAY-Test/1.0",
     };
     Object.defineProperty(headers, Symbol("sensitiveHeaders"), {
       value: new Set(["authorization"]),
@@ -366,7 +366,7 @@ describe("redirect boundaries", () => {
     expect(Object.fromEntries(new Headers(secondInit(fetchImpl).headers))).toEqual({
       accept: "application/json",
       "content-type": "application/json",
-      "user-agent": "OpenClaw-Test/1.0",
+      "user-agent": "FRIDAY-Test/1.0",
     });
     await result.release();
   });

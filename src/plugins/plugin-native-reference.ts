@@ -110,7 +110,7 @@ export function createPluginNativeReferenceValidator(boundary: string, pluginId:
       if (expectedHost) {
         const resolvedHost = resolveNativeHost(target);
         if (!resolvedHost || !openClawHostRootsMatch(resolvedHost, expectedHost)) {
-          throw new Error("The native companion directory resolves a different OpenClaw host");
+          throw new Error("The native companion directory resolves a different FRIDAY host");
         }
       }
     } catch (cause) {

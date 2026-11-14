@@ -73,7 +73,7 @@ export async function loginMcpServer(params: {
     defaultRuntime.log(`Open this URL to authorize "${name}":`);
     defaultRuntime.log(session.authorizationUrl);
     if (callbackServer) {
-      defaultRuntime.log("Waiting for the browser to return to OpenClaw...");
+      defaultRuntime.log("Waiting for the browser to return to FRIDAY...");
       defaultRuntime.log(
         `If the callback cannot reach this terminal, cancel this attempt, then run ${manualCommand}.`,
       );

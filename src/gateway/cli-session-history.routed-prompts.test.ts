@@ -55,7 +55,7 @@ describe("routed CLI prompts in chat history", () => {
   ])("preserves unmatched routed text block provenance beneath %s context", async (description) => {
     await withClaudeProjectsDir(async ({ filePath, readMessages }) => {
       const provenance = OPS_PROVENANCE;
-      const note = `[OpenClaw: 2 ${description} from 2026-10-10T22:30:29.302Z to 2026-10-10T22:30:43.592Z, using "mock/mock-model". Their contents are not included here. Before answering a question that may depend on these messages, call mcp__openclaw__sessions_history({"sessionKey":"agent:main:switch-back","limit":100}) to read them; page older messages with offset if needed.]`;
+      const note = `[FRIDAY: 2 ${description} from 2026-10-10T22:30:29.302Z to 2026-10-10T22:30:43.592Z, using "mock/mock-model". Their contents are not included here. Before answering a question that may depend on these messages, call mcp__openclaw__sessions_history({"sessionKey":"agent:main:switch-back","limit":100}) to read them; page older messages with offset if needed.]`;
       const raw = `${note}\n\n${envelope()}\nPlease check the build.`;
       const content = [{ type: "text", text: raw }];
       await writeClaudeEntries(filePath, [claudeUser(content, { uuid: "routed-switch-back" })]);

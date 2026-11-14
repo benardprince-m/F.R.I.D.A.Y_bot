@@ -1,6 +1,6 @@
-# OpenClaw iOS
+# FRIDAY iOS
 
-OpenClaw iOS is the officially released iPhone app. It connects to an OpenClaw Gateway as a `role: node` for chat, voice, approvals, sharing, and device-aware automation.
+FRIDAY iOS is the officially released iPhone app. It connects to an FRIDAY Gateway as a `role: node` for chat, voice, approvals, sharing, and device-aware automation.
 
 ## Distribution Status
 
@@ -38,7 +38,7 @@ pnpm ios:open
 ```
 
 3. In Xcode:
-   - Scheme: `OpenClaw`
+   - Scheme: `FRIDAY`
    - Destination: connected iPhone (recommended for real behavior)
    - Build configuration: `Debug`
    - Run (`Product` -> `Run`)
@@ -54,7 +54,7 @@ pnpm ios:gen
 
 ### Watch companion build requirements
 
-The normal `OpenClaw` iPhone scheme embeds the Watch app, so even an iPhone-only
+The normal `FRIDAY` iPhone scheme embeds the Watch app, so even an iPhone-only
 build compiles the native Watch WebRTC library. Install the official
 [rustup toolchain manager](https://rustup.rs/), then install the pinned compiler
 and standard-library sources:
@@ -109,15 +109,15 @@ Prereqs:
 - `xcodegen`
 - The pinned [Watch Rust toolchain](#watch-companion-build-requirements)
 - Ruby 3.4.11 and Bundler 4.0.22 (`fastlane` is installed from `apps/ios/Gemfile.lock`)
-- Apple account signed into Xcode for the official OpenClaw team (`FWJYW4S8P8`)
-- Fastlane Apple Developer Portal session for the official OpenClaw team when creating bundle IDs or enabling services
+- Apple account signed into Xcode for the official FRIDAY team (`FWJYW4S8P8`)
+- Fastlane Apple Developer Portal session for the official FRIDAY team when creating bundle IDs or enabling services
 - Release-owner access to the encrypted signing repo password (`MATCH_PASSWORD`)
 - App Store Connect app already created for `ai.openclawfoundation.app`
 - App Store Connect API key set up in Keychain via `scripts/ios-app-store-connect-keychain-setup.sh` when auto-resolving a build number or uploading to App Store Connect
 
 Release behavior:
 
-- Local development uses the official `ai.openclawfoundation.app*` bundle IDs when the OpenClaw team is available, and unique `ai.openclawfoundation.app.test.*` bundle IDs only for other development teams.
+- Local development uses the official `ai.openclawfoundation.app*` bundle IDs when the FRIDAY team is available, and unique `ai.openclawfoundation.app.test.*` bundle IDs only for other development teams.
 - App Store release uses official `ai.openclawfoundation.app*` bundle IDs through a temporary generated xcconfig in `apps/ios/build/AppStoreRelease.xcconfig`.
 - App Store release uses manual `Apple Distribution` signing with profile names pinned in `apps/ios/Config/AppStoreSigning.json`.
 - Fastlane owns one-time Developer Portal setup, encrypted `match` signing sync to the repo/branch pinned in `apps/ios/Config/AppStoreSigning.json`, and release handling.
@@ -275,7 +275,7 @@ See `apps/ios/VERSIONING.md` for the detailed spec.
 ## APNs Expectations For Local/Manual Builds
 
 - The app calls `registerForRemoteNotifications()` at launch.
-- `apps/ios/Sources/OpenClaw.entitlements` derives `aps-environment` from the active build configuration/signing override.
+- `apps/ios/Sources/FRIDAY.entitlements` derives `aps-environment` from the active build configuration/signing override.
 - App Attest relay builds use `apps/ios/Sources/OpenClawAppAttest.entitlements`; local/direct builds do not require App Attest provisioning.
 - APNs token registration to gateway happens only after gateway connection (`push.apns.register`).
 - Local/manual Debug builds default to `OpenClawPushMode=localSandbox`, direct APNs registration, and a development `aps-environment` entitlement. Local/manual Release builds default to `OpenClawPushMode=localProduction` and direct production APNs registration.
@@ -316,7 +316,7 @@ See `apps/ios/VERSIONING.md` for the detailed spec.
   - Production APNs credentials and raw official-build APNs tokens stay in the relay deployment,
     not on the gateway.
 
-This limits the hosted relay to genuine official OpenClaw builds and lets each
+This limits the hosted relay to genuine official FRIDAY builds and lets each
 Gateway send pushes only to iOS devices paired with it.
 
 ## What Works Now (Concrete)
@@ -333,7 +333,7 @@ Gateway send pushes only to iOS devices paired with it.
 
 ## Computer Use Relationship
 
-The iOS app is not a Codex Computer Use backend. Computer Use and `cua-driver mcp` are macOS desktop-control paths; iOS exposes device capabilities as OpenClaw node commands through the gateway. Agents can drive the iPhone camera, screen recorder, location, voice, and other node capabilities with `node.invoke`, subject to iOS foreground/background limits.
+The iOS app is not a Codex Computer Use backend. Computer Use and `cua-driver mcp` are macOS desktop-control paths; iOS exposes device capabilities as FRIDAY node commands through the gateway. Agents can drive the iPhone camera, screen recorder, location, voice, and other node capabilities with `node.invoke`, subject to iOS foreground/background limits.
 
 ## Location Automation Use Case (Testing)
 

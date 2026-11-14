@@ -3,7 +3,7 @@ import Darwin
 import Foundation
 import OpenClawKit
 import XCTest
-@testable import OpenClaw
+@testable import FRIDAY
 
 private final class AccessRestartBundleMarker: NSObject {}
 

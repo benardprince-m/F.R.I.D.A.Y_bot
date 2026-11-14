@@ -1,6 +1,6 @@
 # OpenAI
 
-Connect OpenAI models to OpenClaw. The plugin also provides embeddings, media
+Connect OpenAI models to FRIDAY. The plugin also provides embeddings, media
 understanding, image generation, speech output, realtime transcription,
 realtime voice, and typed Decision evaluations.
 
@@ -23,7 +23,7 @@ Account sign-in is available through onboarding too. Authentication methods have
 different model and capability coverage; configuring chat does not configure
 every media or voice feature.
 
-Explicitly selected pre-GPT-5 models use OpenClaw's function-tool runtime rather
+Explicitly selected pre-GPT-5 models use FRIDAY's function-tool runtime rather
 than Codex's native custom tools. GPT-5-family models keep the Codex runtime.
 
 See the [OpenAI setup guide](https://docs.openclaw.ai/providers/openai/setup) and

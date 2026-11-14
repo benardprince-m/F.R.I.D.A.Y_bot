@@ -80,7 +80,7 @@ struct OpenClawNativeStateAdmission {
               let owner = try? JSONDecoder().decode(ProcessOwner.self, from: data), owner.pid > 0
         else {
             throw OpenClawNativeStateError(
-                "OpenClaw state ownership is being acquired; retry after maintenance", code: .busy)
+                "FRIDAY state ownership is being acquired; retry after maintenance", code: .busy)
         }
         if kill(owner.pid, 0) != 0, errno == ESRCH { return }
         #if os(macOS)
@@ -96,7 +96,7 @@ struct OpenClawNativeStateAdmission {
         #endif
         guard owner.role == nil || owner.role == .gateway || owner.role == .agentEmbedded else {
             throw OpenClawNativeStateError(
-                "OpenClaw state is undergoing offline maintenance; retry when it finishes", code: .busy)
+                "FRIDAY state is undergoing offline maintenance; retry when it finishes", code: .busy)
         }
     }
 

@@ -90,7 +90,7 @@ function ruleRow(params?: {
   remoteAddress?: string;
 }) {
   return {
-    DisplayName: params?.displayName ?? "OpenClaw Gateway",
+    DisplayName: params?.displayName ?? "FRIDAY Gateway",
     Profile: params?.profile ?? "Any",
     PolicyStoreSource: params?.policyStoreSource ?? "PersistentStore",
     PolicyStoreSourceType: params?.policyStoreSourceType ?? "Local",
@@ -269,24 +269,24 @@ describe("Windows Gateway firewall diagnostics", () => {
     [
       "a nonzero exit",
       async () => ({ code: 1, stdout: quickPayloadJson() }),
-      "OpenClaw could not quickly inspect Windows Firewall LAN Gateway policy.",
+      "FRIDAY could not quickly inspect Windows Firewall LAN Gateway policy.",
     ],
     [
       "truncated stderr",
       async () => ({ code: 0, stdout: quickPayloadJson(), stderrTruncatedBytes: 1 }),
-      "OpenClaw could not quickly inspect Windows Firewall LAN Gateway policy.",
+      "FRIDAY could not quickly inspect Windows Firewall LAN Gateway policy.",
     ],
     [
       "malformed JSON",
       async () => ({ code: 0, stdout: "{" }),
-      "OpenClaw could not parse Windows Firewall LAN Gateway policy.",
+      "FRIDAY could not parse Windows Firewall LAN Gateway policy.",
     ],
     [
       "a runner exception",
       async () => {
         throw new Error("probe failed");
       },
-      "OpenClaw could not quickly inspect Windows Firewall LAN Gateway policy.",
+      "FRIDAY could not quickly inspect Windows Firewall LAN Gateway policy.",
     ],
   ] satisfies Array<[string, FirewallCommandRunner, string]>)(
     "fails closed after %s",

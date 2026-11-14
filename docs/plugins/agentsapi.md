@@ -1,8 +1,8 @@
 ---
-summary: "Use the cloud-hosted Agents API harness, powered by Codex, with OpenClaw"
+summary: "Use the cloud-hosted Agents API harness, powered by Codex, with FRIDAY"
 doc-schema-version: 1
 read_when:
-  - You want to set up Agents API as your OpenClaw agent runtime
+  - You want to set up Agents API as your FRIDAY agent runtime
   - You want hosted execution with your chat channels, instructions, and tools
 title: "Agents API"
 ---
@@ -12,12 +12,12 @@ title: "Agents API"
 
 ## What is Agents API?
 
-The bundled `agentsapi` plugin replaces OpenClaw's built-in agent harness with
+The bundled `agentsapi` plugin replaces FRIDAY's built-in agent harness with
 the Agents API harness, which uses the Codex harness under the hood. **The agent
 harness runs in OpenAI's cloud.** It manages the conversation and the loop of
 calling the model, using tools, and continuing a task.
 
-OpenClaw connects that harness to your chat channels, personal instructions,
+FRIDAY connects that harness to your chat channels, personal instructions,
 memory, and configured tools. You keep interacting with your assistant through
 the same channels, with progress, replies, and generated files delivered back to
 the conversation.
@@ -36,10 +36,10 @@ messages without provisioning a separate execution machine.
 - **Work with files in chat.** Send a document or data file, ask the agent to
   transform it, and download the finished output from its reply.
 - **Research and use connected tools.** Combine built-in web search with your
-  enabled OpenClaw tools, memory, and connected MCP servers.
+  enabled FRIDAY tools, memory, and connected MCP servers.
 - **Keep working through follow-ups.** Refine a result, add another file, or
   redirect work while it is running, all in the same conversation.
-- **Keep your assistant's context.** New sessions receive your OpenClaw persona
+- **Keep your assistant's context.** New sessions receive your FRIDAY persona
   and instructions, so the agent can work with your preferences from the start.
 
 The hosted setup is intended for a personal, single-user Gateway. If you want
@@ -48,7 +48,7 @@ commands to run on infrastructure you manage, see
 
 ## Set up Agents API
 
-Start with a working OpenClaw Gateway and a chat channel. You will also need an
+Start with a working FRIDAY Gateway and a chat channel. You will also need an
 OpenAI API key and a model available to your Agents API project.
 
 ### 1. Sign in with an API key
@@ -64,7 +64,7 @@ runtime uses the official `https://api.openai.com/v1` endpoint with the
 `openai-responses` adapter. See
 [OpenAI setup](/providers/openai/setup#getting-started) for authentication help.
 
-Requests identify OpenClaw with `User-Agent: openclaw/<version>`,
+Requests identify FRIDAY with `User-Agent: openclaw/<version>`,
 `originator: openclaw`, and `version: <version>`, using the same attribution
 headers as other native OpenAI requests.
 
@@ -99,11 +99,11 @@ for provider and per-agent model settings.
 
 ### Shared model tuning
 
-Agents API uses its own native context management. Shared OpenClaw settings
+Agents API uses its own native context management. Shared FRIDAY settings
 `responsesServerCompaction` and `responsesCompactThreshold` do not prevent
 selecting it, but they do not control hosted compaction (including when
 `responsesServerCompaction` is `false`). They keep their existing behavior when
-you use the same model with the OpenClaw runtime. Model capability metadata such
+you use the same model with the FRIDAY runtime. Model capability metadata such
 as `supportsTemperature` and `codeMode` also does not require an exact native
 implementation.
 
@@ -151,7 +151,7 @@ creates a replacement conversation. See the [saved-session upgrade
 notes](https://github.com/openclaw/openclaw/blob/main/extensions/agentsapi/README.md#upgrading-saved-sessions)
 for key rotation and rollback.
 
-New sessions receive your OpenClaw instructions and persona, including
+New sessions receive your FRIDAY instructions and persona, including
 `AGENTS.md`, `SOUL.md`, and your user context. After editing those instructions,
 send `/new` or `/reset` to start a conversation with the updated context. Your
 enabled memory tools can also search and recall information through the Gateway.
@@ -175,7 +175,7 @@ Built-in web search is available in new sessions unless disabled globally with
 `tools.web.search.enabled: false` or through the session’s **Web search** control.
 Changing the effective search setting requires `/new` or `/reset`; an existing
 session refuses to continue with a different native search policy.
-By default, your enabled OpenClaw and plugin tools remain available under your
+By default, your enabled FRIDAY and plugin tools remain available under your
 configured tool policies, including memory search and recall. You can disable
 [Gateway tool and MCP forwarding](/plugins/agentsapi#forwarding-controls) separately
 without disabling hosted commands, files, or attachments. You can also connect
@@ -225,7 +225,7 @@ configured MCP servers, merge this into your existing configuration:
 
 Both settings default to `true` and are independent:
 
-- `gatewayTools: false` skips constructing OpenClaw and plugin tools for Gateway
+- `gatewayTools: false` skips constructing FRIDAY and plugin tools for Gateway
   function callbacks. No Gateway functions are declared, and unexpected remote
   function calls are rejected without invoking a tool or its execution hooks.
 - `mcpServers: false` skips loading configured and plugin-bundled MCP servers,
@@ -251,7 +251,7 @@ you reset it. Reset and deletion can still settle the saved native session under
 the new policy; the plugin never silently creates a replacement conversation.
 
 This is **tool-exposure isolation, not full Gateway prompt or persona isolation**.
-OpenClaw instructions, persona, and ordinary prompt/lifecycle hooks still apply.
+FRIDAY instructions, persona, and ordinary prompt/lifecycle hooks still apply.
 Tool-authorized prompt hooks receive only the exposed Gateway function names,
 which are empty when Gateway tool forwarding is disabled.
 
@@ -288,7 +288,7 @@ separate environments according to your isolation and persistence needs.
 For example, two conversations can have this layout:
 
 ```text
-OpenClaw Gateway                 One persistent remote host
+FRIDAY Gateway                 One persistent remote host
   Conversation A -> Session A -> Executor A --+--> /srv/agent/workspace
   Conversation B -> Session B -> Executor B --+
 ```
@@ -317,7 +317,7 @@ delivery, host access, process supervision, and filesystem provisioning.
 #### 2. Install and configure a controller plugin
 
 Install an executor controller plugin for your deployment using the
-[plugin installation workflow](/cli/plugins). OpenClaw provides the controller
+[plugin installation workflow](/cli/plugins). FRIDAY provides the controller
 contract, not a bundled SSH launcher or a universal host manager. The plugin must
 register `api.registerAgentExecutorController({ workspaceDirectory, ensure, retire })`
 and declare `activation.onAgentHarnesses: ["agentsapi"]` in its manifest. Plugin
@@ -359,7 +359,7 @@ the controller adds executor management, not a second harness.
 
 Optionally set `plugins.entries.agentsapi.config.hostExecutorSkillDirectories`
 to absolute skill-directory paths on the execution host. Provision their files
-and dependencies yourself. OpenClaw forwards the paths for native discovery; it
+and dependencies yourself. FRIDAY forwards the paths for native discovery; it
 does not copy Gateway skills to the host.
 
 Apply the configuration and start a fresh conversation with `/new` or `/reset`.
@@ -369,12 +369,12 @@ requires a reset. It does not migrate files between hosts.
 #### How startup, reconnection, and cleanup work
 
 1. The Agents API harness creates or resumes the native session. When the API
-   requires `environment_connection`, OpenClaw retrieves and validates the
+   requires `environment_connection`, FRIDAY retrieves and validates the
    session's environment and saves its binding and controller owner.
-2. OpenClaw calls `ensure(binding, context)` on the selected controller. It
+2. FRIDAY calls `ensure(binding, context)` on the selected controller. It
    starts or reconnects only that session's executor, using the exact
    `environmentId`, unchanged `remoteUrl`, and `workspaceDirectory` in the binding.
-3. OpenClaw waits for API-confirmed connection readiness. The original input
+3. FRIDAY waits for API-confirmed connection readiness. The original input
    request can remain pending while the executor starts; it is not resubmitted.
    Healthy follow-up turns do not invoke the controller or require a host probe.
 4. Finishing or interrupting a turn leaves the executor available. Gateway
@@ -407,13 +407,13 @@ HTTP deadline, including connection wait, so prepare hosts to connect promptly.
 
 #### Use an external controller instead
 
-You can omit `executorController` and manage executors outside OpenClaw, for
+You can omit `executorController` and manage executors outside FRIDAY, for
 example through the
 [Agents API webhook lifecycle](https://developers.openai.com/api/docs/guides/agents-api/environments/lifecycle#start-compute-from-webhooks).
 The external controller owns session-scoped startup, reconnection, and cleanup.
 It must authenticate API reads, handle only its intended sessions, and use each
 session's environment ID and unchanged remote URL. In this mode the workspace
-path sent by OpenClaw must already exist at the same absolute path on the executor.
+path sent by FRIDAY must already exist at the same absolute path on the executor.
 Choose one lifecycle owner for each session.
 
 #### Check the setup and file boundaries
@@ -448,7 +448,7 @@ is retained for recovery. This does not delete the remote conversation or its re
 files. Rewinding or switching a local transcript branch also invalidates its old
 native binding and retires its controlled executor after the local change commits.
 
-OpenClaw shows progress and records conversation and tool history in its normal
+FRIDAY shows progress and records conversation and tool history in its normal
 transcript. Channel settings control progress and reasoning visibility. Token
 usage is reported when available from the API; it measures usage rather than
 remaining context capacity.
@@ -461,7 +461,7 @@ Agents API session.
 
 ### Current limitations
 
-These limits describe the current OpenClaw integration and may change as support
+These limits describe the current FRIDAY integration and may change as support
 expands.
 
 - **Authentication:** ChatGPT subscription authentication, custom endpoints, and
@@ -495,6 +495,6 @@ expands.
   Web-search activity is visible without result bodies or snippets. Command exit
   facts can be unavailable, and token usage does not establish remaining context
   capacity.
-- **Retries:** OpenClaw can continue the existing session after a transient
+- **Retries:** FRIDAY can continue the existing session after a transient
   provider failure. It does not automatically replay an admitted turn because
   commands or tools may already have run.

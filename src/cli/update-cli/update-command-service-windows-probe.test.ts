@@ -90,7 +90,7 @@ it.each([
                     },
                   ]
                 : {
-                    taskPath: "\\OpenClaw Gateway",
+                    taskPath: "\\FRIDAY Gateway",
                     state: 4,
                     actions: [{ type: 0, path: scriptPath, arguments: "", workingDirectory: "" }],
                   },

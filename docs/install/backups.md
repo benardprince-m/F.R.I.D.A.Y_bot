@@ -1,16 +1,16 @@
 ---
 doc-schema-version: 1
-summary: "Back up OpenClaw state: archives, per-database snapshots, scheduling, offsite copies, and continuous replication"
+summary: "Back up FRIDAY state: archives, per-database snapshots, scheduling, offsite copies, and continuous replication"
 read_when:
-  - You want a backup routine for an OpenClaw install instead of a one-off archive
+  - You want a backup routine for an FRIDAY install instead of a one-off archive
   - You want scheduled, offsite, or continuous backups without copying the whole database every time
-  - You need to restore OpenClaw state from a backup
+  - You need to restore FRIDAY state from a backup
 title: "Backups"
 ---
 
 <a id="backups" />
 
-OpenClaw uses SQLite by default: one global control-plane
+FRIDAY uses SQLite by default: one global control-plane
 database under the state directory (usually `~/.openclaw`), plus one database
 per configured agent at `<agentDir>/openclaw-agent.sqlite`. Agent directories
 default to locations under the state directory but can be configured outside
@@ -27,7 +27,7 @@ See [Database engines](/reference/database-engines#anchors-and-backups).
 
 When [cold transcript storage](/reference/session-management-compaction/maintenance#cold-transcript-storage)
 is enabled, older transcript payloads also live in immutable compressed files.
-Use an OpenClaw backup command to capture those payloads with the database.
+Use an FRIDAY backup command to capture those payloads with the database.
 
 Never copy live `.sqlite`, `-wal`, `-shm`, or `-journal` files as a backup.
 The databases are written while the Gateway runs, and raw file copies of a
@@ -82,7 +82,7 @@ This writes a timestamped `.tar.gz` covering state, config, credentials, every
 configured agent directory, and (by default) workspaces, then validates the
 archive manifest and payload. Agent directories remain included when
 `--no-include-workspace` is set, even if their configured locations are outside
-the state directory. OpenClaw-owned SQLite databases, including agent databases
+the state directory. FRIDAY-owned SQLite databases, including agent databases
 inside workspace or managed-state assets, are captured with SQLite's online
 backup API, owner-verified, sanitized, and compacted. Other SQLite files in
 workspaces remain ordinary workspace files. [Backup CLI](/cli/backup)
@@ -167,7 +167,7 @@ immutable `cold/` directory under each agent's session artifact directory,
 even if automatic archival is disabled. Capture the database first, then the
 files, and retain every file referenced by that database
 snapshot. A database replica without its referenced cold files is incomplete.
-Prefer the supported OpenClaw snapshot commands when you need one portable
+Prefer the supported FRIDAY snapshot commands when you need one portable
 recovery artifact.
 
 ## Schedule backups
@@ -303,7 +303,7 @@ openclaw backup restore --from offsite --namespace gateway latest --target ./res
 
 The first upload claims the namespace for the installation's durable Gateway
 device identity. Its `owner.json` contains the device ID, hostname, and claim
-time, and uses the location's encryption settings. OpenClaw checks ownership
+time, and uses the location's encryption settings. FRIDAY checks ownership
 before archiving, at archive publication, and before each retention deletion.
 A different device identity causes a failed attempt with the owner's hostname and abbreviated device ID, even if
 both machines use the same hostname.
@@ -360,7 +360,7 @@ recovery is confirmed.
 For SQLite, Git-backed backups dump each selected database into consistently ordered `schema.sql`,
 `manifest.json`, and per-table JSONL files, then create one commit for the
 whole run. Unchanged database content produces no commit, so Git stores and
-pushes only content changes by construction. OpenClaw stages only the
+pushes only content changes by construction. FRIDAY stages only the
 backup-owned `global` and `agents` paths, not unrelated files elsewhere in the
 repository.
 
@@ -370,9 +370,9 @@ openclaw backup git create --repository ~/Backups/openclaw-git --all --push
 openclaw backup git log --repository ~/Backups/openclaw-git
 ```
 
-Use a repository dedicated to OpenClaw backups. Existing `global/` and
+Use a repository dedicated to FRIDAY backups. Existing `global/` and
 `agents/<agentId>/` scopes must be empty or contain a valid schema-version-1
-OpenClaw backup manifest. OpenClaw refuses to replace any other scope, and an
+FRIDAY backup manifest. FRIDAY refuses to replace any other scope, and an
 `--all` run validates every existing agent scope before deleting stale
 backup-owned entries.
 
@@ -404,14 +404,14 @@ trigger definitions fail the restore before the target file is published.
 ## Continuous replication with Litestream
 
 [Litestream](https://litestream.io) is an open-source replication daemon for
-SQLite. It runs alongside the Gateway with no OpenClaw changes: it watches
+SQLite. It runs alongside the Gateway with no FRIDAY changes: it watches
 each database's write-ahead log and streams incremental changes to object
 storage, with periodic snapshots so restores stay fast. Only changed pages
 leave the machine, which makes it the right tool when backups must not
 re-upload whole databases.
 
-Litestream's one hard requirement is WAL mode, which OpenClaw uses on local
-filesystems; on network-backed storage such as NFS or SMB, OpenClaw falls
+Litestream's one hard requirement is WAL mode, which FRIDAY uses on local
+filesystems; on network-backed storage such as NFS or SMB, FRIDAY falls
 back to rollback journaling, so verify with `PRAGMA journal_mode;` first.
 A minimal `litestream.yml` replicating the control-plane
 database and one agent database to an S3-compatible bucket:
@@ -450,7 +450,7 @@ between an origin and a replica database and ships only changed pages,
 typically over SSH with the same binary installed on both ends. Unlike a raw
 file copy, it takes a read transaction on the origin, so pulling from a live
 database while the Gateway runs produces a consistent replica. WAL mode is
-required on the origin. OpenClaw uses WAL on local filesystems but
+required on the origin. FRIDAY uses WAL on local filesystems but
 deliberately falls back to rollback journaling on network-backed storage
 such as NFS or SMB, so check the origin before relying on this path:
 
@@ -474,7 +474,7 @@ Re-running the command is incremental: an unchanged database exchanges only
 a few kilobytes of hashes, and appended data transfers at roughly its own
 size. Treat the replica as read-only and as sensitive as the origin.
 
-Two caveats. First, deltas are page-based, and OpenClaw's databases run
+Two caveats. First, deltas are page-based, and FRIDAY's databases run
 incremental auto-vacuum on a periodic maintenance timer; a vacuum pass
 relocates pages, so a sync shortly after one (or after large deletions such
 as transcript-archive eviction) can transfer far more than the actual data
@@ -506,7 +506,7 @@ openclaw backup restore "$ARCHIVE" --target ./restored-openclaw
 ```
 
 The target must not exist or must be empty, and it must not be inside the live
-state directory or any configured live agent directory. OpenClaw verifies
+state directory or any configured live agent directory. FRIDAY verifies
 archive structure, the manifest, hardlinks, symbolic-link entries, and the root
 SQLite snapshot and its durably registered agent snapshots before it writes the
 target. Other payload remains opaque. A non-empty target is refused,
@@ -581,7 +581,7 @@ verifies a fresh database. For Litestream, `litestream restore` writes a fresh
 database file. Move the result into place while the Gateway is stopped, then
 start the Gateway and check `openclaw health` and `openclaw doctor`.
 
-After restoring onto a different OpenClaw version, preflight the database
+After restoring onto a different FRIDAY version, preflight the database
 first with `openclaw database preflight`; see
 [Database schemas](/reference/database-schemas#preflight-a-target-release).
 

@@ -180,7 +180,7 @@ def exercise(app, Atspi, GLib, *, remote_only, inline_fixture, binary, gateway_s
             inline_fixture.exercise(app, binary, wait, Atspi)
         return
 
-    wait("Welcome to OpenClaw", "heading")
+    wait("Welcome to FRIDAY", "heading")
     click("Get started")
     wait("Where should your assistant live?", "heading")
     click("On another computer", "toggle button", prefix=True)
@@ -198,7 +198,7 @@ def exercise(app, Atspi, GLib, *, remote_only, inline_fixture, binary, gateway_s
         print("PASS: native first-run remote choices", flush=True)
         return
     click("Back")
-    wait("Welcome to OpenClaw", "heading")
+    wait("Welcome to FRIDAY", "heading")
     click("Get started")
     click("On this computer", "toggle button", prefix=True)
     click("Continue")
@@ -211,7 +211,7 @@ def exercise(app, Atspi, GLib, *, remote_only, inline_fixture, binary, gateway_s
         "Development",
         predicate=lambda node: node.get_state_set().contains(Atspi.StateType.SELECTED),
     )
-    wait("Install OpenClaw", "push button")
+    wait("Install FRIDAY", "push button")
     print("PASS: native first-run remote choices and local development channel", flush=True)
 
 
@@ -393,7 +393,7 @@ def main():
     if not os.access(binary, os.X_OK):
         parser.error("The native app binary must be executable")
     if shutil.which("openclaw", path="/usr/bin:/bin"):
-        parser.error("The minimal system PATH must not contain an OpenClaw CLI")
+        parser.error("The minimal system PATH must not contain an FRIDAY CLI")
     if args.inline_browser and not os.access("/usr/bin/xdotool", os.X_OK):
         parser.error("Inline browser pointer proof requires xdotool")
     if args.window_chrome or args.gateway_switch or args.gateway_onboarding or args.local_start_failure or args.quick_chat or args.desktop_sharing:

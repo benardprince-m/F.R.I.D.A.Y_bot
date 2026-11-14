@@ -24,7 +24,7 @@ import {
 } from "../../packages/gateway-protocol/src/schema/artifacts.js";
 import {
   GatewayClientTransport,
-  OpenClaw,
+  FRIDAY,
   type OpenClawEvent,
 } from "../../packages/sdk/src/index.js";
 import { createDeferred } from "../../test/helpers/promise.js";
@@ -325,7 +325,7 @@ async function collectUntilCompleted(events: AsyncIterable<OpenClawEvent>) {
 async function proveDeterministicGatewayContracts(): Promise<void> {
   const dateNow = vi.spyOn(Date, "now").mockReturnValue(10_000);
   const gateway = await createFakeGateway();
-  const oc = new OpenClaw({
+  const oc = new FRIDAY({
     transport: new GatewayClientTransport({
       url: gateway.url,
       deviceIdentity: null,
@@ -466,7 +466,7 @@ async function proveRealGatewayContracts(): Promise<void> {
       return write;
     });
   let started: Awaited<ReturnType<typeof startServer>> | undefined;
-  let oc: OpenClaw | undefined;
+  let oc: FRIDAY | undefined;
   testState.sessionStorePath = path.join(tempDir, "sessions.json");
 
   try {
@@ -510,7 +510,7 @@ async function proveRealGatewayContracts(): Promise<void> {
     // owner so request budgets measure warm reads, not first worker boot.
     await prewarmGatewaySessionHistory(getRuntimeConfig());
     expect(isSessionHistoryWorkerCold()).toBe(false);
-    oc = new OpenClaw({
+    oc = new FRIDAY({
       transport: new GatewayClientTransport({
         url: `ws://127.0.0.1:${started.port}`,
         token,

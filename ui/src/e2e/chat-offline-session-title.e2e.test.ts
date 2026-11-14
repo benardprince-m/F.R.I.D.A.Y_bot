@@ -67,7 +67,7 @@ suite.define(() => {
         const names = split ? [name, sibling.label] : [name];
         await expect.poll(() => heading.textContent()).toBe(name);
         await expect.poll(() => headings.allTextContents()).toEqual(names);
-        await expect.poll(() => page.title()).toBe(`${name} — OpenClaw`);
+        await expect.poll(() => page.title()).toBe(`${name} — FRIDAY`);
         await page.getByText(transcript, { exact: true }).first().waitFor({ state: "visible" });
         const route = new URL(page.url()).pathname;
         await page.screenshot({ path: `${suite.artifactDir}/connected.png` });
@@ -83,13 +83,13 @@ suite.define(() => {
 
         await gateway.setOnline(true);
         await waitForControlUiGatewayReady(page);
-        await expect.poll(() => page.title()).toBe(`${name} — OpenClaw`);
+        await expect.poll(() => page.title()).toBe(`${name} — FRIDAY`);
         await expect.poll(() => heading.textContent()).toBe(name);
         expect(new URL(page.url()).pathname).toBe(route);
         expect(await page.getByText(transcript, { exact: true }).first().isVisible()).toBe(true);
         await expect.poll(() => headings.allTextContents()).toEqual(names);
         await page.screenshot({ path: `${suite.artifactDir}/reconnected.png` });
-        expect.soft(offlineTitle).toBe(`${name} — OpenClaw`);
+        expect.soft(offlineTitle).toBe(`${name} — FRIDAY`);
         expect.soft(offlineHeadings).toEqual(names);
       });
     },

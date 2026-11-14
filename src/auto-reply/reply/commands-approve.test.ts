@@ -306,7 +306,7 @@ describe("handleApproveCommand", () => {
     expect(resolveApprovalOverGatewayMock).not.toHaveBeenCalled();
   });
 
-  it("resolves an OpenClaw change approval with its canonical owner", async () => {
+  it("resolves an FRIDAY change approval with its canonical owner", async () => {
     const notFound = () => new Error("unknown or expired approval id");
     resolveApprovalOverGatewayMock
       .mockRejectedValueOnce(notFound())
@@ -330,7 +330,7 @@ describe("handleApproveCommand", () => {
   });
 
   it.each([
-    ["command-authorized non-owner", false, "Only the owner can approve OpenClaw changes"],
+    ["command-authorized non-owner", false, "Only the owner can approve FRIDAY changes"],
     ["owner revoked before decision", true, "Check the request in the Control UI"],
   ] as const)("rejects %s without reviewer custody", async (_name, senderIsOwner, text) => {
     resolveApprovalOverGatewayMock.mockRejectedValue(new Error("unknown or expired approval id"));

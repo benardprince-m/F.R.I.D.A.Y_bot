@@ -246,7 +246,7 @@ describe("buildWorkspaceSkillCommandSpecs", () => {
     expect(cmd?.skillSource).toBe("workspace");
   });
 
-  it("includes enabled Claude bundle markdown commands as native OpenClaw slash commands", async () => {
+  it("includes enabled Claude bundle markdown commands as native FRIDAY slash commands", async () => {
     const workspaceDir = await makeWorkspace();
     const config = {
       plugins: {

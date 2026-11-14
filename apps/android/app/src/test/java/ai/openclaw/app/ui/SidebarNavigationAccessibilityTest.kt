@@ -92,7 +92,7 @@ class SidebarNavigationAccessibilityTest {
       .clear()
       .commit()
     prefs = newPrefs()
-    prefs.setDisplayName("OpenClaw")
+    prefs.setDisplayName("FRIDAY")
     previousRuntime = app.peekRuntime()
     runtime = NodeRuntime(app, prefs, NodeRuntimeMode.ScreenshotFixture)
     bindNodeRuntimeTestFixture(app, runtime)

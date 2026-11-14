@@ -401,7 +401,7 @@ This is an illustrative **proposed** system-unit excerpt, not a command to insta
 
 ```ini
 [Unit]
-Description=OpenClaw Gateway
+Description=FRIDAY Gateway
 After=network-online.target
 Wants=network-online.target
 StartLimitBurst=10
@@ -434,7 +434,7 @@ allowance. Preserve the selected service environment and account; examples above
 are placeholders, not new defaults for an existing installation. Do not add
 Doctor, builds, or network package installation to unit pre-start hooks.
 
-The stable launcher is packaged by OpenClaw, not another deployment controller.
+The stable launcher is packaged by FRIDAY, not another deployment controller.
 Only the updater account may publish releases or change the launcher/pointer.
 The Gateway account reads sealed code and writes its existing state/cache paths.
 The current systemd lifecycle already requires root for system-scope mutations;

@@ -29,7 +29,7 @@ function safeBlocker(diagnostic: Pick<ClawDiagnostic, "code" | "path">) {
     message:
       diagnostic.code === "plugin_disabled"
         ? "This plugin is disabled. Enable it in Plugins; reinstall it there first if needed."
-        : "Resolve this OpenClaw state conflict before continuing.",
+        : "Resolve this FRIDAY state conflict before continuing.",
   };
 }
 
@@ -39,7 +39,7 @@ function safeAction(action: { kind: string; id: string; action: string; blocked:
     id: action.id,
     action: action.action,
     blocked: action.blocked,
-    ...(action.blocked ? { reason: "Current OpenClaw state blocks this action." } : {}),
+    ...(action.blocked ? { reason: "Current FRIDAY state blocks this action." } : {}),
   };
 }
 

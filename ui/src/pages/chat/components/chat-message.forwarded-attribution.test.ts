@@ -69,7 +69,7 @@ function renderTestMessageGroup(
   return view.render(group, {
     showReasoning: true,
     showToolCalls: true,
-    assistantName: "OpenClaw",
+    assistantName: "FRIDAY",
     assistantAvatar: null,
     ...options,
   });
@@ -466,7 +466,7 @@ it.each([
 it.each(["loaded", "fetched"] as const)(
   "labels %s reply previews without borrowing the viewer",
   (location) => {
-    const props = { ...viewers[0], assistantName: "OpenClaw" };
+    const props = { ...viewers[0], assistantName: "FRIDAY" };
     const chain = projectTranscriptChain([groupFor(message)], {
       sessionKey: "agent:main:historical",
       runWorking: false,

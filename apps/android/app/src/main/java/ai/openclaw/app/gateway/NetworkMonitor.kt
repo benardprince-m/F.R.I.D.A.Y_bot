@@ -16,7 +16,7 @@ internal class NetworkMonitor(
   context: Context,
   private val onNetworkAvailable: () -> Unit,
 ) {
-  private val logTag = "OpenClaw/NetworkMonitor"
+  private val logTag = "FRIDAY/NetworkMonitor"
 
   private val callback =
     object : ConnectivityManager.NetworkCallback() {

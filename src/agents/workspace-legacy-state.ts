@@ -241,7 +241,7 @@ export function prepareLegacyWorkspaceStateReset(
       {
         ...candidate,
         sourcePath: `${candidate.sourcePath}${WORKSPACE_DOCTOR_CLAIM_SUFFIX}`,
-        // Sibling claims remain outside OpenClaw-owned roots. Renaming a claimed
+        // Sibling claims remain outside FRIDAY-owned roots. Renaming a claimed
         // marker preserves its header, so require that ownership proof there too.
         requireAttestationHeader: candidate.requireAttestationHeader,
       },

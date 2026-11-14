@@ -149,7 +149,7 @@ describe("FaceTime helper supervisor", () => {
     supervisor.stale("com.apple.FaceTime.FTConversationService", 1234);
     expect(logger.warn).toHaveBeenCalledTimes(1);
     expect(logger.warn).toHaveBeenLastCalledWith(
-      "[facetime] Restart FaceTime to load the updated OpenClaw helper",
+      "[facetime] Restart FaceTime to load the updated FRIDAY helper",
     );
     expect(supervisor.status()).toContainEqual(
       expect.objectContaining({

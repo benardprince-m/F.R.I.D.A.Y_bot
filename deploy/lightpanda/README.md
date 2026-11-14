@@ -2,16 +2,16 @@
 
 These files configure an optional, externally managed engine. See the
 [deployment instructions](https://docs.openclaw.ai/tools/browser/lightweight).
-They do not add an engine binary, container layer, or npm dependency to OpenClaw.
+They do not add an engine binary, container layer, or npm dependency to FRIDAY.
 
 ## License boundary
 
-OpenClaw's adapter is MIT-licensed. Lightpanda 1.0.0 is
+FRIDAY's adapter is MIT-licensed. Lightpanda 1.0.0 is
 **AGPL-3.0-or-later**, as stated in its
 [source header](https://github.com/lightpanda-io/browser/blob/588f6223b9cae8a2406aeef035ed9363a3e404fd/src/main.zig#L1)
 and [license](https://github.com/lightpanda-io/browser/blob/588f6223b9cae8a2406aeef035ed9363a3e404fd/LICENSE).
-The engine is independently installed and communicates with OpenClaw over CDP;
-OpenClaw does not link, vendor, or relicense its implementation. This is not an
+The engine is independently installed and communicates with FRIDAY over CDP;
+FRIDAY does not link, vendor, or relicense its implementation. This is not an
 MIT-only stack or a certification that every deployment is legally compliant.
 Do not select Lightpanda when your policy excludes copyleft software.
 
@@ -127,7 +127,7 @@ BSD, Zlib, and Unicode-3.0, sometimes in combination. Metadata review does not
 verify every file in those crates. The bundled fonts have their own
 [Bitstream/DejaVu/Arev notices and naming conditions](https://github.com/lightpanda-io/browser/blob/614c1640af8065b1972559abef7ca4cea06f8ba3/src/rust/render/fonts/LICENSE).
 
-This review does **not** cover all OpenClaw dependencies, V8's complete third-party
+This review does **not** cover all FRIDAY dependencies, V8's complete third-party
 closure, platform system libraries, Debian image packages, or availability of
 complete Corresponding Source for every distributed artifact. Recheck these
 boundaries and pins when changing the engine version or distribution model.

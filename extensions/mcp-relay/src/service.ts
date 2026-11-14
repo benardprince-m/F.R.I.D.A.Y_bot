@@ -72,7 +72,7 @@ export class RelayService {
     if (!options.controlUiIngress) {
       throw new RelayError(
         "unavailable",
-        "Update OpenClaw to enable principal-bound MCP and Control UI access.",
+        "Update FRIDAY to enable principal-bound MCP and Control UI access.",
       );
     }
     this.#ingress = options.controlUiIngress;

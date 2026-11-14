@@ -148,15 +148,13 @@ describe("canonical archive migration progress", () => {
     const f = fixture();
     f.database.exec(`CREATE TRIGGER reject_archive BEFORE UPDATE OF archive_blob
       ON session_transcript_archives WHEN OLD.session_id = '040'
-      BEGIN SELECT RAISE(ABORT, 'OpenClaw state database read admission is closed'); END`);
+      BEGIN SELECT RAISE(ABORT, 'FRIDAY state database read admission is closed'); END`);
     const failure = await f
       .run(() => migrateCanonicalTranscriptArchives(f.options))
       .catch((error: unknown) => error);
     expect(f.database.isTransaction).toBe(false);
     expect(f.rewritten()).toBe(TRANSCRIPT_DIRECTIVE_MIGRATION_BATCH_SIZE);
-    expect(String(failure)).toMatch(
-      /040:retained.*OpenClaw state database read admission is closed/,
-    );
+    expect(String(failure)).toMatch(/040:retained.*FRIDAY state database read admission is closed/);
     expect(f.cursor()).toEqual({ sessionId: "031", generation: "retained" });
     f.database.exec("DROP TRIGGER reject_archive");
     await f.run(() => migrateCanonicalTranscriptArchives({ ...f.options, start: f.cursor() }));

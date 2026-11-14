@@ -56,7 +56,7 @@ import { prepareGitHubPublicationWorkflowGuard } from "./github-publication-work
 import { GatewayOperatorAccessUnavailableError } from "./operator-access-policy.js";
 import { SessionMutationAuthorizationChangedError } from "./session-sharing.js";
 
-const PUBLICATION_MARKER = "OpenClaw-Publication";
+const PUBLICATION_MARKER = "FRIDAY-Publication";
 
 type PublicationRow = GitHubPublicationExecutionRow;
 
@@ -467,7 +467,7 @@ export async function executeGitHubPublication<Row extends PublicationRow>(param
       description: (
         row.body?.trim() || "Published by the Gateway after authoritative workspace reconciliation."
       )
-        .replace(/(?:\s*---\s*\n\[View the OpenClaw team session\]\([^\r\n)]*\)\s*)+$/u, "")
+        .replace(/(?:\s*---\s*\n\[View the FRIDAY team session\]\([^\r\n)]*\)\s*)+$/u, "")
         .replace(
           /(?:^|\n\n)## Worked on by\n\n(?:- @[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})\n)*- @[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})(?=\n\n|$)/gu,
           "",

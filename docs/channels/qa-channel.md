@@ -1,5 +1,5 @@
 ---
-summary: "Synthetic Slack-class channel plugin for repeatable OpenClaw QA scenarios"
+summary: "Synthetic Slack-class channel plugin for repeatable FRIDAY QA scenarios"
 title: "QA channel"
 read_when:
   - You are wiring the synthetic QA transport into a local or CI test run
@@ -7,7 +7,7 @@ read_when:
   - You are iterating on end-to-end QA automation
 ---
 
-`qa-channel` is a repo-local synthetic message transport for automated OpenClaw QA (`extensions/qa-channel`, private package, excluded from packaged installs). It is not a production channel - it exists to exercise the same channel plugin boundary used by real transports while keeping state repeatable and fully inspectable.
+`qa-channel` is a repo-local synthetic message transport for automated FRIDAY QA (`extensions/qa-channel`, private package, excluded from packaged installs). It is not a production channel - it exists to exercise the same channel plugin boundary used by real transports while keeping state repeatable and fully inspectable.
 
 ## What it does
 
@@ -43,7 +43,7 @@ transcript summaries.
     "qa-channel": {
       "baseUrl": "http://127.0.0.1:43123",
       "botUserId": "openclaw",
-      "botDisplayName": "OpenClaw QA",
+      "botDisplayName": "FRIDAY QA",
       "allowFrom": ["*"],
       "pollTimeoutMs": 1000
     }
@@ -58,7 +58,7 @@ Account keys:
 - `responsePrefix` - automatic reply prefix; account overrides win. Accepts a literal, `"auto"` for the agent identity name, a template such as `"[{model}]"`, or `""` to disable an inherited prefix.
 - `baseUrl` - synthetic bus URL. The account counts as configured once this is set.
 - `botUserId` - synthetic bot user id used in target grammar (default: `openclaw`).
-- `botDisplayName` - display name for outbound messages (default: `OpenClaw QA`).
+- `botDisplayName` - display name for outbound messages (default: `FRIDAY QA`).
 - `pollTimeoutMs` - long-poll wait window. Integer between 100 and 30000 (default: 1000).
 - `mediaMaxMb` - per-attachment limit in MiB for inbound bytes and outbound files. Named accounts override the channel root, then `agents.defaults.mediaMaxMb` supplies the fallback. If none is set, existing media-store and loader defaults apply. An oversized inbound attachment becomes an unavailable-attachment notice for the model. The channel loads each outbound batch before publishing it, so a failed attachment prevents that batch from being sent. Shared reply preparation can first remove oversized local files and retain valid attachments with a warning.
 - `allowFrom` - sender allowlist (user ids or `"*"`; default: `["*"]`). DMs are
@@ -116,7 +116,7 @@ Builds the QA site, starts the Docker-backed gateway + QA Lab stack, and prints 
 
 ## Installed-candidate fixtures
 
-Private QA plugins remain excluded from the public OpenClaw package. To exercise
+Private QA plugins remain excluded from the public FRIDAY package. To exercise
 an installed candidate, build their Gateway-only artifacts in a separate fixture
 workspace. The fixture profile keeps QA Lab's Gateway hooks, tools and providers,
 but leaves its scenario runner and CLI in the tooling checkout. QA Channel carries

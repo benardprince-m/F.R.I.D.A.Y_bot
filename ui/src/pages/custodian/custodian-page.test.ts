@@ -542,7 +542,7 @@ describe("custodian page", () => {
     await waitForFast(() => expect(request).toHaveBeenCalledOnce());
 
     const nudge = page.querySelector(".custodian__nudge--channel-onboarding");
-    expect(nudge?.textContent).toContain("Reach OpenClaw outside this app");
+    expect(nudge?.textContent).toContain("Reach FRIDAY outside this app");
     expect(nudge?.textContent).toContain("The web app already works");
 
     page.querySelector<HTMLButtonElement>('button[aria-label="Keep using the web app"]')?.click();
@@ -678,7 +678,7 @@ describe("custodian page", () => {
               at: Date.now() - 10_000,
               kind: "external-edit",
               source: "external",
-              summary: "Configuration edited outside OpenClaw",
+              summary: "Configuration edited outside FRIDAY",
               invalid: true,
               opaqueChange: true,
             },

@@ -2,7 +2,7 @@ import Foundation
 import HealthKit
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct HealthSummaryServiceTests {
     @Test func `authorization requests only the four disclosed summary types`() {

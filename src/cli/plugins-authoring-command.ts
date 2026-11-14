@@ -363,7 +363,7 @@ function writeToolPluginScaffold(params: { rootDir: string; id: string; name: st
     openclaw: createPluginPackageMetadata(TOOL_PLUGIN_API_RANGE),
   };
   const idLiteral = JSON.stringify(params.id);
-  const description = `Add ${params.name} tools to OpenClaw.`;
+  const description = `Add ${params.name} tools to FRIDAY.`;
   const indexSource = `import { Type } from "typebox";
 import { defineToolPlugin } from "openclaw/plugin-sdk/tool-plugin";
 
@@ -395,7 +395,7 @@ describe(${idLiteral}, () => {
 `;
   const readmeSource = `# ${params.name}
 
-Simple OpenClaw tool plugin.
+Simple FRIDAY tool plugin.
 
 ## Build
 
@@ -429,11 +429,11 @@ function writeProviderPluginScaffold(params: { rootDir: string; id: string; name
   const flagName = `--${params.id}-api-key`;
   const defaultModelId = "example-chat";
   const defaultModelRef = `${params.id}/${defaultModelId}`;
-  const description = `Add ${params.name} models to OpenClaw.`;
+  const description = `Add ${params.name} models to FRIDAY.`;
   const packageManifest = {
     name: packageName,
     version: "0.1.0",
-    description: `OpenClaw provider plugin for ${params.name}.`,
+    description: `FRIDAY provider plugin for ${params.name}.`,
     type: "module",
     scripts: {
       build: "tsc -p tsconfig.json",
@@ -621,7 +621,7 @@ describe(${idLiteral}, () => {
 `;
   const readmeSource = `# ${params.name}
 
-OpenClaw provider plugin for ${params.name}.
+FRIDAY provider plugin for ${params.name}.
 
 ## Commands
 

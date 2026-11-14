@@ -24,7 +24,7 @@ async function initialize(root: string) {
 }
 
 async function identify(root: string) {
-  await git(root, "config", "user.name", "OpenClaw Test");
+  await git(root, "config", "user.name", "FRIDAY Test");
   await git(root, "config", "user.email", "test@openclaw.invalid");
 }
 

@@ -101,12 +101,12 @@
     ],
     [
       "family/gateway colon header",
-      "X-OpenClaw-Token: plainopaquevalue123",
+      "X-FRIDAY-Token: plainopaquevalue123",
       "64086a31bb07623e8b7d5a5bd068b2e6fa2f1bddac588ba4d25c3adc2893ea3f"
     ],
     [
       "family/gateway equals header",
-      "X-OpenClaw-Token=plainopaquevalue123",
+      "X-FRIDAY-Token=plainopaquevalue123",
       "9526aba161e8a2109c424594d00aee38e4fb5fd2a0cee5907fce74e0ad4b7271"
     ],
     [
@@ -746,7 +746,7 @@
     ],
     [
       "family/aws secret field/ordered",
-      "aws_secret_access_key = \"wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY0a\"\nX-OpenClaw-Token: plainopaquevalue123\naws_secret_access_key = \"wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY0a\"",
+      "aws_secret_access_key = \"wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY0a\"\nX-FRIDAY-Token: plainopaquevalue123\naws_secret_access_key = \"wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY0a\"",
       "e0ca1c55129b8e8f39f4abc1379fa8cf083c9f4e259dba8c79c5bea5ae053038"
     ],
     [
@@ -851,22 +851,22 @@
     ],
     [
       "family/gateway colon header/wrapped",
-      "prefix_X-OpenClaw-Token: plainopaquevalue123_suffix",
+      "prefix_X-FRIDAY-Token: plainopaquevalue123_suffix",
       "893eaeef99a24954ab399272d9b5d7929ea7d03cfe73dd3c67b9ec9e5849aab0"
     ],
     [
       "family/gateway colon header/ordered",
-      "X-OpenClaw-Token: plainopaquevalue123\nretaindb_abcdefghij12\nX-OpenClaw-Token: plainopaquevalue123",
+      "X-FRIDAY-Token: plainopaquevalue123\nretaindb_abcdefghij12\nX-FRIDAY-Token: plainopaquevalue123",
       "34c5968b4e8fa3c8aeb14cc0bc763be50f317fee3e36acdfe2fdc0105863aca7"
     ],
     [
       "family/gateway equals header/wrapped",
-      "source:\n\tX-OpenClaw-Token=plainopaquevalue123\r\nnext=visible",
+      "source:\n\tX-FRIDAY-Token=plainopaquevalue123\r\nnext=visible",
       "cf9aaec7ff72211f60db9b7d83a6260b08001a3423b36d0c1045aff8a843356e"
     ],
     [
       "family/gateway equals header/ordered",
-      "X-OpenClaw-Token=plainopaquevalue123\nATBBabcdefghij012345\nX-OpenClaw-Token=plainopaquevalue123",
+      "X-FRIDAY-Token=plainopaquevalue123\nATBBabcdefghij012345\nX-FRIDAY-Token=plainopaquevalue123",
       "a0dbc90cbfdcda373b0a98468907d9024e0c5d09f3a576b36fa41cb40e1df4f9"
     ],
     [
@@ -1076,7 +1076,7 @@
     ],
     [
       "family/gitlab glcbt/ordered",
-      "glcbt-abc_abcdefghijklmnopqrst\nX-OpenClaw-Token=plainopaquevalue123\nglcbt-abc_abcdefghijklmnopqrst",
+      "glcbt-abc_abcdefghijklmnopqrst\nX-FRIDAY-Token=plainopaquevalue123\nglcbt-abc_abcdefghijklmnopqrst",
       "bf39e6fd5e9e5a1a9091ac6455ecb5929a494ee2e44d3d8a7edbfd864e3adc5c"
     ],
     [
@@ -1881,12 +1881,12 @@
     ],
     [
       "family/gateway colon header/near-miss",
-      "X-OpenClaw-Token: ​plainopaquevalue123",
+      "X-FRIDAY-Token: ​plainopaquevalue123",
       "6928d3b9453fbffc2832cb60ff3e99a0a7ab1f4b54c89f07946282cc92e75d45"
     ],
     [
       "family/gateway equals header/near-miss",
-      "X-OpenClaw-Token=p​lainopaquevalue123",
+      "X-FRIDAY-Token=p​lainopaquevalue123",
       "992bf5df5f38f40d6e2934e58d5b042692a9499cce79997620cdea142800da18"
     ],
     [

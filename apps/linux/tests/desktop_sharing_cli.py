@@ -124,7 +124,7 @@ def run_node(arguments):
 def main():
     arguments = sys.argv[1:]
     if arguments == ["--version"]:
-        print("OpenClaw synthetic desktop fixture")
+        print("FRIDAY synthetic desktop fixture")
     elif arguments == ["browser", "extension", "setup", "--action", "install", "--json", "--wait-ms", "1000"]:
         if os.environ.get("OPENCLAW_NO_RESPAWN") != "1":
             raise RuntimeError("Chrome setup lost its native process ownership")

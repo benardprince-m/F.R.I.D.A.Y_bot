@@ -83,7 +83,7 @@ export function registerBrowserExtensionCommands(
   const bundledDir = path.join(pluginRoot || defaultPluginRoot, "chrome-extension");
   const extension = browser
     .command("extension")
-    .description("Install and inspect the OpenClaw Chrome extension bootstrap");
+    .description("Install and inspect the FRIDAY Chrome extension bootstrap");
 
   extension
     .command("native-host", { hidden: true })
@@ -174,7 +174,7 @@ export function registerBrowserExtensionCommands(
         const json = opts.json === true || parentOpts(command).json === true;
         const waitMs = normalizeExtensionInstallWaitMs(opts.waitMs);
         if (!json) {
-          defaultRuntime.log(info("Preparing the OpenClaw Chrome extension…"));
+          defaultRuntime.log(info("Preparing the FRIDAY Chrome extension…"));
         }
         const status = await observeBrowserExtensionSetup({
           action: "install",
@@ -198,8 +198,8 @@ export function registerBrowserExtensionCommands(
                   status.platformSupport === "manual_required"
                     ? "Automatic native bootstrap is not supported on this platform; use Settings for manual pairing."
                     : status.storeInstallRequests.some((entry) => entry.state === "requested")
-                      ? `Store installation requested. Enable OpenClaw in chrome://extensions and approve Chrome's prompt. If it has not appeared, restart Chrome when convenient or add it from ${FOUNDATION_CHROME_WEB_STORE_URL}. Run extension status to check setup again.`
-                      : `Setup needs attention. Add OpenClaw from ${FOUNDATION_CHROME_WEB_STORE_URL} after native registration succeeds. For development, load the printed unpacked path. If the extension attempted setup before the native host existed, restart Chrome once.`,
+                      ? `Store installation requested. Enable FRIDAY in chrome://extensions and approve Chrome's prompt. If it has not appeared, restart Chrome when convenient or add it from ${FOUNDATION_CHROME_WEB_STORE_URL}. Run extension status to check setup again.`
+                      : `Setup needs attention. Add FRIDAY from ${FOUNDATION_CHROME_WEB_STORE_URL} after native registration succeeds. For development, load the printed unpacked path. If the extension attempted setup before the native host existed, restart Chrome once.`,
                 )
               : info(
                   `Native host and extension identity verified for ${status.discovered.length + status.storeDiscovered.length} profile registration(s). Check the extension popup for Connected before using browser automation.`,
@@ -282,7 +282,7 @@ export function registerBrowserExtensionCommands(
   extension
     .command("uninstall-store")
     .description(
-      "Remove OpenClaw-owned Store install requests; Chrome may remove the extension on restart",
+      "Remove FRIDAY-owned Store install requests; Chrome may remove the extension on restart",
     )
     .option("--json", "Print a machine-readable removal report")
     .action(async (opts, command) => {
@@ -313,7 +313,7 @@ export function registerBrowserExtensionCommands(
 
   extension
     .command("uninstall-host")
-    .description("Remove only OpenClaw-owned Chrome native-host registrations")
+    .description("Remove only FRIDAY-owned Chrome native-host registrations")
     .option("--native-host-executable <path>", "Local self-contained Windows bootstrap executable")
     .option("--browser-profile <name>", "Local extension profile")
     .option("--remove-store", "Remove owned Windows Store requests before native registration")
@@ -389,7 +389,7 @@ export function registerBrowserExtensionCommands(
             setupLine,
             info("1. Load the extension: chrome://extensions → Developer mode → Load unpacked →"),
             `   ${bundledDir}`,
-            info("2. Open the OpenClaw popup and paste this pairing string:"),
+            info("2. Open the FRIDAY popup and paste this pairing string:"),
             "",
             theme.heading(result.pairingString),
             "",

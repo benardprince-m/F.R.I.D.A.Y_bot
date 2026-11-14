@@ -13,7 +13,7 @@ How final assistant text reaches the source conversation, and what happens when 
 
 Direct/source chat turns through the Codex harness default to automatic final
 assistant delivery for internal WebChat surfaces, matching the Pi harness
-contract: the agent replies normally and OpenClaw posts the final text to the
+contract: the agent replies normally and FRIDAY posts the final text to the
 source conversation. Set `messages.visibleReplies: "message_tool"` to keep
 final assistant text private unless the agent calls `message(action="send")`.
 
@@ -27,7 +27,7 @@ Native Codex messages explicitly marked for asynchronous delivery use an
 independent delivery intent. They are delivered separately from optional progress
 and from the eventual final answer, including when block streaming is disabled.
 
-Codex heartbeat turns get `heartbeat_respond` in the searchable OpenClaw tool
+Codex heartbeat turns get `heartbeat_respond` in the searchable FRIDAY tool
 catalog by default so the agent can record whether the wake should stay quiet
 or notify. Heartbeat turns use the same Codex Default collaboration mode as
 ordinary chat turns. The heartbeat monitor's cron scratch is appended to the
@@ -49,7 +49,7 @@ attachments continue to work.
 ## Final answers after settled tool work
 
 For ordinary host-authenticated Codex turns that finish tool work without a
-visible answer, OpenClaw can request a bounded final-answer turn in a private
+visible answer, FRIDAY can request a bounded final-answer turn in a private
 temporary home. It uses the completed thread's model selection and the original
 host auth route or resolved profile, rather than selecting a model from outer
 request metadata. The existing environment, dynamic-tool, MCP, and native-hook
@@ -74,7 +74,7 @@ history stays intact, and completed actions are never repeated.
 
 A Chat created through Codex Sessions is different: its private supervision
 connection owns native authentication. Stock Codex does not expose a generic
-tool-free summary operation that preserves that connection's account. OpenClaw
+tool-free summary operation that preserves that connection's account. FRIDAY
 marks this finalization context unavailable instead of choosing host credentials,
 copying native credentials, or starting another native turn. If a final reply is
 required, the host delivers its existing fallback:

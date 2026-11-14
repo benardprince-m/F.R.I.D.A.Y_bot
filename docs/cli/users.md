@@ -10,7 +10,7 @@ title: "Users"
 
 Manage durable Gateway profiles through the Gateway RPC API. These profiles
 identify people; they are separate from the CLI's `--profile` option, which
-selects an isolated OpenClaw configuration and state directory.
+selects an isolated FRIDAY configuration and state directory.
 
 ## Common options
 

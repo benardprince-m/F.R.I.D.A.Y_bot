@@ -475,7 +475,7 @@ suite.define(() => {
         .poll(() => page.locator(".shell").getAttribute("class"))
         .toContain("shell--nav-drawer-open");
       const settingsSidebar = page.locator(".settings-sidebar");
-      await settingsSidebar.getByRole("link", { name: "Ask OpenClaw" }).click();
+      await settingsSidebar.getByRole("link", { name: "Ask FRIDAY" }).click();
       await waitForControlUiRoute(page, { pathname: "/custodian", routeId: "custodian" });
       const custodianInsets = await page.evaluate(() => {
         const content = document.querySelector<HTMLElement>("main.content");
@@ -642,7 +642,7 @@ suite.define(() => {
     });
     const page = await context.newPage();
     const config = {
-      messages: { queueLimit: 5, responsePrefix: "[OpenClaw]" },
+      messages: { queueLimit: 5, responsePrefix: "[FRIDAY]" },
       tts: { auto: "off" },
     };
     const schema = {

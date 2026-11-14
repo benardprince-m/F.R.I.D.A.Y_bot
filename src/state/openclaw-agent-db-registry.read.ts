@@ -56,7 +56,7 @@ export function readOpenClawAgentDatabaseRegistryRows(
     return [];
   }
   if (registryTable.type !== "table") {
-    throw new Error(`OpenClaw state database ${pathname} has an invalid agent registry.`);
+    throw new Error(`FRIDAY state database ${pathname} has an invalid agent registry.`);
   }
   return executeSqliteQuerySync(
     database,
@@ -101,7 +101,7 @@ export function readRegisteredAgentDatabaseRows(
           )
         ) {
           throw new Error(
-            `OpenClaw state database ${pathname} has a legacy agent database registry schema; run openclaw doctor --fix to migrate it.`,
+            `FRIDAY state database ${pathname} has a legacy agent database registry schema; run openclaw doctor --fix to migrate it.`,
           );
         }
         if (schema) {

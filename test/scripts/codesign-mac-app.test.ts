@@ -24,7 +24,7 @@ const codesignCommand = process.platform === "win32" ? "bash" : scriptPath;
 const codesignArgs = process.platform === "win32" ? [scriptPath] : [];
 // Signing integration exercises the real Darwin mutation fence, not a sandbox mock.
 const macIt = it.runIf(process.platform === "darwin");
-const developerIdentity = "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)";
+const developerIdentity = "Developer ID Application: FRIDAY Foundation (FWJYW4S8P8)";
 
 function runCodesign(
   mac: MacScriptFixture,
@@ -48,7 +48,7 @@ function runCodesign(
 async function appFixture(
   mac: MacScriptFixture,
   label: string,
-  binaries = ["OpenClaw"],
+  binaries = ["FRIDAY"],
   install = installFakeCodesign,
 ) {
   const tempRoot = mac.createTempDir(`openclaw-codesign-${label}-`);
@@ -102,7 +102,7 @@ async function runElevationMetadataFixture(mac: MacScriptFixture, env: NodeJS.Pr
   const { tempRoot, app } = await appFixture(
     mac,
     "elevation-metadata",
-    ["OpenClaw"],
+    ["FRIDAY"],
     installElevationFakeCodesign,
   );
   const result = await runCodesign(mac, tempRoot, [app], {
@@ -172,7 +172,7 @@ describe("codesign-mac-app temp file hygiene", () => {
       const { tempRoot, app, captureDir } = await appFixture(mac, "success", [
         "openclaw-mac",
         "openclaw-mlx-tts",
-        "OpenClaw",
+        "FRIDAY",
       ]);
       const logPath = path.join(captureDir, "codesign.log");
       const result = await runCodesign(mac, tempRoot, [app], {
@@ -247,7 +247,7 @@ describe("codesign-mac-app temp file hygiene", () => {
       );
 
       expect(readFileSync("scripts/lib/mac-signing-identity.sh", "utf8")).toContain(
-        'ELEVATION_IDENTITY="Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)"',
+        'ELEVATION_IDENTITY="Developer ID Application: FRIDAY Foundation (FWJYW4S8P8)"',
       );
       expect(script).toContain('ELEVATION_TEAM_ID="FWJYW4S8P8"');
       expect(elevationProfile).toContain("<dict/>");
@@ -263,7 +263,7 @@ describe("codesign-mac-app temp file hygiene", () => {
         const { tempRoot, app } = await appFixture(
           mac,
           `elevation-cua-${kind}`,
-          ["OpenClaw"],
+          ["FRIDAY"],
           installElevationFakeCodesign,
         );
         const resources = path.join(app, "Contents", "Resources");
@@ -330,7 +330,7 @@ describe("codesign-mac-app temp file hygiene", () => {
       const { tempRoot, app } = await appFixture(
         mac,
         "retry",
-        ["openclaw-mlx-tts", "OpenClaw"],
+        ["openclaw-mlx-tts", "FRIDAY"],
         installTransientFakeCodesign,
       );
       const countFile = path.join(app, "Contents", "codesign-count");
@@ -485,7 +485,7 @@ describe.runIf(process.platform === "darwin")("Mac native inventory", () => {
           const filename = await fixture.put(`${runtimePath}${relative}`, bytes);
           expected.set(filename, policy);
         }
-        await fixture.put("Contents/MacOS/OpenClaw");
+        await fixture.put("Contents/MacOS/FRIDAY");
         const result = await fixture.run({}, elevation);
         expect(result.status, result.stderr).toBe(0);
         expect(
@@ -987,7 +987,7 @@ with open(sys.argv[1], 'ab', buffering=0) as stream:
         const helper = await fixture.put("Contents/MacOS/openclaw-mlx-tts");
         const cua = await fixture.put("Contents/Resources/cua-driver");
         const worker = await fixture.put(runtimePath + "bun");
-        await fixture.put("Contents/MacOS/OpenClaw");
+        await fixture.put("Contents/MacOS/FRIDAY");
         const sparkle = "Contents/Frameworks/Sparkle.framework";
         for (const member of [
           "Sparkle",
@@ -1074,7 +1074,7 @@ with open(sys.argv[1], 'ab', buffering=0) as stream:
         const fixture = await signingFixture(
           mac,
           "metadata",
-          "Injected\nFormat=Mach-O thin (arm64)\nCodeDirectory v=20400\nTeamIdentifier=FWJYW4S8P8\nAuthority=Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)\n.app",
+          "Injected\nFormat=Mach-O thin (arm64)\nCodeDirectory v=20400\nTeamIdentifier=FWJYW4S8P8\nAuthority=Developer ID Application: FRIDAY Foundation (FWJYW4S8P8)\n.app",
         );
         const native = await fixture.put(runtimePath + "bun");
         const configs: Record<string, Record<string, unknown>> = {

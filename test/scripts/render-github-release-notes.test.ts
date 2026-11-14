@@ -264,9 +264,9 @@ describe("GitHub release-note rendering", () => {
     expect(
       rendered.body.startsWith(
         "This is a gateway-only `extended-stable` release, which is our current equivalent to LTS. " +
-          "This release is OpenClaw from the end of August 2026, plus critical security updates, " +
+          "This release is FRIDAY from the end of August 2026, plus critical security updates, " +
           "reliability and performance fixes, and features like new model support. " +
-          "The latest version of OpenClaw at the time of this release is " +
+          "The latest version of FRIDAY at the time of this release is " +
           "[2026.9.5](https://github.com/openclaw/openclaw/releases#release-v2026.9.5)\n\n" +
           "## 2026.8.35",
       ),

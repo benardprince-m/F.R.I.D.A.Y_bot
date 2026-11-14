@@ -1,8 +1,8 @@
 ---
-summary: "OpenClaw discovery threats (AML.TA0008): T-DISC-001, T-DISC-002"
+summary: "FRIDAY discovery threats (AML.TA0008): T-DISC-001, T-DISC-002"
 title: "Discovery (AML.TA0008)"
 read_when:
-  - Reviewing discovery threats against an OpenClaw deployment
+  - Reviewing discovery threats against an FRIDAY deployment
   - Working on mitigations for T-DISC-001, T-DISC-002
 ---
 

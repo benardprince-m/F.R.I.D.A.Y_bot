@@ -26,7 +26,7 @@ register(api) {
 }
 ```
 
-`api.runtime.version` is the current OpenClaw product version, sourced from the shared version resolver so plugins see the same value the CLI reports.
+`api.runtime.version` is the current FRIDAY product version, sourced from the shared version resolver so plugins see the same value the CLI reports.
 
 `api.runtime.capabilities` is an optional, read-only list of host behavior
 guarantees. Older hosts may omit it. Check a documented capability ID before
@@ -139,7 +139,7 @@ pending placement publication does not block them. Normal parent settlement and
 usage updates preserve the fork's read authority. Session reset or deletion
 revokes even an in-flight fork before its answer can be returned.
 After a restart or without a prepared parent turn, the request fails closed:
-"Cache-parity session fork requires a parent turn prepared by this OpenClaw
+"Cache-parity session fork requires a parent turn prepared by this FRIDAY
 runtime. Send a normal message first." CLI runtimes are unsupported for
 `forkSession`, even when their backend can disable native tools. Ordinary `/btw`
 keeps its lightweight, tool-free context; CLI backends with native tools must
@@ -234,7 +234,7 @@ runtime handle.
 
 ### Plugin value boundary
 
-OpenClaw admits native plugins when it loads and registers them, using the
+FRIDAY admits native plugins when it loads and registers them, using the
 existing [manifest validation](/plugins/manifest) and
 [load policy](/plugins/architecture-internals/load-pipeline). Every loaded native
 plugin uses the same value contract: hook results, tool results, and stream
@@ -327,7 +327,7 @@ The existing `api.lifecycle.registerRuntimeLifecycle(...)` contract remains
 available for plugin-owned host state.
 
 Diagnostic subscriptions made while a managed plugin is loading, registering,
-or running belong to that instance. OpenClaw automatically unsubscribes them
+or running belong to that instance. FRIDAY automatically unsubscribes them
 when the instance is disposed, including after a failed load or replacement.
 The unsubscribe handle still releases a subscription early and removes its
 cleanup registration. This covers `onDiagnosticEvent` and
@@ -369,7 +369,7 @@ write-capable work still prevent a clean shutdown.
 
 Cleanup is best effort. Plugins must explicitly release their own timers,
 listeners, sockets, watchers, and child processes in `onDispose` or their
-service's `stop()` method. OpenClaw does not intercept those native resources or
+service's `stop()` method. FRIDAY does not intercept those native resources or
 prove that they have stopped when managed retirement completes. Native plugins
 remain trusted, in-process code. Plain data and native byte buffers retain their
 normal identities; lifecycle fencing applies to the managed callable surfaces,
@@ -547,7 +547,7 @@ when the runtime is retained, even if old cleanup remains unfinished. Retiring
 managers must not publish late results into a replacement manager's caches.
 
 Preparing an unused runtime must leave its manager engine unloaded. For runtimes
-without this hook, OpenClaw calls the existing `closeAllMemorySearchManagers`
+without this hook, FRIDAY calls the existing `closeAllMemorySearchManagers`
 method, when provided, if the runtime or an embedding adapter retires. This closes
 all of that runtime's managers as best-effort cleanup; it cannot identify dependent
 managers or prevent concurrent manager acquisition.

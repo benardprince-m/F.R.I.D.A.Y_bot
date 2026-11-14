@@ -368,7 +368,7 @@ it.each([
     "agent:codex:acp:child-1",
     "tree",
     ownershipEvidence,
-    "Session history denied because spawned-session ownership lookup failed (transient); retry once, then ask the operator to inspect OpenClaw logs.",
+    "Session history denied because spawned-session ownership lookup failed (transient); retry once, then ask the operator to inspect FRIDAY logs.",
     ["sessions.describe", "sessions.resolve"],
   ],
 ] as const)(

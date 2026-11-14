@@ -2,7 +2,7 @@
 summary: "DeepSeek setup (auth + model selection)"
 title: "DeepSeek"
 read_when:
-  - You want to use DeepSeek with OpenClaw
+  - You want to use DeepSeek with FRIDAY
   - You need the API key env var or CLI auth choice
 ---
 
@@ -93,12 +93,12 @@ DeepSeek retired `deepseek-chat` and `deepseek-reasoner` on July 24, 2026 at
 to `deepseek/deepseek-v4-flash` or `deepseek/deepseek-v4-pro`.
 </Warning>
 
-OpenClaw's local costs are estimates. `deepseek/deepseek-flash` uses DeepSeek's peak
+FRIDAY's local costs are estimates. `deepseek/deepseek-flash` uses DeepSeek's peak
 rates: $0.30 per million input tokens, $1.20 per million output tokens, and
 $0.006 per million cached input tokens. Published off-peak rates are half those amounts.
 Legacy rows retain their earlier bundled metadata. DeepSeek still accepts
 `deepseek-v4-flash` and `deepseek-v4-flash-vision-exp`, routes them to V4.1 Flash,
-and bills them at current Flash rates. Existing explicit selections remain valid in OpenClaw.
+and bills them at current Flash rates. Existing explicit selections remain valid in FRIDAY.
 DeepSeek can change rates; its
 [Models & Pricing](https://api-docs.deepseek.com/quick_start/pricing/) page is
 authoritative for billing.
@@ -110,7 +110,7 @@ PNG, JPEG, GIF, and WebP images through the same API and API key. See
 [DeepSeek vision](https://api-docs.deepseek.com/guides/vision) for image limits.
 
 <Tip>
-Flash and V4 models support DeepSeek's `thinking` control. OpenClaw also replays
+Flash and V4 models support DeepSeek's `thinking` control. FRIDAY also replays
 DeepSeek `reasoning_content` on follow-up turns so thinking sessions with tool
 calls can continue.
 Use `/think xhigh` or `/think max` with DeepSeek V4 models to request DeepSeek's
@@ -120,7 +120,7 @@ maximum `reasoning_effort`; both map to `"max"`.
 ## Thinking and tools
 
 When a DeepSeek model emits DSML tool markup as text, including through OpenRouter
-or another OpenAI-compatible provider, OpenClaw recovers
+or another OpenAI-compatible provider, FRIDAY recovers
 valid `calls`, `tool_calls`, `tool_call`, and `function_calls` blocks into tool
 calls instead of showing their payloads in chat. This includes doubled fullwidth
 markers with a separator space. Direct provider calls and tool-free finalization
@@ -132,13 +132,13 @@ keeps OpenRouter's reasoning request format.
 
 DeepSeek V4 thinking sessions require replayed assistant messages from a
 thinking-enabled turn to include `reasoning_content` on follow-up requests.
-OpenClaw's DeepSeek plugin backfills that field automatically, so normal
+FRIDAY's DeepSeek plugin backfills that field automatically, so normal
 multi-turn tool use works on `deepseek/deepseek-flash`, `deepseek/deepseek-v4-flash`,
 `deepseek/deepseek-v4-flash-vision-exp`, and `deepseek/deepseek-v4-pro` even when history came from another
 OpenAI-compatible provider (no native `reasoning_content`) or from a plain
 assistant message. No `/new` required after switching providers mid-session.
 
-When thinking is disabled (including the UI **None** selection), OpenClaw
+When thinking is disabled (including the UI **None** selection), FRIDAY
 sends `thinking: { type: "disabled" }` and strips replayed `reasoning_content`
 from outgoing history, keeping the session on the non-thinking DeepSeek path.
 

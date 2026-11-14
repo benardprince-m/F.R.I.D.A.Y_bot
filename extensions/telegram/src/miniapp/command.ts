@@ -11,7 +11,7 @@ export function registerTelegramMiniAppCommand(
 ): void {
   api.registerCommand({
     name: "controlui",
-    description: "Open the OpenClaw Control UI",
+    description: "Open the FRIDAY Control UI",
     channels: ["telegram"],
     requireAuth: true,
     exposeSenderIsOwner: true,
@@ -28,7 +28,7 @@ export function registerTelegramMiniAppCommand(
       if (!(await isTelegramMiniAppOwner({ cfg, accountId, userId }))) {
         return {
           text:
-            "Restricted to the bot owner. Ask your OpenClaw administrator to add your numeric " +
+            "Restricted to the bot owner. Ask your FRIDAY administrator to add your numeric " +
             `Telegram user ID${userId ? ` (${userId})` : ""} to this bot account's allowFrom or ` +
             "commands.ownerAllowFrom, then retry /controlui. Wildcards and usernames do not grant Control UI access.",
         };
@@ -44,7 +44,7 @@ export function registerTelegramMiniAppCommand(
         launchTicket: launchTickets.issue({ accountId, userId }),
       }).toString();
       return {
-        text: "Open OpenClaw Control UI.",
+        text: "Open FRIDAY Control UI.",
         presentation: {
           blocks: [
             {

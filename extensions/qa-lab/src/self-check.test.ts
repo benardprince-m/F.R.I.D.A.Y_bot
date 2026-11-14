@@ -73,7 +73,7 @@ describe("runQaSelfCheckAgainstState", () => {
     expect(second.outputPath).not.toBe(first.outputPath);
     expect(explicit.outputPath).toBe(outputPath);
     for (const result of [first, second, explicit]) {
-      expect(result.report).toContain("# OpenClaw QA E2E Self-Check");
+      expect(result.report).toContain("# FRIDAY QA E2E Self-Check");
       expect(result.report).toContain("### Artifact report fixture");
       expect(await readFile(result.outputPath, "utf8")).toBe(result.report);
     }

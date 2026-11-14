@@ -105,7 +105,7 @@ describe("memory_search index versions", () => {
       expect(result.details).toMatchObject({
         results: [],
         unavailable: true,
-        warning: expect.stringContaining("newer OpenClaw"),
+        warning: expect.stringContaining("newer FRIDAY"),
         action: providerCost,
       });
       expect(readMemoryDatabaseRevision(db)).toBe(before);
@@ -267,9 +267,9 @@ describe("memory_search index versions", () => {
       expect(await search(cfg)).toMatchObject({
         results: [],
         unavailable: true,
-        error: expect.stringContaining("newer OpenClaw"),
+        error: expect.stringContaining("newer FRIDAY"),
         warning: expect.stringContaining("Previous memory sync failed: HTTP 400"),
-        action: expect.stringContaining("upgrade OpenClaw or reindex explicitly"),
+        action: expect.stringContaining("upgrade FRIDAY or reindex explicitly"),
       });
       expect(manager.status().lastSyncError).toContain("HTTP 400");
       expect(readMemoryDatabaseRevision(db)).toBe(before);

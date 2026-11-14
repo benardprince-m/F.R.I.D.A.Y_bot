@@ -428,7 +428,7 @@ describe("mutations", () => {
       `Command-only node: npx -y openclaw@2026.9.9 connect ${joinUrl} --service`,
     );
     expect(output()).toContain(
-      `Already have OpenClaw installed? Run: openclaw connect ${joinUrl} --service --session-host`,
+      `Already have FRIDAY installed? Run: openclaw connect ${joinUrl} --service --session-host`,
     );
     expect(output()).not.toContain("opaque");
   });

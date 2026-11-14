@@ -2,7 +2,7 @@ import Darwin
 import Foundation
 import OpenClawIPC
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @Suite(.serialized, .testWaitLimit)
 @MainActor
@@ -62,7 +62,7 @@ struct CuaDriverHostCoordinatorTests {
             readinessProbe: { _ in true },
             permissionSnapshot: { [:] },
             enablementAllowed: {
-                AppLaunchRuntimePlan(arguments: ["OpenClaw", "--elevation-host"]).allowsCuaComputerControl
+                AppLaunchRuntimePlan(arguments: ["FRIDAY", "--elevation-host"]).allowsCuaComputerControl
             })
 
         await coordinator.setEnabled(true)
@@ -81,7 +81,7 @@ struct CuaDriverHostCoordinatorTests {
             readinessProbe: { _ in true },
             permissionSnapshot: { [:] },
             enablementAllowed: {
-                AppLaunchRuntimePlan(arguments: ["OpenClaw"]).allowsCuaComputerControl
+                AppLaunchRuntimePlan(arguments: ["FRIDAY"]).allowsCuaComputerControl
             })
         await normalCoordinator.setEnabled(true)
         try await TestWait.state("ready initial CUA launch") {
@@ -243,7 +243,7 @@ struct CuaDriverHostCoordinatorTests {
         await coordinator.setEnabled(true)
 
         let directories = try FileManager.default.contentsOfDirectory(
-            at: root.appendingPathComponent("OpenClaw", isDirectory: true)
+            at: root.appendingPathComponent("FRIDAY", isDirectory: true)
                 .appendingPathComponent("cua", isDirectory: true),
             includingPropertiesForKeys: nil)
         let pidFile = try #require(directories.first?.appendingPathComponent("cua.pid"))
@@ -283,7 +283,7 @@ struct CuaDriverHostCoordinatorTests {
         #expect(launcher.processes.count == 1)
         #expect(launcher.processes.allSatisfy { !$0.isRunning })
         await coordinator.setEnabled(false)
-        let cuaRoot = root.appendingPathComponent("OpenClaw/cua", isDirectory: true)
+        let cuaRoot = root.appendingPathComponent("FRIDAY/cua", isDirectory: true)
         #expect(try FileManager.default.contentsOfDirectory(atPath: cuaRoot.path).isEmpty)
     }
 
@@ -316,7 +316,7 @@ struct CuaDriverHostCoordinatorTests {
         #expect(FileManager.default.fileExists(atPath: stale.url.path))
         let launch = try #require(launcher.launches.first)
         // `serve` ignores --pid-file (it always writes the machine-global default),
-        // so OpenClaw must never pass it and records the pid itself instead.
+        // so FRIDAY must never pass it and records the pid itself instead.
         #expect(!launch.arguments.contains("--pid-file"))
         await coordinator.setEnabled(false)
         #expect(unrelated.isRunning)
@@ -345,14 +345,14 @@ struct CuaDriverHostCoordinatorTests {
 
         try await TestWait.state("retired orphan daemon") { !orphan.isRunning }
         #expect(!orphan.isRunning)
-        let cuaRoot = root.appendingPathComponent("OpenClaw/cua", isDirectory: true)
+        let cuaRoot = root.appendingPathComponent("FRIDAY/cua", isDirectory: true)
         #expect(try FileManager.default.contentsOfDirectory(atPath: cuaRoot.path).isEmpty)
     }
 
     @Test func `socket directory rejects a symlinked CUA root`() throws {
         let root = try ExecApprovalsSocketTestSupport.makeRoot()
         defer { try? FileManager.default.removeItem(at: root) }
-        let openClaw = root.appendingPathComponent("OpenClaw", isDirectory: true)
+        let openClaw = root.appendingPathComponent("FRIDAY", isDirectory: true)
         let redirected = root.appendingPathComponent("redirected", isDirectory: true)
         try FileManager.default.createDirectory(at: openClaw, withIntermediateDirectories: true)
         try FileManager.default.createDirectory(at: redirected, withIntermediateDirectories: true)
@@ -366,14 +366,14 @@ struct CuaDriverHostCoordinatorTests {
         #expect(try (FileManager.default.contentsOfDirectory(atPath: redirected.path)).isEmpty)
     }
 
-    @Test func `socket directory rejects a symlinked OpenClaw support root`() throws {
+    @Test func `socket directory rejects a symlinked FRIDAY support root`() throws {
         let root = try ExecApprovalsSocketTestSupport.makeRoot()
         defer { try? FileManager.default.removeItem(at: root) }
         let redirected = root.appendingPathComponent("redirected", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         try FileManager.default.createDirectory(at: redirected, withIntermediateDirectories: true)
         try FileManager.default.createSymbolicLink(
-            at: root.appendingPathComponent("OpenClaw", isDirectory: true),
+            at: root.appendingPathComponent("FRIDAY", isDirectory: true),
             withDestinationURL: redirected)
 
         #expect(throws: CuaDriverHostError.self) {
@@ -384,7 +384,7 @@ struct CuaDriverHostCoordinatorTests {
 
     @Test func `embedded launch carries unrestricted acknowledgement and disables network reporting`() {
         let launch = CuaDriverHostCoordinator.makeProcessLaunch(
-            executableURL: URL(fileURLWithPath: "/Applications/OpenClaw.app/Contents/Resources/cua-driver"),
+            executableURL: URL(fileURLWithPath: "/Applications/FRIDAY.app/Contents/Resources/cua-driver"),
             socketPath: "/tmp/openclaw-cua-test.sock",
             hostBundleID: "ai.openclaw.mac",
             inheritedEnvironment: [

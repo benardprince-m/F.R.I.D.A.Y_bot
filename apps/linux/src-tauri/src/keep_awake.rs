@@ -55,7 +55,7 @@ impl KeepAwake {
                     released.and_then(|()| {
                         inhibitor = None;
                         write(false).map_err(|error| format!(
-                            "Idle sleep is allowed now, but the preference could not be saved. It may turn on again after restarting OpenClaw. {error}"
+                            "Idle sleep is allowed now, but the preference could not be saved. It may turn on again after restarting FRIDAY. {error}"
                         ))?;
                         enabled = false;
                         Ok(())
@@ -88,13 +88,13 @@ impl KeepAwake {
             .lock()
             .map_err(|_| "Idle-sleep control is unavailable.")?;
         if self.stopping.load(Ordering::SeqCst) {
-            return Err("OpenClaw is quitting.".into());
+            return Err("FRIDAY is quitting.".into());
         }
         sender
             .as_ref()
             .ok_or("Idle-sleep control has stopped.")?
             .send(())
-            .map_err(|_| "Idle-sleep control has stopped. Restart OpenClaw and try again.".into())
+            .map_err(|_| "Idle-sleep control has stopped. Restart FRIDAY and try again.".into())
     }
 
     pub fn stop(&self) {

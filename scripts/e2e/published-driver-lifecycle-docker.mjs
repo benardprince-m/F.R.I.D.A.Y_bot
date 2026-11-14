@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Exercise the registered Docker caller with real processes, without installing OpenClaw.
+// Exercise the registered Docker caller with real processes, without installing FRIDAY.
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import fs from "node:fs";

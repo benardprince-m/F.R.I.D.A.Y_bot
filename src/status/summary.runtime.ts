@@ -344,7 +344,7 @@ function resolveSessionRuntime(params: {
         })
       : runtime.id,
   );
-  // OpenClaw/auto are generic labels; concrete harness ids give better operator signal.
+  // FRIDAY/auto are generic labels; concrete harness ids give better operator signal.
   const resolvedHarness = id && id !== "openclaw" && id !== "auto" ? id : undefined;
   return {
     id,

@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/typesafe",
   "version": "2026.10.4",
-  "description": "OpenClaw TypeSafe typed decision provider",
+  "description": "FRIDAY TypeSafe typed decision provider",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

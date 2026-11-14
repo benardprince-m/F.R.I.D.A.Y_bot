@@ -340,7 +340,7 @@ export function assertRecordShape(
     record.workspaceBaseManifestRef === DEVICE_FOLDER_MANIFEST_REF &&
     record.executionMode !== "worker-turn"
   ) {
-    throw new Error("Device-folder placements require OpenClaw worker execution");
+    throw new Error("Device-folder placements require FRIDAY worker execution");
   }
   const terminal = record.state === "reclaimed" || record.state === "failed";
   if (terminal) {

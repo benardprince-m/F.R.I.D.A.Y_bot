@@ -1,4 +1,4 @@
-// SQLite state benchmark seeds OpenClaw DBs and reports hot-query proof lines.
+// SQLite state benchmark seeds FRIDAY DBs and reports hot-query proof lines.
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -114,7 +114,7 @@ function applyScale(config: ProfileConfig): ProfileConfig {
 }
 
 function printUsage(): void {
-  console.log(`OpenClaw SQLite state benchmark
+  console.log(`FRIDAY SQLite state benchmark
 
 Usage:
   node --import tsx scripts/bench-sqlite-state.ts [options]

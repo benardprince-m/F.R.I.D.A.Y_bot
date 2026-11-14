@@ -217,7 +217,7 @@ export function ClawsDetailView(props: { view: ClawsCatalogViewProps }) {
                 onBack={view().onBack}
                 icon={<Icon name="box" />}
                 identity={renderPublisherIdentity({
-                  name: "OpenClaw",
+                  name: "FRIDAY",
                   handle: t("clawsCatalog.publisher"),
                   official: selected().official,
                 })}

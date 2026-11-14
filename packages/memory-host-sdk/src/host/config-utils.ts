@@ -64,7 +64,7 @@ type AgentConfig = {
   contextLimits?: AgentContextLimitsConfig;
 };
 
-/** Narrow OpenClaw config shape consumed by memory host utilities. */
+/** Narrow FRIDAY config shape consumed by memory host utilities. */
 export type OpenClawConfig = {
   agents?: {
     ownership?: "explicit";

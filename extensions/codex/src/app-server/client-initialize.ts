@@ -9,7 +9,7 @@ export function buildCodexAppServerInitializeParams(): CodexInitializeParams {
   return {
     clientInfo: {
       name: "openclaw",
-      title: "OpenClaw",
+      title: "FRIDAY",
       version: OPENCLAW_VERSION,
     },
     capabilities: {
@@ -48,7 +48,7 @@ class CodexAppServerVersionError extends Error {
   constructor(readonly detectedVersion?: string) {
     const detected = detectedVersion
       ? `detected ${detectedVersion}`
-      : "OpenClaw could not determine the running Codex version";
+      : "FRIDAY could not determine the running Codex version";
     super(
       `Codex app-server ${MIN_SUPPORTED_CODEX_APP_SERVER_VERSION} or newer is required, but ${detected}. Update the configured Codex app-server binary, or remove custom command overrides to use the managed binary.`,
     );
@@ -67,7 +67,7 @@ export function assertSupportedCodexAppServerVersion(response: CodexInitializeRe
   }
   if (detected.compare(CODEX_APP_SERVER_VERSION) > 0) {
     embeddedAgentLog.warn(
-      "codex app-server is newer than OpenClaw's managed runtime; continuing with normal startup validation",
+      "codex app-server is newer than FRIDAY's managed runtime; continuing with normal startup validation",
       {
         detectedVersion,
         validatedVersion: CODEX_APP_SERVER_VERSION,
@@ -80,7 +80,7 @@ export function assertSupportedCodexAppServerVersion(response: CodexInitializeRe
 /** Reads the Codex version from an initialize `userAgent` such as `openclaw/0.160.0 (...)`. */
 export function readCodexVersionFromUserAgent(userAgent: string | undefined): string | undefined {
   // Codex returns `<originator>/<codex-version> ...`; the originator can be
-  // OpenClaw, Codex Desktop, or an env override, so only the slash-delimited
+  // FRIDAY, Codex Desktop, or an env override, so only the slash-delimited
   // version in the leading product field is stable.
   const match = userAgent?.match(
     /^[^/]+\/(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)(?:[\s(]|$)/,

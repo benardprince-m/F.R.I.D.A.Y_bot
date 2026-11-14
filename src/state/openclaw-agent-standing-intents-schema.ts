@@ -80,7 +80,7 @@ export function ensureOpenClawAgentStandingIntentsSchema(
         {
           endMarker: "CREATE TABLE IF NOT EXISTS session_transcript_index_state (",
           includeEndMarker: false,
-          errorMessage: "OpenClaw standing-intents schema markers are missing.",
+          errorMessage: "FRIDAY standing-intents schema markers are missing.",
         },
       );
       // TEMP objects must not redirect installation away from the canonical agent schema.

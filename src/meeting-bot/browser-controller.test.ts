@@ -69,7 +69,7 @@ function makeConfig(timeoutMs: number) {
     launch: true,
     reuseExistingTab: true,
     autoJoin: true,
-    guestName: "OpenClaw QA",
+    guestName: "FRIDAY QA",
     joinTimeoutMs: timeoutMs,
     waitForInCallMs: timeoutMs,
   };

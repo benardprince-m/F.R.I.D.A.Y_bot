@@ -41,7 +41,7 @@ const custom: OpenClawConfig = {
 };
 
 it.each(["worker", "gateway", "optional", "account"] as const)(
-  "admits an explicit keyless OpenClaw selection only for required worker inference (%s)",
+  "admits an explicit keyless FRIDAY selection only for required worker inference (%s)",
   async (inference) => {
     const cfg: OpenClawConfig = {
       ...custom,

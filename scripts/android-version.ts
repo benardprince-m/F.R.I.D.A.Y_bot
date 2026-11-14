@@ -1,4 +1,4 @@
-// Android Version script supports OpenClaw repository automation.
+// Android Version script supports FRIDAY repository automation.
 import {
   resolveAndroidVersion,
   resolveAndroidBuildVersion,

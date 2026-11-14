@@ -173,7 +173,7 @@ described [above](/start/wizard-cli-reference#what-the-wizard-does).
       - Wizard attempts `loginctl enable-linger <user>` so gateway stays up after logout.
       - May prompt for sudo (writes `/var/lib/systemd/linger`); it tries without sudo first.
     - Native Windows: Scheduled Task first
-      - If task creation is denied, OpenClaw falls back to a per-user Startup-folder login item and starts the gateway immediately.
+      - If task creation is denied, FRIDAY falls back to a per-user Startup-folder login item and starts the gateway immediately.
       - Scheduled Tasks remain preferred because they provide better supervisor status.
     - Runtime selection: Node is the primary, default, and recommended runtime. Bun 1.4.3+ with WAL-reset-safe `node:sqlite` is available as an explicit opt-in.
       QuickStart reports the runtime selected by the install plan, including Bun when no supported Node is available on a Bun-only first install.
@@ -290,12 +290,12 @@ on a different release.
 
     Adding or reauthenticating OpenAI preserves an existing explicit primary
     model, including `openai/gpt-5.5`. If the account does not expose GPT-5.6,
-    select `openai/gpt-5.5` explicitly; OpenClaw does not silently downgrade it.
+    select `openai/gpt-5.5` explicitly; FRIDAY does not silently downgrade it.
 
   </Accordion>
   <Accordion title="xAI (Grok) OAuth">
     Browser sign-in for eligible SuperGrok or X Premium accounts. This is the
-    recommended xAI path for most users. OpenClaw stores the resulting auth
+    recommended xAI path for most users. FRIDAY stores the resulting auth
     profile for Grok models, Grok `web_search`, `x_search`, and `code_execution`.
   </Accordion>
   <Accordion title="xAI (Grok) device code">

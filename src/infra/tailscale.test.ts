@@ -248,7 +248,7 @@ describe("tailscale helpers", () => {
         18791,
         /sudo: a password is required[\s\S]*sudo tailscale set --operator=\$USER/,
       ],
-      ["conflict", 18789, "ownership OpenClaw cannot prove; it was not modified"],
+      ["conflict", 18789, "ownership FRIDAY cannot prove; it was not modified"],
     ] as const)("preserves %s diagnostics", async (mode, port, diagnostic) => {
       useTailscaleSudoFixture(mode);
       await expect(claimTailscaleRoute("serve", port, port, vi.fn())).rejects.toThrow(diagnostic);

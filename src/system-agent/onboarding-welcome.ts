@@ -136,7 +136,7 @@ export async function buildOnboardingWelcome(params: {
   }
   if (!setupModel) {
     throw new Error(
-      "OpenClaw onboarding requires working inference first. Run `openclaw onboard` on the machine running OpenClaw to configure and verify a default model.",
+      "FRIDAY onboarding requires working inference first. Run `openclaw onboard` on the machine running FRIDAY to configure and verify a default model.",
     );
   }
 

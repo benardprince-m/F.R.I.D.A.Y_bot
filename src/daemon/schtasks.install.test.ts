@@ -158,11 +158,11 @@ describe("installScheduledTask", () => {
     });
   }
 
-  function expectInitialTaskQuery(taskName = "OpenClaw Gateway"): void {
+  function expectInitialTaskQuery(taskName = "FRIDAY Gateway"): void {
     expect(schtasksCalls[0]).toEqual(["/Query", "/TN", taskName, "/XML"]);
   }
 
-  function expectTaskRunCall(index: number, taskName = "OpenClaw Gateway"): void {
+  function expectTaskRunCall(index: number, taskName = "FRIDAY Gateway"): void {
     expect(schtasksCalls[index]).toEqual(["/Run", "/TN", taskName]);
   }
 
@@ -201,13 +201,13 @@ describe("installScheduledTask", () => {
         "!token!",
       ],
       workingDirectory: "C:\\temp\\poc&calc",
-      description: "OpenClaw fixture",
+      description: "FRIDAY fixture",
       environment: {
         OC_INJECT: "safe & whoami | calc",
         OC_CARET: "a^b",
         OC_PERCENT: "%TEMP%",
         OC_BANG: "!token!",
-        OC_SOURCE_PATH: "C:\\OpenClaw source & ^ %USERPROFILE%!",
+        OC_SOURCE_PATH: "C:\\FRIDAY source & ^ %USERPROFILE%!",
         OC_QUOTE: 'he said "hi"',
         OC_EMPTY: "",
         PATH: "C:\\Windows\\System32",
@@ -224,13 +224,13 @@ describe("installScheduledTask", () => {
     expect(script).toContain('set "OC_CARET=a^^b"');
     expect(script).toContain('set "OC_PERCENT=%%TEMP%%"');
     expect(script).toContain('set "OC_BANG=^!token^!"');
-    expect(script).toContain('set "OC_SOURCE_PATH=C:\\OpenClaw source & ^^ %%USERPROFILE%%^!"');
+    expect(script).toContain('set "OC_SOURCE_PATH=C:\\FRIDAY source & ^^ %%USERPROFILE%%^!"');
     expect(script).toContain('set "OC_QUOTE=he said ^"hi^""');
     expect(script).not.toContain('set "OC_EMPTY=');
     expect(script).toContain('set "NODE_OPTIONS="');
     expect(script).not.toContain("set OC_INJECT=");
     expect(script).not.toContain('set "PATH=');
-    expect(script).toContain("rem OpenClaw fixture");
+    expect(script).toContain("rem FRIDAY fixture");
 
     const parsed = await readScheduledTaskCommand(env);
     expect(parsed).toStrictEqual({
@@ -250,7 +250,7 @@ describe("installScheduledTask", () => {
         OC_CARET: "a^b",
         OC_PERCENT: "%TEMP%",
         OC_BANG: "!token!",
-        OC_SOURCE_PATH: "C:\\OpenClaw source & ^ %USERPROFILE%!",
+        OC_SOURCE_PATH: "C:\\FRIDAY source & ^ %USERPROFILE%!",
         OC_QUOTE: 'he said "hi"',
         NODE_OPTIONS: "",
       },
@@ -266,17 +266,17 @@ describe("installScheduledTask", () => {
       sourcePath: scriptPath,
     });
 
-    expect(schtasksCalls[0]).toEqual(["/Query", "/TN", "OpenClaw Gateway", "/XML"]);
+    expect(schtasksCalls[0]).toEqual(["/Query", "/TN", "FRIDAY Gateway", "/XML"]);
     expect(schtasksCalls[3]?.[0]).toBe("/Change");
     // Battery-flag XML re-apply runs between /Change and /Run on upgrades.
     expect(schtasksCalls[4]?.slice(0, 5)).toEqual([
       "/Create",
       "/F",
       "/TN",
-      "OpenClaw Gateway",
+      "FRIDAY Gateway",
       "/XML",
     ]);
-    expect(schtasksCalls[6]).toEqual(["/Run", "/TN", "OpenClaw Gateway"]);
+    expect(schtasksCalls[6]).toEqual(["/Run", "/TN", "FRIDAY Gateway"]);
   });
 
   it("rejects line breaks in command arguments, env vars, and descriptions", async ({
@@ -332,7 +332,7 @@ describe("installScheduledTask", () => {
     expect(schtasksCalls[3]).toEqual([
       "/Change",
       "/TN",
-      "OpenClaw Gateway",
+      "FRIDAY Gateway",
       "/TR",
       expect.stringContaining("gateway.vbs"),
     ]);
@@ -343,7 +343,7 @@ describe("installScheduledTask", () => {
       "/Create",
       "/F",
       "/TN",
-      "OpenClaw Gateway",
+      "FRIDAY Gateway",
       "/XML",
     ]);
     expect(schtasksCalls[4]).not.toContain("/RU");
@@ -381,7 +381,7 @@ describe("installScheduledTask", () => {
       HOME: env.USERPROFILE,
       USERDOMAIN: "WORKSTATION",
       USERNAME: "alice",
-      OPENCLAW_WINDOWS_TASK_NAME: "OpenClaw Custom Gateway",
+      OPENCLAW_WINDOWS_TASK_NAME: "FRIDAY Custom Gateway",
     };
     const gatewayEnv = buildServiceEnvironment({
       env: callerEnv,
@@ -391,7 +391,7 @@ describe("installScheduledTask", () => {
 
     expect(callerEnv.OPENCLAW_WINDOWS_TASK_HIDDEN_LAUNCHER).toBeUndefined();
     expect(gatewayEnv.OPENCLAW_WINDOWS_TASK_HIDDEN_LAUNCHER).toBe("1");
-    expect(gatewayEnv.OPENCLAW_WINDOWS_TASK_NAME).toBe("OpenClaw Gateway");
+    expect(gatewayEnv.OPENCLAW_WINDOWS_TASK_NAME).toBe("FRIDAY Gateway");
 
     const stdout = new PassThrough();
     const { scriptPath } = await installScheduledTask({
@@ -412,7 +412,7 @@ describe("installScheduledTask", () => {
       "/Create",
       "/F",
       "/TN",
-      "OpenClaw Custom Gateway",
+      "FRIDAY Custom Gateway",
       "/XML",
     ]);
     expect(schtasksCalls[2]).not.toContain("/RU");
@@ -442,14 +442,14 @@ describe("installScheduledTask", () => {
     await expect(readScheduledTaskCommand(callerEnv)).resolves.toMatchObject({
       programArguments: ["node", "gateway.js"],
     });
-    expect(script).toContain('set "OPENCLAW_WINDOWS_TASK_NAME=OpenClaw Custom Gateway"');
+    expect(script).toContain('set "OPENCLAW_WINDOWS_TASK_NAME=FRIDAY Custom Gateway"');
     expect(script).toContain(
       'if not defined OPENCLAW_WINDOWS_TASK_HIDDEN_LAUNCHER set "OPENCLAW_WINDOWS_TASK_HIDDEN_LAUNCHER=cmd"',
     );
     expect(stdout.read(stdout.readableLength)?.toString()).toContain(
       "Unattended (S4U; boot and logon; no stored password)",
     );
-    expectTaskRunCall(4, "OpenClaw Custom Gateway");
+    expectTaskRunCall(4, "FRIDAY Custom Gateway");
   });
 
   it("removes a generated hidden launcher when the caller env lacks its marker", async ({

@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct KeychainStoreTests {
     @Test func `save load update delete round trip`() {

@@ -401,7 +401,7 @@ The released `beforePersistentApply: () => void` option remains supported for
 TypeScript and JavaScript plugins until an announced later stable release. It runs on the
 host once immediately before each worker mutation dispatch, outside admission
 grants, and at host filesystem mutation boundaries. Throwing stops that apply.
-Synchronous OpenClaw database access in the callback is allowed and deprecated;
+Synchronous FRIDAY database access in the callback is allowed and deprecated;
 a warning explains the timing and typed replacement once per process.
 
 There is no compatibility break for legacy callbacks or their database reads.
@@ -1278,7 +1278,7 @@ built-in envelope and time formatting, `plugins.entries.openai.config.personalit
 and per-model `models[ref].agentRuntime`. This is a type-only SDK change; run
 `openclaw doctor --fix` to migrate stored configs. A stored `agents.defaults.agentRuntime`
 is a retired format that current Doctor refuses;
-[upgrade through OpenClaw 2026.9.5](/install/updating#upgrading-very-old-versions) first.
+[upgrade through FRIDAY 2026.9.5](/install/updating#upgrading-very-old-versions) first.
 
 Plugins built against stable SDK releases through 2026.9.x may still read the
 deprecated, non-enumerable runtime `agents.list` projection introduced in
@@ -1367,7 +1367,7 @@ write `agents.entries`. This compatibility window adds no runtime warnings.
     runtime-neutral middleware:
 
     ```typescript
-    // OpenClaw runtime tools and Codex runtime dynamic tools (result may be
+    // FRIDAY runtime tools and Codex runtime dynamic tools (result may be
     // transformed). Codex-native tool results are also relayed for observation,
     // but their transformed output never reaches the model: the Codex
     // PostToolUse hook contract cannot replace a native tool response.
@@ -1526,7 +1526,7 @@ write `agents.entries`. This compatibility window adds no runtime warnings.
     | `generateSecureToken`, `generateSecureUuid` | `openclaw/plugin-sdk/core` |
     | `parseFiniteNumber`, `parseStrictFiniteNumber`, `parseStrictInteger`, `parseStrictNonNegativeInteger`, `parseStrictPositiveInteger` | `openclaw/plugin-sdk/string-coerce-runtime` |
 
-    OpenClaw no longer uses `commandRequiresSecurityAuditSuppressionApproval`
+    FRIDAY no longer uses `commandRequiresSecurityAuditSuppressionApproval`
     internally: suppression reads and writes follow ordinary exec policy. The
     SDK export was removed with the compatibility barrel. Remove this call when
     adopting ordinary exec policy; there is no replacement command-text detector.

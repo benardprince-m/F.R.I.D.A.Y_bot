@@ -195,7 +195,7 @@ describe("verify-pr-hosted-gates", () => {
     };
     try {
       git(["init", "-q", "-b", "main"]);
-      git(["config", "user.name", "OpenClaw Test"]);
+      git(["config", "user.name", "FRIDAY Test"]);
       git(["config", "user.email", "test@example.invalid"]);
       git(["config", "commit.gpgSign", "false"]);
       git(["config", "core.hooksPath", "/dev/null"]);
@@ -906,7 +906,7 @@ describe("verify-pr-hosted-gates", () => {
     };
     try {
       git(["init", "-q", "-b", "main"]);
-      git(["config", "user.name", "OpenClaw Test"]);
+      git(["config", "user.name", "FRIDAY Test"]);
       git(["config", "user.email", "test@example.invalid"]);
       git(["commit", "-q", "--allow-empty", "-m", "root"]);
       git(["branch", "feature"]);

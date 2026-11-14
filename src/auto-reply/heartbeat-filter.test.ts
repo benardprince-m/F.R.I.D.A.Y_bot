@@ -134,11 +134,11 @@ describe("filterHeartbeatTranscriptArtifacts", () => {
   );
 
   it.each([
-    "[OpenClaw heartbeat poll]",
-    "[OpenClaw exec completion]",
-    "[OpenClaw exec completion]\nDisable automatic completion turns with tools.exec.notifyOnExit=false; check per-agent overrides. Background exec and process poll remain available.",
-    "[OpenClaw cron wake]",
-    "[OpenClaw session event]",
+    "[FRIDAY heartbeat poll]",
+    "[FRIDAY exec completion]",
+    "[FRIDAY exec completion]\nDisable automatic completion turns with tools.exec.notifyOnExit=false; check per-agent overrides. Background exec and process poll remain available.",
+    "[FRIDAY cron wake]",
+    "[FRIDAY session event]",
   ])("removes no-op wake pairs for %s", (marker) => {
     expectFiltered(
       [
@@ -335,7 +335,7 @@ describe("filterHeartbeatTranscriptArtifacts", () => {
       anthropicResult("tool_result", "recorded"),
       { type: "text", text: "what model are you" },
     ]);
-    const assistantMessage = assistant("I am OpenClaw.");
+    const assistantMessage = assistant("I am FRIDAY.");
     expectFiltered(
       [wake, heartbeatCall("tool_use", false), mixedUserMessage, assistantMessage],
       [mixedUserMessage, assistantMessage],

@@ -1,7 +1,7 @@
 ---
 summary: "Connect OpenAI with an API key, Codex subscription, or Sign in with ChatGPT (Beta)"
 read_when:
-  - You are connecting OpenAI to OpenClaw for the first time
+  - You are connecting OpenAI to FRIDAY for the first time
   - You want Codex subscription auth instead of API keys
   - You are recovering a broken Codex OAuth route or a long-context budget
 title: "OpenAI setup"
@@ -44,9 +44,9 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
     | Model ref        | Runtime policy or route facts                                 | Route                     | Auth                              |
     | ---------------- | ------------------------------------------------------------- | ------------------------- | --------------------------------- |
     | `openai/gpt-5.6` | unset/`auto`, exact official HTTPS native route, no request override | Codex may be selected     | Ordered API-key auth profile      |
-    | `openai/gpt-5.6` | provider/model `agentRuntime.id: "openclaw"`                  | OpenClaw embedded runtime | Selected `openai` API-key profile |
+    | `openai/gpt-5.6` | provider/model `agentRuntime.id: "openclaw"`                  | FRIDAY embedded runtime | Selected `openai` API-key profile |
     | `openai/gpt-5.5` | explicit provider/model `agentRuntime.id`                     | Selected agent runtime    | Selected OpenAI API-key profile   |
-    | `openai/*`       | authored Completions, custom, or request override | OpenClaw embedded runtime | Credential type remains unchanged |
+    | `openai/*`       | authored Completions, custom, or request override | FRIDAY embedded runtime | Credential type remains unchanged |
     | `openai/*`       | plaintext official HTTP endpoint                  | Rejected                 | Credential is not sent             |
 
     <Note>
@@ -85,11 +85,11 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
     `openai/gpt-6-astra`. The bare direct-API `openai/gpt-5.6` alias remains
     supported and resolves to Sol. Existing
     explicit primaries, including `openai/gpt-5.5`, remain unchanged. The
-    `chat-latest` alias only accepts `medium` text verbosity; OpenClaw forces
+    `chat-latest` alias only accepts `medium` text verbosity; FRIDAY forces
     any other requested verbosity to `medium` for this model.
 
     <Warning>
-    OpenClaw does **not** expose `gpt-5.3-codex-spark` on the direct OpenAI
+    FRIDAY does **not** expose `gpt-5.3-codex-spark` on the direct OpenAI
     API-key route. It is available only through Codex subscription catalog
     entries when your signed-in account exposes it.
     </Warning>
@@ -129,7 +129,7 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
 
         No runtime config is required for this exact official HTTPS native
         route. It may select the Codex app-server runtime automatically, and
-        OpenClaw installs or repairs the bundled Codex plugin when that runtime
+        FRIDAY installs or repairs the bundled Codex plugin when that runtime
         is chosen.
       </Step>
       <Step title="Verify Codex auth is available">
@@ -149,9 +149,9 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
     | `openai/gpt-6-astra`     | unset/`auto`, exact official HTTPS native route, no request override | Codex may be selected                                    | Codex sign-in, or an ordered `openai` auth profile |
     | `openai/gpt-5.6-terra`   | unset/`auto`, exact official HTTPS native route, no request override | Codex may be selected                                    | Codex sign-in when the catalog exposes Terra       |
     | `openai/gpt-5.6-luna`    | unset/`auto`, exact official HTTPS native route, no request override | Codex may be selected                                    | Codex sign-in when the catalog exposes Luna        |
-    | `openai/gpt-6-astra`     | provider/model `agentRuntime.id: "openclaw"`                  | OpenClaw embedded runtime, internal Codex-auth transport | Selected `openai` OAuth profile                    |
+    | `openai/gpt-6-astra`     | provider/model `agentRuntime.id: "openclaw"`                  | FRIDAY embedded runtime, internal Codex-auth transport | Selected `openai` OAuth profile                    |
     | `openai/gpt-5.5`         | explicit provider/model `agentRuntime.id`                     | Selected agent runtime                                   | Selected OpenAI auth profile                       |
-    | `openai/*`               | authored Completions, custom, or request override | OpenClaw embedded runtime                                | Credential requirement remains route-specific      |
+    | `openai/*`               | authored Completions, custom, or request override | FRIDAY embedded runtime                                | Credential requirement remains route-specific      |
     | `openai/*`               | plaintext official HTTP endpoint                  | Rejected                                                 | Credential is not sent                              |
     | Legacy Codex GPT-5.5 ref | repaired by doctor                                            | Rewritten to `openai/gpt-5.5`                            | Migrated OpenAI OAuth profile                      |
     | `codex-cli/gpt-5.5`      | repaired by doctor                                            | Rewritten to `openai/gpt-5.5`                            | Codex app-server auth                              |
@@ -160,7 +160,7 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
     Fresh subscription-backed setup uses exact `openai/gpt-6-astra`; the
     native Codex catalog may also expose exact Terra or Luna refs. If the
     account does not expose Astra, select an available model explicitly. Older
-    Codex GPT refs are legacy OpenClaw routes, not the native Codex runtime
+    Codex GPT refs are legacy FRIDAY routes, not the native Codex runtime
     path; run `openclaw doctor --fix` to migrate them without upgrading an
     existing explicit GPT-5.5 selection. `gpt-5.3-codex-spark` stays limited
     to accounts whose Codex subscription catalog advertises it; direct OpenAI
@@ -186,7 +186,7 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
     ```
 
     With an API-key backup, keep the selected model under `openai/*` and put
-    the auth order under `openai`. OpenClaw tries the subscription first, then
+    the auth order under `openai`. FRIDAY tries the subscription first, then
     the API key, while staying on the Codex harness:
 
     ```json5
@@ -210,7 +210,7 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
 
     <Note>
     Onboarding no longer imports OAuth material from `~/.codex`. Sign in with
-    browser OAuth (default) or the device-code flow above; OpenClaw manages the
+    browser OAuth (default) or the device-code flow above; FRIDAY manages the
     resulting credentials in its own agent auth store.
     </Note>
 
@@ -268,15 +268,15 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
 
     If legacy Codex model refs or stale OpenAI runtime pins remain in config
     or session state, `openclaw doctor --fix` rewrites them to `openai/*` with
-    the Codex runtime unless OpenClaw is explicitly configured.
+    the Codex runtime unless FRIDAY is explicitly configured.
 
     ### Context window defaults and long-context opt-in
 
-    OpenClaw treats native model capacity and the active runtime budget as
+    FRIDAY treats native model capacity and the active runtime budget as
     separate values:
 
     - `contextWindow` declares the model's native window.
-    - `contextTokens` caps how much of that window OpenClaw uses for active input.
+    - `contextTokens` caps how much of that window FRIDAY uses for active input.
 
     ChatGPT/Codex OAuth follows the live Codex account catalog. The current
     catalog commonly advertises a `272000` token active window for GPT-5.6.
@@ -298,14 +298,14 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
 
     `922000` is a derived operating budget, not a separate provider-published
     input limit. The two runtimes translate that budget differently: embedded
-    OpenClaw sends Responses compaction controls, while native Codex owns its
+    FRIDAY sends Responses compaction controls, while native Codex owns its
     catalog window and automatic compaction. See the official
     [model comparison](https://developers.openai.com/api/docs/models/compare)
     and [GPT-5.5 model page](https://developers.openai.com/api/docs/models/gpt-5.5).
 
-    #### Embedded OpenClaw translation
+    #### Embedded FRIDAY translation
 
-    This example pins the exact Sol model to the embedded OpenClaw runtime,
+    This example pins the exact Sol model to the embedded FRIDAY runtime,
     enables OpenAI API Fast mode through the shared runtime control, and asks OpenAI Responses
     to compact at `700000` active tokens:
 
@@ -346,13 +346,13 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
 
     OpenAI Responses automatic compaction emits an encrypted `compaction`
     output item. A stateless client carries the newest item into the next
-    request and may drop every earlier input item. OpenClaw persists that item
+    request and may drop every earlier input item. FRIDAY persists that item
     opaquely, fences reuse by route, session, and auth, replays it, prunes the
     replaced prefix, carries it through worker transcript commits, and removes
     it from display and diagnostics. Never print, log, or expose the encrypted
     content.
 
-    A process-owned isolated-Gateway run on OpenClaw 2026.8.1 verified this exact
+    A process-owned isolated-Gateway run on FRIDAY 2026.8.1 verified this exact
     `openai/gpt-5.6-sol` configuration. Dense turns reached `295098`, `586562`,
     and `863664` prompt tokens. Turn three emitted and persisted a first-class
     server compaction item; the next request replayed that exact opaque item,
@@ -364,7 +364,7 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
 
     #### Native Codex translation
 
-    Keep the same OpenClaw model selection, but make Codex the explicit runtime
+    Keep the same FRIDAY model selection, but make Codex the explicit runtime
     and do not add Responses compaction params to this model entry:
 
     ```json5
@@ -394,7 +394,7 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
 
     These examples are two explicit runtime choices, not one auto-selecting
     configuration. The model-scoped `agentRuntime` and runtime-owned compaction
-    settings must change together. OpenClaw can retain both choices only when
+    settings must change together. FRIDAY can retain both choices only when
     their model refs or agent configurations are distinguishable; otherwise,
     switch the model runtime and its matching config as one atomic change. Then
     restart the Gateway and native Codex app-server, run `/model default -s`,
@@ -417,9 +417,9 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
 
     ### Catalog recovery
 
-    OpenClaw uses upstream Codex catalog metadata for `gpt-5.5` when it is
+    FRIDAY uses upstream Codex catalog metadata for `gpt-5.5` when it is
     present. If live Codex discovery omits the `gpt-5.5` row while the account
-    is authenticated, OpenClaw synthesizes that OAuth model row so cron,
+    is authenticated, FRIDAY synthesizes that OAuth model row so cron,
     sub-agent, and configured default-model runs do not fail with
     `Unknown model`.
 
@@ -434,7 +434,7 @@ choose based on model access, hosted plugins, usage tracking, and permissions.
 
 Use Sign in with ChatGPT (SIWC) for app-specific authorization to spend your
 Codex allowance on eligible Responses API requests. Check shared allowance
-usage in [ChatGPT Settings → Usage](https://chatgpt.com/settings/usage). OpenClaw
+usage in [ChatGPT Settings → Usage](https://chatgpt.com/settings/usage). FRIDAY
 does not show SIWC quota or per-app usage, and does not set per-app limits;
 ChatGPT may offer app-specific controls for your account.
 
@@ -443,22 +443,22 @@ by OpenAI.
 
 SIWC does not support OpenAI-hosted plugins or connected apps yet. Those require
 a Codex credential with connector invocation scope, which device-code login does
-not grant. OpenClaw tools and locally configured plugins can still use their own
+not grant. FRIDAY tools and locally configured plugins can still use their own
 credentials. See
 [OpenAI authentication](/providers/openai/authentication) to compare the methods.
 
-Run this on the computer running OpenClaw:
+Run this on the computer running FRIDAY:
 
 ```bash
 openclaw models auth login --provider openai --method siwc
 ```
 
 Approve token sharing during sign-in to enable model calls. If you grant identity
-permissions only, OpenClaw saves the account but asks you to enable sharing or
+permissions only, FRIDAY saves the account but asks you to enable sharing or
 choose another credential before inference.
 
 The browser returns to `http://localhost:8080/auth/callback`. If your browser runs
-on another computer, forward its port 8080 to OpenClaw's IPv4 loopback before
+on another computer, forward its port 8080 to FRIDAY's IPv4 loopback before
 starting sign-in. For an SSH host, keep this command running on your browser's
 computer:
 
@@ -485,17 +485,17 @@ workspace** in the sign-in prompt.
   compatible credential for those tools. Onboarding continues with the agent's
   emoji when no image-generation provider is available; an avatar is optional.
 - Responses requests use HTTP streaming. WebSocket inference and SIWC quota
-  reporting in OpenClaw are not available.
+  reporting in FRIDAY are not available.
 - With the Codex runtime, SIWC requires a managed local process and an isolated
   agent home. Automatic context summarization is supported; manual `/compact`,
   remote execution, and supervised sessions are unavailable with this credential.
 
-OpenClaw discovers SIWC model choices from the selected account through
+FRIDAY discovers SIWC model choices from the selected account through
 `GET https://api.openai.com/v1/models`, using the same profile's access token as
 inference. Only models marked for display are offered, with their account-specific
 names and order. Switching profiles uses that profile's catalog. A successful
 empty list stays empty; a rejected credential does not fall back to static model
-access. If discovery is temporarily unavailable, OpenClaw retains static hints
+access. If discovery is temporarily unavailable, FRIDAY retains static hints
 and marks discovery unavailable. Codex app-server's bundled or cached model list
 is not proof of current SIWC account access.
 

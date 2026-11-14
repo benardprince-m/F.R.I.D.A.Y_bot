@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @MainActor
 struct BundledGatewayPreparationTests {
@@ -58,7 +58,7 @@ struct BundledGatewayPreparationTests {
             for argument in "$@"; do
               if [ "$argument" = --version ]; then
                 read -r version < "$OPENCLAW_PREPARATION_FIXTURE_ROOT/version"
-                printf 'OpenClaw %s\n' "$version"
+                printf 'FRIDAY %s\n' "$version"
                 exit 0
               fi
             done

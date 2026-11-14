@@ -1,5 +1,5 @@
 #!/bin/bash
-# Reset OpenClaw like Trimmy: kill running instances, rebuild, repackage, relaunch, verify.
+# Reset FRIDAY like Trimmy: kill running instances, rebuild, repackage, relaunch, verify.
 
 set -euo pipefail
 
@@ -7,10 +7,10 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/scripts/lib/restart-mac-gateway.sh"
 source "${ROOT_DIR}/scripts/lib/mac-app-bundle.sh"
 APP_BUNDLE="${OPENCLAW_APP_BUNDLE:-}"
-APP_EXECUTABLE_RELATIVE_PATH="Contents/MacOS/OpenClaw"
-DEBUG_PROCESS_PATTERN="${ROOT_DIR}/apps/macos/.build/debug/OpenClaw"
-LOCAL_PROCESS_PATTERN="${ROOT_DIR}/apps/macos/.build-local/debug/OpenClaw"
-RELEASE_PROCESS_PATTERN="${ROOT_DIR}/apps/macos/.build/release/OpenClaw"
+APP_EXECUTABLE_RELATIVE_PATH="Contents/MacOS/FRIDAY"
+DEBUG_PROCESS_PATTERN="${ROOT_DIR}/apps/macos/.build/debug/FRIDAY"
+LOCAL_PROCESS_PATTERN="${ROOT_DIR}/apps/macos/.build-local/debug/FRIDAY"
+RELEASE_PROCESS_PATTERN="${ROOT_DIR}/apps/macos/.build/release/FRIDAY"
 LOCK_KEY="$(printf '%s' "${ROOT_DIR}" | shasum -a 256 | cut -c1-8)"
 LOCK_DIR="${TMPDIR:-/tmp}/openclaw-restart-${LOCK_KEY}"
 LOCK_PID_FILE="${LOCK_DIR}/pid"
@@ -25,11 +25,11 @@ LAUNCHAGENT_DISABLE_MARKER="${HOME}/.openclaw/disable-launchagent"
 ATTACH_ONLY=1
 BACKGROUND_ONLY=0
 TARGET_ONLY=0
-TARGET_APP_BUNDLE="${ROOT_DIR}/dist/OpenClaw.app"
+TARGET_APP_BUNDLE="${ROOT_DIR}/dist/FRIDAY.app"
 TARGET_EXECUTABLE="${TARGET_APP_BUNDLE}/${APP_EXECUTABLE_RELATIVE_PATH}"
-INSTALLED_EXECUTABLE="/Applications/OpenClaw.app/${APP_EXECUTABLE_RELATIVE_PATH}"
+INSTALLED_EXECUTABLE="/Applications/FRIDAY.app/${APP_EXECUTABLE_RELATIVE_PATH}"
 STAGED_APP_DIR="${ROOT_DIR}/dist/.openclaw-replacement-${LOCK_KEY}-$$"
-STAGED_APP_BUNDLE="${STAGED_APP_DIR}/OpenClaw.app"
+STAGED_APP_BUNDLE="${STAGED_APP_DIR}/FRIDAY.app"
 
 log()  { printf '%s\n' "$*"; }
 fail() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
@@ -124,7 +124,7 @@ for arg in "$@"; do
       log "  --attach-only    Launch app with --attach-only (skip launchd install)"
       log "  --no-attach-only Launch app without attach-only override"
       log "  --background-only Launch app without automatic windows or prompts"
-      log "  --target-only    Restart only this checkout's dist app; fail if another OpenClaw app is active"
+      log "  --target-only    Restart only this checkout's dist app; fail if another FRIDAY app is active"
       log ""
       log "Env:"
       log "  OPENCLAW_GATEWAY_WAIT_SECONDS=0  Wait time before gateway port check (unsigned only)"
@@ -201,8 +201,8 @@ known_openclaw_executables() {
     printf '%s\n' "${APP_BUNDLE}/${APP_EXECUTABLE_RELATIVE_PATH}"
   fi
   printf '%s\n' \
-    "${ROOT_DIR}/dist/OpenClaw.app/${APP_EXECUTABLE_RELATIVE_PATH}" \
-    "/Applications/OpenClaw.app/${APP_EXECUTABLE_RELATIVE_PATH}" \
+    "${ROOT_DIR}/dist/FRIDAY.app/${APP_EXECUTABLE_RELATIVE_PATH}" \
+    "/Applications/FRIDAY.app/${APP_EXECUTABLE_RELATIVE_PATH}" \
     "${DEBUG_PROCESS_PATTERN}" \
     "${LOCAL_PROCESS_PATTERN}" \
     "${RELEASE_PROCESS_PATTERN}"
@@ -235,10 +235,10 @@ foreign_openclaw_process_pids() {
         local executable="${command_line%% *}"
         [[ "${executable}" == "${TARGET_EXECUTABLE}" ]] && continue
         [[ "${executable}" == "${INSTALLED_EXECUTABLE}" ]] && continue
-        if [[ "${executable}" == *"/OpenClaw.app/${APP_EXECUTABLE_RELATIVE_PATH}" \
-          || "${executable}" == *"/apps/macos/.build/debug/OpenClaw" \
-          || "${executable}" == *"/apps/macos/.build-local/debug/OpenClaw" \
-          || "${executable}" == *"/apps/macos/.build/release/OpenClaw" ]]; then
+        if [[ "${executable}" == *"/FRIDAY.app/${APP_EXECUTABLE_RELATIVE_PATH}" \
+          || "${executable}" == *"/apps/macos/.build/debug/FRIDAY" \
+          || "${executable}" == *"/apps/macos/.build-local/debug/FRIDAY" \
+          || "${executable}" == *"/apps/macos/.build/release/FRIDAY" ]]; then
           printf '%s\n' "${pid}"
         fi
       done
@@ -365,14 +365,14 @@ if [[ "$TARGET_ONLY" -eq 1 ]]; then
     fail "Unable to inspect loaded launchd jobs before target-only restart"
   fi
   if [[ -n "${managed_supervisors}" ]]; then
-    fail "Managed OpenClaw app is supervised by launchd job(s): ${managed_supervisors}; stop those jobs before a target-only restart"
+    fail "Managed FRIDAY app is supervised by launchd job(s): ${managed_supervisors}; stop those jobs before a target-only restart"
   fi
   if [[ -n "$(foreign_openclaw_process_pids)" ]]; then
-    fail "Another OpenClaw app or test process is active; target-only restart deferred"
+    fail "Another FRIDAY app or test process is active; target-only restart deferred"
   fi
-  log "==> Keeping managed OpenClaw running while the replacement builds"
+  log "==> Keeping managed FRIDAY running while the replacement builds"
 else
-  log "==> Keeping existing OpenClaw instances running while the replacement builds"
+  log "==> Keeping existing FRIDAY instances running while the replacement builds"
 fi
 
 # Bundle Gateway-hosted plugin assets.
@@ -413,20 +413,20 @@ choose_app_bundle() {
     return 0
   fi
 
-  if [[ -d "${ROOT_DIR}/dist/OpenClaw.app" ]]; then
-    APP_BUNDLE="$(cd "${ROOT_DIR}/dist/OpenClaw.app" && pwd -P)"
+  if [[ -d "${ROOT_DIR}/dist/FRIDAY.app" ]]; then
+    APP_BUNDLE="$(cd "${ROOT_DIR}/dist/FRIDAY.app" && pwd -P)"
     if [[ ! -d "${APP_BUNDLE}/Contents/Frameworks/Sparkle.framework" ]]; then
-      fail "dist/OpenClaw.app missing Sparkle after packaging"
+      fail "dist/FRIDAY.app missing Sparkle after packaging"
     fi
     return 0
   fi
 
-  if [[ -d "/Applications/OpenClaw.app" ]]; then
-    APP_BUNDLE="$(cd "/Applications/OpenClaw.app" && pwd -P)"
+  if [[ -d "/Applications/FRIDAY.app" ]]; then
+    APP_BUNDLE="$(cd "/Applications/FRIDAY.app" && pwd -P)"
     return 0
   fi
 
-  fail "App bundle not found. Set OPENCLAW_APP_BUNDLE to your installed OpenClaw.app"
+  fail "App bundle not found. Set OPENCLAW_APP_BUNDLE to your installed FRIDAY.app"
 }
 
 # When signed, clear any previous launchagent override marker.
@@ -469,17 +469,17 @@ fi
 
 if [[ "$TARGET_ONLY" -eq 1 ]]; then
   if [[ -n "$(foreign_openclaw_process_pids)" ]]; then
-    fail "Another OpenClaw app or test process appeared during build; target-only restart deferred"
+    fail "Another FRIDAY app or test process appeared during build; target-only restart deferred"
   fi
-  log "==> Switching managed installed and exact target OpenClaw instances"
+  log "==> Switching managed installed and exact target FRIDAY instances"
   if ! kill_managed_openclaw; then
-    fail "Managed OpenClaw instances did not exit after cleanup attempts"
+    fail "Managed FRIDAY instances did not exit after cleanup attempts"
   fi
 else
   stop_launch_agent
-  log "==> Killing existing OpenClaw instances"
+  log "==> Killing existing FRIDAY instances"
   if ! kill_all_openclaw; then
-    fail "OpenClaw instances did not exit after cleanup attempts"
+    fail "FRIDAY instances did not exit after cleanup attempts"
   fi
 fi
 
@@ -506,7 +506,7 @@ run_step "launch app" env -i "${LAUNCH_ENV[@]}" /usr/bin/open "${OPEN_ARGS[@]}"
 # 5) Verify the app is alive.
 sleep 1.5
 if [[ -n "$(process_pids_matching "${APP_BUNDLE}/${APP_EXECUTABLE_RELATIVE_PATH}")" ]]; then
-  log "OK: OpenClaw is running."
+  log "OK: FRIDAY is running."
 else
   fail "App exited immediately. Check ${LOG_PATH} or Console.app (User Reports)."
 fi

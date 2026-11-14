@@ -33,6 +33,6 @@ it.each(["dependency-inputs", "runtime"])(
         env: { HOME: root, CFFIXED_USER_HOME: root, TMPDIR: root },
       },
     );
-    expect(stdout.trim()).toBe("OpenClaw 2026.10.3");
+    expect(stdout.trim()).toBe("FRIDAY 2026.10.3");
   },
 );

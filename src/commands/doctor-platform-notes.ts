@@ -77,7 +77,7 @@ async function collectMacStaleOpenClawUpdateLaunchdJobsWarning(): Promise<string
   }
 
   return [
-    "- Stale OpenClaw updater launchd job(s) detected.",
+    "- Stale FRIDAY updater launchd job(s) detected.",
     ...jobs.map((job) => {
       const exitStatus =
         job.lastExitStatus !== undefined ? `, last exit ${job.lastExitStatus}` : "";

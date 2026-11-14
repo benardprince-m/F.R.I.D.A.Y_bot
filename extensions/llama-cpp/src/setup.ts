@@ -362,7 +362,7 @@ async function resolveSetupPlan(
       !embeddingModelIsDefault
         ? "This estimate includes the default embedding model; your configured embedding model may need more memory and disk space."
         : undefined,
-      "OpenClaw will check a real tool call before making this your default model.",
+      "FRIDAY will check a real tool call before making this your default model.",
     ]
       .filter(Boolean)
       .join("\n");

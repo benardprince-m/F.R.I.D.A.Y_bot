@@ -168,7 +168,7 @@ export function exchangeDatabaseAdmissions(
     if (outcome === SQLITE_COLD_ADMISSION_PENDING && location && create === true) {
       throw new StateDatabaseAdmissionPendingError(
         location,
-        `OpenClaw state at ${location} is undergoing schema admission; retry when it finishes.`,
+        `FRIDAY state at ${location} is undergoing schema admission; retry when it finishes.`,
       );
     }
     if (outcome !== GRANTED) {

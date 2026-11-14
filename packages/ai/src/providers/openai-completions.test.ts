@@ -590,7 +590,7 @@ describe("OpenAI-compatible completions params", () => {
           { role: "user", content: "stable question", timestamp: 1 },
           {
             role: "user",
-            content: "OpenClaw runtime context:\nvolatile current-turn metadata",
+            content: "FRIDAY runtime context:\nvolatile current-turn metadata",
             timestamp: 2,
             runtimeContext: {},
           },

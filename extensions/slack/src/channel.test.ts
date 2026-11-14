@@ -379,14 +379,14 @@ describe("slackPlugin status", () => {
         ok: true,
         warning: "Slack bot token is a user token",
         bot: { id: "UUSER", name: "human-installer" },
-        team: { id: "T1", name: "OpenClaw" },
+        team: { id: "T1", name: "FRIDAY" },
       },
     });
 
     expect(lines).toStrictEqual([
       { text: "Warning: Slack bot token is a user token", tone: "warn" },
       { text: "Bot: @human-installer" },
-      { text: "Team: OpenClaw (T1)" },
+      { text: "Team: FRIDAY (T1)" },
     ]);
   });
 

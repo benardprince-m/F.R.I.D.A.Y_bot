@@ -116,11 +116,11 @@ it.each([null, "priority"])(
       approvalPolicy: "never",
       approvalsReviewer: "user",
       sandbox: "workspace-write",
-      serviceName: "OpenClaw",
+      serviceName: "FRIDAY",
       experimentalRawEvents: true,
     });
     expect(startPayload?.modelProvider).toBeUndefined();
-    expect(startPayload?.developerInstructions).toEqual(expect.stringContaining("OpenClaw"));
+    expect(startPayload?.developerInstructions).toEqual(expect.stringContaining("FRIDAY"));
   },
 );
 

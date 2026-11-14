@@ -136,7 +136,7 @@ type SystemAgentReply = {
   question?: SystemAgentChatQuestion;
 };
 
-/** Minimal hosted OpenClaw contract retained by the gateway request router. */
+/** Minimal hosted FRIDAY contract retained by the gateway request router. */
 export type GatewaySystemAgentSession = {
   engine: {
     handle: (

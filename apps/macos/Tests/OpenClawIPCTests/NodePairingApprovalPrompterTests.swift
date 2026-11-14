@@ -1,6 +1,6 @@
 import AppKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @Suite(.serialized)
 @MainActor
@@ -212,12 +212,12 @@ struct PairingCardPresentationTests {
         ])
         #expect(PairingCardPresentation.accessRows(for: card).map(\.text) == [
             "Admin access",
-            "Read OpenClaw data",
+            "Read FRIDAY data",
             "Send messages and make changes",
             "Manage approvals",
             "Pair and repair devices",
         ])
-        #expect(PairingCardPresentation.title(for: card) == "OpenClaw Mac app")
+        #expect(PairingCardPresentation.title(for: card) == "FRIDAY Mac app")
         #expect(PairingCardPresentation.subtitle(for: card) == "Mac (Intel) · Operator · 192.0.2.10")
     }
 

@@ -35,7 +35,7 @@ describe("project protocol schemas", () => {
     expect(validateProjectsListParams({ includeObserved: false })).toBe(true);
     expect(validateProjectsListParams({ includeObserved: "yes" })).toBe(false);
     expect(validateProjectsListParams({ extra: true })).toBe(false);
-    expect(validateProjectsRegisterParams({ path: "/repo", name: "OpenClaw" })).toBe(true);
+    expect(validateProjectsRegisterParams({ path: "/repo", name: "FRIDAY" })).toBe(true);
     expect(validateProjectsRegisterParams({ path: "" })).toBe(false);
     expect(validateProjectsAddParams({ gitUrl: "https://github.com/openclaw/openclaw.git" })).toBe(
       true,
@@ -50,7 +50,7 @@ describe("project protocol schemas", () => {
   it("accepts bounded remote search and clone results", () => {
     const project = {
       id: "openclaw",
-      displayName: "OpenClaw",
+      displayName: "FRIDAY",
       repoRoot: "/state/projects/fingerprint/openclaw",
       originUrl: "https://github.com/openclaw/openclaw.git",
       source: "cloned",
@@ -88,7 +88,7 @@ describe("project protocol schemas", () => {
         projects: [
           {
             id: "openclaw",
-            displayName: "OpenClaw",
+            displayName: "FRIDAY",
             repoRoot: "/repo/openclaw",
             originUrl: "https://github.com/openclaw/openclaw.git",
             source: "registered",
@@ -101,7 +101,7 @@ describe("project protocol schemas", () => {
           profileId: "example-azure",
         },
         recents: [
-          { kind: "project", projectId: "openclaw", displayName: "OpenClaw" },
+          { kind: "project", projectId: "openclaw", displayName: "FRIDAY" },
           { kind: "folder", folder: "/repo/scratch", displayName: "scratch" },
         ],
         observedProjects: [],

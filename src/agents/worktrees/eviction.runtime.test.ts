@@ -23,7 +23,7 @@ async function createEvictionCheckouts(root: string, count: number) {
   await requireGit(root, ["init", "--template=", "-b", "main", repoRoot]);
   await requireGit(repoRoot, [
     "-c",
-    "user.name=OpenClaw Test",
+    "user.name=FRIDAY Test",
     "-c",
     "user.email=openclaw-test@example.invalid",
     "-c",
@@ -150,7 +150,7 @@ it("recognizes a multi-commit squash, invalidates changed heads, and purges only
   const root = tempDirs.make("openclaw-eviction-");
   const repoRoot = path.join(root, "repo");
   await requireGit(root, ["init", "--template=", "-b", "main", repoRoot]);
-  await requireGit(repoRoot, ["config", "user.name", "OpenClaw Test"]);
+  await requireGit(repoRoot, ["config", "user.name", "FRIDAY Test"]);
   await requireGit(repoRoot, ["config", "user.email", "openclaw-test@example.invalid"]);
   await requireGit(repoRoot, ["config", "commit.gpgSign", "false"]);
   await fs.writeFile(path.join(repoRoot, "base"), "base\n");
@@ -250,7 +250,7 @@ it.each([
     await requireGit(root, ["init", "--template=", "-b", "main", repository]);
     await requireGit(repository, [
       "-c",
-      "user.name=OpenClaw Test",
+      "user.name=FRIDAY Test",
       "-c",
       "user.email=openclaw-test@example.invalid",
       "-c",
@@ -346,7 +346,7 @@ it.each(["available", "renamed", "replaced"] as const)(
     await requireGit(root, ["init", "--template=", "-b", "main", repoRoot]);
     await requireGit(repoRoot, [
       "-c",
-      "user.name=OpenClaw Test",
+      "user.name=FRIDAY Test",
       "-c",
       "user.email=openclaw-test@example.invalid",
       "-c",
@@ -372,7 +372,7 @@ it.each(["available", "renamed", "replaced"] as const)(
       await requireGit(root, ["init", "--template=", "-b", "main", repoRoot]);
       await requireGit(repoRoot, [
         "-c",
-        "user.name=OpenClaw Test",
+        "user.name=FRIDAY Test",
         "-c",
         "user.email=openclaw-test@example.invalid",
         "-c",
@@ -412,7 +412,7 @@ it.each(["recorded source", "linked checkout source"] as const)(
     await requireGit(donor, ["add", filename]);
     await requireGit(donor, [
       "-c",
-      "user.name=OpenClaw Test",
+      "user.name=FRIDAY Test",
       "-c",
       "user.email=openclaw-test@example.invalid",
       "-c",
@@ -490,7 +490,7 @@ it.each([true, false])(
     await requireGit(source, ["add", "source-owned.txt"]);
     await requireGit(source, [
       "-c",
-      "user.name=OpenClaw Test",
+      "user.name=FRIDAY Test",
       "-c",
       "user.email=openclaw-test@example.invalid",
       "-c",

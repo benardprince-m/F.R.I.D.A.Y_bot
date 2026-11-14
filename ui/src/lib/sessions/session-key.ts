@@ -390,7 +390,7 @@ export function canDeleteSessionRows(
   );
 }
 
-/** Native catalog adoptions retain their provider transcript outside OpenClaw's delete lifecycle. */
+/** Native catalog adoptions retain their provider transcript outside FRIDAY's delete lifecycle. */
 export function isNativeCatalogAdoptionSessionKey(key: string): boolean {
   const rest = parseAgentSessionKey(key)?.rest ?? key;
   return (

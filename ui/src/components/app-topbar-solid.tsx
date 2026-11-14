@@ -41,7 +41,7 @@ defineSolidBridge<Props>(
             </button>
           </openclaw-tooltip>
           <div class="topnav-shell__content" onMouseDown={beginNativeWindowDrag}>
-            <div class="topbar-brand" aria-label="OpenClaw">
+            <div class="topbar-brand" aria-label="FRIDAY">
               <img
                 class="topbar-brand__logo"
                 src={controlUiPublicAssetPath("apple-touch-icon.png", props.resourceBasePath)}
@@ -49,7 +49,7 @@ defineSolidBridge<Props>(
                 alt=""
                 aria-hidden="true"
               />
-              <span class="topbar-brand__title">OpenClaw</span>
+              <span class="topbar-brand__title">FRIDAY</span>
               <Show when={props.environment}>
                 {(environment) => (
                   <span class="control-ui-environment-pill">{environment().label}</span>

@@ -72,7 +72,7 @@ export function publishNodePermissionMissing(params: {
       `PERMISSION_MISSING: ${names} required on node ${node} (${details.state}).`,
       shownCard
         ? "The user has been shown a Grant card in the chat."
-        : "Grant access in the OpenClaw Mac app: Settings → This Mac → Permissions.",
+        : "Grant access in the FRIDAY Mac app: Settings → This Mac → Permissions.",
       "Do not retry until the user confirms that access has been granted.",
     ].join(" "),
   };

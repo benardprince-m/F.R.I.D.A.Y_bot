@@ -30,5 +30,5 @@ internal fun buildAndroidAppSessionLabel(
 ): String {
   val deviceSuffix = deviceId.take(12)
   val displaySuffix = displayName?.trim()?.takeUtf16Safe(96)?.takeIf { it.isNotEmpty() }
-  return listOfNotNull("OpenClaw App", displaySuffix, deviceSuffix).joinToString(" · ")
+  return listOfNotNull("FRIDAY App", displaySuffix, deviceSuffix).joinToString(" · ")
 }

@@ -156,7 +156,7 @@ function sourceWithoutPluginOwnedImports(filePath: string, source: string): stri
     ) {
       continue;
     }
-    // These plugins own their dependency; path admission still uses OpenClaw policy.
+    // These plugins own their dependency; path admission still uses FRIDAY policy.
     const specifier = statement.moduleSpecifier;
     checkedSource =
       checkedSource.slice(0, specifier.getStart(parsed)) + checkedSource.slice(specifier.end);

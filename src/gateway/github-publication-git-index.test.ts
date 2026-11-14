@@ -74,7 +74,7 @@ async function createFixture() {
   const run = (...args: string[]) => git(cwd, args);
   const write = (name: string, value: string) => fs.writeFile(path.join(cwd, name), value);
   await git(cwd, ["init", "--initial-branch=main"]);
-  await git(cwd, ["config", "user.name", "OpenClaw Test"]);
+  await git(cwd, ["config", "user.name", "FRIDAY Test"]);
   await git(cwd, ["config", "user.email", "openclaw@example.test"]);
   await write("artifact.txt", "base\n");
   await run("add", "artifact.txt");

@@ -212,7 +212,7 @@ internal class LocalWearTransport(
         val headers =
           buildString {
             append("$method $endpoint HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\nContent-Length: ${body.size}\r\n")
-            if (path != null) append("X-OpenClaw-Source: $nodeId\r\nX-OpenClaw-Path: $path\r\n")
+            if (path != null) append("X-FRIDAY-Source: $nodeId\r\nX-FRIDAY-Path: $path\r\n")
             append("\r\n")
           }
         socket.outputStream.write(headers.toByteArray(Charsets.US_ASCII))

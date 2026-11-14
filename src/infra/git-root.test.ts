@@ -62,7 +62,7 @@ async function git(cwd: string, ...args: string[]): Promise<string> {
 }
 
 async function initialCommit(repo: string, email: string) {
-  const config = { "user.name": "OpenClaw Test", "user.email": email, "commit.gpgSign": "false" };
+  const config = { "user.name": "FRIDAY Test", "user.email": email, "commit.gpgSign": "false" };
   const overrides = Object.entries(config).flatMap(([key, value]) => ["-c", `${key}=${value}`]);
   await git(repo, ...overrides, "commit", "--allow-empty", "-m", "source");
 }

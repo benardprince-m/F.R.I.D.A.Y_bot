@@ -767,7 +767,7 @@ describe("Discord model picker interactions", () => {
     expect(selectInteraction.editReply).toHaveBeenCalledTimes(1);
     expect(
       JSON.stringify(serializePayload(selectInteraction.editReply.mock.calls[0]![0]!)),
-    ).toContain("Selected: openai/gpt-4o · OpenClaw Default (press Submit)");
+    ).toContain("Selected: openai/gpt-4o · FRIDAY Default (press Submit)");
     expect(dispatchSpy).not.toHaveBeenCalled();
     expect(hostSdk.recordDeliveredCommandExchange).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -812,7 +812,7 @@ describe("Discord model picker interactions", () => {
             "openai",
             [
               { id: "codex", label: "Codex", description: "Use Codex." },
-              { id: "openclaw", label: "OpenClaw Default", description: "Use OpenClaw." },
+              { id: "openclaw", label: "FRIDAY Default", description: "Use FRIDAY." },
             ],
           ],
         ]),
@@ -1131,7 +1131,7 @@ describe("Discord model picker interactions", () => {
     expect(payload).toContain(";pb=");
   });
   describe("model-specific runtime selection", () => {
-    const builtin = { id: "openclaw", label: "OpenClaw", description: "Built-in runtime" };
+    const builtin = { id: "openclaw", label: "FRIDAY", description: "Built-in runtime" };
     const native = { id: "codex", label: "Codex", description: "Native runtime" };
     function runtimeData(choices: ModelsRuntimeChoice[] | undefined, isCurrent = () => true) {
       const byModel = new Map<string, ModelsRuntimeChoice[]>([["openai/gpt-4.1", [native]]]);

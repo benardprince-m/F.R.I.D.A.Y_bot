@@ -21,7 +21,7 @@ function providerMessage(messageId: number, overrides: Partial<RecordParams["mes
   return {
     chat: { id: -1001, type: "supergroup", title: "QA" },
     date: 1_736_380_700,
-    from: { id: 999, is_bot: true, first_name: "OpenClaw" },
+    from: { id: 999, is_bot: true, first_name: "FRIDAY" },
     message_id: messageId,
     text: "Bot just replied",
     ...overrides,
@@ -138,7 +138,7 @@ describe("recordOutboundMessageForPromptContext", () => {
           title: "Channel replies",
         },
         date: 1_736_380_704,
-        from: { id: 999, is_bot: true, first_name: "OpenClaw" },
+        from: { id: 999, is_bot: true, first_name: "FRIDAY" },
         message_id: 704,
         message_thread_id: 999,
         direct_messages_topic: { topic_id: 77 },
@@ -299,7 +299,7 @@ describe("recordOutboundMessageForPromptContext", () => {
       messageId: 1498,
       text: "Channel announcement",
     });
-    expect(initial).toMatchObject({ sender: "OpenClaw (you)", senderId: "0" });
+    expect(initial).toMatchObject({ sender: "FRIDAY (you)", senderId: "0" });
 
     const cache = createPromptContextCache();
     await cache.record({
@@ -315,10 +315,10 @@ describe("recordOutboundMessageForPromptContext", () => {
 
     const merged = await cache.get({ accountId: "default", chatId: -1001, messageId: "1498" });
     expect(merged).toMatchObject({
-      sender: "OpenClaw (you)",
+      sender: "FRIDAY (you)",
       senderId: "0",
       sourceMessage: {
-        from: { id: 0, is_bot: true, first_name: "OpenClaw (you)" },
+        from: { id: 0, is_bot: true, first_name: "FRIDAY (you)" },
         sender_chat: { id: -1001, type: "channel", title: "Announcements" },
       },
     });

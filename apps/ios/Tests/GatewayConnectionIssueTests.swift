@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @Suite(.serialized) struct GatewayConnectionIssueTests {
     @Test func `detects token missing`() {

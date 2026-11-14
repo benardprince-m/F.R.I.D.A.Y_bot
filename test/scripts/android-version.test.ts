@@ -176,7 +176,7 @@ describe("renderAndroidReleaseNotes", () => {
     expect(() =>
       renderAndroidReleaseNotes(
         { canonicalVersion: "2026.6.2" },
-        "# OpenClaw Android Changelog\n\n## 2026.6.1\n\nOld notes.\n",
+        "# FRIDAY Android Changelog\n\n## 2026.6.1\n\nOld notes.\n",
       ),
     ).toThrow("Unable to find Android changelog notes for 2026.6.2");
   });

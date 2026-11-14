@@ -130,7 +130,7 @@ export class OpenClawChannelBridge {
       preauthHandshakeTimeoutMs: bootstrap.preauthHandshakeTimeoutMs,
       tlsFingerprint: bootstrap.tlsFingerprint,
       clientName: GATEWAY_CLIENT_NAMES.CLI,
-      clientDisplayName: "OpenClaw MCP",
+      clientDisplayName: "FRIDAY MCP",
       clientVersion: VERSION,
       mode: GATEWAY_CLIENT_MODES.CLI,
       caps: [GATEWAY_CLIENT_CAPS.APPROVALS],

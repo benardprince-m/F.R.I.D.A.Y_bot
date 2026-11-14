@@ -6,7 +6,7 @@ import { createAcpxAgentRegistry } from "./native-agents.js";
 import type { CompleteAcpRuntime } from "./runtime-proxy.js";
 
 const LOCAL_TOOL_REQUIREMENTS = ["ls", "read", "write", "edit", "exec"] as const;
-// Native settings can enable these tools outside OpenClaw's control. Admission
+// Native settings can enable these tools outside FRIDAY's control. Admission
 // must cover the reachable tool set, including provider-conditional tools.
 const NATIVE_TOOL_REQUIREMENTS = {
   opencode: [
@@ -124,7 +124,7 @@ export function createAcpAgentHarness(params: {
         return { supported: false, reason: `Choose ${params.label} explicitly` };
       }
       if (modelProvider?.endpointOverrides === undefined) {
-        return { supported: false, reason: "Update OpenClaw to use this native runtime." };
+        return { supported: false, reason: "Update FRIDAY to use this native runtime." };
       }
       if (
         modelProvider?.requestTransportOverrides === "present" ||
@@ -135,7 +135,7 @@ export function createAcpAgentHarness(params: {
       ) {
         return {
           supported: false,
-          reason: `${params.label} owns its login and cannot use an OpenClaw credential or custom provider transport`,
+          reason: `${params.label} owns its login and cannot use an FRIDAY credential or custom provider transport`,
         };
       }
       return { supported: true, priority: 100 };

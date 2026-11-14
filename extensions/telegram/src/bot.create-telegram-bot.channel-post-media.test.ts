@@ -466,7 +466,7 @@ describe("createTelegramBot channel_post media", () => {
           date: 1736380799,
           chat: groupChat,
           text: "previous bot reply",
-          from: { id: 999, is_bot: true, first_name: "OpenClaw" },
+          from: { id: 999, is_bot: true, first_name: "FRIDAY" },
         },
       },
     },

@@ -2,7 +2,7 @@ import Foundation
 import OpenClawProtocol
 import os
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawKit
 
 @Suite(.serialized, .testWaitLimit)
@@ -751,7 +751,7 @@ struct GatewayChannelConnectTests {
                     permissions: [:],
                     clientId: "openclaw-macos",
                     clientMode: "ui",
-                    clientDisplayName: "OpenClaw macOS Debug CLI"))
+                    clientDisplayName: "FRIDAY macOS Debug CLI"))
 
             try await self.withChannel(channel) { channel in
                 try await channel.connect()

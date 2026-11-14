@@ -115,8 +115,8 @@ export function buildMemorySearchUnavailableResult(
           ]
         : isMissingNodeSqlite
           ? [
-              "Memory search is unavailable because this OpenClaw Node runtime does not provide SQLite support.",
-              "Run OpenClaw with a Node runtime that includes node:sqlite, then retry memory_search.",
+              "Memory search is unavailable because this FRIDAY Node runtime does not provide SQLite support.",
+              "Run FRIDAY with a Node runtime that includes node:sqlite, then retry memory_search.",
             ]
           : isSearchDeadline
             ? ["Memory search did not finish within its time limit.", deadlineAction]

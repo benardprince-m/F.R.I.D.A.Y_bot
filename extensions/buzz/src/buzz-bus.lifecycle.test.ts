@@ -248,7 +248,7 @@ describe("Buzz bus lifecycle", () => {
           replyToMode,
           groups: { [CHANNEL_ID]: { requireMention: false } },
         },
-        "OpenClaw",
+        "FRIDAY",
       );
       const handled = new Map<string, ReturnType<typeof createDeferred<void>>>();
       const failPending = (error: unknown) => {

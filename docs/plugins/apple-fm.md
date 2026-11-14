@@ -1,7 +1,7 @@
 ---
-summary: "Use on-device Apple Foundation Models for lightweight OpenClaw setup on a Mac"
+summary: "Use on-device Apple Foundation Models for lightweight FRIDAY setup on a Mac"
 read_when:
-  - You want to set up OpenClaw on a Mac without an API key
+  - You want to set up FRIDAY on a Mac without an API key
   - You want to use Apple Intelligence for short local tasks
 title: "Apple Foundation Models"
 ---
@@ -9,7 +9,7 @@ title: "Apple Foundation Models"
 The bundled Apple Foundation Models plugin runs Apple's on-device model through
 the native Foundation Models framework. It is a free local **setup and utility**
 model. Setup saves it in `utilityModel` and preserves your regular agent model.
-When no primary model is configured, it can power the OpenClaw setup assistant.
+When no primary model is configured, it can power the FRIDAY setup assistant.
 Choose a separate primary model before starting regular agent chat.
 
 ## Requirements
@@ -40,7 +40,7 @@ Setup offers this option only after a background check confirms that the model i
 available and has at least 8,192 context tokens. It stays hidden while eligibility
 is unknown, when prerequisites are missing, or when the model has a smaller window.
 
-On first discovery, OpenClaw compiles the bundled Swift helper in a temporary
+On first discovery, FRIDAY compiles the bundled Swift helper in a temporary
 directory with your installed Apple tools, reads the native model's availability
 and context size, and removes the temporary helper. Compilation and checking run
 in child processes so they do not block the Gateway's event loop. Discovery does
@@ -48,17 +48,17 @@ not install an inference helper or change your configuration. It is bounded and
 cancellable; a failed or timed-out check does not offer the model.
 
 Selecting the detected model builds its persistent helper and rechecks eligibility
-before activation. OpenClaw does not install developer tools, download a
+before activation. FRIDAY does not install developer tools, download a
 third-party executable, or accept license terms for you. If the tools are missing,
 install Xcode or the appropriate Apple Command Line Tools and retry. The tools
 must include a macOS 27 SDK.
 
-OpenClaw tests the selected utility route before saving it. The model reference
+FRIDAY tests the selected utility route before saving it. The model reference
 is `apple-fm/system`; setup records the detected model name and context limit.
 No API key or provider auth profile is created. The native route uses the
-OpenClaw runtime even if your primary model uses a different agent runtime.
+FRIDAY runtime even if your primary model uses a different agent runtime.
 
-On a fresh installation, onboarding opens the OpenClaw setup assistant. It can
+On a fresh installation, onboarding opens the FRIDAY setup assistant. It can
 inspect configuration and help with channels and other setup. The interface keeps
 regular agent setup incomplete until you choose and verify a primary model in
 **Model Setup** or by rerunning `openclaw onboard`. Afterward, Apple remains the
@@ -83,12 +83,12 @@ openclaw onboard --non-interactive --auth-choice apple-fm --accept-risk
 ## Runtime behavior
 
 Model inference runs on the Gateway's Mac; proposed tool calls go through
-OpenClaw's normal execution and approval flow. The helper is started for model
+FRIDAY's normal execution and approval flow. The helper is started for model
 requests; no HTTP server, launch agent, or separate model daemon is installed.
-OpenClaw retains ownership of tool execution and its normal approval checks.
+FRIDAY retains ownership of tool execution and its normal approval checks.
 
 Utility calls power short internal tasks such as session titles and progress
-narration through OpenClaw's existing utility-model routing. Apple is not selected
+narration through FRIDAY's existing utility-model routing. Apple is not selected
 as the ordinary agent's primary model by onboarding.
 
 The model shares its context window across instructions, tool definitions,
@@ -100,7 +100,7 @@ model on complex requests.
 
 Native generation supports closed objects, arrays, primitive types, enums,
 nullable values, and supported schema unions. String length and regex constraints
-remain enforced by OpenClaw after generation because Apple does not provide usable
+remain enforced by FRIDAY after generation because Apple does not provide usable
 native guides for them. Structured responses are checked against the caller's
 original schema before publication. Unsupported structural schemas fail explicitly.
 
@@ -110,7 +110,7 @@ If Apple Intelligence is unavailable, enable it in System Settings and wait for
 the model download to finish. Retry setup after changing its availability.
 
 If the reported context window is below 8,192 tokens, choose another local or
-cloud model. OpenClaw does not inflate the model's advertised limit.
+cloud model. FRIDAY does not inflate the model's advertised limit.
 
 If the native helper is missing after an update, use **Recheck & repair** on the
 configured utility card in Model Setup, or rerun onboarding and select the

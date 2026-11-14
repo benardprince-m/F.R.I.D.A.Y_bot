@@ -433,7 +433,7 @@ export async function loadModelsProviderData(
           label,
           description:
             id === "openclaw"
-              ? "Use OpenClaw's built-in agent and tools."
+              ? "Use FRIDAY's built-in agent and tools."
               : `Use ${label} to run this model.`,
         };
       });

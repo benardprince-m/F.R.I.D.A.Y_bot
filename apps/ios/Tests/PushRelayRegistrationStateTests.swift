@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct PushRelayRegistrationStateTests {
     @Test func `July relay registration preserves its push scope`() throws {

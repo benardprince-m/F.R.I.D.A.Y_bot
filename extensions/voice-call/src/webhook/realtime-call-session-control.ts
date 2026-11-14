@@ -40,7 +40,7 @@ export function speakOnRealtimeBridge(
 
 export function buildForcedConsultSpeechPrompt(result: string): string {
   return [
-    "Internal OpenClaw consult result is ready.",
+    "Internal FRIDAY consult result is ready.",
     "Do not call tools for this internal result.",
     "Speak the following answer to the caller now, briefly and naturally:",
     result,

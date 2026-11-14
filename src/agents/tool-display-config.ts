@@ -197,7 +197,7 @@ export const TOOL_DISPLAY_CONFIG: ToolDisplayConfig = {
     suggest_task: displayTool("spark", "Suggest Task", ["title", "tldr", "cwd"]),
     dismiss_task: displayTool("trash", "Dismiss Task", ["task_id", "reason"]),
     skill_workshop: displayTool("wrench", "Skill Workshop", ["action", "name", "proposal_id"]),
-    openclaw: displayTool("claw", "OpenClaw", ["action", "path", "model"]),
+    openclaw: displayTool("claw", "FRIDAY", ["action", "path", "model"]),
     gateway: displayTool("plug", "Gateway", ["action", "path"]),
     plugins: displayTool("puzzle", "Plugins", ["action", "pluginId", "packageName", "query"]),
     exec: displayTool("squareTerminal", "Exec", ["command"]),

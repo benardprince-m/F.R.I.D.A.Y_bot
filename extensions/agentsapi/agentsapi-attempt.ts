@@ -238,7 +238,7 @@ export async function runAgentsApiAttempt(
         (environment.type === "self_hosted" ? pluginConfig.executorController : undefined)
     ) {
       throw new Error(
-        "Agents API executor controller changed; reset the OpenClaw session before continuing",
+        "Agents API executor controller changed; reset the FRIDAY session before continuing",
       );
     }
     const controllerPluginId = pluginConfig.executorController;

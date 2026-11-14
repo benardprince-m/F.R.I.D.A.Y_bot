@@ -1,8 +1,8 @@
-# OpenClaw Parallel Plugin
+# FRIDAY Parallel Plugin
 
-Official OpenClaw plugin for Parallel.
+Official FRIDAY plugin for Parallel.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/parallel-plugin

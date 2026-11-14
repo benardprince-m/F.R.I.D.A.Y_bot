@@ -26,7 +26,7 @@ function createMembershipContext(params?: { newStatus?: "left" | "member" }) {
   const member = {
     id: telegramBotInfoForTest.id,
     is_bot: true,
-    first_name: "OpenClaw",
+    first_name: "FRIDAY",
   };
   const membership = {
     chat: {

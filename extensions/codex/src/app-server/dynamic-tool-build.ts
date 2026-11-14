@@ -68,7 +68,7 @@ type OpenClawCodingToolsOptions = NonNullable<
   >[0]
 >;
 
-/** Factory seam for constructing OpenClaw runtime tools without eagerly loading agent-harness. */
+/** Factory seam for constructing FRIDAY runtime tools without eagerly loading agent-harness. */
 type OpenClawCodingToolsFactory =
   (typeof import("openclaw/plugin-sdk/agent-harness"))["createOpenClawCodingToolsAsync"];
 type OpenClawDynamicTool = Awaited<ReturnType<OpenClawCodingToolsFactory>>[number];
@@ -525,7 +525,7 @@ export function shouldEnableCodexAppServerNativeToolSurface(
   }
   const toolsAllow = params.toolsAllow;
   // Codex native code mode exposes its shell/file surface as one app-server
-  // capability, so narrow OpenClaw allowlists must fail closed rather than
+  // capability, so narrow FRIDAY allowlists must fail closed rather than
   // widening `message` or `web_search` into shell access.
   return (
     (toolsAllow === undefined ||
@@ -542,7 +542,7 @@ function canCodexAppServerNativeToolSurfaceHonorSandbox(
   }
   // Codex app-server native shell, filesystem, and user MCP execution are owned
   // by the app-server process. Without the explicit exec-server integration,
-  // active OpenClaw sandboxing must disable the native surface and route shell
+  // active FRIDAY sandboxing must disable the native surface and route shell
   // access through sandbox-backed dynamic tools instead.
   return (
     options.sandboxExecServerEnabled === true &&
@@ -555,7 +555,7 @@ function isCodexMemoryFlushRun(
 ): boolean {
   return params?.trigger === "memory" && Boolean(params.memoryFlushWritePath?.trim());
 }
-/** Requires a Codex sandbox environment only when native tools must run inside OpenClaw sandboxing. */
+/** Requires a Codex sandbox environment only when native tools must run inside FRIDAY sandboxing. */
 export function shouldRequireCodexSandboxExecServerEnvironment(params: {
   sandbox?: OpenClawSandboxContext;
   nativeToolSurfaceEnabled: boolean;

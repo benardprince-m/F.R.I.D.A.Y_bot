@@ -8,7 +8,7 @@ describe("terminal font family", () => {
       "FiraCode Nerd Font Mono",
     );
     expect(terminalFontFamily("Fira Code")).toBe('"Fira Code", ' + defaultFamily);
-    expect(defaultFamily).toContain('"OpenClaw Nerd Symbols"');
+    expect(defaultFamily).toContain('"FRIDAY Nerd Symbols"');
     expect(terminalFontFamily("   ")).toBe(defaultFamily);
   });
   it.each([

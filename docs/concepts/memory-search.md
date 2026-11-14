@@ -60,7 +60,7 @@ keyword search remains available if the rebuild cannot finish immediately.
 
 ## Quick start
 
-OpenClaw uses OpenAI embeddings by default. To use another provider, set it
+FRIDAY uses OpenAI embeddings by default. To use another provider, set it
 explicitly:
 
 ```json5
@@ -84,7 +84,7 @@ llama.cpp provider, then set `provider: "local"`:
 openclaw plugins install @openclaw/llama-cpp-provider
 ```
 
-Choose llama.cpp once in interactive setup. OpenClaw installs a verified
+Choose llama.cpp once in interactive setup. FRIDAY installs a verified
 `llama-server`, downloads the embedding GGUF, and writes its managed service
 configuration.
 
@@ -96,7 +96,7 @@ local jobs in parallel.
 EmbeddingGemma uses its trained task prefixes automatically for queries and
 indexed documents, including through Ollama, LM Studio, and OpenAI-compatible
 providers. After upgrading, an existing unprefixed EmbeddingGemma index rebuilds
-once on the next search or sync. OpenClaw generates fresh embeddings rather than
+once on the next search or sync. FRIDAY generates fresh embeddings rather than
 reusing unprefixed cache entries. Keyword search remains available if the rebuild
 cannot finish immediately; no manual `memory index --force` is needed. Remove any
 proxy workaround that adds these prefixes so they are not applied twice.
@@ -127,7 +127,7 @@ To move off Ollama, [llmman](/providers/llmman#advanced-configuration) serves th
 
 ## How search works
 
-OpenClaw runs two retrieval paths in parallel and merges the results:
+FRIDAY runs two retrieval paths in parallel and merges the results:
 
 ```mermaid
 flowchart LR
@@ -143,7 +143,7 @@ flowchart LR
 ```
 
 - **Vector search** matches similar meaning ("gateway host" matches "the
-  machine running OpenClaw").
+  machine running FRIDAY").
 - **Keyword search** matches exact terms (IDs, error strings, config
   keys). It accepts NFC and NFD Unicode spellings without rewriting notes or
   rebuilding existing indexes, including notes that mix those forms across words.

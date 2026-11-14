@@ -784,14 +784,14 @@ describe("worker turn launcher local placement", () => {
       });
 
     try {
-      // The raw turn selects OpenClaw; admission must use the prepared owner's policy.
+      // The raw turn selects FRIDAY; admission must use the prepared owner's policy.
       await expect(
         provider.executeTurn(
           { sessionId: SESSION_ID, sessionKey: SESSION_KEY, agentId: "main", runId },
           turn(runId),
           runLocal,
         ),
-      ).rejects.toThrow(`Cloud worker turns require the OpenClaw runtime, not ${runtimeId}`);
+      ).rejects.toThrow(`Cloud worker turns require the FRIDAY runtime, not ${runtimeId}`);
 
       expect(runLocal).not.toHaveBeenCalled();
       expect(getEnvironment).not.toHaveBeenCalled();

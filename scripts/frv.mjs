@@ -2343,7 +2343,7 @@ async function inspectPublicationStatus(options) {
       // Failed publishers can upload diagnostics. Their job need not pass; its exact upload must.
       requireArtifactUploadJob(
         jobs,
-        "Publish plugins, then OpenClaw",
+        "Publish plugins, then FRIDAY",
         "Upload postpublish diagnostics",
       );
       diagnostic = parsePublicationDiagnostic(evidence.value, publisher);

@@ -11,7 +11,7 @@ const ensureNativeContextEngineTurnOutboxSchema = createSqliteSchemaEnsurer(
     extractSqliteTableSchema(OPENCLAW_AGENT_SCHEMA_SQL, CONTEXT_ENGINE_TURN_OUTBOX_TABLE, {
       endMarker: "CREATE TABLE IF NOT EXISTS cache_entries (",
       includeEndMarker: false,
-      errorMessage: "OpenClaw context-engine turn outbox schema markers are missing.",
+      errorMessage: "FRIDAY context-engine turn outbox schema markers are missing.",
     }),
   {
     tables: [CONTEXT_ENGINE_TURN_OUTBOX_TABLE],

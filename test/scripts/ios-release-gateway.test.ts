@@ -25,7 +25,7 @@ const version = "2026.9.7";
 const integrity = `sha512-${Buffer.alloc(64, 1).toString("base64")}`;
 const tarball = `https://registry.npmjs.org/openclaw/-/openclaw-${version}.tgz`;
 const identity = { targetSha, version, sourceSha, integrity, tarball };
-const invalidRelease = /Invalid string|Invalid.*format|regular stable OpenClaw release/u;
+const invalidRelease = /Invalid string|Invalid.*format|regular stable FRIDAY release/u;
 const invalidTarball = /tarball|registry|qualification target/u;
 const wrongIntegrity = `sha512-${Buffer.alloc(64, 3).toString("base64")}`;
 

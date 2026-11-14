@@ -111,7 +111,7 @@ export type SubscribeEmbeddedAgentSessionParams = Pick<
   /** Ephemeral session UUID — regenerated on /new and /reset. */
   sessionId?: string;
   /**
-   * Exact raw names of OpenClaw tools registered for this run.
+   * Exact raw names of FRIDAY tools registered for this run.
    */
   builtinToolNames?: ReadonlySet<string>;
   /** Exact raw names of core-owned tools registered for this run. */

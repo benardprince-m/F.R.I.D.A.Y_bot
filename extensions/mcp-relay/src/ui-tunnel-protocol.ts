@@ -43,7 +43,7 @@ export function uiError(error: unknown): { code: UiErrorCode; message: string } 
   }
   return {
     code: "unavailable",
-    message: "The Control UI connection failed. Open OpenClaw from ChatGPT again.",
+    message: "The Control UI connection failed. Open FRIDAY from ChatGPT again.",
   };
 }
 

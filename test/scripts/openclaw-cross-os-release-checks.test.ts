@@ -241,7 +241,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
         OPENCLAW_PROFILE: "work",
         OPENCLAW_STATE_DIR: "C:\\temp\\lane\\.openclaw",
         OPENCLAW_CONFIG_PATH: "C:\\temp\\lane\\.openclaw\\openclaw.json",
-        OPENCLAW_WINDOWS_TASK_NAME: "OpenClaw Gateway (work)",
+        OPENCLAW_WINDOWS_TASK_NAME: "FRIDAY Gateway (work)",
         OPENCLAW_TASK_SCRIPT_NAME: "work.cmd",
         OPENCLAW_TASK_SCRIPT: "C:\\temp\\work.cmd",
         OPENCLAW_SERVICE_KIND: "node",
@@ -414,7 +414,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
 
   it("requires dashboard root markers and same-origin asset URLs", () => {
     const html = [
-      "<title>OpenClaw Control</title>",
+      "<title>FRIDAY Control</title>",
       "<openclaw-app></openclaw-app>",
       '<link rel="stylesheet" href="/assets/index.css">',
       '<script type="module" src="assets/index.js"></script>',
@@ -485,7 +485,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
     async (scenario) => {
       const dir = tempDirs.make("openclaw-cross-os-gateway-restart-");
       const refusal =
-        "OpenClaw plugin migration inputs changed during startup convergence; refusing to report the gateway ready.\n";
+        "FRIDAY plugin migration inputs changed during startup convergence; refusing to report the gateway ready.\n";
       const first = createGatewayHandleFixture({
         dir,
         name: "first",
@@ -1231,7 +1231,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
   it("wraps installed Windows CLI cmd fallbacks without Node shell argv", () => {
     expect(
       resolveInstalledCliInvocation(
-        win32.join(String.raw`C:\OpenClaw Prefix`, "openclaw.ps1"),
+        win32.join(String.raw`C:\FRIDAY Prefix`, "openclaw.ps1"),
         ["gateway", "run", "--port", "1234"],
         {
           comSpec: String.raw`C:\Windows\System32\cmd.exe`,
@@ -1244,7 +1244,7 @@ describe("scripts/openclaw-cross-os-release-checks", () => {
         "/d",
         "/s",
         "/c",
-        String.raw`""C:\OpenClaw Prefix\openclaw.cmd" gateway run --port 1234"`,
+        String.raw`""C:\FRIDAY Prefix\openclaw.cmd" gateway run --port 1234"`,
       ],
       shell: false,
       windowsVerbatimArguments: true,

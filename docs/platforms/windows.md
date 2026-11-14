@@ -1,7 +1,7 @@
 ---
 summary: "Windows Hub (recommended), Tauri desktop backup, native CLI and Gateway, WSL2, and troubleshooting"
 read_when:
-  - Installing OpenClaw on Windows
+  - Installing FRIDAY on Windows
   - Choosing between Windows Hub, the Tauri desktop app, native Windows, and WSL2
   - Setting up the Windows companion app or Windows node mode
 title: "Windows"
@@ -24,7 +24,7 @@ Windows 11, maintained in
 It installs without administrator privileges and ships signed x64
 and ARM64 installers from its own release page.
 
-Windows Hub publishes independently from the OpenClaw CLI and Gateway. Download
+Windows Hub publishes independently from the FRIDAY CLI and Gateway. Download
 the latest stable Hub installer from the
 [Windows Hub releases page](https://github.com/openclaw/openclaw-windows-node/releases/latest)
 or directly via `releases/latest/download`:
@@ -33,11 +33,11 @@ or directly via `releases/latest/download`:
 - [OpenClawCompanion-Setup-arm64.exe](https://github.com/openclaw/openclaw-windows-node/releases/latest/download/OpenClawCompanion-Setup-arm64.exe)
 
 If a link above 404s, visit the [Windows Hub releases page](https://github.com/openclaw/openclaw-windows-node/releases)
-and open the newest stable Windows Hub release. Regular OpenClaw stable releases
+and open the newest stable Windows Hub release. Regular FRIDAY stable releases
 also mirror a pinned, release-validated Windows Hub build; that mirror can lag a
 newer standalone Hub release.
 
-After install, launch **OpenClaw Companion** from the Start menu or system
+After install, launch **FRIDAY Companion** from the Start menu or system
 tray. The installer also adds shortcuts for Gateway Setup, Chat, Settings,
 Check for Updates, and uninstall.
 
@@ -74,7 +74,7 @@ the tray to confirm connection, pairing, node status, and channel health.
 
 ## Windows node mode
 
-Windows Hub can register as an OpenClaw node so the agent can use declared
+Windows Hub can register as an FRIDAY node so the agent can use declared
 Windows-native capabilities through the Gateway. Node commands must be
 declared by the node, included in its approved surface, and allowed by Gateway
 policy before they run; see
@@ -123,7 +123,7 @@ and `camera.clip` need explicit `gateway.nodes.commands.allow` opt-in.
 
 Windows Hub can expose the same Windows-native capability registry as a local
 MCP server on loopback, so local MCP clients can drive Windows capabilities
-without a running OpenClaw Gateway.
+without a running FRIDAY Gateway.
 
 Enable it in Windows Hub Settings under the developer/advanced section. The
 app shows the loopback endpoint and bearer token once the server is enabled.
@@ -142,15 +142,15 @@ Mode matrix:
 ## Backup: Tauri desktop app
 
 The Tauri app supports **Windows and Linux** and hosts the Gateway's Control UI.
-It ships as a regular OpenClaw release asset. Download the **Windows x64 NSIS installer** named
-`OpenClaw-<version>-windows-x86_64.exe` from the
-[OpenClaw releases page](https://github.com/openclaw/openclaw/releases).
-Run it, then launch **OpenClaw** from the Start menu. Windows uses WebView2 to
+It ships as a regular FRIDAY release asset. Download the **Windows x64 NSIS installer** named
+`FRIDAY-<version>-windows-x86_64.exe` from the
+[FRIDAY releases page](https://github.com/openclaw/openclaw/releases).
+Run it, then launch **FRIDAY** from the Start menu. Windows uses WebView2 to
 show the Control UI; the installer provisions WebView2 when necessary.
 
 ### First launch and local Gateway
 
-Choose local setup to install the matching OpenClaw CLI and start its Gateway.
+Choose local setup to install the matching FRIDAY CLI and start its Gateway.
 The app uses its private Bun runtime and package manager; system Node.js and npm
 are not required. Gateway installation, startup, status, and recovery remain
 owned by `openclaw gateway`, including Scheduled Task and Startup-folder support.
@@ -186,7 +186,7 @@ installer.
 
 ## Native Windows CLI and Gateway
 
-For terminal-first use, install OpenClaw from PowerShell:
+For terminal-first use, install FRIDAY from PowerShell:
 
 ```powershell
 iwr -useb https://openclaw.ai/install.ps1 | iex
@@ -231,11 +231,11 @@ If you append output redirection to the `gateway.cmd` launch line, quote the
 entire target, for example `>> "%USERPROFILE%\.openclaw\logs\gateway-stdout.log" 2>&1`.
 Complete trailing redirections are excluded from process ownership checks.
 Unquoted environment expansions can leave filename fragments in the Gateway's
-arguments; OpenClaw preserves ambiguous launcher commands and refuses to terminate
+arguments; FRIDAY preserves ambiguous launcher commands and refuses to terminate
 a listener whose ownership cannot be verified. Quote the target before retrying.
 
 The task launcher owns the supervised Gateway process tree. Ending the task
-with `schtasks /end /tn "OpenClaw Gateway"`, `Stop-ScheduledTask`, or Task
+with `schtasks /end /tn "FRIDAY Gateway"`, `Stop-ScheduledTask`, or Task
 Scheduler's **End** action terminates the Gateway and its descendants. After
 updating an older installation, run `openclaw gateway install --force` to
 regenerate the launcher if the update did not refresh it.
@@ -266,7 +266,7 @@ or rewrite its pin; custom task directories remain operator-owned overrides.
 
 Gateway status and Doctor read the Scheduled Task's numeric current state, independently of the Windows display language or console code page. A previous task exit result does not prove whether it is running now. Queued or unknown tasks do not count as safely stopped for Doctor maintenance. Stop a queued task through its service owner; if inspection is inaccessible, restore Task Scheduler inspection permissions before retrying.
 
-Strict maintenance inspection follows the task's registered CMD or VBS launcher, or a directly registered executable with literal arguments, and rechecks its captured definition before using the result. Runtime inspection uses that registered command rather than a default launcher. Direct executable inspection does not grant ownership to rewrite the executable or its task definition. Automatic update service management still reports these custom actions as unavailable and leaves them untouched because it cannot restore a managed launcher; environment expansion and ambiguous argument quoting remain uninspectable. Deep discovery identifies OpenClaw and legacy helpers from executable or launcher evidence; an unrelated task's display name alone does not identify a service. Standard and selected task names suppress extra-service findings only when the registered action is a modern Gateway; legacy and Node actions remain visible. Doctor reports incomplete inspection separately from services eligible for existing cleanup.
+Strict maintenance inspection follows the task's registered CMD or VBS launcher, or a directly registered executable with literal arguments, and rechecks its captured definition before using the result. Runtime inspection uses that registered command rather than a default launcher. Direct executable inspection does not grant ownership to rewrite the executable or its task definition. Automatic update service management still reports these custom actions as unavailable and leaves them untouched because it cannot restore a managed launcher; environment expansion and ambiguous argument quoting remain uninspectable. Deep discovery identifies FRIDAY and legacy helpers from executable or launcher evidence; an unrelated task's display name alone does not identify a service. Standard and selected task names suppress extra-service findings only when the registered action is a modern Gateway; legacy and Node actions remain visible. Doctor reports incomplete inspection separately from services eligible for existing cleanup.
 
 `openclaw gateway status --deep` and `openclaw doctor --deep` report sibling
 profiles from the current account's Startup folder. If its Scheduled Task is
@@ -378,7 +378,7 @@ Restart WSL from PowerShell:
 wsl --shutdown
 ```
 
-Then install OpenClaw inside WSL with the Linux quickstart:
+Then install FRIDAY inside WSL with the Linux quickstart:
 
 ```bash
 curl -fsSL https://openclaw.ai/install.sh | bash
@@ -489,8 +489,8 @@ occupied port. Fix the logged cause, then run `openclaw gateway start`.
 
 ### The tray icon does not appear
 
-Check Task Manager for `OpenClaw.Tray.WinUI.exe`. If it is running, open the
-hidden tray-icons area and pin it. If not, launch **OpenClaw Companion** from
+Check Task Manager for `FRIDAY.Tray.WinUI.exe`. If it is running, open the
+hidden tray-icons area and pin it. If not, launch **FRIDAY Companion** from
 the Start menu.
 
 ### Local setup fails

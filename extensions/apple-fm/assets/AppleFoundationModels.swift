@@ -37,7 +37,7 @@ private struct HostTool: Tool {
 
     func call(arguments: GeneratedContent) async throws -> String {
         await self.calls.record(name: self.name, arguments: arguments)
-        // OpenClaw owns execution and approval. Stop the native loop before any tool executes.
+        // FRIDAY owns execution and approval. Stop the native loop before any tool executes.
         throw ToolBoundary()
     }
 }

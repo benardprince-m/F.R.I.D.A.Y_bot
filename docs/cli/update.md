@@ -11,7 +11,7 @@ title: "Update"
 
 # `openclaw update`
 
-Update OpenClaw and switch between stable/extended-stable/beta/dev channels.
+Update FRIDAY and switch between stable/extended-stable/beta/dev channels.
 
 If you installed via **npm/pnpm/bun** (global install, no git metadata),
 updates go through the package-manager flow described in
@@ -35,7 +35,7 @@ own 60-second cold-start limit, and each `schtasks` command has a 15-second limi
 a stalled operation names the check or command instead of using the update's full
 timeout.
 
-If Task Scheduler denies disabling autostart during update preparation, OpenClaw
+If Task Scheduler denies disabling autostart during update preparation, FRIDAY
 reports `windows-task-elevation-required` with the same elevated-terminal and
 manual-update guidance. A definite denial leaves the task unchanged, so no
 autostart restoration is attempted; the disable guard remains required before
@@ -56,12 +56,12 @@ For a global npm installation, the manual recovery path is
 `npm i -g openclaw@<target> --allow-scripts=openclaw`, then
 `openclaw doctor --fix`, then `openclaw gateway restart`. Replace `<target>` with
 the intended release and run service repair/restart from an elevated terminal
-if Task Scheduler denies access. OpenClaw prints this alternative; it does not
+if Task Scheduler denies access. FRIDAY prints this alternative; it does not
 run it automatically. Per-user Startup-folder installations do not require
 elevation for this check. An older installed updater keeps its previous behavior
 until replaced; use the elevated or manual path for that first upgrade.
 
-Installations owned by a system package manager skip OpenClaw-managed updates
+Installations owned by a system package manager skip FRIDAY-managed updates
 before npm staging or Gateway shutdown. If ownership inspection fails, the
 update continues with a warning; only a confirmed ownership match skips replacement.
 A missing package-manager executable is reported as unavailable, without database
@@ -73,7 +73,7 @@ Older updaters must receive this fix through that system package manager first;
 a candidate cannot repair an updater that fails before staging it.
 
 Custom npm prefixes such as `~/.npm-global` are recognized from npm's configured
-prefix and the installed OpenClaw launcher. A prefix configured in `~/.npmrc`
+prefix and the installed FRIDAY launcher. A prefix configured in `~/.npmrc`
 does not need a matching `NPM_CONFIG_PREFIX` environment variable. If no owner
 can be identified, the CLI includes the inspected package, prefix, and launcher
 paths and the package-manager check results in its guidance.
@@ -229,11 +229,11 @@ not the installed updater, rollback, or the Dashboard RPC response.
 After a final interactive update failure, **Diagnose update failure** and
 **Report update failure** are separate choices. Reporting first shows the exact
 sanitized issue body and defaults confirmation to **No**. After confirmation,
-OpenClaw checks the GitHub CLI's active `github.com` account with a silent,
+FRIDAY checks the GitHub CLI's active `github.com` account with a silent,
 read-only request before issue creation. Fallback and pending outcomes retain the
 sanitized report locally; a confirmed issue keeps only its durable issue URL.
 If the CLI is missing, authentication is unavailable, or GitHub rejects the
-upload, OpenClaw keeps the sanitized report locally and returns to the previous
+upload, FRIDAY keeps the sanitized report locally and returns to the previous
 action menu. Fix the problem, then choose **Report update failure** and confirm
 again to retry the same report, or choose **Report in browser** to review and
 submit it with your browser's GitHub account. The browser choice is available
@@ -246,7 +246,7 @@ Successful submission, explicit exit, and cancellation retain their normal
 behavior; Diagnose runs only when selected explicitly.
 In the Control UI, an interrupted
 pre-create preparation becomes retryable after its local reservation expires.
-After an uncertain creation result, OpenClaw checks for an issue matching the
+After an uncertain creation result, FRIDAY checks for an issue matching the
 exact report. If neither a verified issue URL nor a definitive rejection is
 available, the report stays pending with no replay link because an issue may
 already exist.
@@ -563,7 +563,7 @@ verification, even after the package manager removes the previous package path.
 The updater joins those workers before returning. It records completed runtime
 projections for cleanup by the next eligible update or `openclaw doctor --fix`,
 so recursive deletion does not delay command exit after the final result.
-Cleanup keeps projections while another OpenClaw process may still use them.
+Cleanup keeps projections while another FRIDAY process may still use them.
 Already-installed older updaters, including 2026.9.6, still run their original
 worker-launch code; installing a corrected candidate cannot repair that first hop.
 
@@ -702,7 +702,7 @@ the installed updater: installing a candidate does not retrofit its parent drive
 ## Runtime retention failures
 
 **Fix now:** `host-owned-plugin-link` means a dependency symlink reaches
-OpenClaw-owned files that the updater cannot safely retain as an independent
+FRIDAY-owned files that the updater cannot safely retain as an independent
 plugin dependency. Retention protects the running updater and recovery workers
 when package replacement removes the old files. Do not skip this check.
 
@@ -953,7 +953,7 @@ config is invalid, its refusal lists the config file and invalid fields. Run
 `openclaw doctor --fix` to repair retired or unrecognized fields, correct any
 remaining errors, and retry the update. Preflight leaves the config unchanged.
 
-Explicit package specs on a fresh profile first stage with a temporary OpenClaw
+Explicit package specs on a fresh profile first stage with a temporary FRIDAY
 profile. The updater inspects the staged runtime's declared schema and Node
 requirements before admitting changes to the selected profile. Artifacts without
 declared schema support are refused without creating the profile's runtime database.

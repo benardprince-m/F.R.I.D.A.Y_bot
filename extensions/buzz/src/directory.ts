@@ -34,7 +34,7 @@ async function loadBuzzDirectoryState(
     .map(([roomId]) => parseBuzzTarget(roomId));
   const state = new BuzzDirectoryState({
     publicKey: account.publicKey,
-    fallbackProfileName: account.name ?? "OpenClaw",
+    fallbackProfileName: account.name ?? "FRIDAY",
     channelIds,
   });
   if (!account.enabled || !account.configured || channelIds.length === 0) {

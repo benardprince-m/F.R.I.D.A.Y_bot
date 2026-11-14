@@ -126,7 +126,7 @@ describe("submitEmbeddedAttemptPrompt runtime replay", () => {
         expect(requests[0]).toContainEqual(
           expect.objectContaining({
             role: "user",
-            content: expect.stringMatching(/^\[.+\] Continue the OpenClaw runtime event\.$/),
+            content: expect.stringMatching(/^\[.+\] Continue the FRIDAY runtime event\.$/),
           }),
         );
         first.session.dispose();

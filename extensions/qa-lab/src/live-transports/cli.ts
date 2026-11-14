@@ -21,7 +21,7 @@ function createQaRunnerCliRegistration(
         .action(
           qaCliAction(() => {
             throw new Error(
-              `QA runner "${runner.commandName}" is installed but not active. Enable or allow plugin "${runner.pluginId}" in your OpenClaw config, then try again.`,
+              `QA runner "${runner.commandName}" is installed but not active. Enable or allow plugin "${runner.pluginId}" in your FRIDAY config, then try again.`,
             );
           }),
         );

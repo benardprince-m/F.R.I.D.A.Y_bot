@@ -84,13 +84,13 @@ openclaw voicecall setup --json
 Runs the same readiness checks. Places a real phone call only when both
 `--to` and `--yes` are present.
 
-| Flag               | Default                           | Description                             |
-| ------------------ | --------------------------------- | --------------------------------------- |
-| `-t, --to <phone>` | (none)                            | Phone number to call for a live smoke.  |
-| `--message <text>` | `OpenClaw voice call smoke test.` | Message to speak during the smoke call. |
-| `--mode <mode>`    | `notify`                          | Call mode: `notify` or `conversation`.  |
-| `--yes`            | `false`                           | Actually place the live outbound call.  |
-| `--json`           | `false`                           | Print machine-readable JSON.            |
+| Flag               | Default                         | Description                             |
+| ------------------ | ------------------------------- | --------------------------------------- |
+| `-t, --to <phone>` | (none)                          | Phone number to call for a live smoke.  |
+| `--message <text>` | `FRIDAY voice call smoke test.` | Message to speak during the smoke call. |
+| `--mode <mode>`    | `notify`                        | Call mode: `notify` or `conversation`.  |
+| `--yes`            | `false`                         | Actually place the live outbound call.  |
+| `--json`           | `false`                         | Print machine-readable JSON.            |
 
 ```bash
 openclaw voicecall smoke

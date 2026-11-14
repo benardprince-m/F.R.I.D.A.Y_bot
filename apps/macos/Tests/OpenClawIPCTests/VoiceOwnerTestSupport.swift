@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import OpenClawProtocol
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawKit
 
 final class VoiceOwnerLog: @unchecked Sendable {

@@ -266,9 +266,9 @@ export function formatCodexNativeWorkspaceDetails(params: {
 }) {
   const plannedArgs = (request: DiagnosticRequest) => JSON.stringify(request.plannedToolArgs ?? {});
   return [
-    `codex-native-workspace ${params.toolName}: OpenClaw dynamic exposure is intentionally omitted because Codex owns this workspace operation natively`,
+    `codex-native-workspace ${params.toolName}: FRIDAY dynamic exposure is intentionally omitted because Codex owns this workspace operation natively`,
     params.reason ? `reason: ${params.reason}` : undefined,
-    `available OpenClaw dynamic tools: ${[...params.tools].toSorted().join(", ")}`,
+    `available FRIDAY dynamic tools: ${[...params.tools].toSorted().join(", ")}`,
     params.happyRequest
       ? `${params.toolName} mock provider happy planned args (diagnostic only): ${plannedArgs(params.happyRequest)}`
       : undefined,

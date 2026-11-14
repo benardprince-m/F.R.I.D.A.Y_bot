@@ -260,7 +260,7 @@ describe("npm placeholder publication", () => {
 
   it("rejects malicious package input, duplicate identity, and unsafe manifest paths", () => {
     expect(() => parseSelectedPackages("@openclaw/good,../../evil")).toThrow(
-      "Invalid OpenClaw package name",
+      "Invalid FRIDAY package name",
     );
     expect(() => parseSelectedPackages("@openclaw/good,@openclaw/good")).toThrow("duplicates");
 

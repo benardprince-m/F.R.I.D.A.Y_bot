@@ -50,8 +50,8 @@ describe("installed Scheduled Task XML fixtures", () => {
 });
 
 describe("schtasks Windows integration principal assertion", () => {
-  const scriptPath = "C:\\OpenClaw\\gateway.cmd";
-  const taskXml = `<Task><Principals><Principal><LogonType>S4U</LogonType></Principal></Principals><Triggers><BootTrigger/><LogonTrigger/></Triggers><Actions><Exec><Command>${escapeXml(getWindowsCmdExePath())}</Command><Arguments>/d /s /c &quot;&quot;C:\\OpenClaw\\gateway.cmd&quot;&quot;</Arguments><WorkingDirectory>C:\\OpenClaw</WorkingDirectory></Exec></Actions></Task>`;
+  const scriptPath = "C:\\FRIDAY\\gateway.cmd";
+  const taskXml = `<Task><Principals><Principal><LogonType>S4U</LogonType></Principal></Principals><Triggers><BootTrigger/><LogonTrigger/></Triggers><Actions><Exec><Command>${escapeXml(getWindowsCmdExePath())}</Command><Arguments>/d /s /c &quot;&quot;C:\\FRIDAY\\gateway.cmd&quot;&quot;</Arguments><WorkingDirectory>C:\\FRIDAY</WorkingDirectory></Exec></Actions></Task>`;
   it("accepts omitted default run level when COM reports least privilege", () => {
     expect(() =>
       assertUnattendedLeastPrivilegeTask({

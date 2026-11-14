@@ -378,7 +378,7 @@ describe("shared Codex app-server client", () => {
   );
 
   it.each(["shared", "isolated"] as const)(
-    "opens a native %s catalog client without selecting an OpenClaw agent",
+    "opens a native %s catalog client without selecting an FRIDAY agent",
     async (kind) => {
       const harness = createInitializingClientHarness();
       const startSpy = vi.spyOn(CodexAppServerClient, "start").mockResolvedValue(harness.client);
@@ -386,7 +386,7 @@ describe("shared Codex app-server client", () => {
         kind === "shared" ? getSharedCodexAppServerClient : createIsolatedCodexAppServerClient;
       await mocks.resolveDefaultAgentDir.withImplementation(
         () => {
-          throw new Error("An OpenClaw agent must be selected");
+          throw new Error("An FRIDAY agent must be selected");
         },
         async () => {
           const client = await acquire({

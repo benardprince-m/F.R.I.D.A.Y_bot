@@ -138,7 +138,7 @@ export function prepareToolSearchCatalogExecutionTool(
   if (!prepareInput && !validateInput) {
     return entry.tool;
   }
-  // SAFETY: both gates above restrict wrapper execution to OpenClaw-owned catalog tools.
+  // SAFETY: both gates above restrict wrapper execution to FRIDAY-owned catalog tools.
   const tool = entry.tool as AnyAgentTool;
   const wrapperOptions = options.prepareInput ? { protectNetworkErrors: false } : undefined;
   if (!isToolWrappedWithBeforeToolCallHook(tool)) {
@@ -187,7 +187,7 @@ function shouldCatalogTool(tool: AnyAgentTool): boolean {
 /**
  * Core file/shell primitives and caller-required names (e.g. message when it is
  * the only reply path) stay visible while remaining searchable. Both must
- * resolve to trusted OpenClaw tools: an MCP lookalike must never become a
+ * resolve to trusted FRIDAY tools: an MCP lookalike must never become a
  * direct delivery or core-coding tool.
  */
 export function isDirectVisibleCatalogTool(

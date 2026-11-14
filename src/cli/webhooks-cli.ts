@@ -31,8 +31,8 @@ function addGmailDeliveryOptions(command: Command, defaults = false): Command {
       defaults ? DEFAULT_GMAIL_SUBSCRIPTION : undefined,
     )
     .option("--label <label>", "Gmail label to watch", defaults ? DEFAULT_GMAIL_LABEL : undefined)
-    .option("--hook-url <url>", "OpenClaw hook URL")
-    .option("--hook-token <token>", "OpenClaw hook token")
+    .option("--hook-url <url>", "FRIDAY hook URL")
+    .option("--hook-token <token>", "FRIDAY hook token")
     .option("--push-token <token>", "Push token for gog watch serve")
     .option(
       "--bind <host>",

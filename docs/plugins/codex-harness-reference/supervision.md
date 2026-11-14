@@ -33,10 +33,10 @@ computer and opted-in paired nodes by default. Disable only that catalog with:
 ```
 
 Discovery automatically covers the Gateway process Codex home (`CODEX_HOME` or
-`~/.codex`) and the Codex home of every configured OpenClaw agent. Register
-additional local Codex stores only when sessions live in a home OpenClaw does
+`~/.codex`) and the Codex home of every configured FRIDAY agent. Register
+additional local Codex stores only when sessions live in a home FRIDAY does
 not already know about, for example a store created with a custom `CODEX_HOME`
-outside OpenClaw:
+outside FRIDAY:
 
 ```json5
 {
@@ -63,7 +63,7 @@ ones, labeled `Local Codex · <label>` and grouped by each session's working
 directory. String entries and objects without `label` use the basename of the
 resolved home directory; an explicit `label` overrides that default.
 Sessions in these stores support the same view, continue, and archive actions,
-and the selected OpenClaw agent still owns the resulting connection; `homes`
+and the selected FRIDAY agent still owns the resulting connection; `homes`
 only adds catalog sources.
 
 Discovery caches native pages for 32 seconds separately for each agent and
@@ -113,12 +113,12 @@ a model-locked Chat with bounded user and assistant history through the last
 terminal persisted source turn. Its private binding keeps the snapshot fork,
 primary `appServer`-source branch, history injection, and later turns on that
 connection. The first primary-thread start uses the pair returned by the fork. Later
-resumes omit OpenClaw model and provider overrides so Codex restores the
+resumes omit FRIDAY model and provider overrides so Codex restores the
 primary thread's persisted pair; a separate native change can update that
 pair, but the outer model and fallback chain never replace it. Stored and idle
 rows can be archived after no-other-runner confirmation, unless another active
-OpenClaw binding owns the exact target or one of its non-archived spawned
-descendants. OpenClaw follows Codex's descendant pagination and refuses archival on
+FRIDAY binding owns the exact target or one of its non-archived spawned
+descendants. FRIDAY follows Codex's descendant pagination and refuses archival on
 enumeration errors, cycles, or safety-limit exhaustion. Confirmation still
 covers unknown native clients and the status-to-archive race. A supervised
 model-locked Chat cannot be deleted while it protects the native binding.

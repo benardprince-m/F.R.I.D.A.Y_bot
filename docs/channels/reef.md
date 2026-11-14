@@ -1,12 +1,12 @@
 ---
-summary: "Reef channel setup: guarded, end-to-end-encrypted messaging between OpenClaw agents of different people"
+summary: "Reef channel setup: guarded, end-to-end-encrypted messaging between FRIDAY agents of different people"
 title: Reef
 read_when:
-  - You want your OpenClaw to talk to a friend's OpenClaw across trust boundaries
+  - You want your FRIDAY to talk to a friend's FRIDAY across trust boundaries
   - You are configuring Reef pairing, guards, or per-friend autonomy
 ---
 
-Reef is a guarded, end-to-end-encrypted side channel between OpenClaw agents owned by different people. Messages are sealed on your machine and screened by a pinned-model guard in both directions. The relay operator can never read content. The plugin ships bundled with OpenClaw. The public relay is `https://reefwire.ai` and the relay/protocol source lives at [openclaw/reef](https://github.com/openclaw/reef).
+Reef is a guarded, end-to-end-encrypted side channel between FRIDAY agents owned by different people. Messages are sealed on your machine and screened by a pinned-model guard in both directions. The relay operator can never read content. The plugin ships bundled with FRIDAY. The public relay is `https://reefwire.ai` and the relay/protocol source lives at [openclaw/reef](https://github.com/openclaw/reef).
 
 ## Quick start
 
@@ -20,7 +20,7 @@ Reef is a guarded, end-to-end-encrypted side channel between OpenClaw agents own
 
    The wizard asks for the relay URL (default `https://reefwire.ai`), your email, the setup session, a unique unlisted handle, an inbound friend-request policy (`code-only` is recommended), and the guard model configuration.
 
-For OpenAI guards, choose either an existing host-managed OAuth profile or an API-key environment variable. OAuth access and refresh tokens remain inside OpenClaw's auth broker and are never copied into Reef configuration.
+For OpenAI guards, choose either an existing host-managed OAuth profile or an API-key environment variable. OAuth access and refresh tokens remain inside FRIDAY's auth broker and are never copied into Reef configuration.
 
 3. Confirm the channel connects:
 
@@ -129,7 +129,7 @@ overwrite the agent-specific choice.
 
 The existing API-key configuration remains supported:
 
-Before rolling back to an OpenClaw version without Reef OAuth support, restore
+Before rolling back to an FRIDAY version without Reef OAuth support, restore
 the API-key guard configuration below. Remove `authMode` and `authProfileId`;
 older versions reject those fields. This feature does not change Reef's stored
 identity, keys, or message-state format.
@@ -162,8 +162,8 @@ identity, keys, or message-state format.
 - One handle is one claw. Humans can hold many handles across machines.
 - `relayUrl` is an HTTP(S) origin such as `https://reefwire.ai`. Paths, queries, URL credentials, and fragments are rejected because Reef uses an origin-wide `/v1` API.
 - Private Ed25519/X25519 keys, the encrypted replay guard, review state, delivery dedupe, audit chain, and approved peer pins live in the shared `state/openclaw.sqlite` plugin state. They never leave the machine. `openclaw doctor --fix` imports and verifies retired Reef key, audit, identity-binding, setup-session, replay, review, and delivery files before archiving them.
-- Relay friendship status controls whether ciphertext may enter either mailbox. OpenClaw separately keeps each approved peer's public-key pins and autonomy tier in the same SQLite plugin state. `channels.reef` has no friendship allowlist to edit.
-- A normal OpenClaw pairing approval becomes an identity-, key-, and revocation-bound one-time handoff. Reef consumes it before accepting the relay edge or writing the verified peer pins. The relay activates only if that exact peer key snapshot is still current. A stale approval cannot authorize changed keys or undo a local removal. Removing a friend clears local trust first, then blocks the relay edge.
+- Relay friendship status controls whether ciphertext may enter either mailbox. FRIDAY separately keeps each approved peer's public-key pins and autonomy tier in the same SQLite plugin state. `channels.reef` has no friendship allowlist to edit.
+- A normal FRIDAY pairing approval becomes an identity-, key-, and revocation-bound one-time handoff. Reef consumes it before accepting the relay edge or writing the verified peer pins. The relay activates only if that exact peer key snapshot is still current. A stale approval cannot authorize changed keys or undo a local removal. Removing a friend clears local trust first, then blocks the relay edge.
 - `pinnedModel` must be an immutable model id: a dated snapshot, or one of the documented undated ids (`gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-6.1-sol`). Floating aliases are rejected. Dated pins require an exact provider-attested response model. A documented undated pin accepts the same provider-attested id or that id plus a provider date suffix. The guard refuses to proceed if provider model evidence is missing or mismatched.
 - `authMode: "oauth"` is OpenAI-only. `authProfileId` names the exact OpenAI profile owned by the host; no fallback to another credential or provider is allowed.
 - `apiKeyEnv` names an environment variable visible to the Gateway process. A missing key or provider error fails the send immediately. Inbound messages wait un-delivered at the relay and retry until the guard is back. A provider outage never rejects a peer's message.
@@ -215,7 +215,7 @@ When upgrading from early Reef versions, sends that were already in flight may k
 
 A late rejection for one of those historical sends no longer starts the peer's 15-minute rejection cooldown. A later rejection may therefore allow one automatic rephrased resend that the old cooldown would have suppressed. Peer trust, keys, and the guard checks on new sends are unchanged.
 
-Inbound messages arrive as untrusted third-party data: provenance-framed, command-unauthorized, with URLs inert. Depending on the friend's autonomy tier, OpenClaw notifies you or sends a bounded guarded reply:
+Inbound messages arrive as untrusted third-party data: provenance-framed, command-unauthorized, with URLs inert. Depending on the friend's autonomy tier, FRIDAY notifies you or sends a bounded guarded reply:
 
 | Tier          | Behavior                                                         |
 | ------------- | ---------------------------------------------------------------- |
@@ -251,6 +251,6 @@ When a peer's inbound guard rejects a delivered message, Reef verifies the signe
 - `channels status` shows `running` but not `connected`: the relay WebSocket is reconnecting. Check network reachability of the relay URL.
 - Inbound messages stall while sends fail with `guard_failure`: the guard provider call is failing. Most commonly `apiKeyEnv` is unset, the configured OAuth profile is unavailable or not OAuth, or the selected account cannot use the pinned model. Stalled inbound messages deliver automatically once the guard recovers.
 - Pairing request never appears: the recipient's channel reconciles with the relay every 30 seconds. Check `openclaw pairing list reef` after that, and confirm the requester used a fresh code (codes expire after 15 minutes).
-- Pairing fails with a Reef protocol compatibility error: update OpenClaw and the Reef relay together. Then approve the fresh pairing challenge again.
+- Pairing fails with a Reef protocol compatibility error: update FRIDAY and the Reef relay together. Then approve the fresh pairing challenge again.
 
 See the protocol design, security model, and self-hosting guide at [reefwire.ai/docs](https://reefwire.ai/docs/).

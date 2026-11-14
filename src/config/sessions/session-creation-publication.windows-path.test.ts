@@ -62,20 +62,16 @@ it("binds a native creation to its prepared physical identity", async () => {
 });
 
 it.each([
-  { name: "drive", runtimePath: String.raw`C:\OpenClaw\agents\main\agent.sqlite` },
-  { name: "UNC", runtimePath: String.raw`\\Server\Share\OpenClaw\agents\main\agent.sqlite` },
+  { name: "drive", runtimePath: String.raw`C:\FRIDAY\agents\main\agent.sqlite` },
+  { name: "UNC", runtimePath: String.raw`\\Server\Share\FRIDAY\agents\main\agent.sqlite` },
   {
     name: "junction",
-    runtimePath: String.raw`C:\OpenClaw\agents\main\agent.sqlite`,
+    runtimePath: String.raw`C:\FRIDAY\agents\main\agent.sqlite`,
     openedPath: String.raw`C:\agent-alias\agent.sqlite`,
   },
   {
     name: "long drive",
-    runtimePath: path.win32.join(
-      "C:\\OpenClaw",
-      ...Array(20).fill("long-directory"),
-      "agent.sqlite",
-    ),
+    runtimePath: path.win32.join("C:\\FRIDAY", ...Array(20).fill("long-directory"), "agent.sqlite"),
   },
 ])(
   "retains creation publication custody across $name namespace aliases",

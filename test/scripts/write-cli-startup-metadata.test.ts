@@ -1531,7 +1531,7 @@ finally:
         commit: string;
         version: string;
       };
-      const banner = `OpenClaw ${buildInfo.version} (${buildInfo.commit.slice(0, 7)})`;
+      const banner = `FRIDAY ${buildInfo.version} (${buildInfo.commit.slice(0, 7)})`;
       return sourceSubcommandHelp(`${banner}\n`);
     };
 
@@ -1553,9 +1553,9 @@ finally:
 
     for (const [index, [version, commit, banner]] of (
       [
-        ["2026.7.2", "a", "OpenClaw 2026.7.2 (aaaaaaa)"],
-        ["2026.7.2", "b", "OpenClaw 2026.7.2 (bbbbbbb)"],
-        ["2026.7.3", "b", "OpenClaw 2026.7.3 (bbbbbbb)"],
+        ["2026.7.2", "a", "FRIDAY 2026.7.2 (aaaaaaa)"],
+        ["2026.7.2", "b", "FRIDAY 2026.7.2 (bbbbbbb)"],
+        ["2026.7.3", "b", "FRIDAY 2026.7.3 (bbbbbbb)"],
       ] as const
     ).entries()) {
       writeFixtureFile(
@@ -1574,7 +1574,7 @@ finally:
       expect(readFileSync(outputPath, "utf8")).toContain(banner);
     }
     expect(readMetadata(outputPath).subcommandHelpText.models).toContain(
-      "OpenClaw 2026.7.3 (bbbbbbb)",
+      "FRIDAY 2026.7.3 (bbbbbbb)",
     );
   });
 });

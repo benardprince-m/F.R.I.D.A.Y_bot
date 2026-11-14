@@ -359,7 +359,7 @@ describe("provider request config", () => {
 
     expect(resolved).toEqual({
       "HTTP-Referer": "https://openclaw.ai",
-      "X-OpenRouter-Title": "OpenClaw",
+      "X-OpenRouter-Title": "FRIDAY",
       "X-OpenRouter-Categories": "personal-agent,cli-agent",
       "X-Custom": "1",
     });

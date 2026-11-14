@@ -256,7 +256,7 @@ export function resolveMemoryIndexIdentityState(
   if (newerVersion) {
     return openClawIndexMismatch(
       newerVersion,
-      "the index was written by a newer OpenClaw version; upgrade OpenClaw or reindex explicitly",
+      "the index was written by a newer FRIDAY version; upgrade FRIDAY or reindex explicitly",
       "newer",
     );
   }

@@ -1,6 +1,6 @@
 /**
- * OpenClaw ACPX runtime adapter. It wraps the upstream acpx runtime with
- * OpenClaw session metadata, lease tracking, model scoping, and cleanup policy.
+ * FRIDAY ACPX runtime adapter. It wraps the upstream acpx runtime with
+ * FRIDAY session metadata, lease tracking, model scoping, and cleanup policy.
  */
 import { AsyncLocalStorage } from "node:async_hooks";
 import { randomUUID } from "node:crypto";
@@ -153,7 +153,7 @@ async function readCodexWrapperStderrTail(params: {
 
 const CODEX_ACP_AGENT_ID = "codex";
 const CODEX_ACP_OPENCLAW_PREFIX = "openai/";
-// Documented OpenClaw provider prefixes the Claude Agent SDK does not understand.
+// Documented FRIDAY provider prefixes the Claude Agent SDK does not understand.
 // Strip only these; a generic first-slash split would corrupt native Bedrock
 // inference-profile ids and ARNs the SDK accepts as-is.
 const CLAUDE_ACP_OPENCLAW_PREFIX = /^(?:anthropic|amazon-bedrock)\//i;
@@ -1043,7 +1043,7 @@ export class AcpxRuntime implements CompleteAcpRuntime {
             try {
               const turn = delegate.startTurn({
                 ...toAcpxResourceInput(input),
-                // OpenClaw owns deadlines; ACPX must not complete partial output.
+                // FRIDAY owns deadlines; ACPX must not complete partial output.
                 timeoutMs: 0,
               });
               void turn.result.then(release, release);

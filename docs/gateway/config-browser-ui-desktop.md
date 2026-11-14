@@ -70,7 +70,7 @@ For the full key index and the other top-level config domains, see [Configuratio
   remain eligible for idle and cap cleanup after restart. Chrome MCP uses
   process-local target handles, so cold existing-session records wait for
   lifecycle cleanup rather than risking an idle sweep against unattributable
-  post-restart activity. OpenClaw verifies the profile and browser instance
+  post-restart activity. FRIDAY verifies the profile and browser instance
   before closing. Chrome MCP auto-connect, missing `/json/version` browser
   identity, and unresolved native targets remain fully process-local, so they
   are not automatically closed after a restart. Older untracked tabs require
@@ -84,21 +84,21 @@ For the full key index and the other top-level config domains, see [Configuratio
 - `ssrfPolicy.blockedHostnames` denies exact hosts and `*.example.com` subdomains before DNS and allow rules, including private-network exceptions. Wildcards exclude the apex; add `example.com` separately to block it. Empty or unset adds no denials.
 - Remote profiles are attach-only (start/stop/reset disabled).
 - `profiles.*.cdpUrl` accepts `http://`, `https://`, `ws://`, and `wss://`.
-  Use HTTP(S) when you want OpenClaw to discover `/json/version`; use WS(S)
+  Use HTTP(S) when you want FRIDAY to discover `/json/version`; use WS(S)
   when your provider gives you a direct DevTools WebSocket URL.
 - If an externally managed CDP service is reachable through loopback, set that
-  profile's `attachOnly: true`; otherwise OpenClaw treats the loopback port as a
+  profile's `attachOnly: true`; otherwise FRIDAY treats the loopback port as a
   local managed browser profile and may report local port ownership errors.
 - `existing-session` profiles use Chrome MCP instead of CDP and can attach on
   the selected host or through a connected browser node.
-- `extension` profiles use the authenticated OpenClaw Chrome extension relay.
+- `extension` profiles use the authenticated FRIDAY Chrome extension relay.
   The relay owns its loopback endpoint, so these profiles do not accept
   `cdpUrl`. See [Chrome extension](/tools/chrome-extension).
 - `existing-session` profiles can set `userDataDir` to target a specific
   Chromium-based browser profile such as Brave or Edge.
 - `existing-session` profiles can set `cdpUrl` when Chrome is already running
   behind a DevTools HTTP(S) discovery endpoint or direct WS(S) endpoint. In that
-  mode OpenClaw passes the endpoint to Chrome MCP instead of using auto-connect;
+  mode FRIDAY passes the endpoint to Chrome MCP instead of using auto-connect;
   `userDataDir` is ignored for Chrome MCP launch arguments.
   Valid endpoint arguments in `mcpArgs` take precedence over `cdpUrl`; see
   [Custom Chrome MCP launch](/tools/browser/existing-session#custom-chrome-mcp-launch).
@@ -107,7 +107,7 @@ For the full key index and the other top-level config domains, see [Configuratio
   hooks, no dialog timeout overrides, no `wait --load networkidle`, and no
   `responsebody`, PDF export, download interception, or batch actions.
 - Local managed `openclaw` profiles get a `cdpPort` allocated from the managed
-  range when OpenClaw creates the profile. A profile you declare by hand must
+  range when FRIDAY creates the profile. A profile you declare by hand must
   set `cdpPort` itself, or `cdpUrl` for a remote CDP endpoint; the schema
   rejects an `openclaw` (or legacy `clawd`) driver profile that sets neither.
 - Local managed profiles can set `executablePath` to override the global
@@ -191,7 +191,7 @@ headless TigerVNC/XFCE desktop on Linux. It is a Labs feature and is off by
 default.
 
 In **Systems**, select the **Gateway host** to check for an existing screen-sharing
-server. When one is available, **Enable desktop access in OpenClaw** turns on Host
+server. When one is available, **Enable desktop access in FRIDAY** turns on Host
 Desktop without restarting the Gateway; the desktop becomes available on the
 same connection. Gateway administrator access is required. Detection does not
 expose the desktop or change system permissions. Existing managed Linux desktops
@@ -202,7 +202,7 @@ Enabling macOS Screen Sharing, a paired node's Desktop sharing, or screenshot
 capture alone does not enable the Gateway's desktop. On macOS, Remote Management
 also provides screen sharing, but the account must have **Observe** and **Control**
 rights in **System Settings → General → Sharing → Remote Management**. A correct
-password can still be rejected when those rights are missing. OpenClaw does not
+password can still be rejected when those rights are missing. FRIDAY does not
 change these system permissions automatically.
 
 Observer tokens and observer connections are bound to the Gateway connection
@@ -242,7 +242,7 @@ Changes to `managed`, `port`, or `passwordFile` retire the current host source,
 close its observers, and release its computer execution holds. The replacement
 starts on demand without restarting the Gateway. External VNC servers stay running.
 
-OpenClaw connects only through loopback. An explicit `port` always selects
+FRIDAY connects only through loopback. An explicit `port` always selects
 attach mode, and an existing RFB listener on port `5900` takes precedence over
 managed mode. Managed mode requires `Xtigervnc`, `tigervncpasswd`,
 `startxfce4`, and `dbus-daemon`; on Debian/Ubuntu, install

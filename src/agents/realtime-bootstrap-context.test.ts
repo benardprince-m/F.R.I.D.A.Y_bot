@@ -48,7 +48,7 @@ describe("resolveRealtimeBootstrapContextInstructions", () => {
         files: lines === 1 ? undefined : ["IDENTITY.md", "USER.md", "SOUL.md"],
       });
       for (const text of [
-        "OpenClaw realtime voice profile context",
+        "FRIDAY realtime voice profile context",
         "### IDENTITY.md",
         "Name: Wilfred",
         "### USER.md",

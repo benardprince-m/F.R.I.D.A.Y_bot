@@ -84,7 +84,7 @@ export function createGatewayHarness(
         createdAtMs,
         expiresAtMs: Date.now() + 60_000,
         request: {
-          title: "OpenClaw change",
+          title: "FRIDAY change",
           description: "Set gateway.port to 19001",
           command: "Set gateway.port to 19001",
           proposalHash: "a".repeat(64),

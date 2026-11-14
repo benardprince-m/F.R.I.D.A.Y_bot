@@ -4,7 +4,7 @@ set -euo pipefail
 # Helper imports must not write bytecode caches outside the signing roots.
 export PYTHONDONTWRITEBYTECODE=1
 
-APP_BUNDLE="dist/OpenClaw.app"
+APP_BUNDLE="dist/FRIDAY.app"
 SIGNING_VARIANT="${OPENCLAW_MAC_SIGNING_VARIANT:-standard}"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/mac-signing-identity.sh"
 ELEVATION_TEAM_ID="FWJYW4S8P8"

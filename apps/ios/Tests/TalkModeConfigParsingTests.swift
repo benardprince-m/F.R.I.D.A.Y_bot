@@ -3,7 +3,7 @@ import Foundation
 import OpenClawChatUI
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @MainActor
 struct TalkModeManagerTests {
@@ -484,7 +484,7 @@ struct TalkModeManagerTests {
         #expect(manager.phase == .connecting)
         #expect(manager.watchPresentation == .phase)
 
-        for status in ["Asking OpenClaw", "Still asking OpenClaw", "Updating OpenClaw"] {
+        for status in ["Asking FRIDAY", "Still asking FRIDAY", "Updating FRIDAY"] {
             manager._test_handleRealtimeRelayStatus(status)
             #expect(manager.phase == .thinking)
             #expect(manager.watchPresentation == .phase)

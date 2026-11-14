@@ -30,7 +30,7 @@ afterEach(() => {
   closeOpenClawStateDatabaseForTest();
 });
 
-/** Another live OpenClaw process (the test runner's parent) holds an agent database lease. */
+/** Another live FRIDAY process (the test runner's parent) holds an agent database lease. */
 function holdForeignLease(options: {
   update: boolean;
   /** Published updaters run activation Doctor with the external service policy. */
@@ -127,13 +127,13 @@ it.each([
     const doctor = startDoctor();
     await doctor.firstWait;
     expect(doctor.log).toHaveBeenCalledWith(
-      `Waiting up to 1200 s for OpenClaw process ${holder.holderPid} to close an agent database before Doctor maintenance. Let it finish, or stop it to continue sooner.`,
+      `Waiting up to 1200 s for FRIDAY process ${holder.holderPid} to close an agent database before Doctor maintenance. Let it finish, or stop it to continue sooner.`,
     );
     // The holder must write shared state to close; Doctor's ownership would refuse it.
     expect(fs.existsSync(holder.ownerPath)).toBe(false);
     await doctor.advanceTo(45_000);
     expect(doctor.log).toHaveBeenCalledWith(
-      `Still waiting for OpenClaw process ${holder.holderPid} to close an agent database (45 s of 1200 s).`,
+      `Still waiting for FRIDAY process ${holder.holderPid} to close an agent database (45 s of 1200 s).`,
     );
     await doctor.advanceTo(FALLBACK_DEADLINE_MS - 10_000);
     expect(doctor.isSettled()).toBe(false);
@@ -163,7 +163,7 @@ it("fails update Doctor admission at the wait deadline, naming the lease holder"
     kind: "deferred",
     reason: "agent-database-in-use",
   });
-  const message = `Doctor could not enter maintenance. Waited 1200 s; OpenClaw process ${holder.holderPid} still has an agent database open. Stop other OpenClaw processes using this state, then retry the update.`;
+  const message = `Doctor could not enter maintenance. Waited 1200 s; FRIDAY process ${holder.holderPid} still has an agent database open. Stop other FRIDAY processes using this state, then retry the update.`;
   expect((error as Error).message).toBe(message);
   expect(collectUpdateDoctorFailureFacts(error)).toEqual([
     { check: "doctor", code: "agent-database-lease-active", message },
@@ -187,20 +187,20 @@ it("shares one deadline with the state wait, so a long first wait shortens the l
   });
   try {
     const doctor = startDoctor();
-    await doctor.logged(`Waiting up to 1200 s for the OpenClaw agent-embedded process`);
+    await doctor.logged(`Waiting up to 1200 s for the FRIDAY agent-embedded process`);
     stateHolder.release();
     await doctor.advanceTo(900_000);
     // The lease wait gets only what the state wait left of the same deadline.
     await doctor.logged("to close an agent database");
     expect(doctor.log).toHaveBeenCalledWith(
-      `Waiting up to 300 s for OpenClaw process ${lease.holderPid} to close an agent database before Doctor maintenance. Let it finish, or stop it to continue sooner.`,
+      `Waiting up to 300 s for FRIDAY process ${lease.holderPid} to close an agent database before Doctor maintenance. Let it finish, or stop it to continue sooner.`,
     );
     await doctor.advanceTo(FALLBACK_DEADLINE_MS - 1);
     expect(doctor.isSettled()).toBe(false);
     await doctor.advanceTo(FALLBACK_DEADLINE_MS);
     const completed = await doctor.result;
     expect((completed as { error?: Error }).error?.message).toContain(
-      `Waited 1200 s; OpenClaw process ${lease.holderPid} still has an agent database open.`,
+      `Waited 1200 s; FRIDAY process ${lease.holderPid} still has an agent database open.`,
     );
   } finally {
     stateHolder.release();
@@ -236,7 +236,7 @@ it.each([
         check: "doctor",
         code: "agent-database-lease-active",
         message:
-          "Doctor could not enter maintenance. An agent database is in use. Stop other OpenClaw processes using this state, then retry the update.",
+          "Doctor could not enter maintenance. An agent database is in use. Stop other FRIDAY processes using this state, then retry the update.",
       },
     ]);
     expect(doctor.log).not.toHaveBeenCalledWith(expect.stringContaining("Waiting up to"));

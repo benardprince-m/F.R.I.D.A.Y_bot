@@ -309,7 +309,7 @@ describe("controlRealtimeVoiceAgentRun", () => {
       aborted: true,
       providerResult: {
         status: "cancelled",
-        message: "Cancelled the active OpenClaw run.",
+        message: "Cancelled the active FRIDAY run.",
       },
     });
     expect(deps.abortEmbeddedAgentRun).toHaveBeenCalledWith("session-active");
@@ -338,7 +338,7 @@ describe("controlRealtimeVoiceAgentRun", () => {
       ok: true,
       mode: "status",
       active: true,
-      message: "OpenClaw is running exec_command.",
+      message: "FRIDAY is running exec_command.",
     });
     expect(deps.queueEmbeddedAgentMessageWithOutcomeAsync).not.toHaveBeenCalled();
   });
@@ -419,7 +419,7 @@ describe("controlRealtimeVoiceAgentRun", () => {
       ok: true,
       mode: "status",
       active: true,
-      message: "OpenClaw is working in exec_command (running).",
+      message: "FRIDAY is working in exec_command (running).",
     });
     expect(deps.queueEmbeddedAgentMessageWithOutcomeAsync).not.toHaveBeenCalled();
   });

@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct RootTabsSourceGuardTests {
     @Test func `initial scene phase reaches the model before gateway admission`() throws {

@@ -69,7 +69,7 @@ async function runOnboardingEntry(
 
 function addSystemAgentOptions(command: Command): Command {
   return command
-    .option("-m, --message <text>", "Run one OpenClaw request")
+    .option("-m, --message <text>", "Run one FRIDAY request")
     .option("--yes", "Approve persistent config writes for one --message request", false)
     .option("--json", "Output system overview or onboarding summary as JSON", false);
 }
@@ -84,7 +84,7 @@ export function registerSetupCommand(program: Command): void {
       () =>
         `\n${theme.heading("Examples:")}\n` +
         `  ${theme.command("openclaw setup")}\n` +
-        `    ${theme.muted("Chat with OpenClaw, or onboard when setup is incomplete.")}\n` +
+        `    ${theme.muted("Chat with FRIDAY, or onboard when setup is incomplete.")}\n` +
         `  ${theme.command('openclaw setup -m "status"')}\n` +
         `    ${theme.muted("Run one system-agent request.")}\n` +
         `  ${theme.command("openclaw setup --wizard")}\n` +

@@ -51,7 +51,7 @@ const workerUrl = new URL("./bench-worker-runtime.worker.ts", import.meta.url);
 const taskTimeoutMs = 120_000;
 
 function usage() {
-  return `OpenClaw worker runtime benchmark
+  return `FRIDAY worker runtime benchmark
 
 Usage:
   pnpm exec tsx scripts/bench-worker-runtime.ts [options]
@@ -503,7 +503,7 @@ async function main() {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
     scope:
-      "actual OpenClaw pool/host/server; synthetic echo and host replies; not Gateway throughput",
+      "actual FRIDAY pool/host/server; synthetic echo and host replies; not Gateway throughput",
     measurement: {
       cold: "first wave creates all configured Workers; includes source-loader/bootstrap, excludes host imports",
       warm: `after cold wave and warmup; includes generation and validation; diagnostics ${options.diagnostics}`,

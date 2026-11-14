@@ -1,15 +1,15 @@
 ---
-summary: "OpenClaw SQLite database locations, schema versions, integrity checks, and downgrade recovery"
+summary: "FRIDAY SQLite database locations, schema versions, integrity checks, and downgrade recovery"
 read_when:
   - Diagnosing a newer database schema error
   - Checking database compatibility before an update or downgrade
   - Proposing a SQLite or persistent-store change
   - Preparing storage operations for another database backend
-  - Recovering a database for an older OpenClaw release
+  - Recovering a database for an older FRIDAY release
 title: "Database schemas"
 ---
 
-OpenClaw stores control-plane state in the shared state database and agent data in one database per agent. SQLite is the default; agent stores also support the [experimental PostgreSQL engine](/reference/database-engines). SQLite schema migrations run forward when a database opens. Doctor supports owner-supplied forward migrations for PostgreSQL state and agent schemas, including agent schema 27 to 28, with exact predecessor backups. Older OpenClaw builds refuse databases written by a newer schema.
+FRIDAY stores control-plane state in the shared state database and agent data in one database per agent. SQLite is the default; agent stores also support the [experimental PostgreSQL engine](/reference/database-engines). SQLite schema migrations run forward when a database opens. Doctor supports owner-supplied forward migrations for PostgreSQL state and agent schemas, including agent schema 27 to 28, with exact predecessor backups. Older FRIDAY builds refuse databases written by a newer schema.
 
 For runtime contributors, start with
 [database access in workers](/reference/database-schemas/worker-access): execution
@@ -23,7 +23,7 @@ fragments, and keeps engine schema versions in lockstep. See
 [shared-state schema generation](/reference/database-schemas/storage-changes#shared-state-postgresql-schema-generation)
 for catalog equivalence and the portable v22 identity columns.
 
-The Gateway process is the single owner of every OpenClaw database and its state.
+The Gateway process is the single owner of every FRIDAY database and its state.
 Its workers and native handles share that ownership. Committed write receipts
 invalidate in-process row caches before their next use; a cache without complete
 writer coverage must use a direct read instead. Runtime reads do not probe foreign

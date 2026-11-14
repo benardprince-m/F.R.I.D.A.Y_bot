@@ -89,7 +89,7 @@ export async function prepareUpdateRestart(
       } else if (serviceUpdateVerdict.kind === "foreign") {
         serviceMutationAllowed = false;
         serviceMutationSkipMessage =
-          "Gateway service management skipped: the service belongs to a different OpenClaw installation and was left untouched.";
+          "Gateway service management skipped: the service belongs to a different FRIDAY installation and was left untouched.";
       } else if (
         !skipLegacyServiceRestart &&
         (useInstalledState

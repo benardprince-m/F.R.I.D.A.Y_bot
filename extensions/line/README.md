@@ -1,11 +1,11 @@
-# OpenClaw LINE
+# FRIDAY LINE
 
-Official OpenClaw channel plugin for LINE Bot API chats.
+Official FRIDAY channel plugin for LINE Bot API chats.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/line
 ```
 
-Configure LINE channel credentials in OpenClaw, then connect the bot to the chats where agents should receive and send messages.
+Configure LINE channel credentials in FRIDAY, then connect the bot to the chats where agents should receive and send messages.

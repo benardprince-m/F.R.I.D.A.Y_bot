@@ -198,7 +198,7 @@ function renderCodexWorkspaceBootstrapPromptContext(
     return undefined;
   }
   return [
-    "OpenClaw loaded these user-editable workspace files for the current turn. Codex loads project-local AGENTS.md natively. When execution uses another folder, OpenClaw supplies the agent workspace AGENTS.md as thread-level developer instructions. SOUL.md, IDENTITY.md, and USER.md are prepared separately from user input and are not repeated here.",
+    "FRIDAY loaded these user-editable workspace files for the current turn. Codex loads project-local AGENTS.md natively. When execution uses another folder, FRIDAY supplies the agent workspace AGENTS.md as thread-level developer instructions. SOUL.md, IDENTITY.md, and USER.md are prepared separately from user input and are not repeated here.",
     "",
     "# Project Context",
     "",
@@ -228,9 +228,9 @@ function renderCodexWorkspaceMemoryInstructions(params: {
       : Array.from(CODEX_MEMORY_TOOL_NAMES);
     sections.push(
       [
-        "## OpenClaw Workspace Memory",
+        "## FRIDAY Workspace Memory",
         "",
-        `MEMORY.md exists in the active agent workspace as a memory file, not an instruction file. OpenClaw does not paste its contents into native Codex turns; use ${toolNames.join(" or ")} when durable memory is relevant and the tools are available.`,
+        `MEMORY.md exists in the active agent workspace as a memory file, not an instruction file. FRIDAY does not paste its contents into native Codex turns; use ${toolNames.join(" or ")} when durable memory is relevant and the tools are available.`,
         "",
         ...params.files.map((file) => `- ${file.path}`),
       ]

@@ -20,7 +20,7 @@ class GatewayPointerTests(unittest.TestCase):
         fixture = GatewaySwitchFixture.__new__(GatewaySwitchFixture)
         fixture.chrome = Mock()
         fixture.chrome.until.side_effect = lambda predicate, _label: predicate()
-        fixture.windows = Mock(return_value={"1": "OpenClaw"})
+        fixture.windows = Mock(return_value={"1": "FRIDAY"})
         fixture.capture = Mock()
         fixture.open_native_menu = Mock()
         atspi = SimpleNamespace(

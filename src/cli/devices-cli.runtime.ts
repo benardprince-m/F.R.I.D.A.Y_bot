@@ -579,7 +579,7 @@ const PENDING_APPROVAL_COPY: Record<PendingDeviceApprovalKind, { label: string; 
   },
   "re-approval": {
     label: "re-approval",
-    note: "Already paired. Approval-bound device details changed, so OpenClaw created a fresh request instead of silently reusing the old approval.",
+    note: "Already paired. Approval-bound device details changed, so FRIDAY created a fresh request instead of silently reusing the old approval.",
   },
 };
 

@@ -53,7 +53,7 @@ it("registers and dispatches session /dashboard separately from owner-only /cont
     .find(({ language_code }) => !language_code)?.commands;
   expect(menu?.filter(({ command }) => command === "dashboard")).toHaveLength(1);
   expect(menu?.filter(({ command }) => command === "controlui")).toEqual([
-    { command: "controlui", description: "Open the OpenClaw Control UI" },
+    { command: "controlui", description: "Open the FRIDAY Control UI" },
   ]);
 
   apiCalls.mockClear();
@@ -80,7 +80,7 @@ it("registers and dispatches session /dashboard separately from owner-only /cont
     [
       "sendMessage",
       expect.objectContaining({
-        text: "Open OpenClaw Control UI.",
+        text: "Open FRIDAY Control UI.",
         reply_markup: {
           inline_keyboard: [[{ text: "Open Control UI", web_app: { url: expect.any(String) } }]],
         },

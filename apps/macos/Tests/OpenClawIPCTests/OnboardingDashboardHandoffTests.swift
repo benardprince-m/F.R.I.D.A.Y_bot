@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 private actor OnboardingMethodRecorder {
     private var methods: [String] = []
@@ -262,7 +262,7 @@ struct OnboardingDashboardHandoffTests {
         await gateway.shutdown()
     }
 
-    @Test func `relaunch with pending inference resumes OpenClaw`() async throws {
+    @Test func `relaunch with pending inference resumes FRIDAY`() async throws {
         let suiteName = "OnboardingPendingInferenceResumeTests-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }

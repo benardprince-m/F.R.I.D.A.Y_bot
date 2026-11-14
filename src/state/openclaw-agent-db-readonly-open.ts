@@ -230,7 +230,7 @@ export function openOpenClawAgentDatabaseReadOnly(
         const schema = getAdmittedSqliteSchemaFacts(database.db);
         if (schema && hasPendingAgentStartupColumns(schema.tableSql)) {
           throw new SqliteSchemaMismatchError(
-            `OpenClaw agent database ${database.path} requires writable startup admission before session reads; restart the Gateway or run openclaw doctor --fix.`,
+            `FRIDAY agent database ${database.path} requires writable startup admission before session reads; restart the Gateway or run openclaw doctor --fix.`,
           );
         }
         return true;

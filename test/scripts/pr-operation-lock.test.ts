@@ -182,7 +182,7 @@ function createTemplateRepo() {
   const options = { cwd: dir, env: createPrFixtureEnv(dir, process.env.PATH ?? "") };
   execFileSync("git", ["init", "-q", "-b", "main"], options);
   writeFileSync(join(dir, ".git/info/exclude"), ".local/\n");
-  execFileSync("git", ["config", "user.name", "OpenClaw Test"], options);
+  execFileSync("git", ["config", "user.name", "FRIDAY Test"], options);
   execFileSync("git", ["config", "user.email", "test@openclaw.invalid"], options);
   // Copies retain these settings for later commands, not just template creation.
   for (const [key, value] of [

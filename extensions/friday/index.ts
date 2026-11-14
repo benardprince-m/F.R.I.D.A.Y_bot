@@ -1,4 +1,4 @@
-// FRIDAY — owner-controlled, messaging-first "second brain" for OpenClaw.
+// FRIDAY — owner-controlled, messaging-first "second brain" for FRIDAY.
 //
 // This entry is the thin wiring layer. All policy is pure and lives under `./src`; this file
 // only translates engine hook events into policy calls and back. It wires three seams:

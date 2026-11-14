@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { OpenClaw } from "./client.js";
+import { FRIDAY } from "./client.js";
 import { GatewayClientTransport } from "./transport.js";
 import { createSdkWebSocketServer } from "./transport.websocket.test-support.js";
 import type { OpenClawEvent } from "./types.js";
@@ -66,7 +66,7 @@ describe("GatewayClientTransport live WebSocket lifecycle", () => {
         gateway.reply(socket, request.id, { subscribed: false, key: canonicalKey });
       }
     });
-    const oc = new OpenClaw({
+    const oc = new FRIDAY({
       transport: new GatewayClientTransport({ url: gateway.url, deviceIdentity: null }),
     });
     let recent: AsyncIterator<OpenClawEvent> | undefined;
@@ -118,7 +118,7 @@ describe("GatewayClientTransport live WebSocket lifecycle", () => {
         );
       }
     });
-    const oc = new OpenClaw({
+    const oc = new FRIDAY({
       transport: new GatewayClientTransport({ url: gateway.url, deviceIdentity: null }),
     });
     let iterator: AsyncIterator<OpenClawEvent> | undefined;
@@ -152,7 +152,7 @@ describe("GatewayClientTransport live WebSocket lifecycle", () => {
       deviceIdentity: null,
       requestTimeoutMs: 2_000,
     });
-    const oc = new OpenClaw({ transport });
+    const oc = new FRIDAY({ transport });
     try {
       await oc.connect();
       const run = await oc.runs.get("stream-1");

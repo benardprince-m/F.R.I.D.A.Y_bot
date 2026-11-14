@@ -1,8 +1,8 @@
-# OpenClaw Chutes Provider
+# FRIDAY Chutes Provider
 
-Official OpenClaw provider plugin for Chutes.
+Official FRIDAY provider plugin for Chutes.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/chutes-provider

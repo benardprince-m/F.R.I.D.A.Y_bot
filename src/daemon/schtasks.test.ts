@@ -47,11 +47,7 @@ type RegisteredAction = { type: number; path: string; arguments: string; working
 function taskAction(pathname: string, args = "", workingDirectory = ""): RegisteredAction {
   return { type: 0, path: pathname, arguments: args, workingDirectory };
 }
-function mockRegisteredTask(
-  actions: RegisteredAction[],
-  taskPath = "\\OpenClaw Gateway",
-  state = 4,
-) {
+function mockRegisteredTask(actions: RegisteredAction[], taskPath = "\\FRIDAY Gateway", state = 4) {
   spawnSync.mockReturnValue({ status: 0, stdout: JSON.stringify({ taskPath, state, actions }) });
 }
 function effectiveCommand(env: Parameters<typeof readScheduledTaskCommand>[0]) {
@@ -81,16 +77,16 @@ const backupCommand = '"C:\\Node\\node.exe" "C:\\OtherInstall\\openclaw.mjs" gat
 describe("readScheduledTaskCommand", () => {
   it("reads a direct registered executable without inventing a launcher", async () => {
     const action = {
-      path: "C:\\OpenClaw\\openclaw.exe",
+      path: "C:\\FRIDAY\\openclaw.exe",
       arguments: 'gateway run --label "literal ^! label"',
     };
     const taskName = "\\Custom\\Gateway";
-    mockRegisteredTask([taskAction(action.path, action.arguments, "C:\\OpenClaw")], taskName);
+    mockRegisteredTask([taskAction(action.path, action.arguments, "C:\\FRIDAY")], taskName);
     const env = { USERPROFILE: "C:\\Users\\test", OPENCLAW_WINDOWS_TASK_NAME: taskName };
     const readFile = vi.spyOn(fs, "readFile");
     await expect(effectiveCommand(env)).resolves.toEqual({
       programArguments: [action.path, "gateway", "run", "--label", "literal ^! label"],
-      workingDirectory: "C:\\OpenClaw",
+      workingDirectory: "C:\\FRIDAY",
     });
     await expect(readScheduledTaskRuntime(env, { requireLoaded: true })).resolves.toMatchObject({
       status: "unknown",
@@ -106,7 +102,7 @@ describe("readScheduledTaskCommand", () => {
         "C:\\Node\\node.exe",
         kind === "environment expansion"
           ? '"%OPENCLAW_HOME%\\openclaw.mjs" gateway'
-          : '"C:\\OpenClaw\\openclaw.mjs gateway',
+          : '"C:\\FRIDAY\\openclaw.mjs gateway',
       );
       mockRegisteredTask([action], "\\Custom\\Gateway");
       await expect(
@@ -128,7 +124,7 @@ describe("readScheduledTaskCommand", () => {
   ] as const)(
     "reads the registered custom task action instead of the canonical launcher (%s)",
     async (kind) => {
-      const taskName = "\\OpenClaw Gateway Backup";
+      const taskName = "\\FRIDAY Gateway Backup";
       const scriptPath = "C:\\Services\\Backup\\gateway.cmd";
       const launcherPath =
         kind === "cmd"
@@ -157,7 +153,7 @@ describe("readScheduledTaskCommand", () => {
           [
             "@echo off",
             'set "OPENCLAW_PROFILE=default"',
-            'set "OPENCLAW_WINDOWS_TASK_NAME=OpenClaw Gateway Backup"',
+            'set "OPENCLAW_WINDOWS_TASK_NAME=FRIDAY Gateway Backup"',
             'set "OPENCLAW_STATE_DIR=C:\\Services\\Backup"',
             'set "OPENCLAW_CONFIG_PATH=C:\\Services\\Backup\\openclaw.json"',
             'cd /d "C:\\Services\\Backup"',
@@ -225,7 +221,7 @@ describe("readScheduledTaskCommand", () => {
       const script = [
         "@echo off",
         ...(scriptCwd ? [`cd /d "${scriptCwd}"`] : []),
-        '"C:\\Node\\node.exe" "C:\\OpenClaw\\openclaw.mjs" gateway --port 18789 < NUL',
+        '"C:\\Node\\node.exe" "C:\\FRIDAY\\openclaw.mjs" gateway --port 18789 < NUL',
       ].join("\r\n");
       const files = new Map([[scriptPath, script]]);
       mockLauncherFiles(files);
@@ -385,7 +381,7 @@ describe("readScheduledTaskCommand", () => {
     );
     mockRegisteredTask(
       kind === "multiple actions" ? [action, action] : [action],
-      "\\OpenClaw Gateway Backup",
+      "\\FRIDAY Gateway Backup",
       3,
     );
 
@@ -395,7 +391,7 @@ describe("readScheduledTaskCommand", () => {
           ? `${buildHiddenLauncherScript({ scriptPath })}WScript.Echo "extra executable statement"\r\n`
           : [
               "@echo off",
-              `set "OPENCLAW_WINDOWS_TASK_NAME=${kind === "saved name changed" ? "Other Task" : "OpenClaw Gateway Backup"}"`,
+              `set "OPENCLAW_WINDOWS_TASK_NAME=${kind === "saved name changed" ? "Other Task" : "FRIDAY Gateway Backup"}"`,
               'set "OPENCLAW_PROFILE=default"',
               "node gateway.js",
             ].join("\r\n"),
@@ -405,7 +401,7 @@ describe("readScheduledTaskCommand", () => {
       effectiveCommand({
         USERPROFILE: "C:\\Users\\test",
         OPENCLAW_PROFILE: "default",
-        OPENCLAW_WINDOWS_TASK_NAME: "OpenClaw Gateway Backup",
+        OPENCLAW_WINDOWS_TASK_NAME: "FRIDAY Gateway Backup",
       }),
     ).rejects.toThrow(inspectionError);
   });

@@ -29,15 +29,15 @@ describe("noteSourceInstallIssues", () => {
         JSON.stringify({
           schemaVersion: 1,
           owner: "macos-app",
-          displayName: "OpenClaw.app",
-          updateHint: "Update OpenClaw.app to update this Gateway.",
+          displayName: "FRIDAY.app",
+          updateHint: "Update FRIDAY.app to update this Gateway.",
         }),
       );
 
       await noteSourceInstallIssues(root);
 
       expect(note).toHaveBeenCalledExactlyOnceWith(
-        "Managed by OpenClaw.app. Update OpenClaw.app to update this Gateway.",
+        "Managed by FRIDAY.app. Update FRIDAY.app to update this Gateway.",
         "Install",
       );
     });

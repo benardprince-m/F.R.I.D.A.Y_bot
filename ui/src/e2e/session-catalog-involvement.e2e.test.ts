@@ -82,7 +82,7 @@ suite.define(() => {
         ],
       });
       const catalogs = [
-        catalog("session-share", "OpenClaw sessions", "node:remote", "Remote", [
+        catalog("session-share", "FRIDAY sessions", "node:remote", "Remote", [
           entry("shared", "Remote shared conversation"),
         ]),
         catalog("beam", "Beam", "gateway", "Imported", [entry("imported", "Imported meeting")]),

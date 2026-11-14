@@ -115,7 +115,7 @@ export function requireCodexThreadForkSettings(
   const settings = clients.get(client)?.get(threadId);
   if (!settings?.turn) {
     throw new Error(
-      "Cache-parity session fork requires a parent turn prepared by this OpenClaw runtime. Send a normal message first.",
+      "Cache-parity session fork requires a parent turn prepared by this FRIDAY runtime. Send a normal message first.",
     );
   }
   return { ...settings, turn: settings.turn };

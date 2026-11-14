@@ -371,15 +371,14 @@ describe("Codex app-server approval bridge", () => {
       stdout: "not-json",
       stderr: "",
       exitCode: 0,
-      message:
-        "OpenClaw native hook relay returned an unreadable Codex app-server approval result.",
+      message: "FRIDAY native hook relay returned an unreadable Codex app-server approval result.",
     },
     {
       label: "non-deny output",
       stdout: JSON.stringify({ hookSpecificOutput: { permissionDecision: "allow" } }),
       stderr: "",
       exitCode: 0,
-      message: "OpenClaw native hook relay returned a non-deny Codex app-server approval decision.",
+      message: "FRIDAY native hook relay returned a non-deny Codex app-server approval decision.",
     },
     {
       label: "non-zero exit",
@@ -589,7 +588,7 @@ describe("Codex app-server approval bridge", () => {
       decision: "decline",
       status: "denied",
       message:
-        "OpenClaw native hook relay unavailable for Codex app-server approval: native hook relay not found",
+        "FRIDAY native hook relay unavailable for Codex app-server approval: native hook relay not found",
     },
     {
       autoApprove: true,
@@ -634,7 +633,7 @@ describe("Codex app-server approval bridge", () => {
     expectHumanApprovalRoundtrip();
   });
 
-  it("denies command approvals when OpenClaw tool policy rewrites params", async () => {
+  it("denies command approvals when FRIDAY tool policy rewrites params", async () => {
     const params = createParams();
     mockRunBeforeToolCallHook.mockResolvedValueOnce({
       blocked: false,
@@ -658,11 +657,11 @@ describe("Codex app-server approval bridge", () => {
     findApprovalEvent(params, {
       status: "denied",
       message:
-        "OpenClaw tool policy rewrote Codex app-server approval params; refusing original request.",
+        "FRIDAY tool policy rewrote Codex app-server approval params; refusing original request.",
     });
   });
 
-  it("keeps OpenClaw plugin allow-always approvals scoped to one Codex request", async () => {
+  it("keeps FRIDAY plugin allow-always approvals scoped to one Codex request", async () => {
     const params = createParams();
     mockRunBeforeToolCallHook.mockResolvedValueOnce({
       blocked: false,
@@ -885,7 +884,7 @@ describe("Codex app-server approval bridge", () => {
 
     expect(result).toEqual({
       decision: "decline",
-      reason: "OpenClaw codex app-server bridge does not grant native approvals yet.",
+      reason: "FRIDAY codex app-server bridge does not grant native approvals yet.",
     });
     expect(mockRunBeforeToolCallHook).not.toHaveBeenCalled();
     expectHumanApprovalRoundtrip();

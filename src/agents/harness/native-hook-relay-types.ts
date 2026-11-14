@@ -125,7 +125,7 @@ export type RegisterNativeHookRelayParams = {
   requester?: PluginHookToolRequesterContext;
   approvalContext?: NativeHookRelayApprovalContext;
   allowedEvents?: readonly NativeHookRelayEvent[];
-  /** Whether this relay should run OpenClaw loop detection from native PreToolUse hooks. */
+  /** Whether this relay should run FRIDAY loop detection from native PreToolUse hooks. */
   preToolUseLoopDetection?: boolean;
   /** Never prune the all-tool PreToolUse policy relay. Requires runBeforeToolCall. */
   requirePreToolUse?: boolean;

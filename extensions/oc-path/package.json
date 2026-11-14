@@ -2,7 +2,7 @@
   "name": "@openclaw/oc-path",
   "version": "2026.10.4",
   "private": true,
-  "description": "OpenClaw oc:// workspace path plugin",
+  "description": "FRIDAY oc:// workspace path plugin",
   "type": "module",
   "dependencies": {
     "diff": "9.0.0",

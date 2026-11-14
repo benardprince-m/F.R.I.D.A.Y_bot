@@ -574,7 +574,7 @@ export async function handleOpenAiHttpRequest(
           return;
         }
 
-        const content = text || (toolCalls ? "" : "No response from OpenClaw.");
+        const content = text || (toolCalls ? "" : "No response from FRIDAY.");
         sendJson(res, 200, {
           id: runId,
           object: "chat.completion",

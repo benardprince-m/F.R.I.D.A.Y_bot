@@ -136,7 +136,7 @@ describe("public reader refresh lifecycle", () => {
     expect(f.fetch).not.toHaveBeenCalled();
     await vi.advanceTimersByTimeAsync(1500);
     expect(f.fetch).toHaveBeenCalledTimes(1);
-    expect(f.document.title).toBe("updated · OpenClaw");
+    expect(f.document.title).toBe("updated · FRIDAY");
     f.fetch.mockResolvedValue(f.response(304));
     await vi.advanceTimersByTimeAsync(16500);
     expect(f.fetch).toHaveBeenLastCalledWith(
@@ -159,7 +159,7 @@ describe("public reader refresh lifecycle", () => {
     const f = fixture();
     f.fetch.mockResolvedValue(f.response(404, "revoked"));
     await vi.advanceTimersByTimeAsync(16500);
-    expect(f.document.title).toBe("Conversation unavailable · OpenClaw");
+    expect(f.document.title).toBe("Conversation unavailable · FRIDAY");
     expect(f.document.querySelector("[data-entry-pending]")).toBeNull();
     await vi.advanceTimersByTimeAsync(60000);
     expect(f.fetch).toHaveBeenCalledTimes(1);
@@ -173,7 +173,7 @@ describe("public reader refresh lifecycle", () => {
     pending.resolve(f.response(200));
     await vi.advanceTimersByTimeAsync(0);
     expect(f.replaceWith).not.toHaveBeenCalled();
-    expect(f.document.title).toBe("Shared · OpenClaw");
+    expect(f.document.title).toBe("Shared · FRIDAY");
   });
   it("honors Retry-After without replacing the readable transcript", async () => {
     const f = fixture();
@@ -185,7 +185,7 @@ describe("public reader refresh lifecycle", () => {
     f.visibility(false);
     await vi.advanceTimersByTimeAsync(60000);
     expect(f.fetch).toHaveBeenCalledTimes(1);
-    expect(f.document.title).toBe("Shared · OpenClaw");
+    expect(f.document.title).toBe("Shared · FRIDAY");
     await vi.advanceTimersByTimeAsync(1500);
     expect(f.fetch).toHaveBeenCalledTimes(2);
   });
@@ -263,7 +263,7 @@ describe("public reader refresh lifecycle", () => {
     );
     f.event("online");
     await vi.advanceTimersByTimeAsync(0);
-    expect(f.document.title).toBe("updated · OpenClaw");
+    expect(f.document.title).toBe("updated · FRIDAY");
   });
   it("catches up on reconnect without overlapping requests, and keeps older pages still", async () => {
     const f = fixture();

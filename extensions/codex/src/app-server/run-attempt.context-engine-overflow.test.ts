@@ -482,7 +482,7 @@ describe("runCodexAppServerAttempt context-engine overflow recovery", () => {
     expect(result.assistantTexts).toContain("final answer");
   });
 
-  it("fails first-turn Codex context overflow instead of falling back to OpenClaw compaction", async () => {
+  it("fails first-turn Codex context overflow instead of falling back to FRIDAY compaction", async () => {
     const sessionFile = path.join(tempDir, "session.jsonl");
     const workspaceDir = path.join(tempDir, "workspace");
     const compact = vi.fn<ContextEngine["compact"]>();

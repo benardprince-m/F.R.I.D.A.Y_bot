@@ -1,4 +1,4 @@
-# MiniMax (OpenClaw plugin)
+# MiniMax (FRIDAY plugin)
 
 Bundled MiniMax plugin for both:
 

@@ -248,7 +248,7 @@ it.each([
                   ? refused.message
                   : kind === "missing"
                     ? "Gateway lock owner identity could not be verified"
-                    : "OpenClaw state database is busy",
+                    : "FRIDAY state database is busy",
             );
           } finally {
             resume.resolve();

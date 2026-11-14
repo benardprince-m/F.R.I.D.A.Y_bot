@@ -22,7 +22,7 @@ import { boundedEnv, prefix, readInput } from "./schtasks.installed-package.test
 import { resolveServiceManagerEnv } from "./service-process-env.js";
 
 const currentFile = fileURLToPath(import.meta.url);
-const taskPattern = /^OpenClaw-context-[0-9a-f-]{36}$/u;
+const taskPattern = /^FRIDAY-context-[0-9a-f-]{36}$/u;
 const order = [
   "inherited-direct",
   "bounded-direct",
@@ -276,7 +276,7 @@ async function main(inputPath: string) {
   );
   childProcess.execFileSync("git", ["--no-optional-locks", "diff", "--quiet", "HEAD", "--"]);
   const managedCwd = await fs.realpath(path.join(input.stateRoot, "fresh"));
-  const taskName = `OpenClaw-context-${randomUUID()}`;
+  const taskName = `FRIDAY-context-${randomUUID()}`;
   const root = path.join(input.stateRoot, `powershell-context-${randomUUID()}`);
   await fs.mkdir(root);
   const rows: Array<{

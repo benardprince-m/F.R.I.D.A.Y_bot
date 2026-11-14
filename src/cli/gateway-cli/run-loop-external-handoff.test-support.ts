@@ -97,7 +97,7 @@ export function registerExternalHandoffShutdownTests({
 
   it.each([
     { marker: "OPENCLAW_SUPERVISOR_MODE", value: "external", exitCode: undefined },
-    { marker: "OPENCLAW_WINDOWS_TASK_NAME", value: "OpenClaw Gateway", exitCode: 75 },
+    { marker: "OPENCLAW_WINDOWS_TASK_NAME", value: "FRIDAY Gateway", exitCode: 75 },
   ])(
     "releases the lock before supervised restart exit $exitCode",
     async ({ marker, value, exitCode }) => {

@@ -104,7 +104,7 @@ export function createOpenAIProvider(): ProviderPlugin {
           id: "device-code",
           kind: "device_code",
           label: "Codex login (device code)",
-          hint: "Use a browser code when OpenClaw runs on a remote VM",
+          hint: "Use a browser code when FRIDAY runs on a remote VM",
           matchesPersonalAccount,
           credentialImport: CODEX_CHATGPT_IMPORT,
           wizard: {
@@ -117,7 +117,7 @@ export function createOpenAIProvider(): ProviderPlugin {
           id: "siwc",
           kind: "oauth",
           label: "Sign in with ChatGPT (Beta)",
-          hint: "Authorize OpenClaw for eligible Responses models using your Codex allowance",
+          hint: "Authorize FRIDAY for eligible Responses models using your Codex allowance",
           matchesPersonalAccount: matchesTokenSharingAccount,
           wizard: {
             choiceId: "openai-token-sharing",

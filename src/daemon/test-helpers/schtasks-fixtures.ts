@@ -74,7 +74,7 @@ export async function writeGatewayScript(
 }
 
 export function resolveStartupFixturePath(env: Record<string, string>, extension = "cmd") {
-  const taskName = env.OPENCLAW_WINDOWS_TASK_NAME ?? "OpenClaw Gateway";
+  const taskName = env.OPENCLAW_WINDOWS_TASK_NAME ?? "FRIDAY Gateway";
   return path.join(
     expectDefined(env.APPDATA, "env.APPDATA test invariant"),
     "Microsoft",
@@ -201,7 +201,7 @@ export function createSchtasksNativeFixture(getEnv: () => Record<string, string>
         stdout: JSON.stringify({
           ...snapshot,
           enabled: !schtasksRegistration.response.stdout.includes("<Enabled>false</Enabled>"),
-          taskPath: getEnv().OPENCLAW_WINDOWS_TASK_NAME ?? "OpenClaw Gateway",
+          taskPath: getEnv().OPENCLAW_WINDOWS_TASK_NAME ?? "FRIDAY Gateway",
           actions: [
             { type: 0, path: "C:\\fixture\\gateway.cmd", arguments: "", workingDirectory: "" },
           ],

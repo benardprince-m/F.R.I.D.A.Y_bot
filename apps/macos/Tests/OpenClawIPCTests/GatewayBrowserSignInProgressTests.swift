@@ -1,7 +1,7 @@
 import Foundation
 import Synchronization
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @MainActor
 struct GatewayBrowserSignInProgressTests {

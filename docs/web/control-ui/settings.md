@@ -56,7 +56,7 @@ The environment adds a 2 px top stripe, an agent-avatar ring, label pills in the
 
 In **Settings → Appearance → Browser tab icon**, choose **Default**, **Agent avatar**, or **Lobsterdex**. Default keeps the theme and Gateway environment icon. Agent avatar follows the explicitly selected agent, fitting its image without cropping and falling back to Default when it is unavailable. Lobsterdex lets you choose a fixed lobster from those already unlocked in this browser. Activity and attention dots remain visible in every mode.
 
-Lobsterdex unlocks stay browser-local; this setting does not sync your collection. On another browser where your chosen lobster is not unlocked, OpenClaw keeps the choice but shows Default until that lobster is unlocked or you select another source. There are no custom uploads, per-tab choices, or agent-specific overrides.
+Lobsterdex unlocks stay browser-local; this setting does not sync your collection. On another browser where your chosen lobster is not unlocked, FRIDAY keeps the choice but shows Default until that lobster is unlocked or you select another source. There are no custom uploads, per-tab choices, or agent-specific overrides.
 
 This setting only changes your tab icon. To customize an agent's image, use **Agent settings → Overview → Identity**; editing that image changes the shared agent identity, not only your favicon.
 
@@ -82,11 +82,11 @@ Profile photos load through authenticated Gateway routes in the online roster, p
 
 On a single-user Gateway, unidentified operators share one durable owner profile across devices, including device-token reconnects. Its unset display name is seeded from the Gateway host account's full name, never its login name; saved names are never overwritten. Without a full name, the sidebar shows **Owner**. With `gateway.roles` configured, only token/password connections receive this owner profile; other unidentified connections see an explanation in Identity instead of editing controls. The owner profile has no email and grants no additional permissions.
 
-On macOS, the owner's avatar defaults to the Gateway host account's user picture when no OpenClaw avatar is saved. This uses the Mac running the Gateway, including when you connect from another device. A saved avatar always takes priority. OpenClaw reads the picture locally and serves a resized copy through the authenticated avatar route; other people's profiles never inherit it. Restart the Gateway to pick up a changed macOS picture. If the picture cannot be read, initials remain visible.
+On macOS, the owner's avatar defaults to the Gateway host account's user picture when no FRIDAY avatar is saved. This uses the Mac running the Gateway, including when you connect from another device. A saved avatar always takes priority. FRIDAY reads the picture locally and serves a resized copy through the authenticated avatar route; other people's profiles never inherit it. Restart the Gateway to pick up a changed macOS picture. If the picture cannot be read, initials remain visible.
 
 **Settings → Profile → Connected accounts** shows the selected **Gateway**, saved **Person**, and **Scope: Personal**. Choose **Add account**, then a provider and sign-in method from the Gateway's catalog. Browser/device sign-in, protected credential inputs, progress, and cancellation use one guided flow. These are the same personal accounts managed by `openclaw models accounts login`, not the machine-local system/agent credentials managed by `models auth`. Account controls follow the Gateway-assigned profile, including the shared owner profile on a single-user Gateway. If the connection has no profile, the section explains the missing identity and offers **Connection settings** without showing provider credential inputs. Shared Gateway tokens and device pairing alone do not distinguish people on a multi-user Gateway. See [Per-person model accounts](/concepts/multi-user#per-person-model-accounts).
 
-GitHub-backed sign-in through Cloudflare Access or Tailscale Serve fills the read-only **GitHub account** row with the verified public avatar and account link without replacing a custom OpenClaw avatar. **Git co-author credit** is a separate profile-wide toggle, on by default for verified accounts, that controls future commits from shared sessions. It stays editable for personal profiles without a single display account, including merged accounts on multiple enterprise hosts. See [User model](/concepts/user-model#gateway-profile-and-github-credit) for verification, retry, account-change, noreply privacy, and eligibility rules.
+GitHub-backed sign-in through Cloudflare Access or Tailscale Serve fills the read-only **GitHub account** row with the verified public avatar and account link without replacing a custom FRIDAY avatar. **Git co-author credit** is a separate profile-wide toggle, on by default for verified accounts, that controls future commits from shared sessions. It stays editable for personal profiles without a single display account, including merged accounts on multiple enterprise hosts. See [User model](/concepts/user-model#gateway-profile-and-github-credit) for verification, retry, account-change, noreply privacy, and eligibility rules.
 
 **Settings → Profile → GitHub connections** separately shows **My GitHub** and **System GitHub**. Identified people, including read-scoped operators, can connect and disconnect only their own account; administrators can also change the shared System account. Connecting defaults to **For me** for identified users and never changes their sign-in identity, co-author preference, or shared execution defaults. Personal credentials support explicit Gateway-brokered **Publish PR** actions, not ordinary agent shell commands. See [GitHub connections](/concepts/user-model#github-connections).
 
@@ -209,19 +209,19 @@ When your connection is bound to an authenticated Gateway profile, theme, theme 
 
 ## Opening links
 
-Under **Settings → Appearance → Chat**, enable **Open links outside OpenClaw**
-to open web links outside OpenClaw instead of in built-in readers or browser panels.
+Under **Settings → Appearance → Chat**, enable **Open links outside FRIDAY**
+to open web links outside FRIDAY instead of in built-in readers or browser panels.
 In a web browser, links use ordinary browser navigation; in a native app, they open
 in the system's default browser. The switch is off by default, preserving current
 behavior. Turning it off restores built-in readers and any existing **Open links
 in Control UI browser** preference. Browser preview cards also follow this setting
 when you click their image or **Open** button. Their three-dot menu offers
-**Open in OpenClaw** when external opening is enabled, or **Open in new tab**
+**Open in FRIDAY** when external opening is enabled, or **Open in new tab**
 when it is disabled. Explicit context-menu choices still work.
 
 This preference is stored only in the current browser or app webview, separately
 for each Gateway. It does not change shared Gateway configuration or sync across
-devices. Clearing site data resets it. Internal OpenClaw navigation and downloads
+devices. Clearing site data resets it. Internal FRIDAY navigation and downloads
 are unchanged.
 
 ## Session sources
@@ -270,7 +270,7 @@ Plugins can bundle multiple MCP servers. The metadata rail shows available relea
 documentation. Security audits link to ClawHub.
 
 Installed, disabled plugins put **Enable** first as the primary action, followed
-by **Ask OpenClaw**. Enabled plugins put primary **Ask OpenClaw** first, followed
+by **Ask FRIDAY**. Enabled plugins put primary **Ask FRIDAY** first, followed
 by **Disable**. Both rows then offer **Uninstall** when removable and an icon
 button for **Settings**. Uninstalled plugins put **Install** first. **Install**
 starts installation immediately and accepts the staged plugin’s declared
@@ -313,7 +313,7 @@ Workshop mode. Chat shows progress, results, and normal stop and follow-up contr
 
 Included plugins are already present on the Gateway and show **Enable** or
 **Disable** instead of **Install**. For example, Workboard is included with
-OpenClaw but disabled by default, so its action is **Enable**. Bundled plugins
+FRIDAY but disabled by default, so its action is **Enable**. Bundled plugins
 cannot be removed, only disabled.
 
 Reading the catalog and searching ClawHub require `operator.read`. Installing,
@@ -402,7 +402,7 @@ local Gateway still uses **Update Mac app + Gateway** and the native update flow
 Open **Apps** from the sidebar’s **Pages** view, the command palette, or the
 sidebar agent menu (**Get the apps**), or use `/apps` relative to the
 configured Control UI base path. The page collects install links for every
-OpenClaw companion surface: the [iOS](/platforms/ios) and
+FRIDAY companion surface: the [iOS](/platforms/ios) and
 [Android](/platforms/android) apps, the Apple Watch and Wear OS companions
 bundled with them, the [macOS](/platforms/macos), [Windows](/platforms/windows),
 and [Linux](/platforms/linux) desktop apps, the
@@ -411,7 +411,7 @@ and [Linux](/platforms/linux) desktop apps, the
 
 ## Settings
 
-Inside **Settings**, the dedicated sidebar includes **Ask OpenClaw** and starts with a **Search settings** field for quickly finding settings sections.
+Inside **Settings**, the dedicated sidebar includes **Ask FRIDAY** and starts with a **Search settings** field for quickly finding settings sections.
 
 Form edits save automatically. If the connection changes while edits are pending,
 autosave pauses until you choose **Save** to keep them or **Reload Config** to
@@ -533,7 +533,7 @@ and is omitted in compact panes. Conversation has no shortcut.
 Command+Option chords accept Option symbols through the physical key; Ctrl+Alt chords require the matching ASCII letter to preserve non-ASCII AltGr text. Dead keys and composition are ignored.
 
 The new panel chords include Option/Alt to avoid browser actions such as developer
-tools, Read Aloud, and find previous, and OpenClaw's existing debug-overlay shortcut.
+tools, Read Aloud, and find previous, and FRIDAY's existing debug-overlay shortcut.
 The existing Terminal, Files, and Side chat bindings are unchanged.
 
 <a id="this-mac-macos-app" />
@@ -554,7 +554,7 @@ and actions, location preferences, and active computer presence.
 **Talk** adds a **This Mac** section for Voice Wake, push-to-talk, sounds,
 microphone, and languages. **Updates** adds the app version, automatic update
 preference, and **Check for Updates**. These device settings appear only inside
-the OpenClaw app; ordinary browsers keep the Gateway settings. Talk trigger words
+the FRIDAY app; ordinary browsers keep the Gateway settings. Talk trigger words
 are Gateway settings and remain available in every browser.
 
 On iOS, the group is **This iPhone** or **This iPad**. The device page shows
@@ -614,7 +614,7 @@ dashboard pairing and backend plugin operations remain available.
 ## Import assistant memory
 
 Open **Settings** → **Import Memory** to bring local Codex, Claude Code, or Hermes memory
-into an OpenClaw agent. The Gateway discovers supported local memory on its own
+into an FRIDAY agent. The Gateway discovers supported local memory on its own
 host, so a remote Control UI imports from the Gateway computer rather than the
 browser computer.
 
@@ -636,7 +636,7 @@ credentials through this page. Files are copied below `memory/imports/` in the
 selected workspace, where the active memory plugin can index them. Sources are
 never changed.
 
-For a narrower conversational path, open **Settings → Ask OpenClaw** and say
+For a narrower conversational path, open **Settings → Ask FRIDAY** and say
 `import memory`. The chat wizard copies only new detected memory into the
 existing default agent workspace; it does not choose another destination agent
 or replace conflicts. It reports each source's confirmed copy count and warns
@@ -649,14 +649,14 @@ import. Retrying the same pending request reuses its recorded outcome while
 the Gateway retains it. A plugin cleanup warning does not undo completed copies.
 
 Planning and applying require `operator.admin`. Every apply creates a verified
-OpenClaw backup when state exists, writes a redacted migration report, and keeps
+FRIDAY backup when state exists, writes a redacted migration report, and keeps
 item-level backups before replacing existing destination files. See
 [Memory overview](/concepts/memory#import-from-coding-assistants) for paths and
 recall behavior.
 
 ## MCP page
 
-The dedicated MCP page is an operator view for OpenClaw-managed MCP servers under `mcp.servers`. It does not start MCP transports by itself; use it to inspect and edit saved config, then use `openclaw mcp doctor --probe` when you need live server proof.
+The dedicated MCP page is an operator view for FRIDAY-managed MCP servers under `mcp.servers`. It does not start MCP transports by itself; use it to inspect and edit saved config, then use `openclaw mcp doctor --probe` when you need live server proof.
 
 Typical workflow:
 

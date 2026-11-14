@@ -8,7 +8,7 @@ read_when:
   - You hit `compaction_loop_persisted` aborts after a context-overflow retry
 ---
 
-OpenClaw always stops a turn after three consecutive identical tool errors: the
+FRIDAY always stops a turn after three consecutive identical tool errors: the
 same tool, arguments, and error result. This narrow guard is independent of
 `tools.loopDetection`, including an explicit `enabled: false`. The turn ends with
 a recorded error explaining how to recover, such as checking the arguments or
@@ -189,7 +189,7 @@ so a no-config user still gets the protection.
 The always-on identical-error guard ends the turn with a visible error. The
 optional rolling detectors use the warning and recovery sequence below:
 
-- Warnings come first. On OpenClaw-executed tool calls, a short system note is
+- Warnings come first. On FRIDAY-executed tool calls, a short system note is
   appended to the affected tool result so the model can change approach before
   a critical block. Warnings share the diagnostic log's rate limit, rather than
   appearing on every repeated call. The raw outcome is recorded before the note

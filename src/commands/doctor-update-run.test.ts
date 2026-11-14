@@ -185,7 +185,7 @@ it("keeps foreign-destination remediation visible until a later successful updat
 
   expect(note).toHaveBeenCalledOnce();
   expect(note).toHaveBeenCalledWith(
-    expect.stringContaining("OpenClaw update failed: global-install-foreign-destination."),
+    expect.stringContaining("FRIDAY update failed: global-install-foreign-destination."),
     "Update history",
   );
   expect(reconcileInterruptedUpdateRuns).toHaveBeenCalledWith({ candidate: latest });

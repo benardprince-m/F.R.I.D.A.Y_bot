@@ -447,7 +447,7 @@ const BLOCK_MESSAGE =
   "Your message could not be sent: The agent cannot read this message. (blocked by policy-plugin)";
 
 const CLI_RESEED_PROMPT =
-  "Continue this conversation using the OpenClaw transcript below as prior session history.\n\n<conversation_history>\nUser: earlier context\n</conversation_history>\n\n<next_user_message>\nhi\n</next_user_message>";
+  "Continue this conversation using the FRIDAY transcript below as prior session history.\n\n<conversation_history>\nUser: earlier context\n</conversation_history>\n\n<next_user_message>\nhi\n</next_user_message>";
 
 describe("runCliAgent reliability", () => {
   beforeEach(() => {
@@ -768,7 +768,7 @@ describe("runCliAgent reliability", () => {
     ]);
   });
 
-  it("preserves first-turn delivery through cleanup without binding the OpenClaw session id", async () => {
+  it("preserves first-turn delivery through cleanup without binding the FRIDAY session id", async () => {
     supervisorSpawnMock.mockImplementationOnce(async (...args: unknown[]) => {
       const input = args[0] as Parameters<ReturnType<typeof getProcessSupervisor>["spawn"]>[0];
       completeCapturedToolCall(
@@ -1892,7 +1892,7 @@ describe("runCliAgent reliability", () => {
       runId: "run-retry-success",
       cliSessionId: "thread-123",
       openClawHistoryPrompt:
-        "Continue this conversation using the OpenClaw transcript below.\n\nUser: recovered history\n\n<next_user_message>\nhi\n</next_user_message>",
+        "Continue this conversation using the FRIDAY transcript below.\n\nUser: recovered history\n\n<next_user_message>\nhi\n</next_user_message>",
     });
     context.preparedBackend.backend.freshSessionRecovery = "invalidated-only";
     const clearBeforeRetry = vi.fn(async () => true);

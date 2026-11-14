@@ -86,7 +86,7 @@ function fixtureRoot(videoOnlySeeds = 0) {
           // Publishes its own price list (like Vercel or Kilo).
           mygate: { modelsDev: { provider: "mygate-md", passthroughProviderModel: true } },
           openrouter: { openRouter: { provider: "openrouter" }, modelsDev: false, liteLLM: false },
-          // models.dev names this vendor differently from its OpenClaw provider.
+          // models.dev names this vendor differently from its FRIDAY provider.
           moonshot: { modelsDev: { provider: "moonshotai" } },
         },
       },
@@ -565,7 +565,7 @@ describe("publish model catalog v2", () => {
       source: "openCode",
     });
     expect(v2.upstreamPricing).not.toHaveProperty("vendorx/model-a");
-    // Gateways pass through the vendor's models.dev slug, not its OpenClaw provider ID.
+    // Gateways pass through the vendor's models.dev slug, not its FRIDAY provider ID.
     expect(v2.upstreamPricing?.["moonshotai/kimi-k3"]).toEqual({
       input: 3,
       output: 15,

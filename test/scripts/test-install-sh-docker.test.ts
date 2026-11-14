@@ -1132,7 +1132,7 @@ printf 'status=%s\\n' "$status"
       "repository-branch-history",
       "git tag --points-at \"$selected_sha\" | grep -Eq '^v'",
       "git for-each-ref --format='%(refname:short)' --contains \"$selected_sha\" refs/remotes/origin",
-      "reachable from an OpenClaw branch or release tag",
+      "reachable from an FRIDAY branch or release tag",
     );
   });
 
@@ -1494,7 +1494,7 @@ printf 'command-status=%s\\n' "$command_result"
 const fs = require("node:fs");
 const args = process.argv.slice(2);
 if (args[0] === "--version") {
-  console.log("OpenClaw " + fs.readFileSync(process.env.FAKE_VERSION_FILE, "utf8"));
+  console.log("FRIDAY " + fs.readFileSync(process.env.FAKE_VERSION_FILE, "utf8"));
 } else if (args[0] === "update") {
   const before = fs.readFileSync(process.env.FAKE_VERSION_FILE, "utf8");
   fs.appendFileSync(process.env.FAKE_CALLS_FILE, JSON.stringify(args) + "\\n");
@@ -1845,7 +1845,7 @@ syncBuiltinESMExports();
     },
   );
 
-  it("requires Bun to trust and execute OpenClaw lifecycle scripts", () => {
+  it("requires Bun to trust and execute FRIDAY lifecycle scripts", () => {
     const tempDir = tempDirs.make("openclaw-bun-trusted-lifecycle-");
     const packageRoot = join(tempDir, "node_modules", "openclaw");
     const globalManifestPath = join(tempDir, "package.json");
@@ -1872,13 +1872,13 @@ syncBuiltinESMExports();
     writeFileSync(untrustedOutputPath, "./node_modules/openclaw [preinstall, postinstall]\n");
     const blocked = assertTrusted();
     expect(blocked.status).not.toBe(0);
-    expect(blocked.stderr).toContain("OpenClaw lifecycle scripts remain blocked by Bun");
+    expect(blocked.stderr).toContain("FRIDAY lifecycle scripts remain blocked by Bun");
 
     writeFileSync(untrustedOutputPath, "");
     writeFileSync(join(packageRoot, ".openclaw-lifecycle-pending"), "pending\n");
     const skipped = assertTrusted();
     expect(skipped.status).not.toBe(0);
-    expect(skipped.stderr).toContain("OpenClaw package lifecycle did not complete");
+    expect(skipped.stderr).toContain("FRIDAY package lifecycle did not complete");
   });
 
   it.runIf(process.platform !== "win32").each([
@@ -1933,7 +1933,7 @@ if [ "\${1:-}" = "pm" ] && [ "\${2:-}" = "-g" ] && [ "\${3:-}" = "untrusted" ]; 
   exit 0
 fi
 if [ "\${1:-}" = "run" ] && [ "\${2:-}" = "--bun" ]; then
-  echo "OpenClaw 2026.6.17"
+  echo "FRIDAY 2026.6.17"
   exit 0
 fi
 if [[ "\${1:-}" == */verify-fs-safe-native.mjs ]]; then
@@ -1945,7 +1945,7 @@ if [[ "\${1:-}" == */verify-fs-safe-native.mjs ]]; then
 fi
 if [[ "\${1:-}" == */openclaw.mjs ]]; then
   if [ "$FAKE_BUN_RUNTIME" = "unsupported" ]; then
-    echo 'openclaw: the Bun runtime is unsupported because OpenClaw requires node:sqlite.' >&2
+    echo 'openclaw: the Bun runtime is unsupported because FRIDAY requires node:sqlite.' >&2
     exit 1
   fi
   if [ "$FAKE_BUN_RUNTIME" = "unexpected-failure" ]; then
@@ -1985,7 +1985,7 @@ import http from "node:http";
 
 const args = process.argv.slice(2);
 if (args[0] === "--version") {
-  console.log("OpenClaw 2026.6.17");
+  console.log("FRIDAY 2026.6.17");
 } else if (args[0] === "--help") {
   console.log("Usage: openclaw");
 } else if (args[0] === "infer") {

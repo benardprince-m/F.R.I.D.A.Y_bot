@@ -91,7 +91,7 @@ function gateStatus(state: string, created_at: string, patch: object = {}) {
   return { ...recordedPullRequest(42), state, created_at, ...patch };
 }
 const settledGate = (created_at: string) =>
-  gateStatus("success", created_at, { context: "OpenClaw/CI-Gate" });
+  gateStatus("success", created_at, { context: "FRIDAY/CI-Gate" });
 
 type Reply = { body: unknown; status?: number; headers?: Record<string, string> };
 type Trace = {

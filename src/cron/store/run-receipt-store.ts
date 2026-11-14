@@ -31,7 +31,7 @@ const ensureNativeCronRunReceiptSchema = createSqliteSchemaEnsurer(
   () =>
     getOpenClawStateFeatureSchemaSql("cron_run_receipts", {
       endMarker: "ON cron_run_receipts(store_key, job_id, started_at_ms DESC, receipt_id DESC);",
-      errorMessage: "OpenClaw cron run receipt schema marker is missing.",
+      errorMessage: "FRIDAY cron run receipt schema marker is missing.",
     }),
   {
     tables: ["cron_run_receipts"],

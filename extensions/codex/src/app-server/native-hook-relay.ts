@@ -81,13 +81,13 @@ export type CodexNativeHookRelay = ReturnType<typeof registerNativeHookRelayForB
 export class CodexManagedHooksOnlyError extends Error {
   constructor() {
     super(
-      "Codex managed-only hooks disable the OpenClaw native hook relay; refusing unenforced execution",
+      "Codex managed-only hooks disable the FRIDAY native hook relay; refusing unenforced execution",
     );
     this.name = "CodexManagedHooksOnlyError";
   }
 }
 
-/** Enterprise managed-only policy silently drops the session-layer hooks that enforce OpenClaw. */
+/** Enterprise managed-only policy silently drops the session-layer hooks that enforce FRIDAY. */
 export async function assertCodexNativeHookRelayAllowed(
   client: Pick<CodexAppServerClient, "request">,
   signal?: AbortSignal,
@@ -539,7 +539,7 @@ export function resolveCodexNativeHookRelayEvents(params: {
   // Codex emits PermissionRequest before the app-server approval reviewer has
   // resolved the command. In native approval modes, let Codex's app-server
   // approval bridge own the real escalation instead of surfacing a stale
-  // pre-guardian OpenClaw plugin approval prompt.
+  // pre-guardian FRIDAY plugin approval prompt.
   return params.appServer.approvalPolicy === "never"
     ? CODEX_NATIVE_HOOK_RELAY_EVENTS
     : CODEX_NATIVE_HOOK_RELAY_EVENTS_WITH_APP_SERVER_APPROVALS;
@@ -637,7 +637,7 @@ export function buildCodexNativeHookRelayConfig(params: {
           command,
           timeout,
           async: false,
-          statusMessage: "OpenClaw native hook relay",
+          statusMessage: "FRIDAY native hook relay",
         },
       ],
     };
@@ -695,7 +695,7 @@ function buildCodexNativeToolMatcher(toolNames: readonly string[] | undefined): 
   for (const toolName of toolNames) {
     const canonicalToolName = toolName.trim();
     if (!canonicalToolName || canonicalToolName === "*") {
-      throw new TypeError("Codex native hook matcher requires canonical OpenClaw tool ids");
+      throw new TypeError("Codex native hook matcher requires canonical FRIDAY tool ids");
     }
     const nativeAliases = CODEX_HOOK_MATCHER_NAMES_BY_TOOL_ID[canonicalToolName];
     if (!nativeAliases) {

@@ -1,7 +1,7 @@
 import AppKit
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawKit
 
 /// This process-hosted composition runs only in the disposable, staged .app lane.
@@ -147,7 +147,7 @@ struct BundledRecoveryCompositionTests {
                     elements.first {
                         let value: Any? = $0.accessibilityValue?()
                         return $0.accessibilityRole?() == .staticText &&
-                            (value as? String)?.contains("Resume OpenClaw") == true
+                            (value as? String)?.contains("Resume FRIDAY") == true
                     }
                 })
             #expect(PostAppUpdateReceiptStore.pending(currentVersion: version)?.coreUpdatePending == true)
@@ -275,7 +275,7 @@ struct BundledRecoveryCompositionTests {
     private func updateWindow() async throws -> NSWindow {
         var window: NSWindow?
         try await TestWait.state("ordinary recovery window") {
-            window = NSApp.windows.first { $0.title == "OpenClaw updated" }
+            window = NSApp.windows.first { $0.title == "FRIDAY updated" }
             return window != nil
         }
         return try #require(window)

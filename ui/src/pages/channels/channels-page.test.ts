@@ -446,7 +446,7 @@ describe("ChannelsPage lifecycle", () => {
             {
               id: "slack",
               name: "Slack",
-              description: "OpenClaw Slack channel plugin.",
+              description: "FRIDAY Slack channel plugin.",
               origin: "bundled",
               installed: true,
               enabled: false,
@@ -484,7 +484,7 @@ describe("ChannelsPage lifecycle", () => {
     await waitForSolid(() => {
       expect(page.querySelector(".settings-row__title")?.textContent).toBe("Slack");
       expect(page.querySelector(".settings-row__desc")?.textContent).toBe(
-        "OpenClaw Slack channel plugin.",
+        "FRIDAY Slack channel plugin.",
       );
       expect(page.querySelector(".channels-item img")?.getAttribute("src")).toBe(
         "blob:slack-plugin-icon",
@@ -520,7 +520,7 @@ describe("ChannelsPage lifecycle", () => {
             {
               id: "mattermost",
               name: "Mattermost",
-              description: "OpenClaw Mattermost channel plugin.",
+              description: "FRIDAY Mattermost channel plugin.",
               origin: "bundled",
               installed: true,
               enabled: true,

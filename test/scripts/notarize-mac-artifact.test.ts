@@ -35,7 +35,7 @@ it.each([
   ["missing staple app", [], "Error: STAPLE_APP_PATH not found"],
 ] as const)("handles %s before notarization", (scenario, options, error) => {
   const root = tempDirs.make("openclaw-notary-input-");
-  const artifact = path.join(root, "OpenClaw.zip");
+  const artifact = path.join(root, "FRIDAY.zip");
   const missingApp = path.join(root, "Missing.app");
   fs.writeFileSync(artifact, "placeholder", "utf8");
   const result = runScript(
@@ -63,7 +63,7 @@ it.each([
 
 it("records the accepted notarization id before stapling", () => {
   const fixture = notarizationFixture();
-  const app = path.join(path.dirname(fixture.artifact), "OpenClaw.app");
+  const app = path.join(path.dirname(fixture.artifact), "FRIDAY.app");
   fs.mkdirSync(app);
   const result = expectSuccess(fixture.run(false, app));
   expectAccepted(fixture.result);
@@ -76,7 +76,7 @@ const submissionId = accepted.id;
 
 function notarizationFixture(extension = "zip", settings: Record<string, unknown> = {}) {
   const root = tempDirs.make("openclaw-notary-resume-");
-  const artifact = path.join(root, `OpenClaw.${extension}`);
+  const artifact = path.join(root, `FRIDAY.${extension}`);
   const submission = path.join(root, "submission.json");
   const result = path.join(root, "accepted.json");
   const calls = path.join(root, "calls.jsonl");
@@ -147,7 +147,7 @@ if (args[0] === "notarytool") {
   fs.chmodSync(path.join(bin, "xcrun"), 0o755);
   return {
     artifact,
-    uploadName: `${createHash("sha256").update("signed artifact").digest("hex")}-OpenClaw.${extension}`,
+    uploadName: `${createHash("sha256").update("signed artifact").digest("hex")}-FRIDAY.${extension}`,
     submission,
     result,
     configure: (value: Record<string, unknown> = {}) =>
@@ -235,7 +235,7 @@ it.each(["recent matching history", "old", "different name", "failed submit with
     });
     const otherEntry = historyEntry(
       matching
-        ? `${"a".repeat(64)}-OpenClaw.zip`
+        ? `${"a".repeat(64)}-FRIDAY.zip`
         : scenario === "old"
           ? fixture.uploadName
           : "Other.zip",
@@ -357,11 +357,11 @@ function recoveryFixture(archiveCase = "valid") {
       `
 import stat, sys, zipfile
 with zipfile.ZipFile(sys.argv[1], "w") as archive:
-    archive.writestr("OpenClaw.app/Contents/Info.plist", "signed bundle metadata")
+    archive.writestr("FRIDAY.app/Contents/Info.plist", "signed bundle metadata")
     if sys.argv[2] == "traversal":
-        archive.writestr("OpenClaw.app/../../outside", "escape")
+        archive.writestr("FRIDAY.app/../../outside", "escape")
     if sys.argv[2] in ("escaping-link", "valid"):
-        entry = zipfile.ZipInfo("OpenClaw.app/Contents/Frameworks/Current")
+        entry = zipfile.ZipInfo("FRIDAY.app/Contents/Frameworks/Current")
         entry.create_system = 3
         entry.external_attr = (stat.S_IFLNK | 0o777) << 16
         archive.writestr(entry, "../../../outside" if sys.argv[2] == "escaping-link" else "VersionA")

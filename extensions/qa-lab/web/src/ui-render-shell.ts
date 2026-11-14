@@ -117,7 +117,7 @@ export function renderSidebar(state: UiState): string {
                 selection?.runtimePair ? "openclaw,codex" : "",
                 [
                   ["", "Single runtime"],
-                  ["openclaw,codex", "OpenClaw × Codex"],
+                  ["openclaw,codex", "FRIDAY × Codex"],
                 ],
               )}
               ${renderSelect(

@@ -124,7 +124,7 @@ export async function runUpdateFinalizationDoctorInFreshProcess(params: {
   assertCurrent();
   const entryPath = params.entryPath ?? (await resolveGatewayInstallEntrypoint(params.root));
   if (!entryPath) {
-    throw new Error("Updated OpenClaw entrypoint not found for post-plugin doctor");
+    throw new Error("Updated FRIDAY entrypoint not found for post-plugin doctor");
   }
   assertCurrent();
   const args = [
@@ -525,7 +525,7 @@ export async function completePostCorePluginUpdate(
       entryPath = await resolveGatewayInstallEntrypoint(params.root);
       assertCurrent();
       if (!entryPath) {
-        throw new Error("Updated OpenClaw entrypoint not found for post-plugin doctor");
+        throw new Error("Updated FRIDAY entrypoint not found for post-plugin doctor");
       }
       const freshDoctorRequired =
         pluginUpdate.changed ||

@@ -1,5 +1,5 @@
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct AppleHealthDisclosureTests {
     @Test func `native Apple Health consent names its source data and destination`() {

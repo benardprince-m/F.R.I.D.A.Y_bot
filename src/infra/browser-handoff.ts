@@ -56,11 +56,11 @@ function renderBrowserHandoffDocument(targetUrl: string): string {
     "<head>",
     '<meta charset="utf-8">',
     `<meta http-equiv="refresh" content="0; url=${href}">`,
-    "<title>OpenClaw</title>",
+    "<title>FRIDAY</title>",
     "</head>",
     "<body>",
-    "<p>Opening the OpenClaw Control UI…</p>",
-    `<p>If nothing happens, <a href="${href}">continue to OpenClaw</a>.</p>`,
+    "<p>Opening the FRIDAY Control UI…</p>",
+    `<p>If nothing happens, <a href="${href}">continue to FRIDAY</a>.</p>`,
     `<script>location.replace(${escapeScriptString(targetUrl)});</script>`,
     "</body>",
     "</html>",
@@ -72,7 +72,7 @@ function renderBrowserHandoffDocument(targetUrl: string): string {
 async function createHandoffDirectory(): Promise<string> {
   if (process.platform !== "win32") {
     // mkdtemp creates the directory with mode 0700 under the shared secure
-    // OpenClaw temp root (owner-scoped fallback), never a bare os.tmpdir path.
+    // FRIDAY temp root (owner-scoped fallback), never a bare os.tmpdir path.
     return await fs.mkdtemp(path.join(resolvePreferredOpenClawTmpDir(), HANDOFF_DIR_PREFIX));
   }
   const directory = path.join(

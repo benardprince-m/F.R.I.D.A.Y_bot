@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-# Build and bundle OpenClaw with its matching private worker runtime.
-# Outputs to dist/OpenClaw.app, or the explicitly selected cloud-worker app.
+# Build and bundle FRIDAY with its matching private worker runtime.
+# Outputs to dist/FRIDAY.app, or the explicitly selected cloud-worker app.
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 source "$ROOT_DIR/scripts/lib/plistbuddy.sh"
@@ -14,7 +14,7 @@ case "$CLOUD_WORKER_HOST" in
   0 | 1) ;;
   *) echo "ERROR: OPENCLAW_MAC_CLOUD_WORKER_HOST must be 0 or 1." >&2; exit 1 ;;
 esac
-APP_BUNDLE_NAME=OpenClaw.app
+APP_BUNDLE_NAME=FRIDAY.app
 if [[ "$CLOUD_WORKER_HOST" == "1" ]]; then
   APP_BUNDLE_NAME=OpenClawCloudWorker.app
   if [[ "${BUNDLE_ID:-ai.openclaw.cloud-worker}" != ai.openclaw.cloud-worker ]]; then
@@ -49,7 +49,7 @@ APP_STAGE_DIR=""
 SWIFT_BUILD_PID=""
 SWIFT_BUILD_RESULTS=""
 BUILD_ROOT="$ROOT_DIR/apps/macos/.build"
-PRODUCT="OpenClaw"
+PRODUCT="FRIDAY"
 MLX_TTS_HELPER_PRODUCT="openclaw-mlx-tts"
 MLX_TTS_HELPER_ROOT="$ROOT_DIR/apps/macos-mlx-tts"
 MLX_TTS_HELPER_BUILD_ROOT="$MLX_TTS_HELPER_ROOT/.build"
@@ -353,7 +353,7 @@ mkdir -p "$APP_ROOT/Contents/Resources"
 mkdir -p "$APP_ROOT/Contents/Frameworks"
 
 echo "📄 Copying Info.plist template"
-INFO_PLIST_SRC="$ROOT_DIR/apps/macos/Sources/OpenClaw/Resources/Info.plist"
+INFO_PLIST_SRC="$ROOT_DIR/apps/macos/Sources/FRIDAY/Resources/Info.plist"
 if [ ! -f "$INFO_PLIST_SRC" ]; then
   echo "ERROR: Info.plist template missing at $INFO_PLIST_SRC" >&2
   exit 1
@@ -366,8 +366,8 @@ if [[ ! "$PORT_GUARDIAN_STORAGE_VERSION" =~ ^[1-9][0-9]*$ ]]; then
 fi
 plist_set_string_required "$APP_ROOT/Contents/Info.plist" CFBundleIdentifier "$BUNDLE_ID"
 if [[ "$CLOUD_WORKER_HOST" == "1" ]]; then
-  plist_set_string_required "$APP_ROOT/Contents/Info.plist" CFBundleName "OpenClaw Cloud Worker"
-  plist_set_or_add_string "$APP_ROOT/Contents/Info.plist" CFBundleDisplayName "OpenClaw Cloud Worker"
+  plist_set_string_required "$APP_ROOT/Contents/Info.plist" CFBundleName "FRIDAY Cloud Worker"
+  plist_set_or_add_string "$APP_ROOT/Contents/Info.plist" CFBundleDisplayName "FRIDAY Cloud Worker"
   /usr/libexec/PlistBuddy -c 'Add :OpenClawCloudWorkerHostVersion integer 1' "$APP_ROOT/Contents/Info.plist"
   /usr/libexec/PlistBuddy -c 'Delete :CFBundleURLTypes' "$APP_ROOT/Contents/Info.plist"
 fi
@@ -382,7 +382,7 @@ if [[ "$BUILD_CONFIG" == "release" ]]; then
   EMBEDDED_GIT_COMMIT="$(plist_print_required "$APP_ROOT/Contents/Info.plist" OpenClawGitCommit)"
   BRIDGE_SOURCE_COMMIT="$(plist_print_required "$APP_ROOT/Contents/Info.plist" PeekabooSourceCommit)"
   if [[ "$EMBEDDED_GIT_COMMIT" != "$BUILD_GIT_COMMIT" ]]; then
-    echo "ERROR: Release app OpenClaw source mismatch: OpenClawGitCommit='$EMBEDDED_GIT_COMMIT', expected='$BUILD_GIT_COMMIT'." >&2
+    echo "ERROR: Release app FRIDAY source mismatch: OpenClawGitCommit='$EMBEDDED_GIT_COMMIT', expected='$BUILD_GIT_COMMIT'." >&2
     exit 1
   fi
   if [[ "$BRIDGE_SOURCE_COMMIT" != "$PEEKABOO_SOURCE_COMMIT" ]]; then
@@ -395,17 +395,17 @@ plist_set_or_add_string "$APP_ROOT/Contents/Info.plist" SUPublicEDKey "$SPARKLE_
 plist_set_or_add_bool "$APP_ROOT/Contents/Info.plist" SUEnableAutomaticChecks "$AUTO_CHECKS"
 
 echo "🚚 Copying binary"
-cp "$BIN_PRIMARY" "$APP_ROOT/Contents/MacOS/OpenClaw"
+cp "$BIN_PRIMARY" "$APP_ROOT/Contents/MacOS/FRIDAY"
 if [[ "${#BUILD_ARCHS[@]}" -gt 1 ]]; then
   BIN_INPUTS=()
   for arch in "${BUILD_ARCHS[@]}"; do
     BIN_INPUTS+=("$(bin_for_arch "$arch")")
   done
-  /usr/bin/lipo -create "${BIN_INPUTS[@]}" -output "$APP_ROOT/Contents/MacOS/OpenClaw"
+  /usr/bin/lipo -create "${BIN_INPUTS[@]}" -output "$APP_ROOT/Contents/MacOS/FRIDAY"
 fi
-chmod +x "$APP_ROOT/Contents/MacOS/OpenClaw"
+chmod +x "$APP_ROOT/Contents/MacOS/FRIDAY"
 # SwiftPM outputs ad-hoc signed binaries; strip the signature before install_name_tool to avoid warnings.
-/usr/bin/codesign --remove-signature "$APP_ROOT/Contents/MacOS/OpenClaw" 2>/dev/null || true
+/usr/bin/codesign --remove-signature "$APP_ROOT/Contents/MacOS/FRIDAY" 2>/dev/null || true
 
 echo "🚚 Copying macOS control CLI"
 cp "$(mac_cli_bin_for_arch "$PRIMARY_ARCH")" "$APP_ROOT/Contents/MacOS/openclaw-mac"
@@ -473,15 +473,15 @@ xcrun actool "$ROOT_DIR/apps/macos/Icon.icon" \
   --development-region en --target-device mac \
   --minimum-deployment-target "$(plist_print_required "$APP_ROOT/Contents/Info.plist" LSMinimumSystemVersion)" \
   --platform macosx
-mv "$APP_ROOT/Contents/Resources/Icon.icns" "$APP_ROOT/Contents/Resources/OpenClaw.icns"
-cp -R "$ROOT_DIR/apps/macos/Sources/OpenClaw/Resources/AppIcons" "$APP_ROOT/Contents/Resources/AppIcons"
+mv "$APP_ROOT/Contents/Resources/Icon.icns" "$APP_ROOT/Contents/Resources/FRIDAY.icns"
+cp -R "$ROOT_DIR/apps/macos/Sources/FRIDAY/Resources/AppIcons" "$APP_ROOT/Contents/Resources/AppIcons"
 
 echo "📦 Copying device model resources"
 rm -rf "$APP_ROOT/Contents/Resources/DeviceModels"
-cp -R "$ROOT_DIR/apps/macos/Sources/OpenClaw/Resources/DeviceModels" "$APP_ROOT/Contents/Resources/DeviceModels"
+cp -R "$ROOT_DIR/apps/macos/Sources/FRIDAY/Resources/DeviceModels" "$APP_ROOT/Contents/Resources/DeviceModels"
 
 echo "📦 Copying provider icon resources"
-PROVIDER_ICONS_SRC="$ROOT_DIR/apps/macos/Sources/OpenClaw/Resources/ProviderIcons"
+PROVIDER_ICONS_SRC="$ROOT_DIR/apps/macos/Sources/FRIDAY/Resources/ProviderIcons"
 if [ ! -d "$PROVIDER_ICONS_SRC" ]; then
   echo "ERROR: Provider icon resources missing at $PROVIDER_ICONS_SRC" >&2
   exit 1
@@ -567,7 +567,7 @@ fi
 
 running_packaged_app_pids() {
   command -v pgrep >/dev/null 2>&1 || return 0
-  local app_binary="$APP_DESTINATION/Contents/MacOS/OpenClaw"
+  local app_binary="$APP_DESTINATION/Contents/MacOS/FRIDAY"
   local pid
   pgrep -x "$PRODUCT" 2>/dev/null | while IFS= read -r pid; do
     [[ "$pid" =~ ^[0-9]+$ ]] || continue
@@ -594,7 +594,7 @@ stop_packaged_app_if_running() {
     return 0
   fi
 
-  echo "⏹  Stopping packaged OpenClaw bundle (${pids[*]})"
+  echo "⏹  Stopping packaged FRIDAY bundle (${pids[*]})"
   kill "${pids[@]}" 2>/dev/null || true
   for _ in $(seq 1 40); do
     local alive=0
@@ -617,7 +617,7 @@ stop_packaged_app_if_running() {
     [[ "$alive" == "0" ]] && return 0
     sleep 0.1
   done
-  echo "ERROR: Packaged OpenClaw bundle did not exit: ${pids[*]}" >&2
+  echo "ERROR: Packaged FRIDAY bundle did not exit: ${pids[*]}" >&2
   return 1
 }
 

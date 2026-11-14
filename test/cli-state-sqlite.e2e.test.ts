@@ -188,7 +188,7 @@ describe("SQLite CLI maintenance ownership", () => {
         env,
       );
 
-      expectRejected(result, "outside the active OpenClaw state directory");
+      expectRejected(result, "outside the active FRIDAY state directory");
       expect(fs.existsSync(externalStorePath)).toBe(false);
     });
   }, 90_000);
@@ -263,7 +263,7 @@ describe("SQLite CLI maintenance ownership", () => {
               cli(["backup", "git", "init", "--repository", repository, "--remote", remote]),
               0,
             );
-            await requireGit(repository, ["config", "user.name", "OpenClaw Backup Test"]);
+            await requireGit(repository, ["config", "user.name", "FRIDAY Backup Test"]);
             await requireGit(repository, ["config", "user.email", "backup@example.invalid"]);
             fs.mkdirSync(hooks);
             const pushCredentials = credentialFixture("cli", "backup.git");

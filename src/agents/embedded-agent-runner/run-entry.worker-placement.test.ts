@@ -130,7 +130,7 @@ describe("runEmbeddedAgentEntry worker placement", () => {
       });
       if (selection !== "implicit") {
         await expect(entry).rejects.toThrow(
-          "Cloud worker turns require the OpenClaw runtime, not codex",
+          "Cloud worker turns require the FRIDAY runtime, not codex",
         );
       } else {
         await expect(entry).resolves.toMatchObject({

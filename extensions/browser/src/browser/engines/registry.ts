@@ -45,7 +45,7 @@ const chromiumEngine: BrowserEngineAdapter = {
       isRemote,
       // A loopback attach-only endpoint can terminate in Docker or a tunnel, and a
       // Store-installed extension's chrome.debugger client cannot read local files.
-      // Only an OpenClaw-owned local-managed browser is known to share this filesystem.
+      // Only an FRIDAY-owned local-managed browser is known to share this filesystem.
       // Extension uploads therefore go through the byte-payload branch so no local path
       // reaches DOM.setFileInputFiles (which Chrome rejects for packed extensions).
       browserFilesystemLocal: localManaged && !profile.attachOnly,

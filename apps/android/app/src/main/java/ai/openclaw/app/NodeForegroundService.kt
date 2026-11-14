@@ -37,7 +37,7 @@ class NodeForegroundService : Service() {
     ensureChannel()
     val initial =
       buildNotification(
-        title = nativeString("OpenClaw Node"),
+        title = nativeString("FRIDAY Node"),
         text = nativeString("Starting…"),
       )
     startForegroundWithTypes(notification = initial)
@@ -101,9 +101,9 @@ class NodeForegroundService : Service() {
       voiceCaptureMode = state.mode
       val title =
         when {
-          state.connection.isConnected && state.mode == VoiceCaptureMode.TalkMode -> nativeString("OpenClaw Node · Talk")
-          state.connection.isConnected -> nativeString("OpenClaw Node · Connected")
-          else -> nativeString("OpenClaw Node")
+          state.connection.isConnected && state.mode == VoiceCaptureMode.TalkMode -> nativeString("FRIDAY Node · Talk")
+          state.connection.isConnected -> nativeString("FRIDAY Node · Connected")
+          else -> nativeString("FRIDAY Node")
         }
       val displayStatus = gatewayConnectionStatusForDisplay(state.connection.statusText)
       val text =
@@ -148,7 +148,7 @@ class NodeForegroundService : Service() {
         startForegroundWithTypes(
           notification =
             buildNotification(
-              title = nativeString("OpenClaw Node"),
+              title = nativeString("FRIDAY Node"),
               text =
                 if (voiceCaptureMode == VoiceCaptureMode.TalkMode) {
                   nativeString("Talk mode active")
@@ -186,7 +186,7 @@ class NodeForegroundService : Service() {
         nativeString("Connection"),
         NotificationManager.IMPORTANCE_LOW,
       ).apply {
-        description = nativeString("OpenClaw node connection status")
+        description = nativeString("FRIDAY node connection status")
         setShowBadge(false)
       }
     mgr.createNotificationChannel(channel)

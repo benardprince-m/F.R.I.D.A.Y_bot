@@ -168,19 +168,19 @@ export async function installChromeExtensionBootstrap(params: {
         params.requestStoreInstall === false ? undefined : await requestChromeStoreInstall(root);
       if (request) {
         params.onProgress?.(
-          `Requested the OpenClaw Store extension for ${root.label}. Restart Chrome if needed, then approve OpenClaw in chrome://extensions.`,
+          `Requested the FRIDAY Store extension for ${root.label}. Restart Chrome if needed, then approve FRIDAY in chrome://extensions.`,
         );
       }
     } catch (error) {
       params.signal?.throwIfAborted();
       preRegistrationIssues.push(
-        `${root.label}: Store installation request refused (${error instanceof Error ? error.message : String(error)}). Add OpenClaw directly: ${FOUNDATION_CHROME_WEB_STORE_URL}`,
+        `${root.label}: Store installation request refused (${error instanceof Error ? error.message : String(error)}). Add FRIDAY directly: ${FOUNDATION_CHROME_WEB_STORE_URL}`,
       );
     }
   }
   if (preRegisteredRoots > 0) {
     params.onProgress?.(
-      `Native bootstrap is ready. Add OpenClaw from the Chrome Web Store: ${FOUNDATION_CHROME_WEB_STORE_URL}. For development, load unpacked from ${installed}.`,
+      `Native bootstrap is ready. Add FRIDAY from the Chrome Web Store: ${FOUNDATION_CHROME_WEB_STORE_URL}. For development, load unpacked from ${installed}.`,
     );
   } else {
     preRegistrationIssues.push(
@@ -200,7 +200,7 @@ export async function installChromeExtensionBootstrap(params: {
     Date.now() < deadline
   ) {
     if (!announcedWait) {
-      params.onProgress?.("Waiting for Chrome to verify the OpenClaw extension…");
+      params.onProgress?.("Waiting for Chrome to verify the FRIDAY extension…");
       announcedWait = true;
     }
     params.signal?.throwIfAborted();
@@ -308,7 +308,7 @@ export async function browserExtensionStatus(params: {
       unavailableRegistration,
     issues: [
       ...(installedCopy.present && !installedCopy.owned
-        ? [`Chrome extension copy is not OpenClaw-owned: ${installedPath}`]
+        ? [`Chrome extension copy is not FRIDAY-owned: ${installedPath}`]
         : []),
       ...discovery.issues,
       ...(windows?.issues ?? []),

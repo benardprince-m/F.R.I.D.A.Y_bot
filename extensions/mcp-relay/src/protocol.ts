@@ -89,7 +89,7 @@ export function safeError(error: unknown): { code: ErrorCode; message: string } 
     ? { code: error.code, message: error.message }
     : {
         code: "internal",
-        message: "OpenClaw could not complete this request. Check the Gateway logs and try again.",
+        message: "FRIDAY could not complete this request. Check the Gateway logs and try again.",
       };
 }
 

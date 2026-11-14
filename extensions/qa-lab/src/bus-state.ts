@@ -27,7 +27,7 @@ import { createQaBusWaiterStore, throwQaBusClosed } from "./bus-waiters.js";
 import { parseQaTarget, sanitizeQaBusToolCalls } from "./qa-bus-protocol.js";
 
 const DEFAULT_BOT_ID = "openclaw";
-const DEFAULT_BOT_NAME = "OpenClaw QA";
+const DEFAULT_BOT_NAME = "FRIDAY QA";
 
 function normalizeInboundConversation(conversation: QaBusConversation): QaBusConversation {
   const rawKind = (conversation as { kind?: unknown }).kind;

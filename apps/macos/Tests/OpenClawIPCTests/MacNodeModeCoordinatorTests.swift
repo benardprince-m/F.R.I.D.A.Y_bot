@@ -2,7 +2,7 @@ import Foundation
 import OpenClawIPC
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 private actor CoordinatorInvokeLifecycleProbe {
     private var invokeStarted = false
@@ -413,13 +413,13 @@ struct MacNodeModeCoordinatorTests {
     }
 
     @Test func `newer state schema exposes app update recovery from native node status`() throws {
-        let diagnostic = "OpenClaw state database /state/state.db uses newer schema version 18; " +
+        let diagnostic = "FRIDAY state database /state/state.db uses newer schema version 18; " +
             "this build supports 17."
         let line = try #require(MacNodeChannelState.connected(
             workerUnavailableReason: "worker exited with status exited(1)",
             diagnostic: diagnostic).operatorStatusLine)
 
-        #expect(line.label == "Mac node degraded — update the OpenClaw app: its worker supports schema 17, " +
+        #expect(line.label == "Mac node degraded — update the FRIDAY app: its worker supports schema 17, " +
             "but shared state requires schema 18")
         #expect(line.recoveryAction == .checkForUpdates)
         #expect(line.diagnostic == diagnostic)

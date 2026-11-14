@@ -251,7 +251,7 @@ describe("created initial target in selected mode", () => {
       if (revoked) {
         await runtime(h, "toggleTabAccess", { tabId: 101, accessMode: mode, grant: false });
       }
-      h.tabGroupUpdatedListener?.({ id: 7, title: "OpenClaw" });
+      h.tabGroupUpdatedListener?.({ id: 7, title: "FRIDAY" });
       creating.finish();
       expectType(await creating.result, revoked ? "error" : "result");
       expectUnused(h.tabsRemove);

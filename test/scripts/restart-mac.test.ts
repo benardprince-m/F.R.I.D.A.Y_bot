@@ -71,10 +71,10 @@ function runCleanupFunction(fakePs: string) {
       block("kill_all_openclaw()", "stop_launch_agent()"),
       'ROOT_DIR="/worktree"',
       'APP_BUNDLE=""',
-      'APP_EXECUTABLE_RELATIVE_PATH="Contents/MacOS/OpenClaw"',
-      'DEBUG_PROCESS_PATTERN="/worktree/apps/macos/.build/debug/OpenClaw"',
-      'LOCAL_PROCESS_PATTERN="/worktree/apps/macos/.build-local/debug/OpenClaw"',
-      'RELEASE_PROCESS_PATTERN="/worktree/apps/macos/.build/release/OpenClaw"',
+      'APP_EXECUTABLE_RELATIVE_PATH="Contents/MacOS/FRIDAY"',
+      'DEBUG_PROCESS_PATTERN="/worktree/apps/macos/.build/debug/FRIDAY"',
+      'LOCAL_PROCESS_PATTERN="/worktree/apps/macos/.build-local/debug/FRIDAY"',
+      'RELEASE_PROCESS_PATTERN="/worktree/apps/macos/.build/release/FRIDAY"',
       "kill() {",
       '  printf "%s\\n" "$*" >> "$OPENCLAW_TEST_KILL_CALLS"',
       "  return 0",
@@ -108,8 +108,8 @@ function runManagedSupervisorClassifier(records: string[], failEnumeration = fal
       '  grep "^$1|$2|" "$OPENCLAW_TEST_LOADED_JOBS" |',
       "    awk -F'|' '{ print \"program = \" $3; print \"properties = \" $4 }'",
       "}",
-      'TARGET_EXECUTABLE="/worktree/dist/OpenClaw.app/Contents/MacOS/OpenClaw"',
-      'INSTALLED_EXECUTABLE="/Applications/OpenClaw.app/Contents/MacOS/OpenClaw"',
+      'TARGET_EXECUTABLE="/worktree/dist/FRIDAY.app/Contents/MacOS/FRIDAY"',
+      'INSTALLED_EXECUTABLE="/Applications/FRIDAY.app/Contents/MacOS/FRIDAY"',
       "managed_openclaw_supervisor_labels",
     ],
     {
@@ -192,9 +192,9 @@ function runForeignProcessClassifier(fakePs: string) {
     root,
     [
       block("process_pids_matching()", "stop_launch_agent()"),
-      'APP_EXECUTABLE_RELATIVE_PATH="Contents/MacOS/OpenClaw"',
-      'TARGET_EXECUTABLE="/Users/steipete/openclaw/dist/OpenClaw.app/Contents/MacOS/OpenClaw"',
-      'INSTALLED_EXECUTABLE="/Applications/OpenClaw.app/Contents/MacOS/OpenClaw"',
+      'APP_EXECUTABLE_RELATIVE_PATH="Contents/MacOS/FRIDAY"',
+      'TARGET_EXECUTABLE="/Users/steipete/openclaw/dist/FRIDAY.app/Contents/MacOS/FRIDAY"',
+      'INSTALLED_EXECUTABLE="/Applications/FRIDAY.app/Contents/MacOS/FRIDAY"',
       "foreign_openclaw_process_pids",
     ],
     fakeTools(root, { ps: fakePs }),
@@ -203,7 +203,7 @@ function runForeignProcessClassifier(fakePs: string) {
 
 describe("scripts/restart-mac.sh", () => {
   it("preserves an explicit signing identity through signed packaging", () => {
-    const identity = "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)";
+    const identity = "Developer ID Application: FRIDAY Foundation (FWJYW4S8P8)";
     const result = runSigningEnvironmentBlock(identity);
 
     expectSuccess(result, identity);
@@ -293,10 +293,10 @@ describe("scripts/restart-mac.sh", () => {
 
     expect(script).toContain('fail "OPENCLAW_APP_BUNDLE does not exist: ${APP_BUNDLE}"');
     expect(chooseBlock).toContain("canonicalize_app_bundle");
-    expect(chooseBlock.indexOf("${ROOT_DIR}/dist/OpenClaw.app")).toBeGreaterThan(-1);
-    expect(chooseBlock.indexOf("/Applications/OpenClaw.app")).toBeGreaterThan(-1);
-    expect(chooseBlock.indexOf("${ROOT_DIR}/dist/OpenClaw.app")).toBeLessThan(
-      chooseBlock.indexOf("/Applications/OpenClaw.app"),
+    expect(chooseBlock.indexOf("${ROOT_DIR}/dist/FRIDAY.app")).toBeGreaterThan(-1);
+    expect(chooseBlock.indexOf("/Applications/FRIDAY.app")).toBeGreaterThan(-1);
+    expect(chooseBlock.indexOf("${ROOT_DIR}/dist/FRIDAY.app")).toBeLessThan(
+      chooseBlock.indexOf("/Applications/FRIDAY.app"),
     );
   });
 
@@ -329,9 +329,9 @@ describe("scripts/restart-mac.sh", () => {
 
   it("finds persistent launchd supervisors across explicit domains", () => {
     const result = runManagedSupervisorClassifier([
-      "gui/501|ai.openclaw.mac.custom|/Applications/OpenClaw.app/Contents/MacOS/OpenClaw|keepalive | runatload",
-      "user/501|ai.openclaw.mac.target|/worktree/dist/OpenClaw.app/Contents/MacOS/OpenClaw|keepalive",
-      "gui/501|application.ai.openclaw.mac.123|/Applications/OpenClaw.app/Contents/MacOS/OpenClaw|",
+      "gui/501|ai.openclaw.mac.custom|/Applications/FRIDAY.app/Contents/MacOS/FRIDAY|keepalive | runatload",
+      "user/501|ai.openclaw.mac.target|/worktree/dist/FRIDAY.app/Contents/MacOS/FRIDAY|keepalive",
+      "gui/501|application.ai.openclaw.mac.123|/Applications/FRIDAY.app/Contents/MacOS/FRIDAY|",
       "system|com.example.other|/Applications/Other.app/Contents/MacOS/Other|keepalive",
     ]);
 
@@ -371,10 +371,10 @@ describe("scripts/restart-mac.sh", () => {
     const result = runForeignProcessClassifier(
       [
         "#!/usr/bin/env bash",
-        "printf '%s\\n' '  101 /Applications/OpenClaw.app/Contents/MacOS/OpenClaw --attach-only'",
-        "printf '%s\\n' '  102 /Users/steipete/openclaw/dist/OpenClaw.app/Contents/MacOS/OpenClaw --attach-only'",
-        "printf '%s\\n' '  103 /tmp/agent/OpenClaw.app/Contents/MacOS/OpenClaw --attach-only'",
-        "printf '%s\\n' '  104 /bin/sh test.sh /Applications/OpenClaw.app/Contents/MacOS/OpenClaw'",
+        "printf '%s\\n' '  101 /Applications/FRIDAY.app/Contents/MacOS/FRIDAY --attach-only'",
+        "printf '%s\\n' '  102 /Users/steipete/openclaw/dist/FRIDAY.app/Contents/MacOS/FRIDAY --attach-only'",
+        "printf '%s\\n' '  103 /tmp/agent/FRIDAY.app/Contents/MacOS/FRIDAY --attach-only'",
+        "printf '%s\\n' '  104 /bin/sh test.sh /Applications/FRIDAY.app/Contents/MacOS/FRIDAY'",
       ].join("\n"),
     );
 
@@ -399,13 +399,13 @@ describe("scripts/restart-mac.sh", () => {
 
   it("normalizes custom app bundle paths before process matching", () => {
     const root = makeTempRoot("openclaw-restart-mac-test-");
-    const appBundle = join(root, "dist", "OpenClaw.app");
+    const appBundle = join(root, "dist", "FRIDAY.app");
     fs.mkdirSync(appBundle, { recursive: true });
 
     const result = runHarness(root, [
       "set -euo pipefail",
       block("canonicalize_app_bundle()", "trap cleanup"),
-      `APP_BUNDLE=${shellQuote(`${appBundle}/../OpenClaw.app/`)}`,
+      `APP_BUNDLE=${shellQuote(`${appBundle}/../FRIDAY.app/`)}`,
       fail,
       "canonicalize_app_bundle",
       'printf "%s\\n" "$APP_BUNDLE"',
@@ -423,12 +423,12 @@ describe("scripts/restart-mac.sh", () => {
     ],
     ["does not kill unrelated app bundles", 0, 0, ""],
   ])("%s", (_name, exit, kills, until) => {
-    const executable = kills ? "/worktree/dist/OpenClaw.app" : "/tmp/Other/OpenClaw.app";
+    const executable = kills ? "/worktree/dist/FRIDAY.app" : "/tmp/Other/FRIDAY.app";
     const { killCalls, result } = runCleanupFunction(
       [
         "#!/usr/bin/env bash",
         until,
-        `printf '%s\\n' '  321 ${executable}/Contents/MacOS/OpenClaw --attach-only'`,
+        `printf '%s\\n' '  321 ${executable}/Contents/MacOS/FRIDAY --attach-only'`,
       ].join("\n"),
     );
     expect(result).toMatchObject({ status: exit, stdout: "", stderr: "" });
@@ -442,7 +442,7 @@ describe("scripts/restart-mac.sh", () => {
   it("keeps the restart grace period longer than the app signal failsafe", () => {
     const cleanupBlock = block("kill_all_openclaw()", "stop_launch_agent()");
     const watcher = fs.readFileSync(
-      "apps/macos/Sources/OpenClaw/TerminationSignalWatcher.swift",
+      "apps/macos/Sources/FRIDAY/TerminationSignalWatcher.swift",
       "utf8",
     );
     const maxAttempts = Number(cleanupBlock.match(/local max_attempts=(\d+)/u)?.[1]);

@@ -117,7 +117,7 @@ describe("openai transport stream", () => {
     },
   );
 
-  it("keeps Codex response shaping when simple completions use the OpenClaw transport alias", () => {
+  it("keeps Codex response shaping when simple completions use the FRIDAY transport alias", () => {
     const params = buildOpenAIResponsesParams(
       {
         ...makeResponsesModel(),

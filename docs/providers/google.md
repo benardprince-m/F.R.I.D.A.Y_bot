@@ -2,7 +2,7 @@
 summary: "Google Gemini setup (AI Studio API key, Vertex AI, optional CLI runtime, and multimodal tools)"
 title: "Google (Gemini)"
 read_when:
-  - You want to use Google Gemini models with OpenClaw
+  - You want to use Google Gemini models with FRIDAY
   - You need Google AI Studio, Vertex AI, or Gemini CLI runtime guidance
 ---
 
@@ -64,9 +64,9 @@ the Gateway already runs inside a managed Google Cloud environment.
     `GEMINI_API_KEY` and `GOOGLE_API_KEY` are both accepted. Use whichever you already have configured.
     </Tip>
 
-    With a configured API key, OpenClaw refreshes Google AI Studio's text-model
+    With a configured API key, FRIDAY refreshes Google AI Studio's text-model
     catalog from the Gemini `models.list` API. Supported Gemini text models therefore appear in
-    `openclaw models list --provider google` without waiting for an OpenClaw
+    `openclaw models list --provider google` without waiting for an FRIDAY
     release. Failed refreshes report the failure and retain the last successful
     inventory, or bundled models before the first success. A successful empty
     response clears discovered models. Vertex uses its separate static catalog.
@@ -104,7 +104,7 @@ the Gateway already runs inside a managed Google Cloud environment.
       <Step title="Credential: automatic discovery or manual sentinel">
         With a recognized ADC file (created by
         `gcloud auth application-default login`) **and** the project and
-        location variables set, OpenClaw discovers `google-vertex`
+        location variables set, FRIDAY discovers `google-vertex`
         automatically — nothing needs to be stored.
 
         Manual storage is only needed for metadata-only credentials (for
@@ -138,7 +138,7 @@ the Gateway already runs inside a managed Google Cloud environment.
 
     <Tip>
     Vertex uses a separate static model catalog; new Gemini variants appear
-    there per OpenClaw release rather than through the live refresh used by the
+    there per FRIDAY release rather than through the live refresh used by the
     AI Studio key path.
     </Tip>
 
@@ -149,7 +149,7 @@ the Gateway already runs inside a managed Google Cloud environment.
     Gemini CLI while keeping authentication on the supported AI Studio API-key
     path.
 
-    OpenClaw does not offer new Gemini CLI OAuth or Antigravity OAuth setup.
+    FRIDAY does not offer new Gemini CLI OAuth or Antigravity OAuth setup.
     [Google ended consumer Gemini CLI Login with Google access on June 18, 2026](https://developers.google.com/gemini-code-assist/docs/deprecations/code-assist-individuals),
     and the [Antigravity terms](https://antigravity.google/terms) prohibit
     third-party tools from accessing the service through Antigravity OAuth. Use
@@ -157,7 +157,7 @@ the Gateway already runs inside a managed Google Cloud environment.
 
     <Steps>
       <Step title="Configure Google AI Studio">
-        Complete the API-key setup in the first tab. OpenClaw must have a usable
+        Complete the API-key setup in the first tab. FRIDAY must have a usable
         `google` API-key profile before the CLI runtime can be selected.
       </Step>
       <Step title="Install Gemini CLI">
@@ -171,7 +171,7 @@ the Gateway already runs inside a managed Google Cloud environment.
         npm install -g @google/gemini-cli
         ```
 
-        OpenClaw supports both Homebrew installs and global npm installs, including
+        FRIDAY supports both Homebrew installs and global npm installs, including
         common Windows/npm layouts.
       </Step>
       <Step title="Select the CLI runtime">
@@ -205,7 +205,7 @@ the Gateway already runs inside a managed Google Cloud environment.
     registered backend.
 
     Existing valid Gemini CLI OAuth profiles remain executable for compatibility,
-    but OpenClaw cannot create or repair them. If one breaks, replace it with a
+    but FRIDAY cannot create or repair them. If one breaks, replace it with a
     Google AI Studio API-key profile.
 
     `google-gemini-cli/*` refs remain legacy compatibility aliases. New configs
@@ -251,7 +251,7 @@ The bundled catalog also includes the stable `google/gemini-3.8-flash`, with a
 | Gemma 4 models         | Yes                           |
 
 Responses marked `MAX_TOKENS` or `CONTINUATION` reached a generation limit.
-OpenClaw preserves their partial content and reports a length-limited result.
+FRIDAY preserves their partial content and reports a length-limited result.
 Function calls in that partial response remain incomplete instead of becoming
 an executable tool-use turn.
 
@@ -287,30 +287,30 @@ Gemini web search reuses `models.providers.google.baseUrl`. See
 
 <Tip>
 Gemini 3 and Gemini 4 models use `thinkingLevel` rather than `thinkingBudget`.
-OpenClaw maps these models and `gemini-*-latest` alias reasoning controls to
+FRIDAY maps these models and `gemini-*-latest` alias reasoning controls to
 `thinkingLevel` so default/low-latency runs do not send disabled
 `thinkingBudget` values.
 
 `/think adaptive` keeps Google's dynamic thinking semantics instead of choosing
-a fixed OpenClaw level. Gemini 3 and Gemini 4 omit a fixed `thinkingLevel` so
+a fixed FRIDAY level. Gemini 3 and Gemini 4 omit a fixed `thinkingLevel` so
 Google can choose the level; Gemini 2.5 sends Google's dynamic sentinel
 `thinkingBudget: -1`.
 
-Gemini 4 Argon supports `low`, `medium`, and `high`. OpenClaw maps `minimal` and
+Gemini 4 Argon supports `low`, `medium`, and `high`. FRIDAY maps `minimal` and
 `off` to `low`, because thinking cannot be fully disabled on this model.
 
-Gemma 4 models (for example `gemma-4-26b-a4b-it`) support thinking mode. OpenClaw
+Gemma 4 models (for example `gemma-4-26b-a4b-it`) support thinking mode. FRIDAY
 rewrites `thinkingBudget` to a supported Google `thinkingLevel` for Gemma 4.
 Setting thinking to `off` preserves thinking disabled instead of mapping to
 `MINIMAL`.
 
 Gemini 2.5 Pro only works in thinking mode and rejects an explicit
-`thinkingBudget: 0`. With an explicit `maxTokens`, OpenClaw uses its minimum
-thinking budget of 128 when thinking is off. Without an explicit cap, OpenClaw
+`thinkingBudget: 0`. With an explicit `maxTokens`, FRIDAY uses its minimum
+thinking budget of 128 when thinking is off. Without an explicit cap, FRIDAY
 continues to omit the rejected zero budget.
 
 Google counts thinking inside its output-token limit. For Gemini API and Vertex
-requests with a fixed numeric thinking budget, OpenClaw adds that budget to the caller's
+requests with a fixed numeric thinking budget, FRIDAY adds that budget to the caller's
 `maxTokens`, capped at the model's output limit. Flash with thinking off keeps
 the caller's cap unchanged. Thinking levels, adaptive/automatic thinking, and
 Interactions requests keep the caller's `maxTokens` cap unchanged. Omitted caps
@@ -426,10 +426,10 @@ Malformed or oversized successful TTS responses are reported without automatical
 submitting another Google synthesis request. Transient network failures, HTTP 5xx
 responses, and responses with no audio retain one automatic retry.
 
-OpenClaw sends Gemini 3.8 TTS through the Interactions API
+FRIDAY sends Gemini 3.8 TTS through the Interactions API
 (`POST /v1beta/interactions`) with `store: false`. Google also documents 3.8 on
-`generateContent`; Interactions is OpenClaw's routing choice, not a model
-requirement. OpenClaw asks for headerless 24 kHz PCM (`audio/l16`) and still
+`generateContent`; Interactions is FRIDAY's routing choice, not a model
+requirement. FRIDAY asks for headerless 24 kHz PCM (`audio/l16`) and still
 wraps that PCM locally. `audioProfile` and `personaPrompt` are sent as
 `speech_metadata.style`, `speakerName` as the structured `speaker` label, and
 none of them are spoken as part of the transcript. Momentary 3.8 vocal tags use
@@ -513,7 +513,7 @@ The bundled `google` plugin registers a realtime voice provider backed by the
 Gemini Live API for backend audio bridges such as Voice Call and Google Meet.
 
 Talk and Discord expose Google's prebuilt voices in their voice catalogs. During
-an active Talk or Discord call, use `talk_voice` to select a new voice. OpenClaw
+an active Talk or Discord call, use `talk_voice` to select a new voice. FRIDAY
 reconnects with that voice while preserving the conversation and unfinished agent
 work; saved voice defaults stay unchanged. See [Discord voice changes](/channels/discord/voice-follow).
 
@@ -562,9 +562,9 @@ Example Voice Call realtime config:
 
 <Note>
 Google Live API uses bidirectional audio and function calling over a WebSocket.
-OpenClaw adapts telephony/Meet bridge audio to Gemini's PCM Live API stream and
+FRIDAY adapts telephony/Meet bridge audio to Gemini's PCM Live API stream and
 keeps tool calls on the shared realtime voice contract. Leave `temperature`
-unset unless you need sampling changes; OpenClaw omits non-positive values
+unset unless you need sampling changes; FRIDAY omits non-positive values
 because Google Live can return transcripts without audio for `temperature: 0`.
 Gemini API transcription is enabled without `languageCodes`; the current Google
 SDK rejects language-code hints on this API path.
@@ -572,7 +572,7 @@ SDK rejects language-code hints on this API path.
 
 <Note>
 Gemini 3.1 Live accepts conversational text through realtime input and uses
-sequential function calling. OpenClaw omits the older `NON_BLOCKING`, function
+sequential function calling. FRIDAY omits the older `NON_BLOCKING`, function
 response scheduling, and affective-dialog fields for this model. Prefer
 `thinkingLevel`; configured positive `thinkingBudget` values are mapped to the
 nearest supported level, while `-1` leaves Google's default in place. See the
@@ -581,13 +581,13 @@ nearest supported level, while `-1` leaves Google's default in place. See the
 
 <Note>
 Gemini 3.8 Live (`gemini-3.8-live`) keeps the async function-calling contract and
-rejects any thinking config, so OpenClaw sends none for it. Gemini 3.8 Live Extended
+rejects any thinking config, so FRIDAY sends none for it. Gemini 3.8 Live Extended
 Thinking (`gemini-3.8-live-extended-thinking`) requires `NON_BLOCKING` tools, rejects
-function response scheduling, and abandons a call after an interim response, so OpenClaw
+function response scheduling, and abandons a call after an interim response, so FRIDAY
 sends one final result per agent consult without a "working" interim. Configure its
 reasoning depth with `thinkingLevel` (`low`, `medium`, or `high`; `minimal` maps to
 `low`), or a positive `thinkingBudget` mapped to the nearest level. Spoken filler has its
-own utterance boundary while the interaction remains in progress; OpenClaw finalizes that
+own utterance boundary while the interaction remains in progress; FRIDAY finalizes that
 transcript and audio but keeps the response active until Google reports the interaction
 as idle. On this model an explicit stop or barge-in interrupts generation through a short
 client-content turn that
@@ -654,7 +654,7 @@ roundtrip; pass `--openai-audio-cycles 3` for a short repeated lifecycle soak.
     }
     ```
 
-    This transport is stateless: OpenClaw sends `store: false`, does not retain a
+    This transport is stateless: FRIDAY sends `store: false`, does not retain a
     server-side interaction ID, and replays the needed conversation context on
     each request. Explicit Gemini `cachedContent` handles are not supported on
     this route; use `google-generative-ai` for that feature.
@@ -666,7 +666,7 @@ roundtrip; pass `--openai-audio-cycles 3` for a short repeated lifecycle soak.
   </Accordion>
 
   <Accordion title="Direct Gemini cache reuse">
-    For direct Gemini API runs (`api: "google-generative-ai"`), OpenClaw
+    For direct Gemini API runs (`api: "google-generative-ai"`), FRIDAY
     passes a configured `cachedContent` handle through to supported Gemini models.
     Gemini 4 Argon supports implicit caching only; do not configure an explicit
     cache handle for it.
@@ -677,7 +677,7 @@ roundtrip; pass `--openai-audio-cycles 3` for a short repeated lifecycle soak.
       Within the same scope, if both keys are set, `cached_content` wins.
       Use only one key per scope to avoid surprises.
     - Example value: `cachedContents/prebuilt-context`
-    - Gemini cache-hit usage is normalized into OpenClaw `cacheRead` from
+    - Gemini cache-hit usage is normalized into FRIDAY `cacheRead` from
       upstream `cachedContentTokenCount`
 
     ```json5
@@ -706,8 +706,8 @@ roundtrip; pass `--openai-audio-cycles 3` for a short repeated lifecycle soak.
     - Streamed reply text comes from assistant `message` events.
     - For legacy JSON output, reply text comes from the CLI JSON `response` field.
     - Usage falls back to `stats` when the CLI leaves `usage` empty.
-    - `stats.cached` is normalized into OpenClaw `cacheRead`.
-    - If `stats.input` is missing, OpenClaw derives input tokens from
+    - `stats.cached` is normalized into FRIDAY `cacheRead`.
+    - If `stats.input` is missing, FRIDAY derives input tokens from
       `stats.input_tokens - stats.cached`.
 
   </Accordion>

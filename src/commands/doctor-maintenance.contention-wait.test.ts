@@ -33,7 +33,7 @@ function holdState(role: GatewayLockRole, update: boolean, pid = process.ppid) {
   withOpenClawStateStartupMigrationCheckpointDatabase(() => {});
   closeOpenClawStateDatabaseForTest();
   const databasePath = path.join(stateDir, "state", "openclaw.sqlite");
-  // The in-process owner stands in for another OpenClaw process: Doctor never waits
+  // The in-process owner stands in for another FRIDAY process: Doctor never waits
   // on its own PID, so the recorded holder is this test's parent process.
   const holder = acquireGatewayStateOwner({
     databasePath,
@@ -92,17 +92,17 @@ function startDoctor(startMs = 0) {
   return { log, result, advanceTo, firstWait, isSettled: () => settled };
 }
 
-it("waits for a transient OpenClaw command to release state before update Doctor maintenance", async () => {
+it("waits for a transient FRIDAY command to release state before update Doctor maintenance", async () => {
   const { databasePath, holder, before } = holdState("agent-embedded", true);
   const doctor = startDoctor();
   try {
     await doctor.firstWait;
     expect(doctor.log).toHaveBeenCalledWith(
-      `Waiting up to 1200 s for the OpenClaw agent-embedded process ${process.ppid} to release ${databasePath} before Doctor maintenance. Let it finish, or stop it to continue sooner.`,
+      `Waiting up to 1200 s for the FRIDAY agent-embedded process ${process.ppid} to release ${databasePath} before Doctor maintenance. Let it finish, or stop it to continue sooner.`,
     );
     await doctor.advanceTo(45_000);
     expect(doctor.log).toHaveBeenCalledWith(
-      `Still waiting for the OpenClaw agent-embedded process ${process.ppid} to release ${databasePath} (45 s of 1200 s).`,
+      `Still waiting for the FRIDAY agent-embedded process ${process.ppid} to release ${databasePath} (45 s of 1200 s).`,
     );
     // Waiting holds no lock and writes nothing; the holder can finish and release.
     await doctor.advanceTo(FALLBACK_DEADLINE_MS - 1_000);
@@ -142,7 +142,7 @@ it("fails update Doctor admission at the wait deadline, naming the holder and ne
     const message = (error as Error).message;
     expect(message).toContain("Doctor could not enter maintenance.");
     expect(message).toContain(
-      `Doctor waited 1100 s for the OpenClaw agent-embedded process ${process.ppid} to finish;`,
+      `Doctor waited 1100 s for the FRIDAY agent-embedded process ${process.ppid} to finish;`,
     );
     expect(message).toContain(`The holder ${process.ppid} is alive on this host, stop it first.`);
     expect(message).toContain("then run openclaw doctor --fix from an independent shell.");
@@ -191,7 +191,7 @@ it.each([
     const completed = await doctor.result;
     expect(completed).toMatchObject({
       error: expect.objectContaining({
-        message: expect.stringContaining("OpenClaw state database is busy at"),
+        message: expect.stringContaining("FRIDAY state database is busy at"),
       }),
     });
     expect(doctor.log).not.toHaveBeenCalledWith(expect.stringContaining("Waiting up to"));

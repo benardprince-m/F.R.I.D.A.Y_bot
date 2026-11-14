@@ -1319,7 +1319,7 @@ process.stdout.write(readFileSync(process.env.ARCHIVE));
         expect(result.stderr).toBe("");
         expect(result.status).toBe(0);
         expect(result.stdout).toContain(
-          `child: ${childRunId} OpenClaw Release Checks completed/success`,
+          `child: ${childRunId} FRIDAY Release Checks completed/success`,
         );
         expect(result.stdout).not.toContain("Advisory lane failed");
         const shimCalls = readFileSync(shimLog, "utf8");
@@ -2274,7 +2274,7 @@ describe("release CI summary child correlation", () => {
       } else {
         await expect(result).rejects.toThrow(
           scenario === "newer-guard-failure"
-            ? "manifest child run does not pass release policy: OpenClaw Performance"
+            ? "manifest child run does not pass release policy: FRIDAY Performance"
             : "performance report publisher was not skipped",
         );
       }
@@ -2305,7 +2305,7 @@ describe("release CI summary child correlation", () => {
     }
     await expect(verifyFixture(fixture)).rejects.toThrow(
       drift === "performance-run"
-        ? "execution plan and manifest child identity differ: OpenClaw Performance"
+        ? "execution plan and manifest child identity differ: FRIDAY Performance"
         : drift === "performance-composite"
           ? "release validation manifest composite child set is invalid"
           : undefined,
@@ -2683,7 +2683,7 @@ describe("release CI summary child correlation", () => {
       validate({ [fixture.runId]: 2, [String(fixture.childRun.id)]: 2 }),
     ).rejects.toThrowError(
       expect.objectContaining({
-        message: "successful parent manifest predates OpenClaw Release Checks attempt 2",
+        message: "successful parent manifest predates FRIDAY Release Checks attempt 2",
         refreshable: true,
       }),
     );
@@ -3403,7 +3403,7 @@ describe("release CI summary child correlation", () => {
   });
 
   it("ignores same-SHA and nearby-name runs without the exact parent dispatch binding", () => {
-    const expected = "OpenClaw Performance full-release-validation-29090000000-3";
+    const expected = "FRIDAY Performance full-release-validation-29090000000-3";
     const exact = {
       display_title: expected,
       event: "workflow_dispatch",
@@ -3415,7 +3415,7 @@ describe("release CI summary child correlation", () => {
       selectExactChildRun(
         [
           {
-            display_title: "OpenClaw Performance",
+            display_title: "FRIDAY Performance",
             event: "workflow_dispatch",
             head_branch: "main",
             head_sha: exact.head_sha,
@@ -3451,7 +3451,7 @@ describe("release CI summary child correlation", () => {
   });
 
   it("returns one exact child after a full bounded pagination scan", () => {
-    const expected = "OpenClaw Performance full-release-validation-29090000000-3";
+    const expected = "FRIDAY Performance full-release-validation-29090000000-3";
     const exact = {
       display_title: expected,
       event: "workflow_dispatch",
@@ -3993,10 +3993,10 @@ describe("release CI summary child correlation", () => {
         {
           originAttempt: 1,
           runId: 28717802171,
-          title: "OpenClaw Performance full-release-validation-28717729503-1",
+          title: "FRIDAY Performance full-release-validation-28717729503-1",
         },
       ],
-      ["releaseChecks", { originAttempt: 1, runId: 28717802397, title: "OpenClaw Release Checks" }],
+      ["releaseChecks", { originAttempt: 1, runId: 28717802397, title: "FRIDAY Release Checks" }],
     ]);
     const fingerprint = {
       completed_at: "2026-07-04T20:29:21Z",

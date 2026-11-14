@@ -30,7 +30,7 @@ function readToolFilterList(value: unknown): string[] | undefined {
 }
 
 function hasUnsupportedToolPattern(pattern: string): boolean {
-  // Hermes uses fnmatch; OpenClaw supports only exact names and `*`.
+  // Hermes uses fnmatch; FRIDAY supports only exact names and `*`.
   return pattern.includes("?") || pattern.includes("[");
 }
 
@@ -156,7 +156,7 @@ export function planHermesMcpServer(params: {
         ...(resources !== false ? MCP_RESOURCE_UTILITY_TOOLS : []),
         ...(prompts !== false ? MCP_PROMPT_UTILITY_TOOLS : []),
       ];
-      // Hermes' empty include disables native tools; OpenClaw's is unrestricted.
+      // Hermes' empty include disables native tools; FRIDAY's is unrestricted.
       next.toolFilter = allowed.length > 0 ? { include: allowed } : { exclude: ["*"] };
     } else {
       const denied = [
@@ -200,7 +200,7 @@ export function planHermesMcpServer(params: {
     add(
       "unresolved-secrets",
       `Hermes MCP server "${name}" references environment values that were not found in its .env file.`,
-      "Define the missing values in OpenClaw's MCP server environment or headers manually.",
+      "Define the missing values in FRIDAY's MCP server environment or headers manually.",
     );
   }
 
@@ -209,20 +209,20 @@ export function planHermesMcpServer(params: {
   if (Array.isArray(cert) && cert.length === 3) {
     add(
       "client-cert-password",
-      `Hermes MCP server "${name}" uses a password-protected client key, which OpenClaw cannot represent in MCP config.`,
+      `Hermes MCP server "${name}" uses a password-protected client key, which FRIDAY cannot represent in MCP config.`,
       "Configure an unencrypted protected key path or an equivalent TLS proxy manually.",
     );
   } else if ((cert !== undefined || key !== undefined) && !certificate.clientCert) {
     add(
       "client-cert",
       `Hermes MCP server "${name}" uses a combined or invalid client-certificate shape that was not imported.`,
-      "Configure separate OpenClaw clientCert and clientKey file paths manually.",
+      "Configure separate FRIDAY clientCert and clientKey file paths manually.",
     );
   }
   if (typeof (raw.sslVerify ?? raw.ssl_verify) === "string") {
     add(
       "tls-ca",
-      `Hermes MCP server "${name}" uses a CA bundle path for TLS verification, which OpenClaw MCP config cannot represent.`,
+      `Hermes MCP server "${name}" uses a CA bundle path for TLS verification, which FRIDAY MCP config cannot represent.`,
       "Install the CA in the host trust store or configure an equivalent TLS proxy manually.",
     );
   }
@@ -231,7 +231,7 @@ export function planHermesMcpServer(params: {
     add(
       "transport",
       `Hermes MCP server "${name}" uses unsupported transport "${transport}".`,
-      "Configure an equivalent OpenClaw MCP transport manually.",
+      "Configure an equivalent FRIDAY MCP transport manually.",
     );
   }
 
@@ -239,14 +239,14 @@ export function planHermesMcpServer(params: {
     add(
       "auth",
       `Hermes MCP server "${name}" uses unsupported authentication mode "${auth}".`,
-      "Configure an equivalent OpenClaw MCP authentication mode manually.",
+      "Configure an equivalent FRIDAY MCP authentication mode manually.",
     );
   }
   const oauth = asOptionalRecord(raw.oauth);
   if (auth === "oauth" || oauth) {
     add(
       "oauth-login",
-      `Hermes MCP server "${name}" requires OAuth login in OpenClaw.`,
+      `Hermes MCP server "${name}" requires OAuth login in FRIDAY.`,
       `Run "openclaw mcp login ${name}" after migration.`,
     );
   }
@@ -259,7 +259,7 @@ export function planHermesMcpServer(params: {
   ) {
     add(
       "oauth-client",
-      `Hermes MCP server "${name}" uses pre-registered OAuth client settings that were not copied into OpenClaw config.`,
+      `Hermes MCP server "${name}" uses pre-registered OAuth client settings that were not copied into FRIDAY config.`,
       `Run "openclaw mcp login ${name}" and configure supported OAuth metadata manually.`,
     );
   }
@@ -270,7 +270,7 @@ export function planHermesMcpServer(params: {
       "tool-patterns",
       include === undefined
         ? `Hermes MCP server "${name}" was imported disabled because its tool exclusions use unsupported fnmatch patterns.`
-        : `Hermes MCP server "${name}" has tool include patterns that were omitted because OpenClaw supports only exact names and "*".`,
+        : `Hermes MCP server "${name}" has tool include patterns that were omitted because FRIDAY supports only exact names and "*".`,
       "Replace ? and bracket patterns with exact tool names or equivalent * patterns in mcp.servers toolFilter, then enable the server if disabled.",
     );
   }
@@ -309,7 +309,7 @@ export function planHermesMcpServer(params: {
     if (configured) {
       add(
         feature,
-        `Hermes MCP server "${name}" uses ${feature} behavior that OpenClaw MCP config does not expose.`,
+        `Hermes MCP server "${name}" uses ${feature} behavior that FRIDAY MCP config does not expose.`,
         "Review the server requirement and configure an equivalent deployment or runtime policy manually.",
       );
     }

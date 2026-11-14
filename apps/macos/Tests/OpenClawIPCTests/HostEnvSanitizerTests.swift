@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct HostEnvSanitizerTests {
     private static let searchPaths = ["/usr/bin", "/bin"]

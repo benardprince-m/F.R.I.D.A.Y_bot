@@ -76,10 +76,10 @@ export function createMuseAgentHarness(options: MuseHarnessOptions): AgentHarnes
       params.abortSignal?.throwIfAborted();
       // Core admits a restricted tool policy only after native-runtime consent
       // (assertPluginHarnessConversationToolPolicySupport). Muse exposes no
-      // OpenClaw tools, so a consented restriction has nothing left to filter.
+      // FRIDAY tools, so a consented restriction has nothing left to filter.
       if (params.sandbox || params.requireWorkspaceOnly) {
         throw museRefusal(
-          "Muse cannot enforce this OpenClaw sandbox or workspace-only policy. Select the openclaw runtime for this session.",
+          "Muse cannot enforce this FRIDAY sandbox or workspace-only policy. Select the openclaw runtime for this session.",
         );
       }
       if (params.thinkLevel === "adaptive") {
@@ -89,7 +89,7 @@ export function createMuseAgentHarness(options: MuseHarnessOptions): AgentHarnes
       }
       const target = params.sessionTarget;
       if (!target?.sessionId || !target.sessionKey || !target.storePath) {
-        throw new Error("Muse requires an exact OpenClaw transcript target.");
+        throw new Error("Muse requires an exact FRIDAY transcript target.");
       }
       const transcriptTarget = {
         ...target,
@@ -156,9 +156,7 @@ export function createMuseAgentHarness(options: MuseHarnessOptions): AgentHarnes
       }
       const { security, ask } = policy;
       if (security === "allowlist") {
-        throw museRefusal(
-          "Muse cannot enforce OpenClaw's exec allowlist. Use the openclaw runtime.",
-        );
+        throw museRefusal("Muse cannot enforce FRIDAY's exec allowlist. Use the openclaw runtime.");
       }
       if (ask === "always") {
         throw museRefusal(
@@ -306,7 +304,7 @@ export function createMuseAgentHarness(options: MuseHarnessOptions): AgentHarnes
             );
           } catch (error) {
             throw museRefusal(
-              `Muse could not restore OpenClaw session context. Use the openclaw runtime or compact the session before retrying. ${formatErrorMessage(error)}`,
+              `Muse could not restore FRIDAY session context. Use the openclaw runtime or compact the session before retrying. ${formatErrorMessage(error)}`,
             );
           }
           assertDispatchActive();

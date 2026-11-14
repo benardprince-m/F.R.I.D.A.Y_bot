@@ -301,7 +301,7 @@ describe("recorded plugin trust diagnostics", () => {
         });
         expect(loaded.status).toBe("loaded");
         const warnings = warn.mock.calls.filter(([message]) =>
-          String(message).includes("OpenClaw can't verify where this plugin came from"),
+          String(message).includes("FRIDAY can't verify where this plugin came from"),
         );
         if (
           reason === "record-missing" ||

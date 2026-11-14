@@ -77,7 +77,7 @@ function configuration(): OpenClawConfig {
 
 afterEach(() => vi.unstubAllEnvs());
 describe("Agents API picker and execution compatibility", () => {
-  it("accepts shared host tuning without changing normal OpenClaw selection", async () => {
+  it("accepts shared host tuning without changing normal FRIDAY selection", async () => {
     const previous = captureActivePluginRegistrySnapshot();
     try {
       await withOpenClawTestState(

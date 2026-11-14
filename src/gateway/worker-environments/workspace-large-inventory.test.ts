@@ -99,7 +99,7 @@ async function stageHistoricalV1Result(
   const currentBytes = Buffer.from(current.raw);
   const message = Buffer.concat([
     Buffer.from(
-      `OpenClaw worker workspace result\nversion 1\nbase-ref ${base.ref}\ncurrent-ref ${current.ref}\nbase-bytes ${baseBytes.byteLength}\ncurrent-bytes ${currentBytes.byteLength}\n\n`,
+      `FRIDAY worker workspace result\nversion 1\nbase-ref ${base.ref}\ncurrent-ref ${current.ref}\nbase-bytes ${baseBytes.byteLength}\ncurrent-bytes ${currentBytes.byteLength}\n\n`,
     ),
     baseBytes,
     currentBytes,
@@ -111,7 +111,7 @@ async function stageHistoricalV1Result(
   ]);
   chunks.push(
     Buffer.from(
-      `commit ${ref}\nauthor OpenClaw <openclaw@localhost> 0 +0000\ncommitter OpenClaw <openclaw@localhost> 0 +0000\ndata ${message.byteLength}\n`,
+      `commit ${ref}\nauthor FRIDAY <openclaw@localhost> 0 +0000\ncommitter FRIDAY <openclaw@localhost> 0 +0000\ndata ${message.byteLength}\n`,
     ),
     message,
     Buffer.from("\ndeleteall\n"),

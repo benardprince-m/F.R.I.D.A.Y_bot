@@ -409,11 +409,11 @@ extension OnboardingAISetupModel {
         if self.phase == .testing || self.manualTesting ||
             self.phase == .detecting && self.pendingActivationVerification
         {
-            "OpenClaw is testing your AI connection."
+            "FRIDAY is testing your AI connection."
         } else if self.activeAuthOption != nil {
             self.isPreparingModel
-                ? "OpenClaw is preparing a local model."
-                : "OpenClaw is completing provider sign-in."
+                ? "FRIDAY is preparing a local model."
+                : "FRIDAY is completing provider sign-in."
         } else {
             nil
         }
@@ -465,7 +465,7 @@ extension OnboardingAISetupModel {
     }
 
     /// Once setup starts changing inference, its successful result belongs to
-    /// OpenClaw rather than the existing-Gateway onboarding bypass.
+    /// FRIDAY rather than the existing-Gateway onboarding bypass.
     var ownsInferenceTransition: Bool {
         (self.phase == .detecting && self.configuredGatewayBlocker == nil) ||
             self.phase == .testing || self.manualTesting || self.authBusy || self.connected ||
@@ -519,8 +519,8 @@ extension OnboardingAISetupModel {
     /// Transport/protocol failures deserve plain language, not RPC codes.
     static func friendlyTransportError(_ raw: String) -> String {
         if raw.localizedCaseInsensitiveContains("unknown method") {
-            return "The Gateway is running an older OpenClaw version that doesn’t support " +
-                "app-guided setup. Update OpenClaw on the gateway, then try again."
+            return "The Gateway is running an older FRIDAY version that doesn’t support " +
+                "app-guided setup. Update FRIDAY on the gateway, then try again."
         }
         return raw.isEmpty
             ? "The Gateway setup request failed."
@@ -635,7 +635,7 @@ extension OnboardingAISetupModel {
 
     static func providerAuthCancellationUnconfirmed() -> Failure {
         Failure(
-            summary: "OpenClaw couldn’t confirm cancellation. Setup may still be running. Try Cancel again.",
+            summary: "FRIDAY couldn’t confirm cancellation. Setup may still be running. Try Cancel again.",
             detail: nil)
     }
 
@@ -695,14 +695,14 @@ enum OnboardingAISetupError: LocalizedError {
         case .activationCancelled:
             "AI setup was cancelled. No inference route was selected. Choose a connection to try again."
         case .activationOutcomeUnavailable:
-            "AI setup ended before its result was received. OpenClaw will verify the Gateway before trying again."
+            "AI setup ended before its result was received. FRIDAY will verify the Gateway before trying again."
         case let .activationFailed(message):
             message
         case let .activationRejected(_, error):
             error ?? "AI setup failed."
         case .providerCatalogUnavailable:
-            "The Gateway is running an older OpenClaw version that doesn’t provide the " +
-                "supported provider list. Update OpenClaw on the gateway, then try again."
+            "The Gateway is running an older FRIDAY version that doesn’t provide the " +
+                "supported provider list. Update FRIDAY on the gateway, then try again."
         }
     }
 }

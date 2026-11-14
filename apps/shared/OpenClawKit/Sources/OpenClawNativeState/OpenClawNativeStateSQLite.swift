@@ -335,7 +335,7 @@ public final class OpenClawNativeStateSQLite: @unchecked Sendable {
                 try self.validateSharedDatabaseMetadata(userVersion: userVersion)
                 guard try self.schemaObjectExists(type: "table", name: descriptor.name) else {
                     throw OpenClawNativeStateError(
-                        "Versioned OpenClaw state database is missing \(descriptor.name)")
+                        "Versioned FRIDAY state database is missing \(descriptor.name)")
                 }
             }
             try self.validateCanonicalTable(table)
@@ -458,7 +458,7 @@ public final class OpenClawNativeStateSQLite: @unchecked Sendable {
     private func admitReadOnlySchema() throws {
         let version = try self.scalarInt64("PRAGMA user_version")
         guard version <= Self.maximumSupportedSchemaVersion else {
-            throw OpenClawNativeStateError("The shared state database requires a newer OpenClaw app")
+            throw OpenClawNativeStateError("The shared state database requires a newer FRIDAY app")
         }
         if version == 0 {
             try self.validateVersionZeroOwnership()
@@ -490,7 +490,7 @@ public final class OpenClawNativeStateSQLite: @unchecked Sendable {
         }
         guard objects.isSubset(of: allowedObjects) else {
             throw OpenClawNativeStateError(
-                "Schema version zero database contains objects not owned by a native OpenClaw store")
+                "Schema version zero database contains objects not owned by a native FRIDAY store")
         }
 
         // A known name is not enough: every present native table must be complete and exact
@@ -506,7 +506,7 @@ public final class OpenClawNativeStateSQLite: @unchecked Sendable {
 
     private func validateSharedDatabaseMetadata(userVersion: Int64) throws {
         guard try self.schemaObjectExists(type: "table", name: "schema_meta") else {
-            throw OpenClawNativeStateError("Versioned OpenClaw state database is missing schema_meta")
+            throw OpenClawNativeStateError("Versioned FRIDAY state database is missing schema_meta")
         }
         let statement = try self.prepare(
             "SELECT role, schema_version FROM schema_meta WHERE meta_key = 'primary' LIMIT 1")
@@ -517,7 +517,7 @@ public final class OpenClawNativeStateSQLite: @unchecked Sendable {
               try statement.step() == .done
         else {
             throw OpenClawNativeStateError(
-                "OpenClaw state database schema metadata does not match its global schema version")
+                "FRIDAY state database schema metadata does not match its global schema version")
         }
     }
 

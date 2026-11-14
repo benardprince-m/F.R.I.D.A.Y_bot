@@ -1,8 +1,8 @@
-# OpenClaw Cloudflare AI Gateway Provider
+# FRIDAY Cloudflare AI Gateway Provider
 
-Official OpenClaw provider plugin for Cloudflare AI Gateway.
+Official FRIDAY provider plugin for Cloudflare AI Gateway.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/cloudflare-ai-gateway-provider

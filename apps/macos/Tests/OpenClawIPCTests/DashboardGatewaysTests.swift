@@ -4,7 +4,7 @@ import JavaScriptCore
 import OpenClawKit
 import Testing
 import WebKit
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct DashboardGatewayCatalogTests {
     @Test(arguments: [AppState.ConnectionMode.local, .remote, .unconfigured], [false, true])

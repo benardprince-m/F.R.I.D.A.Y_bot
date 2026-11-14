@@ -227,7 +227,7 @@ test.each([
         ready
           ? {
               ...(attachments ? { attachments } : {}),
-              projectGitUrl: "git@github.com:OpenClaw/OpenClaw.git",
+              projectGitUrl: "git@github.com:FRIDAY/FRIDAY.git",
               ...(worktree
                 ? { worktree: true, worktreeName: "remote-startup", worktreeBaseRef: baseRef }
                 : {}),

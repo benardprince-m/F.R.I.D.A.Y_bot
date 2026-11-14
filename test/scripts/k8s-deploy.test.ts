@@ -75,7 +75,7 @@ describe("scripts/k8s/deploy.sh", () => {
     const { calls, output, result } = runWithStubbedKubectl(["--delete"], "my-namespace");
 
     expect(result.status, output).toBe(0);
-    expect(output).toContain("Deleting OpenClaw resources from namespace 'my-namespace'");
+    expect(output).toContain("Deleting FRIDAY resources from namespace 'my-namespace'");
     expect(calls).toEqual([
       "cluster-info",
       `delete -k ${path.resolve("scripts/k8s/manifests")} -n my-namespace --ignore-not-found`,
@@ -91,7 +91,7 @@ describe("scripts/k8s/deploy.sh", () => {
     });
 
     expect(result.status, output).toBe(17);
-    expect(output).toContain("Deleting OpenClaw resources from namespace 'restricted-namespace'");
+    expect(output).toContain("Deleting FRIDAY resources from namespace 'restricted-namespace'");
     expect(calls).toEqual([
       "cluster-info",
       `delete -k ${path.resolve("scripts/k8s/manifests")} -n restricted-namespace --ignore-not-found`,

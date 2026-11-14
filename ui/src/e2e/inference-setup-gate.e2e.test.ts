@@ -137,7 +137,7 @@ suite.define(() => {
     "preserves %s history and the unsent draft while runtime inference recovers",
     async (surface) => {
       const runtimeError =
-        "OpenClaw requires working inference: The configured runtime could not start. Repair the launcher and retry.";
+        "FRIDAY requires working inference: The configured runtime could not start. Repair the launcher and retry.";
       const runtimeOptions = {
         sessionKey: "agent:main:work",
         deferredMethods: ["openclaw.chat"],
@@ -173,7 +173,7 @@ suite.define(() => {
             await page.locator(".sidebar-footer-bar__home").click();
             await page
               .locator("openclaw-assistant-panel")
-              .getByRole("button", { name: "Ask OpenClaw", exact: true })
+              .getByRole("button", { name: "Ask FRIDAY", exact: true })
               .click();
           }
           const chat = page.locator("openclaw-custodian-surface");

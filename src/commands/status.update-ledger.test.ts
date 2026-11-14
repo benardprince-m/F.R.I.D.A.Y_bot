@@ -303,7 +303,7 @@ describe("status update ledger evidence", () => {
         );
       } else {
         expect(rows[0]?.Value).toContain(
-          "⚠️ OpenClaw update failed: post-update-failed. Gateway did not settle; startup phase: waiting for managed service",
+          "⚠️ FRIDAY update failed: post-update-failed. Gateway did not settle; startup phase: waiting for managed service",
         );
         if (detail) {
           expect(rows[0]?.Value).toContain(detail);
@@ -443,7 +443,7 @@ describe("status update ledger evidence", () => {
       if (history) {
         expect(rows[0]?.Value).toBe(history);
       } else {
-        expect(rows[0]?.Value).toContain("⚠️ OpenClaw update failed: preflight-no-good-commit.");
+        expect(rows[0]?.Value).toContain("⚠️ FRIDAY update failed: preflight-no-good-commit.");
         if (detail) {
           expect(rows[0]?.Value).toContain(detail);
         }

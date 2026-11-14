@@ -1,7 +1,7 @@
 /**
  * Core tool catalog and profile defaults.
  * Drives built-in profile allowlists, group expansion, and UI section metadata
- * for OpenClaw-owned tools.
+ * for FRIDAY-owned tools.
  *
  * This module is bundled into the Control UI via tool-policy-shared. Keep it
  * pure data + tiny pure functions: a value import of server config/runtime
@@ -185,11 +185,11 @@ const CORE_TOOL_DEFINITIONS: CoreToolDefinition[] = [
     [AUTOMATIONS_TOOL_NAME, CRON_TOOL_DISPLAY_SUMMARY, { profiles: ["coding"] }],
     [
       "gateway",
-      "Update OpenClaw; read Gateway config/schema when permitted",
+      "Update FRIDAY; read Gateway config/schema when permitted",
       { profiles: ["minimal", "coding", "messaging"] },
     ],
     ["plugins", "Manage and reload plugins", { profiles: ["coding"] }],
-    ["openclaw", "Delegate OpenClaw setup and repair"],
+    ["openclaw", "Delegate FRIDAY setup and repair"],
   ]),
   ...coreTools("nodes", { profiles: [], includeInOpenClawGroup: true }, [
     ["nodes", "Nodes + devices"],

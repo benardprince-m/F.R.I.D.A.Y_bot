@@ -12,12 +12,12 @@ warnings, workspace status, gateway auth and health, and supervisors.
 A valid `openclaw-install-owner.json` marker at the package root identifies an
 app-owned installation. Doctor reports the host's name and update hint and leaves
 package, bundled UI, and runtime replacement to that host, including when a
-standalone CLI inspects an app-owned Gateway service. For OpenClaw.app payloads,
+standalone CLI inspects an app-owned Gateway service. For FRIDAY.app payloads,
 update the app to update the Gateway; normal config and state checks still apply.
 When the app-owned Gateway is verified offline, standalone `openclaw doctor --fix`
 can repair that same account's config and state under the existing database
 maintenance leases. Doctor leaves the app's service definition, package, and
-startup unchanged; restart or update the Gateway through OpenClaw.app.
+startup unchanged; restart or update the Gateway through FRIDAY.app.
 
 After repair, Doctor waits for the managed Gateway within a bounded readiness
 budget. If the service manager still reports it running but its listener has not
@@ -29,17 +29,17 @@ restoration failure; slow startup does not undo a completed repair.
 
 <AccordionGroup>
   <Accordion title="8. Gateway service migrations and cleanup hints">
-    Run `openclaw doctor` interactively to review legacy gateway services (launchd/systemd/schtasks) and confirm supported cleanup. Explicit repair maintenance skips this separate cleanup flow. Removal is reported separately from installation; use `openclaw gateway install` when the intended native service is missing. Doctor can also scan for extra gateway-like services and print cleanup hints. Profile-named OpenClaw gateway services are considered first-class and are not flagged as "extra."
+    Run `openclaw doctor` interactively to review legacy gateway services (launchd/systemd/schtasks) and confirm supported cleanup. Explicit repair maintenance skips this separate cleanup flow. Removal is reported separately from installation; use `openclaw gateway install` when the intended native service is missing. Doctor can also scan for extra gateway-like services and print cleanup hints. Profile-named FRIDAY gateway services are considered first-class and are not flagged as "extra."
 
     Cleanup previews include only legacy launchd services and recognized legacy systemd unit names in the user scope. Legacy Windows services, unrecognized Linux unit names, and services in the system scope remain findings for manual review.
 
-    Windows extra-service hints use read-only `schtasks /Query` inspection. Node hosts remain visible in diagnostics; discovery alone does not make a service a removal target. Unreadable unrelated Scheduled Tasks do not block discovery or test runtime preparation, regardless of whether they are running. Selected tasks, recognized OpenClaw launchers, and custom aliases with OpenClaw launcher content still report incomplete inspection when their command cannot be verified.
+    Windows extra-service hints use read-only `schtasks /Query` inspection. Node hosts remain visible in diagnostics; discovery alone does not make a service a removal target. Unreadable unrelated Scheduled Tasks do not block discovery or test runtime preparation, regardless of whether they are running. Selected tasks, recognized FRIDAY launchers, and custom aliases with FRIDAY launcher content still report incomplete inspection when their command cannot be verified.
 
     Linux user-service cleanup preserves the unit file if stopping or disabling the service fails. An interrupted status check does not permit file-only removal; that fallback is reported only when `systemctl` is unavailable.
 
     Permission or I/O errors while inspecting systemd units or legacy backups are not treated as missing services. Doctor reports incomplete inspection or skipped cleanup; restore access to the reported path and rerun Doctor before retrying cleanup. The service audit also reports backups it cannot inspect without exposing their contents.
 
-    On Linux, if the user-level gateway service is missing but a system-level OpenClaw gateway service exists, doctor does not install a second user-level service automatically. Inspect with `openclaw gateway status --deep` or `openclaw doctor --deep`, then remove the duplicate or set `OPENCLAW_SERVICE_REPAIR_POLICY=external` when a system supervisor owns the gateway lifecycle.
+    On Linux, if the user-level gateway service is missing but a system-level FRIDAY gateway service exists, doctor does not install a second user-level service automatically. Inspect with `openclaw gateway status --deep` or `openclaw doctor --deep`, then remove the duplicate or set `OPENCLAW_SERVICE_REPAIR_POLICY=external` when a system supervisor owns the gateway lifecycle.
 
   </Accordion>
   <Accordion title="8b. Startup Matrix migration">
@@ -164,7 +164,7 @@ restoration failure; slow startup does not undo a completed repair.
     entry but is not its literal Git config key.
 
     Git can retain `objects/pack/*.promisor` sidecars after the remote keys are
-    unset and the repository is repacked. The sidecars are harmless: OpenClaw
+    unset and the repository is repacked. The sidecars are harmless: FRIDAY
     determines partial-clone repair availability from Git configuration, not from
     those files. To remove the stale on-disk label, first confirm that the missing
     object command below prints nothing and that `git fsck` succeeds:
@@ -229,7 +229,7 @@ restoration failure; slow startup does not undo a completed repair.
   <Accordion title="15. Supervisor config audit + repair">
     Plain Doctor inspection checks the installed supervisor config (launchd/systemd/schtasks) for missing or outdated defaults (for example systemd network-online dependencies and restart delay) and can offer an interactive repair. Explicit repair maintenance skips this separate service-rewrite phase, but reconciles [eligible installation drift in a previously running service](/cli/doctor/recovery#gateway-service-recovery) through the native installer. Stopped services keep their launcher and stop state. Run `openclaw gateway install --force` from the intended installation to replace the launcher and managed environment.
 
-    Before a Linux maintenance stop, policy refresh backs up outdated OpenClaw unit settings, confirms `daemon-reload`, and verifies that the effective `TimeoutStopSec` covers drain and cleanup (currently 330 seconds). This refresh preserves the launcher, environment, and operator drop-ins; an offline service can receive it without being started. A short or unknown resident shutdown budget uses bounded lifecycle drain before stopping. At the update deadline, reported write custody refuses the stop with its owner phase; remaining admitted turns or unknown custody produce a warning and the stop proceeds.
+    Before a Linux maintenance stop, policy refresh backs up outdated FRIDAY unit settings, confirms `daemon-reload`, and verifies that the effective `TimeoutStopSec` covers drain and cleanup (currently 330 seconds). This refresh preserves the launcher, environment, and operator drop-ins; an offline service can receive it without being started. A short or unknown resident shutdown budget uses bounded lifecycle drain before stopping. At the update deadline, reported write custody refuses the stop with its owner phase; remaining admitted turns or unknown custody produce a warning and the stop proceeds.
 
     Notes:
 
@@ -245,7 +245,7 @@ restoration failure; slow startup does not undo a completed repair.
     - `openclaw doctor --fix --force` uses the same policy-refresh and installation-drift rules. Use `openclaw gateway install --force` to request a rewrite; operator-owned systemd drop-ins remain unchanged.
     - `OPENCLAW_SERVICE_REPAIR_POLICY=external` keeps doctor read-only for gateway service lifecycle. Have the deployment owner stop the Gateway, run Doctor as the state-owning account, then restart through that owner. The policy skips native maintenance inspection and service mutations, including install/start/restart/bootstrap, supervisor config rewrites, and legacy service cleanup. It keeps Gateway/state coordinators and agent-database lease checks, reports service health, and runs non-service repairs. See [Existing system LaunchDaemons](/gateway#existing-system-launchdaemons).
     - Doctor and `gateway status --deep` name unavailable launchd domains, missing systemd user-session buses, and native check access denial separately. Linux guidance covers `XDG_RUNTIME_DIR`, `DBUS_SESSION_BUS_ADDRESS`, and `dbus-user-session`; externally supervised deployments receive the existing policy above. See [Gateway and service recovery](/cli/doctor/recovery).
-    - Within a live Linux service inspection, OpenClaw can retain the authenticated user manager's private connection if its session bus stops. Typed command and runtime reads continue only for that original manager and unit. A missing initial manager identity or a replaced manager remains unavailable; OpenClaw does not start the bus or select another manager. This read-only recovery does not change service start/stop authority.
+    - Within a live Linux service inspection, FRIDAY can retain the authenticated user manager's private connection if its session bus stops. Typed command and runtime reads continue only for that original manager and unit. A missing initial manager identity or a replaced manager remains unavailable; FRIDAY does not start the bus or select another manager. This read-only recovery does not change service start/stop authority.
 
     - On macOS, a same-label system LaunchDaemon blocks user LaunchAgent install, start, restart, and bootstrap repair. Doctor reports the system owner and stops service recovery; `--force` does not bypass this ownership boundary. See [Existing system LaunchDaemons](/gateway#existing-system-launchdaemons).
     - On Linux, doctor does not rewrite command/entrypoint metadata while the matching systemd gateway unit is active. If a stopped unit's command or working directory is overridden by an operator-owned systemd drop-in, inspect it with `systemctl --user cat <unit>.service`, then update or remove the drop-in; rewriting the managed base cannot change the effective launcher. `Environment=` drop-ins remain supported. Doctor also ignores inactive non-legacy extra gateway-like units during the duplicate-service scan so companion service files do not create cleanup noise.
@@ -258,8 +258,8 @@ restoration failure; slow startup does not undo a completed repair.
     - If token auth requires a token and the configured token SecretRef is unresolved, doctor blocks the install/repair path with actionable guidance.
     - If both `gateway.auth.token` and `gateway.auth.password` are configured and `gateway.auth.mode` is unset, doctor blocks install/repair until mode is set explicitly.
     - For Linux user-systemd units, doctor token drift checks include both `Environment=` and `EnvironmentFile=` sources when comparing service auth metadata.
-    - `OPENCLAW_SERVICE_MANAGED_ENV_KEYS` tracks values OpenClaw regenerates from config, `.env`, or SecretRefs; it is not an operator preservation allowlist. Systemd merges operator `Environment=` and `EnvironmentFile=` drop-ins into the effective environment, and `gateway install --force` leaves those drop-ins and their files unchanged. Doctor does not copy their values into the managed base or suggest reinstalling to migrate operator-only managed keys. Unreadable or unverified drop-ins still require inspection. Linux reinstall preserves admitted PATH entries in their existing order, including safe extra directories; missing concrete managed values still report drift. Environment preservation failures show bounded current/installer values for PATH and the Telegram spool timeout, with other values redacted.
-    - Doctor service repairs refuse to rewrite, stop, or restart a gateway service from an older OpenClaw binary when the config was last written by a newer version. See [Gateway troubleshooting](/gateway/troubleshooting#split-brain-installs-and-newer-config-guard).
+    - `OPENCLAW_SERVICE_MANAGED_ENV_KEYS` tracks values FRIDAY regenerates from config, `.env`, or SecretRefs; it is not an operator preservation allowlist. Systemd merges operator `Environment=` and `EnvironmentFile=` drop-ins into the effective environment, and `gateway install --force` leaves those drop-ins and their files unchanged. Doctor does not copy their values into the managed base or suggest reinstalling to migrate operator-only managed keys. Unreadable or unverified drop-ins still require inspection. Linux reinstall preserves admitted PATH entries in their existing order, including safe extra directories; missing concrete managed values still report drift. Environment preservation failures show bounded current/installer values for PATH and the Telegram spool timeout, with other values redacted.
+    - Doctor service repairs refuse to rewrite, stop, or restart a gateway service from an older FRIDAY binary when the config was last written by a newer version. See [Gateway troubleshooting](/gateway/troubleshooting#split-brain-installs-and-newer-config-guard).
     - `openclaw gateway install --force` rewrites the managed base unit, but never removes operator-owned systemd drop-ins; it warns if a command or working-directory override remains effective.
 
   </Accordion>

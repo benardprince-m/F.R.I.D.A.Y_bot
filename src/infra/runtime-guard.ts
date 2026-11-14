@@ -229,7 +229,7 @@ export async function assertSupportedRuntime(
         "openclaw requires Node >=24.16.0 <25, or >=26.1.0.";
   const retryHint =
     details.kind === "bun"
-      ? "Upgrade Bun or run OpenClaw with a supported Node release."
+      ? "Upgrade Bun or run FRIDAY with a supported Node release."
       : "Upgrade Node and re-run openclaw.";
 
   runtime.error(

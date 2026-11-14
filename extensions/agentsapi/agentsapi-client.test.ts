@@ -132,7 +132,7 @@ describe("Agents API session creation", () => {
     expect(body).toHaveProperty("agent.tools", [mcpTool, gatewayFunction]);
   });
 
-  it("sends the selected model and OpenClaw attribution to the backend", async () => {
+  it("sends the selected model and FRIDAY attribution to the backend", async () => {
     vi.stubEnv("OPENCLAW_VERSION", "2026.9.1");
     vi.stubEnv(
       "OPENAI_CUSTOM_HEADERS",

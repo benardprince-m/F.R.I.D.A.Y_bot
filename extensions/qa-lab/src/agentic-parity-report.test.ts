@@ -311,7 +311,7 @@ it("renders a readable markdown parity report", () => {
 
   const report = renderQaAgenticParityMarkdownReport(comparison);
 
-  expect(report).toContain("# OpenClaw Agentic Parity Report — candidate vs baseline");
+  expect(report).toContain("# FRIDAY Agentic Parity Report — candidate vs baseline");
   expect(report).toContain("| Completion rate | 100.0% | 100.0% |");
   expect(report).toContain("### Approval turn tool followthrough");
   expect(report).toContain("- Verdict: pass");

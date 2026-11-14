@@ -41,7 +41,7 @@ internal class WearReplyNotifier(
     val notificationTag = replyNotificationTag(sessionKey, message, fallbackIdentity)
     notify(notificationTag) {
       val replyAction = createReplyAction(sessionKey, notificationTag, inbound.sourceNodeId)
-      val agent = Person.Builder().setName("OpenClaw").build()
+      val agent = Person.Builder().setName("FRIDAY").build()
       replyNotification(context.getString(R.string.notification_title), message.text)
         .setOnlyAlertOnce(true)
         .setStyle(

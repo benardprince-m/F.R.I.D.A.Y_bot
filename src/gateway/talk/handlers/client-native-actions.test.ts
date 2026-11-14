@@ -114,7 +114,7 @@ const activeControls = [
   },
   {
     text: "after that check tests",
-    acknowledgment: "Queued that follow-up for the active OpenClaw run.",
+    acknowledgment: "Queued that follow-up for the active FRIDAY run.",
   },
 ] as const;
 
@@ -275,7 +275,7 @@ describe("native Talk action ownership through public plugin registration", () =
         );
         // Speech stays a distinct raw record; the UI discloses it without claiming replacement.
         const readback = "Both labels are preserved.";
-        const dialogue = "OpenClaw is waiting on the model.";
+        const dialogue = "FRIDAY is waiting on the model.";
         for (const text of [readback, dialogue]) {
           await flushNativeTranscript(result, () =>
             socket.serverEvent({
@@ -638,9 +638,9 @@ describe("native Talk action ownership through public plugin registration", () =
           await vi.waitFor(() =>
             expect(spokenMessages(socket.sent.slice(before))).toEqual([
               ...(queued
-                ? [expect.stringContaining("There is no active OpenClaw run to cancel.")]
+                ? [expect.stringContaining("There is no active FRIDAY run to cancel.")]
                 : []),
-              expect.stringContaining(`There is no active OpenClaw run to ${mode}.`),
+              expect.stringContaining(`There is no active FRIDAY run to ${mode}.`),
             ]),
           );
           expect(abortOwned).not.toHaveBeenCalled();
@@ -676,7 +676,7 @@ describe("native Talk action ownership through public plugin registration", () =
         socket.serverEvent(nativeDelegation("startup-control", "use the release branch instead"));
         await vi.waitFor(() =>
           expect(spokenMessages(socket.sent.slice(before))).toEqual([
-            expect.stringContaining("There is no active OpenClaw run to steer."),
+            expect.stringContaining("There is no active FRIDAY run to steer."),
           ]),
         );
         expect(signal?.aborted).toBe(false);
@@ -831,7 +831,7 @@ describe("native Talk action ownership through public plugin registration", () =
           },
           10,
         );
-        const statusReply = "OpenClaw is working on the current voice request.";
+        const statusReply = "FRIDAY is working on the current voice request.";
         await vi.waitFor(() =>
           expect(
             spokenMessages(socket.sent.slice(beforeBurst)).filter((message) =>
@@ -854,7 +854,7 @@ describe("native Talk action ownership through public plugin registration", () =
           expect(Buffer.byteLength(refusal, "utf8")).toBeLessThanOrEqual(500);
         }
         expect(socket.sent.slice(beforeBurst).join("\n")).not.toContain(
-          "Cancelled the active OpenClaw run.",
+          "Cancelled the active FRIDAY run.",
         );
         expect(queueMessage).not.toHaveBeenCalled();
         expect(abortOwned).not.toHaveBeenCalled();
@@ -872,7 +872,7 @@ describe("native Talk action ownership through public plugin registration", () =
         await vi.waitFor(() => expect(abortOwned).toHaveBeenCalledOnce());
         await vi.waitFor(() =>
           expect(spokenMessages(socket.sent.slice(beforeRecovery))).toEqual([
-            expect.stringContaining("Cancelled the active OpenClaw run."),
+            expect.stringContaining("Cancelled the active FRIDAY run."),
           ]),
         );
         expect(activeRun.abortSignal.aborted).toBe(true);

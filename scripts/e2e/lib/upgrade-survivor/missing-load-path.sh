@@ -25,7 +25,7 @@ start_missing_load_path_baseline() {
   fi
   wait "$gateway_pid" || exit_status=$?
   [ "$exit_status" -eq 1 ] || return "$start_status"
-  grep -Fxq 'OpenClaw plugin migration inputs changed during startup convergence; refusing to report the gateway ready. Restart OpenClaw so state migrations run against the final config and plugin inventory.' \
+  grep -Fxq 'FRIDAY plugin migration inputs changed during startup convergence; refusing to report the gateway ready. Restart FRIDAY so state migrations run against the final config and plugin inventory.' \
     "$GATEWAY_LOG" || return "$start_status"
   local refused_log="$ARTIFACT_ROOT/missing-load-path/baseline-gateway-convergence-refusal.log"
   cp "$GATEWAY_LOG" "$refused_log" || return "$?"

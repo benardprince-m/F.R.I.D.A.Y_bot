@@ -62,7 +62,7 @@ vi.mock("../status/summary.runtime.js", async (importOriginal) => {
         provider: "openai",
         model: "gpt-5.5",
       })),
-      resolveSessionRuntime: vi.fn(() => ({ id: "openclaw", label: "OpenClaw Default" })),
+      resolveSessionRuntime: vi.fn(() => ({ id: "openclaw", label: "FRIDAY Default" })),
       readSessionRuntimeMetadata: vi.fn(async (_cfg, candidates) => candidates.map(() => null)),
       resolveStatusModelLookupRef: vi.fn(({ provider, model }) =>
         typeof model === "string" && model.length > 0
@@ -255,7 +255,7 @@ describe("getStatusSummary", () => {
     vi.mocked(statusSummaryRuntime.resolveContextTokensForModel).mockReturnValue(200_000);
     vi.mocked(statusSummaryRuntime.resolveSessionRuntime).mockReturnValue({
       id: "openclaw",
-      label: "OpenClaw Default",
+      label: "FRIDAY Default",
     });
     vi.mocked(listGatewayAgentsBasic).mockResolvedValue({
       defaultId: "main",

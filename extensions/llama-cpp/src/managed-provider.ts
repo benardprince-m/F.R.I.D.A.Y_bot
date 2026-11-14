@@ -70,7 +70,7 @@ export function registerLlamaCppProvider(
         wizard: {
           choiceId: "llama-cpp-existing-server",
           choiceLabel: "Existing llama-server",
-          choiceHint: "Connect to a llama.cpp server managed outside OpenClaw",
+          choiceHint: "Connect to a llama.cpp server managed outside FRIDAY",
           groupId: LLAMA_CPP_PROVIDER_ID,
           groupLabel: "Local llama.cpp",
           groupHint: "Managed or external llama.cpp server",

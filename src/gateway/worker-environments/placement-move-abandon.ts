@@ -106,7 +106,7 @@ export function createWorkerPlacementMoveAbandonment(
     }
     if (runner.status === "available") {
       throw new Error(
-        "Device runner is available; use Move session so OpenClaw can reconcile its workspace safely",
+        "Device runner is available; use Move session so FRIDAY can reconcile its workspace safely",
       );
     }
   };

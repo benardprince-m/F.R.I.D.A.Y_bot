@@ -342,7 +342,7 @@ describe("normalizeClaudeBackendConfig", () => {
     ).toBe(bypass);
   });
 
-  it("derives Claude bypass from per-agent OpenClaw exec policy", () => {
+  it("derives Claude bypass from per-agent FRIDAY exec policy", () => {
     const forAgent = (agentId: string, globalMode: "ask" | "full", agentMode: "ask" | "full") =>
       normalizeClaudeArgs(["-p"], {
         backendId: "claude-cli",

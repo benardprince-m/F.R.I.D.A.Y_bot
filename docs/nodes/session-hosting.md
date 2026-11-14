@@ -1,16 +1,16 @@
 ---
 summary: "Enable worker session hosting on a paired node, choose a device, and isolate workers in containers"
 read_when:
-  - Enabling isolated OpenClaw session hosting on a paired node
+  - Enabling isolated FRIDAY session hosting on a paired node
   - Choosing a device or Auto placement in New Session
   - Isolating hosted worker sessions in containers
-title: "Host OpenClaw sessions on a node"
+title: "Host FRIDAY sessions on a node"
 sidebarTitle: "Session hosting"
 ---
 
-## Host OpenClaw sessions
+## Host FRIDAY sessions
 
-The macOS menu bar app and the headless node host can opt into full OpenClaw
+The macOS menu bar app and the headless node host can opt into full FRIDAY
 session hosting with the same node-local setting:
 
 ```json5
@@ -25,7 +25,7 @@ session hosting with the same node-local setting:
 Only enable session hosting on a machine you trust as shared Gateway infrastructure. Hosting consent applies to the device, not to an individual person's ownership of it. Existing session authorization still controls who may dispatch work.
 </Warning>
 
-The Gateway applies plugin `before_agent_run` policies to OpenClaw node turns
+The Gateway applies plugin `before_agent_run` policies to FRIDAY node turns
 before persisting input or launching the worker. Blocked turns retain only the
 redacted block message and leave the node available for the next turn. The hook
 sees the Gateway input and history; node-local system context is assembled later
@@ -87,7 +87,7 @@ In Control UI New Session, a
 write-scoped operator chooses either a specific paired device or **Auto**.
 Without an explicit project or folder selection, **New workspace** starts an
 empty isolated workspace without requiring a user Git repository. A selected
-GitHub repository or Gateway Git checkout remains an optional source. OpenClaw creates a
+GitHub repository or Gateway Git checkout remains an optional source. FRIDAY creates a
 session-owned managed workspace, dispatches it with the exact
 `deviceId` or `autoDevice: true`, and sends the first turn only after the chosen
 device placement becomes active. New Session does not bind `execNode` or browse
@@ -106,10 +106,10 @@ If the plugin is already installed but disabled, explicitly enable it with
 `openclaw plugins enable codex` before restarting. Approve the node's updated
 command surface on the Gateway. The picker keeps the device unavailable for
 Codex until it advertises the command and approval is complete. Alternatively,
-choose a model using the OpenClaw harness; OpenClaw does not switch harnesses
+choose a model using the FRIDAY harness; FRIDAY does not switch harnesses
 silently or install Codex when you enable session hosting.
 
-On POSIX hosts, OpenClaw keeps its managed workspace directories private (`0700`),
+On POSIX hosts, FRIDAY keeps its managed workspace directories private (`0700`),
 including when the host uses umask `0002`. Existing node-owned workspace ancestry
 is tightened when reopened, so transfers can recover after an update without
 changing the host's umask. Files inside a transferred workspace retain their
@@ -123,14 +123,14 @@ requires the exact durable receipt and current node authority.
 
 Node hosts must support the current private worker-supervisor dialect before
 they can host sessions. An older connected host remains visible but disabled in
-the session picker. Update OpenClaw on that device and reconnect it; for a
+the session picker. Update FRIDAY on that device and reconnect it; for a
 headless node, run `openclaw update` followed by `openclaw node restart`. The
-Gateway does not fall back to the node's local OpenClaw package or an older
+Gateway does not fall back to the node's local FRIDAY package or an older
 supervisor dialect.
 
-OpenClaw worker turns also require a node that supports the Gateway's captured
+FRIDAY worker turns also require a node that supports the Gateway's captured
 exec policy. If you update the Gateway first, older nodes show **Update required**
-for OpenClaw sessions until you update and reconnect them. Their Codex remote
+for FRIDAY sessions until you update and reconnect them. Their Codex remote
 execution and other approved node commands retain their existing requirements.
 Updating a node first remains compatible with an older Gateway; the node
 advertises this support only when the Gateway understands it.
@@ -166,7 +166,7 @@ model tool batches do not lose calls. Cancellation and heartbeats remain indepen
 
 Placement-local tools are offered only when the node declares their capability.
 Unavailable placement or transport capabilities are recorded in the Gateway log.
-Update OpenClaw on the node and restart it to enable newer local tools. Gateway
+Update FRIDAY on the node and restart it to enable newer local tools. Gateway
 operations use the matching downloaded worker bundle and do not depend on the
 installed supervisor recognizing their tool names. Updated nodes continue
 advertising the Gateway tools expected by older Gateways, preserving those
@@ -208,7 +208,7 @@ Capacity, host-stat, and skill-bin updates do not interrupt active node work or
 change its pairing authority. This behavior requires an updated Gateway; node
 configuration and stored pairings remain unchanged.
 
-After a turn settles, OpenClaw can retain its worker process for up to two
+After a turn settles, FRIDAY can retain its worker process for up to two
 minutes so an immediate follow-up avoids loading the runtime again. The timer
 starts after the worker confirms that turn cleanup is complete. Each node keeps
 at most two idle workers, bounded by its configured capacity; it retires the
@@ -262,7 +262,7 @@ starting a turn, and cleanup continues to hold its worker slot until the
 process tree is gone.
 
 The picker derives every device row from `environments.list`. Every selected
-runtime requires an available, connected paired session host. OpenClaw worker
+runtime requires an available, connected paired session host. FRIDAY worker
 turns additionally require captured exec-policy support and valid exact worker
 slots with at least one free or reclaimable idle slot. Codex paired-device execution launches its
 exec-server directly, so it does not consume or require a worker slot. Its
@@ -284,7 +284,7 @@ arrives. Local remains selectable; cached worker slots never authorize a new
 remote session.
 
 Choose **Auto** to let the Gateway select an eligible paired,
-connected session host. For OpenClaw worker turns, it first prefers hosts with
+connected session host. For FRIDAY worker turns, it first prefers hosts with
 less admitted work relative to their worker capacity. It then compares free
 and reclaimable idle worker slots after accounting for dispatches still starting, and breaks
 remaining ties by device ID. A session's placement alone does not reserve a
@@ -400,7 +400,7 @@ path locally.
 The session records `deviceFolder: { deviceId, path }` and dispatches to that
 exact device. Do not combine `deviceFolder` with a project, repository,
 managed worktree, or Gateway `cwd`. The worker uses the existing folder in place:
-OpenClaw does not create a worktree, transfer a workspace, or reconcile its files
+FRIDAY does not create a worktree, transfer a workspace, or reconcile its files
 back to the Gateway. Back up important files before giving an agent write access.
 The session display retains the device and folder path. Deleting the session
 does not remove the existing folder.
@@ -414,7 +414,7 @@ than reading or writing a similarly named local workspace.
 
 ### Isolate hosted worker sessions in containers
 
-By default, hosted OpenClaw worker sessions run directly on the paired node.
+By default, hosted FRIDAY worker sessions run directly on the paired node.
 Set `nodeHost.workerRuns.isolation` to `"container"` on that node to run each
 worker inside its own container instead:
 
@@ -447,7 +447,7 @@ instead of running on the Gateway.
 Container isolation is supported on Linux and macOS node hosts; Windows is
 unsupported because native Windows paths cannot be mounted at their original
 paths inside the container. The node must have a working Docker-compatible
-container engine. OpenClaw tries the `docker` CLI first, including Docker-backed
+container engine. FRIDAY tries the `docker` CLI first, including Docker-backed
 OrbStack installations, and then `podman`. The selected engine and daemon are
 checked when the node host starts and again before each container is created.
 If the platform is unsupported, neither engine works, or the daemon changes,
@@ -468,25 +468,25 @@ its standard executable search path. If the image cannot be pulled, is
 inaccessible, or does not provide a suitable Node.js runtime, that session
 launch fails visibly; it never retries as a bare host process. Preload the
 image or configure registry access before hosting sessions on an offline or
-restricted node. The default image can advance when OpenClaw updates its dependencies.
+restricted node. The default image can advance when FRIDAY updates its dependencies.
 Before upgrading an offline node, preload the new default image or set
 `nodeHost.workerRuns.containerImage` to a supported image already cached on that node.
 For example, a cached `node:24.19.0-slim` remains supported and can be selected explicitly.
 Existing explicit image settings are preserved; replace unsupported Node images before
-upgrading OpenClaw. Worker startup requires a supported runtime; older releases may
+upgrading FRIDAY. Worker startup requires a supported runtime; older releases may
 fail before the runtime diagnostic can run.
 
 Each worker container mounts its verified worker bundle root read-only and its
 assigned session workspace read-write. When the worker's private HOME differs
 from that workspace, it receives a third, read-write mount for HOME. For
-existing-folder sessions, this private HOME belongs to OpenClaw's namespaced
+existing-folder sessions, this private HOME belongs to FRIDAY's namespaced
 session-generation storage and follows its lease and retention lifecycle; it
 is not the node user's home directory. Collecting that private state does not
 remove the user-owned existing folder.
 
 These directories are mounted at their original absolute host paths so the
 sealed bundle and workspace descriptor remain valid; the session workspace is
-also the container working directory. OpenClaw passes only the existing frozen,
+also the container working directory. FRIDAY passes only the existing frozen,
 non-secret worker environment allowlist and adds no other host mounts.
 Container isolation protects the rest of the host filesystem and separates
 the worker process, but the worker can still modify its assigned workspace
@@ -498,7 +498,7 @@ to reach the Gateway worker WebSocket endpoint. A Gateway address such as
 container when used by the worker; configure a Gateway address reachable from
 the container network instead. If a Gateway requires a custom certificate
 authority, `NODE_EXTRA_CA_CERTS` must point to a certificate already inside
-the mounted bundle or session workspace; OpenClaw will not mount another host
+the mounted bundle or session workspace; FRIDAY will not mount another host
 path for it. Browser assignments that require access to host-only browser
 state are not supported in container-isolated sessions.
 

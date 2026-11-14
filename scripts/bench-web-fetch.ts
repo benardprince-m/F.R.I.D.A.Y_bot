@@ -75,7 +75,7 @@ const SHELL_HTML = `<!doctype html>
   </body>
 </html>`;
 
-const TEXT_BODY = "OpenClaw web_fetch direct text benchmark body.".repeat(160);
+const TEXT_BODY = "FRIDAY web_fetch direct text benchmark body.".repeat(160);
 const MARKDOWN_BODY = "# Web Fetch Benchmark\n\n" + "- markdown list item\n".repeat(220);
 
 const lookupFn: LookupFn = async () => [{ address: "93.184.216.34", family: 4 }];
@@ -152,7 +152,7 @@ function parseOptions(args = process.argv.slice(2)) {
 }
 
 function printUsage(): void {
-  process.stdout.write(`OpenClaw web_fetch benchmark
+  process.stdout.write(`FRIDAY web_fetch benchmark
 
 Usage:
   pnpm perf:web-fetch -- [options]

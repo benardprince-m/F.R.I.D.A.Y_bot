@@ -1,12 +1,12 @@
 ---
-summary: "Run OpenClaw with vLLM (OpenAI-compatible local server)"
+summary: "Run FRIDAY with vLLM (OpenAI-compatible local server)"
 read_when:
-  - You want to run OpenClaw against a local vLLM server
+  - You want to run FRIDAY against a local vLLM server
   - You want OpenAI-compatible /v1 endpoints with your own models
 title: "vLLM"
 ---
 
-vLLM serves open-source (and some custom) models through an **OpenAI-compatible** HTTP API. OpenClaw connects using the `openai-completions` API and can **auto-discover** models when you opt in with `VLLM_API_KEY`.
+vLLM serves open-source (and some custom) models through an **OpenAI-compatible** HTTP API. FRIDAY connects using the `openai-completions` API and can **auto-discover** models when you opt in with `VLLM_API_KEY`.
 
 | Property         | Value                                      |
 | ---------------- | ------------------------------------------ |
@@ -78,17 +78,17 @@ openclaw onboard --non-interactive --accept-risk --skip-health \
 
 ## Model discovery (implicit provider)
 
-When `VLLM_API_KEY` is set (or an auth profile exists) and `models.providers.vllm` is **not** defined, OpenClaw queries `GET http://127.0.0.1:8000/v1/models` and converts the returned IDs into model entries.
+When `VLLM_API_KEY` is set (or an auth profile exists) and `models.providers.vllm` is **not** defined, FRIDAY queries `GET http://127.0.0.1:8000/v1/models` and converts the returned IDs into model entries.
 
 Discovery recognizes DeepSeek V4 and Nemotron 3 Nano, Super, and Ultra reasoning models, including served-name aliases such as `yk_deepseek_v4` and `yk_nemotron-3-super`. An explicitly configured `reasoning: false` still disables reasoning capability.
 
 <Note>
-If you set `models.providers.vllm` explicitly, OpenClaw uses only your declared models. Add `"vllm/*": {}` to `agents.defaults.models` to make OpenClaw also query that configured provider's `/models` endpoint and include all advertised vLLM models.
+If you set `models.providers.vllm` explicitly, FRIDAY uses only your declared models. Add `"vllm/*": {}` to `agents.defaults.models` to make FRIDAY also query that configured provider's `/models` endpoint and include all advertised vLLM models.
 </Note>
 
 ### Serving context limits
 
-When discovery returns a positive integer `max_model_len`, OpenClaw keeps it as
+When discovery returns a positive integer `max_model_len`, FRIDAY keeps it as
 the observed context ceiling for that server and model. Inference budgets cannot
 exceed that ceiling, even when an explicit model `contextWindow` or `contextTokens`
 is larger. Smaller configured limits still apply. Static model defaults and
@@ -100,7 +100,7 @@ without `"vllm/*"` remains manual and does not probe the server.
 
 After changing vLLM's serving limit, explicitly refresh the model catalog. New
 turns use the refreshed observation; an already prepared turn keeps its current
-budget. OpenClaw does not poll the server for every inference request.
+budget. FRIDAY does not poll the server for every inference request.
 
 ## Explicit configuration
 
@@ -157,7 +157,7 @@ priority scheduling on the server:
 vllm serve <model-id> --scheduling-policy priority
 ```
 
-Then opt in for that model in OpenClaw:
+Then opt in for that model in FRIDAY:
 
 ```json5
 {
@@ -187,11 +187,11 @@ compaction uses background priority. Simple helper completions include utility
 summaries and tool-side model calls, even when a user is waiting for their result.
 
 Lower numbers are scheduled first under contention; arrival order breaks ties.
-OpenClaw sends the native field and does not maintain another queue, reserve
+FRIDAY sends the native field and does not maintain another queue, reserve
 capacity, or isolate model memory. See the [vLLM scheduler reference](https://docs.vllm.ai/en/stable/api/vllm/config/scheduler/).
 
 When enabled, dynamic priority takes precedence over an explicit
-`extraBody.priority` or `extra_body.priority`. When disabled, OpenClaw adds no
+`extraBody.priority` or `extra_body.priority`. When disabled, FRIDAY adds no
 scheduling field and preserves existing literal priority overrides, including
 zero. Numeric `priority: 0` never enables scheduling.
 
@@ -211,7 +211,7 @@ migration.
     | Responses `store`                       | Not sent                         |
     | Prompt-cache hints                      | Not sent                         |
     | OpenAI reasoning-compat payload shaping | Not applied                      |
-    | Hidden OpenClaw attribution headers     | Not injected on custom base URLs |
+    | Hidden FRIDAY attribution headers     | Not injected on custom base URLs |
 
   </Accordion>
 
@@ -237,7 +237,7 @@ migration.
     }
     ```
 
-    OpenClaw maps `/think off` to:
+    FRIDAY maps `/think off` to:
 
     ```json
     {
@@ -250,7 +250,7 @@ migration.
 
     Non-`off` thinking levels send `enable_thinking: true`. If your endpoint expects DashScope-style top-level flags instead, use `compat.thinkingFormat: "qwen"` to send `enable_thinking` at the request root.
 
-    If your served template accepts effort levels, declare them in `compat.supportedReasoningEfforts`, for example `["low", "medium", "xhigh"]`. OpenClaw then exposes those `/think` choices plus `off`. The shared reasoning resolver maps the selected level to the declared wire value. With `qwen-chat-template`, that value goes in `chat_template_kwargs.reasoning_effort`; with `qwen`, it goes in root `reasoning_effort`.
+    If your served template accepts effort levels, declare them in `compat.supportedReasoningEfforts`, for example `["low", "medium", "xhigh"]`. FRIDAY then exposes those `/think` choices plus `off`. The shared reasoning resolver maps the selected level to the declared wire value. With `qwen-chat-template`, that value goes in `chat_template_kwargs.reasoning_effort`; with `qwen`, it goes in root `reasoning_effort`.
 
     Provider-native values are case-sensitive. Use `compat.reasoningEffortMap`, such as `{ low: "LOW", high: "HIGH" }`, to map logical choices to a declared native list such as `["LOW", "HIGH"]`. Unmapped native labels are not advertised as effort choices. Missing, empty, or unusable lists keep binary thinking, as does `compat.supportsReasoningEffort: false`.
 
@@ -261,7 +261,7 @@ migration.
   </Accordion>
 
   <Accordion title="DeepSeek V4 thinking controls">
-    For vLLM model IDs containing `deepseek-v4` or `deepseek_v4`, configure `reasoning: true`. OpenClaw sends the selected effort through `chat_template_kwargs.reasoning_effort`, with both `thinking` and `enable_thinking` set to `true`. Declared efforts and `reasoningEffortMap` use the same shared resolver as other OpenAI-compatible models.
+    For vLLM model IDs containing `deepseek-v4` or `deepseek_v4`, configure `reasoning: true`. FRIDAY sends the selected effort through `chat_template_kwargs.reasoning_effort`, with both `thinking` and `enable_thinking` set to `true`. Declared efforts and `reasoningEffortMap` use the same shared resolver as other OpenAI-compatible models.
 
     `/think off` sends both template flags as `false`, because vLLM enables DeepSeek thinking when either flag is true. Hosted DeepSeek's root `thinking` object and root `reasoning_effort` are removed. Existing explicit template kwargs and the final `params.extra_body` override remain authoritative. Explicit Qwen thinking formats take precedence over the model-name match.
 
@@ -307,7 +307,7 @@ migration.
   <Accordion title="Qwen tool calls appear as text">
     First confirm vLLM was started with the right tool-call parser and chat template for the model. vLLM documents `hermes` for Qwen2.5 models and `qwen3_xml` for Qwen3-Coder models.
 
-    Symptoms: skills/tools never run, the assistant prints raw JSON/XML such as `{"name":"read","arguments":...}`, or vLLM returns an empty `tool_calls` array when OpenClaw sends `tool_choice: "auto"`.
+    Symptoms: skills/tools never run, the assistant prints raw JSON/XML such as `{"name":"read","arguments":...}`, or vLLM returns an empty `tool_calls` array when FRIDAY sends `tool_choice: "auto"`.
 
     Some Qwen/vLLM combinations return structured tool calls only when the request uses `tool_choice: "required"`. Force it per model with `params.extra_body`:
 
@@ -403,7 +403,7 @@ migration.
     curl http://127.0.0.1:8000/v1/models
     ```
 
-    If you see a connection error, verify the host, port, and that vLLM started in OpenAI-compatible server mode. OpenClaw trusts the exact configured `models.providers.vllm.baseUrl` origin for guarded model requests on loopback, LAN, and Tailscale endpoints. Metadata, link-local, and local-use NAT64 (`64:ff9b:1::/48`) origins remain blocked without explicit opt-in. Set `models.providers.vllm.request.allowPrivateNetwork: true` only when vLLM requests must reach another private origin, or `false` to opt out of exact-origin trust.
+    If you see a connection error, verify the host, port, and that vLLM started in OpenAI-compatible server mode. FRIDAY trusts the exact configured `models.providers.vllm.baseUrl` origin for guarded model requests on loopback, LAN, and Tailscale endpoints. Metadata, link-local, and local-use NAT64 (`64:ff9b:1::/48`) origins remain blocked without explicit opt-in. Set `models.providers.vllm.request.allowPrivateNetwork: true` only when vLLM requests must reach another private origin, or `false` to opt out of exact-origin trust.
 
   </Accordion>
 
@@ -411,13 +411,13 @@ migration.
     If requests fail with auth errors, set a real `VLLM_API_KEY` that matches your server configuration, or configure the provider explicitly under `models.providers.vllm`.
 
     <Tip>
-    If your vLLM server does not enforce auth, any non-empty value for `VLLM_API_KEY` works as an opt-in signal for OpenClaw.
+    If your vLLM server does not enforce auth, any non-empty value for `VLLM_API_KEY` works as an opt-in signal for FRIDAY.
     </Tip>
 
   </Accordion>
 
   <Accordion title="No models discovered">
-    Auto-discovery requires `VLLM_API_KEY` to be set. If you have defined `models.providers.vllm`, OpenClaw uses only your declared models unless `agents.defaults.models` includes `"vllm/*": {}`.
+    Auto-discovery requires `VLLM_API_KEY` to be set. If you have defined `models.providers.vllm`, FRIDAY uses only your declared models unless `agents.defaults.models` includes `"vllm/*": {}`.
   </Accordion>
 
   <Accordion title="Tools render as raw text">

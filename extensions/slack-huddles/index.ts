@@ -22,7 +22,7 @@ export const slackHuddlesPlugin = MeetingPlatformAdapter.defineBrowserMeetingPlu
     browserPage: "Slack huddle",
   },
   config: {
-    defaultRealtimeInstructions: `You are joining a private Slack huddle as an OpenClaw voice transport. Keep spoken replies brief and natural. In agent mode, wait for OpenClaw consult results and speak them exactly. In bidi mode, answer directly and call ${REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME} for deeper reasoning, current information, or tools.`,
+    defaultRealtimeInstructions: `You are joining a private Slack huddle as an FRIDAY voice transport. Keep spoken replies brief and natural. In agent mode, wait for FRIDAY consult results and speak them exactly. In bidi mode, answer directly and call ${REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME} for deeper reasoning, current information, or tools.`,
     resolveGatewayOperationTimeoutMs: (config) =>
       Math.max(
         60_000,

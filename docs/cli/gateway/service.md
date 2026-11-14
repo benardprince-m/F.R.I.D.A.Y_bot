@@ -22,7 +22,7 @@ openclaw gateway uninstall
 
 `gateway stop`, `gateway uninstall`, and `gateway restart` remain available when
 configuration is invalid or needs Doctor migration, including configuration written
-by a newer OpenClaw version. They control the recorded service and report config
+by a newer FRIDAY version. They control the recorded service and report config
 problems as warnings with `openclaw doctor --fix` guidance. Stop and uninstall do
 not rewrite configuration. Restart preserves the installed service definition when
 config needs repair; its health check still reports whether the Gateway came back.
@@ -78,7 +78,7 @@ not disable startup at the next login or boot. `gateway stop --disable` is
 macOS-only. For non-interactive maintenance, use `openclaw gateway stop --force`.
 
 A systemd mask also refuses explicit starts. Keep masks under operator control:
-OpenClaw does not remove them automatically. If you masked the default user
+FRIDAY does not remove them automatically. If you masked the default user
 service for maintenance, remove the hold before updating:
 
 ```bash
@@ -106,7 +106,7 @@ bypass unknown service facts. Inspect the selected service with
 
 For a malformed definition or unsupported environment syntax, privately back up
 the service files and any values stored only in its environment. Correct unresolved
-or unsupported values before reinstalling; OpenClaw cannot infer their intended
+or unsupported values before reinstalling; FRIDAY cannot infer their intended
 values. Then, from an external shell using the same account and profile:
 
 ```bash
@@ -124,7 +124,7 @@ of deleting state or bypassing inspection.
 
 ### Lifecycle requests from Gateway chat
 
-Gateway-hosted OpenClaw chat controls the exact Gateway serving that session.
+Gateway-hosted FRIDAY chat controls the exact Gateway serving that session.
 An approved start request reports **Gateway already running** without discovering
 or starting another service. Restart keeps the safe local restart behavior.
 
@@ -217,7 +217,7 @@ definition. If its runtime argument was also changed, select the intended execut
 explicitly with `--runtime-path` as shown above. A recorded runtime pin whose service
 definition has changed must be explicitly selected again. Keep service-only
 environment values available to the reinstall; malformed wrapper arguments can
-prevent OpenClaw from reading the previous environment file.
+prevent FRIDAY from reading the previous environment file.
 
 ### Install with a wrapper
 
@@ -271,7 +271,7 @@ openclaw gateway restart
     - If `gateway start` or `gateway restart` needs to repair a stale service definition, the command refuses when the invoking shell resolves a different state directory, config path, or port than the installed service. Match or unset the conflicting environment overrides, or use `openclaw gateway install --force` to retarget the service intentionally.
     - On Linux, `gateway start` and `gateway restart` also refuse ineffective repairs when an operator-owned systemd drop-in overrides the command or working directory. Inspect the effective unit with `systemctl --user cat <unit>.service`, then update or remove that drop-in. `gateway install --force` rewrites only the managed base unit and warns if the override remains; `Environment=` drop-ins remain supported.
     - `gateway restart --preserve-definition` restarts only an inspectable native service, skips automatic definition repair, and checks health at the installed launcher's port. It does not recover an unmanaged listener and cannot be combined with `--safe` or external supervision. On macOS it can bootstrap an unloaded readable plist without rewriting the plist, environment, wrapper, or permissions; denied native activation fails without file repair. On Windows it also retains existing Startup entries. The `daemon restart` alias accepts the same option.
-    - During writable Linux service installs or refreshes, keep the unit and state directories stationary and avoid concurrent manual edits. OpenClaw serializes its own writers and aborts on detected changes, but cannot coordinate arbitrary filesystem edits. Moving or replacing a parent directory mid-publication can leave a temporary file inside the moved directory; inspect it before retrying.
+    - During writable Linux service installs or refreshes, keep the unit and state directories stationary and avoid concurrent manual edits. FRIDAY serializes its own writers and aborts on detected changes, but cannot coordinate arbitrary filesystem edits. Moving or replacing a parent directory mid-publication can leave a temporary file inside the moved directory; inspect it before retrying.
     - On macOS, rollback of a failed LaunchAgent replacement restores the previous plist bytes and permission bits, including binary plists. If restoration cannot finish, the command reports the failure.
     - Use `gateway restart` to restart a managed service. Do not chain `gateway stop` and `gateway start` as a restart substitute.
     - The running Gateway records its process identity, listener mode, and supervisor in shared state. Restart preserves a verified live owner while it boots, even before its listener opens; a health timeout does not make that owner stale. A recorded foreground owner receives a targeted restart even when a native service is installed. Scheduled Task cleanup preserves external supervisors and other tasks, identifying their owner in the error. Older Gateways without a recorded identity remain terminable when their arguments exactly match the installed task command. Without that attribution, a held coordinator leaves the process running and asks you to retry after startup. Unverified listeners are reported instead of being killed.
@@ -288,7 +288,7 @@ openclaw gateway restart
     - Examples: 32 GiB capacity selects 8 GiB old space; 64 GiB selects 16 GiB; 128 GiB selects 32 GiB. Old space is only part of V8's total heap, and neither is a limit on total process memory (RSS). Raising the ceiling does not preallocate that memory.
     - Existing managed service heap controls are preserved across forced reinstalls and doctor repairs, including absolute old-space, percentage old-space, and total-heap flags. Only heap flags survive managed `NODE_OPTIONS` sanitization; arbitrary preload/debug flags do not. Put intentional preload/debug settings in an operator-owned systemd `Environment=` drop-in, or set them inside an [installed wrapper](#install-with-a-wrapper) before it launches Node. Do not edit the generated service environment for those settings. Existing stored numbers are preserved even when they resemble an older automatic default or exceed the new recommendation.
     - When an operator-owned service override controls `NODE_OPTIONS` (including an empty value or reset), regeneration does not add a new automatic heap argument. Operator values and drop-in files stay separate from the managed base. Existing managed argv controls remain: Node's argv wins over `NODE_OPTIONS` for the same option, and percentage old-space sizing takes precedence over absolute old-space sizing. Inspect both surfaces before changing a cap.
-    - Ambient installer `NODE_OPTIONS` and the installer's own Node arguments are not saved as Gateway heap settings. The budget is chosen at installation and takes effect when the service process starts; it is not recalculated while the Gateway runs. Upgrading OpenClaw alone does not resize a running Gateway, and foreground launches do not replace themselves to apply this policy.
+    - Ambient installer `NODE_OPTIONS` and the installer's own Node arguments are not saved as Gateway heap settings. The budget is chosen at installation and takes effect when the service process starts; it is not recalculated while the Gateway runs. Upgrading FRIDAY alone does not resize a running Gateway, and foreground launches do not replace themselves to apply this policy.
     - The installer's memory constraints can differ from the future service's constraints. Node/libuv reporting is platform-dependent and does not guarantee detection of every ancestor cgroup limit; inspect the actual service or container limits before increasing a budget.
     - This policy applies to managed Node Gateway launches, not foreground `gateway run`, custom supervisors, Docker runtime commands, Bun, or node-host services. Those retain their own runtime configuration. See [memory troubleshooting](/gateway/troubleshooting#gateway-exits-during-high-memory-use) for explicit native Node settings.
 

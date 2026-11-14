@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct WatchApprovalTransportSourceGuardTests {
     @Test func `watch approval loading and screenshot proof are visible`() throws {

@@ -294,7 +294,7 @@ describe("buildContextReply", () => {
     expect(result.text).toContain("agents.defaults.*");
   });
 
-  it("reports native Codex project docs as unverified without OpenClaw limit advice", async () => {
+  it("reports native Codex project docs as unverified without FRIDAY limit advice", async () => {
     const result = await buildContextReply(
       makeParams("/context detail", false, { nativeUnverified: true }),
     );

@@ -256,7 +256,7 @@ export async function sendControlUiHtmlBody(
     res.removeHeader("Content-Encoding");
     res.setHeader("Cache-Control", "no-store");
     res.removeHeader("Content-Security-Policy");
-    res.removeHeader("X-OpenClaw-Session-Entry");
+    res.removeHeader("X-FRIDAY-Session-Entry");
     respondPlainText(res, 403, "Session access changed. Reload the conversation or log in again.");
     return;
   }

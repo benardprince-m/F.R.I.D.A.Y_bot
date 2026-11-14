@@ -88,7 +88,7 @@ type OuterRunOptions = {
 const PRIMARY_MODEL = "sonnet-4.6";
 const FALLBACK_MODEL = "sonnet-4.5";
 const RESEED_PROMPT = [
-  "Continue this conversation using the OpenClaw transcript below as prior session history.",
+  "Continue this conversation using the FRIDAY transcript below as prior session history.",
   "",
   "<conversation_history>",
   "User: earlier context",

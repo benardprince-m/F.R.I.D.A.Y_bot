@@ -131,7 +131,7 @@ suite.define(() => {
           updatedAtMs: run.updatedAtMs,
         });
         await dialog
-          .getByText("⬆️ OpenClaw update in progress: restarting.", { exact: true })
+          .getByText("⬆️ FRIDAY update in progress: restarting.", { exact: true })
           .waitFor();
         await gateway.setOnline(false);
         await dialog.getByText("Gateway restarting…", { exact: true }).waitFor();
@@ -161,7 +161,7 @@ suite.define(() => {
           runId: run.runId,
         });
         await dialog
-          .getByText("✅ OpenClaw updated to 2026.8.1 (9f3c21a0) (from 2026.8.1 (11111111)).", {
+          .getByText("✅ FRIDAY updated to 2026.8.1 (9f3c21a0) (from 2026.8.1 (11111111)).", {
             exact: true,
           })
           .first()
@@ -205,7 +205,7 @@ suite.define(() => {
         await gateway.setOnline(true);
 
         await dialog
-          .getByText("⚠️ OpenClaw update failed: deps-install-failed.", { exact: true })
+          .getByText("⚠️ FRIDAY update failed: deps-install-failed.", { exact: true })
           .first()
           .waitFor();
         const failureText = await dialog.textContent();

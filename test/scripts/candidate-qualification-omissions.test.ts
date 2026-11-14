@@ -116,7 +116,7 @@ describe("candidate qualification child dispatch", () => {
       const sha = (distinct ? "b" : "a").repeat(40);
       const ref = "release-ci/" + sha.slice(0, 12) + "-1";
       const title =
-        (kind === "plugin-prerelease" ? "Plugin Prerelease" : "OpenClaw Release Checks") +
+        (kind === "plugin-prerelease" ? "Plugin Prerelease" : "FRIDAY Release Checks") +
         " full-release-validation-77-1-" +
         kind +
         "-independent";

@@ -107,7 +107,7 @@ function createMockBus(overrides: Partial<BuzzBus> = {}): BuzzBus {
     publicKey: BOT_PUBLIC_KEY,
     directory: new BuzzDirectoryState({
       publicKey: BOT_PUBLIC_KEY,
-      fallbackProfileName: "OpenClaw",
+      fallbackProfileName: "FRIDAY",
       channelIds: [CHANNEL_ID],
     }),
     refreshDirectory: vi.fn(async () => {}),

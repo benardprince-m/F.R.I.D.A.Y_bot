@@ -5,7 +5,7 @@ read_when:
   - You are writing the browser block in openclaw.json
   - You need the CDP port ranges or the SSRF policy options
   - You want a text-only model to read browser screenshots
-  - You want OpenClaw to launch Brave, Edge, or another Chromium browser
+  - You want FRIDAY to launch Brave, Edge, or another Chromium browser
 ---
 
 ## Configuration
@@ -14,10 +14,10 @@ Browser settings live in `~/.openclaw/openclaw.json`.
 
 With Gateway hot reload enabled, changing `browser.enabled`,
 `browser.evaluateEnabled`, or `browser.ssrfPolicy` replaces only the Browser
-control service. Pending browser operations are cancelled and OpenClaw-owned
+control service. Pending browser operations are cancelled and FRIDAY-owned
 Chrome processes close before the new policy applies. The Gateway and other
 plugins keep running. Attached and remote browser processes stay open, but
-OpenClaw disconnects its control sessions. Browser control starts again on the
+FRIDAY disconnects its control sessions. Browser control starts again on the
 next request when enabled; managed tabs from the retired process are not kept.
 Extension relay configuration still requires a Gateway restart.
 
@@ -77,9 +77,9 @@ an unmarked baseline. Existing-session snapshots omit deltas.
 ### Tab cleanup ownership
 
 Session tab cleanup applies only to tabs a session owns: tabs created by the
-OpenClaw browser tool with `action: "open"` and tabs opened from that session's
-Browser panel in the Control UI. OpenClaw does not adopt tabs that were already
-open, opened outside OpenClaw, or otherwise have unknown ownership. The
+FRIDAY browser tool with `action: "open"` and tabs opened from that session's
+Browser panel in the Control UI. FRIDAY does not adopt tabs that were already
+open, opened outside FRIDAY, or otherwise have unknown ownership. The
 `browser.tabCleanup` block controls periodic idle and cap sweeps for primary
 sessions. Changes apply on the next sweep without restarting the browser;
 disabling it does not disable explicit session lifecycle cleanup.
@@ -87,14 +87,14 @@ disabling it does not disable explicit session lifecycle cleanup.
 Ownership includes the agent identity: two agents using the same session key,
 such as `global`, have separate tab membership and cleanup. Legacy durable records
 without an agent-qualified identity are discarded as invalid bookkeeping when
-cleanup reads the tab store. Their tabs stay open: OpenClaw does not guess an
+cleanup reads the tab store. Their tabs stay open: FRIDAY does not guess an
 owner or adopt them into another session. Close those tabs manually if needed.
 
 Periodic cleanup belongs to the Browser plugin service and continues after the
 request that first started browser control ends. Stopping or reloading that
 service cancels future sweeps and waits for active cleanup to finish.
 
-OpenClaw-managed Chrome also applies a separate, best-effort cap of eight page
+FRIDAY-managed Chrome also applies a separate, best-effort cap of eight page
 tabs when opening a tab. This cap is independent of `browser.tabCleanup`;
 remote and attach-only profiles do not use it.
 
@@ -106,10 +106,10 @@ Records whose tool-facing target is the native CDP target also remain eligible
 for idle and per-session cap sweeps after restart. Chrome MCP target handles are
 process-local, so cold existing-session records wait for lifecycle cleanup
 rather than risking an idle sweep against activity that cannot be attributed
-safely after restart. This durable path can cover OpenClaw-managed profiles,
+safely after restart. This durable path can cover FRIDAY-managed profiles,
 regular remote CDP profiles, and existing-session profiles with an explicit
-`cdpUrl`, provided OpenClaw can resolve both the native target and a stable
-browser identity. Before closing a durable record, OpenClaw verifies that the
+`cdpUrl`, provided FRIDAY can resolve both the native target and a stable
+browser identity. Before closing a durable record, FRIDAY verifies that the
 configured profile and browser instance still match.
 
 Chrome MCP `--autoConnect`, CDP endpoints whose `/json/version` response lacks
@@ -167,7 +167,7 @@ browser-specific model settings.
    back to returning the original image block.
 
 Screenshot image blocks are private tool results: the agent can inspect them,
-but OpenClaw does not automatically attach them to channel replies. To share a
+but FRIDAY does not automatically attach them to channel replies. To share a
 screenshot, ask the agent to send it explicitly with the message tool.
 
 Use `tools.media.models` for model fallbacks, timeouts, byte limits, profiles,
@@ -175,7 +175,7 @@ and provider request settings. Tag screenshot-capable entries with the `image`
 capability.
 
 If the active main model already supports vision and no explicit image
-understanding model is configured, OpenClaw keeps the normal image result so the
+understanding model is configured, FRIDAY keeps the normal image result so the
 main model can read the screenshot directly.
 
 <AccordionGroup>
@@ -183,7 +183,7 @@ main model can read the screenshot directly.
 <Accordion title="Ports and reachability">
 
 - Control service binds to loopback on a port derived from `gateway.port` (default `18791` = gateway + 2). `OPENCLAW_GATEWAY_PORT` takes priority over `gateway.port`; either shifts the derived ports in the same family.
-- Local `openclaw` profiles use a CDP port range starting 9 ports above the control port (default `18800`-`18899`). OpenClaw allocates from that range for
+- Local `openclaw` profiles use a CDP port range starting 9 ports above the control port (default `18800`-`18899`). FRIDAY allocates from that range for
   the implicit default profile and for profiles created with
   `openclaw browser create-profile`, writing the chosen `cdpPort` into the
   config. A profile you declare by hand must set `cdpPort` itself, or `cdpUrl`
@@ -196,7 +196,7 @@ main model can read the screenshot directly.
 - Remote and `attachOnly` CDP reachability, WebSocket handshakes, and local
   managed-Chrome startup use built-in deadlines.
 - Repeated managed Chrome launch/readiness failures are circuit-broken per
-  profile. After several consecutive failures, OpenClaw pauses new launch
+  profile. After several consecutive failures, FRIDAY pauses new launch
   attempts briefly instead of spawning Chromium on every browser tool call. Fix
   the startup problem, disable the browser if it is not needed, or restart the
   Gateway after repair.
@@ -206,14 +206,14 @@ main model can read the screenshot directly.
 <Accordion title="SSRF policy">
 
 - Browser navigation and open-tab requests are preflight checked. During the action and bounded post-action grace, guarded Playwright interactions (click, coordinate click, hover, drag, scroll, select, press, type, form fill, and evaluate) intercept policy-denied top-level and subframe document loads before HTTP request bytes, then best-effort re-check the final `http(s)` URL.
-- Before each fresh OpenClaw-managed Chrome launch, OpenClaw best-effort disables network prediction, suppressing Chromium's observed speculative preconnect for those denied loads. This is defense in depth, not a policy boundary: a browser reused across a control-service restart and other browser backends may not share the hardening. Playwright routing is still not a network firewall and does not intercept redirect hops, a popup's first request, Service Worker traffic, page code that runs after the bounded guard window, or every background/subresource path. Complete egress isolation requires owner-side isolation or a policy-enforcing proxy.
+- Before each fresh FRIDAY-managed Chrome launch, FRIDAY best-effort disables network prediction, suppressing Chromium's observed speculative preconnect for those denied loads. This is defense in depth, not a policy boundary: a browser reused across a control-service restart and other browser backends may not share the hardening. Playwright routing is still not a network firewall and does not intercept redirect hops, a popup's first request, Service Worker traffic, page code that runs after the bounded guard window, or every background/subresource path. Complete egress isolation requires owner-side isolation or a policy-enforcing proxy.
 - In strict SSRF mode, remote CDP endpoint discovery and `/json/version` checks (`cdpUrl`) are checked too.
 - Guarded remote CDP connections are rejected when the selected driver cannot
   keep the approved endpoint bound to the actual socket. Use the regular
   `openclaw` driver for Browserless, Browserbase, Notte, or other guarded
   remote CDP providers. `existing-session`/Chrome MCP profiles with an explicit
   `cdpUrl` or `--browserUrl`/`--wsEndpoint` MCP argument are rejected under the
-  default strict Browser policy because Chrome MCP cannot carry OpenClaw's
+  default strict Browser policy because Chrome MCP cannot carry FRIDAY's
   pinned DNS lookup or guarded discovery result across its subprocess boundary.
   They remain supported only when private-network Browser access is explicitly
   trusted. Otherwise, omit the explicit endpoint and attach Chrome MCP to a
@@ -223,8 +223,8 @@ main model can read the screenshot directly.
   the active policy explicitly allows that authority change. Revalidating a
   returned hostname is not enough; the WebSocket transport must use the endpoint
   that passed policy validation.
-- Gateway/provider `HTTP_PROXY`, `HTTPS_PROXY`, `ALL_PROXY`, and `NO_PROXY` environment variables do not automatically proxy the OpenClaw-managed browser. Managed Chrome launches direct by default so provider proxy settings do not weaken browser SSRF checks.
-- OpenClaw-managed local CDP readiness checks and DevTools WebSocket connections bypass the managed network proxy for the exact launched loopback endpoint, so `openclaw browser start` still works when an operator proxy blocks loopback egress.
+- Gateway/provider `HTTP_PROXY`, `HTTPS_PROXY`, `ALL_PROXY`, and `NO_PROXY` environment variables do not automatically proxy the FRIDAY-managed browser. Managed Chrome launches direct by default so provider proxy settings do not weaken browser SSRF checks.
+- FRIDAY-managed local CDP readiness checks and DevTools WebSocket connections bypass the managed network proxy for the exact launched loopback endpoint, so `openclaw browser start` still works when an operator proxy blocks loopback egress.
 - To proxy the managed browser itself, pass explicit Chrome proxy flags through `browser.extraArgs`, such as `--proxy-server=...` or `--proxy-pac-url=...`. Strict SSRF mode blocks explicit browser proxy routing unless private-network browser access is intentionally enabled.
 - `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork` is off by default; enable only when private-network browser access is intentionally trusted.
 - `browser.ssrfPolicy.allowedHostnames` grants exact hosts while the rest of the private network remains blocked.
@@ -239,7 +239,7 @@ main model can read the screenshot directly.
 - `POST /start?headless=true` and `openclaw browser start --headless` request a
   one-shot headless launch for local managed profiles without rewriting
   `browser.headless` or profile config. Existing-session, attach-only, and
-  remote CDP profiles reject the override because OpenClaw does not launch those
+  remote CDP profiles reject the override because FRIDAY does not launch those
   browser processes.
 - Local managed profiles default to headless on every platform, including hosts
   with a desktop session. Existing-session, extension, remote, and attach-only
@@ -251,7 +251,7 @@ main model can read the screenshot directly.
 - Fresh headless profiles are seeded before one browser launch; they do not run
   a temporary browser solely to create preference files. Existing profile preferences
   and cookie encryption settings are preserved.
-- When no installed Chromium-family browser is found, OpenClaw searches the
+- When no installed Chromium-family browser is found, FRIDAY searches the
   Playwright cache for full Chromium. Automatic discovery never switches to
   headless shell, even if the full browser is removed. Discovery does not load
   Playwright or download browsers.
@@ -287,14 +287,14 @@ main model can read the screenshot directly.
 - Headless managed Chrome still uses the conservative `--disable-gpu` default.
   The diagnostics do not enable acceleration, add a global acceleration setting,
   or grant sandbox browser device access.
-- Headless Chromium cannot show Chrome's passkey dialog, so OpenClaw answers
+- Headless Chromium cannot show Chrome's passkey dialog, so FRIDAY answers
   passkey requests in headless browsers as dismissed and the page stays usable.
   See [Passkeys in headless browsers](/tools/browser-login#passkeys-in-headless-browsers).
 - `executablePath` can be set globally or per local managed profile. Per-profile values override `browser.executablePath`, so different managed profiles can launch different Chromium-based browsers. Both forms accept `~` for your OS home directory.
 - Default profile is `openclaw` (managed standalone). Use `defaultProfile: "user"` to opt into the signed-in user browser.
 - Auto-detect order: system default browser if Chromium-based; otherwise Chrome, Brave, Edge, Chromium, Chrome Canary.
 - `driver: "existing-session"` uses Chrome DevTools MCP instead of raw CDP. It can attach through Chrome MCP auto-connect, or through `cdpUrl` when you already have a DevTools endpoint for the running browser.
-- `driver: "extension"` drives your signed-in Chrome through the [OpenClaw Chrome extension](/tools/chrome-extension). The relay owns its loopback endpoint, so these profiles do not accept `cdpUrl`. This is the only signed-in-browser mode that works with nobody at the computer.
+- `driver: "extension"` drives your signed-in Chrome through the [FRIDAY Chrome extension](/tools/chrome-extension). The relay owns its loopback endpoint, so these profiles do not accept `cdpUrl`. This is the only signed-in-browser mode that works with nobody at the computer.
 - Set `browser.profiles.<name>.userDataDir` when an existing-session profile should attach to a non-default Chromium user profile (Brave, Edge, etc.). This path also accepts `~` for your OS home directory.
 
 </Accordion>
@@ -304,7 +304,7 @@ main model can read the screenshot directly.
 ## Use Brave or another Chromium-based browser
 
 If your **system default** browser is Chromium-based (Chrome/Brave/Edge/etc),
-OpenClaw uses it automatically. Set `browser.executablePath` to override
+FRIDAY uses it automatically. Set `browser.executablePath` to override
 auto-detection. Top-level and per-profile `executablePath` values accept `~`
 for your OS home directory:
 
@@ -345,6 +345,6 @@ Or set it in config, per platform:
   </Tab>
 </Tabs>
 
-Per-profile `executablePath` only affects local managed profiles that OpenClaw
+Per-profile `executablePath` only affects local managed profiles that FRIDAY
 launches. `existing-session` profiles attach to an already-running browser
 instead, and remote CDP profiles use the browser behind `cdpUrl`.

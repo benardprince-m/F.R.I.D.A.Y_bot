@@ -29,7 +29,7 @@ const rules = [
   {
     label: "r: false-positive",
     message:
-      "Closing this because it looks like a false positive or reclassification-only report rather than an actionable OpenClaw bug. If this is still a real issue, please open a fresh report with concrete reproduction steps and current-version details.",
+      "Closing this because it looks like a false positive or reclassification-only report rather than an actionable FRIDAY bug. If this is still a real issue, please open a fresh report with concrete reproduction steps and current-version details.",
   },
   {
     label: "r: no-ci-pr",
@@ -57,7 +57,7 @@ const rules = [
     label: "r: bluebubbles",
     commentTriggers: ["bluebubbles", "blue bubbles"],
     message:
-      "BlueBubbles is deprecated and no longer ships as a bundled OpenClaw channel. Use iMessage via `imsg` instead: https://docs.openclaw.ai/channels/imessage. If this needs to stay BlueBubbles-backed, publish it as a third-party plugin on ClawHub instead of adding it back to core.",
+      "BlueBubbles is deprecated and no longer ships as a bundled FRIDAY channel. Use iMessage via `imsg` instead: https://docs.openclaw.ai/channels/imessage. If this needs to stay BlueBubbles-backed, publish it as a third-party plugin on ClawHub instead of adding it back to core.",
   },
   {
     label: "r: moltbook",
@@ -65,7 +65,7 @@ const rules = [
     lockReason: "off-topic",
     commentTriggers: ["moltbook"],
     message:
-      "OpenClaw is not affiliated with Moltbook, and issues related to Moltbook should not be submitted here.",
+      "FRIDAY is not affiliated with Moltbook, and issues related to Moltbook should not be submitted here.",
   },
 ];
 
@@ -109,7 +109,7 @@ export const managedLabelSpecs = {
   },
   "r: moltbook": {
     color: "B60205",
-    description: "Auto-close and lock: Moltbook is off-topic for OpenClaw.",
+    description: "Auto-close and lock: Moltbook is off-topic for FRIDAY.",
   },
   "r: spam": {
     color: "B60205",
@@ -228,13 +228,13 @@ const candidateActionRules = Object.entries({
   [candidateLabels.docsDiscoverability]:
     "Closing this PR because docs discoverability and community-plugin listing changes should go through ClawHub or a maintainer-owned docs plan, not drive-by core churn.",
   [candidateLabels.lowSignalDocs]:
-    "Closing this PR because the docs-only change is too low-signal for the core repo. Please reopen or resubmit with a concrete OpenClaw docs gap and linked context.",
+    "Closing this PR because the docs-only change is too low-signal for the core repo. Please reopen or resubmit with a concrete FRIDAY docs gap and linked context.",
   [candidateLabels.testOnlyNoBug]:
     "Closing this PR because it only changes tests without a linked bug, owner request, or behavior change. Test-only PRs need a concrete regression or maintainer-requested gap.",
   [candidateLabels.refactorOnly]:
     "Closing this PR because it is refactor/cleanup-only without maintainer context. We avoid churn in core unless it unlocks a concrete fix, architecture change, or owned cleanup.",
   [candidateLabels.blankTemplate]:
-    "Closing this PR because the template is mostly blank and does not describe a concrete OpenClaw problem, fix, or test plan. Please reopen or resubmit with the missing context filled in.",
+    "Closing this PR because the template is mostly blank and does not describe a concrete FRIDAY problem, fix, or test plan. Please reopen or resubmit with the missing context filled in.",
 }).map(([label, message]) => ({ label, message }));
 
 const normalizeLogin = (login) => login.toLowerCase();

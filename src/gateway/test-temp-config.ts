@@ -11,7 +11,7 @@ import {
 import type { OpenClawConfig } from "../config/config.js";
 import { clearSecretsRuntimeSnapshot } from "../secrets/runtime.js";
 
-/** Writes a temp OpenClaw config, installs it as runtime state, then restores globals. */
+/** Writes a temp FRIDAY config, installs it as runtime state, then restores globals. */
 export async function withTempConfig(params: {
   cfg: unknown;
   run: () => Promise<void>;

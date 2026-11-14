@@ -905,7 +905,7 @@ describe("scheduleRestartSentinelWake", () => {
       expect(mocks.appendAssistantMessageToSessionTranscript).toHaveBeenCalledOnce();
       expect(mocks.appendAssistantMessageToSessionTranscript).toHaveBeenCalledWith(
         expect.objectContaining({
-          text: "🔁 Checking that OpenClaw is ready…",
+          text: "🔁 Checking that FRIDAY is ready…",
         }),
       );
       if (cliFinished) {
@@ -2271,7 +2271,7 @@ describe("scheduleRestartSentinelWake", () => {
         threadId: "7",
         payloads: [
           {
-            text: "✅ OpenClaw updated.\nFor details, open Settings → Updates in the Control UI or run `openclaw update status` in your terminal.",
+            text: "✅ FRIDAY updated.\nFor details, open Settings → Updates in the Control UI or run `openclaw update status` in your terminal.",
           },
         ],
       }),

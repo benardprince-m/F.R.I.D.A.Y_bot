@@ -79,7 +79,7 @@ enabled.define(() => {
         const gateway = await installMockGateway(page, { awaitInitialRoster: false });
         const url = `${enabled.server.baseUrl}chat?keep=yes#synthetic-fragment`;
         await page.goto(url);
-        const heading = page.getByRole("heading", { name: "Update your browser to use OpenClaw" });
+        const heading = page.getByRole("heading", { name: "Update your browser to use FRIDAY" });
         await heading.waitFor();
         expect(await page.getByText(/macOS 26.2 or iOS 26.2/).isVisible()).toBe(true);
         expect(
@@ -162,7 +162,7 @@ enabled.define(() => {
         expect(recoveryRequests).toBe(0);
         expect(documentRequests).toBe(1);
         release.resolve();
-        await page.getByRole("heading", { name: "Update your browser to use OpenClaw" }).waitFor();
+        await page.getByRole("heading", { name: "Update your browser to use FRIDAY" }).waitFor();
         expect(documentRequests).toBe(1);
       },
       async () => release.resolve(),
@@ -196,7 +196,7 @@ enabled.define(() => {
       );
       await writeFile(path.join(enabled.artifactDir, "unsupported-download-failed.png"), frame.png);
       await page.getByRole("button", { name: "Try again", exact: true }).click();
-      await page.getByRole("heading", { name: "Update your browser to use OpenClaw" }).waitFor();
+      await page.getByRole("heading", { name: "Update your browser to use FRIDAY" }).waitFor();
       expect(failure.documentCount()).toBe(2);
     });
   });

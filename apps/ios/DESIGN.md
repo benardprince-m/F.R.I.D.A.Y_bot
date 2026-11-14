@@ -1,6 +1,6 @@
 # iOS design system
 
-OpenClaw requires iOS/iPadOS 26.2 or newer and follows the native iOS 26 design language. Use SwiftUI system structure first, Liquid Glass for interactive chrome, and quiet opaque surfaces for content.
+FRIDAY requires iOS/iPadOS 26.2 or newer and follows the native iOS 26 design language. Use SwiftUI system structure first, Liquid Glass for interactive chrome, and quiet opaque surfaces for content.
 
 ## Principles
 

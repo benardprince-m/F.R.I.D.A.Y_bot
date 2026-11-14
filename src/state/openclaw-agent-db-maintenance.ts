@@ -43,13 +43,13 @@ export function assertOpenClawAgentDatabaseOwner(
   const metadata = readExistingAgentSchemaMeta(database);
   if (!metadata) {
     throw new SqliteSchemaMismatchError(
-      `OpenClaw agent database ${options.pathname} has no schema ownership metadata. Run openclaw doctor --fix to inspect and repair its ownership.`,
+      `FRIDAY agent database ${options.pathname} has no schema ownership metadata. Run openclaw doctor --fix to inspect and repair its ownership.`,
     );
   }
   assertExistingAgentSchemaOwner(metadata, agentId, options.pathname);
   if (metadata.agentId !== agentId) {
     throw new SqliteSchemaMismatchError(
-      `OpenClaw agent database ${options.pathname} belongs to agent ${metadata.agentId}; requested agent ${agentId}.`,
+      `FRIDAY agent database ${options.pathname} belongs to agent ${metadata.agentId}; requested agent ${agentId}.`,
     );
   }
   return metadata;
@@ -65,12 +65,12 @@ export function assertOpenClawAgentDatabaseForMaintenance(
   const userVersion = assertSupportedAgentSchemaVersion(database, options.pathname);
   if (userVersion !== OPENCLAW_AGENT_SCHEMA_VERSION) {
     throw new SqliteSchemaMismatchError(
-      `OpenClaw agent database ${options.pathname} uses schema version ${userVersion}; run openclaw doctor --fix before compacting it.`,
+      `FRIDAY agent database ${options.pathname} uses schema version ${userVersion}; run openclaw doctor --fix before compacting it.`,
     );
   }
   if (metadata.schemaVersion !== OPENCLAW_AGENT_SCHEMA_VERSION) {
     throw new SqliteSchemaMismatchError(
-      `OpenClaw agent database ${options.pathname} metadata schema version ${metadata.schemaVersion ?? "invalid"} does not match ${OPENCLAW_AGENT_SCHEMA_VERSION}; run openclaw doctor --fix before compacting it.`,
+      `FRIDAY agent database ${options.pathname} metadata schema version ${metadata.schemaVersion ?? "invalid"} does not match ${OPENCLAW_AGENT_SCHEMA_VERSION}; run openclaw doctor --fix before compacting it.`,
     );
   }
   return assertOpenClawAgentSchemaContains(

@@ -70,7 +70,7 @@ function createMainRefreshTemplate(directory: string, perWorktreeConfig: boolean
   const { git } = createFixtureGit(root);
   git(root, "init", "--bare", "-b", "main", origin);
   git(root, "init", "-b", "main", canonical);
-  git(canonical, "config", "user.name", "OpenClaw Test");
+  git(canonical, "config", "user.name", "FRIDAY Test");
   git(canonical, "config", "user.email", "test@example.invalid");
   git(canonical, "config", "core.hooksPath", "/dev/null");
   if (perWorktreeConfig) {
@@ -158,7 +158,7 @@ export function createMainRefreshFixture(
       pathToFileURL(origin).href,
       canonical,
     );
-    git(canonical, "config", "user.name", "OpenClaw Test");
+    git(canonical, "config", "user.name", "FRIDAY Test");
     git(canonical, "config", "user.email", "test@example.invalid");
     git(canonical, "config", "core.hooksPath", "/dev/null");
     if (perWorktreeConfig) {

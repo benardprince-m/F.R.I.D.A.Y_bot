@@ -10,7 +10,7 @@ export function emitExecProcessCompleted(params: {
 }): void {
   const signal = params.outcome.exitSignal;
   const exitSignal = signal === null ? undefined : String(signal);
-  // Payload stays untrusted, but the ambient trace context is the OpenClaw run
+  // Payload stays untrusted, but the ambient trace context is the FRIDAY run
   // scope, so exporters may use it to nest the exec span under its run.
   emitDiagnosticEventWithTrustedTraceContext({
     type: "exec.process.completed",

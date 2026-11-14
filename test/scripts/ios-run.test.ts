@@ -66,7 +66,7 @@ while [[ $# -gt 0 ]]; do
     *) shift ;;
   esac
 done
-app_dir="$derived/Build/Products/$configuration-iphonesimulator/OpenClaw.app"
+app_dir="$derived/Build/Products/$configuration-iphonesimulator/FRIDAY.app"
 mkdir -p "$app_dir"
 cat >"$app_dir/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>

@@ -422,7 +422,7 @@ it("keeps the server success report visible across restart until the operator cl
   flush();
   expect(document.body.querySelector("openclaw-modal-dialog")).not.toBeNull();
   expect(view.querySelector(".update-run-view__report")?.textContent).toContain(
-    "OpenClaw updated to 2026.9.2",
+    "FRIDAY updated to 2026.9.2",
   );
   findButton("Close").click();
   await settled;
@@ -619,9 +619,7 @@ it.each([
       expect(view.getAttribute("data-run-id")).toBe(run.runId);
       expect(view.getAttribute("data-run-status")).toBe(status);
       expect(view.querySelector("h3")?.textContent).toContain(
-        status === "running"
-          ? "OpenClaw update in progress: verifying"
-          : `OpenClaw update ${status}`,
+        status === "running" ? "FRIDAY update in progress: verifying" : `FRIDAY update ${status}`,
       );
       const reportText = view.textContent;
       const check = findButton("Check status");

@@ -762,7 +762,7 @@ spec = importlib.util.spec_from_file_location("restart_proof", helper)
 proof = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(proof)
 products = root / "Build Products"
-app = products / "Debug-iphonesimulator/OpenClaw.app"
+app = products / "Debug-iphonesimulator/FRIDAY.app"
 tests = app / "PlugIns/OpenClawTests.xctest"
 data = root / "app data"
 data.mkdir()
@@ -770,7 +770,7 @@ for bundle, identifier in [(app, "test.openclaw.app"), (tests, "test.openclaw.te
     bundle.mkdir(parents=True, exist_ok=True)
     (bundle / "fixture").write_bytes(b"unchanged executable")
     (bundle / "Info.plist").write_bytes(plistlib.dumps({"CFBundleExecutable": "fixture", "CFBundleIdentifier": identifier}))
-target = {"BlueprintName": "OpenClawTests", "TestHostPath": "__TESTROOT__/Debug-iphonesimulator/OpenClaw.app",
+target = {"BlueprintName": "OpenClawTests", "TestHostPath": "__TESTROOT__/Debug-iphonesimulator/FRIDAY.app",
      "TestBundlePath": "__TESTHOST__/PlugIns/OpenClawTests.xctest", "UITargetAppPath": "unused",
      "OnlyTestIdentifiers": ["OldSelection"], "SkipTestIdentifiers": ["AnotherSelection"],
      "TestingEnvironmentVariables": {"DYLD_FRAMEWORK_PATH": "__TESTROOT__/Debug-iphonesimulator"}}
@@ -791,7 +791,7 @@ def run(args, capture=False, env=None, timeout=None):
     if args[0] == "git":
         return source
     if "-showBuildSettings" in args:
-        return json.dumps([{"target": "OpenClaw", "buildSettings": {
+        return json.dumps([{"target": "FRIDAY", "buildSettings": {
             "BUILD_DIR": str(products), "TARGET_BUILD_DIR": str(app.parent), "FULL_PRODUCT_NAME": app.name}}])
     if "test-without-building" in args:
         booted = mode == "already-booted"
@@ -870,7 +870,7 @@ def run(args, capture=False, env=None, timeout=None):
                 "children": [case] * (2 if mode == "extra-case" else 1)}]}
         if mode == "wrong-tree-device": device["deviceId"] = "foreign"
         if mode == "wrong-tree-configuration": configuration["configurationId"] = "foreign"
-        return json.dumps({"testNodes": [{"nodeType": "Test Plan", "name": "OpenClaw", "children": [bundle]}],
+        return json.dumps({"testNodes": [{"nodeType": "Test Plan", "name": "FRIDAY", "children": [bundle]}],
             "devices": [device], "testPlanConfigurations": [configuration]})
     if "bootstatus" in args:
         assert args == ["xcrun", "simctl", "bootstatus", "simulator-fixture", "-b"]
@@ -945,7 +945,7 @@ describe("iOS Access process restart proof", () => {
     expect(targets).toHaveLength(1);
     expect(targets[0]).toMatchObject({
       BlueprintName: "OpenClawTests",
-      TestHostPath: "__TESTROOT__/Debug-iphonesimulator/OpenClaw.app",
+      TestHostPath: "__TESTROOT__/Debug-iphonesimulator/FRIDAY.app",
       TestBundlePath: "__TESTHOST__/PlugIns/OpenClawTests.xctest",
       UITargetAppPath: "unused",
       TestingEnvironmentVariables: { DYLD_FRAMEWORK_PATH: "__TESTROOT__/Debug-iphonesimulator" },

@@ -47,7 +47,7 @@ describe("npm registry spec parsing helpers", () => {
   );
 
   it.each([["2026.5.3-0", "2026.5.3", null]])(
-    "compares OpenClaw release versions for %s and %s",
+    "compares FRIDAY release versions for %s and %s",
     (left, right, expected) => {
       expect(compareOpenClawReleaseVersions(left, right)).toBe(expected);
     },
@@ -56,7 +56,7 @@ describe("npm registry spec parsing helpers", () => {
   it.each([
     [" 2026.7.1-1 ", "2026.7.1"],
     ["2026.7.1-beta.3", "2026.7.1-beta.3"],
-  ])("resolves the OpenClaw release cohort for %s", (version, expected) => {
+  ])("resolves the FRIDAY release cohort for %s", (version, expected) => {
     expect(resolveOpenClawReleaseCohortVersion(version)).toBe(expected);
   });
 });

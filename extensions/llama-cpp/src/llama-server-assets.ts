@@ -52,7 +52,7 @@ const CUDA_ARCHIVE_LIMITS = {
 
 // llama.cpp's Windows release binaries dynamically link the Visual C++ runtime.
 // Keep the current supported runtime app-local because managed llama-server runs
-// outside any MSIX package graph, including Store-installed OpenClaw. The pinned
+// outside any MSIX package graph, including Store-installed FRIDAY. The pinned
 // Burn container metadata selects only the imported runtime DLLs from Microsoft's
 // signed 14.51.36247 redistributable bundles.
 const WINDOWS_X64_VC_RUNTIME = {

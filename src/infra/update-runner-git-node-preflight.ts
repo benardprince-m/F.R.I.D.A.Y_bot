@@ -120,7 +120,7 @@ export async function prepareGitCandidateNodeRuntime(
     systemDiagnostic = `System Node compatibility remains unknown because its check failed: ${systemNode.error.message}`;
   } else if (systemNode?.status === "supported" && acceptNodeVersion(systemNode.version)) {
     systemDiagnostic =
-      "OpenClaw did not select or activate another runtime. " +
+      "FRIDAY did not select or activate another runtime. " +
       `Existing compatible Node ${systemNode.version}: ${systemNode.path}`;
   } else {
     systemDiagnostic = "No compatible existing system Node was found.";

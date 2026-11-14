@@ -3,7 +3,7 @@ summary: "Switching install types, the source-server script, re-running the inst
 read_when:
   - You want to switch an install between a package manager and a git checkout
   - You run a gateway directly from a git checkout on a server
-  - You need to update or recover OpenClaw with npm, pnpm, or bun directly
+  - You need to update or recover FRIDAY with npm, pnpm, or bun directly
 title: "Other update methods"
 sidebarTitle: "Update methods"
 ---
@@ -35,7 +35,7 @@ its profile and state/config or custom-label overrides. `doctor --fix` diagnoses
 the disabled label but leaves an already-stopped Gateway stopped.
 
 Use channels to change the install type. The updater keeps your state, config,
-credentials, and workspace in `~/.openclaw`; it only changes which OpenClaw
+credentials, and workspace in `~/.openclaw`; it only changes which FRIDAY
 code install the CLI and gateway use.
 
 ```bash
@@ -338,7 +338,7 @@ restarting the Gateway so it picks up canonical config and migrated state. Check
 `openclaw update status` for unfinished plugin upgrades and their repair commands.
 Normal CLI commands and Gateway startup do not apply deferred plugin migrations.
 
-On Windows, the published OpenClaw 2026.9.3 updater can exhaust its fixed
+On Windows, the published FRIDAY 2026.9.3 updater can exhaust its fixed
 30-second baseline package-fingerprint budget before replacing any files. It
 then reports `Package rollback verification timed out` and
 `retained package tree changed` even when the installed tree is unchanged.
@@ -347,7 +347,7 @@ A newer candidate cannot repair the updater already running. After creating a
 stop the Gateway and use its existing package manager to install the target
 release manually. Run `openclaw doctor --fix`, refresh the service with
 `openclaw gateway install --force`, then start and verify the Gateway.
-Published OpenClaw 2026.9.5 and later include the baseline-timeout fallback.
+Published FRIDAY 2026.9.5 and later include the baseline-timeout fallback.
 
 Gateways with installation-replacement detection also check the installed build
 on their maintenance tick. If the running and installed builds differ, the
@@ -398,7 +398,7 @@ openclaw doctor --lint --json
 
 When `openclaw update` manages a global npm install, it installs the target
 into a temporary npm prefix first. The candidate package validates the host
-Node version during `preinstall`; OpenClaw verifies the packaged `dist` inventory
+Node version during `preinstall`; FRIDAY verifies the packaged `dist` inventory
 before swapping the clean package tree into the real global prefix. Pending
 lifecycle work is recorded in `.openclaw-lifecycle-pending` at the package root,
 outside the `dist` inventory. `postinstall` removes that marker after completion.
@@ -406,10 +406,10 @@ If package scripts were skipped, the CLI completes the pending lifecycle before
 running any command, including `--version`; failure stops the command with
 reinstall guidance. The updater checks the owning npm before mutation. On npm
 11.15 and earlier it omits the unsupported lifecycle-policy flag. On npm 12 and
-npm 11.16+, it approves only the candidate OpenClaw lifecycle; transitive
+npm 11.16+, it approves only the candidate FRIDAY lifecycle; transitive
 dependency scripts remain unapproved.
 This avoids npm overlaying a new package onto stale files from the old one. If
-the install command fails, OpenClaw retries once with `--omit=optional`, which
+the install command fails, FRIDAY retries once with `--omit=optional`, which
 helps hosts where native optional dependencies cannot compile.
 The packaged lifecycle restores the matching precompiled fs-safe dependency
 when that retry omitted it. It uses the version declared by the installed
@@ -422,22 +422,22 @@ support also skips this repair.
 For local tarball targets on npm 12, the archive filename and every parent
 directory must be comma-free. See [Installer path requirements](/install/installer).
 
-OpenClaw-managed npm update and plugin-update commands also clear npm's
+FRIDAY-managed npm update and plugin-update commands also clear npm's
 `min-release-age` supply-chain quarantine (or the older `before` config key)
 for the child npm process. That policy exists for general protection, but an
-explicit OpenClaw update means "install the selected release now."
+explicit FRIDAY update means "install the selected release now."
 
 ```bash
 pnpm add -g --allow-build=openclaw openclaw@latest
 ```
 
-If pnpm 11 installed OpenClaw 2026.7.1, run that manual command once. That
+If pnpm 11 installed FRIDAY 2026.7.1, run that manual command once. That
 release predates pnpm 11's isolated global-package layout, so its updater can
 mistake another npm installation for the running CLI. Later releases retain
 pnpm ownership and follow the replacement package root during updates. They
 also use the owning manager's reported global bin directory and stop before
 mutation when the available pnpm command reports another global root,
-or when the invoking package is orphaned or not the only active OpenClaw
+or when the invoking package is orphaned or not the only active FRIDAY
 install there.
 
 pnpm 12 retains the `global/v11` layout; the layout number does not need to match
@@ -445,13 +445,13 @@ the pnpm CLI major version. New or repaired Gateway service definitions use the
 active project hash link, so the saved command survives pnpm replacing its
 versioned project directory. Ownership detection also recognizes commands that
 already point inside a project's `.pnpm` directory.
-Staged pnpm updates isolate both the global project and its launchers. OpenClaw
+Staged pnpm updates isolate both the global project and its launchers. FRIDAY
 sets the staging bin through CLI configuration for pnpm 10/11 and child-process
 environment configuration for pnpm 12, then verifies both destinations before
 installation. A manager that still reports a live destination stops the update
 before activation.
 
-If OpenClaw shares a pnpm global install group with another package, the
+If FRIDAY shares a pnpm global install group with another package, the
 automatic updater stops before changing the group. Update the original
 comma-separated group manually so its sibling packages and build policy stay
 intact.
@@ -460,8 +460,8 @@ intact.
 bun add -g --trust openclaw@latest
 ```
 
-`--trust` allows OpenClaw's lifecycle scripts. The standard `openclaw update`
-path applies the same OpenClaw-only Bun trust when it owns the install.
+`--trust` allows FRIDAY's lifecycle scripts. The standard `openclaw update`
+path applies the same FRIDAY-only Bun trust when it owns the install.
 For Bun-owned updates, package-manager checks and installs use the verified
 service Bun when updating a managed service root. Otherwise they use
 `process.execPath` when the updater runs under Bun, with bare `bun` from PATH
@@ -493,7 +493,7 @@ The fresh post-core continuation runs repairing Doctor before plugin convergence
 including when an older updater already ran Doctor without `--fix`. This completes
 pending legacy state even when the configuration itself needs no repair.
 
-Doctor also brings drifted active official npm plugins to the installed OpenClaw
+Doctor also brings drifted active official npm plugins to the installed FRIDAY
 release, honoring recorded non-default tags and pins newer than its plugin cohort.
 It uses the same plugin updater as `openclaw update` and leaves third-party plugins
 unchanged. An unavailable plugin produces a warning with
@@ -547,13 +547,13 @@ needs attention.
 
 <AccordionGroup>
   <Accordion title="Read-only package tree">
-    After package lifecycle completion, OpenClaw treats packaged global installs as read-only at runtime, even when the global package directory is writable by the current user. Plugin package installs live in OpenClaw-owned npm/git roots under the user config directory, and Gateway startup does not mutate the OpenClaw package tree.
+    After package lifecycle completion, FRIDAY treats packaged global installs as read-only at runtime, even when the global package directory is writable by the current user. Plugin package installs live in FRIDAY-owned npm/git roots under the user config directory, and Gateway startup does not mutate the FRIDAY package tree.
 
-    Some Linux npm setups install global packages under root-owned directories such as `/usr/lib/node_modules/openclaw`. OpenClaw supports that layout because plugin install/update commands write outside that global package directory.
+    Some Linux npm setups install global packages under root-owned directories such as `/usr/lib/node_modules/openclaw`. FRIDAY supports that layout because plugin install/update commands write outside that global package directory.
 
   </Accordion>
   <Accordion title="Hardened systemd units">
-    Give OpenClaw write access to its config/state roots so explicit plugin installs, plugin updates, and doctor cleanup can persist their changes:
+    Give FRIDAY write access to its config/state roots so explicit plugin installs, plugin updates, and doctor cleanup can persist their changes:
 
     ```ini
     ReadWritePaths=/var/lib/openclaw /home/openclaw/.openclaw /tmp
@@ -561,7 +561,7 @@ needs attention.
 
   </Accordion>
   <Accordion title="Disk-space preflight">
-    Before package updates and explicit plugin installs, OpenClaw tries a best-effort disk-space check for the target volume. Low space produces a warning with the checked path, but does not block the update because filesystem quotas, snapshots, and network volumes can change after the check. The actual package-manager install and post-install verification remain authoritative.
+    Before package updates and explicit plugin installs, FRIDAY tries a best-effort disk-space check for the target volume. Low space produces a warning with the checked path, but does not block the update because filesystem quotas, snapshots, and network volumes can change after the check. The actual package-manager install and post-install verification remain authoritative.
 
     For package updates, the check runs before registry lookups and database-schema validation. Managed update runs retain the warning in update history so it also appears in the Control UI.
 

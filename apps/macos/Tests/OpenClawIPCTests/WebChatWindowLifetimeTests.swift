@@ -1,7 +1,7 @@
 import AppKit
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawChatUI
 
 @Suite(.testWaitLimit)

@@ -265,7 +265,7 @@ it.each<[string, AuthProfileCredential | undefined]>([
       const response = await refreshResponse(harness, "refresh-authority-lost");
       expectRefreshError(
         response,
-        `auth profile "${PROFILE_ID}" is no longer an OpenAI OAuth credential in its persisted OpenClaw store.`,
+        `auth profile "${PROFILE_ID}" is no longer an OpenAI OAuth credential in its persisted FRIDAY store.`,
       );
       expect(response.error?.message).not.toMatch(/HTTP 401|sign in again|re-authenticate/i);
       expect(refreshOAuth).not.toHaveBeenCalled();
@@ -287,7 +287,7 @@ it("keeps a retained client fenced after a rejected account rotation", () =>
     const afterFence = await refreshResponse(harness, "refresh-after-fence");
     expectRefreshError(
       afterFence,
-      `auth profile "${PROFILE_ID}" could not resolve usable OAuth credentials from its OpenClaw credential store.`,
+      `auth profile "${PROFILE_ID}" could not resolve usable OAuth credentials from its FRIDAY credential store.`,
     );
     expect(afterFence.error?.message).not.toMatch(/HTTP 401|sign in again|re-authenticate/i);
     expect(refreshOAuth).toHaveBeenCalledTimes(1);

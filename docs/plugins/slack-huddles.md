@@ -2,13 +2,13 @@
 summary: "Slack huddles plugin: join active huddles through a signed-in Chrome user account"
 doc-schema-version: 1
 read_when:
-  - You want an OpenClaw agent to join a Slack huddle
+  - You want an FRIDAY agent to join a Slack huddle
   - You need to set up the dedicated Slack user or understand manual actions
 title: "Slack huddles plugin"
 ---
 
 The `slack-huddles` plugin joins active Slack huddles through the Slack web client
-in the OpenClaw Chrome profile. It uses a dedicated Slack **user account** for
+in the FRIDAY Chrome profile. It uses a dedicated Slack **user account** for
 the agent: Slack has no app or bot API for joining huddles or reading their audio.
 The plugin is separate from the [Slack messaging channel](/channels/slack).
 
@@ -17,9 +17,9 @@ virtual-audio setup, transcripts, remote-node requirements, and verification.
 
 ## Requirements
 
-- OpenClaw 2026.9.8 or newer. Older hosts lack the shared meeting-runtime
+- FRIDAY 2026.9.8 or newer. Older hosts lack the shared meeting-runtime
   ownership checks this plugin depends on, so install refuses them.
-- A dedicated Slack user account signed into Slack in the OpenClaw Chrome profile.
+- A dedicated Slack user account signed into Slack in the FRIDAY Chrome profile.
 - Membership in the channel or conversation containing the huddle.
 - An active huddle, started by a person in Slack.
 - Slack's English UI. The adapter prefers `data-qa` hooks, but its text and
@@ -49,11 +49,11 @@ Check that the configuration change applies, then verify prerequisites:
 openclaw slackhuddles setup
 ```
 
-Sign in using the same Chrome profile that OpenClaw controls. A Slack app's bot
+Sign in using the same Chrome profile that FRIDAY controls. A Slack app's bot
 token or user OAuth token does not replace that browser sign-in.
 
 Talk-back verifies Slack's selected microphone label: BlackHole 2ch on macOS or
-the OpenClaw Meeting Audio source on Linux. When needed, the adapter opens
+the FRIDAY Meeting Audio source on Linux. When needed, the adapter opens
 Slack's audio settings and selects that microphone before enabling in-call
 talk-back. If the picker is unavailable, select it manually and retry status.
 Verify remote audibility with a controlled second participant.
@@ -88,7 +88,7 @@ Omit `chromeNode` to run Chrome on the Gateway host. A paired node must allow
 `browser.proxy` and `slackhuddles.chrome`; select it with
 `plugins.entries.slack-huddles.config.chromeNode.node`.
 
-Use `agent` for OpenClaw reasoning and tools with TTS replies, `bidi` for direct
+Use `agent` for FRIDAY reasoning and tools with TTS replies, `bidi` for direct
 realtime voice, or `transcribe` for observe-only captions. Talk-back captures
 remote participant audio in the page and sends assistant speech through the
 virtual microphone. Configure providers using the
@@ -97,7 +97,7 @@ The Slack account owns the display name; a guest name is not entered.
 
 ## Join and manage a huddle
 
-In Slack, use **Copy huddle link**, then pass the link to OpenClaw:
+In Slack, use **Copy huddle link**, then pass the link to FRIDAY:
 
 ```bash
 openclaw slackhuddles join 'https://app.slack.com/huddle/T0123ABCD/C0123ABCD'
@@ -145,12 +145,12 @@ live; `transcribe` stays muted. The camera stays off.
 
 | Reason                        | Action                                                                                                                |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `slack-login-required`        | Sign the OpenClaw Chrome profile into the dedicated Slack account, then retry.                                        |
+| `slack-login-required`        | Sign the FRIDAY Chrome profile into the dedicated Slack account, then retry.                                          |
 | `slack-huddle-not-active`     | No one is in this huddle yet. Start the huddle in Slack, then ask again.                                              |
 | `slack-confirmation-required` | Read and complete the reported confirmation in Slack. The plugin does not confirm switching huddles or other prompts. |
 | `slack-session-conflict`      | The account is already in another huddle, in this browser or on another device. Leave it, then retry.                 |
 | `slack-admission-required`    | Complete the request-to-join step and wait for admission. Refresh status after admission.                             |
-| `slack-permission-required`   | Resolve the browser microphone permission prompt in the OpenClaw Chrome profile.                                      |
+| `slack-permission-required`   | Resolve the browser microphone permission prompt in the FRIDAY Chrome profile.                                        |
 
 Leave uses Slack's **Leave Huddle** control. It never ends the huddle for everyone.
 
@@ -163,7 +163,7 @@ device using that account can cause a session conflict.
 
 Slack keeps a huddle running while its client shows other channels, so the
 adapter proves membership only from the huddle channel's own header. Keep the
-OpenClaw Slack tab on that channel: on any other view, status reports the call
+FRIDAY Slack tab on that channel: on any other view, status reports the call
 as unverified, and audio, captions, and Leave stay blocked.
 
 Slack does not sanction automated user clients. Web-client DOM changes can

@@ -181,7 +181,7 @@ export async function handleAgentExecutionError(params: {
   if (isChannelRunAuthorizationError(err)) {
     if (isChannelRunAuthorizationError(err, "unavailable")) {
       return settleFailure({
-        text: "⚠️ OpenClaw could not verify current channel access. Please try your request again.",
+        text: "⚠️ FRIDAY could not verify current channel access. Please try your request again.",
       });
     }
     takePendingLifecycleTerminal().emit("error", err);

@@ -116,9 +116,9 @@ export function buildDeveloperInstructions(
         : "Deferred tools may be absent from the direct tool list. Call a tool that is in the direct tool list directly. Use `tool_search` to find a tool that is not listed; if `tool_search` is not directly callable, use `exec` to filter `ALL_TOOLS` by name and description and call the matching entry through `tools`. Never use `exec` to look up a tool that is already listed, and do not re-run a completed call to get a result you already have."
       : undefined;
   const sections = [
-    "You are a personal agent running inside OpenClaw. OpenClaw has dynamic tools for OpenClaw-owned messaging, cron, sessions, media, gateway, and nodes.",
+    "You are a personal agent running inside FRIDAY. FRIDAY has dynamic tools for FRIDAY-owned messaging, cron, sessions, media, gateway, and nodes.",
     deferredToolNames.size > 0
-      ? `Deferred searchable OpenClaw dynamic tools available: ${[...deferredToolNames]
+      ? `Deferred searchable FRIDAY dynamic tools available: ${[...deferredToolNames]
           .toSorted((left, right) => left.localeCompare(right))
           .join(", ")}.`
       : undefined,
@@ -127,9 +127,9 @@ export function buildDeveloperInstructions(
       ? buildSkillWorkshopPromptSection().join("\n")
       : undefined,
     // Deferred native tools still need discovery. Inherited dynamic schemas do
-    // not give native children OpenClaw executors, so choose that owner up front.
+    // not give native children FRIDAY executors, so choose that owner up front.
     nativeDelegationAvailable
-      ? `Use Codex native \`spawn_agent\` for work that only needs Codex-native tools. \`spawn_agent\` and the other native collaboration tools may be deferred. Native children cannot execute OpenClaw-owned dynamic tools, even when they inherit their schemas.${managedDelegationTool ? ` For new delegated work that needs OpenClaw tools, use ${managedDelegationTool} from the start.` : " Keep work needing OpenClaw tools in this session when no managed worker route is available."} For follow-up work on an existing native child, use the native collaboration tool that starts or queues a new turn. Do not respawn existing work to switch tool routes.`
+      ? `Use Codex native \`spawn_agent\` for work that only needs Codex-native tools. \`spawn_agent\` and the other native collaboration tools may be deferred. Native children cannot execute FRIDAY-owned dynamic tools, even when they inherit their schemas.${managedDelegationTool ? ` For new delegated work that needs FRIDAY tools, use ${managedDelegationTool} from the start.` : " Keep work needing FRIDAY tools in this session when no managed worker route is available."} For follow-up work on an existing native child, use the native collaboration tool that starts or queues a new turn. Do not respawn existing work to switch tool routes.`
       : undefined,
     hasSessionsYield && nativeDelegationAvailable
       ? "When a native child's result belongs in a later turn, end the current turn with `openclaw_direct.sessions_yield`; the completion arrives as the next model-visible input. Use native `wait_agent` only for an intentional same-turn wait when the immediate next step is blocked on the child. Never loop-poll for native child completion."
@@ -144,7 +144,7 @@ export function buildDeveloperInstructions(
           // Subagent/none prompt modes stay lean and must not be told to delegate further.
           isMinimal: params.promptMode === "minimal" || params.promptMode === "none",
           hiddenDelegationTool: nativeDelegationAvailable
-            ? `native \`spawn_agent\` for Codex-native work${managedDelegationTool ? `, or ${managedDelegationTool} for new work needing OpenClaw tools` : ""}`
+            ? `native \`spawn_agent\` for Codex-native work${managedDelegationTool ? `, or ${managedDelegationTool} for new work needing FRIDAY tools` : ""}`
             : sessionsSpawnTool
               ? (managedDelegationTool ?? `\`${sessionsSpawnTool.name}\``)
               : "",

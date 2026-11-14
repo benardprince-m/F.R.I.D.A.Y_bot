@@ -4,13 +4,13 @@ A dependency-free, **real HTTP MCP 2.0 server** for the webhook profile describe
 by [OpenAI](https://developers.openai.com/plugins/build/mcp-events) and the
 [draft pinned at 6682596](https://github.com/modelcontextprotocol/experimental-ext-triggers-events/blob/6682596d65eec778fe0b8b1f43b4e89d2fe2c546/docs/design-sketch-proposal.md).
 This is developer/test tooling, not a production integration or a substitute for
-proof through OpenClaw's actual callback ingress and Automation runner.
+proof through FRIDAY's actual callback ingress and Automation runner.
 
 ## Start
 
 Node 22+ is sufficient; no install or new dependencies. Create two distinct
 random **synthetic fixture-only** bearer tokens in private files. Never reuse a
-Gateway/provider token. Place the explicit state artifact outside OpenClaw's
+Gateway/provider token. Place the explicit state artifact outside FRIDAY's
 product stores; for a task-owned run, use a directory such as
 `.openclaw/tmp/mcp-events-proof/` in the authorized checkout.
 
@@ -52,7 +52,7 @@ and client setup, and give this fixture both:
 ```
 
 Only that exact origin may resolve to 127.0.0.1 or ::1; TLS/hostname checks remain
-on. This exception is fixture-owned, not a production OpenClaw flag. Never set
+on. This exception is fixture-owned, not a production FRIDAY flag. Never set
 `NODE_TLS_REJECT_UNAUTHORIZED=0`. For a Gateway served over loopback HTTP, use an
 isolated HTTPS reverse proxy with the test certificate, not a plaintext callback.
 The product's outbound MCP policy is still independently enforced; use its

@@ -202,7 +202,7 @@ function archiveMembers(archive) {
 
 function runtimeIdentity(packageRoot, entry) {
   const manifest = readJson(path.join(packageRoot, "package.json"));
-  assert.equal(manifest.name, "openclaw", "retained runtime is not OpenClaw");
+  assert.equal(manifest.name, "openclaw", "retained runtime is not FRIDAY");
   assert(
     Number.isSafeInteger(manifest.openclaw?.schemaVersions?.agent),
     "baseline agent schema missing",

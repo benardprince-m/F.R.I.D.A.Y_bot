@@ -153,7 +153,7 @@ public final class OpenClawClientCredentialStore: @unchecked Sendable {
                 } else if version != OpenClawClientCredentialSchema.version {
                     throw OpenClawNativeStateError(
                         "Local client credentials use unsupported schema version \(version); " +
-                            "use a compatible OpenClaw build")
+                            "use a compatible FRIDAY build")
                 }
                 var info = stat()
                 guard lstat(url.path, &info) == 0 else {

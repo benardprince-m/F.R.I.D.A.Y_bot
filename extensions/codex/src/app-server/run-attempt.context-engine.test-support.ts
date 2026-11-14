@@ -107,7 +107,7 @@ export async function createCurrentInputContinuityHarness(
   return { harness, params, currentUserMessageId };
 }
 
-/** Keeps native Codex bindings reusable while omitting OpenClaw tools and search. */
+/** Keeps native Codex bindings reusable while omitting FRIDAY tools and search. */
 function withPersistentCodexTestToolPolicy(
   params: EmbeddedRunAttemptParams,
 ): EmbeddedRunAttemptParams {

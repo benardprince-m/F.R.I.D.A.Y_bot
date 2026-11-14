@@ -291,7 +291,7 @@ export const sessionDispatchHandlers: GatewayRequestHandlers = {
       if (entry.deviceFolder && executionMode !== "worker-turn") {
         respondInvalidWorkerSession(
           respond,
-          "Existing device folders currently require the OpenClaw harness; choose an OpenClaw model instead of remote execution.",
+          "Existing device folders currently require the FRIDAY harness; choose an FRIDAY model instead of remote execution.",
         );
         return;
       }

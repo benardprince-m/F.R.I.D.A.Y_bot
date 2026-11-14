@@ -132,7 +132,7 @@ flow:
               expr: "`ordinary inbound lost routing metadata: ${JSON.stringify({ prompt: normalRequest.prompt, allInputText: normalRequest.allInputText })}`"
         - set: normalRuntimeContextInput
           value:
-            expr: "(Array.isArray(normalRequest.body?.input) ? normalRequest.body.input : []).find((item) => ['developer', 'system'].includes(String(item?.role ?? '')) && Array.isArray(item?.content) && item.content.some((part) => String(part?.text ?? '').startsWith('OpenClaw runtime context:\\n') && String(part?.text ?? '').includes(config.normalRoute)))"
+            expr: "(Array.isArray(normalRequest.body?.input) ? normalRequest.body.input : []).find((item) => ['developer', 'system'].includes(String(item?.role ?? '')) && Array.isArray(item?.content) && item.content.some((part) => String(part?.text ?? '').startsWith('FRIDAY runtime context:\\n') && String(part?.text ?? '').includes(config.normalRoute)))"
         - assert:
             expr: "Boolean(normalRuntimeContextInput) && !String(normalRequest.raw ?? '').includes('<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>') && !String(normalRequest.raw ?? '').includes('<<<END_OPENCLAW_INTERNAL_CONTEXT>>>')"
             message:

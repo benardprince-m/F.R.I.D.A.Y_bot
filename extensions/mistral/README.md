@@ -1,9 +1,9 @@
-# OpenClaw Mistral Provider
+# FRIDAY Mistral Provider
 
-Official OpenClaw provider plugin for Mistral models, Voxtral transcription, and
+Official FRIDAY provider plugin for Mistral models, Voxtral transcription, and
 Mistral memory embeddings.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/mistral-provider

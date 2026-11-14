@@ -133,7 +133,7 @@ export async function readAgentDeleteDatabaseRegistry(options: OpenClawStateData
   }).read();
   read.assertCurrent();
   if (read.result.status !== "available") {
-    throw new Error("OpenClaw agent database registry is unavailable during deletion.");
+    throw new Error("FRIDAY agent database registry is unavailable during deletion.");
   }
   return read.result.entries;
 }

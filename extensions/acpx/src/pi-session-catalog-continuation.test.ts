@@ -98,7 +98,7 @@ afterEach(async () => {
 });
 
 describe("Pi session catalog continuation", () => {
-  it("projects only adopted Pi rows with their OpenClaw session key", async () => {
+  it("projects only adopted Pi rows with their FRIDAY session key", async () => {
     const { entries, provider } = catalog;
     const sessionEntries = { entriesForAgent: () => entries } as never;
 

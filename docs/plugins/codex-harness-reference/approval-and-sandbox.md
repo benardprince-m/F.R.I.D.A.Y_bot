@@ -2,7 +2,7 @@
 summary: "YOLO and guardian approval presets, and sandboxed native execution paths"
 read_when:
   - You are choosing between YOLO and guardian approval
-  - You are running Codex native execution inside an OpenClaw sandbox
+  - You are running Codex native execution inside an FRIDAY sandbox
   - You are placing Codex execution on a node or cloud worker
 title: "Codex approval and sandbox modes"
 sidebarTitle: "Approval and sandbox"
@@ -12,7 +12,7 @@ The approval and sandbox posture of a Codex turn, and where native execution run
 
 For native plugin/app tools, also follow the
 [app approval decision order](/plugins/codex-native-plugins#approval-decision-order).
-App admission, tool enablement, per-tool approval modes, and OpenClaw's
+App admission, tool enablement, per-tool approval modes, and FRIDAY's
 elicitation response are separate from the general presets below.
 
 ## Approval and sandbox modes
@@ -20,11 +20,11 @@ elicitation response are separate from the general presets below.
 Local stdio app-server sessions default to YOLO mode:
 `approvalPolicy: "never"`, `approvalsReviewer: "user"`, and
 `sandbox: "danger-full-access"`. This trusted local operator posture lets
-unattended OpenClaw turns and heartbeats make progress without native approval
+unattended FRIDAY turns and heartbeats make progress without native approval
 prompts that nobody is around to answer.
 
 If Codex's local system requirements file disallows implicit YOLO approval,
-reviewer, or sandbox values, OpenClaw treats the implicit default as guardian
+reviewer, or sandbox values, FRIDAY treats the implicit default as guardian
 instead and selects allowed guardian permissions. `tools.exec.mode: "auto"`
 also forces guardian-reviewed Codex approvals and does not preserve unsafe
 legacy `approvalPolicy: "never"` or `sandbox: "danger-full-access"` overrides;
@@ -58,16 +58,16 @@ values are allowed. Individual policy fields override `mode`. The older
 `guardian_subagent` reviewer value is still accepted as a compatibility alias,
 but new configs should use `auto_review`.
 
-When an OpenClaw sandbox is active, the local Codex app-server process still
-runs on the Gateway host. OpenClaw therefore disables Codex native Code Mode,
+When an FRIDAY sandbox is active, the local Codex app-server process still
+runs on the Gateway host. FRIDAY therefore disables Codex native Code Mode,
 user MCP servers, and app-backed plugin execution for that turn instead of
-treating Codex host-side sandboxing as equivalent to the OpenClaw sandbox
-backend. Shell access is exposed through OpenClaw sandbox-backed dynamic tools
+treating Codex host-side sandboxing as equivalent to the FRIDAY sandbox
+backend. Shell access is exposed through FRIDAY sandbox-backed dynamic tools
 such as `sandbox_exec` and `sandbox_process` when the normal exec/process tools
 are available.
 
 <Note>
-On Docker-backed OpenClaw sandbox hosts (`agents.defaults.sandbox.mode` set to
+On Docker-backed FRIDAY sandbox hosts (`agents.defaults.sandbox.mode` set to
 a Docker backend), standalone `openclaw doctor` checks the user namespace with `unshare`.
 These Codex bwrap checks are omitted during `openclaw update`; run
 `openclaw doctor` after the update.
@@ -78,7 +78,7 @@ Unrecognized check failures are reported as unverified rather than as a
 namespace diagnosis. Namespace failures usually surface
 as `bwrap: setting up uid map: Permission denied` or
 `bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted` on
-Ubuntu/AppArmor hosts. Fix the reported host namespace policy for the OpenClaw
+Ubuntu/AppArmor hosts. Fix the reported host namespace policy for the FRIDAY
 service user and restart the gateway; prefer a scoped AppArmor profile for the
 service process over the host-wide
 `kernel.apparmor_restrict_unprivileged_userns=0` fallback, and do not grant
@@ -87,10 +87,10 @@ broader Docker container privileges just to satisfy nested `bwrap`.
 
 ## Sandboxed native execution
 
-The default blocks unsupported execution: active OpenClaw sandboxing disables native
+The default blocks unsupported execution: active FRIDAY sandboxing disables native
 Codex execution surfaces that would otherwise run from the Codex app-server
 host. Use `appServer.experimental.sandboxExecServer: true` only when you want
-to try Codex's remote environment support with OpenClaw's sandbox backend.
+to try Codex's remote environment support with FRIDAY's sandbox backend.
 This preview path uses the pinned Codex `0.162.0` app-server.
 
 ```json5
@@ -112,19 +112,19 @@ This preview path uses the pinned Codex `0.162.0` app-server.
 }
 ```
 
-When the flag is on and the current OpenClaw session is sandboxed, OpenClaw
+When the flag is on and the current FRIDAY session is sandboxed, FRIDAY
 starts a local loopback exec-server backed by the active sandbox, registers it
 with Codex app-server, and starts the Codex thread and turn with that
-OpenClaw-owned environment. If the app-server cannot register the environment,
+FRIDAY-owned environment. If the app-server cannot register the environment,
 the run stops with an error instead of silently falling back to host execution.
 
 Sandboxed process output streams as ordered stdout, stderr, or PTY
-notifications. OpenClaw retains only a bounded recent-output buffer for polling
+notifications. FRIDAY retains only a bounded recent-output buffer for polling
 and replay, so long-running processes cannot grow the app-server bridge without
 limit. Process exit and cleanup remain tied to the sandbox-owned process.
 
 This preview path is local-only. A remote WebSocket app-server cannot reach
-the loopback exec-server unless it is running on the same host, so OpenClaw
+the loopback exec-server unless it is running on the same host, so FRIDAY
 rejects that combination.
 
 Node-backed `remote-exec` placement on a paired device or enrolled Crabbox
@@ -147,7 +147,7 @@ or GitHub credentials. A lost node connection terminates the attempt and
 process instead of resuming it. Each node-backed attempt uses its own Gateway
 app-server client because Codex can register a remote environment but cannot
 remove one from a running app-server. The node exec-server does not consume an
-OpenClaw worker slot. HTTP requests containing authentication, cookies, API
+FRIDAY worker slot. HTTP requests containing authentication, cookies, API
 keys, or other credential-bearing headers are rejected before reaching the
 node; use a Gateway-owned authenticated request or a credential-free endpoint
 instead.

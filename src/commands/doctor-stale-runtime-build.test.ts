@@ -32,8 +32,8 @@ describe("collectStaleRuntimeBuildFindings", () => {
       JSON.stringify({
         schemaVersion: 1,
         owner: "macos-app",
-        displayName: "OpenClaw.app",
-        updateHint: "Update OpenClaw.app to update this Gateway.",
+        displayName: "FRIDAY.app",
+        updateHint: "Update FRIDAY.app to update this Gateway.",
       }),
     );
 

@@ -21,7 +21,7 @@ describe("Blobster renderer", () => {
       const { bounds: _bounds, ...design } = fixture;
       const { svg } = renderBlobster({ ...design, layers: { ...plain.layers, ...design.layers } });
       expect(svg).toContain('width="256" height="256"');
-      expect(svg).toContain("Copyright (c) 2026 OpenClaw Foundation");
+      expect(svg).toContain("Copyright (c) 2026 FRIDAY Foundation");
     });
   }
 

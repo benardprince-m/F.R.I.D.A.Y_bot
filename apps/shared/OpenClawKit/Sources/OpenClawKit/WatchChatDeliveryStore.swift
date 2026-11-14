@@ -12,7 +12,7 @@ public actor OpenClawWatchChatDeliveryStore {
     private var connection: OpenClawNativeStateSQLite?
 
     public init(databaseURL: URL = URL.applicationSupportDirectory
-        .appendingPathComponent("OpenClaw/watch-chat-delivery.sqlite"))
+        .appendingPathComponent("FRIDAY/watch-chat-delivery.sqlite"))
     {
         self.databaseURL = databaseURL
     }
@@ -258,7 +258,7 @@ public actor OpenClawWatchChatDeliveryStore {
             case 1:
                 break
             default:
-                throw OpenClawNativeStateError("Update OpenClaw to open this Watch delivery database")
+                throw OpenClawNativeStateError("Update FRIDAY to open this Watch delivery database")
             }
         }
         guard try database.scalarText("PRAGMA journal_mode = WAL") == "wal" else {

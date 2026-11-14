@@ -8,7 +8,7 @@ title: "Channel sessions and bindings"
 sidebarTitle: "Sessions and bindings"
 ---
 
-Map provider conversation ids onto OpenClaw sessions, and own the route and
+Map provider conversation ids onto FRIDAY sessions, and own the route and
 binding rules that go with them. Part of the [Building channel
 plugins](/plugins/sdk-channel-plugins) guide.
 
@@ -145,7 +145,7 @@ Platforms with different identity grammars, such as Matrix parent-room keys,
 can use the projection without the account-prefixed adapter.
 
 Preserve opaque plugin ownership metadata when projecting binding records.
-Plugin-owned targets do not require an OpenClaw agent id; use
+Plugin-owned targets do not require an FRIDAY agent id; use
 `isPluginOwnedSessionBindingRecord(...)` from
 `openclaw/plugin-sdk/conversation-binding-runtime` to distinguish them from
 agent-owned targets before resolving an agent.

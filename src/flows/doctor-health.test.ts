@@ -211,7 +211,7 @@ describe("runDoctorHealthFlow", () => {
         const runtime = { log: vi.fn(), error: vi.fn(), exit: vi.fn() };
         await expect(
           runDoctorHealthFlow(runtime, { repair: true, nonInteractive: true }),
-        ).rejects.toThrow("different OpenClaw installation");
+        ).rejects.toThrow("different FRIDAY installation");
         expect(service.stop).not.toHaveBeenCalled();
         expect(service.restart).not.toHaveBeenCalled();
         expect(service.install).not.toHaveBeenCalled();
@@ -263,7 +263,7 @@ describe("runDoctorHealthFlow", () => {
           );
           expect(runtime.exit).toHaveBeenCalledExactlyOnceWith(1);
           expect(runtime.error).toHaveBeenCalledWith(
-            "Doctor could not enter maintenance. An agent database is in use. Stop other OpenClaw processes using this state, then retry the update.",
+            "Doctor could not enter maintenance. An agent database is in use. Stop other FRIDAY processes using this state, then retry the update.",
           );
           expect(maintenanceOutcome()).toEqual({ outcome: "startup_failed" });
           expect(mocks.writeUpdatePostInstallDoctorResult).toHaveBeenCalledWith({
@@ -276,7 +276,7 @@ describe("runDoctorHealthFlow", () => {
                   check: "doctor",
                   code: "agent-database-lease-active",
                   message:
-                    "Doctor could not enter maintenance. An agent database is in use. Stop other OpenClaw processes using this state, then retry the update.",
+                    "Doctor could not enter maintenance. An agent database is in use. Stop other FRIDAY processes using this state, then retry the update.",
                 },
               ],
             },

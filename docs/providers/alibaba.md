@@ -1,8 +1,8 @@
 ---
-summary: "Alibaba Model Studio Wan video generation in OpenClaw"
+summary: "Alibaba Model Studio Wan video generation in FRIDAY"
 title: "Alibaba Model Studio"
 read_when:
-  - You want to use Alibaba Wan video generation in OpenClaw
+  - You want to use Alibaba Wan video generation in FRIDAY
   - You need Model Studio or DashScope API key setup for video generation
 ---
 
@@ -105,7 +105,7 @@ uses the input image's aspect ratio. Wan 2.7 reference-to-video sends the newer
 A request that omits `durationSeconds` gets DashScope's accepted default of **5 seconds**.
 
 Image-to-video and Wan 2.7 reference images accept local files or remote
-`http(s)` URLs. OpenClaw sends local images as base64 data URIs, with a maximum
+`http(s)` URLs. FRIDAY sends local images as base64 data URIs, with a maximum
 of 20 MB per image before encoding. See the Model Studio references for
 [image-to-video](https://www.alibabacloud.com/help/en/model-studio/image-to-video-api-reference)
 and [Wan 2.7 reference-to-video](https://www.alibabacloud.com/help/en/model-studio/wan-video-to-video-api-reference).
@@ -135,7 +135,7 @@ Reference videos and Wan 2.6 reference-to-video images still require remote
   </Accordion>
 
   <Accordion title="Auth env priority">
-    OpenClaw resolves the Alibaba API key from environment variables in this order, taking the first non-empty value:
+    FRIDAY resolves the Alibaba API key from environment variables in this order, taking the first non-empty value:
 
     1. `MODELSTUDIO_API_KEY`
     2. `DASHSCOPE_API_KEY`

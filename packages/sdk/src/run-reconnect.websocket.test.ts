@@ -1,12 +1,12 @@
 import { afterAll, afterEach, beforeAll, beforeEach, expect, it, vi } from "vitest";
 import { createDeferred } from "../../../test/helpers/promise.js";
-import { OpenClaw } from "./client.js";
+import { FRIDAY } from "./client.js";
 import { GatewayClientTransport } from "./transport.js";
 import { createSdkWebSocketServer } from "./transport.websocket.test-support.js";
 import type { OpenClawEvent } from "./types.js";
 
 let gateway: Awaited<ReturnType<typeof createSdkWebSocketServer>>;
-let oc: OpenClaw;
+let oc: FRIDAY;
 const scope = { runId: "run", sessionKey: "agent:main:recovery" };
 beforeAll(async () => {
   gateway = await createSdkWebSocketServer();
@@ -111,7 +111,7 @@ async function connect() {
       }
     },
   });
-  oc = new OpenClaw({ transport });
+  oc = new FRIDAY({ transport });
   await oc.connect();
   return {
     aborted: aborted.promise,

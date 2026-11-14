@@ -355,7 +355,7 @@ export async function admitChatSend(params: ChatSendAdmissionParams) {
         });
         if (request.goalOperation && !restartSafeAdmission) {
           throw new Error(
-            "Goal start or resume requires the built-in OpenClaw runtime and an idle local session with recoverable history. This action is unavailable for native Codex and other external runtimes.",
+            "Goal start or resume requires the built-in FRIDAY runtime and an idle local session with recoverable history. This action is unavailable for native Codex and other external runtimes.",
           );
         }
         if (retryableClaim && !restartSafeAdmission) {

@@ -227,7 +227,7 @@ export const discordComponentControlHandlers: DiscordComponentControlHandlers = 
 
 export function createDiscordComponentModal(ctx: AgentComponentContext): Modal {
   return new (class extends Modal {
-    override title = "OpenClaw form";
+    override title = "FRIDAY form";
     override customId = "__openclaw_discord_component_modal_wildcard__";
     override components = [];
     override customIdParser = parseDiscordModalCustomIdForInteraction;

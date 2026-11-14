@@ -1106,7 +1106,7 @@ async function main(): Promise<void> {
   }
   const summary = {
     claim:
-      "After ACP reset cleanup exceeds its production deadline, OpenClaw discards old runtime ownership, creates a fresh ACP session without restarting Gateway, and rejects late old cancel/close/turn/runtime-option completion from replacing the fresh runtime.",
+      "After ACP reset cleanup exceeds its production deadline, FRIDAY discards old runtime ownership, creates a fresh ACP session without restarting Gateway, and rejects late old cancel/close/turn/runtime-option completion from replacing the fresh runtime.",
     revision,
     startedAt,
     completedAt: new Date().toISOString(),

@@ -52,12 +52,7 @@ describe("Windows Gateway task supervisor", () => {
   const originalEnv = captureEnv(["OPENCLAW_WINDOWS_TASK_HIDDEN_LAUNCHER"]);
 
   beforeEach(() => {
-    process.argv = [
-      process.execPath,
-      "C:\\OpenClaw\\dist\\entry.js",
-      "gateway",
-      "--task-supervisor",
-    ];
+    process.argv = [process.execPath, "C:\\FRIDAY\\dist\\entry.js", "gateway", "--task-supervisor"];
     process.execArgv = ["--import", "tsx"];
     process.exitCode = undefined;
     delete process.env.OPENCLAW_WINDOWS_TASK_HIDDEN_LAUNCHER;

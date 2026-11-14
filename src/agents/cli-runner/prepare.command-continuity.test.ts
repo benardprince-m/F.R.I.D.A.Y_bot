@@ -283,9 +283,7 @@ describe("direct CLI command continuity", () => {
         "`send`: `target` + `message`; target required this turn.",
       );
       expect(first.params.transcriptPrompt).toBe("first ask");
-      expect(second.params.prompt).toContain(
-        "OpenClaw delivers your final response automatically.",
-      );
+      expect(second.params.prompt).toContain("FRIDAY delivers your final response automatically.");
       expect(second.params.prompt).not.toContain(
         "Visible source replies are not automatically delivered for this run.",
       );

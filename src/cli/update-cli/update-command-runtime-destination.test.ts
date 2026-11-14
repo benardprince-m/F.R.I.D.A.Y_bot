@@ -244,7 +244,7 @@ it.each([
           : `Alternatively, if the destination's owner agrees to use it for this service, explicitly select it with \`node ${quote(entry)} gateway install --force --runtime-path ${quote(process.execPath)}\` and rerun the update. This changes the service binding; it does not grant ownership of another deployment's package.`;
       expectRefusalMessage(
         result,
-        `Selected npm destination ${selected} is occupied by another OpenClaw installation: package ${newRoot}; launcher ${launcher} -> ${entry}. ${ownerMessage} No installation was attempted. Switch the runtime back and run \`node ${quote(entrypoint(oldRoot))} update\`. ${alternative}`,
+        `Selected npm destination ${selected} is occupied by another FRIDAY installation: package ${newRoot}; launcher ${launcher} -> ${entry}. ${ownerMessage} No installation was attempted. Switch the runtime back and run \`node ${quote(entrypoint(oldRoot))} update\`. ${alternative}`,
       );
     }
     if (unknown) {

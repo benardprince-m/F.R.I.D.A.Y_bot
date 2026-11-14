@@ -44,7 +44,7 @@ export function registerMatrixDeviceCommands(root: Command): void {
 
   devices
     .command("prune-stale")
-    .description("Delete stale OpenClaw-managed devices for this account")
+    .description("Delete stale FRIDAY-managed devices for this account")
     .option("--account <id>", "Account ID (for multi-account setups)")
     .option("--verbose", "Show detailed diagnostics")
     .option("--json", "Output as JSON")
@@ -53,7 +53,7 @@ export function registerMatrixDeviceCommands(root: Command): void {
         run: async ({ accountId, cfg }) => await pruneMatrixStaleGatewayDevices({ accountId, cfg }),
         onText: (result, verbose) => {
           console.log(
-            `Deleted stale OpenClaw devices: ${
+            `Deleted stale FRIDAY devices: ${
               result.deletedDeviceIds.length
                 ? result.deletedDeviceIds
                     .map((deviceId) => cli.formatMatrixCliText(deviceId))

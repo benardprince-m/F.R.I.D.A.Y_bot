@@ -16,7 +16,7 @@ function git(root: string, ...args: string[]) {
 function conflictFixture(renamed = false) {
   const root = tempDirs.make("pr-committed-resolve-undo-");
   git(root, "init", "--initial-branch=main");
-  git(root, "config", "user.name", "OpenClaw Test");
+  git(root, "config", "user.name", "FRIDAY Test");
   git(root, "config", "user.email", "test@openclaw.invalid");
   git(root, "config", "commit.gpgsign", "false");
   const originalPath = renamed ? "conflict.ts" : "conflict.txt";

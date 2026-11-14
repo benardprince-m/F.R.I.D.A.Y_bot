@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct DashboardBrowserDownloadTests {
     @Test func `failed download keeps the previous file and discards partial bytes`() throws {

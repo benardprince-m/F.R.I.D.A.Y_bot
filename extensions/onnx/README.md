@@ -1,12 +1,12 @@
 # @openclaw/onnx
 
-Official local ONNX decision-model plugin for OpenClaw. It evaluates Choice,
+Official local ONNX decision-model plugin for FRIDAY. It evaluates Choice,
 Score, and Boolean rubrics with GLiClass, GLiNER2.5, and DeBERTa classifiers in a
 persistent CPU inference process.
 
 ## Setup
 
-This adapter requires the prepared Decision V2 API. Released OpenClaw
+This adapter requires the prepared Decision V2 API. Released FRIDAY
 `2026.10.4` exposes V1 only. Packaged use requires a supporting paired host/plugin
 release; the older installation floor alone does not establish V2 compatibility.
 

@@ -391,7 +391,7 @@ async function migrateLegacyMemorySidecarSource(params: {
   changes: string[];
   warnings: string[];
 }): Promise<boolean> {
-  // OpenClaw itself can leave a zero-byte placeholder at the legacy sidecar
+  // FRIDAY itself can leave a zero-byte placeholder at the legacy sidecar
   // path while the live index is the per-agent SQLite database. An empty file
   // holds no legacy rows, so remove it quietly instead of emitting a permanent
   // self-inflicted "not a legacy memory index" warning.
@@ -618,7 +618,7 @@ async function collectRetiredQmdWorkspaceHomes(stateDir: string): Promise<string
   });
   const homes: string[] = [];
   for (const entry of entries) {
-    // OpenClaw and standalone QMD wrote the same layout without an ownership
+    // FRIDAY and standalone QMD wrote the same layout without an ownership
     // marker. Only an empty directory is safe to retire; unreadable homes stay.
     const children = await fs.readdir(entry.path).catch(() => undefined);
     if (children?.length === 0) {

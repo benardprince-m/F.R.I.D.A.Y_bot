@@ -1858,7 +1858,7 @@ describe("scripts/crabbox-wrapper", () => {
         },
       },
       includes: [
-        "provider=aws requires managed Crabbox broker authentication for OpenClaw proof",
+        "provider=aws requires managed Crabbox broker authentication for FRIDAY proof",
         "provider (failed): class=broker_auth hint=crabbox_login",
         "login --url https://crabbox.openclaw.ai",
       ],
@@ -1872,7 +1872,7 @@ describe("scripts/crabbox-wrapper", () => {
           OPENCLAW_FAKE_CRABBOX_UNCLASSIFIED_UNAUTHORIZED_PROVIDERS: "aws",
         },
       },
-      includes: ["provider=aws failed readiness for OpenClaw proof"],
+      includes: ["provider=aws failed readiness for FRIDAY proof"],
       excludes: ["login --url"],
     },
     {
@@ -1905,7 +1905,7 @@ describe("scripts/crabbox-wrapper", () => {
           OPENCLAW_FAKE_CRABBOX_MISSING_BROKER_PROVIDERS: "azure",
         },
       },
-      includes: ["provider=azure failed readiness for OpenClaw proof"],
+      includes: ["provider=azure failed readiness for FRIDAY proof"],
     },
     {
       name: "requires broker auth for explicit providers inside workload routing",
@@ -1917,7 +1917,7 @@ describe("scripts/crabbox-wrapper", () => {
           OPENCLAW_FAKE_CRABBOX_MISSING_BROKER_PROVIDERS: "azure",
         },
       },
-      includes: ["provider=azure failed readiness for OpenClaw proof"],
+      includes: ["provider=azure failed readiness for FRIDAY proof"],
     },
     {
       name: "fails closed when no policy provider is ready",
@@ -1949,7 +1949,7 @@ describe("scripts/crabbox-wrapper", () => {
           OPENCLAW_FAKE_CRABBOX_MISSING_BROKER_PROVIDERS: "aws",
         },
       },
-      includes: ["provider=aws failed readiness for OpenClaw proof"],
+      includes: ["provider=aws failed readiness for FRIDAY proof"],
     },
     {
       name: "rejects untrusted lease reuse through an explicit provider",
@@ -1983,7 +1983,7 @@ describe("scripts/crabbox-wrapper", () => {
       options: {
         env: { [envName]: "aws" },
       },
-      includes: ["provider=aws failed readiness for OpenClaw proof"],
+      includes: ["provider=aws failed readiness for FRIDAY proof"],
     })),
     ...[
       {
@@ -2059,7 +2059,7 @@ describe("scripts/crabbox-wrapper", () => {
           OPENCLAW_FAKE_CRABBOX_MISSING_BROKER_PROVIDERS: "daytona",
         },
       },
-      includes: ["provider=daytona failed readiness for OpenClaw proof"],
+      includes: ["provider=daytona failed readiness for FRIDAY proof"],
     },
     ...[
       ["run", "--provider", "aws", "--label", "--help", "--", "echo ok"],
@@ -2074,7 +2074,7 @@ describe("scripts/crabbox-wrapper", () => {
         configJson: directBrokerConfig("aws"),
         env: { OPENCLAW_FAKE_CRABBOX_MISSING_BROKER_PROVIDERS: "aws" },
       },
-      includes: ["provider=aws failed readiness for OpenClaw proof"],
+      includes: ["provider=aws failed readiness for FRIDAY proof"],
     })),
     {
       name: "does not bypass preparation for a help alias containing a remote payload",
@@ -3081,20 +3081,20 @@ esac
     },
     {
       name: "preflights Swift 6.3 for raw AWS macOS Swift app builds",
-      input: ["swift", "build", "--package-path", "apps/macos", "--product", "OpenClaw"],
+      input: ["swift", "build", "--package-path", "apps/macos", "--product", "FRIDAY"],
       includes: [
         "openclaw_crabbox_require_macos_swift_63",
         "/Applications/Xcode_26*.app",
         "/Applications/Xcode-26*.app",
         "/Applications/Xcode_2[7-9]*.app",
         'sudo xcode-select -s "$openclaw_developer"',
-        "OpenClaw macOS app proof requires Swift tools 6.3+",
+        "FRIDAY macOS app proof requires Swift tools 6.3+",
         "xcodebuild -version",
-        "OpenClaw macOS app proof requires Xcode 26.4+",
+        "FRIDAY macOS app proof requires Xcode 26.4+",
       ],
       excludes: ["openclaw_crabbox_bootstrap_macos_js"],
       argsIncludes: ["--shell"],
-      grouped: "swift build --package-path apps/macos --product OpenClaw",
+      grouped: "swift build --package-path apps/macos --product FRIDAY",
     },
     {
       name: "preserves sanitized env pnpm package commands when Swift preflight is needed",
@@ -3673,16 +3673,16 @@ esac
     },
     {
       name: "preflights Swift for AWS macOS script-stdin Swift builds",
-      input: ["set -euo pipefail", "swift build --package-path apps/macos --product OpenClaw"].join(
+      input: ["set -euo pipefail", "swift build --package-path apps/macos --product FRIDAY"].join(
         "\n",
       ),
       includes: [
         "openclaw_crabbox_bootstrap_macos_js",
         "openclaw_crabbox_require_macos_swift_63",
         "openclaw_crabbox_require_macos_swift_63 || exit $?",
-        "OpenClaw macOS app proof requires Swift tools 6.3+",
-        "OpenClaw macOS app proof requires Xcode 26.4+",
-        `\n${["set -euo pipefail", "swift build --package-path apps/macos --product OpenClaw"].join("\n")}`,
+        "FRIDAY macOS app proof requires Swift tools 6.3+",
+        "FRIDAY macOS app proof requires Xcode 26.4+",
+        `\n${["set -euo pipefail", "swift build --package-path apps/macos --product FRIDAY"].join("\n")}`,
       ],
     },
     {

@@ -1,5 +1,5 @@
 ---
-summary: "Overview of OpenClaw onboarding options and flows"
+summary: "Overview of FRIDAY onboarding options and flows"
 read_when:
   - Choosing an onboarding path
   - Setting up a new environment
@@ -7,7 +7,7 @@ title: "Onboarding overview"
 sidebarTitle: "Onboarding Overview"
 ---
 
-OpenClaw supports onboarding from the terminal, the macOS app, and the Linux
+FRIDAY supports onboarding from the terminal, the macOS app, and the Linux
 desktop companion. Every path establishes inference first. On macOS, a fresh
 Gateway automatically picks available AI access and verifies a real completion
 before configuring the remaining setup. An existing configured model is kept.
@@ -36,7 +36,7 @@ The guided inference phase establishes only:
 2. **Verified inference** — a real completion on the default agent's effective
    model
 
-After that completion passes, OpenClaw can configure the workspace, Gateway,
+After that completion passes, FRIDAY can configure the workspace, Gateway,
 Gateway service, channels, agents, plugins, and other optional features.
 
 The classic CLI wizard can additionally configure:
@@ -60,8 +60,8 @@ a real completion, and only then configures the rest of the setup. Both lanes,
 the provider picker, **Skip for now**, and the foreground Gateway are described
 step by step in [Onboarding (CLI)](/start/wizard#guided-default).
 
-After inference passes, OpenClaw can hand channel setup to a masked terminal
-wizard. It does not open guided or classic provider setup. Exit OpenClaw and
+After inference passes, FRIDAY can hand channel setup to a masked terminal
+wizard. It does not open guided or classic provider setup. Exit FRIDAY and
 run `openclaw onboard` to change the model provider or its authentication.
 
 Use `openclaw onboard --classic` for detailed model/auth, channel, skill,
@@ -93,7 +93,7 @@ offers native AI setup in the Mac app, or `openclaw onboard` in a browser.
 Automatic setup keeps an existing configured model. Otherwise it tries usable
 connections in this order:
 
-1. Saved OpenClaw auth profiles.
+1. Saved FRIDAY auth profiles.
 2. Codex with stored credentials on the Gateway host.
 3. A Claude CLI login.
 4. `OPENAI_API_KEY`, then `ANTHROPIC_API_KEY`.
@@ -104,20 +104,20 @@ If Codex detection or runtime inspection fails, automatic setup shows the error
 and stops rather than selecting a local model. Fix the reported problem and
 retry, or choose another available provider manually. A missing Codex executable
 or login still allows the remaining connections to be tried.
-If none works, OpenClaw installs or enables the official Codex plugin and uses
+If none works, FRIDAY installs or enables the official Codex plugin and uses
 its existing login, or asks you to sign in with ChatGPT. Apple Foundation Models
 is a utility option and is never chosen as the primary model.
 
 When automatic setup reuses Codex, it shares the Gateway user's `CODEX_HOME`
 (or `~/.codex`), including the login, threads, and `config.toml`. Codex owns
-authentication and token refresh; OpenClaw does not copy the OAuth tokens into
+authentication and token refresh; FRIDAY does not copy the OAuth tokens into
 its auth store. Choose **Use a separate login** on the setup card, or sign in
 with ChatGPT or an OpenAI API key through **Model Setup**, to use an isolated
-OpenClaw agent home, even after reusing a native login.
+FRIDAY agent home, even after reusing a native login.
 See [Codex login and isolation](/start/onboarding#codex-login-and-isolation)
 to switch between these modes.
 
-After inference works, OpenClaw continues its existing guided conversation for
+After inference works, FRIDAY continues its existing guided conversation for
 optional setup, including memory import and channels. You can dismiss the
 summary; it stays dismissed for that Gateway. Fresh installs leave native
 Claude/Codex conversation discovery off. Permissions are requested when needed

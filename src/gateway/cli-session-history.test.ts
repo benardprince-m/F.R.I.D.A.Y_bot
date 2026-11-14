@@ -38,9 +38,9 @@ async function readChatHistory(homeDir: string, entry: SessionEntry, localMessag
 }
 
 const CLAUDE_RESUME_DRIFT_NOTES = [
-  "OpenClaw resumed this CLI session after prompt content changed. Follow the current turn's instructions; changed=system-prompt.",
-  "OpenClaw resumed this CLI session after prompt content changed. Follow the current turn's instructions; changed=prompt-tools.",
-  "OpenClaw resumed this CLI session after prompt content changed. Follow the current turn's instructions; changed=system-prompt,prompt-tools.",
+  "FRIDAY resumed this CLI session after prompt content changed. Follow the current turn's instructions; changed=system-prompt.",
+  "FRIDAY resumed this CLI session after prompt content changed. Follow the current turn's instructions; changed=prompt-tools.",
+  "FRIDAY resumed this CLI session after prompt content changed. Follow the current turn's instructions; changed=system-prompt,prompt-tools.",
 ] as const;
 
 function readRecord(value: unknown): Record<string, unknown> {
@@ -187,7 +187,7 @@ describe("cli session history", () => {
     ({ driftContext, description }) => {
       const prompt = "What token did I give the other model?";
       const localMessage = user(prompt, 1_000, { id: "local-return", senderIsOwner: true });
-      const note = `[OpenClaw: 2 ${description} from 2026-10-10T22:30:29.302Z to 2026-10-10T22:30:43.592Z, using "mock/mock-model". Their contents are not included here. Before answering a question that may depend on these messages, call mcp__openclaw__sessions_history({"sessionKey":"agent:main:switch-back","limit":100}) to read them; page older messages with offset if needed.]`;
+      const note = `[FRIDAY: 2 ${description} from 2026-10-10T22:30:29.302Z to 2026-10-10T22:30:43.592Z, using "mock/mock-model". Their contents are not included here. Before answering a question that may depend on these messages, call mcp__openclaw__sessions_history({"sessionKey":"agent:main:switch-back","limit":100}) to read them; page older messages with offset if needed.]`;
       const importedMessage = user(
         `${note}\n\n${driftContext}${prompt}`,
         1_001,

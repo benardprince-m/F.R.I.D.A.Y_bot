@@ -34,13 +34,13 @@ session (default `5`); increasing execution concurrency does not raise that
 limit. Collector admission instead uses Swarm's `maxChildrenPerGroup` (default
 `50`) and `maxTotalPerGroup` (default `200`); raising execution concurrency does
 not raise either group limit. [Codex-native subagents](/plugins/codex-harness) use Codex's own scheduler
-and limits independently of these OpenClaw queues.
+and limits independently of these FRIDAY queues.
 
 Suspended completion deliveries do not block new work. Native subagents, ACP
 sessions, and visible sessions retain their normal active-run limits and
 authorization checks independently of the delivery backlog.
 
-OpenClaw warns when the delivery backlog reaches 25. Within a Gateway process,
+FRIDAY warns when the delivery backlog reaches 25. Within a Gateway process,
 unchanged backlog counts do not repeat the warning every sweep. A count change
 at or above 25, or a return to that threshold after recovery, produces a new
 warning. The backlog size does not discard results or change their retention.
@@ -57,7 +57,7 @@ that deleted results remain recoverable.
 
 ## Liveness and recovery
 
-OpenClaw does not treat `endedAt` absence as permanent proof that a
+FRIDAY does not treat `endedAt` absence as permanent proof that a
 sub-agent is still alive. When the reading process can verify a current
 execution owner or an exact queued collector reservation, an unended run keeps
 counting regardless of age. Persisted metadata alone does not establish that
@@ -228,11 +228,11 @@ Legacy-unverified records have resolvable child and requester owners but lack th
 original session identity or lifecycle revision. They can settle, deliver,
 finish cleanup bookkeeping, resume, and stop under the authorized requester.
 Legacy Stop cancels the exact task and its registered execution, when available;
-it does not guess which current session or successor to interrupt. OpenClaw
+it does not guess which current session or successor to interrupt. FRIDAY
 warns once per Gateway process after registry restore, with a count of unique
 legacy run IDs with unfinished work and a few sample IDs. Completed cleanup and
 terminal runs with suppressed delivery are excluded unless a requester wake remains.
-OpenClaw suppresses child-session mutations, including
+FRIDAY suppresses child-session mutations, including
 deletion, reset, and transcript cleanup. Missing historical identity is never
 backfilled. A conflicting recorded identity remains a mismatch, not a legacy exception.
 

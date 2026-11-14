@@ -308,7 +308,7 @@ The spawn broker stays available while its Gateway connection is alive, even if
 it receives the stop signal too, so cleanup can still launch commands and observe
 child exits. This does not protect other child runtimes; `KillMode=mixed` remains
 required.
-Updates and `openclaw doctor --fix` refresh outdated OpenClaw-managed Linux unit
+Updates and `openclaw doctor --fix` refresh outdated FRIDAY-managed Linux unit
 policy. Maintenance reads the resident shutdown budget from Gateway status.
 Older Gateways without that fact follow the short-budget path: fence admission
 and observe lifecycle drain until idle or the update step deadline. At the
@@ -517,7 +517,7 @@ domains, and accepts only a job whose PID is the Gateway or its launcher. Restar
 ownership can still be external: the supervisor that enforces the stop, not the
 owner of the next start, determines the deadline. A direct SIGTERM does not start
 launchd's stop clock, so it keeps the existing Gateway stop policy unless an
-OpenClaw launcher independently enforces its own child reap timer.
+FRIDAY launcher independently enforces its own child reap timer.
 
 The **stop budget** is time available until the supervisor can kill the process.
 The Gateway sets aside an exit margin (up to 5 seconds) and plans its shutdown
@@ -604,7 +604,7 @@ the gateway.
 
 ## Recovery after a failed update
 
-After a failed interactive update or repair, OpenClaw finishes cleanup and any
+After a failed interactive update or repair, FRIDAY finishes cleanup and any
 service recovery, then opens [`openclaw triage`](/cli/triage). Triage immediately
 starts the first directly launchable coding agent in this order: Claude Code,
 Codex, OpenCode, then Pi. It passes the captured failure before fresh Doctor
@@ -613,7 +613,7 @@ the installation. The agent receives the captured installation paths and keeps
 its normal authentication, sandbox, and approval settings.
 
 For a failed Control UI or unattended update, use the installation-specific
-command printed on the Gateway host, or run triage there with the same OpenClaw
+command printed on the Gateway host, or run triage there with the same FRIDAY
 profile and state/config paths. Use `--agent` to select a particular coding agent:
 
 ```bash
@@ -916,7 +916,7 @@ A failed child-completion group does not stop startup recovery for unrelated
 groups. The original group keeps its ownership checks and retries with bounded
 backoff; already-started restored runs are not launched again by those retries.
 
-When a recovered turn starts with an eligible channel delivery route, OpenClaw
+When a recovered turn starts with an eligible channel delivery route, FRIDAY
 sends a resumption notice to that conversation, retaining its account and topic.
 The final reply uses the same delivery route. Transcript-only turns stay private,
 and a turn that has already finished does not receive a late resumption notice.
@@ -941,7 +941,7 @@ after asynchronous preparation. Recovery does not fall back to the unguarded
 Startup reconciliation retries transient failures up to three times with
 exponential backoff. Separately, each interrupted main-session cycle has a
 durable budget of three charged automatic dispatch attempts, retained across
-gateway restarts. OpenClaw charges an attempt before dispatch, refunds it when
+gateway restarts. FRIDAY charges an attempt before dispatch, refunds it when
 the gateway explicitly rejects the request before acceptance, and retains the
 charge when a post-dispatch result is uncertain to avoid replaying work.
 Foreground work that already owns the session keeps automatic recovery out
@@ -961,7 +961,7 @@ tombstone, but it does not re-enable that automatic recovery cycle. See
 [Session recovery](/concepts/session#gateway-restart-recovery) for tool-safety restrictions
 and the CLI-runtime replacement fallback.
 
-If you message the failed session again in a channel, OpenClaw sends a short
+If you message the failed session again in a channel, FRIDAY sends a short
 recovery reminder through that channel and logs each rejected message at warn
 level with the session key, recovery reason, and recovery command. Repeated
 reminders are suppressed in a bounded memory cache. Resetting or deleting the
@@ -1000,7 +1000,7 @@ remains authoritative even if another restart happens during recovery. A
 message-tool-only delivery policy also survives run admission and model fallback;
 private final text never becomes a pending automatic reply. A
 message-tool-only turn without reconstructable channel authority is tombstoned
-because OpenClaw cannot safely mint message-action authority without the
+because FRIDAY cannot safely mint message-action authority without the
 original channel-ingress claim. The terminal notice directs the user to start a
 replacement with `/new` or `/reset`.
 
@@ -1027,7 +1027,7 @@ receives the same context so it can verify effects before retrying a tool call.
 Pending reply delivery, ambiguous reply-hook outcomes, and explicitly replay-safe
 Code Mode reconstruction retain their narrower recovery restrictions.
 
-OpenClaw can also reconstruct interrupted read-only [Code Mode](/tools/code-mode)
+FRIDAY can also reconstruct interrupted read-only [Code Mode](/tools/code-mode)
 work. Code Mode marks these runs as restart-safe and rejects side-effecting
 catalog or namespace tool calls before they execute. If a restart lands on
 the `wait` control, the new gateway reconstructs the turn from its transcript

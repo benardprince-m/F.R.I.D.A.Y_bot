@@ -233,7 +233,7 @@ function headline(card: PublicSessionCard): string {
   const host = cappedText(card.host, 120);
   const hostLine = lines(host, regular, 19, 350, 1)[0] ?? "";
   const status = card.status;
-  let svg = `${mark(68, 57)}${textLine("OpenClaw · Public session", 114, 81, regular, 22, { color: COLORS.muted })}`;
+  let svg = `${mark(68, 57)}${textLine("FRIDAY · Public session", 114, 81, regular, 22, { color: COLORS.muted })}`;
   if (status) {
     const color =
       status === "Done" ? COLORS.green : status === "Failed" ? COLORS.red : COLORS.muted;
@@ -288,7 +288,7 @@ function receipt(
   const { regular, bold, mono } = cardFonts();
   let svg = `<rect width="10" height="630" fill="${COLORS.red}"/><rect x="684" width="516" height="630" fill="${COLORS.panel}"/>`;
   svg += mark(62, 57);
-  svg += textLine("OpenClaw · Public session", 108, 81, regular, 21, { color: COLORS.muted });
+  svg += textLine("FRIDAY · Public session", 108, 81, regular, 21, { color: COLORS.muted });
   svg += textBlock(cappedText(card.title, 280), 62, 174, bold, 46, 564, 3, 55, { bold: true });
   const source = [cappedText(card.repoSlug ?? "", 120), cappedText(worktree.branch, 140)]
     .filter(Boolean)

@@ -298,7 +298,7 @@ mod native_browser_tests {
         let output = Command::new("node")
             .args(["-e", runner, &initialization_script])
             .output()
-            .expect("Node is required by the OpenClaw workspace");
+            .expect("Node is required by the FRIDAY workspace");
         assert!(
             output.status.success(),
             "native auth handoff failed: {}",
@@ -932,16 +932,16 @@ impl DesktopState {
         let cli = {
             installer::install(app, channel, false)?;
             let cli = OpenClawCli::discover().map_err(|error| {
-                format!("OpenClaw is installed, but the CLI could not be found: {error}")
+                format!("FRIDAY is installed, but the CLI could not be found: {error}")
             })?;
             // Other Tauri platforms retain their existing installer/Doctor behavior.
             let repair_error = match cli.output(["doctor", "--fix", "--non-interactive"]) {
                 Ok(output) if !output.status.success() => {
                     Some(cli::output_tail(&output.stderr).unwrap_or_else(|| {
-                        format!("OpenClaw repair exited with {}", output.status)
+                        format!("FRIDAY repair exited with {}", output.status)
                     }))
                 }
-                Err(error) => Some(format!("OpenClaw repair could not start: {error}")),
+                Err(error) => Some(format!("FRIDAY repair could not start: {error}")),
                 _ => None,
             };
             if let Some(error) = repair_error {
@@ -963,7 +963,7 @@ impl DesktopState {
             .navigation
             .lock()
             .map_err(|_| {
-                "OpenClaw is installed, but preparing the Gateway dashboard failed: \
+                "FRIDAY is installed, but preparing the Gateway dashboard failed: \
                  Dashboard navigation lock is unavailable."
                     .to_string()
             })?
@@ -974,11 +974,11 @@ impl DesktopState {
         #[cfg(not(any(target_os = "linux", target_os = "windows")))]
         let readiness = gateway::ensure_ready(&cli);
         let ready = readiness.map_err(|error| {
-            format!("OpenClaw is installed, but connecting to the Gateway failed: {error}")
+            format!("FRIDAY is installed, but connecting to the Gateway failed: {error}")
         })?;
         self.finish_local_connection(app, cli, ready)
             .map_err(|error| {
-                format!("OpenClaw is installed, but opening the Gateway dashboard failed: {error}")
+                format!("FRIDAY is installed, but opening the Gateway dashboard failed: {error}")
             })
     }
 
@@ -1160,7 +1160,7 @@ impl DesktopState {
         promotion: Option<gateway_windows::PromotionGuard>,
     ) -> Result<GatewaySnapshot, String> {
         if self.is_quitting() {
-            return Err("OpenClaw is quitting.".to_string());
+            return Err("FRIDAY is quitting.".to_string());
         }
         if promotion.as_ref().is_some_and(|guard| !guard.current(app)) {
             return Err("The Primary Gateway change was cancelled.".into());
@@ -1226,7 +1226,7 @@ impl DesktopState {
         let commit_pending = Arc::clone(&pending);
         let result = self.on_main(app, move |state, app| {
             if state.is_quitting() {
-                return Err("OpenClaw is quitting.".to_string());
+                return Err("FRIDAY is quitting.".to_string());
             }
             let mut navigation = state.inner.navigation.lock().expect("navigation");
             let snapshot = app
@@ -1397,7 +1397,7 @@ impl DesktopState {
 
     fn enter_connection_settings(&self, app: &AppHandle, navigate: bool) -> Result<(), String> {
         if self.is_quitting() {
-            return Err("OpenClaw is quitting.".to_string());
+            return Err("FRIDAY is quitting.".to_string());
         }
         let mut navigation = self.inner.navigation.lock().expect("navigation");
         let operations = app.state::<GatewayOperationQueue>();
@@ -1834,7 +1834,7 @@ impl DesktopState {
         }
         // Notifications are a doorbell only; approval stays in the dashboard or CLI.
         for request in diff.new {
-            notify::notify(app, "OpenClaw", &request.notification_body());
+            notify::notify(app, "FRIDAY", &request.notification_body());
         }
     }
 
@@ -3317,7 +3317,7 @@ fn main() {
 
     // AppIndicator uses the GTK application name for the tray menu heading.
     #[cfg(target_os = "linux")]
-    gtk::glib::set_application_name("OpenClaw");
+    gtk::glib::set_application_name("FRIDAY");
 
     let global_shortcuts_supported = tray::global_shortcuts_supported();
     let quickchat_state = quickchat::QuickChatState::new(global_shortcuts_supported);
@@ -3607,7 +3607,7 @@ fn main() {
             }
         })
         .build(tauri::generate_context!())
-        .expect("OpenClaw desktop app failed");
+        .expect("FRIDAY desktop app failed");
     app.run(|app, event| {
         if let tauri::RunEvent::ExitRequested { api, code, .. } = &event {
             if let Some(state) = app.try_state::<DesktopState>() {

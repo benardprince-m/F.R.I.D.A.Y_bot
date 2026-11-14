@@ -104,7 +104,7 @@ function thread(archived: boolean): GatewayThreadUpdateDispatchData {
 function guildCreateEvent(): GatewayGuildCreateDispatchData {
   return {
     id: "guild-1",
-    name: "OpenClaw Guild",
+    name: "FRIDAY Guild",
     joined_at: new Date().toISOString(),
     system_channel_id: "system-channel",
     channels: [

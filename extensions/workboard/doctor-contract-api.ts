@@ -1,7 +1,7 @@
 import type { PluginDoctorStateMigration } from "openclaw/plugin-sdk/runtime-doctor-migrations";
 
 const RECOVERY =
-  "Workboard has retired pre-July 2026 plugin-state KV data. Install OpenClaw 2026.9.7 and run openclaw doctor --fix before upgrading; the retained legacy rows have not been changed.";
+  "Workboard has retired pre-July 2026 plugin-state KV data. Install FRIDAY 2026.9.7 and run openclaw doctor --fix before upgrading; the retained legacy rows have not been changed.";
 
 async function detectRetiredState(
   params: Parameters<PluginDoctorStateMigration["detectLegacyState"]>[0],

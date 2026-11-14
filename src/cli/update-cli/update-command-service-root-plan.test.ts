@@ -157,14 +157,14 @@ describe("managed service root planning", () => {
         JSON.stringify({
           schemaVersion: 1,
           owner: "macos-app",
-          displayName: "OpenClaw.app",
-          updateHint: "Update OpenClaw.app to update this Gateway.",
+          displayName: "FRIDAY.app",
+          updateHint: "Update FRIDAY.app to update this Gateway.",
         }),
       );
 
       await expect(
         resolveManagedServicePackageUpdatePlan({ root: f.invokingRoot }),
-      ).rejects.toThrow("Managed by OpenClaw.app. Update OpenClaw.app to update this Gateway.");
+      ).rejects.toThrow("Managed by FRIDAY.app. Update FRIDAY.app to update this Gateway.");
       await expect(
         inspectManagedGatewayServiceBeforeUpdate({
           root: f.invokingRoot,

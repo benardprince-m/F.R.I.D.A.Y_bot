@@ -17,7 +17,7 @@ export const DOCTOR_MAINTENANCE_WAIT_PROGRESS_INTERVAL_MS = 30_000;
 
 /**
  * The time, on this process's `performance.now()` clock, when update Doctor stops
- * waiting for other OpenClaw processes. Published drivers bound activation Doctor
+ * waiting for other FRIDAY processes. Published drivers bound activation Doctor
  * only by an operator `--timeout`, counted from its spawn and not passed on, so
  * Doctor stays within the default step allowance from its own start. It keeps
  * twice this update's rehearsal Doctor time, and at least the floor, for its own
@@ -51,7 +51,7 @@ export function formatDoctorWaitSeconds(ms: number) {
 
 function describeHolder(error: GatewayStateOwnerContentionError) {
   const { holder } = error;
-  return `the OpenClaw ${holder?.role ? `${holder.role} ` : ""}process ${holder?.pid ?? "(unknown PID)"}`;
+  return `the FRIDAY ${holder?.role ? `${holder.role} ` : ""}process ${holder?.pid ?? "(unknown PID)"}`;
 }
 
 /**

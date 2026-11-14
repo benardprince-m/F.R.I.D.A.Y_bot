@@ -8,7 +8,7 @@ title: "Release channels"
 sidebarTitle: "Release Channels"
 ---
 
-OpenClaw ships four update channels:
+FRIDAY ships four update channels:
 
 - **stable**: npm dist-tag `latest`. Recommended for most users.
 - **extended-stable**: npm dist-tag `extended-stable`. A net-new, trailing
@@ -42,14 +42,14 @@ previous channel. The selected channel drives both install paths:
 | Channel           | npm/package installs                                                                                                                                                                                    | git installs                                                                                       |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | `stable`          | dist-tag `latest`                                                                                                                                                                                       | switches to the npm package at `latest`                                                            |
-| `extended-stable` | resolves the public npm `extended-stable` selector, verifies the exact selected package, and installs that exact version. Stops on verification errors, with no fallback to `latest`, `beta`, or `dev`. | unsupported: OpenClaw leaves the checkout unchanged and asks you to use a package installation     |
+| `extended-stable` | resolves the public npm `extended-stable` selector, verifies the exact selected package, and installs that exact version. Stops on verification errors, with no fallback to `latest`, `beta`, or `dev`. | unsupported: FRIDAY leaves the checkout unchanged and asks you to use a package installation       |
 | `beta`            | dist-tag `beta`, falling back to `latest` when `beta` is missing or older                                                                                                                               | switches to the npm package at `beta`, falling back to `latest` when beta is missing or older      |
 | `dev`             | switches to a Git checkout, builds it, and reinstalls the global CLI                                                                                                                                    | fetches, rebases the checkout on the upstream `main` branch, builds, and reinstalls the global CLI |
 
 An explicit `--channel stable` or `--channel beta` switches a Git installation
 to a package installation. A bare `openclaw update` in a Git checkout with a
 previously stored stable or beta channel instead selects the corresponding Git tag.
-For these Git tag updates, OpenClaw refreshes branches without adding force to
+For these Git tag updates, FRIDAY refreshes branches without adding force to
 their configured refspecs, then force-refreshes tags only from the release remote.
 The retained `branch.main.remote` setting takes precedence, followed by `origin`
 or the only configured remote. With multiple remotes and neither choice, set
@@ -80,7 +80,7 @@ and current commit. Missing, stale, malformed, excluded, or unresolvable hints d
 not veto the normal `origin/main` default. A network failure on a valid custom
 source reports an unavailable comparison rather than silently switching to origin.
 Without local `main` or `origin`, a sole configured remote remains a supported
-source for `main`. Multiple remotes without tracking are ambiguous; OpenClaw
+source for `main`. Multiple remotes without tracking are ambiguous; FRIDAY
 does not choose the first one.
 
 Receipt hints do not rewrite Git configuration. To make a custom source persistent
@@ -132,7 +132,7 @@ Notes:
   or reinstall with the installer's git method:
   `curl -fsSL https://openclaw.ai/install.sh | bash -s -- --install-method git --version main`.
 - Downgrade protection: if the target version is older than the current
-  version, OpenClaw prompts for confirmation (skip with `--yes`).
+  version, FRIDAY prompts for confirmation (skip with `--yes`).
 - Extended-stable always uses its verified exact package target. It is not a
   one-off alias for `--tag extended-stable`, and `--tag` cannot be combined
   with an effective extended-stable channel.

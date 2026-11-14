@@ -276,7 +276,7 @@ export class TooltipElement extends HTMLElement implements TooltipPolicyProps {
       .catch((error: unknown) => {
         this.#wanted = false;
         this.#owner.acceptedOpen(false);
-        console.warn("OpenClaw tooltip could not load.", error);
+        console.warn("FRIDAY tooltip could not load.", error);
         return false;
       })
       .finally(() => {

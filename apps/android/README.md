@@ -1,6 +1,6 @@
-## OpenClaw Android App
+## FRIDAY Android App
 
-OpenClaw Android is the officially released Google Play app. It connects to an OpenClaw Gateway as a companion node for chat, voice, approvals, screen, and device-aware automation.
+FRIDAY Android is the officially released Google Play app. It connects to an FRIDAY Gateway as a companion node for chat, voice, approvals, screen, and device-aware automation.
 
 ### App features
 
@@ -13,9 +13,9 @@ OpenClaw Android is the officially released Google Play app. It connects to an O
 - Choose **Text size** in **Settings → Appearance**: 90%, 100% (default), 110%, 125%, or 140%. This device-local choice survives restarting the app and does not sync to your profile. It combines with Android system font scaling, including nonlinear scaling, without changing spacing or typefaces.
 - Configure foreground on-device Voice Wake and Gateway-synced wake words in **Settings → Voice**.
 - Talk setup and startup failures stay visible in a dismissible Chat dialog. If the message reports a missing provider or invalid credentials, configure the Talk provider on the Gateway before trying again.
-- Use **Settings → OpenClaw** for guided Gateway setup and repair. New replies stay visible at the end of the conversation; scrolling back preserves your reading position until you return or tap **Jump to latest**.
+- Use **Settings → FRIDAY** for guided Gateway setup and repair. New replies stay visible at the end of the conversation; scrolling back preserves your reading position until you return or tap **Jump to latest**.
 - Setup offers optional notifications, microphone, camera, and location access; other permissions are under **Additional features**. **Request all** asks for the available runtime permissions without enabling the camera or location features; Android handles consent through its system prompts. Notification access stays separate under **Special access**. Continue without granting access, or enable phone capabilities individually or later in Settings. Blocked individual setup requests offer Android Settings. Biometric locking, Gateway/chat notifications, and authenticated background presence are supported.
-- SMS is available only in third-party builds on supported telephony devices. Setup distinguishes partial read/send access. Android Settings can recover user denial, but installer or device-policy restrictions may leave SMS unavailable; OpenClaw cannot override them. Returning from Settings rereads the actual grants without restarting Gateway setup.
+- SMS is available only in third-party builds on supported telephony devices. Setup distinguishes partial read/send access. Android Settings can recover user denial, but installer or device-policy restrictions may leave SMS unavailable; FRIDAY cannot override them. Returning from Settings rereads the actual grants without restarting Gateway setup.
 - View the phone's memory and disk meters on the Control UI Devices page. Connected Android nodes report host resource stats immediately and every 60 seconds; disk meters require an available storage sample and a Gateway that supports host stats.
 - Manage installed skills and Gateway-verified ClawHub releases, and inspect or edit automations with the required Gateway access.
 - Use the Wear OS companion for sessions, replies, aborts, and realtime Talk through the paired phone without storing Gateway credentials on the watch.
@@ -351,7 +351,7 @@ Start a fresh app process between scenes.
 
 `pnpm android:bundle:release` is an alias for the same Fastlane archive lane.
 
-Regular final and correction OpenClaw releases publish the signed third-party APK as `OpenClaw-Android.apk` with a checksum manifest and GitHub Actions provenance. The **Android APK Artifact Publish** workflow at `.github/workflows/android-release.yml` is the only automated GitHub Release upload path. When the tagged Android pin matches the stable release train, `OpenClaw Release Publish` qualifies Android independently and dispatches it after core npm succeeds. A mismatched pin records an explicit skip. Android does not hold npm or GitHub release finalization, so verified APK assets may attach after the release is public.
+Regular final and correction FRIDAY releases publish the signed third-party APK as `FRIDAY-Android.apk` with a checksum manifest and GitHub Actions provenance. The **Android APK Artifact Publish** workflow at `.github/workflows/android-release.yml` is the only automated GitHub Release upload path. When the tagged Android pin matches the stable release train, `FRIDAY Release Publish` qualifies Android independently and dispatches it after core npm succeeds. A mismatched pin records an explicit skip. Android does not hold npm or GitHub release finalization, so verified APK assets may attach after the release is public.
 
 The protected `android-release` environment supplies `MATCH_PASSWORD`; the repository's read-only GitHub App token checks out encrypted material from `openclaw/apps-signing`. The workflow builds the exact release tag, refuses to replace different existing bytes, and re-downloads the APK for checksum, certificate, and provenance verification.
 
@@ -517,7 +517,7 @@ More details: `docs/platforms/android.md`.
 
 If the gateway cannot be reached, the app keeps the connection error visible during automatic retries.
 For an address that may use Tailscale, **Set up Tailscale** opens the Android installation guide.
-Open Tailscale and connect to the gateway's tailnet. Check that the gateway computer is online and OpenClaw is running, then retry.
+Open Tailscale and connect to the gateway's tailnet. Check that the gateway computer is online and FRIDAY is running, then retry.
 This advice does not verify Tailscale's connection state or change certificate trust.
 If an earlier network request is still stopping, the app waits for it before starting another request.
 
@@ -549,7 +549,7 @@ Why these matter:
 - The Play build removes these behind the `play` flavor.
 - Photo library access is also removed from the Play build. Use third-party builds for `photos.latest`.
 
-Current OpenClaw Android implication:
+Current FRIDAY Android implication:
 
 - APK / sideload build can keep SMS, Call Log, and recent-photo features.
 - Google Play build excludes SMS send/search, Call Log search, and recent-photo access unless the product is intentionally positioned and approved under the relevant policy exception.
@@ -675,7 +675,7 @@ pnpm android:test:integration
 
 Optional overrides:
 
-- `OPENCLAW_ANDROID_GATEWAY_URL=ws://...` (default: from your local OpenClaw config)
+- `OPENCLAW_ANDROID_GATEWAY_URL=ws://...` (default: from your local FRIDAY config)
 - `OPENCLAW_ANDROID_GATEWAY_TOKEN=...`
 - `OPENCLAW_ANDROID_GATEWAY_PASSWORD=...`
 - `OPENCLAW_ANDROID_NODE_ID=...` or `OPENCLAW_ANDROID_NODE_NAME=...`

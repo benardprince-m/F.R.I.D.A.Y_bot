@@ -17,7 +17,7 @@ afterEach(() => {
 
 function writeFixture(): string {
   const root = makeTempDir(tempDirs, "openclaw-release-version-");
-  fs.mkdirSync(path.join(root, "apps", "macos", "Sources", "OpenClaw", "Resources"), {
+  fs.mkdirSync(path.join(root, "apps", "macos", "Sources", "FRIDAY", "Resources"), {
     recursive: true,
   });
   fs.mkdirSync(path.join(root, "apps", "android", "Config"), { recursive: true });
@@ -37,7 +37,7 @@ function writeFixture(): string {
     )}\n`,
   );
   fs.writeFileSync(
-    path.join(root, "apps", "macos", "Sources", "OpenClaw", "Resources", "Info.plist"),
+    path.join(root, "apps", "macos", "Sources", "FRIDAY", "Resources", "Info.plist"),
     [
       "<plist>",
       "<dict>",
@@ -175,7 +175,7 @@ describe("release version planning", () => {
       version: "2026.7.2",
     });
     const macosInfo = fs.readFileSync(
-      path.join(root, "apps", "macos", "Sources", "OpenClaw", "Resources", "Info.plist"),
+      path.join(root, "apps", "macos", "Sources", "FRIDAY", "Resources", "Info.plist"),
       "utf8",
     );
     expect(macosInfo).toContain("<string>2026.7.2</string>");
@@ -206,7 +206,7 @@ describe("release version planning", () => {
     const packagePath = path.join(root, "package.json");
     const before = fs.readFileSync(packagePath, "utf8");
     fs.writeFileSync(
-      path.join(root, "apps", "macos", "Sources", "OpenClaw", "Resources", "Info.plist"),
+      path.join(root, "apps", "macos", "Sources", "FRIDAY", "Resources", "Info.plist"),
       "<plist><dict></dict></plist>\n",
     );
 

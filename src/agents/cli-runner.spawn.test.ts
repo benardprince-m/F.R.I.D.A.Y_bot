@@ -227,7 +227,7 @@ describe("runCliAgent spawn path", () => {
 
     expect(output).toMatchObject({ text: "node answer", sessionId: "forked-node-session" });
     // Node runs keep the gateway's native tool policy; loopback MCP tools do
-    // not exist on the node so the OpenClaw list is projected empty.
+    // not exist on the node so the FRIDAY list is projected empty.
     expect(toolAvailability).toEqual({ native: [], openClaw: [] });
     expect(writeSystemPrompt).not.toHaveBeenCalled();
     expect(supervisorSpawnMock).not.toHaveBeenCalled();

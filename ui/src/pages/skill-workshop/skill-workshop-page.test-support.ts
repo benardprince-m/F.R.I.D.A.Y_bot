@@ -51,7 +51,7 @@ export function createContext(
     basePath: "",
     gateway: { snapshot, subscribe },
     config: {
-      current: { assistantIdentity: { name: "OpenClaw" } },
+      current: { assistantIdentity: { name: "FRIDAY" } },
       subscribe,
     },
     agents: { state: { agentsList: null }, subscribe },

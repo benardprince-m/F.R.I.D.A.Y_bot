@@ -683,7 +683,7 @@ export function createCrabboxWorkerProvider(
           );
         });
       })();
-      // Only a claimed capture detaches. If the Gateway exits during it, OpenClaw
+      // Only a claimed capture detaches. If the Gateway exits during it, FRIDAY
       // will not stop the lease; Crabbox's idle timeout / TTL reaps it.
       await Promise.race([teardown, captureStarted.promise]);
     },

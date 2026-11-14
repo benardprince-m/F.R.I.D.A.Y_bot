@@ -14,7 +14,7 @@ How the Codex model catalog is discovered, and what happens when discovery fails
 
 By default, the Codex plugin asks the app-server for available models. Model
 availability is owned by Codex app-server, so the list can change when
-OpenClaw upgrades the bundled `@openai/codex` version, when OpenClaw selects a
+FRIDAY upgrades the bundled `@openai/codex` version, when FRIDAY selects a
 [newer installed Codex](/plugins/codex-harness-reference/app-server-transport#newer-installed-codex),
 or when a deployment points `appServer.command` at a different Codex binary.
 ChatGPT-login model discovery reports the selected binary's version as its
@@ -54,9 +54,9 @@ policies remain in effect. Clients and accounts stay isolated by agent home.
 
 Use the Models page **Refresh** action (`models.list` with `view: "all"` and
 `refresh: true`) to publish the full catalog for the selected agent. Prepared-only
-reads do not start discovery. Native configuration changes outside OpenClaw
+reads do not start discovery. Native configuration changes outside FRIDAY
 require the native owner's supported reload/restart and a catalog refresh;
-OpenClaw does not poll native home files for readiness. Authored host routes and
+FRIDAY does not poll native home files for readiness. Authored host routes and
 explicit profile selections retain their existing auth and compatibility checks.
 
 For the Codex runtime, the composer shows **Ultrafast** only when authenticated
@@ -75,7 +75,7 @@ metadata leave this capability unknown. The composer hides Ultrafast in those
 cases rather than offering a disabled option. Discovery support describes
 availability, not a guarantee that an upstream request will receive that tier.
 
-The embedded OpenClaw runtime uses the available API-key OpenAI Responses route
+The embedded FRIDAY runtime uses the available API-key OpenAI Responses route
 to offer Ultrafast without catalog metadata, whether the key comes from an auth
 profile, environment, or provider config (including SecretRefs). This remains
 subject to observed provider downgrades for the selected credential and route;
@@ -87,7 +87,7 @@ Native catalog identifiers are runtime identifiers, not privacy labels. A
 deployment using a broker-owned alias must supply an alias-safe native catalog
 before starting app-server: both `id` and `model` in `model/list` must be the
 alias, with the desired `displayName`. Different native runtime identifiers are
-preserved in OpenClaw model parameters. Renaming the picker label does not hide
+preserved in FRIDAY model parameters. Renaming the picker label does not hide
 those identifiers from requests or session state.
 
 Codex's startup `model_catalog_json` setting can supply a native catalog; a
@@ -141,7 +141,7 @@ and native discovery still requires a current account. Run `/codex models`
 after starting or upgrading the gateway to inspect the actual public picker
 for your account. Existing configured model selections remain unchanged.
 
-OpenClaw reasoning controls preserve supported native levels, including `ultra`.
+FRIDAY reasoning controls preserve supported native levels, including `ultra`.
 Codex owns Ultra's proactive delegation and model-specific inference effort;
 Platform API effort metadata does not downgrade the selected runtime mode.
 Hidden models can also appear in the app-server catalog for internal or

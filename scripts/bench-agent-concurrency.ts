@@ -95,7 +95,7 @@ type BenchmarkRuntime = {
 };
 
 function usage(): string {
-  return `OpenClaw agent concurrency benchmark
+  return `FRIDAY agent concurrency benchmark
 
 Usage:
   node --import tsx scripts/bench-agent-concurrency.ts [options]

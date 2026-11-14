@@ -647,7 +647,7 @@ it.skipIf(process.platform === "win32").each([
     const original = buildLaunchAgentPlist({
       ...plan,
       label: "ai.openclaw.gateway",
-      comment: "OpenClaw Gateway",
+      comment: "FRIDAY Gateway",
       stdoutPath,
       stderrPath: stdoutPath,
     })

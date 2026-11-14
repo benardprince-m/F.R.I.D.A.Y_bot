@@ -86,7 +86,7 @@ it("refuses retired JSON state without changing it or inspecting token-root arch
   };
   for (const run of [migration.detectLegacyState, migration.migrateLegacyState]) {
     const result = run(params);
-    await expect(result).rejects.toThrow("Install OpenClaw 2026.9.5");
+    await expect(result).rejects.toThrow("Install FRIDAY 2026.9.5");
     for (const file of sources) {
       await expect(result).rejects.toThrow(file);
     }

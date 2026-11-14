@@ -103,13 +103,13 @@ async function runAudioStatus(
       return [];
     },
   };
-  const outputLabel = label.includes("OpenClaw") ? "OpenClaw Meeting Audio" : label;
+  const outputLabel = label.includes("FRIDAY") ? "FRIDAY Meeting Audio" : label;
   const result = await runInNewContext(
     `(${meetStatusScript({
       allowMicrophone: true,
       autoJoin: false,
       captureCaptions: false,
-      guestName: "OpenClaw Agent",
+      guestName: "FRIDAY Agent",
     })})()`,
     {
       Event: globalThis.Event,
@@ -137,7 +137,7 @@ async function runAudioStatus(
 }
 
 describe("GOOGLE_MEET_PLATFORM_ADAPTER audio routing", () => {
-  it.each(["BlackHole 2ch", "Monitor of OpenClaw Meeting Audio"])(
+  it.each(["BlackHole 2ch", "Monitor of FRIDAY Meeting Audio"])(
     "selects and verifies %s for bidirectional Meet audio",
     async (label) => {
       const { health, media, microphone, select } = await runAudioStatus(label);
@@ -146,7 +146,7 @@ describe("GOOGLE_MEET_PLATFORM_ADAPTER audio routing", () => {
         audioInputRouted: true,
         audioInputDeviceLabel: label,
         audioOutputRouted: true,
-        audioOutputDeviceLabel: label.includes("OpenClaw") ? "OpenClaw Meeting Audio" : label,
+        audioOutputDeviceLabel: label.includes("FRIDAY") ? "FRIDAY Meeting Audio" : label,
         micMuted: false,
       });
       expect(health.manualAction).toBeUndefined();
@@ -162,7 +162,7 @@ describe("GOOGLE_MEET_PLATFORM_ADAPTER audio routing", () => {
         inCall: true,
         micMuted: false,
         audioInputRouted: true,
-        audioInputDeviceLabel: "OpenClaw Meeting Audio",
+        audioInputDeviceLabel: "FRIDAY Meeting Audio",
         audioOutputRouted: false,
         manualAction: {
           reason: "meet-audio-choice-required",
@@ -173,7 +173,7 @@ describe("GOOGLE_MEET_PLATFORM_ADAPTER audio routing", () => {
 
     expect(pending).toMatchObject({
       audioInputRouted: true,
-      audioInputDeviceLabel: "OpenClaw Meeting Audio",
+      audioInputDeviceLabel: "FRIDAY Meeting Audio",
       audioOutputRouted: false,
     });
     if (!pending) {
@@ -192,14 +192,14 @@ describe("GOOGLE_MEET_PLATFORM_ADAPTER audio routing", () => {
 
   it("keeps Meet muted and reports manual action when input selection cannot be verified", async () => {
     const { health, microphone } = await runAudioStatus(
-      "OpenClaw Meeting Audio",
+      "FRIDAY Meeting Audio",
       ["MacBook Microphone"],
       "Turn off microphone",
     );
 
     expect(health).toMatchObject({
       audioInputRouted: false,
-      audioInputRouteError: "Meet did not confirm OpenClaw Meeting Audio as its microphone.",
+      audioInputRouteError: "Meet did not confirm FRIDAY Meeting Audio as its microphone.",
       audioOutputRouted: true,
       micMuted: true,
       manualAction: { reason: "meet-audio-choice-required" },

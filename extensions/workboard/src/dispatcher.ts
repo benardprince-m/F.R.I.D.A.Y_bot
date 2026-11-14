@@ -439,7 +439,7 @@ async function runWorkboardDispatch(
         sessionKey,
         ...(assertOwnerCurrent ? { assertCurrent: assertOwnerCurrent } : {}),
         message: [
-          `Work on this OpenClaw Workboard card: ${claimed.card.title}`,
+          `Work on this FRIDAY Workboard card: ${claimed.card.title}`,
           "",
           "## Worker protocol",
           `Card id: ${claimed.card.id}`,

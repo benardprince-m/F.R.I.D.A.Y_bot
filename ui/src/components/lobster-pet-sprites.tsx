@@ -149,7 +149,7 @@ export const SPLIT_HALF = staticSprite(`
 <path class="lob-split-half" d="M60 8 C88 8 104 32 104 52 C104 72 90 90 76 95 L76 104 L66 104 L66 96 C64 96.8 62 97.1 60 97.1 L60 8 Z" fill="var(--lob-shell2, #46536b)"></path>
 `);
 
-// Retro homage parts (classic OpenClaw logo): one oversized raised claw with
+// Retro homage parts (classic FRIDAY logo): one oversized raised claw with
 // a pincer notch, tall V antennae, angry brows, and a smirk. The mega claw
 // lives inside the .lob-claw--r group so wave/snip acts swing it.
 export const RETRO_MEGA_CLAW = staticSprite(`

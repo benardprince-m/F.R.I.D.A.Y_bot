@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct LogLocatorTests {
     @Test func `launchd gateway log path ensures tmp dir exists`() async {

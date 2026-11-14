@@ -213,7 +213,7 @@ function monitorConfig(
         tls: false,
         nick,
         username: "bot",
-        realname: "OpenClaw",
+        realname: "FRIDAY",
         ...extra,
       },
     },

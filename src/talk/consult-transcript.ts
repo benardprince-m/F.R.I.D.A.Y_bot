@@ -1,6 +1,6 @@
 /**
  * ASR often emits partial fragments or polite closings that should not trigger
- * an OpenClaw consult. This classifier names those skip reasons for callers.
+ * an FRIDAY consult. This classifier names those skip reasons for callers.
  */
 const REALTIME_VOICE_CONSULT_TRAILING_FRAGMENT_WORDS = new Set([
   "a",

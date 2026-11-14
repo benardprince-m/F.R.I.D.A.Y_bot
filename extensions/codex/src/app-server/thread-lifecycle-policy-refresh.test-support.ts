@@ -343,9 +343,9 @@ export function registerThreadPolicyRefreshTests({
         ]);
         const policy = JSON.stringify(requests.at(-1)?.params);
         expect(policy).toContain(
-          developerInstructions || "earlier OpenClaw generic policy is withdrawn",
+          developerInstructions || "earlier FRIDAY generic policy is withdrawn",
         );
-        expect(policy).toContain("It replaces earlier OpenClaw-supplied generic policy");
+        expect(policy).toContain("It replaces earlier FRIDAY-supplied generic policy");
         expect((await readCodexAppServerBinding(sessionFile))?.threadId).toBe(threadId);
       } finally {
         releaseLeasedSharedCodexAppServerClient(wire.client);

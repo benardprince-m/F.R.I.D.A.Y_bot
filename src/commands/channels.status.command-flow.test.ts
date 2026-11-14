@@ -293,7 +293,7 @@ describe("channelsStatusCommand SecretRef fallback flow", () => {
 
     await channelsStatusCommand({ probe: false }, runtime);
 
-    expect(errors.join("\n")).toContain("Couldn't connect to OpenClaw.");
+    expect(errors.join("\n")).toContain("Couldn't connect to FRIDAY.");
     expect(errors.join("\n")).not.toContain("Gateway auth unavailable");
     expect(mocks.resolveCommandConfigWithSecrets).toHaveBeenCalledOnce();
     const configResolutionRequest = mocks.resolveCommandConfigWithSecrets.mock.calls[0]?.[0];

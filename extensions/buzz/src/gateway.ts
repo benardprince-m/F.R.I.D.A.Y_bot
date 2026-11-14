@@ -55,12 +55,12 @@ function resolveBuzzProfileName(params: {
     ),
   );
   if (agentIds.size !== 1) {
-    return "OpenClaw";
+    return "FRIDAY";
   }
   const agentId = agentIds.values().next().value;
   return agentId
-    ? runtime.agent.resolveAgentIdentity(params.cfg, agentId)?.name?.trim() || "OpenClaw"
-    : "OpenClaw";
+    ? runtime.agent.resolveAgentIdentity(params.cfg, agentId)?.name?.trim() || "FRIDAY"
+    : "FRIDAY";
 }
 
 export async function startBuzzGatewayAccount(ctx: ChannelGatewayContextV2<ResolvedBuzzAccount>) {

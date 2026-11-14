@@ -62,7 +62,7 @@ development layouts with session tables and a schema version below 8, the
 `session_transcript_files` cache, and the session-key-based transcript search
 index are no longer migrated. Doctor preserves those databases and refuses before
 repair. Preserve a complete copy of the state directory and configuration,
-including shared agent registration. Run `openclaw doctor --fix` with OpenClaw
+including shared agent registration. Run `openclaw doctor --fix` with FRIDAY
 `2026.9.7` against that copy. If Doctor holds a store because its ownership cannot
 be verified, follow the explicit agent-restoration instructions it reports, then
 rerun Doctor before upgrading the copy. Schema-8 and later session migrations

@@ -24,7 +24,7 @@ type Workflow = {
 it("isolates the source performance gateway from network and scheduled work", () => {
   const workflow = parse(readFileSync(WORKFLOW, "utf8")) as Workflow;
   const job = workflow.jobs?.source_performance;
-  const targetStepName = "Run OpenClaw source performance probes";
+  const targetStepName = "Run FRIDAY source performance probes";
   const jobSteps = job?.steps ?? [];
   const targetStepIndex = jobSteps.findIndex((item) => item.name === targetStepName);
   const step = expectDefined(jobSteps[targetStepIndex], targetStepName);

@@ -294,7 +294,7 @@ function formatSystemLaunchDaemonOwnershipError(ownership: SystemLaunchDaemonCon
   return [
     formatSystemLaunchDaemonOwnershipSummary(ownership),
     "Refusing to create or activate a user LaunchAgent for the same label because duplicate KeepAlive managers can restart-loop the gateway.",
-    "OpenClaw does not manage system LaunchDaemons, and --force does not override system ownership.",
+    "FRIDAY does not manage system LaunchDaemons, and --force does not override system ownership.",
     recovery,
   ].join("\n");
 }

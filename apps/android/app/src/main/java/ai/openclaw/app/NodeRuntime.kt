@@ -2821,7 +2821,7 @@ class NodeRuntime internal constructor(
 
   private fun applyScreenshotFixture() {
     check(BuildConfig.DEBUG) { "Android screenshot fixtures require a debug build" }
-    _serverName.value = "OpenClaw Gateway"
+    _serverName.value = "FRIDAY Gateway"
     _remoteAddress.value = "Mac Studio on local network"
     _gatewayVersion.value = BuildConfig.VERSION_NAME
     replaceGatewayMethods(

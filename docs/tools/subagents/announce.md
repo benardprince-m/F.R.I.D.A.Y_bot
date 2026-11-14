@@ -20,7 +20,7 @@ By default, delivery depends on requester depth:
 
 - Top-level requester sessions use a follow-up `agent` call. External conversations use `deliver=true`; WebChat conversations stay in-session with `deliver=false`.
 - Nested requester subagent sessions receive an internal follow-up injection (`deliver=false`) so the orchestrator can synthesize child results in-session.
-- If a nested requester subagent session is gone, OpenClaw falls back to that session's requester when available.
+- If a nested requester subagent session is gone, FRIDAY falls back to that session's requester when available.
 
 The requester turn's captured origin owns completion routing, including after
 `sessions_yield` and for child pause notices. A WebChat origin does not inherit a
@@ -72,7 +72,7 @@ recovery. Permanent delivery rejections still stop recovery, including when they
 are wrapped by a writer-claim error.
 
 If a chunk in a direct-message text fallback fails or is aborted after earlier
-chunks were sent, OpenClaw records an incomplete delivery. It stops automatic
+chunks were sent, FRIDAY records an incomplete delivery. It stops automatic
 retries to avoid duplicating chunks the recipient already received. A successful
 child's result remains available for recovery.
 
@@ -83,7 +83,7 @@ private turn of the original requester session. The parent reviews the result,
 continues unfinished work, and settles the reviewed input. Private processing that
 the input owner marks optional may finish silently; it does not by itself satisfy
 an outstanding user reply.
-OpenClaw does not automatically send the child result, parent final, or
+FRIDAY does not automatically send the child result, parent final, or
 generated media to a channel. The parent can still choose to send a message
 through its permitted tools.
 
@@ -154,7 +154,7 @@ If completion receipts for the same run arrive out of order, the receipt with
 the newer producer end time owns the reply. Equal end times retain the first
 accepted reply; a correction with a newer end time can replace it.
 
-OpenClaw preserves prompt-data escaping and stable order when it delivers several
+FRIDAY preserves prompt-data escaping and stable order when it delivers several
 results together. Completion findings have a strict shared 160,000-character cap,
 including escaping and framing. Small answers stay intact; larger answers keep
 their beginning and an explicit truncation marker pointing to `sessions_history`

@@ -209,7 +209,7 @@ export async function prepareOpenClawAgentDatabaseRegistryRemoval(
   }).read();
   read.assertCurrent();
   if (read.result.status !== "available") {
-    throw new Error("OpenClaw agent database registry is unavailable during deletion.");
+    throw new Error("FRIDAY agent database registry is unavailable during deletion.");
   }
   const sources = read.result.entries.filter((entry) => entry.agentId === agentId);
   // Unregistered stores do not establish which retained selections deletion can affect.
@@ -479,7 +479,7 @@ export function readRegisteredAgentDatabases(
   const finish = (entries: OpenClawRegisteredAgentDatabase[] | undefined) => {
     if (entries === undefined) {
       if (hasUnavailableMissingSqlitePath(pathname)) {
-        throw new Error(`OpenClaw state database ${pathname} is unavailable.`);
+        throw new Error(`FRIDAY state database ${pathname} is unavailable.`);
       }
       return [];
     }
@@ -503,7 +503,7 @@ export async function inspectOpenClawRegisteredAgentDatabases(
       { current: true },
     );
     if (read?.result.status === "unavailable") {
-      throw new Error(`OpenClaw state database ${resolveDatabasePath(options)} is unavailable.`);
+      throw new Error(`FRIDAY state database ${resolveDatabasePath(options)} is unavailable.`);
     }
     return cloneRegisteredAgentDatabases(read?.result.entries ?? [], options);
   }
@@ -529,7 +529,7 @@ export async function listOpenClawRegisteredAgentDatabasesAsync(
 ): Promise<OpenClawRegisteredAgentDatabase[]> {
   const snapshot = await prepareOpenClawAgentDatabaseRegistrySnapshotRead(options).read();
   if (snapshot.result.status !== "available") {
-    throw new Error(`OpenClaw state database ${resolveDatabasePath(options)} is unavailable.`);
+    throw new Error(`FRIDAY state database ${resolveDatabasePath(options)} is unavailable.`);
   }
   return snapshot.result.entries;
 }

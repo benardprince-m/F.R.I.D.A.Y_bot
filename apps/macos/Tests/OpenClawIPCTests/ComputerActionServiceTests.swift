@@ -2,7 +2,7 @@ import CoreGraphics
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @MainActor
 struct ComputerActionServiceTests {

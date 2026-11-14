@@ -91,7 +91,7 @@ export class CodexServerRequests {
         });
         deadline.resolve(
           failedToolResponse(
-            `OpenClaw dynamic tool call timed out after ${timeoutMs}ms before sending a response to Codex.`,
+            `FRIDAY dynamic tool call timed out after ${timeoutMs}ms before sending a response to Codex.`,
           ),
         );
         controller.abort(new Error("codex app-server server request timed out"));
@@ -177,7 +177,7 @@ export class CodexServerRequests {
 
 function defaultServerRequestResponse(request: ServerRequest): JsonValue {
   if (request.method === "item/tool/call") {
-    return failedToolResponse("OpenClaw did not register a handler for this app-server tool call.");
+    return failedToolResponse("FRIDAY did not register a handler for this app-server tool call.");
   }
   if (
     request.method === "item/commandExecution/requestApproval" ||
@@ -193,7 +193,7 @@ function defaultServerRequestResponse(request: ServerRequest): JsonValue {
   }
   if (request.method === "mcpServer/elicitation/request") {
     return createCodexElicitationResponse("decline", null, {
-      message: "OpenClaw has no interactive handler for this elicitation.",
+      message: "FRIDAY has no interactive handler for this elicitation.",
     });
   }
   return {};

@@ -39,7 +39,7 @@ pub enum CliError {
 impl fmt::Display for CliError {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::Missing => write!(formatter, "OpenClaw CLI not found"),
+            Self::Missing => write!(formatter, "FRIDAY CLI not found"),
             Self::Environment(message)
             | Self::Spawn(message)
             | Self::CommandFailed(message)
@@ -97,7 +97,7 @@ impl OpenClawCli {
         self.output(["--version"]).is_ok_and(|output| {
             let stdout = String::from_utf8_lossy(&output.stdout);
             let reported = stdout.trim();
-            let reported = reported.strip_prefix("OpenClaw ").unwrap_or(reported);
+            let reported = reported.strip_prefix("FRIDAY ").unwrap_or(reported);
             output.status.success() && reported.split_whitespace().next() == Some(version)
         })
     }
@@ -112,7 +112,7 @@ impl OpenClawCli {
             return Ok(());
         }
         Err(CliError::Spawn(format!(
-            "OpenClaw CLI exited with {}",
+            "FRIDAY CLI exited with {}",
             output.status
         )))
     }
@@ -149,10 +149,10 @@ impl OpenClawCli {
         command.stdout(Stdio::piped()).stderr(Stdio::piped());
         let child = command.spawn().map_err(|error| {
             self.available.store(false, Ordering::Release);
-            CliError::Spawn(format!("Failed to run OpenClaw CLI: {error}"))
+            CliError::Spawn(format!("Failed to run FRIDAY CLI: {error}"))
         })?;
         child.wait_with_output().map_err(|error| {
-            CliError::Spawn(format!("Failed to read OpenClaw CLI output: {error}"))
+            CliError::Spawn(format!("Failed to read FRIDAY CLI output: {error}"))
         })
     }
 
@@ -168,11 +168,11 @@ impl OpenClawCli {
         if !output.status.success() {
             let message = output_tail(&output.stderr)
                 .or_else(|| output_tail(&output.stdout))
-                .unwrap_or_else(|| format!("OpenClaw CLI exited with {}", output.status));
+                .unwrap_or_else(|| format!("FRIDAY CLI exited with {}", output.status));
             return Err(CliError::CommandFailed(message));
         }
         serde_json::from_slice(&output.stdout).map_err(|error| {
-            CliError::InvalidJson(format!("OpenClaw CLI returned invalid JSON: {error}"))
+            CliError::InvalidJson(format!("FRIDAY CLI returned invalid JSON: {error}"))
         })
     }
 

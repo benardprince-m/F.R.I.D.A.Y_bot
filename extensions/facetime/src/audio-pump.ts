@@ -22,8 +22,8 @@ const SOX_COMMAND =
     "/opt/homebrew/bin/sox",
     "/usr/local/bin/sox",
   ].find((path): path is string => Boolean(path && existsSync(path))) ?? "sox";
-export const FACETIME_FEED_DEVICE_NAME = "OpenClaw-Feed";
-export const FACETIME_MIC_DEVICE_NAME = "OpenClaw-Mic";
+export const FACETIME_FEED_DEVICE_NAME = "FRIDAY-Feed";
+export const FACETIME_MIC_DEVICE_NAME = "FRIDAY-Mic";
 const MAX_PLAYBACK_BUFFERED_BYTES = 2 * 1024 * 1024;
 
 type AudioProcess =
@@ -276,7 +276,7 @@ export function startFaceTimeAudioPump(params: {
   };
   const spawnOutput = () => {
     // Playback stays out of the capture helper: an in-process AVAudioEngine can
-    // rebind OpenClaw-Feed after FaceTime claims it and tear down the carrier.
+    // rebind FRIDAY-Feed after FaceTime claims it and tear down the carrier.
     const proc = spawnAudioProcess({ kind: "playback" }, childEnv);
     const onError = (error: Error) => {
       if (!stopped && !mediaSuspended && proc === outputProcess) {
@@ -353,7 +353,7 @@ export function startFaceTimeAudioPump(params: {
         captureSuppressionActive = true;
         captureReady.settle();
       }
-      if (line.includes("verified OpenClaw-Mic input route")) {
+      if (line.includes("verified FRIDAY-Mic input route")) {
         routeReady.settle();
       }
       const fatal = line.match(/facetime-audio-capture: fatal(?:-safety-retained)?:\s*(.*)$/u);

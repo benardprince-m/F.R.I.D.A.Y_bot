@@ -26,7 +26,7 @@ const CONFIG_WRITE_PREFIXES = new Map<SystemChangeEntry["source"], string>([
   ["doctor", "Doctor updated configuration"],
   ["config-rpc", "Settings updated configuration"],
   ["plugin-install", "Plugin installation updated configuration"],
-  ["system-agent", "OpenClaw updated configuration"],
+  ["system-agent", "FRIDAY updated configuration"],
   ["cli", "CLI updated configuration"],
 ]);
 
@@ -194,7 +194,7 @@ function toConfigCandidate(
       source,
       summary: summarizePaths(
         value.event === "config.external"
-          ? "Configuration edited outside OpenClaw"
+          ? "Configuration edited outside FRIDAY"
           : (CONFIG_WRITE_PREFIXES.get(source) ?? "Configuration updated"),
         changedPaths,
       ),

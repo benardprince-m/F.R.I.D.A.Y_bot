@@ -776,7 +776,7 @@ function buildEffectivePolicyReport(params: {
     return {
       scopes: [],
       note: params.nativePolicy
-        ? "This node enforces a host-native exec policy; OpenClaw approvals-file policy math does not apply."
+        ? "This node enforces a host-native exec policy; FRIDAY approvals-file policy math does not apply."
         : "Host approvals policy unavailable.",
     };
   }

@@ -495,7 +495,7 @@ Failing check node-runtime (node-runtime-preflight); key engines.node: ${runtime
   it("does not clean handoffs before rejecting an unknown package owner", async () => {
     mockPackageInstallStatus(createCaseDir("openclaw-unknown-owner"));
     const refusal =
-      "Update refused: package manager owner is unknown; no changes were made. Run this OpenClaw install through its active npm, pnpm, or Bun global shim, or reinstall it with that package manager, then retry.";
+      "Update refused: package manager owner is unknown; no changes were made. Run this FRIDAY install through its active npm, pnpm, or Bun global shim, or reinstall it with that package manager, then retry.";
     resolveGlobalManager.mockRejectedValueOnce(
       new UpdatePreMutationError("unmanaged-package-install", refusal),
     );
@@ -800,7 +800,7 @@ Failing check node-runtime (node-runtime-preflight); key engines.node: ${runtime
 
       const successIndex = vi
         .mocked(defaultRuntime.log)
-        .mock.calls.findIndex((call) => String(call[0]).includes("OpenClaw updated"));
+        .mock.calls.findIndex((call) => String(call[0]).includes("FRIDAY updated"));
       expect(successIndex).toBeGreaterThanOrEqual(0);
       expect(vi.mocked(defaultRuntime.log).mock.invocationCallOrder[successIndex]).toBeGreaterThan(
         restartOrder,

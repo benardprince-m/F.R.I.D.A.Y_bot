@@ -534,9 +534,9 @@ class SidebarCatalogGroupingTest {
       composeRule.onNodeWithText("topic/native").assertIsDisplayed()
 
       composeRule.runOnIdle {
-        liveSessions.value = liveSessions.value.map { it.copy(label = "Renamed in OpenClaw") }
+        liveSessions.value = liveSessions.value.map { it.copy(label = "Renamed in FRIDAY") }
       }
-      composeRule.onNodeWithText("Renamed in OpenClaw").performScrollTo().assertIsDisplayed()
+      composeRule.onNodeWithText("Renamed in FRIDAY").performScrollTo().assertIsDisplayed()
       composeRule.onNodeWithText("Native title").assertDoesNotExist()
 
       composeRule.runOnIdle {
@@ -546,7 +546,7 @@ class SidebarCatalogGroupingTest {
             catalogs = listOf(catalog.copy(hosts = listOf(refreshedHost))),
           )
       }
-      composeRule.onNodeWithText("Renamed in OpenClaw").assertIsDisplayed()
+      composeRule.onNodeWithText("Renamed in FRIDAY").assertIsDisplayed()
       composeRule.onNodeWithText("Refreshed native title").assertDoesNotExist()
 
       composeRule.runOnIdle {

@@ -8,7 +8,7 @@ export function normalizeTerminalFontFamily(value: unknown): string | undefined 
 }
 
 const DEFAULT_TERMINAL_FONT_FAMILY =
-  '"JetBrains Mono", "OpenClaw Nerd Symbols", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+  '"JetBrains Mono", "FRIDAY Nerd Symbols", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
 
 export function terminalFontFamily(value?: string): string {
   const family = normalizeTerminalFontFamily(value);

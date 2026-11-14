@@ -9,7 +9,7 @@ Prefer searching ClawHub for plugins unless the user explicitly asks for a skill
 Search before claiming that a requested capability is unavailable.
 
 Use `openclaw skills` for explicitly requested skill discovery and for managing
-skills for the current OpenClaw agent. Use the standalone `clawhub` CLI to uninstall
+skills for the current FRIDAY agent. Use the standalone `clawhub` CLI to uninstall
 installed ClawHub skills and for publishing, syncing, and publisher account
 workflows.
 
@@ -65,7 +65,7 @@ clawhub uninstall @owner/my-skill
 ```
 
 The CLI asks for confirmation before removing the skill and its lockfile entry.
-Use the original agent workspace for agent-specific skills or the OpenClaw
+Use the original agent workspace for agent-specific skills or the FRIDAY
 state directory for skills installed with `--global`:
 
 ```bash

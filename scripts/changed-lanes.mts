@@ -107,7 +107,7 @@ export const RELEASE_METADATA_PATHS = new Set([
   "apps/android/fastlane/metadata/android/en-US/release_notes.txt",
   "apps/android/version.json",
   "apps/ios/CHANGELOG.md",
-  "apps/macos/Sources/OpenClaw/Resources/Info.plist",
+  "apps/macos/Sources/FRIDAY/Resources/Info.plist",
   ...CONFIG_DOC_BASELINE_PATHS,
   "docs/install/updating.md",
   "docs/install/updating/automatic-updates.md",

@@ -101,7 +101,7 @@ describe("install.sh", () => {
       },
     });
     expect(result.status, result.stdout + result.stderr).toBe(0);
-    expect(result.stdout).toContain("OpenClaw installer (macOS + Linux)");
+    expect(result.stdout).toContain("FRIDAY installer (macOS + Linux)");
     expect(result.stderr).not.toContain("Run this installer with /bin/bash");
     expect(readdirSync(tmp)).toEqual([]);
   });
@@ -1669,7 +1669,7 @@ EOF
       expect(result.stderr).not.toContain("forbidden external command");
 
       const output = result.stdout;
-      const successMatches = output.match(/OpenClaw installed successfully/g) ?? [];
+      const successMatches = output.match(/FRIDAY installed successfully/g) ?? [];
       const doctorIndex = output.indexOf("event:doctor");
       const verificationIndex = output.indexOf("event:verification");
       const successIndex = output.indexOf("event:success:");
@@ -1740,7 +1740,7 @@ EOF
     expect(result.stdout).not.toContain("old-owner-removed");
   });
 
-  it("rejects OpenClaw GitHub source targets for npm installs", () => {
+  it("rejects FRIDAY GitHub source targets for npm installs", () => {
     const result = runInstallShell(`
       set -euo pipefail
       source "${SCRIPT_PATH}"
@@ -1754,7 +1754,7 @@ EOF
 
     expect(result.status).toBe(0);
     expect(result.stdout).toContain("status=1");
-    expect(result.stdout).toContain("npm installs do not support OpenClaw GitHub source targets");
+    expect(result.stdout).toContain("npm installs do not support FRIDAY GitHub source targets");
     expect(result.stdout).toContain("--install-method git --version main");
   });
 
@@ -1779,7 +1779,7 @@ EOF
         writeFileSync(
           join(packageDir, "openclaw.mjs"),
           launcher === "valid"
-            ? '#!/usr/bin/env node\nprocess.stdout.write("OpenClaw fixture\\n");\n'
+            ? '#!/usr/bin/env node\nprocess.stdout.write("FRIDAY fixture\\n");\n'
             : "#!/bin/sh\nexit 7\n",
           { mode: 0o755 },
         );
@@ -1796,7 +1796,7 @@ EOF
       );
       if (launcher === "valid") {
         expect(result.status, result.stderr || result.stdout).toBe(0);
-        expect(result.stdout).toContain("OpenClaw fixture");
+        expect(result.stdout).toContain("FRIDAY fixture");
       } else if (launcher === "missing") {
         expect(result.status).toBe(1);
         expect(existsSync(join(bin, "openclaw"))).toBe(false);
@@ -2038,7 +2038,7 @@ EOF
       install_homebrew() { echo unexpected-homebrew; exit 91; }
       install_node() { echo unexpected-system-install; exit 92; }
       ui_stage() {
-        if [[ "$1" == "Installing OpenClaw" ]]; then
+        if [[ "$1" == "Installing FRIDAY" ]]; then
           printf 'selected=%s\\n' "$(command -v node)"
           exit 0
         fi
@@ -3226,7 +3226,7 @@ exit 0
   });
 });
 
-describe("install.sh duplicate OpenClaw install detection", () => {
+describe("install.sh duplicate FRIDAY install detection", () => {
   it("warns with concrete package paths and versions for duplicate npm roots", () => {
     const result = runInstallShell(`
       set -euo pipefail
@@ -3243,7 +3243,7 @@ describe("install.sh duplicate OpenClaw install detection", () => {
     `);
 
     expect(result.status).toBe(0);
-    expect(result.stdout).toContain("Multiple OpenClaw global installs detected");
+    expect(result.stdout).toContain("Multiple FRIDAY global installs detected");
     expect(result.stdout).toContain("2026.3.7");
     expect(result.stdout).toContain("2026.3.1");
     expect(result.stdout).toContain("/brew/openclaw");

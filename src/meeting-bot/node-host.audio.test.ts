@@ -34,7 +34,7 @@ const AUDIO_START_PARAMS = {
 } as const;
 const PREPARED_AUDIO = {
   backend: "pipewire-pulse" as const,
-  deviceLabel: "OpenClaw Meeting Audio",
+  deviceLabel: "FRIDAY Meeting Audio",
   inputCommand: ["parec"],
   outputCommand: ["pacat"],
 };
@@ -241,7 +241,7 @@ describe("meeting node host audio backend", () => {
     );
     expect(started).toMatchObject({
       audioBackend: "pipewire-pulse",
-      audioDeviceLabel: "OpenClaw Meeting Audio",
+      audioDeviceLabel: "FRIDAY Meeting Audio",
       audioBridge: { type: "node-command-pair" },
     });
     await invokeHost(host, { action: "stop", bridgeId: started.bridgeId });
@@ -289,7 +289,7 @@ describe("meeting node host audio backend", () => {
     ).resolves.toEqual({
       ok: true,
       audioBackend: "pipewire-pulse",
-      audioDeviceLabel: "OpenClaw Meeting Audio",
+      audioDeviceLabel: "FRIDAY Meeting Audio",
     });
     expect(childProcessMocks.spawn).not.toHaveBeenCalled();
   });

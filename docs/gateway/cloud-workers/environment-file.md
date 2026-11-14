@@ -5,11 +5,11 @@ read_when: "You want repository-defined setup or startup commands for cloud sess
 doc-schema-version: 1
 ---
 
-Commit `.devcontainer/devcontainer.json` to customize repository preparation and startup. OpenClaw supports a host-mode subset of the Dev Container specification: commands run directly on the cloud machine as the worker user, in the prepared workspace. It does not start a container.
+Commit `.devcontainer/devcontainer.json` to customize repository preparation and startup. FRIDAY supports a host-mode subset of the Dev Container specification: commands run directly on the cloud machine as the worker user, in the prepared workspace. It does not start a container.
 
 ## Recipe precedence
 
-OpenClaw selects one recipe from the admitted Git commit, in this order:
+FRIDAY selects one recipe from the admitted Git commit, in this order:
 
 1. `.devcontainer/devcontainer.json`.
 2. `.devcontainer.json` at the repository root.
@@ -48,11 +48,11 @@ Dependency installation is reusable in the snapshot. The build and server start 
 
 ## Ignored properties
 
-Unsupported properties are ignored with a recorded note. These include `image`, `build`, `dockerComposeFile`, `runArgs`, `mounts`, `remoteUser`, `features`, `hostRequirements`, and `customizations`. OpenClaw does not install Dev Container Features. See the [supported fields above](/gateway/cloud-workers/environment-file#lifecycle-and-snapshots) and setup-secret requests below rather than assuming the full [Dev Container specification](https://containers.dev/implementors/json_reference/) applies.
+Unsupported properties are ignored with a recorded note. These include `image`, `build`, `dockerComposeFile`, `runArgs`, `mounts`, `remoteUser`, `features`, `hostRequirements`, and `customizations`. FRIDAY does not install Dev Container Features. See the [supported fields above](/gateway/cloud-workers/environment-file#lifecycle-and-snapshots) and setup-secret requests below rather than assuming the full [Dev Container specification](https://containers.dev/implementors/json_reference/) applies.
 
 ## Built-in detection
 
-Without a devcontainer file, an executable `.openclaw/worktree-setup.sh` runs before capture. With neither, OpenClaw uses the first matching lockfile:
+Without a devcontainer file, an executable `.openclaw/worktree-setup.sh` runs before capture. With neither, FRIDAY uses the first matching lockfile:
 
 | Lockfile                  | Preparation                                                                                                       |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------- |

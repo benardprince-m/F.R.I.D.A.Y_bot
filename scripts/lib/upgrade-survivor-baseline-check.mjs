@@ -21,7 +21,7 @@ function probeBaseline(baseline) {
     writeFileSync(config, JSON.stringify({ gateway: { mode: "local" } }));
     writeFileSync(npmrc, "");
     // Published bytes must never resolve through the candidate registry or the
-    // operator's npm/OpenClaw configuration. Nothing survives this probe's home.
+    // operator's npm/FRIDAY configuration. Nothing survives this probe's home.
     const env = {
       PATH: process.env.PATH,
       HOME: root,

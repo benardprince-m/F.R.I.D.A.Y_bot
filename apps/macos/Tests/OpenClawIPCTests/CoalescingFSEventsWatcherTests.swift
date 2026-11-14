@@ -1,7 +1,7 @@
 import Foundation
 import os
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @Suite(.testWaitLimit)
 struct CoalescingFSEventsWatcherTests {

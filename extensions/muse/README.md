@@ -1,6 +1,6 @@
-# Muse Code agent runtime (OpenClaw plugin)
+# Muse Code agent runtime (FRIDAY plugin)
 
-External OpenClaw plugin that registers a `muse` agent harness backed by
+External FRIDAY plugin that registers a `muse` agent harness backed by
 `@muse-code/sdk` and Meta's Muse Code CLI (`muse serve`).
 
 ## Install
@@ -32,4 +32,4 @@ events cannot replace the newer state.
 
 - Plugin id: `muse`
 - Package: `@openclaw/muse`
-- Minimum OpenClaw host: `2026.10.2`
+- Minimum FRIDAY host: `2026.10.2`

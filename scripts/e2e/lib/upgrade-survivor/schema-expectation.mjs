@@ -311,7 +311,7 @@ function prepare(baselineVersion, candidateTarball, stateDir, snapshotFile, conf
       maxBuffer: 1024 * 1024,
     }),
   );
-  assert.equal(manifest.name, "openclaw", "candidate is not an OpenClaw package");
+  assert.equal(manifest.name, "openclaw", "candidate is not an FRIDAY package");
   for (const kind of ["state", "agent"]) {
     assert(
       Number.isInteger(manifest.openclaw?.schemaVersions?.[kind]) &&

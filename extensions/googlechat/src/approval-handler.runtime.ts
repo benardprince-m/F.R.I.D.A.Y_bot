@@ -149,7 +149,7 @@ function buildPendingPayload(params: {
     view.approvalKind === "plugin"
       ? "Plugin Approval Required"
       : view.approvalKind === "system-agent"
-        ? "OpenClaw Change Requires Approval"
+        ? "FRIDAY Change Requires Approval"
         : "Exec Approval Required";
   const subtitle = `Expires in ${Math.max(0, Math.ceil((view.expiresAtMs - nowMs) / 1000))}s`;
   const card: GoogleChatCardV2 = {
@@ -191,7 +191,7 @@ function buildFinalPayload(
     view.approvalKind === "plugin"
       ? "Plugin"
       : view.approvalKind === "system-agent"
-        ? "OpenClaw Change"
+        ? "FRIDAY Change"
         : "Exec";
   return {
     cardsV2: [

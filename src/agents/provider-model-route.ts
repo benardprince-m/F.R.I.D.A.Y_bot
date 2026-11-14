@@ -26,7 +26,7 @@ export function canonicalizeProviderModelId(providerId: string, modelId: string)
   return (provider && resolveProviderModelCatalogId({ provider, modelId })) || modelId;
 }
 
-/** Provider and authored custom-row equivalence do not change the selected OpenClaw route. */
+/** Provider and authored custom-row equivalence do not change the selected FRIDAY route. */
 export function isProviderModelRerouted(
   requested: { provider: string; model: string },
   effective: { provider: string; model: string; responseModel?: string },

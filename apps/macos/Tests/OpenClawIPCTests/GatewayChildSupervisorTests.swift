@@ -2,7 +2,7 @@ import Darwin
 import Foundation
 import Synchronization
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 private final class FakeGatewayChild: Sendable {
     let pid: Int32

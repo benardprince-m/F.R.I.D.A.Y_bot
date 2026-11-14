@@ -59,7 +59,7 @@ function getChannelApiRetryAfterMs(err: unknown): number | undefined {
 /**
  * Creates a generic rate-limit-aware retry runner from explicit retry policy pieces.
  *
- * @deprecated Retained for plugins built against OpenClaw 2026.10.4 and earlier through
+ * @deprecated Retained for plugins built against FRIDAY 2026.10.4 and earlier through
  * `openclaw/plugin-sdk/retry-runtime`; compose resolveRetryConfig and retryAsync. Tracked by
  * `plugin-sdk-private-runtime-shipped-exports`.
  */

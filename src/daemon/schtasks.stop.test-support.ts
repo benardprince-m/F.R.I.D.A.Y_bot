@@ -107,7 +107,7 @@ const GATEWAY_OWNER: GatewayOwnerLeaseIdentity = {
   startedAt: 100,
   port: GATEWAY_PORT,
   mode: "supervised",
-  supervisor: { kind: "schtasks", name: "OpenClaw Gateway" },
+  supervisor: { kind: "schtasks", name: "FRIDAY Gateway" },
   state: "live",
   expired: false,
 };

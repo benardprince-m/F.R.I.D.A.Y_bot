@@ -20,8 +20,8 @@ const INFLECTED_COUNT_SEGMENT_RE =
   /\^\[[^\]]*\\\([A-Za-z_][A-Za-z0-9_]*\)[^\]]*\]\(inflect: true\)/gu;
 const INFLECTED_COUNT_MARKER = "](inflect: true)";
 const IOS_CATALOG_PATH = "apps/ios/Resources/Localizable.xcstrings";
-const MACOS_CATALOG_PATH = "apps/macos/Sources/OpenClaw/Resources/Localizable.xcstrings";
-const MACOS_INFO_PLIST_PATH = "apps/macos/Sources/OpenClaw/Resources/Info.plist";
+const MACOS_CATALOG_PATH = "apps/macos/Sources/FRIDAY/Resources/Localizable.xcstrings";
+const MACOS_INFO_PLIST_PATH = "apps/macos/Sources/FRIDAY/Resources/Info.plist";
 const NATIVE_SOURCE_PATH = "apps/.i18n/native-source.json";
 const NATIVE_TRANSLATIONS_DIR = "apps/.i18n/native";
 const SHARED_CHAT_UI_SOURCE_PREFIX = "apps/shared/OpenClawKit/Sources/OpenClawChatUI/";
@@ -34,17 +34,17 @@ const IOS_SOURCE_PREFIXES = [
 ] as const;
 const IOS_CATALOG_EXCLUSIONS = new Set([
   // Product names and preview-only single-character fixtures are intentionally verbatim.
-  "OpenClaw",
+  "FRIDAY",
   "z",
 ]);
 const MACOS_SOURCE_PREFIXES = [
-  "apps/macos/Sources/OpenClaw/",
+  "apps/macos/Sources/FRIDAY/",
   SHARED_CHAT_UI_SOURCE_PREFIX,
   SHARED_GATEWAY_DISCOVERY_STATUS_SOURCE,
 ] as const;
 const MACOS_CATALOG_EXCLUSIONS = new Set([
   // Product names are intentionally verbatim.
-  "OpenClaw",
+  "FRIDAY",
 ]);
 const IOS_INFO_PLIST_TARGETS = [
   {
@@ -130,12 +130,12 @@ const APPLE_LOCALE_DIRECTORIES: Record<string, string> = {
   "zh-TW": "zh-Hant",
 };
 const LOCALIZED_WRAPPER_CONTRACTS: Record<string, readonly string[]> = {
-  "apps/macos/Sources/OpenClaw/DeviceSettingsPanels.swift": [
+  "apps/macos/Sources/FRIDAY/DeviceSettingsPanels.swift": [
     'String(localized: "Quick Chat shortcut")',
     'String(localized: "Microphone Test")',
     'Button("Done")',
   ],
-  "apps/macos/Sources/OpenClaw/DeviceMicrophonePanel.swift": [
+  "apps/macos/Sources/FRIDAY/DeviceMicrophonePanel.swift": [
     'String(localized: "Stopped")',
     'String(localized: "Timeout: no trigger heard")',
     "Text(verbatim: meterError)",
@@ -379,7 +379,7 @@ type InfoPlistTranslation = {
 function parseStringsFile(source: string): Map<string, InfoPlistTranslation> {
   const values = new Map<string, InfoPlistTranslation>();
   for (const match of source.matchAll(
-    /(?:^\/\* OpenClaw source: ("(?:\\.|[^"\\])*") \*\/\n)?^\s*("(?:\\.|[^"\\])*")\s*=\s*("(?:\\.|[^"\\])*");/gmu,
+    /(?:^\/\* FRIDAY source: ("(?:\\.|[^"\\])*") \*\/\n)?^\s*("(?:\\.|[^"\\])*")\s*=\s*("(?:\\.|[^"\\])*");/gmu,
   )) {
     values.set(JSON.parse(match[2] ?? '""') as string, {
       source: match[1] ? (JSON.parse(match[1]) as string) : undefined,
@@ -438,7 +438,7 @@ function renderInfoPlistStrings(
     const candidates = infoPlistTranslationCandidates(artifact, sourceId);
     const value = selectInfoPlistTranslation(source, candidates, existing.get(key));
     return [
-      `/* OpenClaw source: ${JSON.stringify(source)} */`,
+      `/* FRIDAY source: ${JSON.stringify(source)} */`,
       `${JSON.stringify(key)} = ${JSON.stringify(value)};`,
     ].join("\n");
   });

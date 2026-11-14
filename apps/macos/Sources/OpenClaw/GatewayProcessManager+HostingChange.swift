@@ -90,7 +90,7 @@ extension GatewayProcessManager {
         guard !self.isTerminating, isAuthorized() else { throw CancellationError() }
         try self.loadRetainedServiceForResume()
         guard self.keepGatewayRunningAvailable else {
-            throw GatewayHostingError(message: "This Gateway is not hosted by OpenClaw.app.")
+            throw GatewayHostingError(message: "This Gateway is not hosted by FRIDAY.app.")
         }
         guard self.gatewayHosting != hosting else { return }
         self.hostingChangeInProgress = true

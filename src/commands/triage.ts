@@ -228,7 +228,7 @@ export async function triageCommand(
     ? { kind: "deferred" }
     : await collectTriageBundle(options.noExport === true, redaction);
 
-  // Packaged OpenClaw/Bun hosts cannot interpret npm shim entrypoints. Reuse the
+  // Packaged FRIDAY/Bun hosts cannot interpret npm shim entrypoints. Reuse the
   // active Node runtime or require an installed node.exe before choosing a shim.
   const nodeExecutable = isNodeRuntime(process.execPath)
     ? process.execPath
@@ -330,7 +330,7 @@ export async function triageCommand(
     canStartAgent &&
     options.recovery !== undefined;
   const agentLabel = runEmbedded
-    ? "the embedded OpenClaw agent using your configured model"
+    ? "the embedded FRIDAY agent using your configured model"
     : handoff?.agent;
   if (needsConfirmation) {
     runtime.log(`Agent: ${agentLabel}. This will use your own account/tokens.`);
@@ -490,7 +490,7 @@ export async function triageCommand(
     return;
   }
   if (!installRoot) {
-    throw new Error("Cannot locate the OpenClaw installation; use a suggested handoff command.");
+    throw new Error("Cannot locate the FRIDAY installation; use a suggested handoff command.");
   }
   const failedResult =
     updateFailure && "result" in updateFailure ? updateFailure.result : undefined;

@@ -5,7 +5,7 @@ Own docs authoring, published links, docs i18n policy.
 ## Source Ownership
 
 - Author `/clawhub/**` in [openclaw/clawhub](https://github.com/openclaw/clawhub/tree/main/docs), never here. `scripts/docs-sync-publish.mjs` replaces publish `docs/clawhub/` tree. Link audits accept routes declared in `docs/docs.json` without checkout; undeclared routes fail.
-- OpenClaw-specific skill/plugin installation, update, verification, removal, release-trust guidance stays here (`docs/cli/skills.md`, `docs/cli/plugins.md`). Standalone ClawHub CLI/publishing reference → upstream.
+- FRIDAY-specific skill/plugin installation, update, verification, removal, release-trust guidance stays here (`docs/cli/skills.md`, `docs/cli/plugins.md`). Standalone ClawHub CLI/publishing reference → upstream.
 - Plain `pnpm docs:check-links` skips ClawHub fragments. Use `pnpm docs:check-links:anchors` + `OPENCLAW_DOCS_SYNC_CLAWHUB_REPO` set to source checkout; otherwise declared-route fragments unverified.
 - Approved release-doc changes: regenerate complete marked `CHANGELOG/<version>.md` mirror via `pnpm changelog:from-docs`; preserve ordered sources + frozen `CHANGELOG/records/<version>.md`. Use `pnpm changelog:check`; untouched history not converted. Generation/post-release publication: read `openclaw-changelog-update` skill.
 - Never generically format generated `CHANGELOG/**` or root changelog; exact migrated/mirrored bytes generator-owned.

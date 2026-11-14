@@ -193,7 +193,7 @@ describe("renderPluginCatalogResults", () => {
         plugin(`official-${i}`),
       );
       const community = ["community-first", "community-second"].map((id) =>
-        plugin(id, { catalog: { name: "OpenClaw integration", official: false, categories: [] } }),
+        plugin(id, { catalog: { name: "FRIDAY integration", official: false, categories: [] } }),
       );
       const items =
         kind === "mixed"

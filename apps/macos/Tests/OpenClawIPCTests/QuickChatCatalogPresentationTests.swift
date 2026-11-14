@@ -3,7 +3,7 @@ import CoreGraphics
 import OpenClawChatUI
 import SwiftUI
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawKit
 
 @Suite(.testWaitLimit)

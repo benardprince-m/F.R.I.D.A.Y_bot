@@ -2,7 +2,7 @@
   "name": "@openclaw/clawrouter",
   "version": "2026.10.4",
   "private": true,
-  "description": "OpenClaw ClawRouter plugin",
+  "description": "FRIDAY ClawRouter plugin",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*",

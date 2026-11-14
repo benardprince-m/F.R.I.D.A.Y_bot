@@ -137,9 +137,8 @@ describe("memory_search unavailable payloads", () => {
       error:
         "SQLite support is unavailable in this Node runtime (missing node:sqlite). No such built-in module: node:sqlite",
       warning:
-        "Memory search is unavailable because this OpenClaw Node runtime does not provide SQLite support.",
-      action:
-        "Run OpenClaw with a Node runtime that includes node:sqlite, then retry memory_search.",
+        "Memory search is unavailable because this FRIDAY Node runtime does not provide SQLite support.",
+      action: "Run FRIDAY with a Node runtime that includes node:sqlite, then retry memory_search.",
     },
   ])("reports actionable unavailability for $error", async (expected) => {
     setMemorySearchManagerImpl(async () => ({ error: expected.error }));

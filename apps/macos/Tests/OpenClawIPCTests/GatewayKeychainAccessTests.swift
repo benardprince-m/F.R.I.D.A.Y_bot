@@ -1,6 +1,6 @@
 import Security
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct GatewayKeychainAccessTests {
     @Test(arguments: [errSecUserCanceled, errSecAuthFailed])

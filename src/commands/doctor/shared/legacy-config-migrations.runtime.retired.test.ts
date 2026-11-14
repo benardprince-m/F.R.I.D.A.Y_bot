@@ -406,7 +406,7 @@ it("removes UI identity without creating agent identity", () => {
   const migration = LEGACY_CONFIG_MIGRATIONS_RUNTIME_RETIRED.filter(
     (entry) => entry.id === "runtime.ui-assistant-identity",
   );
-  const raw = { ui: { assistant: { name: "OpenClaw", avatar: "🦞" } } };
+  const raw = { ui: { assistant: { name: "FRIDAY", avatar: "🦞" } } };
   const result = applyMigrations(migration, raw);
   expect(result.raw).toEqual({});
 });

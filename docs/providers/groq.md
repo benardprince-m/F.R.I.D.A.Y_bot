@@ -2,7 +2,7 @@
 summary: "Groq setup (auth + model selection + Whisper transcription)"
 title: "Groq"
 read_when:
-  - You want to use Groq with OpenClaw
+  - You want to use Groq with FRIDAY
   - You need the API key env var or CLI auth choice
   - You are configuring Whisper audio transcription on Groq
 ---
@@ -74,7 +74,7 @@ on the next startup. See [Apply changes and inspect](/plugins/manage-plugins#app
 
 ## Built-in catalog
 
-OpenClaw ships a manifest-backed Groq catalog of reasoning models. Run `openclaw models list --provider groq` to see the static rows for your installed version, or check [console.groq.com/docs/models](https://console.groq.com/docs/models) for Groq's authoritative list.
+FRIDAY ships a manifest-backed Groq catalog of reasoning models. Run `openclaw models list --provider groq` to see the static rows for your installed version, or check [console.groq.com/docs/models](https://console.groq.com/docs/models) for Groq's authoritative list.
 
 | Model ref                           | Name               | Reasoning | Input | Context |
 | ----------------------------------- | ------------------ | --------- | ----- | ------- |
@@ -84,16 +84,16 @@ OpenClaw ships a manifest-backed Groq catalog of reasoning models. Run `openclaw
 | `groq/qwen/qwen3.6-27b`             | Qwen 3.6 27B       | yes       | text  | 131,072 |
 
 <Tip>
-  The catalog evolves with each OpenClaw release. `openclaw models list --provider groq` shows the rows known to your installed version; cross-check with [console.groq.com/docs/models](https://console.groq.com/docs/models) for newly-added or deprecated models.
+  The catalog evolves with each FRIDAY release. `openclaw models list --provider groq` shows the rows known to your installed version; cross-check with [console.groq.com/docs/models](https://console.groq.com/docs/models) for newly-added or deprecated models.
 </Tip>
 
 ## Reasoning models
 
-Groq's GPT OSS reasoning models map OpenClaw's shared `/think` levels onto `reasoning_effort` values of `low`, `medium`, or `high`. `/think off` or `/think none` omits `reasoning_effort` from those requests rather than sending a disabled value.
+Groq's GPT OSS reasoning models map FRIDAY's shared `/think` levels onto `reasoning_effort` values of `low`, `medium`, or `high`. `/think off` or `/think none` omits `reasoning_effort` from those requests rather than sending a disabled value.
 
-Qwen 3.6 27B is text-only on Groq and supports two wire reasoning modes. `/think off` or `/think none` sends `reasoning_effort: "none"`; every enabled level sends `"default"`. When reasoning is enabled on Groq Qwen models, OpenClaw requests `reasoning_format: "parsed"` so reasoning stays in thinking blocks instead of visible answer text. Disabled reasoning and GPT OSS requests are left unchanged by this format hook.
+Qwen 3.6 27B is text-only on Groq and supports two wire reasoning modes. `/think off` or `/think none` sends `reasoning_effort: "none"`; every enabled level sends `"default"`. When reasoning is enabled on Groq Qwen models, FRIDAY requests `reasoning_format: "parsed"` so reasoning stays in thinking blocks instead of visible answer text. Disabled reasoning and GPT OSS requests are left unchanged by this format hook.
 
-See [Thinking modes](/tools/thinking) for the shared `/think` levels and how OpenClaw translates them per provider.
+See [Thinking modes](/tools/thinking) for the shared `/think` levels and how FRIDAY translates them per provider.
 
 ## Audio transcription
 
@@ -130,7 +130,7 @@ To make Groq the default audio backend:
   </Accordion>
 
   <Accordion title="Custom Groq model ids">
-    OpenClaw accepts any Groq model id at runtime. Use the exact id shown by Groq and prefix it with `groq/`. The static catalog covers the common cases; uncatalogued ids fall through to the default OpenAI-compatible template.
+    FRIDAY accepts any Groq model id at runtime. Use the exact id shown by Groq and prefix it with `groq/`. The static catalog covers the common cases; uncatalogued ids fall through to the default OpenAI-compatible template.
 
     ```json5
     {

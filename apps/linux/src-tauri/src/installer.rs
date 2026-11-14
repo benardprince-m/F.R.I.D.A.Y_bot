@@ -125,7 +125,7 @@ pub(crate) fn browser_runtime(
         }
     }
     if !release_build {
-        return Err("Development builds need a local OpenClaw CLI for Chrome setup.".into());
+        return Err("Development builds need a local FRIDAY CLI for Chrome setup.".into());
     }
     // A missing CLI wrapper does not prove a Gateway has stopped using its package.
     // Keep browser-only downloads outside that install and pin them to this app release.

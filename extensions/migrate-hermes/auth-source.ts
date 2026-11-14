@@ -120,11 +120,11 @@ export async function buildReauthenticationItems(source: HermesSource): Promise<
       createMigrationManualItem({
         id: `manual:auth-reauthenticate:${targetProvider}`,
         source: sourcePath,
-        message: `Hermes ${sourceProvider} credentials cannot be reused safely by OpenClaw.`,
+        message: `Hermes ${sourceProvider} credentials cannot be reused safely by FRIDAY.`,
         recommendation:
           targetProvider === "qwen"
             ? "Authenticate qwen with an API key after migration: openclaw onboard --auth-choice qwen-api-key."
-            : `Authenticate ${targetProvider} in OpenClaw after migration.`,
+            : `Authenticate ${targetProvider} in FRIDAY after migration.`,
       }),
     ];
   });

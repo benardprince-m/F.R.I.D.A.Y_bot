@@ -415,7 +415,7 @@ function buildPricingCandidates(
   if (seen.has(ref) || !policy) {
     return [];
   }
-  // models.dev prices are pre-keyed by OpenClaw provider; `provider` only picks the entry.
+  // models.dev prices are pre-keyed by FRIDAY provider; `provider` only picks the entry.
   const namespace = source.id === "modelsDev" ? providerId : (policy.provider ?? providerId);
   const candidates = modelIdVariants(modelId, policy.modelIdTransforms).map(
     (id) => `${namespace}/${id}`,
@@ -450,7 +450,7 @@ function readPricingPolicies(manifests: ModelCatalogManifestInput[]): PricingPol
   return policies;
 }
 
-/** Maps each OpenClaw provider to the models.dev entry that bills it. */
+/** Maps each FRIDAY provider to the models.dev entry that bills it. */
 function readModelsDevPricingProviders(
   manifests: ModelCatalogManifestInput[],
   policies: PricingPolicies,
@@ -866,7 +866,7 @@ async function parsePricingCatalog(
       }
     }
   } else if (source.id === "modelsDev") {
-    // Each OpenClaw provider reads the models.dev entry that bills it, keyed in its own
+    // Each FRIDAY provider reads the models.dev entry that bills it, keyed in its own
     // namespace for its catalog rows. Vendors are also keyed under their models.dev slug
     // (`moonshotai/…`), the `vendor/model` ID that gateways pass through.
     const gateways = readPassthroughProviders(policies);

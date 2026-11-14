@@ -178,7 +178,7 @@ export function assertSupportedUpgradeSurvivorBaselineSpec(spec) {
   }
   if (compareReleaseVersions(version.baseVersion, MINIMUM_UPGRADE_SURVIVOR_BASELINE) === -1) {
     throw new Error(
-      `Published upgrade survivor baselines must be ${MINIMUM_UPGRADE_SURVIVOR_BASELINE} or newer; got ${spec}. Upgrade pre-June installs through OpenClaw 2026.9.5 and run Doctor first.`,
+      `Published upgrade survivor baselines must be ${MINIMUM_UPGRADE_SURVIVOR_BASELINE} or newer; got ${spec}. Upgrade pre-June installs through FRIDAY 2026.9.5 and run Doctor first.`,
     );
   }
 }

@@ -862,7 +862,7 @@ describe("handleDiscordMessagingAction", () => {
     "authorizes $action through a guild slug and normalizes timestamps",
     async ({ action, params, timestamp, expected }) => {
       fetchChannelInfoDiscord.mockResolvedValueOnce({ id: "222", guild_id: "111", type: 0 });
-      fetchGuildInfoDiscord.mockResolvedValueOnce({ id: "111", name: "Friends of OpenClaw" });
+      fetchGuildInfoDiscord.mockResolvedValueOnce({ id: "111", name: "Friends of FRIDAY" });
       const cfg = discordGuildChannelsCfg({ "222": { enabled: true } }, "friends-of-openclaw");
       if (action === "readMessages") {
         readMessagesDiscord.mockResolvedValueOnce([{ id: "1", timestamp }] as never);

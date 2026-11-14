@@ -194,7 +194,7 @@ it(
           const abandoned = await startSignIn("abandoned-signin");
           expectPending(abandoned);
           await expect(start("different-owner", client)).rejects.toThrow(
-            "OpenClaw setup is already in progress",
+            "FRIDAY setup is already in progress",
           );
           expect(await owner.request("wizard.next", { sessionId: "abandoned-signin" })).toEqual(
             abandoned,

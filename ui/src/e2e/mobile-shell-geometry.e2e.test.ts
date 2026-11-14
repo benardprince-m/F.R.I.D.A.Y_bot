@@ -351,7 +351,7 @@ suite.define(() => {
             "controlUi.sessionPullRequests.subscribe",
           ],
           methodResponses: { "controlUi.sessionPullRequests.subscribe": { subscribed: true } },
-          assistantName: "OpenClaw",
+          assistantName: "FRIDAY",
           workspace: "/workspace/example",
           historyMessages: [
             {

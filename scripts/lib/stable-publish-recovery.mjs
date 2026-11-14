@@ -572,7 +572,7 @@ export async function verifyStablePublishRecovery({ evidence, manifest, sourceSh
   );
   requireValue(
     one(
-      evidence.workflowRuns.filter((entry) => entry.label === "OpenClaw NPM Release"),
+      evidence.workflowRuns.filter((entry) => entry.label === "FRIDAY NPM Release"),
       "npm evidence",
     ).id === npmId,
     "npm evidence run mismatch.",

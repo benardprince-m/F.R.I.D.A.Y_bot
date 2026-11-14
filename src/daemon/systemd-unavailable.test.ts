@@ -272,7 +272,7 @@ printf 's "252.39"\\n'
       const leftoverPath = path.join(userDir, "openclaw-lisa.service");
       const canonicalPath = path.join(userDir, "openclaw-gateway-lisa.service");
       await fs.mkdir(userDir, { recursive: true });
-      await fs.writeFile(leftoverPath, "[Unit]\nDescription=OpenClaw Gateway (profile: lisa)\n");
+      await fs.writeFile(leftoverPath, "[Unit]\nDescription=FRIDAY Gateway (profile: lisa)\n");
       const stdout = new Writable({
         write(_chunk, _encoding, callback) {
           callback();
@@ -299,7 +299,7 @@ printf 's "252.39"\\n'
       await managerProbe(dir);
       const unitPath = path.join(dir, ".config", "systemd", "user", "openclaw-lisa.service");
       await fs.mkdir(path.dirname(unitPath), { recursive: true });
-      await fs.writeFile(unitPath, "[Unit]\nDescription=OpenClaw Gateway (profile: lisa)\n");
+      await fs.writeFile(unitPath, "[Unit]\nDescription=FRIDAY Gateway (profile: lisa)\n");
       await commandFixture(
         dir,
         "systemctl",

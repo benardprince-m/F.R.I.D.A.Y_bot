@@ -204,7 +204,7 @@ async function proveGitWorkerRuntime(home) {
   for (const args of [
     ["init", "-q"],
     ["config", "user.email", "proof@openclaw.invalid"],
-    ["config", "user.name", "OpenClaw Proof"],
+    ["config", "user.name", "FRIDAY Proof"],
   ]) {
     execFileSync("/usr/bin/git", args, { cwd: repository, env: proofEnvironment(home) });
   }
@@ -334,7 +334,7 @@ try {
     encoding: "utf8",
     timeout: 60_000,
   }).trim();
-  const version = /^OpenClaw (\S+)(?: \([^)]+\))?$/u.exec(versionOutput)?.[1];
+  const version = /^FRIDAY (\S+)(?: \([^)]+\))?$/u.exec(versionOutput)?.[1];
   assert.equal(
     version,
     expected.version,
@@ -362,7 +362,7 @@ try {
   // package loaders so omitted optional packages and wrong slices fail staging.
   const require = createRequire(path.join(packageRoot, "package.json"));
   // Keep required native mode and bundled module identity in a fresh process;
-  // worker readiness below must still use OpenClaw's normal defaults.
+  // worker readiness below must still use FRIDAY's normal defaults.
   execFileSync(
     bun,
     [fileURLToPath(new URL("./verify-mac-runtime-fs.mjs", import.meta.url)), packageRoot, home],

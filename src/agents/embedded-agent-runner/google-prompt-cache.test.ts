@@ -66,7 +66,7 @@ describe("google prompt cache", () => {
       { role: "user", content: "Question", timestamp: 1 },
       {
         role: "user",
-        content: `OpenClaw runtime context:\n${carrier.content}`,
+        content: `FRIDAY runtime context:\n${carrier.content}`,
         timestamp: 2,
         runtimeContext: {},
       },
@@ -87,7 +87,7 @@ describe("google prompt cache", () => {
         messages[0],
         {
           ...messages[1],
-          content: `OpenClaw runtime context:\n${suffix}\n\nCurrent facts`,
+          content: `FRIDAY runtime context:\n${suffix}\n\nCurrent facts`,
         },
       ]);
     }
@@ -99,7 +99,7 @@ describe("google prompt cache", () => {
     expect(JSON.parse(body).systemInstruction).toEqual({
       parts: [{ text: "Stable policy" }],
     });
-    expect(messages[1]?.content).toBe(`OpenClaw runtime context:\n${carrier.content}`);
+    expect(messages[1]?.content).toBe(`FRIDAY runtime context:\n${carrier.content}`);
     const restarted = expectDefined(await prepare(structuredClone(entries)), "reloaded wrapper");
     const nextContext = {
       systemPrompt: `Stable policy${SYSTEM_PROMPT_CACHE_BOUNDARY}Date C`,

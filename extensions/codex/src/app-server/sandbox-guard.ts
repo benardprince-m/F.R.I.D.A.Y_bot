@@ -1,5 +1,5 @@
 /**
- * Blocks direct Codex app-server requests that would bypass OpenClaw sandbox or
+ * Blocks direct Codex app-server requests that would bypass FRIDAY sandbox or
  * node-exec routing guarantees.
  */
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
@@ -52,7 +52,7 @@ const ALLOWED_CONTROL_PLANE_METHODS = new Set([
   "turn/steer",
 ]);
 
-/** Returns a block message when a direct app-server method would bypass OpenClaw execution policy. */
+/** Returns a block message when a direct app-server method would bypass FRIDAY execution policy. */
 export function resolveCodexAppServerDirectSandboxBypassBlock(params: {
   method: string;
   requestParams?: unknown;
@@ -230,8 +230,8 @@ function hasOpenClawSandboxEnvironmentSelection(value: unknown): boolean {
 
 function formatCodexNativeSandboxBlock(params: { surface: string }): string {
   return [
-    `Codex-native ${params.surface} is unavailable because OpenClaw sandboxing is active for this session.`,
-    "This mode cannot route execution through the OpenClaw sandbox backend.",
+    `Codex-native ${params.surface} is unavailable because FRIDAY sandboxing is active for this session.`,
+    "This mode cannot route execution through the FRIDAY sandbox backend.",
     "Use a normal Codex harness turn, or run an intentionally unsandboxed session.",
   ].join(" ");
 }
@@ -257,7 +257,7 @@ function resolveCodexNativeNodeExecBlock(params: {
 }
 
 const NATIVE_CONVERSATION_INTERACTIVE_APPROVALS_UNAVAILABLE =
-  "OpenClaw native Codex conversation binding cannot route interactive approvals yet; use the Codex harness or explicit /acp spawn codex for that workflow.";
+  "FRIDAY native Codex conversation binding cannot route interactive approvals yet; use the Codex harness or explicit /acp spawn codex for that workflow.";
 
 export function assertNativeConversationApprovalPolicySupported(
   runtime: Pick<

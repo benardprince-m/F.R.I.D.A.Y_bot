@@ -5,7 +5,7 @@ import OpenClawKit
 import Security
 import Testing
 import WebKit
-@testable import OpenClaw
+@testable import FRIDAY
 
 /// Run only in the disposable macOS runner: these tests own real WebKit views and Save sheets.
 @Suite(.serialized, .testWaitLimit)

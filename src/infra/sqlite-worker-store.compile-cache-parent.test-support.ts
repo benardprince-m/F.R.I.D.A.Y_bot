@@ -45,7 +45,7 @@ const currentFile = path.join(
   testCase.owner === "source" ? "src/entry.ts" : "dist/entry.js",
 );
 if (testCase.owner === "foreign") {
-  // Negative control: a direct Node enable is NOT OpenClaw ownership.
+  // Negative control: a direct Node enable is NOT FRIDAY ownership.
   const enabled = enableCompileCache(path.join(root, "foreign"));
   assert.equal(enabled.status, constants.compileCacheStatus.ENABLED);
 }
@@ -54,7 +54,7 @@ if (testCase.owner === "failed") {
   fs.writeFileSync(blocked, "fixture");
   enableOpenClawCompileCache({ currentFile, installRoot, env: { NODE_COMPILE_CACHE: blocked } });
 } else {
-  // Positive control goes through the real OpenClaw entry enable owner.
+  // Positive control goes through the real FRIDAY entry enable owner.
   enableOpenClawCompileCache({
     currentFile,
     installRoot,

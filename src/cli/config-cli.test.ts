@@ -577,7 +577,7 @@ describe("config cli", () => {
       },
       {
         path: "gateway.port",
-        error: "OpenClaw config is invalid",
+        error: "FRIDAY config is invalid",
         invalidConfig: true,
       },
     ])(
@@ -704,7 +704,7 @@ describe("config cli", () => {
           ok: false,
           error: {
             type: "cli_error",
-            message: expect.stringContaining("OpenClaw config is invalid"),
+            message: expect.stringContaining("FRIDAY config is invalid"),
           },
           valid: false,
           path: "/tmp/openclaw.json",

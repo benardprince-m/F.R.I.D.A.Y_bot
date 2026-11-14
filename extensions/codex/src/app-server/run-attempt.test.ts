@@ -960,7 +960,7 @@ describe("runCodexAppServerAttempt", () => {
     });
     expect(authProfileStore.profiles[authProfileId]).toHaveProperty("keyRef");
   });
-  it("starts active OpenClaw sandbox threads with Codex native execution disabled", async () => {
+  it("starts active FRIDAY sandbox threads with Codex native execution disabled", async () => {
     const { sessionFile, workspaceDir } = createRunPaths();
     const params = createParams(sessionFile, workspaceDir);
     setCodexTestToolFactory(params, () => [
@@ -1026,7 +1026,7 @@ describe("runCodexAppServerAttempt", () => {
     ]);
   });
 
-  it("routes native Codex execution through an OpenClaw sandbox exec-server when opted in", async () => {
+  it("routes native Codex execution through an FRIDAY sandbox exec-server when opted in", async () => {
     const appServer = {
       ...createThreadLifecycleAppServerOptions(),
       sandbox: "danger-full-access" as const,
@@ -1221,7 +1221,7 @@ describe("runCodexAppServerAttempt", () => {
     ]);
     expect(firstResponse).toMatchObject({
       success: false,
-      contentItems: [{ type: "inputText", text: "Unknown OpenClaw tool: python" }],
+      contentItems: [{ type: "inputText", text: "Unknown FRIDAY tool: python" }],
     });
     expect(replayedResponse).toEqual(firstResponse);
     expect((await readTranscriptMessagesByIdentity(params)).map((message) => message.role)).toEqual(
@@ -1248,7 +1248,7 @@ describe("runCodexAppServerAttempt", () => {
         toolCallId: "call-1",
         isError: true,
         result: {
-          content: [{ type: "text", text: "Unknown OpenClaw tool: python" }],
+          content: [{ type: "text", text: "Unknown FRIDAY tool: python" }],
         },
       },
     });
@@ -1300,7 +1300,7 @@ describe("runCodexAppServerAttempt", () => {
         input?: Array<{ text?: string }>;
       };
       const inputText = turnStartParams.input?.[0]?.text ?? "";
-      expect(inputText).toContain("OpenClaw delivery metadata:");
+      expect(inputText).toContain("FRIDAY delivery metadata:");
       expect(inputText).toContain(
         "This delivery metadata is runtime routing guidance, not the user's request.",
       );
@@ -1631,10 +1631,10 @@ describe("runCodexAppServerAttempt", () => {
     expect(registeredToolNames).toContain("message");
     expect(registeredToolNames).toContain("heartbeat_respond");
     expect(normalInstructions).not.toContain(
-      "Deferred searchable OpenClaw dynamic tools available: heartbeat_respond",
+      "Deferred searchable FRIDAY dynamic tools available: heartbeat_respond",
     );
     expect(heartbeatInstructions).toContain(
-      "Deferred searchable OpenClaw dynamic tools available: heartbeat_respond.",
+      "Deferred searchable FRIDAY dynamic tools available: heartbeat_respond.",
     );
     for (const bridge of [normalBridge, heartbeatBridge, nextNormalBridge]) {
       const heartbeat = flattenSpecsWithNamespace(bridge.specs).find(
@@ -2545,7 +2545,7 @@ describe("runCodexAppServerAttempt", () => {
       (turnStart?.params as { input?: Array<{ text?: string }> } | undefined)?.input?.[0]?.text ??
       "";
     expect(harness.requests.map((request) => request.method)).toContain("thread/start");
-    expect(inputText).toContain("OpenClaw assembled context for this turn:");
+    expect(inputText).toContain("FRIDAY assembled context for this turn:");
     expect(inputText).toContain(`[branchSummary]\n${summary}`);
     expect(inputText).not.toContain("discarded seed");
     expect(inputText).toContain(
@@ -2757,7 +2757,7 @@ describe("runCodexAppServerAttempt", () => {
     const inputText =
       (turnStart?.params as { input?: Array<{ text?: string }> } | undefined)?.input?.[0]?.text ??
       "";
-    expect(inputText).toContain("OpenClaw assembled context for this turn:");
+    expect(inputText).toContain("FRIDAY assembled context for this turn:");
     expect(inputText).not.toContain("old native-owned context");
     expect(inputText).toContain("we were discussing the Sonnet leak screenshots");
     expect(inputText).toContain("David Ondrej was mentioned in that prior thread");
@@ -2942,7 +2942,7 @@ describe("runCodexAppServerAttempt", () => {
     const firstInputText =
       (firstTurnStart?.params as { input?: Array<{ text?: string }> } | undefined)?.input?.[0]
         ?.text ?? "";
-    expect(firstInputText).toContain("OpenClaw assembled context for this turn:");
+    expect(firstInputText).toContain("FRIDAY assembled context for this turn:");
     expect(firstInputText).toContain("we were discussing the Sonnet leak screenshots");
     expect(firstInputText).toContain("is the previous message trustworthy?");
     firstHarness.close();
@@ -2963,7 +2963,7 @@ describe("runCodexAppServerAttempt", () => {
     const secondInputText =
       (secondTurnStart?.params as { input?: Array<{ text?: string }> } | undefined)?.input?.[0]
         ?.text ?? "";
-    expect(secondInputText).not.toContain("OpenClaw assembled context for this turn:");
+    expect(secondInputText).not.toContain("FRIDAY assembled context for this turn:");
     expect(secondInputText).not.toContain("we were discussing the Sonnet leak screenshots");
     expect(secondInputText).not.toContain("is the previous message trustworthy?");
     expect(secondInputText).toContain("continue from there");
@@ -3008,7 +3008,7 @@ describe("runCodexAppServerAttempt", () => {
     expect(threadDeveloperInstructions).not.toContain("Codex loads AGENTS.md natively");
     expect(threadDeveloperInstructions).not.toContain(agentsGuidance);
     expect(collaborationInstructions).toBe("");
-    expect(threadDeveloperInstructions).toContain("OpenClaw Agent Soul");
+    expect(threadDeveloperInstructions).toContain("FRIDAY Agent Soul");
     expect(threadDeveloperInstructions).toContain("<AGENT_SOUL>");
     expect(threadDeveloperInstructions).toContain("</AGENT_SOUL>");
     expect(threadDeveloperInstructions).toContain(soulGuidance);
@@ -3016,7 +3016,7 @@ describe("runCodexAppServerAttempt", () => {
     expect(threadDeveloperInstructions).toContain(userProfile);
     expect(threadDeveloperInstructions).toContain("## Memory Recall");
     expect(threadDeveloperInstructions).toContain("MEMORY.md + memory/*.md");
-    expect(threadDeveloperInstructions).toContain("OpenClaw Workspace Memory");
+    expect(threadDeveloperInstructions).toContain("FRIDAY Workspace Memory");
     expect(threadDeveloperInstructions).toContain(
       "MEMORY.md exists in the active agent workspace as a memory file, not an instruction file",
     );
@@ -3304,7 +3304,7 @@ describe("runCodexAppServerAttempt", () => {
     ).toContain(soulGuidance);
   });
 
-  it("keeps lightweight cron Codex turns out of OpenClaw bootstrap context", async () => {
+  it("keeps lightweight cron Codex turns out of FRIDAY bootstrap context", async () => {
     const { sessionFile, workspaceDir } = createRunPaths();
     const exactCommand =
       "Delivery: to send a message, use the `message` tool.\n\ncd /repo && ./scripts/run-cron";
@@ -3352,7 +3352,7 @@ describe("runCodexAppServerAttempt", () => {
 
   registerSettledFinalizationTests({ expectResumeRequest, writeExistingBinding });
 
-  it("keeps full exec Codex yolo when OpenClaw tool policy exists", async () => {
+  it("keeps full exec Codex yolo when FRIDAY tool policy exists", async () => {
     initializeGlobalHookRunner(
       createMockPluginRegistry([{ hookName: "before_tool_call", handler: vi.fn() }]),
     );

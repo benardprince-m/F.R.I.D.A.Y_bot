@@ -329,7 +329,7 @@ export async function createNativeDependencies(options: {
     const nativeStarted = performance.now();
     const buildArgs = [
       "-project",
-      "apps/ios/OpenClaw.xcodeproj",
+      "apps/ios/FRIDAY.xcodeproj",
       "-scheme",
       "OpenClawUITests",
       "-configuration",
@@ -885,7 +885,7 @@ export async function createNativeDependencies(options: {
                                     "-",
                                     path.join(
                                       derivedDataPath,
-                                      "Build/Products/Debug-iphonesimulator/OpenClaw.app/Info.plist",
+                                      "Build/Products/Debug-iphonesimulator/FRIDAY.app/Info.plist",
                                     ),
                                   ],
                                   { timeoutMs: 5_000 },

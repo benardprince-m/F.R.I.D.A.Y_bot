@@ -475,11 +475,11 @@ describe("tui command handlers", () => {
     expect(h.addSystem).not.toHaveBeenCalledWith("Active sessions: 2");
   });
 
-  it("returns to OpenClaw with an optional request", async () => {
+  it("returns to FRIDAY with an optional request", async () => {
     const h = createHarness();
     await h.handleCommand("/openclaw restart gateway");
     expect(h.sendChat).not.toHaveBeenCalled();
-    expect(h.addSystem).toHaveBeenCalledWith("returning to OpenClaw with request: restart gateway");
+    expect(h.addSystem).toHaveBeenCalledWith("returning to FRIDAY with request: restart gateway");
     expect(h.requestExit).toHaveBeenCalledWith({
       exitReason: "return-to-system-agent",
       systemAgentMessage: "restart gateway",

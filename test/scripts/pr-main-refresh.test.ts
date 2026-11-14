@@ -856,7 +856,7 @@ ${readFileSync(gitShim, "utf8")}
       writeFileSync(sharedFetchHead, "unrelated shared checkpoint\n");
       const author = join(f.root, "author");
       f.git(f.origin, "worktree", "add", "--detach", author, f.main);
-      f.git(author, "config", "user.name", "OpenClaw Test");
+      f.git(author, "config", "user.name", "FRIDAY Test");
       f.git(author, "config", "user.email", "test@example.invalid");
       const localObjects = () =>
         f

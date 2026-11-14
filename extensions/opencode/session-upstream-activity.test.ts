@@ -505,42 +505,39 @@ describe("OpenCode session upstream activity", () => {
     ]);
   });
 
-  itWithCli(
-    "keeps real text mixed with ignored text and suppresses OpenClaw self-echo",
-    async () => {
-      const session = openCodeSession(4, [
-        {
-          info: { id: "msg_001", role: "user", time: { created: 1_700_000_001_000 } },
-          parts: [
-            { id: "part-hidden", type: "text", text: "hidden", ignored: true },
-            { id: "part-real", type: "text", text: "real external turn" },
-          ],
-        },
-      ]);
-      const fixture = await installStatefulOpenCode([session]);
-      await expect(
-        checkOpenCodeUpstreamActivity([probe({ seq: 0, lastHumanMessageId: null })]),
-      ).resolves.toEqual([expect.objectContaining({ humanTurns: 1 })]);
-      await expect(
-        checkOpenCodeUpstreamActivity([
-          probe({ seq: 0, lastHumanMessageId: null }, ["real external turn"]),
-        ]),
-      ).resolves.toEqual([
-        expect.objectContaining({
-          humanTurns: 0,
-          nextMarker: { seq: 4, lastHumanMessageId: "msg_001" },
-        }),
-      ]);
+  itWithCli("keeps real text mixed with ignored text and suppresses FRIDAY self-echo", async () => {
+    const session = openCodeSession(4, [
+      {
+        info: { id: "msg_001", role: "user", time: { created: 1_700_000_001_000 } },
+        parts: [
+          { id: "part-hidden", type: "text", text: "hidden", ignored: true },
+          { id: "part-real", type: "text", text: "real external turn" },
+        ],
+      },
+    ]);
+    const fixture = await installStatefulOpenCode([session]);
+    await expect(
+      checkOpenCodeUpstreamActivity([probe({ seq: 0, lastHumanMessageId: null })]),
+    ).resolves.toEqual([expect.objectContaining({ humanTurns: 1 })]);
+    await expect(
+      checkOpenCodeUpstreamActivity([
+        probe({ seq: 0, lastHumanMessageId: null }, ["real external turn"]),
+      ]),
+    ).resolves.toEqual([
+      expect.objectContaining({
+        humanTurns: 0,
+        nextMarker: { seq: 4, lastHumanMessageId: "msg_001" },
+      }),
+    ]);
 
-      session.messages.push(openCodeMessage("msg_002", "assistant", "summary", 1_700_000_002_000));
-      session.seq = 5;
-      await fixture.writeState({ sessions: [session] });
-      const suppressed = await checkOpenCodeUpstreamActivity([
-        probe({ seq: 4, lastHumanMessageId: "msg_001" }),
-      ]);
-      expect(suppressed).toEqual([expect.objectContaining({ humanTurns: 0 })]);
-    },
-  );
+    session.messages.push(openCodeMessage("msg_002", "assistant", "summary", 1_700_000_002_000));
+    session.seq = 5;
+    await fixture.writeState({ sessions: [session] });
+    const suppressed = await checkOpenCodeUpstreamActivity([
+      probe({ seq: 4, lastHumanMessageId: "msg_001" }),
+    ]);
+    expect(suppressed).toEqual([expect.objectContaining({ humanTurns: 0 })]);
+  });
 
   it.runIf(process.platform !== "win32").each([1, 2])(
     "reports v%s confirmed absence but not query or export failures",

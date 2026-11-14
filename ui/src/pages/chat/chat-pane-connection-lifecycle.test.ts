@@ -150,7 +150,7 @@ describe("chat pane connection lifecycle", () => {
   it.each(["reconnect", "auth change", "authenticated owner", "pane disposal"])(
     "retires pairing QR credentials on %s without losing canonical history",
     async (transition) => {
-      const text = { type: "text", text: "Scan this QR code with the OpenClaw iOS app:" };
+      const text = { type: "text", text: "Scan this QR code with the FRIDAY iOS app:" };
       const canonical = {
         role: "assistant",
         content: [text],
@@ -202,7 +202,7 @@ describe("chat pane connection lifecycle", () => {
           {
             showReasoning: false,
             showToolCalls: false,
-            assistantName: "OpenClaw",
+            assistantName: "FRIDAY",
             assistantAvatar: null,
           },
         );

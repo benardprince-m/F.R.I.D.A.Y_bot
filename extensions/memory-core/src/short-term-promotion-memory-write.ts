@@ -202,7 +202,7 @@ export async function commitMemoryContent(
         ) {
           throw new MemoryWriteConflictError(params.conflictMessage);
         }
-        // OpenClaw writers are serialized. The recoverable preimage covers the
+        // FRIDAY writers are serialized. The recoverable preimage covers the
         // accepted race with external editors between this check and rename.
       },
       fileSystem: {

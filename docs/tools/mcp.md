@@ -1,16 +1,16 @@
 ---
-summary: "Connect MCP servers to OpenClaw from the Control UI, CLI, or config"
+summary: "Connect MCP servers to FRIDAY from the Control UI, CLI, or config"
 title: "Connect MCP servers"
 read_when:
-  - Adding an MCP server for OpenClaw agents
+  - Adding an MCP server for FRIDAY agents
   - Choosing between Settings and `openclaw mcp`
   - Troubleshooting MCP transport, OAuth, or tool discovery
 ---
 
-The Model Context Protocol (MCP) is how an agent borrows tools from another program: an MCP server exposes tools, resources, and prompts, and OpenClaw connects to it and makes those tools available to your agents. Server definitions live under `mcp.servers` in config, and the tools they expose go through the same tool-profile and tool-policy controls as everything else — connecting a server does not bypass your policy.
+The Model Context Protocol (MCP) is how an agent borrows tools from another program: an MCP server exposes tools, resources, and prompts, and FRIDAY connects to it and makes those tools available to your agents. Server definitions live under `mcp.servers` in config, and the tools they expose go through the same tool-profile and tool-policy controls as everything else — connecting a server does not bypass your policy.
 
 <Note>
-This guide is about connecting third-party MCP servers **to OpenClaw**. For the reverse — exposing OpenClaw channel conversations to another MCP client — use [`openclaw mcp serve`](/cli/mcp#openclaw-as-an-mcp-server).
+This guide is about connecting third-party MCP servers **to FRIDAY**. For the reverse — exposing FRIDAY channel conversations to another MCP client — use [`openclaw mcp serve`](/cli/mcp#openclaw-as-an-mcp-server).
 </Note>
 
 ## Add a server from Settings
@@ -31,7 +31,7 @@ openclaw mcp doctor <name> --probe
 
 Saving a definition proves nothing about reachability — the check does. With Gateway hot reload enabled, changed or removed servers retire immediately and the next turn's discovery uses the new definition. Unchanged servers keep their connections and cached tools, including for runs already in progress. Requester sign-in tools refresh on the next message after runtime replacement.
 
-If a connected server exits or its connection must be replaced, OpenClaw keeps
+If a connected server exits or its connection must be replaced, FRIDAY keeps
 its last successfully listed tools and utilities in the session's model-facing
 catalog while recovery runs in the background. Connection diagnostics and tool
 call errors still report unavailability; retained schemas do not grant execution
@@ -40,10 +40,10 @@ the server. Explicit config changes, removals, and plugin reloads retire the
 changed runtime immediately; unchanged servers keep their catalogs.
 
 For legacy SSE servers, reconnecting to the same session endpoint preserves the
-session. If the server announces a new endpoint, OpenClaw reconnects and
+session. If the server announces a new endpoint, FRIDAY reconnects and
 initializes a fresh session before sending further tool calls.
 
-When OpenClaw's built-in MCP client cannot start a server, new runtimes skip it during an exponential backoff: 30 seconds, doubling up to 10 minutes. The runtime that encountered the first failure can retry once on its normal five-second catalog schedule, using a fresh connection after retiring the failed one. If that runtime has never listed the server successfully, the first turn after a retry is due waits for the bounded connection and catalog listing, so recovered tools are available on that turn. If that recovery attempt also fails, the same exponential backoff applies to it. Failure state survives ordinary session cleanup and is scoped to the server configuration and requester. The effective tool inventory shows the server as unavailable, with that runtime's next retry time and a reachability check as the next step. Each failed retry logs once; skipped runs do not repeat the warning. A successful connection, config publication, or explicit MCP reload clears the backoff. Reload the process that owns the connection; a CLI reload does not reset a separate Gateway.
+When FRIDAY's built-in MCP client cannot start a server, new runtimes skip it during an exponential backoff: 30 seconds, doubling up to 10 minutes. The runtime that encountered the first failure can retry once on its normal five-second catalog schedule, using a fresh connection after retiring the failed one. If that runtime has never listed the server successfully, the first turn after a retry is due waits for the bounded connection and catalog listing, so recovered tools are available on that turn. If that recovery attempt also fails, the same exponential backoff applies to it. Failure state survives ordinary session cleanup and is scoped to the server configuration and requester. The effective tool inventory shows the server as unavailable, with that runtime's next retry time and a reachability check as the next step. Each failed retry logs once; skipped runs do not repeat the warning. A successful connection, config publication, or explicit MCP reload clears the backoff. Reload the process that owns the connection; a CLI reload does not reset a separate Gateway.
 
 ## Add a server from the composer
 
@@ -53,7 +53,7 @@ Choose **This session** for session-only enablement or **Everywhere** for global
 
 From an active conversation, open **+ → Connectors → Tool access** to inspect
 or deny individual tools for that session. The view follows the session's
-actual runtime owner: built-in OpenClaw sessions read the in-process MCP
+actual runtime owner: built-in FRIDAY sessions read the in-process MCP
 catalog, while native agent harnesses can contribute their thread-owned
 catalog. Session server and tool denials are enforced by either runtime before
 the next turn starts.
@@ -121,7 +121,7 @@ Codex MCP tool approvals follow the session permission posture: the default full
 
 When durable persistence is offered, **Allow Always** saves a per-agent grant
 for the exact configured server and tool, even when its arguments change.
-This applies to Gateway-hosted Codex runs when OpenClaw can unambiguously match
+This applies to Gateway-hosted Codex runs when FRIDAY can unambiguously match
 the approval to a live Gateway-owned tool call; missing or ambiguous matches retain
 Codex's native/session behavior. Codex apps, native plugin servers, and
 computer-use servers are excluded. Grants survive restarts and apply at the
@@ -140,7 +140,7 @@ Run `openclaw mcp doctor <name> --probe`. Doctor validates the saved definition 
 
 Confirm the `command` resolves in the Gateway process environment and that `cwd` exists. Arguments belong in `args`, and an explicit `transport: "stdio"` requires a non-empty command.
 
-For servers launched by OpenClaw's built-in MCP client, debug logs report stderr activity once per connection as `bundle-mcp:<name>: stderr output omitted`. Server output is not copied into ordinary logs because it can contain message text or tool content. Stderr is still drained through shutdown. Startup and connection failures retain their normal diagnostics. Explicit SDK stderr collectors and their returned failure tails are unchanged.
+For servers launched by FRIDAY's built-in MCP client, debug logs report stderr activity once per connection as `bundle-mcp:<name>: stderr output omitted`. Server output is not copied into ordinary logs because it can contain message text or tool content. Stderr is still drained through shutdown. Startup and connection failures retain their normal diagnostics. Explicit SDK stderr collectors and their returned failure tails are unchanged.
 
 ### An HTTP server needs authorization
 
@@ -160,7 +160,7 @@ If **Sign in** is unavailable, or existing credentials require the CLI callback,
 openclaw mcp login <name>
 ```
 
-Follow the printed authorization URL. OpenClaw normally captures the loopback redirect and saves the credentials automatically; use the printed `--code` command when the browser cannot reach the callback listener.
+Follow the printed authorization URL. FRIDAY normally captures the loopback redirect and saves the credentials automatically; use the printed `--code` command when the browser cannot reach the callback listener.
 
 ### Changes do not reach an active agent
 

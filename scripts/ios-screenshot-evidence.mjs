@@ -31,7 +31,7 @@ const FAMILY_SPECS = {
     captureAttempts: false,
   },
 };
-// Model only whole OpenClaw Fastlane invocations. Fastlane's internal launch
+// Model only whole FRIDAY Fastlane invocations. Fastlane's internal launch
 // retries remain workflow-log evidence.
 const ATTEMPT_MODEL = Object.freeze({
   owner: "openclaw",
@@ -204,13 +204,13 @@ function collectScreenshots({ family, screenshotDirectory, familyDirectory, spec
 function readCaptureAttemptLedger(xcresultDirectory) {
   const ledgerPath = path.join(xcresultDirectory, CAPTURE_ATTEMPTS_FILENAME);
   if (!fs.existsSync(ledgerPath) || !fs.statSync(ledgerPath).isFile()) {
-    fail(`missing OpenClaw capture attempt ledger: ${ledgerPath}`);
+    fail(`missing FRIDAY capture attempt ledger: ${ledgerPath}`);
   }
   let ledger;
   try {
     ledger = JSON.parse(fs.readFileSync(ledgerPath, "utf8"));
   } catch (error) {
-    return fail(`invalid OpenClaw capture attempt ledger: ${String(error)}`);
+    return fail(`invalid FRIDAY capture attempt ledger: ${String(error)}`);
   }
   const expectedKeys = ["attempts", "schemaVersion"];
   const actualKeys =
@@ -218,10 +218,10 @@ function readCaptureAttemptLedger(xcresultDirectory) {
       ? Object.keys(ledger).toSorted((left, right) => left.localeCompare(right))
       : [];
   if (actualKeys.join("\n") !== expectedKeys.join("\n")) {
-    fail("OpenClaw capture attempt ledger has an unexpected shape");
+    fail("FRIDAY capture attempt ledger has an unexpected shape");
   }
   if (ledger.schemaVersion !== 1 || !Array.isArray(ledger.attempts)) {
-    fail("OpenClaw capture attempt ledger has an unsupported schema");
+    fail("FRIDAY capture attempt ledger has an unsupported schema");
   }
   return ledger.attempts;
 }
@@ -246,7 +246,7 @@ function collectCaptureAttempts({
       (entry) => entry.deviceName === deviceName && entry.screenshotName === screenshotName,
     );
     if (attempts.length !== 1 || attempts[0].attempt !== 1) {
-      fail(`${deviceName} ${screenshotName} expected exactly one OpenClaw capture attempt`);
+      fail(`${deviceName} ${screenshotName} expected exactly one FRIDAY capture attempt`);
     }
     const [entry] = attempts;
     const expectedKeys = ["attempt", "captureOutcome", "deviceName", "screenshotName"];
@@ -360,7 +360,7 @@ export function collectIosScreenshotEvidence({
         ),
     )
   ) {
-    fail("OpenClaw capture evidence contains unexpected entries");
+    fail("FRIDAY capture evidence contains unexpected entries");
   }
   const captureSource = {
     xcresultNames: entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name),

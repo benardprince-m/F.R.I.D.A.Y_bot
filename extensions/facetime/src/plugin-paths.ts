@@ -24,7 +24,7 @@ function resolveHelperDylib(): string {
 }
 
 function resolveHelperStateFile(name: "helper-ipc-key" | "helper-build.sha256"): string {
-  return resolve(homedir(), "Library", "Application Support", "OpenClaw", "FaceTime", name);
+  return resolve(homedir(), "Library", "Application Support", "FRIDAY", "FaceTime", name);
 }
 
 async function resolveNativeInstall(): Promise<{ buildId: string; capture: string }> {
@@ -110,7 +110,7 @@ export async function inspectFaceTimeArtifacts(): Promise<{
         homedir(),
         "Library",
         "Caches",
-        "OpenClaw",
+        "FRIDAY",
         "FaceTime",
         "driver",
         "OpenClawBridge.driver",

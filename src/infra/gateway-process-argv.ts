@@ -153,7 +153,7 @@ export function readProcessWorkingDirectories(pids: readonly number[]): Map<numb
   return directories;
 }
 
-/** Generic script names identify OpenClaw only inside a verified package root. */
+/** Generic script names identify FRIDAY only inside a verified package root. */
 function classifyEntrypoint(
   args: string[],
   opts: ClassificationOptions = {},

@@ -323,7 +323,7 @@ export async function runAcpClientInteractive(opts: AcpClientOptions = {}): Prom
     });
   };
   try {
-    console.log("OpenClaw ACP client");
+    console.log("FRIDAY ACP client");
     console.log(`Session: ${sessionId}`);
     console.log('Type a prompt, or "exit" to quit.\n');
     prompt();

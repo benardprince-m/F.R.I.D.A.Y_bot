@@ -371,7 +371,7 @@ export function buildAssistantMessage(
   const promptTokens = reportedPromptTokens ?? resolveUsageFallback(usageFallback?.input);
   const outputTokens = reportedOutputTokens ?? resolveUsageFallback(usageFallback?.output);
   const reportedCacheRead = asNonNegativeFiniteNumber(response.prompt_eval_cached_count);
-  // Ollama includes cached tokens in prompt_eval_count; OpenClaw records input as uncached.
+  // Ollama includes cached tokens in prompt_eval_count; FRIDAY records input as uncached.
   const cacheRead =
     reportedCacheRead === undefined ? undefined : Math.min(reportedCacheRead, promptTokens);
   // Estimated fallbacks are not provider measurements and cannot anchor context.
@@ -498,7 +498,7 @@ function createRawOllamaStreamFn(
           resolveOllamaConfiguredThink(model, supportsNativeOllamaMax(model, baseUrl)) ??
           (options?.reasoning === "off" ? false : undefined);
         const requestParams = {
-          // OpenClaw owns history compaction. Ask local servers to reject overflow
+          // FRIDAY owns history compaction. Ask local servers to reject overflow
           // instead of silently discarding messages or shifting the context window.
           ...(localModel ? { truncate: false, shift: false } : {}),
           ...pickOllamaParams(model.params, OLLAMA_TOP_LEVEL_PARAM_KEYS),

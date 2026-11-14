@@ -56,7 +56,7 @@ describe("updater plugin commit cancellation", () => {
   it("prints each skipped plugin and its reason after the update counts", async () => {
     await withOpenClawTestState({ label: "updater-plugin-skip-reasons" }, async (state) => {
       const prepared = await prepareUpdate(state, { plugins: { enabled: false } });
-      const message = "Package is managed outside OpenClaw.";
+      const message = "Package is managed outside FRIDAY.";
       mocks.convergence.mockImplementationOnce(async ({ cfg: candidate }) => ({
         ...convergenceResult(candidate),
         outcomes: [{ pluginId: "cursor-cli", status: "skipped", message }],

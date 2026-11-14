@@ -29,7 +29,7 @@ Verify the upgrade and your session history before retiring recovery originals
 with `openclaw update cleanup`. Downgrading the package does not reverse config
 or database migrations. Once state has migrated beyond the older release's
 supported format, the supported recovery is to restore a verified pre-update
-backup with its matching OpenClaw release.
+backup with its matching FRIDAY release.
 
 <Warning>
 Fresh shared-state databases created after tenant-container management was retired
@@ -103,7 +103,7 @@ installation's package manager; a backup archive does not contain the package.
 
 A complete recovery point must cover these together:
 
-- The matching OpenClaw package version or source revision and built runtime.
+- The matching FRIDAY package version or source revision and built runtime.
 - `openclaw.json`, including `meta.lastTouchedVersion`.
 - `state/openclaw.sqlite` and every `agents/<id>/agent/openclaw-agent.sqlite`,
   including databases at configured paths outside the default layout.
@@ -181,7 +181,7 @@ already-running older updater.
 While those fingerprints are tracked, the new version's Doctor also reads databases
 through private copies for its schema checks. A Doctor that fails before writing
 therefore leaves the snapshots restorable, and the package rolls back.
-A short-lived OpenClaw command holding state when Doctor starts maintenance does
+A short-lived FRIDAY command holding state when Doctor starts maintenance does
 not cause that rollback: Doctor first waits for it to finish, while keeping time for
 its own work inside the update step (see
 [how updates run](/cli/update/how-updates-run#when-restart-is-skipped-or-fails)).
@@ -256,7 +256,7 @@ is unavailable and leaves any Doctor repairs in place if the update later fails.
 Successful recovery leaves the previous Gateway running and finishes the run as
 `rolled-back`, with `after.version` set to the previous version and downtime
 measured from service stop through verified recovery. The headline is
-`↩️ OpenClaw update rolled back to <previous>: <reason>`, retaining the original
+`↩️ FRIDAY update rolled back to <previous>: <reason>`, retaining the original
 verification failure. The command still exits nonzero; recovery does not turn a
 rejected version into a successful update.
 
@@ -282,7 +282,7 @@ clear that refusal. A restored Gateway must pass its own verification checks
 before the run can finish as `rolled-back`.
 
 In the Control UI, open **Settings → Updates** and choose **Diagnose update** to
-ask OpenClaw to investigate the recorded failure. Loading the dashboard,
+ask FRIDAY to investigate the recorded failure. Loading the dashboard,
 reconnecting, or receiving an update failure does not start diagnosis. Each
 diagnostic request requires a button press; it does not retry the update.
 
@@ -352,7 +352,7 @@ mkdir -p ~/Backups/openclaw
 openclaw backup create --output ~/Backups/openclaw --verify
 ```
 
-The archive manifest records the OpenClaw version and the source paths included
+The archive manifest records the FRIDAY version and the source paths included
 in the backup. The archive can contain credentials, auth profiles, and channel
 state, so store it with owner-only permissions and the same protection as the
 live state directory. See [Backup](/cli/backup) for included and intentionally
@@ -383,7 +383,7 @@ Use `openclaw triage --agent codex` to select a particular agent.
 
 Failed interactive updates offer triage after updater cleanup and
 pass the captured failure to the agent before fresh diagnostics can delay the
-handoff. Before launch, OpenClaw shows the agent, saved prompt path when available,
+handoff. Before launch, FRIDAY shows the agent, saved prompt path when available,
 and use of your own account/tokens. Only an affirmative Yes proceeds. Enter, `n`,
 cancellation, or 30 seconds without an answer skips the launch, prints a manual
 recovery command, and preserves diagnostics and the failed update's exit status.

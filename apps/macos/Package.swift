@@ -1,17 +1,17 @@
 // swift-tools-version: 6.3
-// Package manifest for the OpenClaw macOS companion (menu bar app + IPC library).
+// Package manifest for the FRIDAY macOS companion (menu bar app + IPC library).
 
 import PackageDescription
 
 let package = Package(
-    name: "OpenClaw",
+    name: "FRIDAY",
     platforms: [
         .macOS("26.2"),
     ],
     products: [
         .library(name: "OpenClawIPC", targets: ["OpenClawIPC"]),
         .library(name: "OpenClawDiscovery", targets: ["OpenClawDiscovery"]),
-        .executable(name: "OpenClaw", targets: ["OpenClaw"]),
+        .executable(name: "FRIDAY", targets: ["FRIDAY"]),
         .executable(name: "openclaw-mac", targets: ["OpenClawMacCLI"]),
     ],
     dependencies: [
@@ -51,7 +51,7 @@ let package = Package(
                 .enableUpcomingFeature("StrictConcurrency"),
             ]),
         .executableTarget(
-            name: "OpenClaw",
+            name: "FRIDAY",
             dependencies: [
                 "OpenClawIPC",
                 "OpenClawDiscovery",
@@ -75,7 +75,7 @@ let package = Package(
                 "Resources/Localizable.xcstrings",
             ],
             resources: [
-                .copy("Resources/OpenClaw.icns"),
+                .copy("Resources/FRIDAY.icns"),
                 .copy("Resources/NativeSessionCatalogs.json"),
                 .copy("Resources/AppIcons"),
                 .copy("Resources/DeviceModels"),
@@ -107,7 +107,7 @@ let package = Package(
             name: "OpenClawIPCTests",
             dependencies: [
                 "OpenClawIPC",
-                "OpenClaw",
+                "FRIDAY",
                 "OpenClawMacCLI",
                 "OpenClawDiscovery",
                 "OpenClawWebKitTestSupport",

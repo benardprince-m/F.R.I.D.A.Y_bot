@@ -3,7 +3,7 @@ import Foundation
 import Observation
 import Synchronization
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawKit
 @testable import OpenClawNativeState
 
@@ -239,7 +239,7 @@ struct GatewayProcessManagerTests {
                 } else {
                     #expect(error is GatewayHostingError)
                     #expect(error.localizedDescription ==
-                        "This Gateway is no longer hosted by OpenClaw.app. Update it with its installation owner.")
+                        "This Gateway is no longer hosted by FRIDAY.app. Update it with its installation owner.")
                 }
             }
             await interruption.value

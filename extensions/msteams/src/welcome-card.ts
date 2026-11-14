@@ -10,7 +10,7 @@ type WelcomeCardOptions = {
 };
 
 export function buildWelcomeCard(options?: WelcomeCardOptions): Record<string, unknown> {
-  const botName = options?.botName || "OpenClaw";
+  const botName = options?.botName || "FRIDAY";
   const starters = options?.promptStarters?.length
     ? options.promptStarters
     : DEFAULT_PROMPT_STARTERS;
@@ -42,6 +42,6 @@ export function buildWelcomeCard(options?: WelcomeCardOptions): Record<string, u
 }
 
 export function buildGroupWelcomeText(botName?: string): string {
-  const name = botName || "OpenClaw";
+  const name = botName || "FRIDAY";
   return `Hi! I'm ${name}. Mention me with @${name} to get started.`;
 }

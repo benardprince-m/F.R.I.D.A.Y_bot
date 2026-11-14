@@ -460,7 +460,7 @@ function renderChannelDocsSummary(entry: CompleteChannelDocsEntry) {
   const summary = entry.summary.replace(/[.!?]+$/u, "");
   const normalizedSummary = summary
     ? `${summary.slice(0, 1).toUpperCase()}${summary.slice(1)}`
-    : `${entry.label} messaging for OpenClaw`;
+    : `${entry.label} messaging for FRIDAY`;
   const sourceLabel =
     entry.source === "external"
       ? "external plugin"

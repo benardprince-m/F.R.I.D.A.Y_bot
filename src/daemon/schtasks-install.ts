@@ -204,7 +204,7 @@ async function activateScheduledTask(
     definitionTransaction?: GatewayServiceInstallArgs["definitionTransaction"];
   } & ScheduledTaskInstallRecovery,
 ): Promise<ScheduledTaskActivation | "startup-fallback"> {
-  const taskDescription = params.description ?? "OpenClaw Gateway";
+  const taskDescription = params.description ?? "FRIDAY Gateway";
   const taskName = resolveTaskName(params.env);
   const original = params.registration?.xml;
   // Password credentials are absent from exported XML. Re-registering would discard

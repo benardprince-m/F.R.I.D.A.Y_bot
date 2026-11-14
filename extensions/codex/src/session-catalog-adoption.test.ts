@@ -264,7 +264,7 @@ it("reports duplicate adoption across agents before decoding a later malformed b
     const lookupMany = vi.spyOn(state.asyncReads, "lookupMany");
     await expect(
       listAdoptedSessionEntries({ agentId: "main", bindingStore, config: cohortConfig, runtime }),
-    ).rejects.toThrow("multiple OpenClaw sessions adopt Codex thread duplicate from the same home");
+    ).rejects.toThrow("multiple FRIDAY sessions adopt Codex thread duplicate from the same home");
     entries.splice(1, 1);
     await expect(
       listAdoptedSessionEntries({ agentId: "main", bindingStore, config: cohortConfig, runtime }),
@@ -276,7 +276,7 @@ it("reports duplicate adoption across agents before decoding a later malformed b
   }
 });
 
-it("enriches only the local source row with its adopted OpenClaw session", async () => {
+it("enriches only the local source row with its adopted FRIDAY session", async () => {
   const control = catalogControl(["source-thread"], "active");
   const invoke = vi.fn<PluginRuntime["nodes"]["invoke"]>(async () => ({
     payloadJSON: JSON.stringify({
@@ -631,7 +631,7 @@ it("does not archive a source with an interrupted initializing branch", async ()
     ],
   });
   await expect(f.archive()).rejects.toThrow(
-    "cannot be archived while its OpenClaw branch is initializing",
+    "cannot be archived while its FRIDAY branch is initializing",
   );
   expect(f.control.readThread).not.toHaveBeenCalled();
   expect(f.control.archiveThread).not.toHaveBeenCalled();
@@ -641,7 +641,7 @@ it("does not archive a source until its supervised branch materializes", async (
   const f = adoptionFixture();
   const continued = await f.continue();
 
-  await expect(f.archive()).rejects.toThrow("cannot be archived until its OpenClaw branch starts");
+  await expect(f.archive()).rejects.toThrow("cannot be archived until its FRIDAY branch starts");
   expect(f.control.archiveThread).not.toHaveBeenCalled();
 
   const identity = f.identity(continued.sessionKey);
@@ -693,7 +693,7 @@ it("serializes archive behind an in-flight Continue and rejects the pending bran
     }
     expect(archiveResult.reason).toBeInstanceOf(Error);
     expect(archiveResult.reason).toMatchObject({
-      message: expect.stringContaining("cannot be archived until its OpenClaw branch starts"),
+      message: expect.stringContaining("cannot be archived until its FRIDAY branch starts"),
     });
     expect(f.control.archiveThread).not.toHaveBeenCalled();
   } finally {

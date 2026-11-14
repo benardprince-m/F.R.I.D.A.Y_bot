@@ -70,7 +70,7 @@ it.each<{ source: string; reason?: string }>([
       "config --bool --get core.sparseCheckout": source === "sparse" ? "true\n" : "",
       "remote get-url origin":
         cwd === checkout
-          ? "https://github.com/OpenClaw/OpenClaw.git\n"
+          ? "https://github.com/FRIDAY/FRIDAY.git\n"
           : `git@github.com:${source === "different" ? "example/other" : "openclaw/openclaw"}.git\n`,
     };
     if (!Object.hasOwn(responses, command)) {

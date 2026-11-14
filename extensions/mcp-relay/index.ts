@@ -53,7 +53,7 @@ export default definePluginEntry({
         );
         const identity = await state.initialize();
         scheduler.signal.throwIfAborted();
-        const gateway = { name: "OpenClaw", version: api.runtime.version };
+        const gateway = { name: "FRIDAY", version: api.runtime.version };
         service = new Service({
           scheduler,
           state,

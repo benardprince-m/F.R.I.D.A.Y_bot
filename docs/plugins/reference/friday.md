@@ -15,7 +15,7 @@ Soul layer: owner-only admission, PII/secret egress safety, prompt-injection lab
 ## Distribution
 
 - Package: `@openclaw/friday`
-- Install route: included in OpenClaw
+- Install route: included in FRIDAY
 
 ## Surface
 

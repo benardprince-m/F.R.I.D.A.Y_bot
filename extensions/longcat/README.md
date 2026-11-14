@@ -1,9 +1,9 @@
-# OpenClaw LongCat Provider
+# FRIDAY LongCat Provider
 
-Official OpenClaw provider plugin for LongCat-2.0 through LongCat's hosted
+Official FRIDAY provider plugin for LongCat-2.0 through LongCat's hosted
 OpenAI-compatible API.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/longcat-provider

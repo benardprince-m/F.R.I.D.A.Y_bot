@@ -282,7 +282,7 @@ describe("setup inference plugin ownership", () => {
     });
   });
 
-  it("does not load plugins for a direct custom provider using the built-in OpenClaw harness", async () => {
+  it("does not load plugins for a direct custom provider using the built-in FRIDAY harness", async () => {
     const config = embeddedRoute("openclaw", "fixture", "direct-model").runConfig;
     config.models = {
       providers: {

@@ -620,7 +620,7 @@ describe("worker message wire boundaries", () => {
   it("admits text-only runtime context and rejects image payloads", () => {
     const runtimeContext = {
       role: "user",
-      content: [{ type: "text", text: "OpenClaw runtime context:\ncurrent facts" }],
+      content: [{ type: "text", text: "FRIDAY runtime context:\ncurrent facts" }],
       timestamp: 1,
       runtimeContext: { retained: true },
     };

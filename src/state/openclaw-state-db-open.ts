@@ -291,7 +291,7 @@ function openNativeStateDatabase(
     if (errors.length > 0) {
       throw createSqliteLifecycleAggregateError(
         [error, ...errors],
-        `OpenClaw state database acquisition and cleanup failed for ${params.pathname}.`,
+        `FRIDAY state database acquisition and cleanup failed for ${params.pathname}.`,
         error,
       );
     }

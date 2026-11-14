@@ -180,7 +180,7 @@ export function warnIfIgnoringOpenClawCompactionOverrides(
     return;
   }
   embeddedAgentLog.warn(
-    "ignoring OpenClaw compaction overrides for Codex app-server compaction; Codex uses native server-side compaction",
+    "ignoring FRIDAY compaction overrides for Codex app-server compaction; Codex uses native server-side compaction",
     {
       sessionId: params.sessionId,
       sessionKey: params.sessionKey,

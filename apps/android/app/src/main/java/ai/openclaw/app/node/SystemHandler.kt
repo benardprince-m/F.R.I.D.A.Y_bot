@@ -56,19 +56,19 @@ private class AndroidSystemNotificationPoster(
     val (suffix, importance, name) =
       when (normalizedPriority) {
         "passive" -> {
-          Triple("passive", NotificationManager.IMPORTANCE_LOW, nativeString("OpenClaw Passive"))
+          Triple("passive", NotificationManager.IMPORTANCE_LOW, nativeString("FRIDAY Passive"))
         }
 
         "timesensitive" -> {
           Triple(
             "timesensitive",
             NotificationManager.IMPORTANCE_HIGH,
-            nativeString("OpenClaw Time Sensitive"),
+            nativeString("FRIDAY Time Sensitive"),
           )
         }
 
         else -> {
-          Triple("active", NotificationManager.IMPORTANCE_DEFAULT, nativeString("OpenClaw Active"))
+          Triple("active", NotificationManager.IMPORTANCE_DEFAULT, nativeString("FRIDAY Active"))
         }
       }
     val channelId = "$NOTIFICATION_CHANNEL_BASE_ID.$suffix"
@@ -122,7 +122,7 @@ class SystemHandler internal constructor(
       poster.post(params)
       GatewaySession.InvokeResult.ok(null)
     } catch (_: SecurityException) {
-      nodeInvokeError("NOT_AUTHORIZED", "enable OpenClaw notifications and the selected priority in Android Settings")
+      nodeInvokeError("NOT_AUTHORIZED", "enable FRIDAY notifications and the selected priority in Android Settings")
     } catch (err: Throwable) {
       GatewaySession.InvokeResult.error(
         code = "UNAVAILABLE",

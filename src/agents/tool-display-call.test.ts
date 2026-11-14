@@ -13,7 +13,7 @@ describe("Tool Search display input", () => {
       ["dispatch_action", "tool_call"].map((dispatcher) => ({ id, name, dispatcher })),
     ),
   )("resolves $dispatcher/$id without changing the original call", ({ id, name, dispatcher }) => {
-    const args = Object.freeze({ query: "OpenClaw release notes" });
+    const args = Object.freeze({ query: "FRIDAY release notes" });
     const call = Object.freeze({ name: dispatcher, args: Object.freeze({ id, args }) });
     expect(unwrapToolCallForDisplay(call)).toEqual({ name, args });
     expect(call.args).toEqual({ id, args });

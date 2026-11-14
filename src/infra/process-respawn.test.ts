@@ -113,7 +113,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
-  it("actively schedules relaunch when OpenClaw launchd markers are present on macOS", () => {
+  it("actively schedules relaunch when FRIDAY launchd markers are present on macOS", () => {
     clearSupervisorHints();
     expectLaunchdSupervisedWithHandoff({ launchJobLabel: "ai.openclaw.gateway" });
   });
@@ -220,7 +220,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     clearSupervisorHints();
     mockProcessPlatform("win32");
     process.env.OPENCLAW_SUPERVISOR_MODE = "external";
-    process.env.OPENCLAW_WINDOWS_TASK_NAME = "OpenClaw Gateway";
+    process.env.OPENCLAW_WINDOWS_TASK_NAME = "FRIDAY Gateway";
 
     const result = restartGatewayProcessWithFreshPid();
 
@@ -229,7 +229,7 @@ describe("restartGatewayProcessWithFreshPid", () => {
     expect(spawnMock).not.toHaveBeenCalled();
   });
 
-  it("returns supervised when OpenClaw gateway task markers are set on Windows", () => {
+  it("returns supervised when FRIDAY gateway task markers are set on Windows", () => {
     clearSupervisorHints();
     mockProcessPlatform("win32");
     process.env.OPENCLAW_SERVICE_MARKER = "openclaw";
@@ -365,7 +365,7 @@ describe("respawnGatewayProcessForUpdate", () => {
     );
   });
 
-  it("rewrites a pnpm-versioned OpenClaw entry before detached update respawn", () => {
+  it("rewrites a pnpm-versioned FRIDAY entry before detached update respawn", () => {
     clearSupervisorHints();
     mockProcessPlatform("linux");
     process.execArgv = [];

@@ -258,7 +258,7 @@ function parseOptions(argv: string[] = process.argv.slice(2)): CliOptions {
 }
 
 function printUsage(): void {
-  console.log(`OpenClaw Gateway restart benchmark
+  console.log(`FRIDAY Gateway restart benchmark
 
 Usage:
   pnpm test:restart:gateway -- [options]

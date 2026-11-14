@@ -64,7 +64,7 @@ type OpenCodeQueryCacheOptions = {
   forceRefresh?: boolean;
 };
 
-// Queries depend on the CLI environment and SQL, not the OpenClaw config object.
+// Queries depend on the CLI environment and SQL, not the FRIDAY config object.
 // Retain results across sidebar polls; expiry and explicit refresh control freshness.
 const openCodeQueryCache = new Map<string, OpenCodeQueryCacheEntry>();
 const log = createSubsystemLogger("opencode/session-catalog");

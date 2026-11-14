@@ -217,7 +217,7 @@ describe("tencent provider plugin", () => {
     const tokenHubModel = hyReasoningModel("hy4-preview");
     const tokenPlanModel = hyReasoningModel("hy4-preview", "tencent-tokenplan");
 
-    // Preserve OpenClaw's none/high policy: intermediate efforts become high
+    // Preserve FRIDAY's none/high policy: intermediate efforts become high
     // and off becomes none. Raw API acceptance of low alone does not establish
     // a distinct low reasoning mode.
     const expected: Record<string, string> = {

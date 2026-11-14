@@ -3,7 +3,7 @@ summary: "CLI reference for listing, importing, archiving, deleting, and maintai
 read_when:
   - You want to list stored sessions and see recent activity
   - You want to archive or delete sessions from a headless Gateway
-  - You want to preserve native tool transcripts in OpenClaw
+  - You want to preserve native tool transcripts in FRIDAY
 title: "Sessions"
 ---
 
@@ -59,7 +59,7 @@ Flags:
 | `--verbose`          | Verbose logging.                                                    |
 
 `--store` accepts the documented legacy selector form, including `sessions.json`
-and suffixless custom selectors. OpenClaw resolves that selector to its physical
+and suffixless custom selectors. FRIDAY resolves that selector to its physical
 SQLite target, verifies the target exists and is usable, and reports the physical
 path it actually read. Combine it with `--agent <id>` when you must select the
 configured agent that owns the store.
@@ -136,7 +136,7 @@ home. `--agent` chooses
 the destination agent. Imports support Gateway-local, paired-node, macOS app,
 and Linux app sources that the caller may read.
 
-Import creates an ordinary OpenClaw session containing untrusted reference
+Import creates an ordinary FRIDAY session containing untrusted reference
 material. Imported copies start as [drafts](/concepts/multi-user#drafts), visible
 only to their creator and Gateway admins. Publish the copy through the session
 sharing controls to share it; re-importing preserves its current visibility.

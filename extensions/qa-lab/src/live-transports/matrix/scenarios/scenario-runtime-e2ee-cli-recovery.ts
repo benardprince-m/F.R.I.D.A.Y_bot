@@ -45,7 +45,7 @@ async function runMatrixQaCliRecoveryKeyScenario(
   const deviceName = invalid ? name : `${name} Setup`;
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: `OpenClaw Matrix QA CLI ${name} Owner`,
+    deviceName: `FRIDAY Matrix QA CLI ${name} Owner`,
     scenarioId,
   });
   const owner = await createMatrixQaE2eeCliOwnerClient({ account, context, scenarioId });
@@ -67,7 +67,7 @@ async function runMatrixQaCliRecoveryKeyScenario(
     const cliDevice = await loginMatrixQaCliDevice(
       context.baseUrl,
       account,
-      `OpenClaw Matrix QA CLI ${deviceName} Device`,
+      `FRIDAY Matrix QA CLI ${deviceName} Device`,
       `Matrix E2EE CLI ${label}`,
     );
     cliDeviceId = cliDevice.deviceId;

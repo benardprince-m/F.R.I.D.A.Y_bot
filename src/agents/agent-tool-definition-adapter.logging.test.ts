@@ -201,7 +201,7 @@ describe("agent tool definition adapter logging", () => {
     const pending = invoke(
       def,
       "call-web-search-agent-abort",
-      { query: "OpenClaw" },
+      { query: "FRIDAY" },
       controller.signal,
     );
     await expect(pending).rejects.toBeInstanceOf(Error);

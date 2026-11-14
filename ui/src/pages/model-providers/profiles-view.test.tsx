@@ -197,7 +197,7 @@ describe("renderProviderProfiles", () => {
     expect(document.querySelector(".model-providers__profile-logout")).toBeNull();
     expect(document.body.textContent).toContain("Provider config");
     expect(document.body.textContent).toContain("Codex import");
-    expect(document.body.textContent).not.toContain("Saved in OpenClaw");
+    expect(document.body.textContent).not.toContain("Saved in FRIDAY");
     expect(document.body.textContent).toContain("Shared credential");
     expect(document.body.textContent).toContain("Priority is managed by provider configuration");
     expect(

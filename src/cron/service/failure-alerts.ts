@@ -263,7 +263,7 @@ function buildFailureAlertPayload(params: {
             "Cause: the local model provider is unreachable.",
             "Start the provider or check its configured endpoint in automation history.",
             isJobEnabled(params.job) && params.job.state.nextRunAtMs !== undefined
-              ? "OpenClaw will check again on a later scheduled run."
+              ? "FRIDAY will check again on a later scheduled run."
               : "After restoring the provider, use Run Now or reschedule this automation.",
           ]
         : cronFailureDetailLines(errorReason, params.failureNotificationDetail);

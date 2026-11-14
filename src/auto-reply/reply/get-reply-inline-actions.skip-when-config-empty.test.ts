@@ -1266,9 +1266,9 @@ describe("sender command dispatch ownership", () => {
       shape: "standalone",
       forwarded: true,
       commandName: "/help",
-      commandText: "/help@OpenClaw:",
+      commandText: "/help@FRIDAY:",
       normalized: "/help",
-      botUsername: "OpenClaw",
+      botUsername: "FRIDAY",
       expectedPrompt: "",
     },
     {

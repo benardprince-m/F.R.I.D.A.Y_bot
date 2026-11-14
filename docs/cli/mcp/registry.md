@@ -1,28 +1,28 @@
 ---
-summary: "Manage OpenClaw-saved MCP server definitions with the mcp registry subcommands"
+summary: "Manage FRIDAY-saved MCP server definitions with the mcp registry subcommands"
 title: "Manage saved MCP servers"
 read_when:
-  - Saving a third-party MCP server for OpenClaw-managed agent runs
+  - Saving a third-party MCP server for FRIDAY-managed agent runs
   - Looking up what `list`, `show`, `status`, `doctor`, `probe`, `add`, `set`, `configure`, `tools`, `login`, `logout`, `reload`, or `unset` does
   - Setting the Codex tool approval mode for a saved server
 ---
 
-This page covers the OpenClaw MCP client-side registry: the subcommands that
+This page covers the FRIDAY MCP client-side registry: the subcommands that
 read and write `mcp.servers` definitions, their Codex approval behavior, and
 ready-made server recipes.
 
-## OpenClaw as an MCP client registry
+## FRIDAY as an MCP client registry
 
 This is the `openclaw mcp list`, `show`, `status`, `doctor`, `probe`, `add`, `set`,
 `configure`, `tools`, `login`, `logout`, `reload`, and `unset` path.
 
-These commands do not expose OpenClaw over MCP. They manage OpenClaw-managed MCP server definitions under `mcp.servers` in OpenClaw config. They do not read mcporter servers from `config/mcporter.json`.
+These commands do not expose FRIDAY over MCP. They manage FRIDAY-managed MCP server definitions under `mcp.servers` in FRIDAY config. They do not read mcporter servers from `config/mcporter.json`.
 
-Those saved definitions are for runtimes that OpenClaw launches or configures later, such as embedded OpenClaw and other runtime adapters. OpenClaw stores the definitions centrally so those runtimes do not need to keep their own duplicate MCP server lists.
+Those saved definitions are for runtimes that FRIDAY launches or configures later, such as embedded FRIDAY and other runtime adapters. FRIDAY stores the definitions centrally so those runtimes do not need to keep their own duplicate MCP server lists.
 
 <AccordionGroup>
   <Accordion title="Important behavior">
-    - these commands manage OpenClaw config and OAuth credential state
+    - these commands manage FRIDAY config and OAuth credential state
     - `status`, `list`, `show`, `doctor` without `--probe`, `set`, `configure`, `tools`, `logout`, `reload`, and `unset` do not connect to the target MCP server
     - `login` performs the MCP OAuth network flow for the configured HTTP server and saves the resulting local credentials
     - `status --verbose` prints resolved transport, auth, timeout, filter, and parallel-tool-call hints without connecting
@@ -35,9 +35,9 @@ Those saved definitions are for runtimes that OpenClaw launches or configures la
     - `requestTimeoutMs` and `connectionTimeoutMs` set per-server request and connection timeouts in milliseconds
     - `supportsParallelToolCalls: true` marks servers that adapters can call concurrently
     - HTTP servers can use static headers, OAuth login, TLS verification control, and mTLS certificate/key paths
-    - embedded OpenClaw exposes configured MCP tools in normal `coding` and `messaging` tool profiles; `minimal` still hides them, and `tools.deny: ["bundle-mcp"]` disables them explicitly
+    - embedded FRIDAY exposes configured MCP tools in normal `coding` and `messaging` tool profiles; `minimal` still hides them, and `tools.deny: ["bundle-mcp"]` disables them explicitly
     - whole-server tool denials such as `tools.deny: ["bundle-mcp"]` or `tools.deny: ["docs__*"]` exclude those servers before connecting; individual tool denials still apply to the discovered catalog
-    - per-server `toolFilter.include` and `toolFilter.exclude` filter discovered MCP tools before they become OpenClaw tools
+    - per-server `toolFilter.include` and `toolFilter.exclude` filter discovered MCP tools before they become FRIDAY tools
     - servers that advertise resources or prompts also expose utility tools for listing/reading resources and listing/fetching prompts; those generated utility names (`resources_list`, `resources_read`, `prompts_list`, `prompts_get`) use the same include/exclude filter
     - fetched prompts present their description and role-labeled messages to the agent, including native image blocks for vision-capable models; Code Mode keeps the original prompt JSON shape
     - dynamic MCP tool-list changes invalidate the cached catalog for that session; the next discovery/use refreshes from the server
@@ -47,12 +47,12 @@ Those saved definitions are for runtimes that OpenClaw launches or configures la
     - native harness preparation retains the final bundle's server connections and OAuth context until the session closes; unused discovery servers outside that bundle can be retired after preparation when no other lease needs them
     - canceling compaction closes MCP runtimes created for that compaction, including pending startup and tool discovery
     - `mcp.sessionIdleTtlMs` is an opt-in idle timeout in milliseconds: unset or `0` keeps runtimes alive, and positive finite values enable idle eviction (fractions round down)
-    - a Gateway admits at most 256 OpenClaw-managed runtimes with server connections across sessions and requester partitions; sessions without available servers and sign-in-only catalogs do not consume this limit. Reaching the limit rejects new admissions until you stop or reset unused sessions. See [MCP configuration](/gateway/config-extensions#mcp) for details
+    - a Gateway admits at most 256 FRIDAY-managed runtimes with server connections across sessions and requester partitions; sessions without available servers and sign-in-only catalogs do not consume this limit. Reaching the limit rejects new admissions until you stop or reset unused sessions. See [MCP configuration](/gateway/config-extensions#mcp) for details
 
   </Accordion>
 </AccordionGroup>
 
-Runtime adapters may normalize this shared registry into the shape their downstream client expects. For example, embedded OpenClaw consumes OpenClaw `transport` values directly, while Claude Code and Gemini receive CLI-native `type` values such as `http`, `sse`, or `stdio`.
+Runtime adapters may normalize this shared registry into the shape their downstream client expects. For example, embedded FRIDAY consumes FRIDAY `transport` values directly, while Claude Code and Gemini receive CLI-native `type` values such as `http`, `sse`, or `stdio`.
 
 CLI `login`, `logout`, `probe`, `doctor --probe`, and saved-server mutations
 (`add`, `set`, `configure`, `tools`, `unset`) require the local Gateway to be
@@ -92,7 +92,7 @@ Notes:
 - `set` expects one JSON object value on the command line.
 - `configure` updates enablement, tool filters, timeouts, OAuth, TLS, Codex approval mode, and parallel-tool-call hints without replacing the whole server definition. Add `--probe` to verify the updated server before saving.
 - `tools` updates per-server tool filters. Include/exclude entries are MCP tool names and simple `*` globs.
-- `login` runs the OAuth flow for HTTP servers configured with `auth: "oauth"`. For a loopback redirect, OpenClaw listens for the browser callback and completes login automatically. The printed `--code` command remains the fallback for remote, headless, or unreachable callbacks.
+- `login` runs the OAuth flow for HTTP servers configured with `auth: "oauth"`. For a loopback redirect, FRIDAY listens for the browser callback and completes login automatically. The printed `--code` command remains the fallback for remote, headless, or unreachable callbacks.
 - `logout` clears stored OAuth credentials for the named server without removing the saved server definition.
 - `reload` disposes cached in-process MCP runtimes for the current CLI process only. Gateway or agent processes in another process still need their own reload or restart path.
 - Use `transport: "streamable-http"` for Streamable HTTP MCP servers. `openclaw mcp set` also normalizes CLI-native `type: "http"` to the same current config format for compatibility.
@@ -151,7 +151,7 @@ warn when a server uses `auto` and none of its tools has safety annotations;
 that warning describes calls under prompting postures.
 
 When offered, **Allow Always** approves the tool, not just the current arguments.
-For Gateway-hosted Codex runs on servers configured in `mcp.servers`, OpenClaw
+For Gateway-hosted Codex runs on servers configured in `mcp.servers`, FRIDAY
 saves a durable, per-agent server/tool grant in the host approvals document
 when durable persistence is offered and the approval matches one live Gateway-owned
 tool call unambiguously. Missing or ambiguous matches and requests
@@ -179,12 +179,12 @@ When an operator denies an MCP tool approval, Codex reports only its generic
 "user rejected MCP tool call" to the model; the remedy is shown on the operator
 card, not to the model.
 
-The optional `codex` block is OpenClaw projection metadata for Codex app-server
+The optional `codex` block is FRIDAY projection metadata for Codex app-server
 threads only; it does not change ACP sessions, generic Codex harness config, or
 other runtime adapters. Use non-empty `codex.agents` to project a server only
-into specific OpenClaw agent ids. Empty, blank, or invalid agent lists are
+into specific FRIDAY agent ids. Empty, blank, or invalid agent lists are
 rejected by config validation and omitted by the runtime projection path
-instead of becoming global. OpenClaw strips the `codex` metadata before handing
+instead of becoming global. FRIDAY strips the `codex` metadata before handing
 the native `mcp_servers` config to Codex.
 
 ### Common server recipes

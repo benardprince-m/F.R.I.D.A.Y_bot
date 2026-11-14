@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @MainActor
 struct ChromeExtensionSetupTests {
@@ -34,7 +34,7 @@ struct ChromeExtensionSetupTests {
         defer { setup.stop() }
         let center = NotificationCenter()
         setup.start(
-            plan: AppLaunchRuntimePlan(arguments: ["OpenClaw"]),
+            plan: AppLaunchRuntimePlan(arguments: ["FRIDAY"]),
             profile: AppProfile(environment: [:]),
             center: center)
         center.post(name: .openclawCLIInstalled, object: nil)
@@ -42,7 +42,7 @@ struct ChromeExtensionSetupTests {
         #expect(actions == [.inspect])
     }
 
-    @Test(arguments: [["OpenClaw"], ["OpenClaw", "--background-only"]])
+    @Test(arguments: [["FRIDAY"], ["FRIDAY", "--background-only"]])
     func `CLI updates after explicit setup serialize with manual retry`(arguments: [String]) async throws {
         let center = NotificationCenter()
         let events = AsyncStream<Void>.makeStream()
@@ -96,7 +96,7 @@ struct ChromeExtensionSetupTests {
         }
         defer { setup.stop() }
         let center = NotificationCenter()
-        setup.start(plan: AppLaunchRuntimePlan(arguments: ["OpenClaw", "--elevation-host"]), center: center)
+        setup.start(plan: AppLaunchRuntimePlan(arguments: ["FRIDAY", "--elevation-host"]), center: center)
         center.post(name: .openclawCLIInstalled, object: nil)
         // A manual operation drains the same queue, proving neither startup nor the notification enqueued work.
         #expect(try await setup.run(action: .install) { true } == self.prepared)
@@ -114,7 +114,7 @@ struct ChromeExtensionSetupTests {
         }
         defer { setup.stop() }
         setup.start(
-            plan: AppLaunchRuntimePlan(arguments: ["OpenClaw"]),
+            plan: AppLaunchRuntimePlan(arguments: ["FRIDAY"]),
             profile: AppProfile(environment: [:]),
             center: NotificationCenter())
         await #expect(throws: ChromeExtensionSetup.SetupError.self) {
@@ -141,7 +141,7 @@ struct ChromeExtensionSetupTests {
             try await setup.run(action: .install) { current }
         }
         setup.start(
-            plan: AppLaunchRuntimePlan(arguments: ["OpenClaw"]),
+            plan: AppLaunchRuntimePlan(arguments: ["FRIDAY"]),
             profile: AppProfile(environment: [:]),
             center: NotificationCenter())
         // The inspect request drains maintenance queued by the app-owned observer.
@@ -169,7 +169,7 @@ struct ChromeExtensionSetupTests {
             started.continuation.finish()
         }
         setup.start(
-            plan: AppLaunchRuntimePlan(arguments: ["OpenClaw"]),
+            plan: AppLaunchRuntimePlan(arguments: ["FRIDAY"]),
             profile: AppProfile(environment: [:]),
             center: NotificationCenter())
         let initial = Task { try await setup.run(action: .inspect) { true } }
@@ -205,7 +205,7 @@ struct ChromeExtensionSetupTests {
         defer { setup.stop() }
         let center = NotificationCenter()
         setup.start(
-            plan: AppLaunchRuntimePlan(arguments: ["OpenClaw"]),
+            plan: AppLaunchRuntimePlan(arguments: ["FRIDAY"]),
             profile: AppProfile(environment: ["OPENCLAW_PROFILE": "fixture"]),
             center: center)
         center.post(name: .openclawCLIInstalled, object: nil)

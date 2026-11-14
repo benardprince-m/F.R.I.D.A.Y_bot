@@ -1,13 +1,13 @@
 ---
 summary: "File logs, console output, CLI tailing, and the Control UI Logs tab"
 read_when:
-  - You need a beginner-friendly overview of OpenClaw logging
+  - You need a beginner-friendly overview of FRIDAY logging
   - You want to configure log levels, formats, or redaction
   - You are troubleshooting and need to find logs quickly
 title: "Logging"
 ---
 
-OpenClaw has two main log surfaces:
+FRIDAY has two main log surfaces:
 
 - **File logs** (JSON lines) written by the Gateway.
 - **Console output** in the terminal running the Gateway.
@@ -35,12 +35,12 @@ to stay within filesystem filename limits. An explicit `logging.file` overrides
 these defaults.
 
 The date uses the gateway host's local timezone. When `/tmp/openclaw` is unsafe
-or unavailable (and always on Windows), OpenClaw uses a user-scoped
+or unavailable (and always on Windows), FRIDAY uses a user-scoped
 `openclaw-<uid>` directory under the OS temp dir instead. Dated log files are
 pruned after 24 hours.
 
 Each file rotates when the next write would exceed `logging.maxFileBytes`
-(default: 100 MB). OpenClaw keeps up to five numbered archives beside the
+(default: 100 MB). FRIDAY keeps up to five numbered archives beside the
 active file, such as `openclaw-YYYY-MM-DD.1.log` or
 `openclaw-dev-YYYY-MM-DD.1.log`, and keeps writing to a fresh active log instead
 of suppressing diagnostics.
@@ -150,7 +150,7 @@ available:
 - `session_id`: active session id/key when the log call carries session context.
 - `channel`: active channel when the log call carries channel context.
 
-OpenClaw preserves the original structured log arguments alongside these fields
+FRIDAY preserves the original structured log arguments alongside these fields
 so existing parsers that read numbered tslog argument keys keep working.
 
 Talk, realtime voice, and managed-room activity emits bounded lifecycle log
@@ -318,7 +318,7 @@ debug logs and telemetry as sensitive, and return to `info` after diagnosis.
 
 Responses output-identity conflicts record the event type, output position,
 expected and observed item types, and whether a tool call completed, without
-recording item IDs or response content. OpenClaw uses the existing bounded session
+recording item IDs or response content. FRIDAY uses the existing bounded session
 retry policy when the failing response produced no visible text or completed tool
 calls and its request enabled only client-executed function tools. Continuation
 keeps earlier tool results, so those completed actions are not replayed. Conflicts
@@ -383,7 +383,7 @@ Available flags:
   including bounded activation facts, the final visible surface, and names of
   provider-native tools filtered because code mode owns the tool surface.
 
-These flags log through normal OpenClaw logging, so `openclaw logs --follow`
+These flags log through normal FRIDAY logging, so `openclaw logs --follow`
 and the Control UI Logs tab show them. For backward compatibility,
 `OPENCLAW_DEBUG_CODE_MODE` also promotes general model-transport diagnostics to
 `info`; dedicated code-mode diagnostics are emitted only when that flag is
@@ -429,7 +429,7 @@ for the routes and thresholds that enable clearing.
 ### Trace correlation
 
 File logs are JSONL. When a log call carries a valid diagnostic trace context,
-OpenClaw writes the trace fields as top-level JSON keys (`traceId`, `spanId`,
+FRIDAY writes the trace fields as top-level JSON keys (`traceId`, `spanId`,
 `parentSpanId`, `traceFlags`) so external log processors can correlate the line
 with OTEL spans and provider `traceparent` propagation.
 
@@ -845,7 +845,7 @@ not change stored formats or require an update migration.
 Each CLI admission pass shares one read-only state snapshot and releases it before
 live guards and writes; acquiring a preparation lease still starts a fresh pass.
 
-The `slow OpenClaw agent database open` warning includes `phaseDurationsMs` when
+The `slow FRIDAY agent database open` warning includes `phaseDurationsMs` when
 a persistent database open takes at least one second:
 
 | Phase           | Work included                                                                                           |
@@ -929,7 +929,7 @@ errors. These elapsed durations do not measure SQL CPU time or establish a
 causal link to a nearby request.
 
 Hold warnings label the callback as `callbackKind: "application-transaction"`:
-OpenClaw's transaction body, not a SQLite busy handler or SQL function.
+FRIDAY's transaction body, not a SQLite busy handler or SQL function.
 `phases.databaseAdmissionWaitMs` measures synchronous metadata exchanges with the
 host, separately from authority waits in `hostAdmissionWaitMs`. Metadata waits
 during COMMIT belong to this field and are excluded from the hold's `commitMs`.
@@ -1219,7 +1219,7 @@ to `"pretty"`.
 
 ### Redaction
 
-File logs store raw records with owner-only (`0600`) permissions. OpenClaw masks
+File logs store raw records with owner-only (`0600`) permissions. FRIDAY masks
 sensitive values when logs are read through `logs.tail` (CLI or Control UI),
 printed to the console, or exported through diagnostic/support bundles and
 OpenTelemetry. Direct file reads are raw: protect and review them before sharing.
@@ -1239,7 +1239,7 @@ authorization headers, and bare AWS secret access keys always apply, including
 when this list is customized. Redaction is best-effort; review diagnostic
 exports before sharing them.
 
-If the list contains malformed or rejected patterns, OpenClaw skips those entries,
+If the list contains malformed or rejected patterns, FRIDAY skips those entries,
 keeps valid patterns, and adds the default protections. It warns once per process
 without printing the rejected values. Correct `logging.redactPatterns` in your
 config; directory inspection and Doctor can still report the config error.

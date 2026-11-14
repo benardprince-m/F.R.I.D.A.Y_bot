@@ -178,7 +178,7 @@ describe("telegram ingress supersede policy", () => {
   });
 
   it("gates command supersede on authorized sender", async () => {
-    // /new is a recognized text alias in OpenClaw command set.
+    // /new is a recognized text alias in FRIDAY command set.
     const authorized = await shouldSupersede(candidate("/new"), pending());
     const unauthorized = await shouldSupersede(
       candidate("/new", STRANGER_ID, { ...group, updateId: 3 }),

@@ -1,14 +1,14 @@
 ---
 summary: "Image, video, music, speech, and media-understanding capabilities at a glance"
 read_when:
-  - Looking for an overview of OpenClaw's media capabilities
+  - Looking for an overview of FRIDAY's media capabilities
   - Deciding which media provider to configure
   - Understanding how async media generation works
 title: "Media overview"
 sidebarTitle: "Media overview"
 ---
 
-OpenClaw generates images, videos, and music, understands inbound media
+FRIDAY generates images, videos, and music, understands inbound media
 (images, audio, video), and speaks replies aloud with text-to-speech. All
 media capabilities are tool-driven: the agent decides when to use them based
 on the conversation, and each tool only appears when at least one backing
@@ -115,7 +115,7 @@ and OpenAI register it today. Deepgram, ElevenLabs, Mistral, OpenAI, and xAI
 separately register Voice Call streaming STT (one-way audio-to-text); see
 [Speech-to-text and Voice Call](#speech-to-text-and-voice-call) below.
 xAI Realtime voice is an upstream capability but is not registered in
-OpenClaw until the shared realtime-voice contract can represent it.
+FRIDAY until the shared realtime-voice contract can represent it.
 </Note>
 
 ## Async vs synchronous
@@ -127,20 +127,20 @@ OpenClaw until the shared realtime-voice contract can represent it.
 | Video          | Asynchronous | Provider processing takes 30 s to several minutes; slow queues can run up to the configured timeout. |
 | Music          | Asynchronous | Same provider-processing characteristic as video.                                                    |
 
-For async tools, OpenClaw submits the request to the provider, returns a task
+For async tools, FRIDAY submits the request to the provider, returns a task
 id immediately, and tracks the job in the media runtime. The agent continues
 responding to other messages while the job runs. When the provider finishes,
-OpenClaw wakes the agent with the generated media paths so it can tell the
+FRIDAY wakes the agent with the generated media paths so it can tell the
 user through the session's normal visible-reply mode: automatic final reply
 delivery when configured, or `message(action="send")` when the session requires
 the message tool. If the requester session is inactive or its active wake
 fails, and some generated media is still missing from the completion reply,
-OpenClaw sends a direct fallback with only the missing media, without duplicate
+FRIDAY sends a direct fallback with only the missing media, without duplicate
 sends on retries. Media
 already delivered by the completion reply is not posted again.
 
 If completion delivery cannot be confirmed and the original session still exists,
-OpenClaw tries to retain the generated media references in that session's history.
+FRIDAY tries to retain the generated media references in that session's history.
 Completion stays bound to the original session and storage location; a replacement
 session never receives it. Transient queue admission failures use a bounded retry.
 If both queue admission and history storage remain unavailable, the completion
@@ -181,13 +181,13 @@ catalogs returned by the Gateway.
     Chat/model routing, image generation/editing, text-to-video, batch TTS,
     batch STT, image media understanding, and memory-embedding surfaces.
     DeepInfra also exposes reranking, classification, object-detection, and
-    other native model types; OpenClaw has no provider contract for those
+    other native model types; FRIDAY has no provider contract for those
     categories yet, so this plugin does not register them.
   </Accordion>
   <Accordion title="xAI">
     Image, video, search, code-execution, batch TTS, batch STT, and Voice
     Call streaming STT. xAI Realtime voice is an upstream capability but is
-    not registered in OpenClaw until the shared realtime-voice contract can
+    not registered in FRIDAY until the shared realtime-voice contract can
     represent it.
   </Accordion>
 </AccordionGroup>

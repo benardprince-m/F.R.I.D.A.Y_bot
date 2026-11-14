@@ -208,7 +208,7 @@ type AgentHarnessIsolatedCompletionParams = {
 };
 export type AgentHarnessIsolatedCompletionAuthorization =
   | {
-      /** OpenClaw resolved the exact transport model and credential before handoff. */
+      /** FRIDAY resolved the exact transport model and credential before handoff. */
       owner: "host";
       model: import("../../llm/types.js").Model;
       auth: import("../model-auth-runtime-shared.js").ResolvedProviderAuth;
@@ -458,7 +458,7 @@ type AgentHarnessMcpCatalogParams = {
   sessionId: string;
   sessionKey: string;
   workspaceDir: string;
-  /** OpenClaw-configured servers whose session policy this harness can enforce. */
+  /** FRIDAY-configured servers whose session policy this harness can enforce. */
   mcpServerNames: readonly string[];
   toolOverrides?: Pick<SessionToolOverrides, "mcpServers" | "mcpToolsDeny">;
 };
@@ -529,7 +529,7 @@ type AgentHarnessContract<
    * host requirements.
    */
   contextEngineHostCapabilities?: readonly import("../../context-engine/types.js").ContextEngineHostCapability[];
-  /** Native context management ignores OpenClaw Responses compaction tuning, not request policy. */
+  /** Native context management ignores FRIDAY Responses compaction tuning, not request policy. */
   contextManagement?: "native";
   deliveryDefaults?: AgentHarnessDeliveryDefaults;
   /** Core must reject containment this runtime cannot implement before invoking it. */
@@ -539,11 +539,11 @@ type AgentHarnessContract<
   /** Certifies binding the actual native model through the host before every inference dispatch. */
   nativeModelPolicySupport?: "exact";
   /**
-   * Canonical OpenClaw tool names whose exact denies the harness can also enforce
+   * Canonical FRIDAY tool names whose exact denies the harness can also enforce
    * against native equivalents. Every other deny remains fail-closed.
    */
   conversationToolPolicySafeDenyTools?: readonly string[];
-  /** OpenClaw tool capabilities an indivisible native surface requires from effective profiles. */
+  /** FRIDAY tool capabilities an indivisible native surface requires from effective profiles. */
   conversationToolPolicyNativeTools?: readonly string[];
   supports(ctx: AgentHarnessSupportContext): AgentHarnessSupport;
   /**
@@ -584,7 +584,7 @@ type AgentHarnessContract<
   authBootstrap?: "harness";
   /**
    * Declares whether this harness supports turn-scoped restrictive tool policies
-   * (`toolsAllow: []`), such as OpenClaw's embedded agent runner. Harnesses that define
+   * (`toolsAllow: []`), such as FRIDAY's embedded agent runner. Harnesses that define
    * tools only at connection/thread boundaries (like Codex app-server) omit this or set false.
    */
   supportsTurnScopedToolRestrictions?: boolean;

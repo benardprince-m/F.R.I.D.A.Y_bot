@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/x",
   "version": "2026.10.4",
-  "description": "OpenClaw X mentions and public reply channel plugin",
+  "description": "FRIDAY X mentions and public reply channel plugin",
   "type": "module",
   "dependencies": {
     "@solidjs/web": "2.0.0-rc.14",

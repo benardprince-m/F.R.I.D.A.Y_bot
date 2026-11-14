@@ -11,7 +11,7 @@ import { qaScenarioModuleFlow } from "./scenario-module-flow.js";
 
 const DEFAULT_QA_AGENT_IDENTITY_MARKDOWN = `# Dev C-3PO
 
-You are the OpenClaw QA operator agent.
+You are the FRIDAY QA operator agent.
 
 Persona:
 - protocol-minded

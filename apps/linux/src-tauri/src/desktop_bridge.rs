@@ -141,7 +141,7 @@ impl Bridge {
             current.sender != sender && current.is_current(generation, Instant::now())
         }) {
             return Err(fdo::Error::Failed(
-                "Another panel is presenting OpenClaw.".into(),
+                "Another panel is presenting FRIDAY.".into(),
             ));
         }
         *presenter = Some(Presenter {

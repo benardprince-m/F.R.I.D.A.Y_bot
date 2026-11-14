@@ -204,7 +204,7 @@ export async function probeIMessagePrivateApi(
       ["send-rich"],
       /(?:^|\s)--file\b/m,
     );
-    // Caption suppression is required for approval polls because OpenClaw
+    // Caption suppression is required for approval polls because FRIDAY
     // renders the details first. Published imsg 0.13.1 lacks --no-comment, so
     // probe the exact CLI contract instead of inferring it from poll selectors.
     const pollSendSupportsNoComment = await probeIMessageCliFlag(
@@ -272,7 +272,7 @@ export async function probeIMessage(
       ok: false,
       fatal: true,
       error:
-        "iMessage via the default imsg CLI must run on macOS. Run OpenClaw on the signed-in Messages Mac, or set channels.imessage.cliPath to an SSH wrapper that runs imsg on that Mac.",
+        "iMessage via the default imsg CLI must run on macOS. Run FRIDAY on the signed-in Messages Mac, or set channels.imessage.cliPath to an SSH wrapper that runs imsg on that Mac.",
     };
   }
 

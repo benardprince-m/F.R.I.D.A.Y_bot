@@ -2416,7 +2416,7 @@ describe("before_tool_call requireApproval handling", () => {
     mockCallGateway.mockResolvedValueOnce({ id: "server-id", status: "accepted" });
     mockCallGateway.mockResolvedValueOnce({ id: "server-id", decision: "deny" });
 
-    const result = await requestApproval({ toolName: "web_search", params: { query: "OpenClaw" } });
+    const result = await requestApproval({ toolName: "web_search", params: { query: "FRIDAY" } });
 
     expect(result.blocked).toBe(true);
     expect(result).toHaveProperty("disposition", "blocked");

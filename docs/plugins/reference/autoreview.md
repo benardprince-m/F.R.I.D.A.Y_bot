@@ -15,7 +15,7 @@ Review changes in the current sandbox with the installed Auto Review helper.
 ## Distribution
 
 - Package: `@openclaw/autoreview`
-- Install route: included in OpenClaw
+- Install route: included in FRIDAY
 
 ## Surface
 

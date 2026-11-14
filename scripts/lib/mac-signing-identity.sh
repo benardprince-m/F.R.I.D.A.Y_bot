@@ -1,6 +1,6 @@
 #!/bin/bash
 # Shared by app and distribution packaging so both sign with one selected identity.
-ELEVATION_IDENTITY="Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)"
+ELEVATION_IDENTITY="Developer ID Application: FRIDAY Foundation (FWJYW4S8P8)"
 
 select_identity() {
   local preferred available first identity_type

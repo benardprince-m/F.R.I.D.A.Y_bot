@@ -426,7 +426,7 @@ export function ensureMemoryIndexSchema(params: {
     ])
   ) {
     throw new Error(
-      "Retired memory index format detected. Preserve a complete copy of your state and configuration, then use OpenClaw 2026.9.7 to migrate a compatible copy of this index before retrying the upgrade.",
+      "Retired memory index format detected. Preserve a complete copy of your state and configuration, then use FRIDAY 2026.9.7 to migrate a compatible copy of this index before retrying the upgrade.",
     );
   }
   params.db.exec(

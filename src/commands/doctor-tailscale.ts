@@ -83,7 +83,7 @@ export async function collectTailscaleConfigWarnings(params: {
   if (managed) {
     return inspection.urls.some((url) => !new URL(url).port)
       ? [
-          "The predecessor Tailscale route will be adopted from a previous OpenClaw release when the Gateway starts.",
+          "The predecessor Tailscale route will be adopted from a previous FRIDAY release when the Gateway starts.",
         ]
       : [];
   }
@@ -94,6 +94,6 @@ export async function collectTailscaleConfigWarnings(params: {
     .join(" or ");
   // Disabled managed ingress is an external-owner choice, not an upgrade signal.
   return [
-    `Legacy Tailscale Serve still targets Gateway port ${gatewayPort}, but Doctor cannot prove that OpenClaw owns the existing route; configuration was not changed. If you confirm the route belongs to the current Tailscale hostname and is stale from an older OpenClaw release, remove only its root handler with ${cleanup}, then configure gateway.bind="loopback" and gateway.tailscale.mode="serve" manually and restart the Gateway. If another service owns the route, leave managed Tailscale ingress off and configure gateway.trustedProxies for that proxy instead.`,
+    `Legacy Tailscale Serve still targets Gateway port ${gatewayPort}, but Doctor cannot prove that FRIDAY owns the existing route; configuration was not changed. If you confirm the route belongs to the current Tailscale hostname and is stale from an older FRIDAY release, remove only its root handler with ${cleanup}, then configure gateway.bind="loopback" and gateway.tailscale.mode="serve" manually and restart the Gateway. If another service owns the route, leave managed Tailscale ingress off and configure gateway.trustedProxies for that proxy instead.`,
   ];
 }

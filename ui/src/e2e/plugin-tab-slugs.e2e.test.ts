@@ -27,7 +27,7 @@ async function installReports(page: Page, holdHello = false) {
           <html data-instance="${frameRequests.length}">
             <body>
               <h1>Synthetic reports</h1>
-              <output aria-label="Received OpenClaw theme"></output>
+              <output aria-label="Received FRIDAY theme"></output>
               <script>
                 let themeMessages = 0;
                 addEventListener("message", (event) => {
@@ -178,7 +178,7 @@ suite.define(() => {
         const sandbox = await page.locator("openclaw-plugin-page iframe").getAttribute("sandbox");
         expect(sandbox?.split(/\s+/u)).toContain("allow-scripts");
         const frame = page.frameLocator("openclaw-plugin-page iframe");
-        const receivedTheme = frame.getByLabel("Received OpenClaw theme");
+        const receivedTheme = frame.getByLabel("Received FRIDAY theme");
         expect(await page.evaluate(() => matchMedia("(prefers-color-scheme: light)").matches)).toBe(
           true,
         );

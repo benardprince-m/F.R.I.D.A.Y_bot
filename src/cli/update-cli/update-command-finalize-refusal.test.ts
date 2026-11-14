@@ -232,7 +232,7 @@ it.each([true, false])(
   async (json) => {
     vi.stubEnv("OPENCLAW_PROFILE", "repair-test");
     const nextAction =
-      "Stop the Gateway through its service owner (`openclaw --profile repair-test gateway stop --force` for the managed service), stop other OpenClaw processes using this state, then rerun `openclaw --profile repair-test update repair`.";
+      "Stop the Gateway through its service owner (`openclaw --profile repair-test gateway stop --force` for the managed service), stop other FRIDAY processes using this state, then rerun `openclaw --profile repair-test update repair`.";
     const old = createUpdateRun({ trigger: "cli" });
     const history = finishUpdateRun(old.runId, { status: "failed", reason: "abandoned" });
     await expect(
@@ -273,7 +273,7 @@ it.each([true, false])(
     });
     const report = renderUpdateRunReport(run);
     expect(report.headline).toBe(
-      "ℹ️ OpenClaw repair pending: Doctor maintenance remains unfinished.",
+      "ℹ️ FRIDAY repair pending: Doctor maintenance remains unfinished.",
     );
     expect(report.markdown).toContain(nextAction);
     expect(report.markdown.indexOf(nextAction)).toBeLessThan(report.markdown.indexOf("Details:"));
@@ -398,9 +398,7 @@ it.each([
       );
       if (!inherited) {
         expect(run.reason).toBe(reason);
-        expect(renderUpdateRunReport(run).headline).toBe(
-          "⚠️ OpenClaw repair failed: repair-failed.",
-        );
+        expect(renderUpdateRunReport(run).headline).toBe("⚠️ FRIDAY repair failed: repair-failed.");
         expect(renderUpdateRunReport(run).markdown).toContain("diagnose this repair failure");
         const report = await prepareUpdateFailureReport({
           attemptId: run.runId,

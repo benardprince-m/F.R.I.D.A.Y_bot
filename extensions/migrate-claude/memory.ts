@@ -120,7 +120,7 @@ async function assertSafeMemoryDestination(
     isPathInside(canonicalTarget, boundary.source)
   ) {
     throw new Error(
-      "Claude Code auto-memory source and OpenClaw import destination must be separate directories.",
+      "Claude Code auto-memory source and FRIDAY import destination must be separate directories.",
     );
   }
 }
@@ -179,7 +179,7 @@ async function buildAutoMemoryItems(params: {
             : targetConflict
               ? MIGRATION_REASON_TARGET_EXISTS
               : undefined,
-          message: "Copy Claude Code auto-memory Markdown into the OpenClaw memory index.",
+          message: "Copy Claude Code auto-memory Markdown into the FRIDAY memory index.",
           details: {
             sourceType: "claude-auto-memory",
             sourceLabel: "Claude Code auto-memory",

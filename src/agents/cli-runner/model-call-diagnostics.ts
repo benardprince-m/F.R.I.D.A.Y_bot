@@ -162,7 +162,7 @@ function assistantMessageHasText(message: Pick<ParsedAssistantMessage, "content"
 }
 
 // Claude's assistant envelopes can contain native tool arguments and opaque
-// thinking signatures. Keep only the visible response blocks OpenClaw can
+// thinking signatures. Keep only the visible response blocks FRIDAY can
 // represent accurately; external harness tool spans stay metadata-only.
 function parseClaudeAssistantMessage(message: unknown): ParsedAssistantMessage | undefined {
   if (!isRecord(message) || message.content === "") {

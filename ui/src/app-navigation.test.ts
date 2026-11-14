@@ -81,9 +81,7 @@ describe("formatDocumentTitle", () => {
   });
 
   it("prefixes a pending attention count", () => {
-    expect(formatDocumentTitle({ context: "Usage", attentionCount: 3 })).toBe(
-      "(3) Usage — OpenClaw",
-    );
+    expect(formatDocumentTitle({ context: "Usage", attentionCount: 3 })).toBe("(3) Usage — FRIDAY");
   });
 });
 

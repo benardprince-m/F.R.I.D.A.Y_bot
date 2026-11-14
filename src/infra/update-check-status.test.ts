@@ -34,7 +34,7 @@ async function runGit(cwd: string, ...args: string[]): Promise<string> {
 async function initGitRepo(root: string): Promise<void> {
   await fs.mkdir(root, { recursive: true });
   await runGit(root, "init", "--initial-branch=main");
-  await runGit(root, "config", "user.name", "OpenClaw Test");
+  await runGit(root, "config", "user.name", "FRIDAY Test");
   await runGit(root, "config", "user.email", "test@openclaw.invalid");
 }
 

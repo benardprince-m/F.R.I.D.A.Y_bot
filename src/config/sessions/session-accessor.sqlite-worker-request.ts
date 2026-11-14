@@ -421,7 +421,7 @@ export function runSqliteMutationWorkerRequest<Result>(params: {
                 fail(
                   new AggregateError(
                     [workerError, dispatchError],
-                    "SQLite reclamation admission failed and Worker cleanup is uncertain; restart OpenClaw before deleting the owning agent",
+                    "SQLite reclamation admission failed and Worker cleanup is uncertain; restart FRIDAY before deleting the owning agent",
                   ),
                 );
               }

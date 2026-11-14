@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/meta-provider",
   "version": "2026.10.4",
-  "description": "OpenClaw Meta provider plugin.",
+  "description": "FRIDAY Meta provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

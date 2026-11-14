@@ -169,7 +169,7 @@ it(
       }
       const version = await fixture.run(["--version"]);
       expect(version.code, version.stderr).toBe(0);
-      expect(version.stdout).toMatch(/^OpenClaw /u);
+      expect(version.stdout).toMatch(/^FRIDAY /u);
       expect(fixture.probeOperations()).toEqual(["ready", "ready", "ready"]);
       expect(snapshotState(fixture.stateDir)).toEqual(before);
     } finally {

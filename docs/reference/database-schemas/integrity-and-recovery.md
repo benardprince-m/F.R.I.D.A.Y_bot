@@ -3,13 +3,13 @@ doc-schema-version: 1
 summary: "Integrity checks, common database errors, and the supported downgrade recovery path"
 read_when:
   - "Diagnosing a quarantined database or a Gateway that refuses to start"
-  - "Recovering a database for an older OpenClaw release"
+  - "Recovering a database for an older FRIDAY release"
 title: "Integrity, troubleshooting, and recovery"
 ---
 
 ## Gateway database ownership
 
-Gateway process owns every OpenClaw database and its state. In-process writer receipts invalidate cached rows across workers and handles; use direct reads when cache cannot be covered. Never add runtime foreign-commit probes (`PRAGMA data_version`, version observations, foreign-observation scopes); remove when touched. Outside writers, including CLI, Doctor, cron, plugin children: must use Gateway or hold exclusive ownership while Gateway stopped. Preserve live-authority checks at effect boundaries and consistent snapshots for multi-statement reads.
+Gateway process owns every FRIDAY database and its state. In-process writer receipts invalidate cached rows across workers and handles; use direct reads when cache cannot be covered. Never add runtime foreign-commit probes (`PRAGMA data_version`, version observations, foreign-observation scopes); remove when touched. Outside writers, including CLI, Doctor, cron, plugin children: must use Gateway or hold exclusive ownership while Gateway stopped. Preserve live-authority checks at effect boundaries and consistent snapshots for multi-statement reads.
 
 Shared-state SQLite workers load operation handlers by domain on first use. A
 session operation does not initialize unrelated cron, secrets, transcript, or
@@ -847,14 +847,14 @@ Lease renewal and release use nonblocking write admission. A contended attempt
 leaves retry and failure handling to the lease owner without logging a transaction
 lock-wait warning. Ordinary write waits and commit failures retain their diagnostics.
 
-Wait for the other OpenClaw process to finish its database work, then retry the
+Wait for the other FRIDAY process to finish its database work, then retry the
 command. `state-lifecycle` contention normally clears after startup, a write, or
 maintenance finishes. `gateway-lifecycle` protects a running Gateway's ownership,
 and `state-handles` protects open database connections; those can remain held
 while the Gateway runs.
 
 If contention persists, run `openclaw gateway status` with the same profile and
-state-directory settings, and check for other OpenClaw processes using that state
+state-directory settings, and check for other FRIDAY processes using that state
 directory. Stop the blocking Gateway through its service manager or original
 terminal before retrying an operation that needs exclusive access. Prefer plain
 status here: `--deep` adds database preflight. Doctor also needs state coordination,
@@ -862,7 +862,7 @@ so running it while the lock is held can fail with the same contention.
 
 ### Database paths cannot be compared
 
-`Cannot determine whether database paths alias` means OpenClaw could not safely
+`Cannot determine whether database paths alias` means FRIDAY could not safely
 compare paths that do not yet exist. Check permission to create and remove entries
 under the nearest existing parent directory, then retry. Comparisons use bounded
 filesystem checks: each missing suffix permits up to 8,192 UTF-16 code units, with
@@ -875,7 +875,7 @@ path-identity result.
 ### A mount check times out while opening a local database
 
 On macOS, native filesystem inspection can confirm APFS after mount enumeration
-times out. For a resolved database directory, OpenClaw then keeps WAL enabled
+times out. For a resolved database directory, FRIDAY then keeps WAL enabled
 instead of attempting a rollback-mode transition that conflicts with other open
 connections. Unknown filesystems, failed native inspection, and aliased paths
 retain the conservative rollback policy. The existing rules for network and
@@ -887,7 +887,7 @@ The `legacy-workshop-review-index` error requires `openclaw doctor --fix`.
 Ordinary Gateway reads and automatic migration do not enter the legacy catalog
 repair path. Healthy reads retain their prepared SQLite queries.
 
-With OpenClaw 2026.9.4, run Doctor before retrying `openclaw update`: the installed
+With FRIDAY 2026.9.4, run Doctor before retrying `openclaw update`: the installed
 updater checks database integrity before it can launch the target version.
 
 Doctor checks database versions and active owners before repairing the exact
@@ -923,7 +923,7 @@ require no state migration.
 The warning includes observed WAL and database sizes, checkpointed and total WAL
 frames, the last observed complete checkpoint, the consecutive blocked count,
 the observation time, and up to eight process-local active reader owners when
-the blocking connection uses OpenClaw's tracked query helpers. Reader diagnostics
+the blocking connection uses FRIDAY's tracked query helpers. Reader diagnostics
 contain only the bounded operation label, main/worker owner kind, optional worker
 actor id, age, and idle time; they never include SQL, bindings, or row contents.
 SQLite can report `busy=0` for an incomplete PASSIVE checkpoint; fewer checkpointed
@@ -1017,7 +1017,7 @@ copy. This recovery does not establish which writer created the orphan rows.
 
 ### Why you cannot go back after updating to 2026.7.2
 
-Every release through `v2026.7.1` used agent schema 1 and state schema 1. The 2026.7.2 release train (starting with `v2026.7.2-beta.1`) migrates your databases forward on first start. That migration is one-way: the data is rewritten into the newer schema, and installing an older OpenClaw afterwards does not undo it. The older build refuses to start with a `newer schema version` error that names the build that owns the database.
+Every release through `v2026.7.1` used agent schema 1 and state schema 1. The 2026.7.2 release train (starting with `v2026.7.2-beta.1`) migrates your databases forward on first start. That migration is one-way: the data is rewritten into the newer schema, and installing an older FRIDAY afterwards does not undo it. The older build refuses to start with a `newer schema version` error that names the build that owns the database.
 
 Some older packages omit schema metadata. The updater recognizes the schema-1
 contract for plain 2026 stable releases through `2026.7.1` and checks it before
@@ -1031,7 +1031,7 @@ replace a complete backup. See [Downgrade](/install/updating#downgrade).
 
 ### The Gateway refuses to start with a newer schema version error
 
-A newer OpenClaw build wrote your databases, and the running build is older. The error names the refusing install — release version, commit, and install root — plus the schema it supports and the schema it found.
+A newer FRIDAY build wrote your databases, and the running build is older. The error names the refusing install — release version, commit, and install root — plus the schema it supports and the schema it found.
 
 Act on the install root, not the version. One release version string spans many `main` commits, schema levels, and same-version schema shapes, so two installs can both call themselves `2026.7.2` and still disagree about a database. A prerelease version may not exist on the `latest` npm tag at all: check `npm view openclaw dist-tags` before reinstalling, because the tag carrying the schema you need may be `beta`, and reinstalling from `latest` can move you further away.
 

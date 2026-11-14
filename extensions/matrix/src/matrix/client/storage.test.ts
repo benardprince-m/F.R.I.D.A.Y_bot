@@ -509,7 +509,7 @@ describe("matrix client storage paths", () => {
     const source = fs.readFileSync(sourcePath, "utf8");
     await expect(
       resolveDefaultStoragePaths({ accessToken: "secret-token-new", deviceId: "DEVICE123" }),
-    ).rejects.toThrow("Install OpenClaw 2026.9.5");
+    ).rejects.toThrow("Install FRIDAY 2026.9.5");
     expect(fs.readFileSync(sourcePath, "utf8")).toBe(source);
     expect(fs.existsSync(path.join(oldStoragePaths.rootDir, "state", "openclaw.sqlite"))).toBe(
       false,

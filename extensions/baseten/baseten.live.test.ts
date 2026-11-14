@@ -153,7 +153,7 @@ describeLive("Baseten plugin live", () => {
     20 * 60_000,
   );
 
-  it("runs the default model's tool call through OpenClaw's completions transport", async () => {
+  it("runs the default model's tool call through FRIDAY's completions transport", async () => {
     const provider = await registerSingleProviderPlugin(basetenPlugin);
     const catalog = await runLiveBasetenCatalog(provider);
     const defaultModel = catalog.models.find((model) => model.id === BASETEN_DEFAULT_MODEL_ID);

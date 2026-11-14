@@ -16,7 +16,7 @@ type ChannelContextVisibilityConfig = {
 
 /** Resolves supplemental context visibility using explicit, account, channel, default precedence. */
 export function resolveChannelContextVisibilityMode(params: {
-  /** Full OpenClaw config containing channel defaults and per-channel overrides. */
+  /** Full FRIDAY config containing channel defaults and per-channel overrides. */
   cfg: OpenClawConfig;
   /** Channel id whose visibility policy is being resolved. */
   channel: string;

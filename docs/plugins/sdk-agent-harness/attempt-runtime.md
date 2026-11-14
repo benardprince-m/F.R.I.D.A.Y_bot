@@ -80,7 +80,7 @@ harness feeds tool output back into the model. Supported runtime ids are
 Middleware options may combine `runtimes` with a `matcher` tool-name list.
 Each registration keeps that pair intact, so registering the same handler for
 different runtimes does not broaden either matcher. Matchers use non-empty
-standard OpenClaw tool ids; omit `matcher` to match all tools.
+standard FRIDAY tool ids; omit `matcher` to match all tools.
 
 Omitting `runtimes` uses every supported runtime declared in the plugin's
 `contracts.agentToolResultMiddleware`, including `agentsapi` when declared.
@@ -272,9 +272,9 @@ Native harnesses that own their own protocol projection can use
 `classifyAgentHarnessTerminalOutcome(...)` from
 `openclaw/plugin-sdk/agent-harness-runtime` when a completed turn produced no
 visible assistant text. The helper returns `empty`, `reasoning-only`, or
-`planning-only` so OpenClaw's fallback policy can decide whether to retry on a
+`planning-only` so FRIDAY's fallback policy can decide whether to retry on a
 different model. `planning-only` requires the harness's explicit `planText`
-field; OpenClaw does not infer it from assistant prose. The helper
+field; FRIDAY does not infer it from assistant prose. The helper
 intentionally leaves prompt errors, in-flight turns, and intentional silent
 replies such as `NO_REPLY` unclassified.
 

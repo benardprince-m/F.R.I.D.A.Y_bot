@@ -142,7 +142,7 @@ export function withClientCredentialStore<T>(
         } else {
           if (version !== CLIENT_CREDENTIAL_SCHEMA_VERSION) {
             throw new Error(
-              `Client credentials have unsupported schema version ${String(version)}. Use a compatible OpenClaw version.`,
+              `Client credentials have unsupported schema version ${String(version)}. Use a compatible FRIDAY version.`,
             );
           }
           assertSqliteSchemaContains(db, "Client credentials", CLIENT_CREDENTIAL_SCHEMA_SQL);

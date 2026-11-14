@@ -413,7 +413,7 @@ describe("SystemAgentChatEngine runtime", () => {
 
     const reply = await engine.handle("connect telegram");
 
-    expect(reply.text).toContain("machine running OpenClaw");
+    expect(reply.text).toContain("machine running FRIDAY");
     expect(reply.text).toContain("openclaw doctor --fix");
     expect(reply.text).toContain("remaining validation errors");
     expect(reply.text).not.toContain("repairs it");

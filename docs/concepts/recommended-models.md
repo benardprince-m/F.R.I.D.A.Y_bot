@@ -9,8 +9,8 @@ read_when:
 
 # Recommended models
 
-OpenClaw keeps one global, ordered list of recommended models. It names the
-models OpenClaw suggests first, independent of which provider serves them, so
+FRIDAY keeps one global, ordered list of recommended models. It names the
+models FRIDAY suggests first, independent of which provider serves them, so
 one entry covers every provider that serves that model. A provider may also
 publish its own featured list, which leads that provider's recommendations.
 
@@ -62,7 +62,7 @@ A normalized id is the vendor-neutral name of a model:
 - dotted versions (`claude-opus-4.5`, not `claude-opus-4-5`; `glm-5.3`, not `glm-5p3`)
 - no release dates, revision stamps, or serving variants such as `-fp8`, `-free`, or `-batch`
 
-Publication fails when OpenClaw's id normalization would change an entry, when
+Publication fails when FRIDAY's id normalization would change an entry, when
 an entry appears twice, or when the list exceeds 200 entries. The previous
 hosted catalog then stays in place.
 

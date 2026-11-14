@@ -495,7 +495,7 @@ async function seed() {
     return value;
   });
   const coreVersion = cli(["--version"], "baseline-version").trim();
-  assert.match(coreVersion, /^OpenClaw 2026\.9\.4(?:\s|$)/u);
+  assert.match(coreVersion, /^FRIDAY 2026\.9\.4(?:\s|$)/u);
   const record = readPluginInstallRecords().codex;
   assert.equal(record?.source, "npm", "native writer plugin was not the published npm package");
   const installPath = record.installPath.replace(/^~(?=$|\/)/u, required("HOME"));

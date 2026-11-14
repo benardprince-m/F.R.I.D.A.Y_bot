@@ -5,7 +5,7 @@ export const REPETITIVE_OUTPUT_ERROR_MESSAGE =
   "Repetitive output stopped. Try a larger model or shorten your request before retrying.";
 export const REPEATED_TOOL_ERROR_CODE = "openclaw_repeated_tool_error";
 export const REPEATED_TOOL_ERROR_MESSAGE =
-  "OpenClaw stopped this turn after 3 consecutive identical tool failures. Check the tool arguments or switch to a model with native tool calling before retrying.";
+  "FRIDAY stopped this turn after 3 consecutive identical tool failures. Check the tool arguments or switch to a model with native tool calling before retrying.";
 
 export class TranscriptNotContinuableError extends Error {
   public readonly code = TRANSCRIPT_NOT_CONTINUABLE_ERROR_CODE;

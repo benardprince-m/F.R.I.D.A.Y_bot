@@ -197,7 +197,7 @@ describe("runtime tool fixture", () => {
     );
   });
 
-  it("skips Codex-native fixtures when only OpenClaw dynamic exposure evidence is absent", async () => {
+  it("skips Codex-native fixtures when only FRIDAY dynamic exposure evidence is absent", async () => {
     const env = await makeEnv({ mock: { baseUrl: MOCK_BASE_URL } });
     env.gateway.runtimeEnv.OPENCLAW_QA_FORCE_RUNTIME = "codex";
     env.gateway.workspaceDir = env.repoRoot;
@@ -524,7 +524,7 @@ describe("runtime tool fixture", () => {
         toolName: "web_search",
         requests: mockToolRequests({
           toolName: "web_search",
-          happyArgs: { query: "OpenClaw runtime parity fixed query" },
+          happyArgs: { query: "FRIDAY runtime parity fixed query" },
           failureArgs: { __qaFailureMode: "denied-input" },
           happyOutput: "web_search is disabled or no provider is available.",
           failureOutput: "web_search is disabled or no provider is available.",

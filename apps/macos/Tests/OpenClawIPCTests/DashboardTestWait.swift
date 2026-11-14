@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 import WebKit
-@testable import OpenClaw
+@testable import FRIDAY
 
 /// Dashboard document waits follow `TestWait`'s deadline-free contract.
 @MainActor

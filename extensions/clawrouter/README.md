@@ -1,6 +1,6 @@
 # ClawRouter
 
-Managed multi-provider model routing and quota reporting for OpenClaw.
+Managed multi-provider model routing and quota reporting for FRIDAY.
 
 When `models.providers.clawrouter` is configured, the bundled plugin adds
 **ClawRouter** to the Control UI sidebar. Its read-only pool dashboard shows

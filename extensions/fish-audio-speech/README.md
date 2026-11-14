@@ -1,6 +1,6 @@
 # Fish Audio speech plugin
 
-Official OpenClaw speech provider for Fish Audio's hosted S2.1 and Drama 3 APIs.
+Official FRIDAY speech provider for Fish Audio's hosted S2.1 and Drama 3 APIs.
 
 Install it with:
 

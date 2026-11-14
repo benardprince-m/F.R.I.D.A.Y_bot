@@ -82,7 +82,7 @@ describe.skipIf(process.platform === "win32")("cloud-worker app packaging identi
       const result = resolveVariant({ OPENCLAW_MAC_CLOUD_WORKER_HOST: cloud ? "1" : "0" });
       expect(result.status, result.stderr).toBe(0);
       expect(result.stdout.trim().split("\n")).toEqual([
-        path.join(process.cwd(), "dist", cloud ? "OpenClawCloudWorker.app" : "OpenClaw.app"),
+        path.join(process.cwd(), "dist", cloud ? "OpenClawCloudWorker.app" : "FRIDAY.app"),
         cloud ? "ai.openclaw.cloud-worker" : "ai.openclaw.mac.debug",
       ]);
     },
@@ -93,7 +93,7 @@ describe.skipIf(process.platform === "win32")("cloud-worker app packaging identi
     { ALLOW_ADHOC_SIGNING: "1" },
     { DISABLE_LIBRARY_VALIDATION: "1" },
     { SKIP_TEAM_ID_CHECK: "1" },
-    { OPENCLAW_PACKAGE_APP_ROOT: path.join(process.cwd(), "dist/OpenClaw.app") },
+    { OPENCLAW_PACKAGE_APP_ROOT: path.join(process.cwd(), "dist/FRIDAY.app") },
   ])(
     "rejects a cloud build that weakens its identity or replaces the ordinary app: %j",
     (override) => {
@@ -108,7 +108,7 @@ describe.skipIf(process.platform === "win32")("cloud-worker app packaging identi
     (cloud) => {
       const app = tempDirs.make("openclaw-cloud-bundle-");
       writeFiles(app, {
-        "Contents/Info.plist": readFileSync("apps/macos/Sources/OpenClaw/Resources/Info.plist"),
+        "Contents/Info.plist": readFileSync("apps/macos/Sources/FRIDAY/Resources/Info.plist"),
       });
       const stamp = script.slice(
         script.indexOf(
@@ -132,7 +132,7 @@ describe.skipIf(process.platform === "win32")("cloud-worker app packaging identi
       expect(plist.CFBundleIdentifier).toBe(
         cloud ? "ai.openclaw.cloud-worker" : "ai.openclaw.mac.debug",
       );
-      expect(plist.CFBundleName).toBe(cloud ? "OpenClaw Cloud Worker" : "OpenClaw");
+      expect(plist.CFBundleName).toBe(cloud ? "FRIDAY Cloud Worker" : "FRIDAY");
       expect(plist.OpenClawCloudWorkerHostVersion).toBe(cloud ? 1 : undefined);
       expect(plist.CFBundleURLTypes).toEqual(cloud ? undefined : expect.any(Array));
     },
@@ -221,7 +221,7 @@ ROOT_DIR=${JSON.stringify(root)}
 APP_STAGE_DIR=${JSON.stringify(stage)}
 SWIFT_BUILD_RESULTS=""
 SWIFT_BUILD_PID=""
-PRODUCT=OpenClaw
+PRODUCT=FRIDAY
 BUILD_CONFIG=release
 PEEKABOO_LOCKED_SOURCE_COMMIT=${commit}
 SKIP_MLX_TTS=0
@@ -318,7 +318,7 @@ describe("packaged worker freshness", () => {
       const root = tempDirs.make("openclaw-package-stage-");
       const dist = path.join(root, "dist");
       const output = tempDirs.make("openclaw-package-stage-output-");
-      const previousApp = path.join(dist, "OpenClaw.app/Contents/MacOS/OpenClaw");
+      const previousApp = path.join(dist, "FRIDAY.app/Contents/MacOS/FRIDAY");
       const { files, packageManager, version } = JSON.parse(
         readFileSync("package.json", "utf8"),
       ) as {
@@ -327,15 +327,15 @@ describe("packaged worker freshness", () => {
         version: string;
       };
       writeFiles(root, {
-        "dist/OpenClaw.app/Contents/MacOS/OpenClaw": "previous signed app\n",
+        "dist/FRIDAY.app/Contents/MacOS/FRIDAY": "previous signed app\n",
         "dist/entry.js": "export {};\n",
         "package.json": JSON.stringify({ name: "openclaw", version, packageManager, files }),
       });
       const allocated = runShell(
         `set -euo pipefail
 ROOT_DIR="$1"
-APP_DESTINATION="$ROOT_DIR/dist/OpenClaw.app"
-APP_BUNDLE_NAME=OpenClaw.app
+APP_DESTINATION="$ROOT_DIR/dist/FRIDAY.app"
+APP_BUNDLE_NAME=FRIDAY.app
 ${scriptBlock("# pnpm build owns the Control UI", 'echo "🔨 Building $PRODUCT')}
 printf '%s' "$APP_STAGE_DIR"
 `,
@@ -349,7 +349,7 @@ printf '%s' "$APP_STAGE_DIR"
         "arm64/peekaboo-commit": "private stage canary\n",
         "cleanup-complete": "verified\n",
       });
-      writeFiles(stage, { "OpenClaw.app/Contents/MacOS/OpenClaw": "candidate app\n" });
+      writeFiles(stage, { "FRIDAY.app/Contents/MacOS/FRIDAY": "candidate app\n" });
       try {
         expect(statSync(stage).dev).toBe(statSync(dist).dev);
         expect(statSync(stage).mode & 0o777).toBe(0o700);
@@ -388,12 +388,12 @@ ${scriptBlock("cleanup_package_build() {", "PNPM_CMD=()")}
   );
 
   it("bounds expanded package exclusions to the app root", () => {
-    const app = "dist/OpenClaw-proof.app";
+    const app = "dist/FRIDAY-proof.app";
     const manifest = JSON.parse(readFileSync("package.json", "utf8")) as { files: string[] };
     const exclusions = manifest.files
       .filter((entry) => entry.startsWith("!"))
       .map((entry) => entry.slice(1));
-    const entries = [app, `${app}/Contents`, `${app}/Contents/MacOS/OpenClaw`, "dist/entry.js"];
+    const entries = [app, `${app}/Contents`, `${app}/Contents/MacOS/FRIDAY`, "dist/entry.js"];
     // npm 12 expands files globs into individual ignore rules. Exclude the app
     // directory, which also excludes its contents, not every payload file separately.
     const matches = entries.filter((entry) =>
@@ -550,7 +550,7 @@ function runSourceProvenanceStampHarness(corruptKey?: string) {
       fi
       printf '%s' "$value"
     }
-    APP_ROOT=/tmp/OpenClaw.app
+    APP_ROOT=/tmp/FRIDAY.app
     ROOT_DIR=/unused
     node() { echo fixture-build-id; }
     plist_set_or_add_string() { :; }
@@ -754,7 +754,7 @@ function runSwiftPMResourceBundleHarness(options: { missingBundle?: string } = {
   const root = tempDirs.make("openclaw-package-resources-root-");
   const buildRoot = path.join(root, "build");
   const helperBuildRoot = path.join(root, "helper build");
-  const appRoot = path.join(root, "OpenClaw.app");
+  const appRoot = path.join(root, "FRIDAY.app");
   const buildProducts = path.join(buildRoot, "arm64", "debug");
   const helperBuildProducts = path.join(helperBuildRoot, "arm64", "out", "Products", "Debug");
 
@@ -872,8 +872,8 @@ function runStopPackagedAppHarness() {
   const root = tempDirs.make("openclaw-package-stop-root-");
   const toolsDir = tempDirs.make("openclaw-package-stop-tools-");
 
-  const appRoot = path.join(root, "dist", "OpenClaw.app");
-  const appBinary = path.join(appRoot, "Contents", "MacOS", "OpenClaw");
+  const appRoot = path.join(root, "dist", "FRIDAY.app");
+  const appBinary = path.join(appRoot, "Contents", "MacOS", "FRIDAY");
   const lsofPath = path.join(toolsDir, "lsof");
   const pgrepPath = path.join(toolsDir, "pgrep");
   const sleepPath = path.join(toolsDir, "sleep");
@@ -885,7 +885,7 @@ function runStopPackagedAppHarness() {
   return runBlock(
     "running_packaged_app_pids()",
     'if [[ -n "${SIGN_IDENTITY:-}" ]]',
-    `${shellVars({ APP_DESTINATION: appRoot, PRODUCT: "OpenClaw", PATH: `${toolsDir}:/usr/bin:/bin` })}\nkill() { return 0; }`,
+    `${shellVars({ APP_DESTINATION: appRoot, PRODUCT: "FRIDAY", PATH: `${toolsDir}:/usr/bin:/bin` })}\nkill() { return 0; }`,
     "stop_packaged_app_if_running",
   );
 }
@@ -894,7 +894,7 @@ function runSwiftCompatibilityHarness() {
   const root = tempDirs.make("openclaw-package-swift-root-");
   const toolsDir = tempDirs.make("openclaw-package-swift-tools-");
   const developerDir = path.join(root, "Xcode.app", "Contents", "Developer");
-  const appRoot = path.join(root, "OpenClaw.app");
+  const appRoot = path.join(root, "FRIDAY.app");
   const xcodeSelectPath = path.join(toolsDir, "xcode-select");
 
   writeExecutable(xcodeSelectPath, `#!/bin/bash\nprintf '%s\\n' ${JSON.stringify(developerDir)}`);
@@ -967,7 +967,7 @@ describe("package-mac-app plist stamping", () => {
 
   it.each([
     { key: undefined, diagnostic: "" },
-    { key: "OpenClawGitCommit", diagnostic: "Release app OpenClaw source mismatch" },
+    { key: "OpenClawGitCommit", diagnostic: "Release app FRIDAY source mismatch" },
     { key: "PeekabooSourceCommit", diagnostic: "Release app Peekaboo source mismatch" },
   ])("validates independent source stamps (corrupt key: $key)", ({ key, diagnostic }) => {
     const { result, openClawCommit, peekabooCommit } = runSourceProvenanceStampHarness(key);
@@ -1329,7 +1329,7 @@ fi
     if (options.xcodebuildFailure) {
       const diagnosticIndex = result.stderr.indexOf(options.xcodebuildFailure);
       const guidanceIndex = result.stderr.indexOf(
-        "ERROR: OpenClaw macOS app packaging requires a full Xcode developer directory",
+        "ERROR: FRIDAY macOS app packaging requires a full Xcode developer directory",
       );
       expect(diagnosticIndex).toBeGreaterThanOrEqual(0);
       expect(guidanceIndex).toBeGreaterThan(diagnosticIndex);
@@ -1373,10 +1373,10 @@ echo 2026060290
     expect(result.stderr).toBe("");
   });
 
-  it("does not kill unrelated OpenClaw processes during packaging", () => {
-    expect(readFileSync(scriptPath, "utf8")).not.toContain("killall -q OpenClaw");
+  it("does not kill unrelated FRIDAY processes during packaging", () => {
+    expect(readFileSync(scriptPath, "utf8")).not.toContain("killall -q FRIDAY");
     expectContains(scriptBlock("running_packaged_app_pids()", 'echo "🔏 Signing bundle'), [
-      'local app_binary="$APP_DESTINATION/Contents/MacOS/OpenClaw"',
+      'local app_binary="$APP_DESTINATION/Contents/MacOS/FRIDAY"',
       'pgrep -x "$PRODUCT"',
       'grep -Fx "$app_binary"',
       '[[ "$command_line" == "$app_binary" || "$command_line" == "$app_binary "* ]]',
@@ -1394,12 +1394,12 @@ echo 2026060290
       const scriptsDir = path.join(tempRoot, "scripts");
       const signerPath = path.join(scriptsDir, "codesign-mac-app.sh");
       const appStage = path.join(tempRoot, "stage");
-      const appRoot = path.join(appStage, "OpenClaw.app");
+      const appRoot = path.join(appStage, "FRIDAY.app");
       const callerHome = path.join(tempRoot, "caller-home");
       const callerTemp = path.join(tempRoot, "caller temp [*]");
       const eventsPath = path.join(tempRoot, "events");
       const observationsPath = path.join(tempRoot, "worker-scratch.jsonl");
-      const identity = "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)";
+      const identity = "Developer ID Application: FRIDAY Foundation (FWJYW4S8P8)";
       for (const directory of [callerHome, callerTemp]) {
         mkdirSync(directory, { recursive: true });
       }
@@ -1439,8 +1439,8 @@ try {
       set -euo pipefail
       ROOT_DIR="$1"
       APP_STAGE_DIR="$ROOT_DIR/stage"
-      APP_ROOT="$APP_STAGE_DIR/OpenClaw.app"
-      APP_DESTINATION="$ROOT_DIR/OpenClaw.app"
+      APP_ROOT="$APP_STAGE_DIR/FRIDAY.app"
+      APP_DESTINATION="$ROOT_DIR/FRIDAY.app"
       BUILD_ARCHS=(${process.arch === "arm64" ? "arm64" : "x86_64"})
       source "$3"
       stop_packaged_app_if_running() { printf 'stop\\n' >> "$ROOT_DIR/events"; }
@@ -1481,7 +1481,7 @@ try {
         "stop",
         "published",
       ]);
-      expect(read(tempRoot, "OpenClaw.app/candidate")).toBe("verified replacement");
+      expect(read(tempRoot, "FRIDAY.app/candidate")).toBe("verified replacement");
       const observations = readFileSync(observationsPath, "utf8")
         .trim()
         .split("\n")
@@ -1502,7 +1502,7 @@ try {
     const result = runStopPackagedAppHarness();
 
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("ERROR: Packaged OpenClaw bundle did not exit: 123");
+    expect(result.stderr).toContain("ERROR: Packaged FRIDAY bundle did not exit: 123");
   });
 
   it("fails release packaging when the Swift compatibility library is missing", () => {

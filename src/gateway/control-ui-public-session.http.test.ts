@@ -169,7 +169,7 @@ describe("anonymous public session HTTP boundary", () => {
         `${basePath}/share/session/card.png?token=`,
         'property="og:image:width" content="1200"',
         'property="og:image:height" content="630"',
-        'name="twitter:image:alt" content="Launch notes · OpenClaw public session"',
+        'name="twitter:image:alt" content="Launch notes · FRIDAY public session"',
         "The public viewer is ready.",
         `href="${basePath}/fonts/instrument-sans.css"`,
       );
@@ -305,7 +305,7 @@ describe("anonymous public session HTTP boundary", () => {
 
       const preview = await send(server, { path: "/share/dashboard/example/private-name" });
       expect(preview.res.statusCode).toBe(200);
-      expect(preview.getBody()).toContain("OpenClaw dashboard");
+      expect(preview.getBody()).toContain("FRIDAY dashboard");
       expect(reader).not.toHaveBeenCalled();
     } finally {
       suspension?.release();
@@ -442,7 +442,7 @@ describe("anonymous public session HTTP boundary", () => {
     const html = response.getBody();
     expectText(
       html,
-      `<title>${"a".repeat(199)} · OpenClaw</title>`,
+      `<title>${"a".repeat(199)} · FRIDAY</title>`,
       `property="og:title" content="${"a".repeat(199)}"`,
     );
     expect(html).not.toMatch(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/u);

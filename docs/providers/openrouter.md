@@ -1,8 +1,8 @@
 ---
-summary: "Use OpenRouter's unified API to access many models in OpenClaw"
+summary: "Use OpenRouter's unified API to access many models in FRIDAY"
 read_when:
   - You want a single API key for many LLMs
-  - You want to run models via OpenRouter in OpenClaw
+  - You want to run models via OpenRouter in FRIDAY
   - You want to use Jev for typed decisions through OpenRouter
   - You want to use OpenRouter for image generation
   - You want to use OpenRouter for music generation
@@ -18,7 +18,7 @@ separate System One API.
 
 In a private chat, send `/login openrouter` or select OpenRouter from `/login`.
 Choose **Sign in with OpenRouter**, approve access in your browser, and return
-to chat. OpenClaw receives the browser callback and saves the credential before
+to chat. FRIDAY receives the browser callback and saves the credential before
 reporting success. Use `/login cancel` to cancel a pending sign-in.
 
 Login saves access without choosing a starter model. If current model restrictions
@@ -45,9 +45,9 @@ or invalid, correct it in the same sign-in attempt and submit again.
         openclaw onboard --auth-choice openrouter-oauth
         ```
 
-        OpenClaw opens OpenRouter's browser sign-in flow (PKCE), exchanges the
+        FRIDAY opens OpenRouter's browser sign-in flow (PKCE), exchanges the
         code for an OpenRouter API key, and stores it in the default
-        OpenRouter auth profile. On remote/headless hosts, OpenClaw prints the
+        OpenRouter auth profile. On remote/headless hosts, FRIDAY prints the
         sign-in URL and asks you to paste the redirect URL after signing in.
       </Step>
       <Step title="(Optional) Switch to a specific model">
@@ -102,7 +102,7 @@ or invalid, correct it in the same sign-in attempt and submit again.
 <Note>
 Model refs follow the pattern `openrouter/<provider>/<model>`. For the full list of
 providers and models OpenRouter routes to, see [OpenRouter's model catalog](https://openrouter.ai/models).
-For how OpenClaw resolves model refs and failover, see [Model selection](/concepts/model-providers).
+For how FRIDAY resolves model refs and failover, see [Model selection](/concepts/model-providers).
 </Note>
 
 Bundled starter models enrich a nonempty public catalog. A failed live request
@@ -120,11 +120,11 @@ Any other `openrouter/<provider>/<model>` ref, including
 dynamically against OpenRouter's live model catalog.
 
 Discovered models use OpenRouter's advertised tool support. When a model's
-`supported_parameters` list omits `tools`, OpenClaw sends requests without tool
+`supported_parameters` list omits `tools`, FRIDAY sends requests without tool
 definitions or tool choice. Models without that metadata keep the default tool
 behavior.
 
-On public `openrouter.ai` chat-completions routes, OpenClaw sends
+On public `openrouter.ai` chat-completions routes, FRIDAY sends
 `function.strict: false` for tool definitions and preserves the schema's required
 fields, so optional inputs stay optional. Custom proxy endpoints keep their
 existing compatibility policy. An explicit `compat.supportsStrictMode: false`
@@ -149,7 +149,7 @@ choices, and selecting a decision model does not change your primary or utility
 model. The latest alias follows future releases; it is not a version pin. Pin 1.14 for
 reproducible model selection.
 
-The OpenClaw adapter accepts text, structured JSON objects/arrays, or one inline
+The FRIDAY adapter accepts text, structured JSON objects/arrays, or one inline
 PNG/JPEG image with optional text. Both versions support Boolean, Choice, and Score
 questions. Jev 1.14 and the latest alias also support Box questions. Supply
 instructions for every question. Choice
@@ -158,7 +158,7 @@ provided must describe both true and false. Sorting, tags and explicit
 reasoning controls are rejected before inference. Omit reasoning or use `auto`.
 Jev returns no free-form prose or reasoning trace.
 
-OpenClaw sends one request to `/systemone` appended to the effective OpenRouter
+FRIDAY sends one request to `/systemone` appended to the effective OpenRouter
 API base URL, including a declared custom proxy path prefix. A `baseUrl` override
 alone does not declare native decision support: the owning plugin must publish
 that route and protocol in its [manifest model catalog](/plugins/manifest/models#modelcatalog-reference).
@@ -169,7 +169,7 @@ user identity or trace fields are added to the request body.
 
 This integration declares a 262,144-token state-plus-questions budget. Images are
 limited to 4 MiB decoded and must meet TypeSafe's current dimension requirements;
-OpenClaw does not fetch remote images or resize them. Image and Box support are
+FRIDAY does not fetch remote images or resize them. Image and Box support are
 experimental upstream. Jev's
 published input price is $0.042 per million tokens; output tokens are free.
 The adapter preserves reported token
@@ -221,11 +221,11 @@ under `agents.defaults.mediaModels.image`:
 }
 ```
 
-OpenClaw sends standard OpenRouter image requests to the dedicated image API
+FRIDAY sends standard OpenRouter image requests to the dedicated image API
 (`POST /api/v1/images`). Gemini image models additionally receive
 `aspect_ratio` and `resolution` hints, and image edits pass source images as
 `input_references`. Generated images come back as base64 (`b64_json`) with an
-optional `media_type`; when `media_type` is absent, OpenClaw sniffs the image
+optional `media_type`; when `media_type` is absent, FRIDAY sniffs the image
 format from the bytes.
 
 Configured custom OpenRouter `baseUrl` destinations retain the existing
@@ -254,7 +254,7 @@ OpenRouter can back the `video_generate` tool through its asynchronous
 }
 ```
 
-OpenClaw submits text-to-video and image-to-video jobs, polls the returned
+FRIDAY submits text-to-video and image-to-video jobs, polls the returned
 `polling_url`, and downloads the finished video from OpenRouter's
 `unsigned_urls` or the job content endpoint. Reference images default to
 first/last-frame images; images tagged `reference_image` are sent as input
@@ -286,7 +286,7 @@ output. Set an OpenRouter audio model under
 ```
 
 The bundled OpenRouter music provider defaults to `google/lyria-3-pro-preview`
-and also exposes `google/lyria-3-clip-preview`. OpenClaw sends `modalities:
+and also exposes `google/lyria-3-clip-preview`. FRIDAY sends `modalities:
 ["text", "audio"]`, streams the response, collects the audio chunks, and saves
 the result as generated media for channel delivery. Lyria models accept one
 reference image through the shared `music_generate image=...` parameter.
@@ -341,16 +341,16 @@ media understanding preflight.
 }
 ```
 
-OpenClaw sends OpenRouter STT requests as JSON with base64 audio under
+FRIDAY sends OpenRouter STT requests as JSON with base64 audio under
 `input_audio` (OpenRouter's STT contract), not as multipart OpenAI form
 uploads.
 
 ## Fusion router
 
-OpenRouter Fusion sends one OpenClaw model ref to several OpenRouter models in
+OpenRouter Fusion sends one FRIDAY model ref to several OpenRouter models in
 parallel, has OpenRouter judge their answers, and returns one final response
 through the normal OpenRouter endpoint. The upstream model slug is
-`openrouter/fusion`, so the OpenClaw model ref carries both the OpenClaw
+`openrouter/fusion`, so the FRIDAY model ref carries both the FRIDAY
 provider prefix and the upstream OpenRouter namespace:
 
 ```bash
@@ -394,10 +394,10 @@ omit the `env.vars.OPENROUTER_API_KEY` line below.
 
 `analysis_models` is the parallel panel; `model` inside the Fusion plugin
 config is the judge model. Do not set top-level `tool_choice` to `"required"`
-in normal agent/chat turns to try to force Fusion: OpenClaw turns can include
+in normal agent/chat turns to try to force Fusion: FRIDAY turns can include
 its own tool definitions, and a top-level required tool choice may pick one of
 those instead of the Fusion router. When this Fusion plugin config is present,
-OpenClaw adds a sanitized system-prompt note listing the configured analysis
+FRIDAY adds a sanitized system-prompt note listing the configured analysis
 models and judge model, so the agent can answer questions about its own Fusion
 panel. Other `extraBody` fields are not copied into the prompt.
 
@@ -419,7 +419,7 @@ openclaw infer model run --local \
 ## Authentication and headers
 
 OpenRouter uses a Bearer token from your API key. OpenRouter OAuth is a PKCE
-login flow that issues an OpenRouter API key, so OpenClaw stores the result in
+login flow that issues an OpenRouter API key, so FRIDAY stores the result in
 the same `openrouter:default` API-key auth profile used by manual API-key
 setup.
 
@@ -431,18 +431,18 @@ openclaw models auth login --provider openrouter --method oauth
 openclaw models auth login --provider openrouter --method api-key
 ```
 
-On requests to OpenRouter endpoints (`openrouter.ai`), OpenClaw adds OpenRouter's
+On requests to OpenRouter endpoints (`openrouter.ai`), FRIDAY adds OpenRouter's
 documented app-attribution headers. This applies to the bundled `openrouter`
 provider and to custom provider ids whose `baseUrl` points at OpenRouter:
 
 | Header                    | Value                      |
 | ------------------------- | -------------------------- |
 | `HTTP-Referer`            | `https://openclaw.ai`      |
-| `X-OpenRouter-Title`      | `OpenClaw`                 |
+| `X-OpenRouter-Title`      | `FRIDAY`                   |
 | `X-OpenRouter-Categories` | `personal-agent,cli-agent` |
 
 <Warning>
-If you repoint the OpenRouter provider at some other proxy or base URL, OpenClaw
+If you repoint the OpenRouter provider at some other proxy or base URL, FRIDAY
 does **not** inject those OpenRouter-specific headers or prompt-cache markers.
 </Warning>
 
@@ -469,7 +469,7 @@ does **not** inject those OpenRouter-specific headers or prompt-cache markers.
     }
     ```
 
-    OpenClaw sends `X-OpenRouter-Cache: true` and, when configured,
+    FRIDAY sends `X-OpenRouter-Cache: true` and, when configured,
     `X-OpenRouter-Cache-TTL`. `responseCacheClear: true` forces a refresh for
     the current request and stores the replacement response. Snake_case
     aliases (`response_cache`, `response_cache_ttl_seconds`,
@@ -497,10 +497,10 @@ does **not** inject those OpenRouter-specific headers or prompt-cache markers.
   </Accordion>
 
   <Accordion title="Thinking / reasoning injection">
-    OpenClaw uses the selected model's advertised reasoning efforts for its
+    FRIDAY uses the selected model's advertised reasoning efforts for its
     thinking choices and request payloads. Models that require reasoning omit
     the off choice. Agent turns and standalone completions share these controls
-    and reasoning-replay rules. On supported non-`auto` routes, OpenClaw maps the selected thinking level
+    and reasoning-replay rules. On supported non-`auto` routes, FRIDAY maps the selected thinking level
     to OpenRouter proxy reasoning payloads. `openrouter/auto` and unsupported
     model hints skip that injection. Stale `openrouter/hunter-alpha` refs also
     skip it, because OpenRouter could return final answer text in reasoning
@@ -517,7 +517,7 @@ does **not** inject those OpenRouter-specific headers or prompt-cache markers.
     On verified OpenRouter routes, `openrouter/deepseek/deepseek-v4-flash` and
     `openrouter/deepseek/deepseek-v4-pro` fill missing `reasoning_content` on
     replayed assistant turns, keeping thinking/tool conversations in DeepSeek
-    V4's required follow-up shape. OpenClaw sends OpenRouter-supported
+    V4's required follow-up shape. FRIDAY sends OpenRouter-supported
     `reasoning.effort` values for these routes: `xhigh`/`max` map to `xhigh`,
     every other non-off level maps to `high`. `/think off` explicitly sends
     `reasoning.effort: "none"` and removes reasoning replay fields instead of
@@ -531,14 +531,14 @@ does **not** inject those OpenRouter-specific headers or prompt-cache markers.
   </Accordion>
 
   <Accordion title="Gemini-backed routes">
-    Gemini-backed OpenRouter refs stay on the proxy-Gemini path: OpenClaw keeps
+    Gemini-backed OpenRouter refs stay on the proxy-Gemini path: FRIDAY keeps
     Gemini thought-signature sanitation there, but does not enable native
     Gemini replay validation or bootstrap rewrites.
 
     On verified OpenRouter routes, `google/gemini*` refs (including `~google/`
     aliases and `:variant` suffixes) receive one `cache_control: { type:
     "ephemeral" }` marker on the stable system/developer prompt prefix. Gemini
-    uses only the last breakpoint, so OpenClaw does not mark tools or history.
+    uses only the last breakpoint, so FRIDAY does not mark tools or history.
     `cacheRetention: "none"` disables it; `"short"` and `"long"` keep the
     provider's default cache window. The model's minimum cacheable prompt size
     still applies. See [Prompt caching](/reference/prompt-caching#openrouter).
@@ -568,7 +568,7 @@ does **not** inject those OpenRouter-specific headers or prompt-cache markers.
     }
     ```
 
-    OpenClaw forwards that object to OpenRouter as the request `provider`
+    FRIDAY forwards that object to OpenRouter as the request `provider`
     payload. Use OpenRouter's documented snake_case fields, including `sort`,
     `only`, `ignore`, `order`, `allow_fallbacks`, `require_parameters`,
     `data_collection`, `quantizations`, `max_price`, `preferred_max_latency`,

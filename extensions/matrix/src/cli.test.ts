@@ -173,7 +173,7 @@ function mockMatrixAccountConfigApply(): void {
 }
 
 function matrixDevice(deviceId: string, current: boolean) {
-  return { deviceId, current, displayName: "OpenClaw Gateway", lastSeenIp: null, lastSeenTs: null };
+  return { deviceId, current, displayName: "FRIDAY Gateway", lastSeenIp: null, lastSeenTs: null };
 }
 
 function healthyMatrixBackup(overrides: Record<string, unknown> = {}) {
@@ -485,7 +485,7 @@ describe("matrix CLI verification commands", () => {
 
     expectLogs(
       "Verification id: self-1",
-      "Initiated by OpenClaw: no",
+      "Initiated by FRIDAY: no",
       "Transaction id: txn-1",
       "Other user: @bot:example.org",
       "Other device: PHONE123",
@@ -712,14 +712,14 @@ describe("matrix CLI verification commands", () => {
     mocks.devices.mockResolvedValue([
       {
         deviceId: "A7hWr\u001B[31mQ70ea",
-        displayName: "OpenClaw\u001B[2J Gateway",
+        displayName: "FRIDAY\u001B[2J Gateway",
         lastSeenIp: "127.0.0.1\u009B2J",
         lastSeenTs: 1_741_507_200_000,
         current: true,
       },
       {
         deviceId: "BritdXC6iL",
-        displayName: "OpenClaw Gateway",
+        displayName: "FRIDAY Gateway",
         lastSeenIp: null,
         lastSeenTs: 8_700_000_000_000_000,
         current: false,
@@ -730,9 +730,9 @@ describe("matrix CLI verification commands", () => {
     expect(mocks.devices).toHaveBeenCalledWith({ accountId: "poe", cfg: {} });
     expectLogs(
       "Account: poe",
-      "- A7hWrQ70ea (current, OpenClaw Gateway)",
+      "- A7hWrQ70ea (current, FRIDAY Gateway)",
       "  Last IP: 127.0.0.1",
-      "- BritdXC6iL (OpenClaw Gateway)",
+      "- BritdXC6iL (FRIDAY Gateway)",
     );
     expect(
       mocks.log.mock.calls.filter(([message]) => String(message).startsWith("  Last seen:")),
@@ -756,7 +756,7 @@ describe("matrix CLI verification commands", () => {
       cfg: {},
     });
     expectLogs(
-      "Deleted stale OpenClaw devices: BritdXC6iL",
+      "Deleted stale FRIDAY devices: BritdXC6iL",
       "Current device: A7hWrQ70ea",
       "Remaining devices: 1",
     );
@@ -885,7 +885,7 @@ describe("matrix CLI verification commands", () => {
         );
         expectLogs("Matrix verification bootstrap: complete", "Backup version: 7");
         expect(mocks.log.mock.calls.flat().join("\n")).toContain(
-          "stale OpenClaw devices detected (stale)",
+          "stale FRIDAY devices detected (stale)",
         );
       } else {
         expectRecordFields(mockCallArg(mocks.bootstrap), {
@@ -1070,7 +1070,7 @@ describe("matrix CLI verification commands", () => {
       expectedExitCode: 1,
       expectedLogs: [
         "Device issue: current Matrix device is missing from the homeserver device list",
-        "- This Matrix device is no longer listed on the homeserver. Create a new OpenClaw Matrix device with openclaw matrix account add --homeserver '<url>' --user-id '<@user:server>' --password '<password>' --device-name OpenClaw-Gateway --account assistant. If you use token auth, create a fresh Matrix access token in your Matrix client or admin UI, then run openclaw matrix account add --homeserver '<url>' --access-token '<token>' --account assistant.",
+        "- This Matrix device is no longer listed on the homeserver. Create a new FRIDAY Matrix device with openclaw matrix account add --homeserver '<url>' --user-id '<@user:server>' --password '<password>' --device-name FRIDAY-Gateway --account assistant. If you use token auth, create a fresh Matrix access token in your Matrix client or admin UI, then run openclaw matrix account add --homeserver '<url>' --access-token '<token>' --account assistant.",
       ],
     },
     {

@@ -1,6 +1,6 @@
 // The relay bridge owns CDP target synthesis; this worker owns tab
 // eligibility/access and forwards allowed frames to chrome.debugger.
-// The OpenClaw tab group is the ACL in selected mode and an ownership
+// The FRIDAY tab group is the ACL in selected mode and an ownership
 // marker in all-tabs mode.
 import {
   createNativeBootstrapController,
@@ -311,7 +311,7 @@ function failRelayAuthentication(ws, error) {
     return;
   }
   relayStatusHint =
-    "Relay authentication v2 failed. Update OpenClaw, or re-pair after a relay key rotation.";
+    "Relay authentication v2 failed. Update FRIDAY, or re-pair after a relay key rotation.";
   try {
     closeRelaySocket(
       4001,
@@ -445,7 +445,7 @@ async function connectRelay(isConnectionAllowed = () => true) {
           relayAuthenticatedSocket = null;
         } else if (!relayStatusHint) {
           relayStatusHint =
-            "Relay authentication v2 failed. Update OpenClaw, or re-pair after a relay key rotation.";
+            "Relay authentication v2 failed. Update FRIDAY, or re-pair after a relay key rotation.";
         }
         setBadge("error");
         scheduleReconnect();
@@ -481,7 +481,7 @@ function handleRelayOpeningDeadline() {
     // The socket may have changed state while the alarm event was queued.
   }
   setBadge("error");
-  relayStatusHint = "Relay authentication v2 timed out. Make sure OpenClaw is up to date.";
+  relayStatusHint = "Relay authentication v2 timed out. Make sure FRIDAY is up to date.";
   scheduleReconnect();
 }
 

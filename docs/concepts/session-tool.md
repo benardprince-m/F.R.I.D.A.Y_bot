@@ -7,7 +7,7 @@ read_when:
 title: "Session tools"
 ---
 
-OpenClaw gives agents tools to work across sessions, inspect status, and orchestrate sub-agents.
+FRIDAY gives agents tools to work across sessions, inspect status, and orchestrate sub-agents.
 
 `sessions_list`, `sessions_history`, `sessions_search`, `session_status`,
 `sessions_send`, `sessions`, `sessions_create`, and `sessions_spawn` accept optional `user` (the requester's verified `requester_profile.id`).
@@ -107,7 +107,7 @@ Transcript-derived fields are opt-in: `includeDerivedTitles`, `includeLastMessag
 
 Use the returned `sessionId` as `expectedSessionId` when the `sessions` tool archives, restores, or deletes a session, so a stale key cannot target a replacement. Delivery routing, detailed runtime settings, cost estimates, and transcript paths remain omitted. Restricted inventories include `visibility` metadata explaining the effective session-tool scope.
 
-`sessions_history` fetches the conversation transcript for a specific session. By default, tool results are excluded; pass `includeTools: true` to see them. Use `limit` for the newest bounded tail. Pass `offset: 0` when you need pagination metadata, then pass returned `nextOffset` values to page backward through older OpenClaw transcript windows without reading raw transcript files. When an eligible bound external CLI transcript contributes messages, history returns a merged snapshot instead of a numeric offset page—even with an explicit `offset`. The Gateway treats these as terminal snapshots (`hasMore: false`); oversized snapshots remain byte-bounded, so terminal does not imply complete. Local offset paging applies when no external import survives. Unanchored reads stay the current reset-relative view. An explicit `messageId` that remains in that current view, including a pre-reset row kept after reset, keeps current-view behavior. An explicit `messageId` for a retained active-path row outside the current view opens that original closed interval and does not mix later post-reset turns; a missing or off-path `messageId` returns empty history rather than the newest messages.
+`sessions_history` fetches the conversation transcript for a specific session. By default, tool results are excluded; pass `includeTools: true` to see them. Use `limit` for the newest bounded tail. Pass `offset: 0` when you need pagination metadata, then pass returned `nextOffset` values to page backward through older FRIDAY transcript windows without reading raw transcript files. When an eligible bound external CLI transcript contributes messages, history returns a merged snapshot instead of a numeric offset page—even with an explicit `offset`. The Gateway treats these as terminal snapshots (`hasMore: false`); oversized snapshots remain byte-bounded, so terminal does not imply complete. Local offset paging applies when no external import survives. Unanchored reads stay the current reset-relative view. An explicit `messageId` that remains in that current view, including a pre-reset row kept after reset, keeps current-view behavior. An explicit `messageId` for a retained active-path row outside the current view opens that original closed interval and does not mix later post-reset turns; a missing or off-path `messageId` returns empty history rather than the newest messages.
 
 Display history limits raw pages to 8 MiB before loading message bodies. A larger
 message returns an error instead of exhausting a transcript worker. If an anchored
@@ -202,7 +202,7 @@ Use `sessions_create` for independent sessions. For deliberately supervised chil
 
 If startup or registration fails, cleanup removes only the child created by that spawn. A session reset or replaced meanwhile is preserved. When cleanup cannot be confirmed, the error includes the child session key for inspection before retrying.
 
-An agent-selected model patch stays reversible until that selection completes a successful run. If the selected model is definitively unusable because of authentication, billing, or model-not-found failure, OpenClaw restores the previous model and writes a visible system note. Transient rate-limit, overload, timeout, network, and server failures do not undo the selection.
+An agent-selected model patch stays reversible until that selection completes a successful run. If the selected model is definitively unusable because of authentication, billing, or model-not-found failure, FRIDAY restores the previous model and writes a visible system note. Transient rate-limit, overload, timeout, network, and server failures do not undo the selection.
 
 ## Sessions versus conversations
 
@@ -240,7 +240,7 @@ Supply the message body in the required `message` argument. Hidden aliases such 
 
 `sessions_send` runs another session on the same Gateway and optionally waits for the response. Its `sessionKey`, `label`, or `agentId` selects local model context, not an external destination. A peer's reply reaches the requester once, either inline or as a later inter-session input. Continue the conversation with another `sessions_send`. To post to a channel, use `message` with an explicit channel and target.
 
-Sessions keep their addresses when execution moves between the Gateway, a paired device, and a cloud worker. An OpenClaw worker can send to an authorized parent, child, or sibling using its exact session key, including a target running on the Gateway. The Gateway validates the current session identities, visibility, and any per-agent send-only policy before admitting the target turn; target placement does not grant messaging access. Targets outside both the configured visibility scope and an authorized send-only rule, archived targets, and replaced targets remain denied.
+Sessions keep their addresses when execution moves between the Gateway, a paired device, and a cloud worker. An FRIDAY worker can send to an authorized parent, child, or sibling using its exact session key, including a target running on the Gateway. The Gateway validates the current session identities, visibility, and any per-agent send-only policy before admitting the target turn; target placement does not grant messaging access. Targets outside both the configured visibility scope and an authorized send-only rule, archived targets, and replaced targets remain denied.
 
 An explicit `agents.entries.<agentId>.tools.agentToAgent.send` list can authorize
 `sessions_send` to selected agents without exposing their sessions to list,
@@ -260,7 +260,7 @@ normal delayed delivery. This is the run-owned result, not permission to retriev
 arbitrary target history. The target can still disclose data or act on the
 request; send-only access is not isolation from a privileged target's behavior.
 
-During healthy worker provisioning or workspace preparation, accepted input stays queued until the intended worker is ready. It starts once after OpenClaw rechecks the session and placement. Cancellation, failed setup, or a replaced destination does not silently run that input locally or on another worker. Check the retained input and setup error before submitting another message.
+During healthy worker provisioning or workspace preparation, accepted input stays queued until the intended worker is ready. It starts once after FRIDAY rechecks the session and placement. Cancellation, failed setup, or a replaced destination does not silently run that input locally or on another worker. Check the retained input and setup error before submitting another message.
 
 Ordinary peer sends accepted by the Gateway retain delivery ownership with the
 saved input. After an unexpected shutdown or update restart, startup re-admits
@@ -354,7 +354,7 @@ conflict reports from device-hosted workers. The requesting session keeps its ow
 
 Replies come from the completed run's terminal result. When a same-session
 target has already delivered its final reply to the source conversation through
-`message`, OpenClaw skips the duplicate source-channel reply. Progress messages
+`message`, FRIDAY skips the duplicate source-channel reply. Progress messages
 and replies stored only in the internal UI do not count as external delivery.
 When a same-session follow-up still needs source-channel delivery, its reply preserves
 the requesting turn's channel, account, recipient, and thread when available.
@@ -429,23 +429,23 @@ When route metadata is available, `session_status` also includes a visible `Rout
 
 - `origin` is where the session was created, or the provider inferred from a deliverable session-key prefix when older state lacks stored origin metadata.
 - `active` is the current live-run route. It is only reported for the live or current session being handled now.
-- `deliveryContext` is the persisted delivery route stored on the session, which OpenClaw can reuse for later delivery even when the active surface differs.
+- `deliveryContext` is the persisted delivery route stored on the session, which FRIDAY can reuse for later delivery even when the active surface differs.
 
 ## Session state changes
 
-OpenClaw keeps a durable signal log of material session state changes (direct human messages to watched sessions, child-run outcomes, goal changes, compaction). `sessions_list` rows and `session_status` expose the session's `stateVersion`, and `session_status` accepts `changesSince: <version>` to return the typed events after that version, with exact `historyGap` signaling when the requested version predates retained history. Watchers — spawn parents automatically, `sessions_send watch: true` explicitly — receive one coalesced stale-state notice when another actor changes a watched session.
+FRIDAY keeps a durable signal log of material session state changes (direct human messages to watched sessions, child-run outcomes, goal changes, compaction). `sessions_list` rows and `session_status` expose the session's `stateVersion`, and `session_status` accepts `changesSince: <version>` to return the typed events after that version, with exact `historyGap` signaling when the requested version predates retained history. Watchers — spawn parents automatically, `sessions_send watch: true` explicitly — receive one coalesced stale-state notice when another actor changes a watched session.
 
 State-change events omit repeated session/agent IDs and expose only model-useful payload fields (`outcome`, `channel`, or `turns`). The event summary and actor/run identifiers remain available for reconciliation.
 
 See [Session state awareness](/concepts/session-state) for the full model: event kinds, watcher registration, the anti-spam notice protocol, reconciliation flow, and current limits.
 
-`sessions_yield` intentionally ends the current turn so the next message can be an announced child completion event. Use it for announcing sub-agents, not [Swarm collectors](/tools/swarm): collectors require explicit result collection through `agents_wait` or an awaited `agents.run()` in OpenClaw Code Mode, and send no completion notification.
+`sessions_yield` intentionally ends the current turn so the next message can be an announced child completion event. Use it for announcing sub-agents, not [Swarm collectors](/tools/swarm): collectors require explicit result collection through `agents_wait` or an awaited `agents.run()` in FRIDAY Code Mode, and send no completion notification.
 
 `subagents` lists native subagent runs within the controlled session tree. Use the returned `runId` with `action: "wait"` or `action: "cancel"`; cancellation does not grant access to unrelated sessions. ACP, media, shell processes, and cron retain their own status and cancellation owners.
 
 ## Spawning sub-agents
 
-`sessions_spawn` creates a separate session for a background task. Non-thread spawns start with isolated context by default; thread-bound spawns follow the configured context policy described below. It returns a `runId` and `childSessionKey` when startup is accepted, without waiting for the child task to finish. Spawns from an OpenClaw cloud worker can first wait for child provisioning and node enrollment. Native sub-agent runs receive their delegated task in a user message appended after any forked history; model-only runtime context marks inherited conversation as background, not the current child's assignment. The Control UI displays the task without this runtime context. The system prompt carries only sub-agent runtime rules and routing context.
+`sessions_spawn` creates a separate session for a background task. Non-thread spawns start with isolated context by default; thread-bound spawns follow the configured context policy described below. It returns a `runId` and `childSessionKey` when startup is accepted, without waiting for the child task to finish. Spawns from an FRIDAY cloud worker can first wait for child provisioning and node enrollment. Native sub-agent runs receive their delegated task in a user message appended after any forked history; model-only runtime context marks inherited conversation as background, not the current child's assignment. The Control UI displays the task without this runtime context. The system prompt carries only sub-agent runtime rules and routing context.
 
 Key options:
 
@@ -460,7 +460,7 @@ Key options:
 
 Sub-agents below the default depth limit of `5` receive `sessions_spawn`, `subagents`, `sessions_list`, and `sessions_history` so they can manage their own children. Set a lower `maxSpawnDepth` to turn sessions at that depth into leaves sooner.
 
-Ordinary announcing runs return a completion event to the requester. Follow the accepted receipt for other completion modes: collectors require explicit collection, directly routed thread sessions reply in the bound thread, and quiet runs send no completion notification. Announce delivery preserves bound thread/topic routing when available, and if the completion origin only identifies a channel, OpenClaw can still reuse the requester session's stored route (`lastChannel` / `lastTo`) for direct delivery.
+Ordinary announcing runs return a completion event to the requester. Follow the accepted receipt for other completion modes: collectors require explicit collection, directly routed thread sessions reply in the bound thread, and quiet runs send no completion notification. Announce delivery preserves bound thread/topic routing when available, and if the completion origin only identifies a channel, FRIDAY can still reuse the requester session's stored route (`lastChannel` / `lastTo`) for direct delivery.
 
 For ACP-specific behavior, see [ACP Agents](/tools/acp-agents).
 

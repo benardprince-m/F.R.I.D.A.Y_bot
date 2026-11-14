@@ -206,7 +206,7 @@ it.each(["after presentation", "during pending response", "during browser failur
         if (allowed) {
           expect(messages.some((text) => text.includes("LOGIN-CODE"))).toBe(true);
         } else {
-          expect((await dispatch("/login")).reply?.text).toContain("Only an OpenClaw owner");
+          expect((await dispatch("/login")).reply?.text).toContain("Only an FRIDAY owner");
         }
       } finally {
         pendingResponse.resolve();

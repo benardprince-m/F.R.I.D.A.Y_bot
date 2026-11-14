@@ -15,7 +15,7 @@ Safe media smoke:
 
 ```bash
 pnpm openclaw infer tts convert --local --json \
-  --text "OpenClaw live smoke." \
+  --text "FRIDAY live smoke." \
   --output /tmp/openclaw-live-smoke.mp3
 ```
 

@@ -1,4 +1,4 @@
-//! Reusable `OpenClaw` node profile, bounded command runtime, and headless host.
+//! Reusable `FRIDAY` node profile, bounded command runtime, and headless host.
 //!
 //! Register capabilities and exact command handlers with [`CommandRuntimeBuilder`].
 //! Embeddings can compose their canonical local approval state through

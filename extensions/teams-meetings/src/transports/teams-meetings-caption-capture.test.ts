@@ -31,13 +31,13 @@ afterEach(() => {
 
 describe("Microsoft Teams meeting captions and permissions", () => {
   it("enables live captions and captures the validated Teams caption row DOM", async () => {
-    const { result, window } = await runCaptionRows([captionRow("OpenClaw QA", "I")]);
+    const { result, window } = await runCaptionRows([captionRow("FRIDAY QA", "I")]);
 
     expect(result).toMatchObject({
       captioning: true,
       captionsEnabledAttempted: true,
       inCall: true,
-      lastCaptionSpeaker: "OpenClaw QA",
+      lastCaptionSpeaker: "FRIDAY QA",
       lastCaptionText: "I",
       transcriptLines: 1,
     });
@@ -47,7 +47,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
       epoch: "teams-caption-epoch",
       lines: [
         {
-          speaker: "OpenClaw QA",
+          speaker: "FRIDAY QA",
           text: "I",
         },
       ],
@@ -60,7 +60,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
   });
 
   it("retries an unverified live-caption activation", async () => {
-    const first = await runCaptionRows([captionRow("OpenClaw QA", "Retry captions")], undefined, {
+    const first = await runCaptionRows([captionRow("FRIDAY QA", "Retry captions")], undefined, {
       captionClickIgnored: true,
       captionsInitiallyOn: false,
     });
@@ -70,7 +70,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
       captionsEnabledAttempted: false,
     });
 
-    const second = await runCaptionRows([captionRow("OpenClaw QA", "Retry captions")], first, {
+    const second = await runCaptionRows([captionRow("FRIDAY QA", "Retry captions")], first, {
       captionsInitiallyOn: false,
       priorMeeting: first.window[MEETING_STATE_KEY] as Record<string, unknown>,
     });
@@ -84,7 +84,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
   it("bounds visible and committed caption rows together", async () => {
     const { result, window } = await runCaptionStatusScript({
       captionRows: Array.from({ length: 505 }, (_, index) =>
-        captionRow("OpenClaw QA", `Bounded caption ${index}`),
+        captionRow("FRIDAY QA", `Bounded caption ${index}`),
       ),
     });
     const state = window["__openclawTeamsCaptions"] as {
@@ -105,7 +105,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
 
   it("keeps the latest caption when Teams shortens a provisional row", async () => {
     vi.useFakeTimers();
-    const row = captionRow("OpenClaw QA", "We should leave today");
+    const row = captionRow("FRIDAY QA", "We should leave today");
     const first = await runCaptionRows([row], undefined, {
       captionsInitiallyOn: true,
     });
@@ -120,34 +120,30 @@ describe("Microsoft Teams meeting captions and permissions", () => {
     expect(second.result.lastCaptionText).toBe("We should leave");
     expect(second.result.transcriptLines).toBe(1);
     expect(second.result.recentTranscript).toMatchObject([
-      { speaker: "OpenClaw QA", text: "We should leave" },
+      { speaker: "FRIDAY QA", text: "We should leave" },
     ]);
   });
 
   it("keeps one utterance when Teams replaces a logically identical caption row", async () => {
-    const first = await runCaptionRows([captionRow("OpenClaw Q", "Logical row", "8")]);
+    const first = await runCaptionRows([captionRow("FRIDAY Q", "Logical row", "8")]);
     const second = await runCaptionRows(
-      [captionRow("OpenClaw QA", "Logical row replacement", "8")],
+      [captionRow("FRIDAY QA", "Logical row replacement", "8")],
       first,
     );
 
     expect(second.result.transcriptLines).toBe(1);
     expect(second.result.lastCaptionText).toBe("Logical row replacement");
-    expect(second.result.lastCaptionSpeaker).toBe("OpenClaw QA");
+    expect(second.result.lastCaptionSpeaker).toBe("FRIDAY QA");
   });
 
   it("updates a settled logical row in place when Teams corrects it late", async () => {
     vi.useFakeTimers();
-    const first = await runCaptionRows(
-      [captionRow("OpenClaw QA", "Late logical", "9")],
-      undefined,
-      {
-        captionsInitiallyOn: true,
-      },
-    );
+    const first = await runCaptionRows([captionRow("FRIDAY QA", "Late logical", "9")], undefined, {
+      captionsInitiallyOn: true,
+    });
     await vi.advanceTimersByTimeAsync(1_000);
     const second = await runCaptionRows(
-      [captionRow("OpenClaw QA", "Late logical correction", "9")],
+      [captionRow("FRIDAY QA", "Late logical correction", "9")],
       first,
     );
 
@@ -158,7 +154,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
   it("deduplicates a settled logical row after temporary DOM removal", async () => {
     vi.useFakeTimers();
     const first = await runCaptionRows(
-      [captionRow("OpenClaw QA", "Virtual row return", "13")],
+      [captionRow("FRIDAY QA", "Virtual row return", "13")],
       undefined,
       {
         captionsInitiallyOn: true,
@@ -167,7 +163,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
     await vi.advanceTimersByTimeAsync(1_000);
     const missing = await runCaptionRows([], first);
     const returned = await runCaptionRows(
-      [captionRow("OpenClaw QA", "Virtual row return", "13")],
+      [captionRow("FRIDAY QA", "Virtual row return", "13")],
       missing,
     );
 
@@ -177,7 +173,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
 
   it("commits an utterance when Teams recycles the same virtual-list row", async () => {
     vi.useFakeTimers();
-    const row = captionRow("OpenClaw QA", "First recycled-row utterance");
+    const row = captionRow("FRIDAY QA", "First recycled-row utterance");
     const first = await runCaptionRows([row], undefined, {
       captionsInitiallyOn: true,
     });
@@ -200,7 +196,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
   });
 
   it("commits a removed row before Teams rapidly reuses its DOM node", async () => {
-    const row = captionRow("OpenClaw QA", "Rapid first utterance");
+    const row = captionRow("FRIDAY QA", "Rapid first utterance");
     const first = await runCaptionRows([row]);
     const caption = row.querySelector('[data-tid="closed-caption-text"]');
     if (!caption) {
@@ -219,8 +215,8 @@ describe("Microsoft Teams meeting captions and permissions", () => {
 
   it("retains settled markers for older rows while newer captions settle", async () => {
     vi.useFakeTimers();
-    const firstRow = captionRow("OpenClaw QA", "First settled row", "11");
-    const secondRow = captionRow("OpenClaw QA", "Second settled row", "12");
+    const firstRow = captionRow("FRIDAY QA", "First settled row", "11");
+    const secondRow = captionRow("FRIDAY QA", "Second settled row", "12");
     const first = await runCaptionRows([firstRow], undefined, {
       captionsInitiallyOn: true,
     });
@@ -243,12 +239,12 @@ describe("Microsoft Teams meeting captions and permissions", () => {
     if (!author) {
       throw new Error("expected caption author control");
     }
-    author.textContent = "OpenClaw QA";
+    author.textContent = "FRIDAY QA";
     const second = await runCaptionRows([row], first);
 
     expect(second.result.transcriptLines).toBe(1);
     expect(second.result.recentTranscript).toMatchObject([
-      { speaker: "OpenClaw QA", text: "Late attribution" },
+      { speaker: "FRIDAY QA", text: "Late attribution" },
     ]);
   });
 
@@ -332,7 +328,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
         visible: [
           {
             at: "2026-07-17T12:00:00.000Z",
-            speaker: "OpenClaw QA",
+            speaker: "FRIDAY QA",
             text: "Preserve call-end captions",
           },
         ],
@@ -353,13 +349,13 @@ describe("Microsoft Teams meeting captions and permissions", () => {
 
   it("finalizes caption capture before an SPA navigation can mix meetings", async () => {
     const params = {
-      captionRows: [captionRow("OpenClaw QA", "Meeting A caption")],
+      captionRows: [captionRow("FRIDAY QA", "Meeting A caption")],
       captureCaptions: true,
       leave: control({ label: "Leave" }),
     };
     const page = await runStatusScript(params);
 
-    params.captionRows = [captionRow("OpenClaw QA", "Meeting B caption")];
+    params.captionRows = [captionRow("FRIDAY QA", "Meeting B caption")];
     page.triggerCaptionMutation(CONSUMER_URL);
 
     const captions = page.window["__openclawTeamsCaptions"] as {
@@ -437,7 +433,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
     const leave = control({ label: "Leave" });
     const currentUrl = "https://teams.live.com/v2/";
     const page = await runCaptionStatusScript({
-      captionRows: [captionRow("OpenClaw QA", "Caption before control rerender")],
+      captionRows: [captionRow("FRIDAY QA", "Caption before control rerender")],
       currentUrl,
       leave,
       priorMeeting: {
@@ -520,7 +516,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
   });
 
   it("disconnects caption capture when finalizing a transcript", async () => {
-    const first = await runCaptionRows([captionRow("OpenClaw QA", "Final caption")]);
+    const first = await runCaptionRows([captionRow("FRIDAY QA", "Final caption")]);
     let disconnects = 0;
     const captions = first.window["__openclawTeamsCaptions"] as Record<string, unknown>;
     captions.observer = { disconnect: () => (disconnects += 1) };
@@ -533,7 +529,7 @@ describe("Microsoft Teams meeting captions and permissions", () => {
     expect(captions.identity).toBe("teams-work:19:meeting_test@thread.v2");
     expect(typeof captions.finalizedAt).toBe("number");
 
-    const refreshed = await runCaptionRows([captionRow("OpenClaw QA", "Late caption")], undefined, {
+    const refreshed = await runCaptionRows([captionRow("FRIDAY QA", "Late caption")], undefined, {
       priorCaptions: captions,
     });
     expect(refreshed.window["__openclawTeamsCaptions"]).toBe(captions);

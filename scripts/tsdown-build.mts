@@ -671,8 +671,8 @@ export function describeInsufficientTsdownHeap(
     fatal,
     message: [
       budget.unresolvedCgroupMemory
-        ? "[tsdown-build] The process memory limit is not visible through this cgroup mount namespace, so OpenClaw cannot choose a safe default heap."
-        : `[tsdown-build] The resolved OpenClaw build heap is ${maxOldSpaceMb}MB, ` +
+        ? "[tsdown-build] The process memory limit is not visible through this cgroup mount namespace, so FRIDAY cannot choose a safe default heap."
+        : `[tsdown-build] The resolved FRIDAY build heap is ${maxOldSpaceMb}MB, ` +
           `and a full build needs ${MEASURED_MIN_TSDOWN_HEAP_MB}MB, peaking near 4.7GB once rolldown's ` +
           `native allocations are counted; those are not covered by --max-old-space-size.`,
       ...outcome,
@@ -733,7 +733,7 @@ function tsdownBuildUsage() {
   return [
     "Usage: node --import tsx scripts/tsdown-build.mts [tsdown args...]",
     "",
-    "Builds OpenClaw with tsdown and validates emitted import diagnostics.",
+    "Builds FRIDAY with tsdown and validates emitted import diagnostics.",
     "",
     "Options:",
     "  -h, --help  Show this help without starting tsdown.",

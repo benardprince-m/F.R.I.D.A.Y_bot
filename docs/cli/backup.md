@@ -2,8 +2,8 @@
 doc-schema-version: 1
 summary: "CLI reference for `openclaw backup` (local and offsite archives, SQLite snapshots, Git history, and schedules)"
 read_when:
-  - You want a first-class backup archive for local OpenClaw state
-  - You need a compact, verified snapshot of one OpenClaw SQLite database
+  - You want a first-class backup archive for local FRIDAY state
+  - You need a compact, verified snapshot of one FRIDAY SQLite database
   - You want scheduled, versioned database backups in an operator-owned Git repository
   - You want encrypted offsite archives, retention, or external backup status
   - You want to preview which paths would be included before reset or uninstall
@@ -13,7 +13,7 @@ title: "Backup"
 
 # `openclaw backup`
 
-Create backup archives for OpenClaw state, config, auth profiles, channel/provider
+Create backup archives for FRIDAY state, config, auth profiles, channel/provider
 credentials, sessions, and optionally workspaces. Save them locally or upload to
 a named [storage location](/concepts/storage-locations). SQLite snapshots and Git
 history provide database-focused alternatives.
@@ -90,7 +90,7 @@ restore and update-recovery behavior.
 ## Notes
 
 - The archive embeds a schema-version-1 `manifest.json` with the resolved source paths and archive layout. Additive ownership metadata records configured agent ids and roots, including agent roots already covered by another asset; existing archive layout and older archives remain supported. New archives also record the current-layout SQLite snapshots captured at creation; standalone verification rejects missing or mismatched inventory entries. Legacy archives without this inventory remain readable, but verification reports `sqliteInventoryVerified: false` because complete database coverage cannot be established. An empty inventory means no current-layout databases were captured (for example, a config-only export), not a full database recovery point.
-- Without `--to`, default output is a timestamped `.tar.gz` archive in the current working directory. Local timestamped filenames use your machine's local timezone and include the UTC offset. If the current working directory is inside a backed-up source tree, OpenClaw falls back to your home directory for the default archive location. With `--to`, the default archive is temporary; pass `--output` as well to retain a local copy.
+- Without `--to`, default output is a timestamped `.tar.gz` archive in the current working directory. Local timestamped filenames use your machine's local timezone and include the UTC offset. If the current working directory is inside a backed-up source tree, FRIDAY falls back to your home directory for the default archive location. With `--to`, the default archive is temporary; pass `--output` as well to retain a local copy.
 - Existing archive files are never overwritten. Output paths inside the source state/workspace trees are rejected to avoid self-inclusion.
 - `openclaw backup verify <archive>` checks that the archive contains exactly one root manifest, rejects traversal-style archive paths and unsafe symbolic links, confirms every manifest-declared payload exists, and validates the root SQLite snapshot and agent snapshots listed in the manifest or captured durable registry. It rejects sidecars for those snapshots and checks their integrity and database roles, including each agent's identity. For each producer-declared PostgreSQL store, including plugins and retained Matrix roots, it verifies the capture manifest hash, export artifacts, and both captured anchors. Restore then rehydrates each store through its provider. Other files, including ordinary plugin files, remain opaque. `openclaw backup create --verify` runs that validation immediately after writing the archive.
 - Full archives include the active config and its required `$include` files, including dependencies outside the state directory. They preserve authored bytes, comments, and environment placeholders; resolved secrets are not written into the config copy. These additional files may contain sensitive data, so protect the archive accordingly.
@@ -157,7 +157,7 @@ same namespace when listing, verifying, or restoring from another host.
 
 The first upload creates `backups/<namespace>/owner.json` with the installation's
 durable Gateway device ID, hostname, and claim time. The claim uses the location's
-encryption settings. OpenClaw checks that the claim matches this installation
+encryption settings. FRIDAY checks that the claim matches this installation
 before archiving, at archive publication, and before each retention deletion.
 An existing claim with a different device ID refuses the run before archiving
 and records a failed attempt naming the owner. Identical
@@ -333,7 +333,7 @@ not create captures, change retention, or change ordinary backup sanitization.
 
 ## SQLite snapshots
 
-Use `openclaw backup sqlite` when you need a portable artifact for one OpenClaw-owned SQLite database instead of a broad state archive.
+Use `openclaw backup sqlite` when you need a portable artifact for one FRIDAY-owned SQLite database instead of a broad state archive.
 
 This command remains SQLite-only. A PostgreSQL anchor is refused with guidance to
 use `openclaw backup create`. Generic local snapshot providers use the matched
@@ -347,7 +347,7 @@ when `agentDir` is outside the state directory:
 
 | Command                                                         | Database               |
 | --------------------------------------------------------------- | ---------------------- |
-| `openclaw backup sqlite create --global --repository <dir>`     | Shared OpenClaw state  |
+| `openclaw backup sqlite create --global --repository <dir>`     | Shared FRIDAY state    |
 | `openclaw backup sqlite create --agent <id> --repository <dir>` | One per-agent database |
 
 The repository contains one directory per committed snapshot. Each snapshot directory contains exactly:
@@ -367,7 +367,7 @@ database needs no original cold directory;
 missing or corrupt source archives fail backup creation. See
 [Cold transcript backups](/install/backups#cold-transcript-backups).
 
-SQLite snapshots can contain auth profiles, session state, plugin state, and other sensitive records. Protect repositories with the same permissions, encryption, retention policy, and destination restrictions as the live OpenClaw state directory.
+SQLite snapshots can contain auth profiles, session state, plugin state, and other sensitive records. Protect repositories with the same permissions, encryption, retention policy, and destination restrictions as the live FRIDAY state directory.
 
 ### Verify and restore
 
@@ -378,13 +378,13 @@ openclaw backup sqlite restore <snapshot-directory> --target <new-database-path>
 
 Verification checks the strict manifest shape, artifact size and SHA-256, SQLite integrity, foreign keys, schema version, and database role and owner.
 
-Snapshots from supported older schema versions can be verified and restored without migration. Newer-than-supported schemas and mismatched version metadata are refused. Restore preserves the snapshot bytes, and the running version performs any required migration when it opens the restored database. Snapshot creation still requires the current schema and validates OpenClaw-owned table and index definitions before compaction.
+Snapshots from supported older schema versions can be verified and restored without migration. Newer-than-supported schemas and mismatched version metadata are refused. Restore preserves the snapshot bytes, and the running version performs any required migration when it opens the restored database. Snapshot creation still requires the current schema and validates FRIDAY-owned table and index definitions before compaction.
 
 Verification validates a private content-pinned copy so pathname races cannot swap the bytes SQLite inspects. By default, that temporary copy is created beside the snapshot repository and removed before the command returns. The staging root and its ancestor chain must prevent other users from replacing it. POSIX roots must be current-user-owned and not group/world writable; sticky ancestors such as `/tmp` are accepted for user-owned children. macOS ACL grants that expose or make staging replaceable are rejected. Windows roots and ancestors must be owned by the current user or a trusted OS principal, with ACLs that deny untrusted staging access. For a read-only mount or network share, pass `--scratch <existing-private-directory>` on storage with equivalent encryption and destination controls.
 
 Snapshot creation applies the same owner, ACL, ancestor, and path-identity checks to the repository before staging or publishing database bytes. Newly created directory edges and final publication metadata are synchronized through the shared `fs-safe` durability boundary before success is reported on supported filesystems.
 
-Restore repeats verification and writes only to a fresh target. It refuses an existing target, `-wal`, `-shm`, or `-journal` sidecar and never performs an in-place replacement of a live OpenClaw database. The target parent has the same path-security requirements as verification scratch. Activating a restored database remains an explicit offline operator step.
+Restore repeats verification and writes only to a fresh target. It refuses an existing target, `-wal`, `-shm`, or `-journal` sidecar and never performs an in-place replacement of a live FRIDAY database. The target parent has the same path-security requirements as verification scratch. Activating a restored database remains an explicit offline operator step.
 
 Snapshot repositories are local directories. Scheduling, upload, retention, incremental WAL bundles, failover, and restore-on-boot behavior are intentionally outside this command.
 
@@ -422,19 +422,19 @@ openclaw backup git create --repository ~/Backups/openclaw-git --all --push
 ```
 
 The repository root must be owned by the current user and must not be group- or
-world-writable. OpenClaw checks this when initializing or adopting a repository
+world-writable. FRIDAY checks this when initializing or adopting a repository
 and before every create. On POSIX systems, repair unsafe permissions with
 `chmod 700 <repository>` after confirming its ownership.
 
-Use a dedicated repository for OpenClaw backups. Within `global/` and
-`agents/<agentId>/`, OpenClaw manages only `manifest.json`, `schema.sql`, and the
+Use a dedicated repository for FRIDAY backups. Within `global/` and
+`agents/<agentId>/`, FRIDAY manages only `manifest.json`, `schema.sql`, and the
 `tables/<table>.jsonl` files declared by that scope's valid schema-version-1
 manifest. Refresh and stale-agent cleanup replace or remove those artifacts,
 not whole directories. Unrelated documents and filesystem metadata such as
 `.DS_Store` remain untouched, including inside a backup scope or its `tables/`
 directory. Directories are removed only when empty.
 
-OpenClaw checks all selected scopes before refreshing or pruning. An existing
+FRIDAY checks all selected scopes before refreshing or pruning. An existing
 file that would collide with a new backup artifact without belonging to the
 previous manifest causes a refusal; so does a non-regular artifact or a symbolic
 link in a managed directory path. Preserve or move the conflicting path before
@@ -530,12 +530,12 @@ openclaw backup git verify --repository ~/Backups/openclaw-git --ref <commit> --
 Git history output must fit within a 16 MiB read. If a log request reports an
 output-limit error, retry with a smaller `--limit`. An oversized commit subject
 can exceed the limit even with `--limit 1`; inspect that history directly with
-Git. OpenClaw reports the failure without returning partial history entries.
+Git. FRIDAY reports the failure without returning partial history entries.
 
 For SQLite, verification restores the selected snapshot into private scratch space, checks each table's row count and SHA-256, runs `PRAGMA integrity_check` and `PRAGMA foreign_key_check`, and removes the scratch copy. For PostgreSQL, it verifies the matched export hashes and anchor locally, without connecting to the server or creating a namespace. Restore writes only to a fresh target and refuses existing `-wal`, `-shm`, and `-journal` sidecars:
 
 If temporary-file cleanup fails during Git backup creation, verification, or
-restore, OpenClaw warns on stderr without replacing the primary outcome.
+restore, FRIDAY warns on stderr without replacing the primary outcome.
 Inspect the named private temporary directory for leftover backup data.
 
 ```bash
@@ -676,7 +676,7 @@ it against the Gateway's state directory so successive outcomes appear together.
 
 ## What gets backed up
 
-`openclaw backup create` plans sources from your local OpenClaw install:
+`openclaw backup create` plans sources from your local FRIDAY install:
 
 - The state directory (usually `~/.openclaw`)
 - The active config file path
@@ -695,7 +695,7 @@ ordinary workspace sources, not configured agent directories.
 `--only-config` skips state, agent, credentials-directory, workspace, and
 plugin-resource discovery and archives only the active config file path.
 
-OpenClaw first plans resources from configuration. It captures the root SQLite
+FRIDAY first plans resources from configuration. It captures the root SQLite
 database online, then derives and freezes registered-agent ownership from that
 private snapshot for database discovery and archive traversal. Paths are resolved before comparison: config, credentials, workspaces, and agents
 already covered by another included root are not duplicated as top-level
@@ -715,7 +715,7 @@ files; recoverable audit sources receive sanitized backup replacements. Their
 imported or rewritten. Sanitized `.migrated` companions and retained SQLite audit
 history remain included in the backup.
 
-During archive creation, OpenClaw excludes known live-mutation paths before `tar` reads them. This avoids races between a file's recorded size and concurrent writes. The filter applies these state-relative rules under each backed-up state directory:
+During archive creation, FRIDAY excludes known live-mutation paths before `tar` reads them. This avoids races between a file's recorded size and concurrent writes. The filter applies these state-relative rules under each backed-up state directory:
 
 | State-relative scope                          | Skipped entries                                       |
 | --------------------------------------------- | ----------------------------------------------------- |
@@ -735,9 +735,9 @@ Transient filename rules apply across all selected roots, including every agent 
 
 If an entry disappears during traversal or before it can be opened, the archive continues with the surviving entries. Each omitted path appears in the result's `skipped` list with reason `vanished`, and in the result's `warnings` and text summary. Required source roots and staged captures must still exist; permission and I/O errors still fail the archive. Changes that could redirect a read outside the selected roots also fail. Files are opened before their archive headers are written, so a vanished file cannot leave a partial entry.
 
-Chromium singleton entries coordinate one running browser on one host and are recreated when that profile starts; the rest of the profile's `user-data/` remains in the archive. Sandbox skills workspaces are generated copies of current skill sources and are materialized again when OpenClaw prepares the next sandbox context after restore; adjacent sandbox registry and other durable state remain included.
+Chromium singleton entries coordinate one running browser on one host and are recreated when that profile starts; the rest of the profile's `user-data/` remains in the archive. Sandbox skills workspaces are generated copies of current skill sources and are materialized again when FRIDAY prepares the next sandbox context after restore; adjacent sandbox registry and other durable state remain included.
 
-Managed SQLite snapshots cover the shared OpenClaw database, the quarantine and
+Managed SQLite snapshots cover the shared FRIDAY database, the quarantine and
 integrity-verification store, and per-agent databases declared by configuration,
 recorded in the captured durable agent registry, or discovered at
 `<stateDir>/agents/<agentId>/agent/openclaw-agent.sqlite`. This includes configured
@@ -779,12 +779,12 @@ outside the backup inventory cause an explicit refusal with no archive. Close
 the database writers cleanly and include every hardlink in those resources before retrying.
 Changes to the shared database file during capture also refuse the backup, including
 a concurrent alias checkpoint that truncates its WAL before the journal checks repeat.
-Standard OpenClaw database aliases retain their existing owner validation and
+Standard FRIDAY database aliases retain their existing owner validation and
 sanitization.
 
 Installed plugin source and manifest files under the state directory's `extensions/` tree are included, but their nested `node_modules/` dependency trees are skipped as rebuildable install artifacts. After restoring an archive, use `openclaw plugins update <id>` or reinstall with `openclaw plugins install <spec> --force` if a restored plugin reports missing dependencies.
 
-The state directory's `plugin-skills/` root is a generated, OpenClaw-owned symlink index, not authoritative state. Backup creation reports and omits that root because its absolute targets are specific to the source installation. After activating restored state, run `openclaw skills list` or start an agent session to rebuild the links from current plugin metadata.
+The state directory's `plugin-skills/` root is a generated, FRIDAY-owned symlink index, not authoritative state. Backup creation reports and omits that root because its absolute targets are specific to the source installation. After activating restored state, run `openclaw skills list` or start an agent session to rebuild the links from current plugin metadata.
 
 Agent-scoped temporary trees under `agents/<agentId>/agent/**/{tmp,.tmp}/` are also omitted and reported as regenerable. This includes temporary files directly below an agent directory and temporary trees inside agent runtime homes; durable sibling directories remain included. An explicitly configured config file, credentials directory, or workspace nested below an omitted temporary root remains included.
 
@@ -806,7 +806,7 @@ remains traversable to reach those protected descendants. Names such as `tmp`
 and `.tmp` are not blanket exclusions in custom agent directories; only an
 applicable owner declaration can omit their durable-looking siblings.
 
-Local edits inside a managed `dev/` checkout are developer source, not OpenClaw product state, and are not included. Commit and push those edits or copy the checkout separately before relying on a state backup.
+Local edits inside a managed `dev/` checkout are developer source, not FRIDAY product state, and are not included. Commit and push those edits or copy the checkout separately before relying on a state backup.
 
 ## Invalid config behavior
 
@@ -818,12 +818,12 @@ Local `--only-config` still works when the config is malformed or state discover
 
 ## Size and performance
 
-OpenClaw does not enforce a built-in maximum backup size or per-file size limit. An archive write that produces no data for five minutes fails and removes its partial temporary file instead of hanging indefinitely. Practical limits otherwise come from:
+FRIDAY does not enforce a built-in maximum backup size or per-file size limit. An archive write that produces no data for five minutes fails and removes its partial temporary file instead of hanging indefinitely. Practical limits otherwise come from:
 
 - Available space for the temporary archive write plus the final archive
 - Time to walk large workspace trees and compress them into a `.tar.gz`
 - Time to rescan the archive with `--verify` or `openclaw backup verify`
-- Destination filesystem behavior: OpenClaw requires no-overwrite hard-link publication so a final archive path never exposes an in-progress copy; unsupported filesystems fail with an actionable error
+- Destination filesystem behavior: FRIDAY requires no-overwrite hard-link publication so a final archive path never exposes an in-progress copy; unsupported filesystems fail with an actionable error
 
 Interrupting archive creation with Ctrl-C or SIGTERM stops traversal and compression,
 closes the archive writer, and cleans up its owned partial archive and scratch before
@@ -862,7 +862,7 @@ later pass can finish partial cleanup even after the lifetime token is gone.
 ## Related
 
 - [CLI reference](/cli)
-- [Migrating an OpenClaw install](/install/migrating)
+- [Migrating an FRIDAY install](/install/migrating)
 - [Restore a full archive](/install/backups#restore-a-full-archive)
 - [Storage locations](/concepts/storage-locations)
 - [Storage CLI](/cli/storage)

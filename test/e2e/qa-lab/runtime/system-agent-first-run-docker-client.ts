@@ -1,4 +1,4 @@
-// OpenClaw first-run Docker harness.
+// FRIDAY first-run Docker harness.
 // Imports packaged dist modules so the Docker lane verifies the npm tarball,
 // while this small test driver stays mounted from the checkout.
 import { spawn } from "node:child_process";
@@ -263,7 +263,7 @@ async function runReleasedPendingRecovery(inferenceConfig: OpenClawConfig) {
       before.securityAcknowledgedAt === securityAcknowledgedAt,
     "released pending fixture did not retain its approved owner",
   );
-  console.log("OpenClaw released pending recovery preconditions passed");
+  console.log("FRIDAY released pending recovery preconditions passed");
 
   // The current installed CLI owns workspace publication and receipt completion.
   const result = await runPackagedCli([
@@ -277,7 +277,7 @@ async function runReleasedPendingRecovery(inferenceConfig: OpenClawConfig) {
   const owner = readLocalOnboardingStateForConfig(configPath, after);
   const mainPreserved = isDeepStrictEqual(after.agents?.entries, { main: mainEntry });
   console.log(
-    `OpenClaw released pending recovery state: ${JSON.stringify({
+    `FRIDAY released pending recovery state: ${JSON.stringify({
       status: owner?.status,
       sameOwner: owner?.runId === claimed.runId,
       approvedWorkspace: workspace,
@@ -291,7 +291,7 @@ async function runReleasedPendingRecovery(inferenceConfig: OpenClawConfig) {
   const output = `${result.stdout}\n${result.stderr}`;
   assert(
     result.code === 0 && output.includes("[openclaw] done: openclaw.setup"),
-    `OpenClaw released pending recovery did not apply: ${output}`,
+    `FRIDAY released pending recovery did not apply: ${output}`,
   );
   assert(
     owner?.status === "completed" &&
@@ -304,7 +304,7 @@ async function runReleasedPendingRecovery(inferenceConfig: OpenClawConfig) {
     "released pending recovery did not preserve runtime identity and complete its approved root",
   );
   assert((await fs.stat(workspace)).isDirectory(), "released pending workspace was not created");
-  console.log("OpenClaw released pending recovery passed");
+  console.log("FRIDAY released pending recovery passed");
 }
 
 async function main() {
@@ -328,14 +328,14 @@ async function main() {
   const firstRun = await runPackagedCli([]);
   assert(
     firstRun.code === 1 && firstRun.stderr.includes("Onboarding needs an interactive TTY."),
-    `fresh bare OpenClaw invocation did not route to onboarding: ${firstRun.stdout}\n${firstRun.stderr}`,
+    `fresh bare FRIDAY invocation did not route to onboarding: ${firstRun.stdout}\n${firstRun.stderr}`,
   );
 
   const blocked = await runPackagedCli(["setup", "--message", "overview"]);
-  assert(blocked.code === 1, "OpenClaw did not fail closed without inference");
+  assert(blocked.code === 1, "FRIDAY did not fail closed without inference");
   assert(
     `${blocked.stdout}\n${blocked.stderr}`.includes("openclaw onboard"),
-    "blocked OpenClaw did not direct the user to inference onboarding",
+    "blocked FRIDAY did not direct the user to inference onboarding",
   );
 
   const plannerCommand = `setup workspace ${spec.dockerDefaultWorkspace}`;
@@ -463,7 +463,7 @@ async function main() {
   assert(
     inferenceConfig.agents?.defaults?.workspace === undefined &&
       inferenceConfig.gateway === undefined,
-    "inference activation configured the rest before OpenClaw started",
+    "inference activation configured the rest before FRIDAY started",
   );
   const activationPrompts = await fs.readFile(promptLogPath, "utf8");
   assert(
@@ -480,7 +480,7 @@ async function main() {
   ]);
   assert(
     modern.code === 0,
-    "modern compatibility entrypoint did not expose OpenClaw after activation",
+    "modern compatibility entrypoint did not expose FRIDAY after activation",
   );
   const modernOverview = JSON.parse(modern.stdout) as { defaultModel?: string };
   assert(
@@ -508,32 +508,32 @@ async function main() {
     const output = `${result.stdout}\n${result.stderr}`;
     assert(
       result.code === 0 && output.includes(command.expectOutput),
-      `OpenClaw first-run command ${command.id} did not apply: ${output}`,
+      `FRIDAY first-run command ${command.id} did not apply: ${output}`,
     );
     if (command.id === "setup") {
-      assert(result.code === 0, `OpenClaw setup exited with ${result.code}: ${output}`);
+      assert(result.code === 0, `FRIDAY setup exited with ${result.code}: ${output}`);
       assert(
         output.includes("[openclaw] done: openclaw.setup"),
-        `OpenClaw setup did not report completion: ${output}`,
+        `FRIDAY setup did not report completion: ${output}`,
       );
       assert(
         output.includes(
-          "Gateway: OpenClaw gateway lifecycle is managed by an external supervisor " +
+          "Gateway: FRIDAY gateway lifecycle is managed by an external supervisor " +
             "(OPENCLAW_SUPERVISOR_MODE=external). Use that supervisor to start the gateway.",
         ),
-        `OpenClaw setup did not report the externally supervised gateway: ${output}`,
+        `FRIDAY setup did not report the externally supervised gateway: ${output}`,
       );
       assert(
         !output.includes("Systemd user services are not available"),
-        `OpenClaw setup probed systemd before honoring external supervision: ${output}`,
+        `FRIDAY setup probed systemd before honoring external supervision: ${output}`,
       );
       assert(
         !output.includes("Gateway service install failed"),
-        `OpenClaw setup attempted and failed gateway service installation: ${output}`,
+        `FRIDAY setup attempted and failed gateway service installation: ${output}`,
       );
       assert(
         !output.includes("service management skipped: non-default state dir or config path"),
-        `OpenClaw setup used the non-default-path service-management skip: ${output}`,
+        `FRIDAY setup used the non-default-path service-management skip: ${output}`,
       );
       const setupConfig = JSON.parse(await fs.readFile(configPath, "utf8")) as OpenClawConfig;
       const completedOwner = readLocalOnboardingStateForConfig(configPath, setupConfig);
@@ -543,7 +543,7 @@ async function main() {
           completedOwner.workspace === pendingOwner.workspace &&
           completedOwner.securityAcknowledgedAt === pendingOwner.securityAcknowledgedAt &&
           setupConfig.agents?.defaults?.workspace === pendingOwner.workspace,
-        "OpenClaw setup did not complete the same pending owner at its approved workspace",
+        "FRIDAY setup did not complete the same pending owner at its approved workspace",
       );
     }
     if (command.planner) {
@@ -551,7 +551,7 @@ async function main() {
         output.includes(`[openclaw] planner: ${EXPECTED_PERSISTED_MODEL}`) &&
           output.includes(FAKE_PLANNER_REPLY) &&
           output.includes(`[openclaw] interpreted: ${plannerCommand}`),
-        `OpenClaw first-run command ${command.id} did not use the verified planner: ${output}`,
+        `FRIDAY first-run command ${command.id} did not use the verified planner: ${output}`,
       );
     }
     const probesAfter = countInferencePrompts(await readFakeClaudePromptLines(promptLogPath));
@@ -559,9 +559,9 @@ async function main() {
     const minimumProbes = command.approve ? 2 : 1;
     assert(
       probeDelta >= minimumProbes,
-      `OpenClaw command ${command.id} ran ${probeDelta} inference probes; expected at least ${minimumProbes} for preflight${command.approve ? " plus its persistent boundary" : ""}`,
+      `FRIDAY command ${command.id} ran ${probeDelta} inference probes; expected at least ${minimumProbes} for preflight${command.approve ? " plus its persistent boundary" : ""}`,
     );
-    console.log(`OpenClaw first-run command ${command.id} passed`);
+    console.log(`FRIDAY first-run command ${command.id} passed`);
   }
 
   const probeLines = await readFakeClaudePromptLines(promptLogPath);
@@ -589,13 +589,13 @@ async function main() {
   );
   assert(resolveDefaultModel(config) === spec.model, "first-run setup did not write default model");
   const reef = config.agents?.entries?.[spec.agentId];
-  assert(reef, "OpenClaw did not create reef agent");
-  assert(reef.workspace === spec.dockerAgentWorkspace, "OpenClaw did not write reef workspace");
+  assert(reef, "FRIDAY did not create reef agent");
+  assert(reef.workspace === spec.dockerAgentWorkspace, "FRIDAY did not write reef workspace");
   assert(
     reef.model === undefined,
-    "OpenClaw wrote a per-agent model instead of inheriting the verified default",
+    "FRIDAY wrote a per-agent model instead of inheriting the verified default",
   );
-  assert(config.channels?.discord?.enabled === true, "OpenClaw did not enable Discord");
+  assert(config.channels?.discord?.enabled === true, "FRIDAY did not enable Discord");
   const discordToken = config.channels?.discord?.token;
   assert(
     discordToken &&
@@ -604,16 +604,16 @@ async function main() {
       discordToken.source === "env" &&
       "id" in discordToken &&
       discordToken.id === DISCORD_CREDENTIAL_ENV,
-    "OpenClaw did not write Discord token SecretRef",
+    "FRIDAY did not write Discord token SecretRef",
   );
   assert(
     !JSON.stringify(config.channels.discord).includes(DISCORD_CREDENTIAL_FIXTURE),
-    "OpenClaw persisted the raw Discord token",
+    "FRIDAY persisted the raw Discord token",
   );
   assert(config.channels?.telegram === undefined, "ambient Telegram credentials altered config");
   assert(
     !JSON.stringify(config).includes(spec.telegramToken),
-    "OpenClaw persisted an unrelated ambient credential",
+    "FRIDAY persisted an unrelated ambient credential",
   );
 
   const audit = createSqliteAuditRecordStore<SystemAgentAuditEntry>({
@@ -627,9 +627,9 @@ async function main() {
     );
   }
 
-  console.log("OpenClaw fresh guided first-run baseline passed");
+  console.log("FRIDAY fresh guided first-run baseline passed");
   await runReleasedPendingRecovery(inferenceConfig);
-  console.log("OpenClaw first-run Docker E2E passed");
+  console.log("FRIDAY first-run Docker E2E passed");
 }
 
 main().catch((err: unknown) => {

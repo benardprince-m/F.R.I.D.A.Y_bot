@@ -4,7 +4,7 @@ import Foundation
 import OpenClawKit
 import Testing
 import WebKit
-@testable import OpenClaw
+@testable import FRIDAY
 
 @MainActor
 private final class DashboardSignInNavigationObserver: NSObject, WKNavigationDelegate {
@@ -165,7 +165,7 @@ struct DashboardBrowserSignInRecoveryTests {
         textarea { width:100%; resize:none; padding:18px; color:#e6edf3; background:#14202a;
         border:1px solid #52616e; border-radius:10px; font:18px -apple-system }
         footer { margin-top:26px; font-size:14px; color:#aab9c6 }
-        </style><header>OpenClaw · Synthetic native WebKit sign-in fixture</header><main>
+        </style><header>FRIDAY · Synthetic native WebKit sign-in fixture</header><main>
         <h1>\(title)</h1><p>Current conversation: /control/chat/fixture?view=thread</p>
         <article><p>Please keep this conversation and its draft open while restoring the attachment.</p>
         \(attachment)<label for="draft">Unsent draft</label><textarea id="draft" rows="2"></textarea></article>

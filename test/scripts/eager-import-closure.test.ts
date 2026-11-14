@@ -323,9 +323,9 @@ itPosix.each([false, true])("launches a pre-helper anchor (manifest=%s)", (manif
   const linked = join(root, "linked");
   Object.assign(env, {
     TMPDIR: root,
-    GIT_AUTHOR_NAME: "OpenClaw Test",
+    GIT_AUTHOR_NAME: "FRIDAY Test",
     GIT_AUTHOR_EMAIL: "test@example.invalid",
-    GIT_COMMITTER_NAME: "OpenClaw Test",
+    GIT_COMMITTER_NAME: "FRIDAY Test",
     GIT_COMMITTER_EMAIL: "test@example.invalid",
   });
   git(root, "init", "-b", "main", canonical);

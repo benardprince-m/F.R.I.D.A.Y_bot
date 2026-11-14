@@ -1,7 +1,7 @@
 import OpenClawKit
 import SwiftUI
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct AppCoverageTests {
     @Test @MainActor func `node app model updates backgrounded state`() {

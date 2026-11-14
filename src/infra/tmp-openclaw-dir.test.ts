@@ -1,4 +1,4 @@
-// Covers preferred OpenClaw temp directory resolution.
+// Covers preferred FRIDAY temp directory resolution.
 import fs from "node:fs";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -134,7 +134,7 @@ describe.skipIf(process.platform === "win32")("POSIX preferred temp directory se
         lstatSync,
         fallbackLstatSync,
       }),
-    ).toThrow(/Unsafe fallback OpenClaw temp dir/);
+    ).toThrow(/Unsafe fallback FRIDAY temp dir/);
   });
 });
 
@@ -353,7 +353,7 @@ describe.skipIf(process.platform === "win32")("POSIX temp directory admission an
           expect(f.resolve()).toBe(f.fallbackDir);
           expectPrivateDirectory(f.fallbackDir, f.uid);
         } else {
-          expect(f.resolve).toThrow(/Unsafe fallback OpenClaw temp dir/);
+          expect(f.resolve).toThrow(/Unsafe fallback FRIDAY temp dir/);
         }
         expect(fs.lstatSync(f.candidate, { bigint: true })).toMatchObject({
           dev: admitted.dev,

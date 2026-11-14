@@ -557,7 +557,7 @@ describe("Claw detail route paths", () => {
     ]);
   });
 
-  it("rejects malformed or non-OpenClaw package routes", () => {
+  it("rejects malformed or non-FRIDAY package routes", () => {
     expect(() => pathForClawCatalogEntry("@community/travel-planner")).toThrow(
       "Only official Claws",
     );

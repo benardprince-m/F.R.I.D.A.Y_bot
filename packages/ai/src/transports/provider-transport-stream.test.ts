@@ -65,7 +65,7 @@ function buildModel<TApi extends Api>(
 
 describe("provider transport stream contracts", () => {
   it("covers the supported transport api alias matrix", () => {
-    // Supported APIs can be projected to OpenClaw transport aliases when needed.
+    // Supported APIs can be projected to FRIDAY transport aliases when needed.
     const cases = [
       {
         api: "openai-responses" as const,

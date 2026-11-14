@@ -426,7 +426,7 @@ describe("matrix verification actions", () => {
     expect(getOwnDeviceIdentityVerificationStatus).not.toHaveBeenCalled();
   });
 
-  it("does not complete self-verification until the OpenClaw device has full Matrix identity trust", async () => {
+  it("does not complete self-verification until the FRIDAY device has full Matrix identity trust", async () => {
     const crypto = mockCompletedSelfVerificationCrypto();
     const getOwnDeviceVerificationStatus = vi
       .fn()
@@ -582,7 +582,7 @@ describe("matrix verification actions", () => {
     expect(crypto.startVerification).not.toHaveBeenCalled();
     expect(crypto.cancelVerification).toHaveBeenCalledWith("verification-1", {
       code: "m.user",
-      reason: "OpenClaw self-verification did not complete",
+      reason: "FRIDAY self-verification did not complete",
     });
   });
 
@@ -681,7 +681,7 @@ describe("matrix verification actions", () => {
 
     expect(crypto.cancelVerification).toHaveBeenCalledWith("verification-1", {
       code: "m.user",
-      reason: "OpenClaw self-verification did not complete",
+      reason: "FRIDAY self-verification did not complete",
     });
   });
 
@@ -709,7 +709,7 @@ describe("matrix verification actions", () => {
     expect(crypto.listVerifications).toHaveBeenCalledTimes(1);
     expect(crypto.cancelVerification).toHaveBeenCalledWith("verification-1", {
       code: "m.user",
-      reason: "OpenClaw self-verification did not complete",
+      reason: "FRIDAY self-verification did not complete",
     });
   });
 
@@ -742,7 +742,7 @@ describe("matrix verification actions", () => {
 
     expect(crypto.cancelVerification).toHaveBeenCalledWith("verification-1", {
       code: "m.user",
-      reason: "OpenClaw self-verification did not complete",
+      reason: "FRIDAY self-verification did not complete",
     });
   });
 

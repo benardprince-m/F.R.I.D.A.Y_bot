@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct PrimaryGatewayControlConfigurationTests {
     private let previous: [String: Any] = [

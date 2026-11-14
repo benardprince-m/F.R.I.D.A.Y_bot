@@ -1,7 +1,7 @@
 ---
 summary: "CLI reference for `openclaw migrate` (import state from another agent system)"
 read_when:
-  - You want to migrate from Hermes or another agent system into OpenClaw
+  - You want to migrate from Hermes or another agent system into FRIDAY
   - You are adding a plugin-owned migration provider
 title: "Migrate"
 ---
@@ -61,7 +61,7 @@ Shared flags work in either position, so `openclaw migrate --no-auth-credentials
   Import into a configured agent. Omit this only when the configured default agent is the intended owner. Invalid and unknown agent IDs are rejected.
 </ParamField>
 <ParamField path="--include-secrets" type="boolean">
-  Import supported credentials without an OpenClaw confirmation prompt. Codex may still request operating-system credential-store access, such as macOS Keychain access. Interactive apply asks before inspecting and importing auth credentials, with yes selected by default. Non-interactive `--yes` requires `--include-secrets` to import them.
+  Import supported credentials without an FRIDAY confirmation prompt. Codex may still request operating-system credential-store access, such as macOS Keychain access. Interactive apply asks before inspecting and importing auth credentials, with yes selected by default. Non-interactive `--yes` requires `--include-secrets` to import them.
 </ParamField>
 <ParamField path="--no-auth-credentials" type="boolean">
   Skip auth credential import, including the interactive prompt.
@@ -88,7 +88,7 @@ Shared flags work in either position, so `openclaw migrate --no-auth-credentials
   Pre-migration backup archive path or directory. Passed through to `openclaw backup create`.
 </ParamField>
 <ParamField path="--no-backup" type="boolean">
-  Skip the pre-apply backup. Requires `--force` when local OpenClaw state exists.
+  Skip the pre-apply backup. Requires `--force` when local FRIDAY state exists.
 </ParamField>
 <ParamField path="--force" type="boolean">
   Required alongside `--no-backup` when apply would otherwise refuse to skip the backup.
@@ -109,7 +109,7 @@ Shared flags work in either position, so `openclaw migrate --no-auth-credentials
 
   </Accordion>
   <Accordion title="Backups">
-    Apply creates and verifies an OpenClaw backup before applying the migration. If no local OpenClaw state exists yet, the backup step is skipped and the migration continues. To skip a backup when state exists, pass both `--no-backup` and `--force`.
+    Apply creates and verifies an FRIDAY backup before applying the migration. If no local FRIDAY state exists yet, the backup step is skipped and the migration continues. To skip a backup when state exists, pass both `--no-backup` and `--force`.
   </Accordion>
   <Accordion title="Conflicts">
     Apply refuses to continue when the plan has conflicts. Review the plan, then rerun with `--overwrite` if replacing existing targets is intentional. Providers may still write item-level backups for overwritten files in the migration report directory.
@@ -132,21 +132,21 @@ For a user-facing walkthrough, see [Migrating from Claude](/install/migrating-cl
 - Claude Code auto-memory Markdown from `~/.claude/projects/*/memory` and a
   user-configured `autoMemoryDirectory`, copied under
   `memory/imports/claude-code/` for indexed recall.
-- Project `CLAUDE.md` and `.claude/CLAUDE.md` into the OpenClaw agent workspace (`AGENTS.md`).
+- Project `CLAUDE.md` and `.claude/CLAUDE.md` into the FRIDAY agent workspace (`AGENTS.md`).
 - User `~/.claude/CLAUDE.md` appended to workspace `USER.md`.
 - MCP server definitions from project `.mcp.json`, Claude Code `~/.claude.json` (including its per-project entries), and Claude Desktop `claude_desktop_config.json`.
 - Claude skill directories that include `SKILL.md` (user `~/.claude/skills` and project `.claude/skills`).
-- Claude command Markdown files (user `~/.claude/commands` and project `.claude/commands`) converted into OpenClaw skills with manual invocation only.
+- Claude command Markdown files (user `~/.claude/commands` and project `.claude/commands`) converted into FRIDAY skills with manual invocation only.
 
 ### Archive and manual-review state
 
-Claude hooks, permissions, environment defaults, project `CLAUDE.local.md`, `.claude/rules`, user and project `agents/` directories, and project history (`projects`, `cache`, `plans` under `~/.claude`) are preserved in the migration report or reported as manual-review items. OpenClaw does not execute hooks, copy broad allowlists, or import OAuth/Desktop credential state automatically.
+Claude hooks, permissions, environment defaults, project `CLAUDE.local.md`, `.claude/rules`, user and project `agents/` directories, and project history (`projects`, `cache`, `plans` under `~/.claude`) are preserved in the migration report or reported as manual-review items. FRIDAY does not execute hooks, copy broad allowlists, or import OAuth/Desktop credential state automatically.
 
 ## Codex provider
 
 The bundled Codex provider detects Codex CLI state at `~/.codex` by default, or at `CODEX_HOME` when that environment variable is set. Use `--from <path>` to inventory a specific Codex home.
 
-Use this provider when moving to the OpenClaw Codex harness and you want to promote useful personal Codex CLI assets deliberately. Local Codex app-server launches use a per-agent `CODEX_HOME`, so they do not read your personal `~/.codex` by default. The normal process `HOME` is still inherited, so Codex can see shared `$HOME/.agents/*` skills/plugin marketplace entries and subprocesses can find user-home config and tokens.
+Use this provider when moving to the FRIDAY Codex harness and you want to promote useful personal Codex CLI assets deliberately. Local Codex app-server launches use a per-agent `CODEX_HOME`, so they do not read your personal `~/.codex` by default. The normal process `HOME` is still inherited, so Codex can see shared `$HOME/.agents/*` skills/plugin marketplace entries and subprocesses can find user-home config and tokens.
 
 Codex credentials are sensitive migration inputs. Initial credential planning
 offers import without inspecting native credential storage. Accepting the
@@ -155,7 +155,7 @@ and import from Codex's selected storage; macOS may request Keychain access.
 Native plugin inventory discovery separately follows Codex's authentication
 behavior, including during a dry run. The default
 agent-scoped runtime does not consume a copied or mounted `auth.json` directly.
-Import those credentials into the owning agent's OpenClaw auth store explicitly.
+Import those credentials into the owning agent's FRIDAY auth store explicitly.
 Replace `<agent-id>` with that configured agent's ID:
 
 ```bash
@@ -167,13 +167,13 @@ For callers embedding the Codex migration provider, an explicit
 `providerOptions.allowKeychainPrompt: false` disables credential inspection for
 auth import, including file-backed imports, even with `includeSecrets: true`.
 Earlier tagged versions could import file credentials with that override. Native
-startup can access credential storage before OpenClaw can inspect the selected
+startup can access credential storage before FRIDAY can inspect the selected
 store, so the auth-import step does not start its native reader when this override
 is false. The normal migration CLI and onboarding consent flows do not set this
 override. Plugin discovery is separate and can still request operating-system
 credential access.
 
-Running `openclaw migrate codex` in an interactive terminal previews the full plan, then opens checkbox selectors before the final apply confirmation. Skill copy items are prompted first. Use `Toggle all on` or `Toggle all off` for bulk selection. Press Space to toggle rows, or Enter to activate the highlighted row and continue. Planned skills start checked, conflict skills start unchecked, and `Skip for now` skips skill copies for this run while still continuing to plugin selection. When source-installed curated Codex plugins are migratable and `--plugin` was not supplied, migration then prompts for native Codex plugin activation by plugin name. Plugin items start checked unless the target OpenClaw Codex plugin config already has that plugin. Existing target plugins start unchecked and show a conflict hint such as `conflict: plugin exists`. Choose `Toggle all off` to migrate no native Codex plugins in that run, or `Skip for now` to stop before applying.
+Running `openclaw migrate codex` in an interactive terminal previews the full plan, then opens checkbox selectors before the final apply confirmation. Skill copy items are prompted first. Use `Toggle all on` or `Toggle all off` for bulk selection. Press Space to toggle rows, or Enter to activate the highlighted row and continue. Planned skills start checked, conflict skills start unchecked, and `Skip for now` skips skill copies for this run while still continuing to plugin selection. When source-installed curated Codex plugins are migratable and `--plugin` was not supplied, migration then prompts for native Codex plugin activation by plugin name. Plugin items start checked unless the target FRIDAY Codex plugin config already has that plugin. Existing target plugins start unchecked and show a conflict hint such as `conflict: plugin exists`. Choose `Toggle all off` to migrate no native Codex plugins in that run, or `Skip for now` to stop before applying.
 
 For scripted or exact runs, select one or more skills or plugins explicitly:
 
@@ -187,13 +187,13 @@ openclaw migrate apply codex --yes --plugin google-calendar
 ### What Codex imports
 
 - ChatGPT OAuth or OpenAI API-key credentials from Codex's selected native storage,
-  imported into the agent's OpenClaw auth store only when `--include-secrets`
+  imported into the agent's FRIDAY auth store only when `--include-secrets`
   is set.
 - Consolidated Codex `MEMORY.md` and `memory_summary.md` from
   `$CODEX_HOME/memories`, copied under `memory/imports/codex/` for indexed
   recall. Raw rollout memory is not imported.
 - Codex CLI skill directories under `$CODEX_HOME/skills`, excluding Codex's `.system` cache.
-- Personal AgentSkills under `$HOME/.agents/skills`, copied into the current OpenClaw agent workspace for per-agent ownership.
+- Personal AgentSkills under `$HOME/.agents/skills`, copied into the current FRIDAY agent workspace for per-agent ownership.
 - Source-installed `openai-curated` Codex plugins discovered through Codex app-server `plugin/installed`. Planning reads `plugin/read` for each enabled installed plugin.
 
 Codex sessions and chat history are not imported. Consolidated memories are not conversation transcripts. Migration does not move or delete your source files.
@@ -206,7 +206,7 @@ App-backed plugin migration has extra gates:
 - By default, migration does not read the source app inventory. App-backed plugins that pass the account gate are therefore planned without source app-accessibility verification. Account-lookup transport failures skip with `codex_account_unavailable`.
 - Pass `--verify-plugin-apps` to force a fresh source `app/installed` snapshot, with authorized metadata from batched `app/read`. That mode requires every owned app to be present, enabled, and accessible before it plans native activation. In that mode, account-lookup transport failures fall through to source app-inventory verification. The snapshot is kept in memory for the current process only. It is never written to migration output or target config.
 
-Disabled plugins, unreadable plugin details, subscription-gated source accounts, and (when `--verify-plugin-apps` is set) missing, disabled, or inaccessible apps become manual skipped items with typed reasons instead of target config entries. Apply calls app-server `plugin/install` for each selected eligible plugin, even if the target app-server already reports that plugin as installed and enabled. Migrated Codex plugins are usable only in sessions that select the native Codex harness. They are not exposed to OpenClaw provider runs, ACP conversation bindings, or other harnesses.
+Disabled plugins, unreadable plugin details, subscription-gated source accounts, and (when `--verify-plugin-apps` is set) missing, disabled, or inaccessible apps become manual skipped items with typed reasons instead of target config entries. Apply calls app-server `plugin/install` for each selected eligible plugin, even if the target app-server already reports that plugin as installed and enabled. Migrated Codex plugins are usable only in sessions that select the native Codex harness. They are not exposed to FRIDAY provider runs, ACP conversation bindings, or other harnesses.
 
 ### Manual-review Codex state
 
@@ -233,16 +233,16 @@ The bundled Hermes provider follows `$HERMES_HOME` and the active profile, then 
 
 - Default model configuration from `config.yaml`. `--agent <id>` applies the model to the selected agent without changing shared defaults or other agents.
 - Configured model providers and custom OpenAI-compatible endpoints from `model`, `providers`, and `custom_providers`, including supported Hermes transport aliases, camelCase fields, and model list metadata.
-- MCP server definitions from `mcp_servers` or `mcp.servers`. Exact OpenClaw mappings cover default Streamable HTTP routing, OAuth scope, boolean TLS verification, separate client certificate/key paths, and Hermes native/resource/prompt tool policy. Unsupported Hermes-only runtime or credential fields are reported for manual review.
-- `SOUL.md` and `AGENTS.md` into the OpenClaw agent workspace.
+- MCP server definitions from `mcp_servers` or `mcp.servers`. Exact FRIDAY mappings cover default Streamable HTTP routing, OAuth scope, boolean TLS verification, separate client certificate/key paths, and Hermes native/resource/prompt tool policy. Unsupported Hermes-only runtime or credential fields are reported for manual review.
+- `SOUL.md` and `AGENTS.md` into the FRIDAY agent workspace.
 - `memories/MEMORY.md` and `memories/USER.md` appended to workspace memory files.
   Memory-only surfaces (the onboarding memory page and the Control UI Memory
   import page) instead copy these files under `memory/imports/hermes/` for
   indexed recall without touching existing workspace memory.
-- Memory config defaults for OpenClaw file memory, plus archive or manual-review items for external memory providers such as Honcho.
+- Memory config defaults for FRIDAY file memory, plus archive or manual-review items for external memory providers such as Honcho.
 - Skills that include a `SKILL.md` file under active directories in `skills/`. Nested skills are flattened into the workspace skill directory, and organization mirrors follow `_org/.active_org`.
 - Per-skill config values from `skills.config` and global disabled state from `skills.disabled`.
-- Current Hermes OpenAI Codex OAuth credentials and OpenCode OpenAI OAuth credentials when interactive credential migration is accepted, or when `--include-secrets` is set. Do not keep Hermes and OpenClaw using the same imported refresh grant.
+- Current Hermes OpenAI Codex OAuth credentials and OpenCode OpenAI OAuth credentials when interactive credential migration is accepted, or when `--include-secrets` is set. Do not keep Hermes and FRIDAY using the same imported refresh grant.
 - Supported API keys and tokens from Hermes `.env` and OpenCode `auth.json` when interactive credential migration is accepted, or when `--include-secrets` is set.
 
 ### Supported `.env` keys
@@ -251,7 +251,7 @@ The bundled Hermes provider follows `$HERMES_HOME` and the active profile, then 
 
 ### Archive-only state
 
-Hermes state that OpenClaw cannot safely interpret is copied into the migration report for manual review. It is not loaded into live OpenClaw config or credentials. This includes `plugins/`, `sessions/`, `logs/`, `cron/`, `mcp-tokens/`, `plans/`, `workspace/`, `skins/`, `kanban/`, pairing/platform state, gateway routing/process state, and the detected Hermes SQLite databases.
+Hermes state that FRIDAY cannot safely interpret is copied into the migration report for manual review. It is not loaded into live FRIDAY config or credentials. This includes `plugins/`, `sessions/`, `logs/`, `cron/`, `mcp-tokens/`, `plans/`, `workspace/`, `skins/`, `kanban/`, pairing/platform state, gateway routing/process state, and the detected Hermes SQLite databases.
 
 ### After applying
 
@@ -282,13 +282,13 @@ In JSON mode, an apply that finishes with item errors or conflicts writes one co
 Onboarding can offer migration when a provider detects a known source. Both `openclaw onboard --flow import` and `openclaw setup --wizard --import-from hermes` use the same plugin migration provider and still show a preview before applying. Unlike standalone migration, the fresh-target onboarding path stages local artifacts and imported credentials. It verifies or repairs imported inference inside staging. It then promotes workspace and agent state before it commits configuration. A mode-`0600` promotion journal lets the next run finish or roll back an interrupted publish, including any deferred external activation, without replaying imported local data.
 
 <Note>
-Onboarding imports require a fresh OpenClaw setup. Reset config, credentials, sessions, and the workspace first if you already have local state. Backup-plus-overwrite or merge imports are feature-gated for existing setups.
+Onboarding imports require a fresh FRIDAY setup. Reset config, credentials, sessions, and the workspace first if you already have local state. Backup-plus-overwrite or merge imports are feature-gated for existing setups.
 </Note>
 
 ## Related
 
 - [Migrating from Hermes](/install/migrating-hermes): user-facing walkthrough.
 - [Migrating from Claude](/install/migrating-claude): user-facing walkthrough.
-- [Migrating](/install/migrating): move OpenClaw to a new machine.
+- [Migrating](/install/migrating): move FRIDAY to a new machine.
 - [Doctor](/gateway/doctor): health check after applying a migration.
 - [Plugins](/tools/plugin): plugin install and registration.

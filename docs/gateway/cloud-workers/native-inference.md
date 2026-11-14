@@ -23,7 +23,7 @@ that account has its normal filesystem and process access.
 
 ## Deployment and credential trust contract
 
-Keep the trusted OpenClaw Gateway outside the untrusted worker workload. The
+Keep the trusted FRIDAY Gateway outside the untrusted worker workload. The
 paired node and its worker run the native loop and coding tools; they are not a
 credential-isolation boundary from code running as the same operating-system
 user. Such code may access startup files, environment, and process memory. A
@@ -32,7 +32,7 @@ private startup pipe and output redaction do not change that trust boundary.
 For this deployment, an external credential custodian or provider proxy must hold
 the actual provider keys outside the workload. Configure the node's model endpoint
 to reach that service and provision only the service's scoped, opaque auth values
-into the node. OpenClaw passes those values through the chosen provider adapter;
+into the node. FRIDAY passes those values through the chosen provider adapter;
 it does not interpret them as provider keys, resolve them into keys, or implement
 the custodian. Native provider operations use their own transport policy rather
 than the Gateway's process-local secret-marker interpretation or guarded-fetch/SSRF
@@ -50,12 +50,12 @@ Startup checks transport policy and the presence of the named auth value; it
 cannot tell a raw provider key from an opaque token, attest a custodian, or enforce
 the workload's operating-system egress restrictions. Any nonempty named value
 would otherwise satisfy credential presence. The broker-only custody rule is a
-deployment requirement, not a claim that OpenClaw technically verifies key origin.
+deployment requirement, not a claim that FRIDAY technically verifies key origin.
 
 The deployment owns isolation of the Gateway and custodian, workload egress,
 endpoint trust, token issuance, scope, expiry, revocation, and provider credential
 rotation. Anyone able to read a workload token may exercise its externally
-granted authority. OpenClaw workspace/model grants, turn cancellation, and output
+granted authority. FRIDAY workspace/model grants, turn cancellation, and output
 redaction complement that deployment policy; they do not revoke an exposed token
 or replace external authorization. Provisioning and live qualification of that
 external service are outside this core feature.
@@ -106,7 +106,7 @@ field in the **node's** `openclaw.json`, then enable worker hosting:
 }
 ```
 
-The external platform may run the node inside a container. OpenClaw's additional
+The external platform may run the node inside a container. FRIDAY's additional
 nested-container worker mode is not supported for local inference. Keep the node
 configuration and service environment readable only by the service account. For a trusted private proxy CA,
 provision a read-only CA bundle through the node service's `NODE_EXTRA_CA_CERTS`,
@@ -117,7 +117,7 @@ these settings; it does not inherit `NODE_OPTIONS` or generic `HTTP_PROXY` /
 
 Replace the endpoint with your external custodian's compatible API and use its
 model metadata. Prices are per million tokens. `apiKey` uses the same literal,
-environment interpolation, and supported SecretRef forms as ordinary OpenClaw
+environment interpolation, and supported SecretRef forms as ordinary FRIDAY
 model configuration; provision an externally scoped proxy value rather than a
 raw provider key. Optional provider and model `headers` are node-local startup
 values too. All configured header values are conservatively protected from worker
@@ -189,7 +189,7 @@ does not need this additional metadata entry.
 
 ### Make the dedicated worker mandatory
 
-To require this worker for OpenClaw turns, add
+To require this worker for FRIDAY turns, add
 `requiredProfile: "dedicated-native"` alongside `cloudWorkers.profiles` in the
 example above. See [Required worker profile](/gateway/config-cloud-workers#required-worker-profile)
 for admission, permissions, empty workspaces, and existing-session behavior.
@@ -213,7 +213,7 @@ blocks sessionless model helpers. It does not move those helpers to the node.
 ### Create and dispatch with worker proxy authentication
 
 Use an authenticated operator CLI/API connection and the configured default
-model with the OpenClaw runtime. Profile dispatch requires `operator.admin`.
+model with the FRIDAY runtime. Profile dispatch requires `operator.admin`.
 Create the session without an initial message or explicit `model`/`agentRuntime`
 selection, dispatch it to the configured profile, then submit its first turn:
 
@@ -242,7 +242,7 @@ Select `profileId`, not the ordinary paired-device target: ordinary device
 placement remains proxied.
 
 In the Control UI, choose the named worker-inference profile and keep the agent's
-configured model and OpenClaw runtime defaults. The profile and active placement
+configured model and FRIDAY runtime defaults. The profile and active placement
 identify worker inference without exposing provider settings or credentials.
 Existing sessions use their bound environment's recorded choice, not later edits
 to the profile. Stopped, reclaimed, and inexact placements do not establish a
@@ -297,7 +297,7 @@ model catalog in full.
 
 A current node also reports `not configured on this node` when its local model
 configuration or credentials are missing. Configure the node before restarting
-it; update first only if that node runs an older OpenClaw version.
+it; update first only if that node runs an older FRIDAY version.
 
 ## Upgrade and downgrade
 
@@ -345,7 +345,7 @@ Before downgrading either service to a build without this feature:
    reference them. Removing a profile does not change an active environment's
    recorded inference choice; reclaim it first. Retire worker-only model entries
    and auth environment through your platform lifecycle if they are no longer
-   used by ordinary node-local OpenClaw operation.
+   used by ordinary node-local FRIDAY operation.
 3. Downgrade only after that cleanup. Older Gateways do not interpret
    `settings.inference` as a local-inference requirement. Do not leave native
    placements or profiles for an older Gateway to recover. Any later Gateway or

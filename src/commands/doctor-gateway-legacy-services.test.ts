@@ -75,7 +75,7 @@ function mockPlistFs() {
 }
 function expectNoInstall(runtime: ReturnType<typeof makeDoctorIo>) {
   expect(runtime.log).not.toHaveBeenCalledWith(
-    expect.stringContaining("Installing OpenClaw gateway next."),
+    expect.stringContaining("Installing FRIDAY gateway next."),
   );
 }
 
@@ -162,15 +162,15 @@ it("keeps Windows Node diagnostics with inspection advice", async () => {
   inventory([
     {
       platform: "win32",
-      label: "\\OpenClaw Node",
-      detail: "task: \\OpenClaw Node, run: C:\\OpenClaw\\openclaw.exe node run",
+      label: "\\FRIDAY Node",
+      detail: "task: \\FRIDAY Node, run: C:\\FRIDAY\\openclaw.exe node run",
       scope: "system",
       legacy: false,
     },
   ]);
   await scan(true);
-  expectNoteContaining("\\OpenClaw Node", "Other gateway-like services detected");
-  expectNoteContaining('schtasks /Query /TN "\\OpenClaw Node" /V /FO LIST', "Inspection hints");
+  expectNoteContaining("\\FRIDAY Node", "Other gateway-like services detected");
+  expectNoteContaining('schtasks /Query /TN "\\FRIDAY Node" /V /FO LIST', "Inspection hints");
   expectNoNoteContaining("/Delete", "Cleanup hints");
   expect(mocks.uninstallLegacySystemdUnits).not.toHaveBeenCalled();
   expect(mocks.execLaunchctl).not.toHaveBeenCalled();
@@ -214,7 +214,7 @@ it("reports incomplete inspection without offering unverified cleanup", async ()
   expect(mocks.uninstallLegacySystemdUnits).not.toHaveBeenCalled();
 });
 
-it("skips host-service discovery in containers without an OpenClaw service", async () => {
+it("skips host-service discovery in containers without an FRIDAY service", async () => {
   mocks.isContainerEnvironment.mockReturnValue(true);
   await expect(detectExtraGatewayServiceIssues({ deep: true })).resolves.toEqual({
     services: [],
@@ -316,7 +316,7 @@ it.each<[string, LaunchctlResult[], ("absent" | keyof typeof reasons)?]>([
       expect(operation).not.toHaveBeenCalled();
     }
     expect(runtime.log).not.toHaveBeenCalledWith(
-      "Legacy gateway services removed. Installing OpenClaw gateway next.",
+      "Legacy gateway services removed. Installing FRIDAY gateway next.",
     );
   } else {
     expect(rename).toHaveBeenCalledTimes(failure === "absent" || failure === "inspect" ? 0 : 1);

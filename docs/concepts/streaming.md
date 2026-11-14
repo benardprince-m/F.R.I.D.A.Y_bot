@@ -7,7 +7,7 @@ read_when:
 title: "Streaming and chunking"
 ---
 
-OpenClaw has two independent streaming layers, and there is **no true
+FRIDAY has two independent streaming layers, and there is **no true
 token-delta streaming** to channel messages:
 
 - **Block streaming (channels):** emit completed **blocks** as the assistant
@@ -108,7 +108,7 @@ block streaming on, durable blocks follow the configured chunking and flush
 boundaries.
 
 If a successfully settled tool batch intentionally ends the turn, any unphased
-narration remains the reply. OpenClaw does not replace that narration with a
+narration remains the reply. FRIDAY does not replace that narration with a
 missing-answer error or require another model response.
 
 Explicit provider phases still apply: OpenAI Responses `phase` and Harmony
@@ -146,12 +146,12 @@ as separately delivered captions.
 
 Streaming media must use structured payload fields such as `mediaUrl` or
 `mediaUrls`; streamed text is not parsed as an attachment command. When block
-streaming sends media early, OpenClaw remembers that delivery for the turn. If
+streaming sends media early, FRIDAY remembers that delivery for the turn. If
 the final assistant payload repeats the same media URL, final delivery strips
 the duplicate media instead of sending the attachment again.
 
 Exact duplicate final payloads are suppressed. If the final payload adds
-distinct text around media that was already streamed, OpenClaw still sends the
+distinct text around media that was already streamed, FRIDAY still sends the
 new text while keeping the media single-delivery. This prevents duplicate voice
 notes or files on channels such as Telegram.
 
@@ -175,7 +175,7 @@ per-channel caps.
 
 ## Coalescing (merge streamed blocks)
 
-When block streaming is enabled, OpenClaw can **merge consecutive block
+When block streaming is enabled, FRIDAY can **merge consecutive block
 chunks** before sending them, reducing single-line spam while still providing
 progressive output.
 
@@ -319,14 +319,14 @@ Slack-only:
 - Plan previews use native checkboxes when `channels.telegram.richMessages`
   is `true`; otherwise they use readable HTML checklists. Completed steps are
   checked, and the active step is marked "in progress".
-- If the final edit fails before the completed text is confirmed, OpenClaw uses
+- If the final edit fails before the completed text is confirmed, FRIDAY uses
   normal final delivery and cleans up the stale preview.
 - Preview streaming is skipped when Telegram block streaming is explicitly
   enabled, to avoid double-streaming.
 - `/reasoning stream` can write reasoning to a transient preview that is
   deleted after final delivery.
 - Telegram selected quote replies are an exception: when `replyToMode` is not
-  `"off"` and selected quote text is present, OpenClaw skips the answer preview
+  `"off"` and selected quote text is present, FRIDAY skips the answer preview
   stream for that turn (the final answer must go through the native quote-reply
   path) so tool-progress preview lines cannot render. Current-message replies
   without selected quote text still keep preview streaming. See
@@ -375,7 +375,7 @@ Slack-only:
   `streaming.progress.nativeTaskCards: false` falls back to the Block Kit
   session card. By default, it shows commentary and text, including italic
   narration and reasoning, actionable approval requests, and a plain title only
-  when explicitly configured. Finished cards keep the **Open in OpenClaw** or
+  when explicitly configured. Finished cards keep the **Open in FRIDAY** or
   **Open work session** link when available. `streaming.progress.toolProgress: true`
   adds tool activity, the plan checklist, intermediate error and recovery rows,
   and tool/file/time totals while working; finished detailed cards retain only
@@ -386,7 +386,7 @@ Slack-only:
   resolved approval, is deleted. The assistant's final text and error replies
   use normal delivery; failed turns keep their card marked Failed even without
   a reply.
-- Cards include **Open in OpenClaw** only when the session is actually openable:
+- Cards include **Open in FRIDAY** only when the session is actually openable:
   `gateway.publicOrigin` is set and `gateway.controlUi.enabled` is not `false`.
 - Without a reply thread, default `progress` turns leave only the final answer
   and use a temporary `hourglass_flowing_sand` typing reaction during work.
@@ -468,7 +468,7 @@ Supported surfaces:
   set `streaming.preview.commandText` or `streaming.progress.commandText` to
   `"status"` (the default). Set either option to `"raw"` to opt into command
   text. This policy is shared by draft/progress channels
-  that use OpenClaw's compact progress renderer, including Discord, Matrix,
+  that use FRIDAY's compact progress renderer, including Discord, Matrix,
   Microsoft Teams, Mattermost, Slack session cards, and Telegram. To disable
   preview edits entirely, set `streaming.mode` to `off`.
 

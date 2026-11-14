@@ -1,5 +1,5 @@
 ---
-summary: "What experimental flags mean in OpenClaw and which ones are currently documented"
+summary: "What experimental flags mean in FRIDAY and which ones are currently documented"
 title: "Experimental features"
 read_when:
   - You see an `.experimental` config key and want to know whether it is stable
@@ -20,17 +20,17 @@ Custom plugin UI flag below controls user-installed native browser code only.
 
 ## Currently documented flags
 
-| Surface          | Key                                                                     | Use it when                                                                                                                       | More                                                                                   |
-| ---------------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Codex harness    | `plugins.entries.codex.config.appServer.experimental.sandboxExecServer` | You want native Codex app-server 0.143.0 or newer to target an OpenClaw sandbox-backed exec-server instead of disabling Code Mode | [Codex harness reference](/plugins/codex-harness-reference#sandboxed-native-execution) |
-| Code Mode        | `tools.codeMode.enabled`                                                | You want compact code-orchestrated access to a hidden OpenClaw tool catalog                                                       | [Code Mode](/tools/code-mode)                                                          |
-| Cloud workers    | `cloudWorkers.desktop`                                                  | You want to watch or control desktop-capable cloud worker environments from the Control UI                                        | [Cloud Worker Desktop](/gateway/cloud-workers#desktop-interactive)                     |
-| Claws            | `gateway.controlUi.experimental.claws`                                  | You want to explore and add official ClawHub agents from the Control UI                                                           | [Claws](/cli/claws)                                                                    |
-| Custom plugin UI | `gateway.controlUi.experimental.customPlugins`                          | You want trusted user-installed plugins to add native Control UI views or replace built-in views                                  | [Feature plugins](/plugins/feature-plugins#enable-custom-plugin-ui)                    |
-| Host Desktop     | `desktop.host.enabled`                                                  | You want to watch or control the Gateway host through its VNC or Screen Sharing server                                            | [Desktop](/gateway/configuration-reference#desktop)                                    |
-| Advisor          | `plugins.entries.advisor.enabled`                                       | You want an advisor model to periodically check a conversation's agent work and give the agent one short correction               | [Advisor](#advisor)                                                                    |
-| Speech bubbles   | `gateway.controlUi.experimental.chatBubbles`                            | You want to try conversation bubbles and compact activity; Home defaults on while the lab is enabled                              | [Chat](/web/control-ui/chat)                                                           |
-| Tool Search      | `tools.toolSearch.enabled`                                              | You want to control the global Tool Search default, which is enabled                                                              | [Tool Search](/tools/tool-search)                                                      |
+| Surface          | Key                                                                     | Use it when                                                                                                                     | More                                                                                   |
+| ---------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Codex harness    | `plugins.entries.codex.config.appServer.experimental.sandboxExecServer` | You want native Codex app-server 0.143.0 or newer to target an FRIDAY sandbox-backed exec-server instead of disabling Code Mode | [Codex harness reference](/plugins/codex-harness-reference#sandboxed-native-execution) |
+| Code Mode        | `tools.codeMode.enabled`                                                | You want compact code-orchestrated access to a hidden FRIDAY tool catalog                                                       | [Code Mode](/tools/code-mode)                                                          |
+| Cloud workers    | `cloudWorkers.desktop`                                                  | You want to watch or control desktop-capable cloud worker environments from the Control UI                                      | [Cloud Worker Desktop](/gateway/cloud-workers#desktop-interactive)                     |
+| Claws            | `gateway.controlUi.experimental.claws`                                  | You want to explore and add official ClawHub agents from the Control UI                                                         | [Claws](/cli/claws)                                                                    |
+| Custom plugin UI | `gateway.controlUi.experimental.customPlugins`                          | You want trusted user-installed plugins to add native Control UI views or replace built-in views                                | [Feature plugins](/plugins/feature-plugins#enable-custom-plugin-ui)                    |
+| Host Desktop     | `desktop.host.enabled`                                                  | You want to watch or control the Gateway host through its VNC or Screen Sharing server                                          | [Desktop](/gateway/configuration-reference#desktop)                                    |
+| Advisor          | `plugins.entries.advisor.enabled`                                       | You want an advisor model to periodically check a conversation's agent work and give the agent one short correction             | [Advisor](#advisor)                                                                    |
+| Speech bubbles   | `gateway.controlUi.experimental.chatBubbles`                            | You want to try conversation bubbles and compact activity; Home defaults on while the lab is enabled                            | [Chat](/web/control-ui/chat)                                                           |
+| Tool Search      | `tools.toolSearch.enabled`                                              | You want to control the global Tool Search default, which is enabled                                                            | [Tool Search](/tools/tool-search)                                                      |
 
 ## Control UI Labs
 
@@ -71,7 +71,7 @@ that default.
 ## Decision assistance
 
 This opt-in enables experimental conversational tool filtering in the built-in
-OpenClaw runtime. Before an eligible user turn, the configured Decision provider
+FRIDAY runtime. Before an eligible user turn, the configured Decision provider
 judges whether the request needs tools. A conversational result can omit optional
 tools for that turn. Other harnesses keep their normal tools and perform no
 automatic prefilter inference. The switch does not select a provider, provision

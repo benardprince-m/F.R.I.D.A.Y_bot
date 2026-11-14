@@ -14,7 +14,7 @@ Which tool policies push a Codex turn onto the restricted native surface. Part o
 
 The Codex harness evaluates the effective tool policy for every turn. It marks
 the turn policy-restricted when any explicit policy would otherwise leave a
-Codex-native capability outside the OpenClaw policy boundary.
+Codex-native capability outside the FRIDAY policy boundary.
 
 Restriction sources include global, provider, agent, group, sender, sandbox,
 subagent, inherited, scheduled/runtime, and per-run tool policies. A finite
@@ -35,15 +35,15 @@ web_fetch, x_search
 ```
 
 A policy containing only those denies stays on the normal Codex native surface;
-the harness applies the named OpenClaw denial directly. Any other deny uses
+the harness applies the named FRIDAY denial directly. Any other deny uses
 the restricted surface. For example, `tools.deny: ["nodes"]`
 restricts the native surface because `nodes` is not in the audited set.
 
-OpenClaw admin and status denies alone do not remove native Codex tools.
+FRIDAY admin and status denies alone do not remove native Codex tools.
 Session and conversation-tool denies still restrict the native surface: the
 supported runtime has not been qualified to enforce the same target boundary
-independently of optional hooks. Default OpenClaw children therefore remain
-restricted. OpenClaw's native input admission checks the sender's admitted tree,
+independently of optional hooks. Default FRIDAY children therefore remain
+restricted. FRIDAY's native input admission checks the sender's admitted tree,
 but that hook-side check is not a substitute for native enforcement.
 
 A child at its configured delegation depth cap also loses native collaboration,
@@ -52,7 +52,7 @@ restriction. Restricted turns do not advertise native helpers such as
 `spawn_agent` in their developer instructions.
 
 Policy-restricted turns have no Codex environment selection or native Code Mode.
-OpenClaw disables inherited and configured MCP servers, attests that they remain
+FRIDAY disables inherited and configured MCP servers, attests that they remain
 disabled, disables native hook relays, and applies the effective policy to its
 dynamic tools. Compatible conversation-wide restrictions keep one native Codex
 thread. A temporary restriction uses a transient thread and preserves any
@@ -63,11 +63,11 @@ requests without an effective policy change keep the ordinary conversation. See
 for policy changes and replacement behavior.
 
 Ring zero is not a configurable policy profile. It is the host-scoped system
-agent path used by OpenClaw setup and repair flows. The host must activate the
+agent path used by FRIDAY setup and repair flows. The host must activate the
 system-agent authority and provide the exact single-tool allowlist
 `["openclaw"]`. Ring zero applies the restricted tool surface plus host-authored
 base instructions and zero project-document budget. It also suppresses
-OpenClaw's `AGENTS.md` developer-instruction carrier, so ambient workspace
+FRIDAY's `AGENTS.md` developer-instruction carrier, so ambient workspace
 instructions cannot enter the setup/repair turn.
 
 Message-only source replies also use the restricted tool surface. Lightweight

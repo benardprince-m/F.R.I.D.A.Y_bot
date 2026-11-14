@@ -2,7 +2,7 @@
 doc-schema-version: 1
 summary: "Watch an IMAP mailbox and route authenticated incoming email to an isolated restricted reader agent"
 read_when:
-  - Triggering OpenClaw from Fastmail, iCloud, or another IMAP mailbox
+  - Triggering FRIDAY from Fastmail, iCloud, or another IMAP mailbox
   - Configuring sender authentication and isolated email reader sessions
   - Troubleshooting IMAP IDLE, mailbox credentials, or rejected senders
 title: "IMAP email trigger"
@@ -108,7 +108,7 @@ The trusted-authserv override applies to ordinary authentication results as well
 authenticator errors: at an `asserted` floor, a matching header can admit mail even
 when local DMARC verification returns `none` or `fail`. The receiving boundary MTA
 must strip or overwrite untrusted inbound `Authentication-Results` values that claim
-a configured authserv id. OpenClaw cannot establish header-hop provenance from the
+a configured authserv id. FRIDAY cannot establish header-hop provenance from the
 message alone.
 
 ### Sender-bound tokens and freshness

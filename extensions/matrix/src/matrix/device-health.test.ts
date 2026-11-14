@@ -3,21 +3,21 @@ import { describe, expect, it } from "vitest";
 import { summarizeMatrixDeviceHealth } from "./device-health.js";
 
 describe("matrix device health", () => {
-  it("summarizes stale OpenClaw-managed devices separately from the current device", () => {
+  it("summarizes stale FRIDAY-managed devices separately from the current device", () => {
     const devices = [
       {
         deviceId: "du314Zpw3A",
-        displayName: "OpenClaw Gateway",
+        displayName: "FRIDAY Gateway",
         current: true,
       },
       {
         deviceId: "BritdXC6iL",
-        displayName: "OpenClaw Gateway",
+        displayName: "FRIDAY Gateway",
         current: false,
       },
       {
         deviceId: "G6NJU9cTgs",
-        displayName: "OpenClaw Debug",
+        displayName: "FRIDAY Debug",
         current: false,
       },
       {

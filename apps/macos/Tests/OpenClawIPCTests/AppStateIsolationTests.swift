@@ -3,7 +3,7 @@ import Foundation
 import OpenClawChatUI
 import Security
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @Suite(.testWaitLimit)
 @MainActor

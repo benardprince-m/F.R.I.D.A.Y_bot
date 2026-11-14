@@ -27,7 +27,7 @@ const OWNER_AUTHORITY: RelayGrantAuthority = {
 function stateError(): RelayError {
   return new RelayError(
     "unavailable",
-    "MCP relay state is missing or invalid. Restore a valid OpenClaw state backup before enabling the plugin again.",
+    "MCP relay state is missing or invalid. Restore a valid FRIDAY state backup before enabling the plugin again.",
   );
 }
 

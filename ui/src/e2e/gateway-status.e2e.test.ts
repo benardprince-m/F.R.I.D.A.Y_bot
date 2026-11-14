@@ -82,7 +82,7 @@ suite.define(() => {
         await page.goto(`${suite.server.baseUrl}cron`);
         await page
           .getByText(
-            "You don't have permission to view scheduled tasks. Ask the person who manages OpenClaw for access.",
+            "You don't have permission to view scheduled tasks. Ask the person who manages FRIDAY for access.",
             { exact: true },
           )
           .waitFor();

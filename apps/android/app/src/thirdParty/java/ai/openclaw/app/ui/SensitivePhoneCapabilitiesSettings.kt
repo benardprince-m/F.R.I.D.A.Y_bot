@@ -68,7 +68,7 @@ internal fun FlavorPhoneCapabilitiesSettings(viewModel: MainViewModel) {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
           Text(
             nativeString(
-              "Enabling lets OpenClaw observe and control other apps' screens when armed. Android accessibility access is required.",
+              "Enabling lets FRIDAY observe and control other apps' screens when armed. Android accessibility access is required.",
             ),
           )
         }

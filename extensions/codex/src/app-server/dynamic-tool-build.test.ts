@@ -622,7 +622,7 @@ describe("Codex app-server dynamic tool build", () => {
     });
     const gatewayExec = expectDefined(
       tools.find((tool) => tool.name === "exec"),
-      `${testCase.mode} OpenClaw shell replacement`,
+      `${testCase.mode} FRIDAY shell replacement`,
     );
     expect.soft(gatewayExec.parameters).not.toHaveProperty("properties.security");
     const result = await gatewayExec.execute(`${testCase.mode}-allowlisted`, {
@@ -1180,7 +1180,7 @@ describe("Codex app-server dynamic tool build", () => {
     });
     expect(nodeList.success).toBe(false);
     expect(nodeList.contentItems).toEqual([
-      { type: "inputText", text: "Unknown OpenClaw tool: node_process" },
+      { type: "inputText", text: "Unknown FRIDAY tool: node_process" },
     ]);
     const nodeExec = tools.find((tool) => tool.name === "node_exec");
     expect(nodeExec?.description).toContain(
@@ -1240,7 +1240,7 @@ describe("Codex app-server dynamic tool build", () => {
     expect(shellTestToolNames(allowlistedTools)).toEqual(["message"]);
   });
 
-  it("restores the policy-filtered OpenClaw shell when a finite allowlist disables native Code Mode", async () => {
+  it("restores the policy-filtered FRIDAY shell when a finite allowlist disables native Code Mode", async () => {
     const execTool = createRuntimeDynamicTool("exec");
     const processTool = createRuntimeDynamicTool("process");
     const messageTool = createRuntimeDynamicTool("message");

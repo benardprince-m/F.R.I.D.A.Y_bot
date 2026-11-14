@@ -128,13 +128,13 @@ describe("renderContributionRecordEntry", () => {
     expect(
       renderContributionRecordEntry({
         number: 124,
-        title: "Fix local openclaw/openclaw#45, #45, and OpenClaw/imsg#141",
+        title: "Fix local openclaw/openclaw#45, #45, and FRIDAY/imsg#141",
         externalReferences: ["openclaw/imsg#141"],
         priorReferences: [67],
         linkedIssues: [{ number: 45 }, { number: 67 }],
         thanks: [],
       }),
-    ).toBe("- **PR #124** Related #45, OpenClaw/imsg#141, #67.");
+    ).toBe("- **PR #124** Related #45, FRIDAY/imsg#141, #67.");
   });
 
   it("retains references and credits when a compact record is seeded again", () => {
@@ -263,7 +263,7 @@ describe("renderContributionRecordEntry", () => {
   });
 
   it("accepts case-only differences in cross-repository references", () => {
-    const line = "- **PR #127** Related OpenClaw/imsg#143.";
+    const line = "- **PR #127** Related FRIDAY/imsg#143.";
     const source = recordSection(line);
     const entry = recordEntry({
       number: 127,

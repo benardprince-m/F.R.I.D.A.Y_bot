@@ -88,7 +88,7 @@ describe("WhatsApp legacy credential import", () => {
         delete access.assertCurrent;
         expect(await migration.migrateLegacyState(input)).toMatchObject({
           changes: [],
-          warnings: [expect.stringContaining("Update OpenClaw core")],
+          warnings: [expect.stringContaining("Update FRIDAY core")],
         });
       } else {
         access.assertCurrent = () => {

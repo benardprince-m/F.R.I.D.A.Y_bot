@@ -620,7 +620,7 @@ scene_ready_text() {
     voice-wake) printf '%s\n' "Wake listener" ;;
     # Connected fixtures can push Add Gateway below the composed viewport, so
     # wait for the gateway detail's always-visible subtitle instead.
-    gateway) printf '%s\n' "Connection between this phone and OpenClaw." ;;
+    gateway) printf '%s\n' "Connection between this phone and FRIDAY." ;;
     *)
       echo "Unknown Android screenshot scene: $1" >&2
       return 1

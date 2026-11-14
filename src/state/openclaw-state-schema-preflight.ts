@@ -131,7 +131,7 @@ export function inspectStateDatabaseSchema(
         );
         if (blockingIssues.length > 0) {
           throw new SqliteSchemaMismatchError(
-            `OpenClaw state database ${pathname} requires repair: ${blockingIssues.map((issue) => issue.message).join("; ")}; run openclaw doctor --fix.`,
+            `FRIDAY state database ${pathname} requires repair: ${blockingIssues.map((issue) => issue.message).join("; ")}; run openclaw doctor --fix.`,
           );
         }
       } else {

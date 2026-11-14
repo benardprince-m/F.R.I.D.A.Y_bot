@@ -25,7 +25,7 @@ export function readDarwinProcessCommand(pid: number, uid?: number): ProcessComm
     }
     if (cause.code === "unsupported-platform" && process.platform === "darwin") {
       throw new Error(
-        "Cannot inspect Darwin process arguments under Rosetta; run OpenClaw with native arm64 Node.js.",
+        "Cannot inspect Darwin process arguments under Rosetta; run FRIDAY with native arm64 Node.js.",
         { cause },
       );
     }

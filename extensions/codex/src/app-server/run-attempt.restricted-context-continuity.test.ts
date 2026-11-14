@@ -118,7 +118,7 @@ describe("runCodexAppServerAttempt restricted context continuity", () => {
         ]);
         const inputText = getRequestInputText(harness);
         if (step.startsFresh) {
-          expect(inputText).toContain("OpenClaw assembled context for this turn:");
+          expect(inputText).toContain("FRIDAY assembled context for this turn:");
           expect(inputText).toContain("retained LCM history");
           const startParams = requireRequestParams(harness, "thread/start");
           expect(requireRecord(startParams.config, "thread/start config")).toMatchObject({

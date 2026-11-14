@@ -76,7 +76,7 @@ export function getPreparedSharedAuthStoreOwnership(
 function cacheSharedOwnership(databasePath: string, read: () => unknown): SharedAuthStoreOwnership {
   if (sharedAuthStoreOwnershipByDatabasePath.size >= SHARED_AUTH_STORE_OWNERSHIP_CACHE_LIMIT) {
     throw new Error(
-      "Shared auth store ownership cache exceeded its process root limit; restart OpenClaw.",
+      "Shared auth store ownership cache exceeded its process root limit; restart FRIDAY.",
     );
   }
   const ownership = parseSharedAuthStoreOwnership(read());

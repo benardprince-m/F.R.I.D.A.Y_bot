@@ -1409,7 +1409,7 @@ describe("doctor health contributions", () => {
     },
   );
 
-  it("silently skips the host-service contribution in a container without an OpenClaw service", async () => {
+  it("silently skips the host-service contribution in a container without an FRIDAY service", async () => {
     mocks.isContainerEnvironment.mockReturnValue(true);
     mocks.findInstalledSystemdGatewayScope.mockResolvedValue(null);
     await runDoctor("doctor:gateway-services", {
@@ -2198,7 +2198,7 @@ describe("doctor health contributions", () => {
     }
 
     it.each([
-      ["OPENCLAW_NIX_MODE", "OpenClaw is running in Nix mode"],
+      ["OPENCLAW_NIX_MODE", "FRIDAY is running in Nix mode"],
       ["OPENCLAW_CONFIG_READONLY", "config is externally managed"],
     ])("reports immutable config mode selected by %s", async (envKey, reason) => {
       vi.stubEnv(envKey, "1");

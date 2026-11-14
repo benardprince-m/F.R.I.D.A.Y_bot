@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct VoiceWakePreferencesTests {
     @Test func `sanitize trigger words trims and drops empty`() {

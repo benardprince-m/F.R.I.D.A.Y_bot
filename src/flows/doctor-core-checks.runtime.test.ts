@@ -817,7 +817,7 @@ describe("doctor gateway runtime checks", () => {
     },
   );
 
-  it("skips host-service findings for a container without an OpenClaw service", async () => {
+  it("skips host-service findings for a container without an FRIDAY service", async () => {
     mocks.container.mockReturnValue(true);
 
     expect(await inspectDaemon({ cfg: localConfig })).toEqual([]);

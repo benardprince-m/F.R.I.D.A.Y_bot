@@ -1,5 +1,5 @@
 ---
-summary: "Which Feishu message types OpenClaw receives and sends, including stickers and thread replies"
+summary: "Which Feishu message types FRIDAY receives and sends, including stickers and thread replies"
 read_when:
   - Checking whether Feishu supports a message type
   - Enabling sticker replies or sticker keyword search
@@ -7,7 +7,7 @@ title: "Feishu message types"
 sidebarTitle: "Message types"
 ---
 
-The Feishu message types OpenClaw can receive and send, sticker support, and thread-aware replies.
+The Feishu message types FRIDAY can receive and send, sticker support, and thread-aware replies.
 
 ## Reading messages and chat information
 
@@ -42,10 +42,10 @@ to Feishu cannot be undone.
 
 Received stickers expose their reusable `file_key` to the agent as
 `<sticker key="..."/>`. Feishu/Lark does not support downloading sticker
-resources, so OpenClaw preserves the key without fetching an attachment.
+resources, so FRIDAY preserves the key without fetching an attachment.
 
 A file sent with a caption, or multiple files in one message, arrives as a
-rich-text `post` with a top-level `files[]` array. OpenClaw downloads those
+rich-text `post` with a top-level `files[]` array. FRIDAY downloads those
 files through the same inbound attachment path as a standalone `file` message.
 
 Merged-forward messages include each child's original sender and UTC timestamp
@@ -55,7 +55,7 @@ Child mentions remain attached to the original message. Name lookups are limited
 to the first 50 children in chronological order, matching the rendered history.
 
 Inbound Feishu/Lark audio messages are normalized as media placeholders instead
-of raw `file_key` JSON. When `tools.media.audio` is configured, OpenClaw
+of raw `file_key` JSON. When `tools.media.audio` is configured, FRIDAY
 downloads the voice-note resource and runs shared audio transcription before the
 agent turn, so the agent receives the spoken transcript. If Feishu includes
 transcript text directly in the audio payload, that text is used without another
@@ -80,7 +80,7 @@ is sent directly as native audio. MP3/WAV/M4A and other likely audio formats are
 transcoded to 48kHz Ogg/Opus with `ffmpeg` only when the reply requests voice
 delivery (`audioAsVoice` / message tool `asVoice`, including TTS voice-note
 replies). Ordinary MP3 attachments stay regular files. If `ffmpeg` is missing or
-conversion fails, OpenClaw falls back to a file attachment and logs the reason.
+conversion fails, FRIDAY falls back to a file attachment and logs the reason.
 
 ### Sticker replies
 

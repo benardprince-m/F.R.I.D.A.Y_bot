@@ -293,7 +293,7 @@ defineDiscordVoiceTests(
         "call-late",
         {
           status: "already_delivered",
-          message: "OpenClaw already delivered this answer to Discord voice. Do not repeat it.",
+          message: "FRIDAY already delivered this answer to Discord voice. Do not repeat it.",
         },
         { suppressResponse: true },
       );
@@ -316,7 +316,7 @@ defineDiscordVoiceTests(
           "call-late-unsuppressed",
           {
             status: "already_delivered",
-            message: "OpenClaw already delivered this answer to Discord voice. Do not repeat it.",
+            message: "FRIDAY already delivered this answer to Discord voice. Do not repeat it.",
           },
         ]);
       });
@@ -430,7 +430,7 @@ defineDiscordVoiceTests(
                   {
                     status: "already_delivered",
                     message:
-                      "OpenClaw already delivered this answer to Discord voice. Do not repeat it.",
+                      "FRIDAY already delivered this answer to Discord voice. Do not repeat it.",
                   },
                   { suppressResponse: true },
                 ]
@@ -485,7 +485,7 @@ defineDiscordVoiceTests(
         "call-late",
         {
           status: "already_delivered",
-          message: "OpenClaw already delivered this answer to Discord voice. Do not repeat it.",
+          message: "FRIDAY already delivered this answer to Discord voice. Do not repeat it.",
         },
         { suppressResponse: true },
       );
@@ -543,7 +543,7 @@ defineDiscordVoiceTests(
         "call-new",
         {
           status: "already_delivered",
-          message: "OpenClaw already delivered this answer to Discord voice. Do not repeat it.",
+          message: "FRIDAY already delivered this answer to Discord voice. Do not repeat it.",
         },
         { suppressResponse: true },
       );
@@ -698,11 +698,9 @@ defineDiscordVoiceTests(
         });
         expect(bridgeParams?.instructions?.match(/Agent context:/g)).toHaveLength(1);
         if (files) {
-          expect(bridgeParams?.instructions).not.toContain(
-            "OpenClaw realtime voice profile context",
-          );
+          expect(bridgeParams?.instructions).not.toContain("FRIDAY realtime voice profile context");
         } else {
-          expect(bridgeParams?.instructions).toContain("OpenClaw realtime voice profile context");
+          expect(bridgeParams?.instructions).toContain("FRIDAY realtime voice profile context");
           expect(bridgeParams?.instructions).toContain("Name: Wilfred");
         }
         expect(bridgeParams?.instructions).toContain("short natural backchannel");

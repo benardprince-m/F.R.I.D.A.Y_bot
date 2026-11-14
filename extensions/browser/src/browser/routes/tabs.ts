@@ -200,7 +200,7 @@ export function registerBrowserTabRoutes(app: BrowserRouteRegistrar, ctx: Browse
       navigationPolicy: browserNavigationPolicyForProfile(ctx, profileCtx),
     });
     signal.throwIfAborted();
-    // Only an isolated browser owned by OpenClaw may follow the preview size.
+    // Only an isolated browser owned by FRIDAY may follow the preview size.
     // Attached sessions and remote CDP browsers retain their existing viewport.
     return {
       running: true,

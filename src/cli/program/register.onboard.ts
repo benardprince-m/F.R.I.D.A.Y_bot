@@ -288,7 +288,7 @@ export function registerOnboardCommand(program: Command): void {
     )
     .option("--reset-scope <scope>", "Reset scope: config|config+creds+sessions|full")
     .option("--non-interactive", "Run without prompts", false)
-    .option("--modern", "Open inference-gated OpenClaw (kept for compatibility)", false);
+    .option("--modern", "Open inference-gated FRIDAY (kept for compatibility)", false);
   registerOnboardFlowOptions(command);
 
   registerOnboardAuthOptions(command);
@@ -369,7 +369,7 @@ export function registerOnboardCommand(program: Command): void {
           rejectOption(
             [
               `--modern cannot be combined with: ${unsupportedOptions.join(", ")}.`,
-              "Run those setup options without --modern, or remove them to open OpenClaw.",
+              "Run those setup options without --modern, or remove them to open FRIDAY.",
             ].join("\n"),
           );
           return;

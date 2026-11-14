@@ -184,7 +184,7 @@ describe("Microsoft Teams QA transport adapter", () => {
           {
             type: "mention",
             text: "<at>openclaw</at>",
-            mentioned: { id: "qa-msteams-app", name: "OpenClaw QA" },
+            mentioned: { id: "qa-msteams-app", name: "FRIDAY QA" },
           },
         ],
         serviceUrl: "https://smba.trafficmanager.net/qa",

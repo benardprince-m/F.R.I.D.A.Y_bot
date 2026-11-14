@@ -42,7 +42,7 @@ function throwStartupMigrationRefusal(message: string, cause?: unknown): never {
 
 export function throwStartupMigrationGuardRejected(): never {
   throw new Error(
-    "OpenClaw startup migrations were skipped because the selected config changed during startup; refusing to report the gateway ready. Retry startup so the new config can be validated.",
+    "FRIDAY startup migrations were skipped because the selected config changed during startup; refusing to report the gateway ready. Retry startup so the new config can be validated.",
   );
 }
 

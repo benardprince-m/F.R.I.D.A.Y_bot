@@ -50,7 +50,7 @@ node scripts/run-vitest.mjs src/infra/fs-safe.test.ts src/infra/fs-safe-remove.t
 Reproduce the original problem and test its caller too. If a local package needs
 build-script approval, inspect its scripts and use an exact artifact rule rather
 than disabling strict approval globally. Other dependencies still need their
-registry or cache; this is not an offline OpenClaw installer.
+registry or cache; this is not an offline FRIDAY installer.
 
 This recipe applies only to the source checkout. Workspace overrides do not
 carry into published packages, and the existing package-staging workflow does

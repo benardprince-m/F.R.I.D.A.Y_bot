@@ -11,7 +11,7 @@ function* legacyOffsets(context: PluginDoctorStateMigrationContext) {
   const read = context.readPluginStateEntriesInKeyRange;
   if (!read) {
     throw new Error(
-      "Update OpenClaw before inspecting Telegram SQLite offsets, then run openclaw doctor --fix.",
+      "Update FRIDAY before inspecting Telegram SQLite offsets, then run openclaw doctor --fix.",
     );
   }
   let after: string | undefined;
@@ -75,7 +75,7 @@ export const stateMigrations: PluginDoctorStateMigration[] = [
       const batches = [...legacyOffsets(context)];
       for (const rows of batches) {
         if (!context.repairPluginStateEntries) {
-          throw new Error("Update OpenClaw to repair Telegram SQLite offsets.");
+          throw new Error("Update FRIDAY to repair Telegram SQLite offsets.");
         }
         const repaired = await context.repairPluginStateEntries(offsetNamespace, rows);
         result.changes.push(

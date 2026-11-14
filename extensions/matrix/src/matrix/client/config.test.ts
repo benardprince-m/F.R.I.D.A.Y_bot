@@ -207,7 +207,7 @@ describe("Matrix auth/config live surfaces", () => {
       homeserver: "https://matrix.gumadeiras.com",
       userId: "@pinguini:matrix.gumadeiras.com",
       password: "cfg-pass", // pragma: allowlist secret
-      deviceName: "OpenClaw Gateway Pinguini",
+      deviceName: "FRIDAY Gateway Pinguini",
       encryption: true,
     };
     const { MATRIX_ACCESS_TOKEN: _unusedToken, ...env } = envAuth;

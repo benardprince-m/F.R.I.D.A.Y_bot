@@ -1,8 +1,8 @@
-# OpenClaw Cerebras Provider
+# FRIDAY Cerebras Provider
 
-Official OpenClaw provider plugin for Cerebras.
+Official FRIDAY provider plugin for Cerebras.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/cerebras-provider

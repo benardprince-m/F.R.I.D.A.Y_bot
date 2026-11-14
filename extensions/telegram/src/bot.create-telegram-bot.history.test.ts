@@ -77,7 +77,7 @@ function recordOutbound(
 ) {
   return recordOutboundMessageForPromptContext({
     cfg,
-    account: { accountId: "default", name: "OpenClaw" },
+    account: { accountId: "default", name: "FRIDAY" },
     chatId: sent.chat.id,
     messageId: sent.message_id,
     message: sent,
@@ -192,7 +192,7 @@ it("does not duplicate an observed outbound reply in ambient history", async () 
   await receive(bot, { message: message("What now?", { chat: group }) });
   expect(lastInput().InboundEventKind).toBe("room_event");
   expect(contextMessages().filter((entry) => entry.message_id === String(sent.message_id))).toEqual(
-    [expect.objectContaining({ body: "Already delivered", sender: "OpenClaw (you)" })],
+    [expect.objectContaining({ body: "Already delivered", sender: "FRIDAY (you)" })],
   );
 });
 

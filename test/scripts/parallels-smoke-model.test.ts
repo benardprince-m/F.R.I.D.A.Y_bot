@@ -559,7 +559,7 @@ describe("Parallels smoke model selection", () => {
     windowsGit,
   } = TS_SOURCE;
   const windowsAgentTurn = windowsAgentTurnScript({
-    command: "Invoke-OpenClaw @args",
+    command: "Invoke-FRIDAY @args",
     sessionId: "parallels-windows-smoke",
     retryOnCommandFailure: true,
   });
@@ -573,10 +573,10 @@ describe("Parallels smoke model selection", () => {
     expect(isLikelyMacosDesktopHome("/var/empty")).toBe(false);
   });
 
-  it("extracts the last OpenClaw version from a bounded log tail", async () => {
+  it("extracts the last FRIDAY version from a bounded log tail", async () => {
     const tempDir = makeTempDir(tempDirs, "openclaw-parallels-log-tail-");
     const logPath = join(tempDir, "phase.log");
-    writeFileSync(logPath, ["OpenClaw 0.0.1", "x".repeat(4 * 1024 * 1024)].join("\n"));
+    writeFileSync(logPath, ["FRIDAY 0.0.1", "x".repeat(4 * 1024 * 1024)].join("\n"));
     await expect(extractLastOpenClawVersionFromLog(logPath)).resolves.toBe("");
 
     writeFileSync(logPath, "\nOpenClaw 2026.6.6\nOpenClaw 2026.6.7", { flag: "a" });
@@ -597,7 +597,7 @@ describe("Parallels smoke model selection", () => {
     }
   });
 
-  it("owns the reusable Windows VM and OpenClaw baseline lifecycle", () => {
+  it("owns the reusable Windows VM and FRIDAY baseline lifecycle", () => {
     const controller = readFileSync(WINDOWS_PREPARE_WRAPPER, "utf8");
     expect(controller).toContain("ensure_wsl_features");
     expect(controller).toContain("resolve_winget_manifest");
@@ -724,10 +724,10 @@ ensure_vm_running`,
 
   const sourceRegressions: Record<string, [string, string, boolean?][]> = {
     "uses a forced Windows gateway stop only when the installed CLI supports it": [
-      [windows, "Invoke-OpenClaw gateway stop --help"],
+      [windows, "Invoke-FRIDAY gateway stop --help"],
       [windows, "$stopHelp -match"],
       [windows, "$gatewayArgs += '--force'"],
-      [windows, "Invoke-OpenClaw @gatewayArgs"],
+      [windows, "Invoke-FRIDAY @gatewayArgs"],
       [windows, 'const forceFlag = action === "stop"', false],
     ],
     "waits for apt locks during Linux snapshot bootstrap": [
@@ -869,7 +869,7 @@ ensure_vm_running`,
       [macos, "--install-daemon"],
       [windows, "--install-daemon"],
     ],
-    "resolves Windows OpenClaw commands without assuming the npm shim path": [
+    "resolves Windows FRIDAY commands without assuming the npm shim path": [
       [powershell, "windowsOpenClawResolver"],
       [powershell, "OPENCLAW_PARALLELS_AGENT_RUNTIME_POLICY_SUPPORTED"],
       [powershell, "Programs\\nodejs"],
@@ -881,7 +881,7 @@ ensure_vm_running`,
       [powershell, "$ErrorActionPreference = 'Continue'"],
       [powershell, "$PSNativeCommandUseErrorActionPreference = $false"],
       [windows, "windowsOpenClawResolver"],
-      [windows, "Invoke-OpenClaw gateway"],
+      [windows, "Invoke-FRIDAY gateway"],
       [windows, "Join-Path $env:APPDATA 'npm\\\\openclaw.cmd'", false],
     ],
   };
@@ -1778,7 +1778,7 @@ if (commandArgs[0] === "list") {
     expect(npmUpdateScripts).toContain("--thinking off");
     expect(
       windowsAgentTurnScript({
-        command: "Invoke-OpenClaw @args",
+        command: "Invoke-FRIDAY @args",
         sessionId: "parallels-npm-update-windows",
         retryOnCommandFailure: false,
       }),
@@ -1962,7 +1962,7 @@ if (commandArgs[0] === "list") {
     expect(orchestrator).not.toContain("Remove-FuturePluginEntries");
     expect(updateScripts).toContain("Remove-FuturePluginEntries");
     expect(updateScripts).toContain("scrub_future_plugin_entries");
-    expect(updateScripts).toContain("Invoke-OpenClaw update");
+    expect(updateScripts).toContain("Invoke-FRIDAY update");
     expect(updateScripts).toContain("Parallels npm update smoke test assistant.");
   });
 

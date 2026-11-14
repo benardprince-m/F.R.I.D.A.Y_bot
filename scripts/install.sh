@@ -49,7 +49,7 @@ installer_clone_error() {
     return 1
 }
 
-# OpenClaw Installer for macOS and Linux
+# FRIDAY Installer for macOS and Linux
 # Usage: curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash
 
 BOLD='\033[1m'
@@ -63,7 +63,7 @@ ERROR='\033[38;2;230;57;70m'        # coral-mid     #e63946
 MUTED='\033[38;2;90;100;128m'       # text-muted    #5a6480
 NC='\033[0m' # No Color
 
-DEFAULT_TAGLINE="All your chats, one OpenClaw."
+DEFAULT_TAGLINE="All your chats, one FRIDAY."
 NODE_DEFAULT_MAJOR=26
 # Homebrew ships the current Node line as plain "node" (no versioned node@26
 # formula exists); versioned formulas only cover LTS lines like node@24.
@@ -402,7 +402,7 @@ print_gum_status() {
 print_installer_banner() {
     if [[ -n "$GUM" ]]; then
         local title tagline hint card
-        title="$("$GUM" style --foreground "#ff4d4d" --bold "🦞 OpenClaw Installer")"
+        title="$("$GUM" style --foreground "#ff4d4d" --bold "🦞 FRIDAY Installer")"
         tagline="$("$GUM" style --foreground "#8892b0" "$TAGLINE")"
         hint="$("$GUM" style --foreground "#5a6480" "modern installer mode")"
         card="$(printf '%s\n%s\n%s' "$title" "$tagline" "$hint")"
@@ -412,7 +412,7 @@ print_installer_banner() {
     fi
 
     echo -e "${ACCENT}${BOLD}"
-    echo "  🦞 OpenClaw Installer"
+    echo "  🦞 FRIDAY Installer"
     echo -e "${NC}${INFO}  ${TAGLINE}${NC}"
     echo ""
 }
@@ -940,7 +940,7 @@ verify_npm_lifecycle_completed() {
     npm_root="$("$npm_cmd" root -g 2>/dev/null | awk 'NF { value = $0 } END { print value }')" || true
     [[ -n "$npm_root" ]] || { echo "Unable to resolve npm global root after install." >&2; return 1; }
     [[ ! -e "${npm_root%/}/openclaw/.openclaw-lifecycle-pending" && ! -e "${npm_root%/}/openclaw/dist/openclaw-install-guard" ]] || {
-      echo "OpenClaw lifecycle scripts did not complete; refusing installer success." >&2
+      echo "FRIDAY lifecycle scripts did not complete; refusing installer success." >&2
       return 1
     }
 }
@@ -973,9 +973,9 @@ run_npm_global_install() {
         local log_quoted=""
         printf -v cmd_quoted '%q ' "${cmd[@]}"
         printf -v log_quoted '%q' "$log"
-        run_with_spinner "Installing OpenClaw package" bash -c "${cmd_quoted}>${log_quoted} 2>&1" || install_status=$?
+        run_with_spinner "Installing FRIDAY package" bash -c "${cmd_quoted}>${log_quoted} 2>&1" || install_status=$?
     else
-        ui_info "Installing OpenClaw package"
+        ui_info "Installing FRIDAY package"
         "${cmd[@]}" < /dev/null >"$log" 2>&1 || install_status=$?
     fi
     (( install_status == 0 )) || return "$install_status"
@@ -1076,7 +1076,7 @@ install_openclaw_npm() {
             attempted_build_tool_fix=true
             ui_info "Retrying npm install after build tools setup"
             if run_verified_npm_global_install "$spec" "$log"; then
-                ui_success "OpenClaw npm package installed"
+                ui_success "FRIDAY npm package installed"
                 return 0
             fi
         fi
@@ -1096,7 +1096,7 @@ install_openclaw_npm() {
             ui_warn "npm left stale directory; cleaning and retrying"
             cleanup_npm_stale_rename_dirs || return 1
             if run_verified_npm_global_install "$spec" "$log"; then
-                ui_success "OpenClaw npm package installed"
+                ui_success "FRIDAY npm package installed"
                 return 0
             fi
             return 1
@@ -1106,7 +1106,7 @@ install_openclaw_npm() {
             conflict="$(extract_openclaw_conflict_path "$log" || true)"
             if [[ -n "$conflict" ]] && cleanup_openclaw_bin_conflict "$conflict"; then
                 if run_verified_npm_global_install "$spec" "$log"; then
-                    ui_success "OpenClaw npm package installed"
+                    ui_success "FRIDAY npm package installed"
                     return 0
                 fi
                 return 1
@@ -1119,7 +1119,7 @@ install_openclaw_npm() {
         fi
         return 1
     fi
-    ui_success "OpenClaw npm package installed"
+    ui_success "FRIDAY npm package installed"
     return 0
 }
 
@@ -1256,7 +1256,7 @@ HELP=0
 
 print_usage() {
     cat <<EOF
-OpenClaw installer (macOS + Linux)
+FRIDAY installer (macOS + Linux)
 
 Usage:
   curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- [options]
@@ -1266,8 +1266,8 @@ Options:
   --npm                               Shortcut for --install-method npm
   --git, --github                     Shortcut for --install-method git
   --version <version|dist-tag|spec>    npm install target (default: latest)
-  --runtime node|bun                  Runtime (default: node); Bun uses the OpenClaw fork
-  --bun-path <absolute path>          Use an existing OpenClaw Bun fork executable
+  --runtime node|bun                  Runtime (default: node); Bun uses the FRIDAY fork
+  --bun-path <absolute path>          Use an existing FRIDAY Bun fork executable
   --beta                               Use beta if available, else latest
   --git-dir, --dir <path>             Checkout directory (default: ~/openclaw)
   --no-git-update                      Skip git pull for existing checkout
@@ -1413,7 +1413,7 @@ choose_install_method_interactive() {
 
     if [[ -n "$GUM" ]] && gum_is_tty; then
         local header selection
-        header="Detected OpenClaw checkout in: ${detected_checkout}
+        header="Detected FRIDAY checkout in: ${detected_checkout}
 Choose install method"
         selection="$("$GUM" choose \
             --header "$header" \
@@ -1436,7 +1436,7 @@ Choose install method"
 
     local choice=""
     choice="$(prompt_choice "$(cat <<EOF
-${WARN}→${NC} Detected a OpenClaw source checkout in: ${INFO}${detected_checkout}${NC}
+${WARN}→${NC} Detected a FRIDAY source checkout in: ${INFO}${detected_checkout}${NC}
 Choose install method:
   1) Update this checkout (git) and use it
   2) Install global via npm (migrate away from git)
@@ -1531,7 +1531,7 @@ parse_node_version_components_for_binary() {
     version="${version#"${version%%[![:space:]]*}"}"
     version="${version%"${version##*[![:space:]]}"}"
 
-    # This standalone installer runs before OpenClaw exists on disk. Mirror the
+    # This standalone installer runs before FRIDAY exists on disk. Mirror the
     # release grammar in node-version.mjs; parity cases guard this boundary.
     if [[ ! "$version" =~ ^v?(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$ ]]; then
         return 1
@@ -2318,7 +2318,7 @@ fix_npm_permissions() {
     ui_info "Configuring npm for user-local installs"
     mkdir -p "$HOME/.npm-global"
     npm config set prefix "$HOME/.npm-global" < /dev/null
-    ui_warn "Avoid sudo npm i -g for future OpenClaw updates; use npm i -g openclaw@latest so npm keeps using this user prefix instead of a different global prefix."
+    ui_warn "Avoid sudo npm i -g for future FRIDAY updates; use npm i -g openclaw@latest so npm keeps using this user prefix instead of a different global prefix."
 
     persist_shell_path_prepend "$HOME/.npm-global/bin" "\$HOME/.npm-global/bin" || true
 
@@ -2352,10 +2352,10 @@ ensure_openclaw_bin_link() {
     "$target" --version >/dev/null 2>&1
 }
 
-# Check for existing OpenClaw installation
+# Check for existing FRIDAY installation
 check_existing_openclaw() {
     if [[ -n "$(type -P openclaw 2>/dev/null || true)" ]]; then
-        ui_info "Existing OpenClaw installation detected, upgrading"
+        ui_info "Existing FRIDAY installation detected, upgrading"
         return 0
     fi
     return 1
@@ -2549,8 +2549,8 @@ warn_duplicate_openclaw_global_installs() {
         return 0
     fi
 
-    ui_warn "Multiple OpenClaw global installs detected"
-    echo "  Different Node/npm environments can run different OpenClaw versions."
+    ui_warn "Multiple FRIDAY global installs detected"
+    echo "  Different Node/npm environments can run different FRIDAY versions."
 
     local active_node active_npm active_openclaw
     active_node="$(command -v node 2>/dev/null || true)"
@@ -2606,7 +2606,7 @@ warn_shell_path_missing_dir() {
     if [[ -n "${NVM_DIR:-}" && "$dir" == "$NVM_DIR"/versions/node/*/bin ]]; then
         local version="${dir%/bin}"
         version="${version##*/}"
-        ui_info "OpenClaw was installed under nvm Node.js ${version}"
+        ui_info "FRIDAY was installed under nvm Node.js ${version}"
         echo "  For this shell and future shells, run: nvm use ${version}"
         echo "  Shell profiles were not changed."
         return 0
@@ -2850,9 +2850,9 @@ install_openclaw_from_git() {
     fi
 
     if [[ -e "$repo_dir/.git" ]]; then
-        ui_info "Installing OpenClaw from git checkout: ${repo_dir}"
+        ui_info "Installing FRIDAY from git checkout: ${repo_dir}"
     else
-        ui_info "Installing OpenClaw from GitHub (${repo_url})"
+        ui_info "Installing FRIDAY from GitHub (${repo_url})"
     fi
 
     if ! check_git; then
@@ -2895,7 +2895,7 @@ install_openclaw_from_git() {
     if ! run_quiet_step "Building UI" run_pnpm -C "$repo_dir" ui:build; then
         ui_warn "UI build failed; continuing (CLI may still work)"
     fi
-    run_quiet_step "Building OpenClaw" run_pnpm -C "$repo_dir" build
+    run_quiet_step "Building FRIDAY" run_pnpm -C "$repo_dir" build
 
     ensure_user_local_bin_on_path
 
@@ -2924,11 +2924,11 @@ install_openclaw_from_git() {
 set -euo pipefail
 exec ${node_bin_quoted} ${entry_path_quoted} "\$@"
 EOF
-    ui_success "OpenClaw wrapper installed to \$HOME/.local/bin/openclaw"
+    ui_success "FRIDAY wrapper installed to \$HOME/.local/bin/openclaw"
     ui_info "Manual builds need the checkout-pinned pnpm launcher; installer bootstrap is temporary: https://docs.openclaw.ai/install/installer#source-build-toolchain"
 }
 
-# Install OpenClaw
+# Install FRIDAY
 resolve_beta_version() {
     local beta=""
     beta="$(npm view openclaw dist-tags.beta 2>/dev/null || true)"
@@ -2994,7 +2994,7 @@ install_openclaw() {
     fi
 
     if is_openclaw_source_package_install_spec "${OPENCLAW_VERSION}"; then
-        ui_error "npm installs do not support OpenClaw GitHub source targets like '${OPENCLAW_VERSION}'."
+        ui_error "npm installs do not support FRIDAY GitHub source targets like '${OPENCLAW_VERSION}'."
         ui_info "Use --install-method git --version main for the moving main checkout, or use latest, beta, an exact version, or a built .tgz package."
         return 1
     fi
@@ -3004,17 +3004,17 @@ install_openclaw() {
         resolved_version="$(npm view "${package_name}@${OPENCLAW_VERSION}" version 2>/dev/null || true)"
     fi
     if [[ -n "$resolved_version" ]]; then
-        ui_info "Installing OpenClaw v${resolved_version}"
+        ui_info "Installing FRIDAY v${resolved_version}"
     else
-        ui_info "Installing OpenClaw (${OPENCLAW_VERSION})"
+        ui_info "Installing FRIDAY (${OPENCLAW_VERSION})"
     fi
     local install_spec=""
     install_spec="$(resolve_package_install_spec "${package_name}" "${OPENCLAW_VERSION}")"
 
     if ! install_openclaw_npm "${install_spec}" || ! ensure_openclaw_bin_link; then
-        ui_warn "npm install did not produce a usable OpenClaw package; retrying"
+        ui_warn "npm install did not produce a usable FRIDAY package; retrying"
         if ! install_openclaw_npm "${install_spec}" || ! ensure_openclaw_bin_link; then
-            ui_error "npm install did not produce a usable OpenClaw package"
+            ui_error "npm install did not produce a usable FRIDAY package"
             restore_openclaw_bin_backup || ui_error "Could not restore the previous openclaw command"
             return 1
         fi
@@ -3229,7 +3229,7 @@ verify_installation() {
         return 1
     fi
 
-    run_quiet_step "Checking OpenClaw version" "$claw" --version || return 1
+    run_quiet_step "Checking FRIDAY version" "$claw" --version || return 1
 
     if [[ "$verify_gateway" != "true" ]]; then
         ui_info "Setup not complete; skipping gateway service check"
@@ -3366,25 +3366,25 @@ read_bun_pin() {
         BUN_ARCHIVE_SHA="$(bun_metadata_string "$pin" "/artifacts/$BUN_PLATFORM/sha256")" &&
         BUN_EXECUTABLE="$(bun_metadata_string "$pin" "/artifacts/$BUN_PLATFORM/executable")" &&
         BUN_EXECUTABLE_SHA="$(bun_metadata_string "$pin" "/artifacts/$BUN_PLATFORM/executableSha256")"; }; then
-        ui_error "Missing or invalid Bun pin for ${BUN_PLATFORM}. Choose a published OpenClaw version with a Bun artifact, or use --runtime node."
+        ui_error "Missing or invalid Bun pin for ${BUN_PLATFORM}. Choose a published FRIDAY version with a Bun artifact, or use --runtime node."
         return 1
     fi
     if [[ ! "$BUN_TAG" =~ ^[a-zA-Z0-9._+-]+$ || ! "$BUN_ASSET" =~ ^[a-zA-Z0-9._+-]+\.zip$ ||
           ! "$BUN_EXECUTABLE" =~ ^[a-zA-Z0-9._+-]+/bun$ ||
           ! "$BUN_ARCHIVE_SHA" =~ ^[a-f0-9]{64}$ || ! "$BUN_EXECUTABLE_SHA" =~ ^[a-f0-9]{64}$ ||
           ! "$BUN_REVISION" =~ ^[0-9]+\.[0-9]+\.[0-9]+-canary\.[0-9]+\+[a-f0-9]+$ ]]; then
-        ui_error "Invalid OpenClaw Bun pin. Choose another published version or use --runtime node."
+        ui_error "Invalid FRIDAY Bun pin. Choose another published version or use --runtime node."
         return 1
     fi
 }
 
 validate_bun_path() {
     if [[ "$BUN_PATH" != /* || ! -f "$BUN_PATH" || ! -x "$BUN_PATH" || "$BUN_PATH" == *$'\n'* || "$BUN_PATH" == *$'\r'* ]]; then
-        ui_error "--bun-path must be an absolute, executable, single-line path to the OpenClaw Bun fork."
+        ui_error "--bun-path must be an absolute, executable, single-line path to the FRIDAY Bun fork."
         return 1
     fi
     if [[ -n "${BUN_EXECUTABLE_SHA:-}" && "$(bun_sha256 "$BUN_PATH")" != "$BUN_EXECUTABLE_SHA" ]]; then
-        ui_error "Bun executable does not match the OpenClaw fork checksum; stock Bun is unsupported here. Omit --bun-path to download the pinned fork."
+        ui_error "Bun executable does not match the FRIDAY fork checksum; stock Bun is unsupported here. Omit --bun-path to download the pinned fork."
         return 1
     fi
     # Published Gateway installers require this basename when recording a runtime pin.
@@ -3396,7 +3396,7 @@ validate_bun_path() {
     revision="$("$BUN_PATH" --revision)" || return 1
     if [[ ! "$revision" =~ ^[0-9]+\.[0-9]+\.[0-9]+-canary\.[0-9]+\+[a-f0-9]+$ ||
           ( -n "${BUN_REVISION:-}" && "$revision" != "$BUN_REVISION" ) ]]; then
-        ui_error "Bun does not match the OpenClaw fork pin (${BUN_REVISION:-custom package}); stock Bun is unsupported here. Omit --bun-path to download the pinned fork, or supply its verified executable."
+        ui_error "Bun does not match the FRIDAY fork pin (${BUN_REVISION:-custom package}); stock Bun is unsupported here. Omit --bun-path to download the pinned fork, or supply its verified executable."
         return 1
     fi
 }
@@ -3438,7 +3438,7 @@ stage_bun() {
     work="$(mktemp -d "${target%/*}/.stage.XXXXXX")"
     TMPFILES+=("$work")
     archive="$work/bun.zip"
-    run_quiet_step "Downloading OpenClaw Bun" download_file \
+    run_quiet_step "Downloading FRIDAY Bun" download_file \
         "${OPENCLAW_INSTALL_BUN_RELEASE_BASE_URL:-https://github.com/openclaw/bun/releases/download}/$BUN_TAG/$BUN_ASSET" "$archive"
     if [[ "$(bun_sha256 "$archive")" != "$BUN_ARCHIVE_SHA" ]]; then
         ui_error "Bun archive checksum mismatch; no binary was executed. Retry or choose another published version."
@@ -3455,7 +3455,7 @@ stage_bun() {
     validate_bun_path
     mv -f "$work/bun" "$target"
     BUN_PATH="$target"
-    ui_success "Verified OpenClaw Bun ${BUN_REVISION}"
+    ui_success "Verified FRIDAY Bun ${BUN_REVISION}"
 }
 
 ensure_bun_sqlite() {
@@ -3544,7 +3544,7 @@ install_with_bun() {
     if is_explicit_package_install_spec "$OPENCLAW_VERSION" ||
         [[ ! "$OPENCLAW_VERSION" =~ ^[a-zA-Z0-9][a-zA-Z0-9._+-]*$ || "$(to_lowercase_ascii "$OPENCLAW_VERSION")" == main ]]; then
         if [[ -z "$BUN_PATH" ]]; then
-            ui_error "Bun needs a published npm version or dist-tag. For local tarballs, paths, or git specs, supply --bun-path with the matching OpenClaw fork."
+            ui_error "Bun needs a published npm version or dist-tag. For local tarballs, paths, or git specs, supply --bun-path with the matching FRIDAY fork."
             return 2
         fi
         custom_spec=true
@@ -3560,14 +3560,14 @@ install_with_bun() {
             resolved="${requested#v}"
         else
             download_file "$registry/-/package/openclaw/dist-tags" "$version" || {
-                ui_error "Cannot resolve OpenClaw dist-tags. Check your registry connection."
+                ui_error "Cannot resolve FRIDAY dist-tags. Check your registry connection."
                 return 1
             }
             resolved="$(bun_metadata_string "$version" "/$requested")" || {
                 if [[ "$USE_BETA" == 1 ]]; then
                     resolved="$(bun_metadata_string "$version" /latest)" || return 1
                 else
-                    ui_error "Missing or invalid OpenClaw dist-tag: ${requested}. Choose a published version or tag."
+                    ui_error "Missing or invalid FRIDAY dist-tag: ${requested}. Choose a published version or tag."
                     return 1
                 fi
             }
@@ -3580,7 +3580,7 @@ install_with_bun() {
         local pin_url="${OPENCLAW_INSTALL_BUN_PIN_URL:-https://raw.githubusercontent.com/openclaw/openclaw/v$resolved/scripts/lib/openclaw-bun.json}"
         pin_url="${pin_url//\{version\}/$resolved}"
         download_file "$pin_url" "$pin" || {
-            ui_error "No Bun pin for OpenClaw ${resolved}. Choose a version with a published pin or use --runtime node."
+            ui_error "No Bun pin for FRIDAY ${resolved}. Choose a version with a published pin or use --runtime node."
             return 1
         }
         read_bun_pin "$pin"
@@ -3591,7 +3591,7 @@ install_with_bun() {
         target="$BUN_PATH"
     fi
     ui_kv "Runtime" "bun (Node remains the default)"
-    ui_kv "OpenClaw version" "$OPENCLAW_VERSION"
+    ui_kv "FRIDAY version" "$OPENCLAW_VERSION"
     ui_kv "Bun pin" "${BUN_TAG:-from custom package (checked after install)}"
     ui_kv "Bun asset" "${BUN_ASSET:-provided executable}"
     ui_kv "Bun target" "$target"
@@ -3612,7 +3612,7 @@ install_with_bun() {
     ensure_bun_sqlite
     old_claw="$(command -v openclaw || true)"
     bun_package_path
-    run_quiet_step "Installing OpenClaw with Bun" env PATH="$BUN_PACKAGE_PATH" \
+    run_quiet_step "Installing FRIDAY with Bun" env PATH="$BUN_PACKAGE_PATH" \
         OPENCLAW_PACKAGE_BUN_LAUNCHER="$BUN_PATH" "$BUN_PATH" add -g --trust \
         "$(resolve_package_install_spec openclaw "$OPENCLAW_VERSION")"
     local bin_dir
@@ -3690,7 +3690,7 @@ install_with_bun() {
             ui_info "Then: $OPENCLAW_BIN gateway install --runtime bun --runtime-path $BUN_PATH --force"
         fi
     fi
-    ui_success "OpenClaw installed with Bun: ${output}"
+    ui_success "FRIDAY installed with Bun: ${output}"
     [[ "$VERIFY_INSTALL" != 1 ]] || verify_installation
 }
 
@@ -3728,7 +3728,7 @@ main() {
 
     if [[ -z "$INSTALL_METHOD" && -n "$detected_checkout" ]]; then
         if ! is_promptable; then
-            ui_info "Found OpenClaw checkout but no TTY; defaulting to npm install"
+            ui_info "Found FRIDAY checkout but no TTY; defaulting to npm install"
             INSTALL_METHOD="npm"
         else
             local selected_method=""
@@ -3792,7 +3792,7 @@ main() {
         exit 1
     fi
 
-    ui_stage "Installing OpenClaw"
+    ui_stage "Installing FRIDAY"
 
     local final_git_dir=""
     if [[ "$INSTALL_METHOD" == "git" ]]; then
@@ -3818,7 +3818,7 @@ main() {
         # Step 4: npm permissions (Linux)
         fix_npm_permissions || exit 1
 
-        # Step 5: OpenClaw
+        # Step 5: FRIDAY
         prepare_git_wrapper_backup_for_npm || return $?
         install_openclaw
         local npm_candidate=""
@@ -3832,7 +3832,7 @@ main() {
             restore_openclaw_bin_backup || ui_error "Could not restore the previous openclaw command"
             return 1
         fi
-        ui_success "OpenClaw installed"
+        ui_success "FRIDAY installed"
         retire_git_wrapper_after_npm_install || return $?
     fi
 
@@ -3939,9 +3939,9 @@ main() {
     installed_version="$(resolve_openclaw_version)"
     echo ""
     if [[ -n "$installed_version" ]]; then
-        ui_celebrate "🦞 OpenClaw installed successfully (${installed_version})!"
+        ui_celebrate "🦞 FRIDAY installed successfully (${installed_version})!"
     else
-        ui_celebrate "🦞 OpenClaw installed successfully!"
+        ui_celebrate "🦞 FRIDAY installed successfully!"
     fi
     if [[ "$is_upgrade" == "true" ]]; then
         ui_info "Upgrade complete"

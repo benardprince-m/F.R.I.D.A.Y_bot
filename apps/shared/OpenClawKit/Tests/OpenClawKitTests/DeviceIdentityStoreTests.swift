@@ -485,7 +485,7 @@ struct DeviceIdentityStoreTests {
     func `Node PEM fixture repairs a stale device id and remains signing compatible`() throws {
         let fixture = DeviceIdentityMigrationFixture()
         let source = try fixture.source(
-            "Application Support/OpenClaw",
+            "Application Support/FRIDAY",
             contents: Self.nodePEMIdentityJSON(deviceId: "stale-device-id"))
         let identity = try fixture.load(sources: [source])
 

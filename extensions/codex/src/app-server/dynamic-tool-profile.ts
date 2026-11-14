@@ -37,7 +37,7 @@ export function normalizeCodexDynamicToolName(name: string): string {
   return DYNAMIC_TOOL_NAME_ALIASES[normalized] ?? normalized;
 }
 
-/** True only for the host-scoped OpenClaw run's exact tool contract. */
+/** True only for the host-scoped FRIDAY run's exact tool contract. */
 export function isSystemAgentOnlyCodexDynamicToolAllowlist(
   toolsAllow: readonly string[] | undefined,
 ): boolean {
@@ -95,7 +95,7 @@ export function resolveCodexDynamicToolsLoadingForRuntime(
     : loading;
 }
 
-/** Filters OpenClaw tools that Codex owns natively or config explicitly excludes. */
+/** Filters FRIDAY tools that Codex owns natively or config explicitly excludes. */
 export function filterCodexDynamicTools<T extends { name: string }>(
   tools: T[],
   config: Pick<CodexPluginConfig, "codexDynamicToolsExclude">,

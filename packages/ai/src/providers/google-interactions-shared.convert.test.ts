@@ -63,7 +63,7 @@ describe("buildGoogleInteractionsParams", () => {
         user("What is 2+2?"),
         {
           role: "user",
-          content: "OpenClaw runtime context:\ncurrent runtime facts",
+          content: "FRIDAY runtime context:\ncurrent runtime facts",
           timestamp: 1,
           runtimeContext: {},
         },
@@ -92,7 +92,7 @@ describe("buildGoogleInteractionsParams", () => {
       },
       {
         type: "user_input",
-        content: [{ type: "text", text: "OpenClaw runtime context:\ncurrent runtime facts" }],
+        content: [{ type: "text", text: "FRIDAY runtime context:\ncurrent runtime facts" }],
       },
     ]);
   });

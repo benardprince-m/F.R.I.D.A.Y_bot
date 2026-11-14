@@ -227,7 +227,7 @@ read_when:
   </Accordion>
 
   <Accordion title="Enable relay-backed push for official iOS builds">
-    Relay-backed push for public App Store builds uses the hosted OpenClaw relay: `https://ios-push-relay.openclaw.ai`.
+    Relay-backed push for public App Store builds uses the hosted FRIDAY relay: `https://ios-push-relay.openclaw.ai`.
 
     Custom relay deployments require a deliberately separate iOS build/deployment path whose relay URL matches the gateway relay URL. If you are using a custom relay build, set this in gateway config:
 
@@ -410,13 +410,13 @@ read_when:
     - **Sibling keys**: merged after includes (override included values)
     - **Relative paths**: resolved relative to the including file
     - **Path format**: include paths must not contain null bytes and must be strictly shorter than 4096 characters before and after resolution
-    - **OpenClaw-owned writes**: when every changed key is owned by one
-      single-file include at an object-key path, OpenClaw updates the deepest
+    - **FRIDAY-owned writes**: when every changed key is owned by one
+      single-file include at an object-key path, FRIDAY updates the deepest
       owning include and leaves `openclaw.json` intact. This works for both
       top-level sections such as `plugins: { $include: "./plugins.json5" }` and
       nested object-map entries. Write-through only targets include files inside
       the top-level config directory; includes admitted through
-      `OPENCLAW_INCLUDE_ROOTS` stay read-only for OpenClaw-owned writes.
+      `OPENCLAW_INCLUDE_ROOTS` stay read-only for FRIDAY-owned writes.
     - **Control UI form saves**: the form edits the include-resolved authored
       config. Unchanged redacted credentials, including SecretRef ids, channel
       tokens, and provider headers, survive a save even when they are authored

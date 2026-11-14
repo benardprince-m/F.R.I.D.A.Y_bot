@@ -63,7 +63,7 @@ describe("collectTailscaleConfigWarnings", () => {
     });
 
     const warning = warnings.join("\n");
-    expect(warning).toContain("cannot prove that OpenClaw owns");
+    expect(warning).toContain("cannot prove that FRIDAY owns");
     expect(warning).toContain("confirm the route belongs to the current Tailscale hostname");
     expect(warning).toContain("leave managed Tailscale ingress off");
   });

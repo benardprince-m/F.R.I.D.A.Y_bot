@@ -1,5 +1,5 @@
 ---
-summary: "Setup guide for developers working on the OpenClaw macOS app"
+summary: "Setup guide for developers working on the FRIDAY macOS app"
 read_when:
   - Setting up the macOS development environment
 title: "macOS dev setup"
@@ -7,7 +7,7 @@ title: "macOS dev setup"
 
 # macOS developer setup
 
-Build and run the OpenClaw macOS application from source.
+Build and run the FRIDAY macOS application from source.
 
 The packaged app requires macOS 26.2 or later. The build host must also meet
 the Xcode requirements below.
@@ -42,7 +42,7 @@ pnpm install
 ./scripts/package-mac-app.sh
 ```
 
-Outputs `dist/OpenClaw.app`. By default this is a debug-configuration build
+Outputs `dist/FRIDAY.app`. By default this is a debug-configuration build
 with the development bundle identifier `ai.openclaw.mac.debug`, meant to run
 beside an installed release. To replace a release install, see
 [Replace an installed release app](#replace-an-installed-release-app).
@@ -75,7 +75,7 @@ For an executable-plus-sidecar packaging input, the separate
 manifest with compiler provenance and mode-specific signing entitlements.
 Desktop packaging owns seeding and replacement of that complete artifact.
 
-The OpenClaw Bun fork has one shared pin in `scripts/lib/openclaw-bun.json`,
+The FRIDAY Bun fork has one shared pin in `scripts/lib/openclaw-bun.json`,
 consumed by macOS packaging, the Tauri app, and CI's `setup-test-bun` action.
 `scripts/stage-openclaw-bun.sh <runtime> <darwin|linux> <arm64|x64> [...]`
 downloads it; Darwin accepts both architectures for a universal binary.
@@ -83,7 +83,7 @@ Archives are cached under `.cache/openclaw-bun/<tag>/`. Staging verifies the
 release manifest against `SHA256SUMS`, its identity and artifact fields against
 the pin, each archive against both sources, then the executable checksum,
 native architecture, and runnable fork revision. The fork's package auto-install
-default stays off; OpenClaw's runtime admission still applies at launch.
+default stays off; FRIDAY's runtime admission still applies at launch.
 `scripts/build-mac-sqlite.sh` builds
 the pinned amalgamation in `scripts/lib/sqlite-macos.json`, cached under
 `apps/macos/.build/sqlite/<version>/`. The resulting signed library supports
@@ -156,8 +156,8 @@ immediately with "Abort trap 6", see [Troubleshooting](#troubleshooting).
 ### Replace an installed release app
 
 `scripts/package-mac-app.sh` defaults to `BUILD_CONFIG=debug` and
-`BUNDLE_ID=ai.openclaw.mac.debug`. Copied over `/Applications/OpenClaw.app`,
-that build is still a different app to macOS and to OpenClaw:
+`BUNDLE_ID=ai.openclaw.mac.debug`. Copied over `/Applications/FRIDAY.app`,
+that build is still a different app to macOS and to FRIDAY:
 
 - The debug bundle ID has its own TCC grants and, for the default profile, its
   own `ai.openclaw.mac.debug` defaults domain. Packaging clears its Sparkle
@@ -183,7 +183,7 @@ example `BUILD_ARCHS=arm64`). Before installing, check the designated
 requirement:
 
 ```bash
-codesign -dr - dist/OpenClaw.app
+codesign -dr - dist/FRIDAY.app
 ```
 
 The output must include `identifier "ai.openclaw.mac"`. Keychain and TCC access
@@ -246,7 +246,7 @@ app-owned Bun service pins before verifying health and collecting old builds.
 See [Gateway on macOS](/platforms/mac/bundled-gateway).
 
 For manual development recovery, install the matching CLI yourself. Read the
-version from the app: choose **About OpenClaw** in the menu bar, or run
+version from the app: choose **About FRIDAY** in the menu bar, or run
 `openclaw-mac status --json`, which reports the app version and build.
 
 The npm command below is for npm 12 or npm 11.16+. On npm 11.15 and earlier,
@@ -258,7 +258,7 @@ npm install -g openclaw@<version> --allow-scripts=openclaw
 
 `pnpm add -g --allow-build=openclaw openclaw@<version>` and
 `bun add -g --trust openclaw@<version>` also work. Bun's `--trust` allows the
-OpenClaw lifecycle scripts for that install. Node remains the recommended
+FRIDAY lifecycle scripts for that install. Node remains the recommended
 runtime for the Gateway itself.
 
 ## Run native tests safely
@@ -409,7 +409,7 @@ mlx-swift Metal compilation fails unpredictably (a different `.metal`
 file each run, `Could not read serialized diagnostics file` then a nonzero
 `metal` exit), because the beta `metal` compiler and its separately downloaded
 Metal Toolchain are still unstable. This is an upstream toolchain issue, not an
-OpenClaw one.
+FRIDAY one.
 
 If you do not need on-device MLX voice, skip the helper:
 

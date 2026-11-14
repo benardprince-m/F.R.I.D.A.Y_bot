@@ -120,7 +120,7 @@ export async function executeWorkerTurn(
     if (!bootstrapReceipt.protocolFeatures.includes(WORKER_LOCAL_INFERENCE_PROTOCOL_FEATURE)) {
       throw new Error(
         `Worker-local inference is unavailable on paired device ${environment.nodeDeviceId}. ` +
-          "Update and restart its OpenClaw node host, use a non-Windows host with " +
+          "Update and restart its FRIDAY node host, use a non-Windows host with " +
           'nodeHost.workerRuns.isolation set to "none", and configure a compatible ' +
           "models.providers model with a usable node-local credential.",
       );

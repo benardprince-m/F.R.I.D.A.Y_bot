@@ -136,7 +136,7 @@ function legacyManifest(releaseTag = tag, notes = "Fixture release notes") {
       platforms: {
         "linux-x86_64": {
           signature,
-          url: downloadUrl(releaseTag, `OpenClaw-${releaseTag.slice(1)}-amd64.AppImage`),
+          url: downloadUrl(releaseTag, `FRIDAY-${releaseTag.slice(1)}-amd64.AppImage`),
         },
       },
     }),
@@ -613,14 +613,14 @@ function fixture(workflowRef = toolingRef, desktop = false, windows = false) {
     mkdirSync(directory);
     const version = releaseTag.slice(1);
     const names = [
-      `OpenClaw-${version}-amd64.AppImage`,
-      `OpenClaw-${version}-amd64.deb`,
-      ...(windows && !desktop ? [`OpenClaw-${version}-windows-x86_64.exe`] : []),
+      `FRIDAY-${version}-amd64.AppImage`,
+      `FRIDAY-${version}-amd64.deb`,
+      ...(windows && !desktop ? [`FRIDAY-${version}-windows-x86_64.exe`] : []),
       ...(desktop
         ? [
-            `OpenClaw-${version}-darwin-aarch64.dmg`,
-            `OpenClaw-${version}-darwin-aarch64.app.tar.gz`,
-            `OpenClaw-${version}-windows-x86_64.exe`,
+            `FRIDAY-${version}-darwin-aarch64.dmg`,
+            `FRIDAY-${version}-darwin-aarch64.app.tar.gz`,
+            `FRIDAY-${version}-windows-x86_64.exe`,
           ]
         : []),
     ];
@@ -640,7 +640,7 @@ function fixture(workflowRef = toolingRef, desktop = false, windows = false) {
           platforms: {
             "windows-x86_64": {
               signature,
-              url: `https://github.com/openclaw/openclaw/releases/download/${releaseTag}/OpenClaw-${version}-windows-x86_64.exe`,
+              url: `https://github.com/openclaw/openclaw/releases/download/${releaseTag}/FRIDAY-${version}-windows-x86_64.exe`,
             },
           },
         }),
@@ -656,11 +656,11 @@ function fixture(workflowRef = toolingRef, desktop = false, windows = false) {
           platforms: {
             "darwin-aarch64": {
               signature,
-              url: `https://github.com/openclaw/openclaw/releases/download/${releaseTag}/OpenClaw-${version}-darwin-aarch64.app.tar.gz`,
+              url: `https://github.com/openclaw/openclaw/releases/download/${releaseTag}/FRIDAY-${version}-darwin-aarch64.app.tar.gz`,
             },
             "windows-x86_64": {
               signature,
-              url: `https://github.com/openclaw/openclaw/releases/download/${releaseTag}/OpenClaw-${version}-windows-x86_64.exe`,
+              url: `https://github.com/openclaw/openclaw/releases/download/${releaseTag}/FRIDAY-${version}-windows-x86_64.exe`,
             },
           },
         }),
@@ -813,7 +813,7 @@ it("reuses complete public Linux assets without local build inputs", () => {
   });
   const assetIds = new Set(releaseFrom(f.state(), tag).assets.map((entry) => entry.id));
   expect(succeeded(f.run("publish", tag, undefined, true))).toMatchObject({ state: "published" });
-  const published = JSON.parse(f.bytes(tag, "OpenClaw-2026.9.3-linux.json").toString());
+  const published = JSON.parse(f.bytes(tag, "FRIDAY-2026.9.3-linux.json").toString());
   expect(published).toMatchObject(JSON.parse(original.toString()));
   expect(releaseFrom(f.state(), tag).assets.filter((entry) => assetIds.has(entry.id))).toHaveLength(
     3,
@@ -824,7 +824,7 @@ it("reuses complete public Linux assets without local build inputs", () => {
       .filter(
         (entry) =>
           entry.action === "upload" &&
-          ["OpenClaw-2026.9.3-amd64.AppImage", "OpenClaw-2026.9.3-amd64.deb"].includes(
+          ["FRIDAY-2026.9.3-amd64.AppImage", "FRIDAY-2026.9.3-amd64.deb"].includes(
             entry.name ?? "",
           ),
       ),
@@ -832,7 +832,7 @@ it("reuses complete public Linux assets without local build inputs", () => {
   expect(f.state().calls.some((entry) => entry.tool === "minisign")).toBe(true);
   f.addRelease(nextTag, true);
   succeeded(f.run("publish", nextTag));
-  const advanced = f.bytes(nextTag, "OpenClaw-2026.9.4-linux.json");
+  const advanced = f.bytes(nextTag, "FRIDAY-2026.9.4-linux.json");
   expect(f.bytes(channel, "latest.json")).toEqual(advanced);
   expect(f.bytes(nextTag, "latest.json")).toEqual(advanced);
 });
@@ -921,7 +921,7 @@ it("stops native publication after its admitted request attempt changes", () => 
   f.update((state) => {
     state.authorityAfterDownload = {
       tag,
-      name: `OpenClaw-${tag.slice(1)}-amd64.AppImage`,
+      name: `FRIDAY-${tag.slice(1)}-amd64.AppImage`,
       change: "new-request-attempt",
     };
   });
@@ -970,7 +970,7 @@ it("publishes Windows with regular Linux bundles and reuses its immutable bytes"
   const metadata = JSON.parse(f.bytes("windows-stable", "latest-windows.json").toString());
   expect(Object.keys(metadata.platforms)).toEqual(["windows-x86_64"]);
   expect(metadata.platforms["windows-x86_64"].url).toBe(
-    `https://github.com/openclaw/openclaw/releases/download/${tag}/OpenClaw-${tag.slice(1)}-windows-x86_64.exe`,
+    `https://github.com/openclaw/openclaw/releases/download/${tag}/FRIDAY-${tag.slice(1)}-windows-x86_64.exe`,
   );
   expect(f.state().releases.some((release) => release.tag_name === "desktop-test")).toBe(false);
   const writes = f.mutations().length;
@@ -983,7 +983,7 @@ it.each(["withdrawn", "replaced", "linux-missing"] as const)(
   (change) => {
     const f = fixture(toolingRef, false, true);
     succeeded(f.run("publish"));
-    const exe = "OpenClaw-2026.9.3-windows-x86_64.exe";
+    const exe = "FRIDAY-2026.9.3-windows-x86_64.exe";
     f.update((state) => {
       const release = releaseFrom(state, tag);
       if (change === "withdrawn") {
@@ -992,7 +992,7 @@ it.each(["withdrawn", "replaced", "linux-missing"] as const)(
         replaceAsset(state, tag, exe, Buffer.from("other bytes\n"));
       } else {
         release.assets = release.assets.filter(
-          (entry) => entry.name !== "OpenClaw-2026.9.3-amd64.deb",
+          (entry) => entry.name !== "FRIDAY-2026.9.3-amd64.deb",
         );
       }
       state.calls = [];
@@ -1003,7 +1003,7 @@ it.each(["withdrawn", "replaced", "linux-missing"] as const)(
     if (change === "withdrawn") {
       succeeded(result);
       expect(f.bytes(channel, "latest.json")).toEqual(
-        f.bytes(nextTag, "OpenClaw-2026.9.4-linux.json"),
+        f.bytes(nextTag, "FRIDAY-2026.9.4-linux.json"),
       );
     } else {
       failed(result, "Published Linux asset changed");
@@ -1035,7 +1035,7 @@ it("completes an interrupted Windows publication only from matching signed local
   expect(bundles.map((entry) => entry.name)).not.toContain("latest-windows.json");
   failed(f.run("publish", nextTag, undefined, true), "Public Windows updater manifest is missing");
 
-  const exe = join(f.inputs(nextTag), "OpenClaw-2026.9.4-windows-x86_64.exe");
+  const exe = join(f.inputs(nextTag), "FRIDAY-2026.9.4-windows-x86_64.exe");
   const signed = readFileSync(exe);
   writeFileSync(exe, "rebuilt bytes\n");
   failed(f.run("publish", nextTag), "Bundle checksum inventory mismatch");
@@ -1180,7 +1180,7 @@ it.each(["Linux first", "core first"])("converges when publishing %s", (order) =
     const result = f.run("publish", nextTag);
     expect(releaseFrom(f.state(), tag).assets).toEqual(previousAssets);
     failed(result, "Canonical Linux version is newer than core latest");
-    const immutable = f.bytes(nextTag, "OpenClaw-2026.9.4-linux.json");
+    const immutable = f.bytes(nextTag, "FRIDAY-2026.9.4-linux.json");
     expect(f.bytes(channel, "latest.json")).toEqual(immutable);
     expect(f.state().latest).toBe(tag);
 
@@ -1229,7 +1229,7 @@ it.each(["Linux first", "core first"])("converges when publishing %s", (order) =
     });
     succeeded(f.run("publish", nextTag));
   }
-  const manifest = f.bytes(nextTag, "OpenClaw-2026.9.4-linux.json");
+  const manifest = f.bytes(nextTag, "FRIDAY-2026.9.4-linux.json");
   expect(f.bytes(channel, "latest.json")).toEqual(manifest);
   expect(f.bytes(nextTag, "latest.json")).toEqual(manifest);
 });
@@ -1260,7 +1260,7 @@ it("keeps a newer canonical version when replaying an older Linux publication", 
 it("rejects corrupted public bundle readback before publishing channel metadata", () => {
   const f = fixture();
   f.update((state) => {
-    state.fault = { point: "upload-readback", tag, name: "OpenClaw-2026.9.3-amd64.AppImage" };
+    state.fault = { point: "upload-readback", tag, name: "FRIDAY-2026.9.3-amd64.AppImage" };
   });
   failed(f.run("publish"), "Public asset digest mismatch");
   expect(f.state().releases.some((release) => release.tag_name === channel)).toBe(false);
@@ -1270,7 +1270,7 @@ it("rejects corrupted public bundle readback before publishing channel metadata"
 it("does not adopt a replacement release ID between immutable bundle uploads", () => {
   const f = fixture();
   const originalId = releaseFrom(f.state(), tag).id;
-  const name = "OpenClaw-2026.9.3-amd64.AppImage";
+  const name = "FRIDAY-2026.9.3-amd64.AppImage";
   f.update((state) => {
     state.replaceReleaseAfterDownload = { tag, name };
   });
@@ -1283,7 +1283,7 @@ it("does not adopt a replacement release ID between immutable bundle uploads", (
 
 it("refuses retry after versioned-only ACK loss leaves the canonical manifest missing", () => {
   const f = fixture();
-  const name = "OpenClaw-2026.9.3-linux.json";
+  const name = "FRIDAY-2026.9.3-linux.json";
   f.update((state) => {
     state.fault = { point: "upload-after", tag, name };
   });
@@ -1350,7 +1350,7 @@ it("keeps normal publish and mirror fail-closed after canonical deletion interru
     state.calls = [];
   });
   failed(f.run("publish", nextTag), "fixture upload refused");
-  const retained = f.bytes(nextTag, "OpenClaw-2026.9.4-linux.json");
+  const retained = f.bytes(nextTag, "FRIDAY-2026.9.4-linux.json");
   expect(f.mutations()).toContainEqual({
     tool: "gh",
     action: "DELETE",
@@ -1370,7 +1370,7 @@ it("keeps normal publish and mirror fail-closed after canonical deletion interru
     failed(f.run(mode, nextTag), message);
     expect(f.mutations()).toEqual([]);
     expect(releaseFrom(f.state(), channel).assets).toEqual([]);
-    expect(f.bytes(nextTag, "OpenClaw-2026.9.4-linux.json")).toEqual(retained);
+    expect(f.bytes(nextTag, "FRIDAY-2026.9.4-linux.json")).toEqual(retained);
   }
 });
 
@@ -1415,10 +1415,10 @@ it.each(["asset replaced", "source changed", "draft release"])(
   (change) => {
     const f = fixture();
     succeeded(f.run("publish"));
-    const appimage = f.bytes(tag, "OpenClaw-2026.9.3-amd64.AppImage");
+    const appimage = f.bytes(tag, "FRIDAY-2026.9.3-amd64.AppImage");
     f.update((state) => {
       if (change === "asset replaced") {
-        replaceAsset(state, tag, "OpenClaw-2026.9.3-amd64.AppImage", appimage);
+        replaceAsset(state, tag, "FRIDAY-2026.9.3-amd64.AppImage", appimage);
       } else if (change === "source changed") {
         releaseFrom(state, tag).source = "c".repeat(40);
       } else {

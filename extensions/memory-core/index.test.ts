@@ -167,8 +167,8 @@ describe("buildPromptSection", () => {
         projectKey,
       }).join("\n");
 
-    expect(prompt("github.com/OpenClaw/OpenClaw")).toContain(
-      "<!-- project: github.com/OpenClaw/OpenClaw -->",
+    expect(prompt("github.com/FRIDAY/FRIDAY")).toContain(
+      "<!-- project: github.com/FRIDAY/FRIDAY -->",
     );
     for (const projectKey of [undefined, "path:/tmp/unsafe-->note", "path:/tmp/a\nb"]) {
       expect(prompt(projectKey)).not.toContain("<!-- project:");
@@ -183,10 +183,10 @@ describe("buildPromptSection", () => {
     } as OpenClawConfig)({
       availableTools: new Set(["memory_search", "memory_get"]),
       agentId: "main",
-      projectKey: "github.com/OpenClaw/OpenClaw",
+      projectKey: "github.com/FRIDAY/FRIDAY",
     });
 
-    expect(prompt.join("\n")).toContain("<!-- project: github.com/OpenClaw/OpenClaw -->");
+    expect(prompt.join("\n")).toContain("<!-- project: github.com/FRIDAY/FRIDAY -->");
   });
 
   it("describes the two-step flow when both memory tools are available", () => {

@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/onnx",
   "version": "2026.10.4",
-  "description": "Local ONNX decision models for OpenClaw",
+  "description": "Local ONNX decision models for FRIDAY",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

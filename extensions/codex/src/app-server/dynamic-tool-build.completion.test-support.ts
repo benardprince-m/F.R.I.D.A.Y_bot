@@ -105,7 +105,7 @@ export function registerCodexCompletionCommandTest() {
           const tool = (name: string) =>
             expectDefined(
               tools.find((candidate) => candidate.name === name),
-              `OpenClaw ${name}`,
+              `FRIDAY ${name}`,
             );
           expect(factory.mock.calls[0]?.[0]).toMatchObject({
             sessionKey,

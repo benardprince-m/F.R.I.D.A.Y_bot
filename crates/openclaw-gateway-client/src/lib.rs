@@ -1,4 +1,4 @@
-//! Reusable transport, security, and connection policy for Rust OpenClaw Gateway clients.
+//! Reusable transport, security, and connection policy for Rust FRIDAY Gateway clients.
 
 mod session;
 

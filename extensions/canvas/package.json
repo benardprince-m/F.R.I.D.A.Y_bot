@@ -2,7 +2,7 @@
   "name": "@openclaw/canvas-plugin",
   "version": "2026.10.4",
   "private": true,
-  "description": "OpenClaw Canvas plugin",
+  "description": "FRIDAY Canvas plugin",
   "type": "module",
   "devDependencies": {
     "@openclaw/plugin-sdk": "workspace:*",

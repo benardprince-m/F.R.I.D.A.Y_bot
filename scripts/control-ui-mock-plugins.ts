@@ -60,7 +60,7 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       entry({
         packageName: "@openclaw/whatsapp",
         name: "WhatsApp",
-        summary: "OpenClaw WhatsApp channel plugin for WhatsApp Web chats.",
+        summary: "FRIDAY WhatsApp channel plugin for WhatsApp Web chats.",
         author: "openclaw",
         official: true,
         downloads: 176_431,
@@ -71,7 +71,7 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       entry({
         packageName: "@openclaw/matrix",
         name: "Matrix",
-        summary: "OpenClaw Matrix channel plugin for rooms and direct messages.",
+        summary: "FRIDAY Matrix channel plugin for rooms and direct messages.",
         author: "openclaw",
         official: true,
         downloads: 52_201,
@@ -81,7 +81,7 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       entry({
         packageName: "@openclaw/codex",
         name: "Codex",
-        summary: "OpenClaw Codex app-server harness and native session supervision plugin.",
+        summary: "FRIDAY Codex app-server harness and native session supervision plugin.",
         author: "openclaw",
         official: true,
         downloads: 36_956,
@@ -91,7 +91,7 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       entry({
         packageName: "@gendigital/sage-openclaw",
         name: "Gen Sage",
-        summary: "Safety for Agents — ADR layer for OpenClaw.",
+        summary: "Safety for Agents — ADR layer for FRIDAY.",
         author: "gendigital",
         official: false,
         downloads: 19_609,
@@ -101,7 +101,7 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       entry({
         packageName: "@openclaw/discord",
         name: "Discord",
-        summary: "OpenClaw Discord channel plugin for channels, DMs, commands, and app events.",
+        summary: "FRIDAY Discord channel plugin for channels, DMs, commands, and app events.",
         author: "openclaw",
         official: true,
         downloads: 13_253,
@@ -113,7 +113,7 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       entry({
         packageName: "@openclaw/telegram",
         name: "Telegram",
-        summary: "OpenClaw Telegram channel plugin for groups and direct messages.",
+        summary: "FRIDAY Telegram channel plugin for groups and direct messages.",
         author: "openclaw",
         official: true,
         downloads: 12_847,
@@ -124,8 +124,8 @@ export function buildPluginDiscoveryMock(): PluginsCatalogBrowseResult {
       }),
       entry({
         packageName: "@openclaw/deepseek-provider",
-        name: "OpenClaw DeepSeek Provider",
-        summary: "OpenClaw DeepSeek provider plugin.",
+        name: "FRIDAY DeepSeek Provider",
+        summary: "FRIDAY DeepSeek provider plugin.",
         author: "openclaw",
         official: true,
         downloads: 10_742,
@@ -262,9 +262,9 @@ export function buildPluginCatalogMock(options: PluginCatalogMockOptions = {}) {
     bundledChannel(
       "whatsapp",
       "WhatsApp",
-      "OpenClaw WhatsApp channel plugin for WhatsApp Web chats.",
+      "FRIDAY WhatsApp channel plugin for WhatsApp Web chats.",
     ),
-    bundledChannel("telegram", "Telegram", "OpenClaw Telegram channel plugin."),
+    bundledChannel("telegram", "Telegram", "FRIDAY Telegram channel plugin."),
     entry({
       id: "discord",
       name: "Discord",
@@ -279,23 +279,23 @@ export function buildPluginCatalogMock(options: PluginCatalogMockOptions = {}) {
     bundledChannel(
       "googlechat",
       "Google Chat",
-      "OpenClaw Google Chat channel plugin for spaces and direct messages.",
+      "FRIDAY Google Chat channel plugin for spaces and direct messages.",
     ),
     bundledChannel(
       "slack",
       "Slack",
-      "OpenClaw Slack channel plugin for channels, DMs, commands, and app events.",
+      "FRIDAY Slack channel plugin for channels, DMs, commands, and app events.",
     ),
-    bundledChannel("signal", "Signal", "OpenClaw Signal channel plugin."),
+    bundledChannel("signal", "Signal", "FRIDAY Signal channel plugin."),
     bundledChannel(
       "imessage",
       "iMessage",
-      "OpenClaw iMessage channel plugin using imsg on a signed-in Mac.",
+      "FRIDAY iMessage channel plugin using imsg on a signed-in Mac.",
     ),
     bundledChannel(
       "nostr",
       "Nostr",
-      "OpenClaw Nostr channel plugin for NIP-04 encrypted direct messages.",
+      "FRIDAY Nostr channel plugin for NIP-04 encrypted direct messages.",
     ),
     entry({
       id: "memory-wiki",

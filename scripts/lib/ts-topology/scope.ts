@@ -61,7 +61,7 @@ export function createPluginSdkScope(_repoRoot: string): TopologyScope {
     sourcePath: `src/plugin-sdk/${entrypoint}.ts`,
     importSpecifier: `openclaw/plugin-sdk/${entrypoint}`,
   }));
-  return buildScopeFromEntrypoints("plugin-sdk", "OpenClaw plugin-sdk public surface", entrypoints);
+  return buildScopeFromEntrypoints("plugin-sdk", "FRIDAY plugin-sdk public surface", entrypoints);
 }
 
 export function createFilesystemPublicSurfaceScope(

@@ -12,20 +12,20 @@ The Codex harness configuration map and the turn-level behavior each setting con
 
 ## Configuration
 
-| Need                                                | Set                                                                                                       | Where                              |
-| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| Enable the harness                                  | `plugins.entries.codex.enabled: true`                                                                     | OpenClaw config                    |
-| Hide native Codex session discovery                 | `plugins.entries.codex.config.sessionCatalog.enabled: false`                                              | Codex plugin config                |
-| Include additional local Codex stores (stdio only)  | `plugins.entries.codex.config.sessionCatalog.homes`                                                       | Codex plugin config                |
-| Keep an allowlisted plugin install                  | Include `codex` in `plugins.allow`                                                                        | OpenClaw config                    |
-| Allow eligible OpenAI turns to use Codex implicitly | Exact official HTTPS Responses/ChatGPT route, no authored provider request override, runtime unset/`auto` | OpenAI provider/model config       |
-| Sign in with ChatGPT/Codex OAuth                    | `openclaw models auth login --provider openai`                                                            | CLI auth profile                   |
-| Add API-key backup for Codex runs                   | `openai:*` API-key profile listed after subscription auth in `auth.order.openai`                          | CLI auth profile + OpenClaw config |
-| Stop execution when Codex is unavailable            | Provider or model `agentRuntime.id: "codex"`                                                              | OpenClaw model/provider config     |
-| Use direct OpenAI API traffic                       | Provider or model `agentRuntime.id: "openclaw"` with normal OpenAI auth                                   | OpenClaw model/provider config     |
-| Tune app-server behavior                            | `plugins.entries.codex.config.appServer.*`                                                                | Codex plugin config                |
-| Enable native Codex plugin apps                     | `plugins.entries.codex.config.codexPlugins.*`                                                             | Codex plugin config                |
-| Enable Codex Computer Use                           | `plugins.entries.codex.config.computerUse.*`                                                              | Codex plugin config                |
+| Need                                                | Set                                                                                                       | Where                            |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| Enable the harness                                  | `plugins.entries.codex.enabled: true`                                                                     | FRIDAY config                    |
+| Hide native Codex session discovery                 | `plugins.entries.codex.config.sessionCatalog.enabled: false`                                              | Codex plugin config              |
+| Include additional local Codex stores (stdio only)  | `plugins.entries.codex.config.sessionCatalog.homes`                                                       | Codex plugin config              |
+| Keep an allowlisted plugin install                  | Include `codex` in `plugins.allow`                                                                        | FRIDAY config                    |
+| Allow eligible OpenAI turns to use Codex implicitly | Exact official HTTPS Responses/ChatGPT route, no authored provider request override, runtime unset/`auto` | OpenAI provider/model config     |
+| Sign in with ChatGPT/Codex OAuth                    | `openclaw models auth login --provider openai`                                                            | CLI auth profile                 |
+| Add API-key backup for Codex runs                   | `openai:*` API-key profile listed after subscription auth in `auth.order.openai`                          | CLI auth profile + FRIDAY config |
+| Stop execution when Codex is unavailable            | Provider or model `agentRuntime.id: "codex"`                                                              | FRIDAY model/provider config     |
+| Use direct OpenAI API traffic                       | Provider or model `agentRuntime.id: "openclaw"` with normal OpenAI auth                                   | FRIDAY model/provider config     |
+| Tune app-server behavior                            | `plugins.entries.codex.config.appServer.*`                                                                | Codex plugin config              |
+| Enable native Codex plugin apps                     | `plugins.entries.codex.config.codexPlugins.*`                                                             | Codex plugin config              |
+| Enable Codex Computer Use                           | `plugins.entries.codex.config.computerUse.*`                                                              | Codex plugin config              |
 
 Prefer `auth.order.openai` for subscription-first/API-key-backup ordering.
 Existing legacy Codex auth profile ids and legacy Codex auth order are
@@ -49,7 +49,7 @@ cutoff controls are runtime controls, not request overrides.
 
 ### Restricted turns and ring zero
 
-OpenClaw evaluates Codex tool policy on every turn. Compatible conversation-wide
+FRIDAY evaluates Codex tool policy on every turn. Compatible conversation-wide
 restrictions reuse the same native thread, including after a connection restart.
 Temporary restrictions, such as per-run allowlists, scheduled restrictions, or
 sender-specific restrictions, use an isolated thread where necessary and preserve
@@ -57,13 +57,13 @@ the conversation's existing binding. A temporary first turn does not establish
 a permanent restricted binding.
 
 When a managed restricted thread's creation policy changes, or an older binding
-has no saved policy fingerprint, OpenClaw creates a compatible successor and
+has no saved policy fingerprint, FRIDAY creates a compatible successor and
 projects the prepared conversation history into it. A failed replacement keeps
 the previous binding. Existing ownership guards still reject replacing an
 externally owned thread or one protected by active work; changing policy does
 not broaden that thread's permissions.
 
-An ordinary **policy-restricted turn** occurs when an explicit OpenClaw tool
+An ordinary **policy-restricted turn** occurs when an explicit FRIDAY tool
 policy cannot be mapped safely onto Codex's native tool surface. Common
 triggers include:
 
@@ -75,21 +75,21 @@ triggers include:
   scheduled, or runtime tool policy with one of those restrictions
 
 Default tool-profile narrowing alone does not trigger this mode. A deny list
-containing only audited OpenClaw-owned tools can also stay on the normal native
+containing only audited FRIDAY-owned tools can also stay on the normal native
 surface; the harness enforces those denies without disabling unrelated Codex
 capabilities. See [Native tool-policy enforcement](/plugins/sdk-agent-harness#native-tool-policy-enforcement)
 for the generic harness contract and [Codex harness reference](/plugins/codex-harness-reference#restricted-turns)
 for the current Codex rules.
 
-For an ordinary policy-restricted turn, OpenClaw disables Codex native Code
+For an ordinary policy-restricted turn, FRIDAY disables Codex native Code
 Mode, removes environment selections, disables and verifies inherited and
 native configured MCP servers, and disables native hook relays. Static configured
-MCP tools that pass the effective policy move to OpenClaw's dynamic surface for
-that turn. Other OpenClaw dynamic tools use the same policy. The bounded workspace `AGENTS.md`
+MCP tools that pass the effective policy move to FRIDAY's dynamic surface for
+that turn. Other FRIDAY dynamic tools use the same policy. The bounded workspace `AGENTS.md`
 snapshot still reaches the model as thread-level developer instructions because
 project instructions are context, not tool authority.
 
-**Ring zero** is stronger and separate. It is the host-owned OpenClaw system
+**Ring zero** is stronger and separate. It is the host-owned FRIDAY system
 agent used for setup and repair operations. The host activates it with the
 single `openclaw` tool; normal agent config cannot opt a chat into ring zero.
 Ring-zero turns keep only that host-scoped tool, replace ambient Codex
@@ -105,12 +105,12 @@ synonyms for ring zero.
 ### Project instructions
 
 Codex loads `AGENTS.md` files through native project-document discovery. For
-normal app-server threads, OpenClaw raises Codex's aggregate root-to-working-
+normal app-server threads, FRIDAY raises Codex's aggregate root-to-working-
 directory budget from the upstream 32 KiB default to a bounded 128 KiB so later
 scoped instructions are not silently clipped. Ordinary conversation tool-policy
 restrictions preserve that budget because project instructions are context, not
 tool authority. Their isolated native environment cannot read workspace files,
-so OpenClaw supplies the bounded workspace `AGENTS.md` snapshot as thread-level
+so FRIDAY supplies the bounded workspace `AGENTS.md` snapshot as thread-level
 developer instructions. An explicitly authored native
 `project_doc_max_bytes` setting overrides the 128 KiB fallback for ordinary
 threads; Codex's materialized 32 KiB default does not. Lightweight, ring-zero,
@@ -133,19 +133,19 @@ whether any individual file was fully loaded or truncated.
 
 Do not set `compaction.model` or `compaction.provider` on Codex-backed
 agents. Codex compacts through its native app-server thread state, so
-OpenClaw ignores those local summarizer overrides at runtime, and
+FRIDAY ignores those local summarizer overrides at runtime, and
 `openclaw doctor --fix` removes them when the agent uses Codex.
 
 An authored `models.providers.*.models[].contextTokens` cap is forwarded to
 Codex thread start and resume as `model_context_window`. Codex clamps the value
 to the model's native maximum and derives automatic compaction from the capped
 window. This applies to configured model chats even when Codex supplies the
-model catalog. When the model entry has no authored cap, OpenClaw sends no
+model catalog. When the model entry has no authored cap, FRIDAY sends no
 override. Sessions pinned to an existing native runtime retain their own
 context settings instead of inheriting the outer agent's model cap.
 
 On ordinary configured model chats, that authored cap also bounds host context
-engine assembly and maintenance. OpenClaw reserves space for the current input,
+engine assembly and maintenance. FRIDAY reserves space for the current input,
 instructions, tools, and output before assembling history, and retains the
 successful assembly's budget when recovering accepted turns. A smaller current
 run budget still wins. This is operator policy, not discovery of Codex's usable
@@ -164,11 +164,11 @@ owns compaction. The native app-server harness supports context engines
 that need pre-prompt assembly; generic CLI backends, including `codex-cli`,
 do not provide that host capability.
 
-When OpenClaw has no resolved token budget, context engines receive the usable
+When FRIDAY has no resolved token budget, context engines receive the usable
 window reported by Codex. Assembly can reuse a bound thread's observation only
 for the same model and when no newer unreported turn superseded it. Before an
 observation is available, only an explicit authored cap supplies a budget;
-otherwise the budget remains unknown. Resolved OpenClaw budgets take precedence,
+otherwise the budget remains unknown. Resolved FRIDAY budgets take precedence,
 and learning a native window does not change the thread's bootstrap policy.
 
 For explicitly budgeted context-engine projections, history selected by assembly
@@ -178,13 +178,13 @@ separately, preserving text, sender labels, and image order. Framing overhead is
 reserved before assembly. The current request remains normal user input,
 separate from quoted history.
 
-OpenClaw seeds selected history once when a native thread starts. Later selections
+FRIDAY seeds selected history once when a native thread starts. Later selections
 that extend the same history append only their new suffix; an unchanged selection
 is not injected again, including after a restart or native thread resume. A
 rewritten selection or changed bootstrap epoch starts a fresh native thread with
 the new selected history instead of reinjecting the full selection into the old
 thread. Codex owns the resulting native history and compaction and may summarize
-it. Use the built-in OpenClaw runtime (`agentRuntime.id: "openclaw"`) when a context
+it. Use the built-in FRIDAY runtime (`agentRuntime.id: "openclaw"`) when a context
 engine must fully control the model's history and compaction.
 
 Selected saved attachments are restored under the same finite remaining history
@@ -197,7 +197,7 @@ and visible extraction dispositions remain the host media owner's policy.
 Ordinary assembly failures retain the existing prompt fallback. Saved attachment
 failures, continuations, and runtime refreshes retain their stricter handling.
 A failed fresh-thread seed is not marked ready. An uncertain append to a reused
-thread releases its OpenClaw binding without deleting the native transcript, so
+thread releases its FRIDAY binding without deleting the native transcript, so
 a retry starts fresh instead of blindly repeating the append. A crash after an
 append but before its acknowledgment is saved can still require a fresh thread;
 this carrier does not introduce an exactly-once durability guarantee.
@@ -212,7 +212,7 @@ attachments retain their own limits.
 For Codex-backed agents, `/compact` starts native Codex app-server
 compaction on the bound thread and waits for its terminal result. The shared
 `agents.defaults.compaction.timeoutSeconds` budget applies; on timeout,
-OpenClaw asks Codex to interrupt the native turn and keeps the per-thread fence
+FRIDAY asks Codex to interrupt the native turn and keeps the per-thread fence
 until termination is confirmed. It never falls back to a context engine or
 public OpenAI summarizer. If the native Codex thread binding is missing or
 stale, the command stops with an error instead of silently switching compaction
@@ -221,7 +221,7 @@ Automatic in-turn compaction remains available; continue the conversation
 or start a new session when you need a fresh context.
 
 Cancellation prevents native requests that have not been submitted, including
-overload retries. After submission, OpenClaw keeps the thread occupied until
+overload retries. After submission, FRIDAY keeps the thread occupied until
 native completion, interruption, or safe retirement is confirmed. Stopped turns
 close visible compaction progress without marking unfinished compaction successful
 or making previously observed native work eligible for replay.
@@ -290,8 +290,8 @@ refresh_interval_ms = 300000
 
 The auth helper must print only the key to stdout. Do not put it in TOML.
 
-For the OpenClaw Codex app-server harness, keep the default agent-scoped Codex
-home and let OpenClaw inject an `openai` API-key profile. Create the profile by
+For the FRIDAY Codex app-server harness, keep the default agent-scoped Codex
+home and let FRIDAY inject an `openai` API-key profile. Create the profile by
 the normal OpenAI API-key auth flow, put its actual id first in
 `auth.order.openai`, and pass the catalog and context limits as native Codex
 app-server arguments:
@@ -349,7 +349,7 @@ rather than relying on `homeScope: "user"` to provide the intended credential.
 
 The model catalog, `model_context_window`, total-scope automatic compaction
 limit, exact `openai/gpt-5.6-sol` route, and API-key profile order form one
-configuration unit. Apply them together. OpenClaw can keep embedded and native
+configuration unit. Apply them together. FRIDAY can keep embedded and native
 long-context choices at the same time only when their model refs or agent
 configurations are distinguishable; one model entry cannot carry both
 runtime-owned compaction strategies.
@@ -368,7 +368,7 @@ of `875900`. Active context grew from `197032` to `377386`, `561957`, and
 automatic compaction to `75980` active tokens, with a minimum after-compaction
 snapshot of `68375`. Compaction took `2810` ms and persisted a count of one. A
 durable marker survived compaction and restart, a fixed long response
-produced `5442` output tokens, and OpenClaw sent the Codex app-server tier
+produced `5442` output tokens, and FRIDAY sent the Codex app-server tier
 `priority` on every call. That request evidence does not prove which upstream
 tier processed each call. The full suite took `401.37` seconds. These timings
 are observations, not service-level guarantees.
@@ -379,7 +379,7 @@ OpenAI bills the entire request at 2× input and cache rates and 1.5× output
 rates. Fast-mode pricing is model-specific; GPT-5.6 Sol API Fast mode (formerly
 Priority processing) is currently another 2× over Standard, so this recipe is
 4× short-context Standard input-side pricing and 3× short-context Standard
-output pricing. OpenClaw currently sends the wire value
+output pricing. FRIDAY currently sends the wire value
 `service_tier: "priority"`. ChatGPT/Codex-credit Fast mode is separate: GPT-5.6
 and GPT-5.5 currently consume 2.5× Standard credits, while this API-key Codex
 route uses API token pricing. The API remains authoritative for access, actual

@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct VoiceWakeGatewaySyncTests {
     @Test func `decode gateway triggers from JSON sanitizes`() {

@@ -46,7 +46,7 @@ Pre-July Telegram bot-info, sticker, thread-binding, update-offset, message,
 sent-message, and topic-name JSON sidecars are no longer inspected or archived.
 Doctor leaves their files untouched, including empty thread-binding files. If
 you still need their state, restore a complete pre-update backup and run
-`openclaw doctor --fix` on OpenClaw `2026.9.5` before updating again. The separate
+`openclaw doctor --fix` on FRIDAY `2026.9.5` before updating again. The separate
 Telegram JSON ingress-spool migration still imports pending updates, processing
 claims, and failed tombstones with verified backups.
 
@@ -71,7 +71,7 @@ Sandbox containers can be recreated through `openclaw sandbox recreate --all`.
 Doctor also imports old cron job definitions and matching runtime state. Current
 SQLite jobs win on ID collisions. Historical `cron/runs/*.jsonl` files are archived
 for inspection; new runs use current SQLite history. These JSON formats no longer
-require an intermediate OpenClaw release. Run `openclaw doctor --fix` before
+require an intermediate FRIDAY release. Run `openclaw doctor --fix` before
 updating when these importable sources are present. If a SQLite load or commit
 fails, Doctor keeps the live source files for retry and reports the database error.
 Update admission refuses until that import succeeds. Malformed input is archived
@@ -81,7 +81,7 @@ Retired `subagents/runs.json` files are ignored and left untouched;
 transient runs are never restored from them.
 
 Session records that need the retired `room` → `groupChannel` conversion are refused
-without changing their original bytes. Preserve the state, install OpenClaw
+without changing their original bytes. Preserve the state, install FRIDAY
 `2026.9.5`, run `openclaw doctor --fix`, then upgrade again. A current
 `groupChannel` with an ignored `room` field remains unchanged.
 
@@ -166,7 +166,7 @@ later batch is interrupted, earlier committed batches remain stored in SQLite an
 original backups remain available; rerunning Doctor repairs the remaining rows.
 
 If Doctor is interrupted during an agent schema or media migration, stop other
-OpenClaw processes using that state and rerun `openclaw doctor --fix`. Doctor
+FRIDAY processes using that state and rerun `openclaw doctor --fix`. Doctor
 reclaims a recorded migration owner only when its host, PID, and process start
 identity prove that process has ended. Uncommitted database changes roll back;
 the next pass resumes pending work while retaining the pre-migration backups.
@@ -332,7 +332,7 @@ or restores.
 
 If another connection commits before the media repair transaction starts, Doctor
 refuses that repair with `source changed before migration transaction`. Stop other
-OpenClaw processes using that database and rerun `openclaw doctor --fix`.
+FRIDAY processes using that database and rerun `openclaw doctor --fix`.
 
 Missing file copies of stored SQLite transcript archives produce recoverable
 warnings with the total count and at most five example paths per database.
@@ -376,23 +376,23 @@ Doctor also reports when shared auth still uses the legacy `agents/main/agent/op
 
 If the shared target already contains every legacy profile with identical credential content, Doctor preserves the richer target and completes cleanup, including an empty legacy profile set or older row timestamps. Credential comparison ignores JSON object-key order but preserves every field; it does not select credentials by timestamp. Different credentials, source-only profiles, malformed subset payloads, or differing runtime-state rows remain conflicts. Doctor names conflicting profile IDs and whether their credentials differ, are malformed, or are missing from the target. Store metadata and runtime-state conflicts are reported separately; credential values and arbitrary metadata are never printed.
 
-Stop OpenClaw processes and back up both databases named in the warning before reconciling them locally. For each differing profile, choose the credential to retain and make its complete entry agree in both stores; copy source-only profiles into the target without replacing unrelated profiles. Resolve malformed payloads or differing store metadata and runtime state in the named records, then rerun `openclaw doctor --fix`. Do not delete either database or the migration receipts to silence a conflict. Pending relocation receipts retain the original source digest through interrupted cleanup. After relocation completes, main-agent rows without a pending relocation receipt remain ordinary per-agent overrides.
+Stop FRIDAY processes and back up both databases named in the warning before reconciling them locally. For each differing profile, choose the credential to retain and make its complete entry agree in both stores; copy source-only profiles into the target without replacing unrelated profiles. Resolve malformed payloads or differing store metadata and runtime state in the named records, then rerun `openclaw doctor --fix`. Do not delete either database or the migration receipts to silence a conflict. Pending relocation receipts retain the original source digest through interrupted cleanup. After relocation completes, main-agent rows without a pending relocation receipt remain ordinary per-agent overrides.
 
 For the retired QMD memory backend, including config rewrites and derived
 workspace cleanup, see [Migrating from QMD](/concepts/memory-builtin#migrating-from-qmd).
 
-This includes retired MCP OAuth files under `<state-dir>/mcp-oauth/*.json`. Stop the Gateway before repair. Doctor imports valid credentials into `<state-dir>/state/openclaw.sqlite`, preserves an existing SQLite session when both stores exist, drops the obsolete persisted OAuth `state` value, and uses its receipt to prevent a recreated stale file from resurrecting logged-out credentials. Retired `.lock` sidecars block the import: if Doctor reports a stale owner, verify that no older OpenClaw process is running, remove that sidecar, and rerun Doctor.
+This includes retired MCP OAuth files under `<state-dir>/mcp-oauth/*.json`. Stop the Gateway before repair. Doctor imports valid credentials into `<state-dir>/state/openclaw.sqlite`, preserves an existing SQLite session when both stores exist, drops the obsolete persisted OAuth `state` value, and uses its receipt to prevent a recreated stale file from resurrecting logged-out credentials. Retired `.lock` sidecars block the import: if Doctor reports a stale owner, verify that no older FRIDAY process is running, remove that sidecar, and rerun Doctor.
 
-After explicit repair (`--fix`, `--repair`, or `--yes`), Doctor verifies runtime schema readiness for existing configured, default-layout, and registered databases before reporting completion, including stores whose migration failed before registration. A blocked required migration exits nonzero; stop the Gateway and other OpenClaw processes, then rerun repair. Unrelated advisory warnings, including archived transcript repair failures, do not make a ready database fail this check. Missing databases are not created by the readiness check.
+After explicit repair (`--fix`, `--repair`, or `--yes`), Doctor verifies runtime schema readiness for existing configured, default-layout, and registered databases before reporting completion, including stores whose migration failed before registration. A blocked required migration exits nonzero; stop the Gateway and other FRIDAY processes, then rerun repair. Unrelated advisory warnings, including archived transcript repair failures, do not make a ready database fail this check. Missing databases are not created by the readiness check.
 
 Doctor also discovers retired setup state and interrupted migration claims in every resolved agent workspace, active sandbox workspace, and explicitly configured `agents.defaults.workspace` root. That shared root is included even when an explicit multi-agent roster uses only its subdirectories. Doctor imports `<workspace>/openclaw-workspace-state.json` through the existing migration; it does not assign the root to an agent or move persona and memory files.
 
 Doctor no longer scans, imports, or removes the older
 `<workspace>/.openclaw/workspace-state.json` layout. Its files remain untouched. Upgrade
-through OpenClaw `2026.9.7` and run `openclaw doctor --fix` there before updating
+through FRIDAY `2026.9.7` and run `openclaw doctor --fix` there before updating
 to migrate that layout. See the [migration retention policy](/gateway/doctor/config-migrations#retention-policy).
 
-Repair exits nonzero while retained legacy state still blocks agent turns, even if its data already reached SQLite. Gateway startup and live config candidates check readiness only for the workspaces they would use, not an unused default root. An unready live candidate is rejected and the last-good runtime stays active. Stop OpenClaw processes, save the intended workspace path if the live write was rejected before persistence, and keep the retained files in place. Run `openclaw doctor --fix` before restarting. Readiness checks never import or delete legacy state.
+Repair exits nonzero while retained legacy state still blocks agent turns, even if its data already reached SQLite. Gateway startup and live config candidates check readiness only for the workspaces they would use, not an unused default root. An unready live candidate is rejected and the last-good runtime stays active. Stop FRIDAY processes, save the intended workspace path if the live write was rejected before persistence, and keep the retained files in place. Run `openclaw doctor --fix` before restarting. Readiness checks never import or delete legacy state.
 
 ## Pending plugin migrations
 

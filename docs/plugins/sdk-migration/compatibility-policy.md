@@ -46,7 +46,7 @@ family, with a separate warning for each deprecated method.
 ### Harness deletion companions
 
 Unbound `AgentHarnessSessionDeletionMutation` callbacks are deprecated. During
-Gateway operation, OpenClaw commits file-backed session deletion in its worker before
+Gateway operation, FRIDAY commits file-backed session deletion in its worker before
 calling the opaque `commit` callback. It does not invoke the opaque `rollback`
 callback when that database transaction fails, because the companion has not
 been changed. Legacy use emits one deprecation warning per plugin and callback
@@ -95,7 +95,7 @@ available to compile existing plugins through **2026-12-31** and will be removed
 in the **first January 2027 stable release**. Incognito targets use the memory actor. Durable stored data, schema,
 retention, and update behavior are unchanged.
 
-Discord and llama.cpp retain their declared OpenClaw 2026.9.2 host support.
+Discord and llama.cpp retain their declared FRIDAY 2026.9.2 host support.
 They use the newer prepared-expiry, DM-policy refinement, and live-catalog outcome
 helpers when those exports are available, with plugin-local fallbacks for the
 2026.9.2 SDK. The fallbacks preserve Discord's timestamp validation, idle-first
@@ -124,7 +124,7 @@ executable CLI invocation retains the backing resources until its actual work
 and cleanup finish. Finish calls using those providers before the host closes;
 keeping the array does not authorize use after host retirement. A released
 inspection stays retired, and a new lookup through that inspection is refused.
-Callers outside an OpenClaw host retain the standalone process lifetime of this
+Callers outside an FRIDAY host retain the standalone process lifetime of this
 SDK contract; process exit does not guarantee asynchronous plugin disposal.
 
 Inspection release relinquishes the inspection's own claim. If an SDK host
@@ -141,7 +141,7 @@ need to provide it.
 ### Session header link helper
 
 `createSessionHeaderLink` from `openclaw/plugin-sdk/control-ui` shipped in
-OpenClaw 2026.10.1 and is deprecated. Session conversation links were retired,
+FRIDAY 2026.10.1 and is deprecated. Session conversation links were retired,
 so hosts no longer pass `props.session` to `session-header` accessories. The
 helper still mounts, but its link never renders. Plugins built against
 2026.10.1 keep loading. Render a custom accessory instead. The
@@ -152,7 +152,7 @@ helper still mounts, but its link never renders. Plugins built against
 Some `openclaw/plugin-sdk/*` subpaths ship as JavaScript-only runtime facades
 without a `types` export condition. They are not a typed third-party contract,
 but published plugins still import named helpers from them, and a missing name
-fails ESM linking so the whole plugin stops loading. OpenClaw 2026.10.5 betas
+fails ESM linking so the whole plugin stops loading. FRIDAY 2026.10.5 betas
 removed some of these names. Exports with published external importers are
 restored and deprecated under the `plugin-sdk-private-runtime-shipped-exports`
 record, which lists each `subpath.name` surface and allows removal after
@@ -174,7 +174,7 @@ non-harness callers. Harnesses use the host capability to retain its source
 authority and private bindings.
 
 The synchronous `createToolSurface` and `createOpenClawCodingTools` contracts
-shipped in OpenClaw 2026.9.8 remain available with their existing arguments,
+shipped in FRIDAY 2026.9.8 remain available with their existing arguments,
 array results, and completion timing. TypeScript marks them deprecated for
 removal in a later stable release after the announced window, subject to explicit maintainer
 approval. Bundled callers use the awaited factories. This migration changes no
@@ -183,7 +183,7 @@ stored data, schema, retention, or update behavior.
 ### WebSocket options and constructors
 
 `websocket-runtime` retains the `ws.ClientOptions` alias and `WebSocket`
-constructor signatures shipped in OpenClaw 2026.9.6. Host-internal TLS type
+constructor signatures shipped in FRIDAY 2026.9.6. Host-internal TLS type
 corrections must not change plugin callback typing or constructor overloads.
 A source-incompatible correction to this public contract requires an approved,
 versioned SDK migration.
@@ -191,7 +191,7 @@ versioned SDK migration.
 ### Gateway worker environment creation
 
 `GatewayRequestHandlerOptions` from `core` and `gateway-runtime` retains the
-worker-environment creation contract shipped in OpenClaw 2026.9.5. When
+worker-environment creation contract shipped in FRIDAY 2026.9.5. When
 `context.workerEnvironmentService` is available, its `create` method accepts
 positional arguments in this order: `profileId`, `idempotencyKey`, `machineClass?`,
 `executionMode?`, `projectPath?`, `signal?`, `os?`, and `runSetupScript?`.
@@ -259,7 +259,7 @@ and update behavior are unchanged.
 `readChannelAllowFromStoreSync` from `openclaw/plugin-sdk/channel-pairing` is
 deprecated as of October 3, 2026. Await `readChannelAllowFromStore` from the same
 subpath with the same channel, environment, and optional account ID. Both APIs
-shipped in OpenClaw 2026.9.8; the synchronous API keeps its signature and native
+shipped in FRIDAY 2026.9.8; the synchronous API keeps its signature and native
 behavior until an announced later stable release and explicit maintainer approval.
 
 The async API and bundled channel callers read current allowlist rows in the
@@ -288,7 +288,7 @@ synchronous and reuses that message's prepared timestamp; `previousTimestamp: nu
 still suppresses timestamps for history entries. Prepared timestamps describe
 activity and never replace current channel or session authority.
 
-The synchronous timestamp and envelope APIs shipped in OpenClaw 2026.9.8 remain
+The synchronous timestamp and envelope APIs shipped in FRIDAY 2026.9.8 remain
 deprecated compatibility until an announced later stable release and explicit maintainer
 approval. Calling `readSessionUpdatedAt` through either the SDK subpath or
 `runtime.channel.session` emits the same deprecation warning. The compatibility
@@ -319,7 +319,7 @@ progress adapters use `adoptProgressDraft(draft)` instead: they keep the card an
 its rendering, and the host pushes prepared items and retires the card once. See
 [progress card handoff](/plugins/sdk-channel-plugins/status-and-media#progress-card-handoff).
 
-The receipt type shipped in OpenClaw 2026.9.8 stays source-compatible until an
+The receipt type shipped in FRIDAY 2026.9.8 stays source-compatible until an
 announced later stable release with explicit removal approval. The host never
 offers it, so a published adapter that checks for it keeps ordinary waiting-reply
 delivery and the host never receives a receipt. Telegram, the only bundled
@@ -350,7 +350,7 @@ migration or update change is needed.
 The October 4, 2026 `reply-tool-authority-sync-preparation` record retains the
 synchronous fingerprint, projection, and binding methods reachable through
 `EmbeddedRunAttemptParams.replyOperation` and `AgentHarnessAttemptParams.replyOperation`,
-including their V2 types. These contracts shipped in OpenClaw 2026.9.8.
+including their V2 types. These contracts shipped in FRIDAY 2026.9.8.
 Existing snapshot literals containing only `fingerprint` and `project` remain
 valid; their awaited companions are optional.
 
@@ -390,7 +390,7 @@ schema, retention, and update behavior are unchanged.
 
 ### Harness attempt result migration
 
-In OpenClaw 2026.8.1, `EmbeddedRunAttemptResult` from
+In FRIDAY 2026.8.1, `EmbeddedRunAttemptResult` from
 `openclaw/plugin-sdk/agent-harness-runtime` requires the current `terminal`
 field. Source written against the 2026.7 direct alias must migrate when it
 constructs results with legacy fields such as `aborted`, `timedOut`, and
@@ -496,7 +496,7 @@ read SQLite while handling the notification. Forward the complete object and
 return the callback's result synchronously. Completion ownership requires
 returning `"reply-dispatch"` synchronously; a Promise does not transfer ownership.
 
-The deprecated `onAgentRunStart` retains the callback shipped in OpenClaw
+The deprecated `onAgentRunStart` retains the callback shipped in FRIDAY
 2026.9.8: `(runId, executionIdentityToken?, options?) => unknown`, including the
 optional fourth transcript-facts argument. Released callbacks and producers that
 omit later arguments remain supported. Legacy invocation emits one
@@ -578,7 +578,7 @@ later stable release and explicit maintainer approval. See
 ### Native session generation authority
 
 The production-private `agent-harness-session-runtime` subpath retains the
-contracts consumed by official harness packages released with OpenClaw 2026.9.8.
+contracts consumed by official harness packages released with FRIDAY 2026.9.8.
 `captureNativeSessionGenerationAuthority` still returns `state`,
 `previousSessionId`, `assertHostCurrent`, and `assertCurrent` synchronously.
 `resolveNativeSessionBinding` still returns `{ binding, assertCurrent }`, and
@@ -647,7 +647,7 @@ Provider plugins can publish native login presence through `prepareSyntheticAuth
 with `nativeAuth: { runtime, mode }`, where `mode` is `api-key`, `oauth`, or
 `token`. These facts apply only to the named runtime in the prepared generation.
 They do not supply a provider bearer credential or authorize importing one into
-an OpenClaw profile. The optional `pluginRoot` context comes from the plugin
+an FRIDAY profile. The optional `pluginRoot` context comes from the plugin
 loader; use it to resolve the declared dependency from that plugin's installation.
 
 ### Memory session inventory readers
@@ -825,7 +825,7 @@ The setup-entry `legacyStateMigrations` option and feature flag,
 `BundledChannelLegacyStateMigrationDetector`, and
 `ChannelPlugin.lifecycle.detectLegacyStateMigrations` remain supported through
 one doctor-pipeline adapter for external plugins, but are deprecated. Removal
-plan: remove that adapter after OpenClaw 2027.1 only when a published-plugin
+plan: remove that adapter after FRIDAY 2027.1 only when a published-plugin
 reader sweep finds no remaining users.
 
 ### AuthStorage SQLite migration
@@ -967,7 +967,7 @@ permanently. Channel-specific fields remain typed in a deprecated compatibility
 tier so existing external plugins still compile while plugin authors move those
 fields into plugin-local setup input types.
 
-OpenClaw does not ship major releases. A registry sweep on 2026-07-22 inspected
+FRIDAY does not ship major releases. A registry sweep on 2026-07-22 inspected
 426 published out-of-tree channel plugins and removed 21 fields with no readers.
 The 22 retained fields each have a known published reader. Each further field is
 deleted as soon as no published plugin reads it; the retained set shrinks as

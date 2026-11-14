@@ -1,8 +1,8 @@
-# OpenClaw Kilo Gateway Provider
+# FRIDAY Kilo Gateway Provider
 
-Official OpenClaw provider plugin for Kilo Gateway.
+Official FRIDAY provider plugin for Kilo Gateway.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/kilocode-provider

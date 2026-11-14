@@ -1,7 +1,7 @@
 import AppKit
 import QuartzCore
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @MainActor
 struct CritterIconRendererTests {

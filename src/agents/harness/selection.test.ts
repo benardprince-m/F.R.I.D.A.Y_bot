@@ -159,7 +159,7 @@ vi.mock("./builtin-openclaw.js", () => ({
   createOpenClawAgentHarness: (): AgentHarness => {
     const harness: AgentHarness = {
       id: "openclaw",
-      label: "OpenClaw embedded agent",
+      label: "FRIDAY embedded agent",
       contextEngineHostCapabilities: OPENCLAW_EMBEDDED_CONTEXT_ENGINE_HOST.capabilities,
       supports: () => ({ supported: true, priority: 0 }),
       runAttempt: agentRunAttempt,
@@ -1027,7 +1027,7 @@ describe("runAgentHarnessAttempt", () => {
     ).rejects.toThrow("Agent harness codex cannot safely finalize a settled tool turn");
   });
 
-  it("binds the host OpenClaw tool to the SDK construction path without leaking authority", async () => {
+  it("binds the host FRIDAY tool to the SDK construction path without leaking authority", async () => {
     const harnessId = "codex";
     let receivedPrivateAuthority = true;
     let hostScopeActive = false;
@@ -1565,7 +1565,7 @@ describe("runAgentHarnessAttempt", () => {
     expect(receivedContextEngines).toEqual([undefined]);
   });
 
-  it("rejects broad allowlists for private OpenClaw authority", async () => {
+  it("rejects broad allowlists for private FRIDAY authority", async () => {
     const toolsAllow = ["openclaw", "read"];
     const pluginRunAttempt = vi.fn<AgentHarness["runAttempt"]>(async () =>
       createAttemptResult("codex"),
@@ -1580,13 +1580,13 @@ describe("runAgentHarnessAttempt", () => {
     params.systemAgentTool = { surface: "cli", proposalRef: {}, directiveRef: {} };
 
     await expect(runAgentHarnessAttempt(params)).rejects.toThrow(
-      'OpenClaw host authority requires toolsAllow: ["openclaw"]',
+      'FRIDAY host authority requires toolsAllow: ["openclaw"]',
     );
     expect(pluginRunAttempt).not.toHaveBeenCalled();
     expect(isHostScopedAgentToolActive("openclaw")).toBe(false);
   });
 
-  it("keeps the host OpenClaw allowlist across global, agent, and sandbox deny-all policy", async () => {
+  it("keeps the host FRIDAY allowlist across global, agent, and sandbox deny-all policy", async () => {
     const received: Array<{
       toolsAllow: string[] | undefined;
       extraSystemPrompt: string | undefined;
@@ -1662,7 +1662,7 @@ describe("runAgentHarnessAttempt", () => {
     expect(isHostScopedAgentToolActive("openclaw")).toBe(false);
   });
 
-  it("binds the same host OpenClaw scope to the built-in OpenClaw harness", async () => {
+  it("binds the same host FRIDAY scope to the built-in FRIDAY harness", async () => {
     let toolNames: string[] = [];
     agentRunAttempt.mockImplementationOnce(async () => {
       await Promise.resolve();
@@ -1765,7 +1765,7 @@ describe("runAgentHarnessAttempt", () => {
     expect(result.agentHarnessResultClassification).toBe("empty");
   });
 
-  it("surfaces an auto-selected plugin harness failure instead of replaying through OpenClaw", async () => {
+  it("surfaces an auto-selected plugin harness failure instead of replaying through FRIDAY", async () => {
     registerFailingCodexHarness();
 
     await expect(runAgentHarnessAttempt(createAttemptParams())).rejects.toThrow(
@@ -1836,7 +1836,7 @@ describe("runAgentHarnessAttempt", () => {
     expect(agentRunAttempt).not.toHaveBeenCalled();
   });
 
-  it("falls back to OpenClaw when the implicit OpenAI Codex harness is unavailable", async () => {
+  it("falls back to FRIDAY when the implicit OpenAI Codex harness is unavailable", async () => {
     expect(resolveAgentHarnessPolicy({ provider: "openai", modelId: "gpt-5.4" })).toEqual({
       runtime: "codex",
       runtimeSource: "implicit",
@@ -2963,7 +2963,7 @@ describe("selectAgentHarness", () => {
     );
   });
 
-  it("does not compact a selected plugin harness through OpenClaw when the plugin has no compactor", async () => {
+  it("does not compact a selected plugin harness through FRIDAY when the plugin has no compactor", async () => {
     registerFailingCodexHarness();
 
     await expect(
@@ -3009,7 +3009,7 @@ describe("selectAgentHarness", () => {
     expect(compact).toHaveBeenCalledTimes(1);
   });
 
-  it("returns OpenClaw for an explicit provider-owned CLI runtime alias", () => {
+  it("returns FRIDAY for an explicit provider-owned CLI runtime alias", () => {
     const provider = "anthropic",
       modelId = "sonnet-4.6",
       alias = "claude-cli";

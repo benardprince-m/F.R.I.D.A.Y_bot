@@ -8,7 +8,7 @@ struct ComputerScreenScrollIntentTests {
             .deletingLastPathComponent()
             .deletingLastPathComponent()
         let source = try String(
-            contentsOf: packageRoot.appendingPathComponent("Sources/OpenClaw/ComputerScreenActionExecutor.swift"),
+            contentsOf: packageRoot.appendingPathComponent("Sources/FRIDAY/ComputerScreenActionExecutor.swift"),
             encoding: .utf8)
 
         // Peekaboo's ScrollRequest defaults to background and requires a snapshot/target there.

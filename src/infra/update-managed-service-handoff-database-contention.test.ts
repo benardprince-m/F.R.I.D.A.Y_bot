@@ -54,7 +54,7 @@ it.each(["existing identity", "original acquisition"] as const)(
       holder.exec("BEGIN IMMEDIATE");
       const failure = captureError(() => store.acquire(root, "candidate", { kind: "update" }));
       expect(failure.message).toMatch(/managed handoff database is locked/i);
-      expect(failure.message).toMatch(/another OpenClaw update or Doctor from an older release/i);
+      expect(failure.message).toMatch(/another FRIDAY update or Doctor from an older release/i);
       expect(failure.message).toMatch(/wait for it to finish, then rerun this command/i);
       expect(failure.cause).toMatchObject({ message: "database is locked", errcode: 5 });
       expect(isSqliteLockError(failure)).toBe(true);

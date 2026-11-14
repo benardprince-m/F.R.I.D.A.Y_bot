@@ -21,7 +21,7 @@ it("distinguishes execution, recovery and exec-loss turns with trailing runtime 
     content: [{ type: "output_text", text: "RESTART_HANDOFF_RESUMED_0" }],
   };
   const runtimeContext = user(
-    "OpenClaw runtime context:\nCurrent time: 2026-10-15 12:00 UTC\nEnd OpenClaw runtime context.",
+    "FRIDAY runtime context:\nCurrent time: 2026-10-15 12:00 UTC\nEnd FRIDAY runtime context.",
   );
   const executionTools = [{ type: "function", name: "exec" }];
   try {

@@ -386,7 +386,7 @@ describe.skipIf(process.platform === "win32")("restart-stale-pids", () => {
             startedAt: 1000,
             port: 18789,
             mode: "supervised",
-            supervisor: { kind: "schtasks", name: "OpenClaw Gateway" },
+            supervisor: { kind: "schtasks", name: "FRIDAY Gateway" },
             state: "live",
             expired: true,
           }

@@ -297,7 +297,7 @@ async function inspectInstallation(
       .soft(shellLookup, "shell must find the archive named in the model prompt")
       .toBe(`${archivePath}\npresent\n`);
     expect
-      .soft(childTarget, "child OpenClaw must select the original config and default workspace")
+      .soft(childTarget, "child FRIDAY must select the original config and default workspace")
       .toEqual(before);
   };
   try {

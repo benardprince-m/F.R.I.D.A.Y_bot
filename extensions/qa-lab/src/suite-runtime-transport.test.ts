@@ -17,7 +17,7 @@ function createMessages(state = createQaBusState()) {
       state.addOutboundMessage({
         to: "dm:qa-operator",
         senderId: "openclaw",
-        senderName: "OpenClaw QA",
+        senderName: "FRIDAY QA",
         text,
         ...extra,
       }),
@@ -142,7 +142,7 @@ describe("qa suite transport helpers", () => {
       "done",
     ]);
     expect(formatted).toContain("USER Alice: hello");
-    expect(formatted).toContain("ASSISTANT OpenClaw QA: working on it");
+    expect(formatted).toContain("ASSISTANT FRIDAY QA: working on it");
   });
 
   it("applies account filtering after the global outbound cursor", async () => {

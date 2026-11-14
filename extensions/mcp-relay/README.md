@@ -1,6 +1,6 @@
 # MCP Relay
 
-Bundled, disabled-by-default connector for the OpenClaw MCP relay. The Gateway
+Bundled, disabled-by-default connector for the FRIDAY MCP relay. The Gateway
 opens an outbound WebSocket; no inbound Gateway port or configured Gateway token
 or password is shared with the relay. Enable the plugin, follow any restart or
 reload instruction printed by the command, then run `openclaw mcp-relay pair`.
@@ -10,7 +10,7 @@ reload instruction printed by the command, then run `openclaw mcp-relay pair`.
 This version supports status, conversation listing, paginated conversation
 reading, sending messages, and bounded reply polling. Messages use ordinary
 operator input without a distinct `mcp-relay` transcript source label. A run
-blocked on approval remains `running`; answer approval prompts in OpenClaw.
+blocked on approval remains `running`; answer approval prompts in FRIDAY.
 
 ChatGPT can also show the Gateway's full Control UI through the same outbound
 connection. The tokenless browser and every MCP operation use the grant's owner

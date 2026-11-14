@@ -130,11 +130,11 @@ function readQuarantineSchemaVersion(
   const row = database.prepare("PRAGMA user_version").get();
   const userVersion = row?.user_version;
   if (typeof userVersion !== "number" || !Number.isInteger(userVersion)) {
-    throw new Error(`OpenClaw quarantine store ${storePath} has an invalid schema version.`);
+    throw new Error(`FRIDAY quarantine store ${storePath} has an invalid schema version.`);
   }
   if (userVersion > OPENCLAW_QUARANTINE_SCHEMA_VERSION) {
     throw new Error(
-      `OpenClaw quarantine store ${storePath} uses newer schema version ${userVersion}.`,
+      `FRIDAY quarantine store ${storePath} uses newer schema version ${userVersion}.`,
     );
   }
   if (userVersion !== 0) {
@@ -267,7 +267,7 @@ function readQuarantineDecision(
       verifiedGenerationJson !== null &&
       typeof verifiedGenerationJson !== "string")
   ) {
-    throw new Error(`OpenClaw quarantine store ${storePath} contains an invalid row.`);
+    throw new Error(`FRIDAY quarantine store ${storePath} contains an invalid row.`);
   }
   return {
     kind: row.kind,
@@ -288,7 +288,7 @@ function resolveQuarantineDecision(
     try {
       verifiedGeneration = parseSqliteFileGeneration(decision.verifiedGenerationJson);
     } catch {
-      throw new Error(`OpenClaw quarantine store ${storePath} contains an invalid row.`);
+      throw new Error(`FRIDAY quarantine store ${storePath} contains an invalid row.`);
     }
     try {
       const currentGeneration = readSqliteFileGenerationSync(path.resolve(pathname));
@@ -333,7 +333,7 @@ export function readOpenClawDatabaseQuarantineFailure(
   // Doctor's clearing hooks run after a full integrity assertion, so a still-
   // corrupt file cannot be cleared directly: the file must be healthy first.
   const failure = new Error(
-    `OpenClaw ${kind} database ${pathname} is quarantined after integrity verification failed: ${quarantine.reason ?? "unknown integrity error"}. Restore the database from a backup or repair it, then run openclaw doctor --fix to clear the quarantine. See ${OPENCLAW_DATABASE_SCHEMA_DOCS_URL}.`,
+    `FRIDAY ${kind} database ${pathname} is quarantined after integrity verification failed: ${quarantine.reason ?? "unknown integrity error"}. Restore the database from a backup or repair it, then run openclaw doctor --fix to clear the quarantine. See ${OPENCLAW_DATABASE_SCHEMA_DOCS_URL}.`,
   );
   failure.name = "SqliteIntegrityError";
   if (cleanupFailure) {

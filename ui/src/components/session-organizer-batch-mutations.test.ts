@@ -563,7 +563,7 @@ describe("session organizer destructive confirmations", () => {
       await answer();
       const worktreeActions = await waitForConfirmDialogActions();
       expect(document.body.querySelector("openclaw-modal-dialog")?.textContent).toContain(
-        "OpenClaw could not create a safety snapshot",
+        "FRIDAY could not create a safety snapshot",
       );
       answerConfirmDialog(worktreeActions, "confirm");
       await pending;

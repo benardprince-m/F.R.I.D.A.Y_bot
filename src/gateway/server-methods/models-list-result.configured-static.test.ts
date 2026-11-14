@@ -173,7 +173,7 @@ it("projects utility runtimes for API, subscription, unavailable, and disabled s
     );
     expect(result.defaultModels).toEqual({
       automaticUtilityModel: `openai/${luna}`,
-      utilityRuntime: { id: "openclaw", kind: "api", label: "OpenClaw Default" },
+      utilityRuntime: { id: "openclaw", kind: "api", label: "FRIDAY Default" },
     });
     const pinnedConfig = agentConfig(
       { ...cfg.agents?.defaults, utilityModel: "openai/gpt-5.5@openai:utility" },

@@ -12,7 +12,7 @@ Manifest fields that declare what a plugin owns and when the activation planner 
 
 ## contracts reference
 
-Use `contracts` only for static capability ownership metadata that OpenClaw can read without importing the plugin runtime.
+Use `contracts` only for static capability ownership metadata that FRIDAY can read without importing the plugin runtime.
 
 `contracts.codeModeExecutors` declares the supported executor supplied by a plugin's
 `code-mode-executor-api` public artifact. Plugins currently implement `quickjs`;
@@ -147,7 +147,7 @@ saved unavailable selections remain visible for the operator to repair.
 
 `capabilities` is optional static metadata. It describes provider support for
 discovery and guidance; it does not prove that credentials or the runtime are
-ready, and its limits do not raise OpenClaw's host admission bounds.
+ready, and its limits do not raise FRIDAY's host admission bounds.
 
 | Field                     | Required | Accepted value                                                             | Omission semantics                                                                                        |
 | ------------------------- | -------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
@@ -173,7 +173,7 @@ model descriptor.
 
 ## Tool metadata reference
 
-`toolMetadata` uses the same `configSignals` and `authSignals` shapes as generation provider metadata, keyed by tool name. `contracts.tools` declares ownership. `toolMetadata` declares cheap availability evidence so OpenClaw can avoid importing a plugin runtime just to have its tool factory return `null`.
+`toolMetadata` uses the same `configSignals` and `authSignals` shapes as generation provider metadata, keyed by tool name. `contracts.tools` declares ownership. `toolMetadata` declares cheap availability evidence so FRIDAY can avoid importing a plugin runtime just to have its tool factory return `null`.
 
 ```json
 {
@@ -217,7 +217,7 @@ model descriptor.
 
 These fields supplement the shared `configSignals` and `authSignals` fields above.
 
-If a tool has no `toolMetadata`, OpenClaw preserves the existing behavior and loads the owning plugin when the tool contract matches policy. For hot-path tools whose factory depends on auth/config, plugin authors should declare `toolMetadata` instead of making core import runtime to ask.
+If a tool has no `toolMetadata`, FRIDAY preserves the existing behavior and loads the owning plugin when the tool contract matches policy. For hot-path tools whose factory depends on auth/config, plugin authors should declare `toolMetadata` instead of making core import runtime to ask.
 
 ## activation reference
 

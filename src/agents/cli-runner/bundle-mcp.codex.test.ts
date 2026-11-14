@@ -166,7 +166,7 @@ const prepareLoopbackConfig = (url: string) =>
   );
 
 describe("prepareCliBundleMcpConfig resume hash", () => {
-  it("stabilizes the resume hash when only the OpenClaw loopback port changes", async () => {
+  it("stabilizes the resume hash when only the FRIDAY loopback port changes", async () => {
     const first = await prepareLoopbackConfig("http://127.0.0.1:23119/mcp");
     const second = await prepareLoopbackConfig("http://127.0.0.1:24567/mcp");
 
@@ -184,7 +184,7 @@ describe("prepareCliBundleMcpConfig resume hash", () => {
     expect(first.mcpResumeHash).not.toBe(second.mcpResumeHash);
   });
 
-  it("keeps OpenClaw approval state out of the resume identity", async () => {
+  it("keeps FRIDAY approval state out of the resume identity", async () => {
     const prepare = async (options: Parameters<typeof buildSystemAgentToolsMcpServerConfig>[0]) =>
       await prepareCliBundleMcpConfig({
         mode: "claude-config-file",

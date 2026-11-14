@@ -19,7 +19,7 @@ import type { windowsNativePlatform } from "./extension-windows-platform.js";
 export function windowsFixture() {
   const context: NativeWindowsContext = {
     nodePath: "C:\\Program Files\\nodejs\\node.exe",
-    cliPath: "C:\\OpenClaw\\openclaw.mjs",
+    cliPath: "C:\\FRIDAY\\openclaw.mjs",
     stateDir: "C:\\Users\\Fixture\\.openclaw",
     configPath: "C:\\Users\\Fixture\\.openclaw\\openclaw.json",
     browserProfile: "chrome",
@@ -43,7 +43,7 @@ export function windowsFixture() {
     bindingPath: path.win32.join(dir, WINDOWS_BINDING),
     receiptPath: path.win32.join(dir, WINDOWS_RECEIPT),
   };
-  const executable = "C:\\OpenClaw\\" + WINDOWS_NATIVE_EXE;
+  const executable = "C:\\FRIDAY\\" + WINDOWS_NATIVE_EXE;
   const files = new Map<string, Buffer>();
   const hash = (bytes: Buffer) => crypto.createHash("sha256").update(bytes).digest("hex");
   function prepare(

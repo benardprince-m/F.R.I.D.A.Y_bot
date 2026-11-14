@@ -449,7 +449,7 @@ function formatRequiredNodeCommandUnavailable(
       (entry) => entry.command.command === command,
     )?.pluginId;
     if (pluginId === "codex") {
-      return "This model uses the Codex harness, which is unavailable on this device. Install it on that node (openclaw plugins install @openclaw/codex), or enable an existing install (openclaw plugins enable codex). Then restart the node (openclaw node restart) and approve its updated command surface, or choose a model using the OpenClaw harness.";
+      return "This model uses the Codex harness, which is unavailable on this device. Install it on that node (openclaw plugins install @openclaw/codex), or enable an existing install (openclaw plugins enable codex). Then restart the node (openclaw node restart) and approve its updated command surface, or choose a model using the FRIDAY harness.";
     }
     const enable = pluginId
       ? `enable the ${pluginId} plugin on that node (openclaw plugins enable ${pluginId})`

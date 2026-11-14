@@ -94,7 +94,7 @@ describe("tool errors", () => {
       capabilities: ["screenRecording"],
       state: "restart-required",
     };
-    const cause = Object.assign(new Error("Restart OpenClaw"), { details: { permissionMissing } });
+    const cause = Object.assign(new Error("Restart FRIDAY"), { details: { permissionMissing } });
     const result = buildToolLifecycleErrorResult(new Error("Screenshot unavailable", { cause }));
     expect(result.details.permissionMissing).toEqual(permissionMissing);
   });
@@ -146,8 +146,8 @@ describe("extractToolResultText", () => {
 
   it("normalizes top-level CLI result arrays and objects", () => {
     expectText([
-      { type: "web_search_result", title: "OpenClaw", url: "https://example.com" },
-    ]).toContain('"title":"OpenClaw"');
+      { type: "web_search_result", title: "FRIDAY", url: "https://example.com" },
+    ]).toContain('"title":"FRIDAY"');
     expectText([{ type: "text", text: "hello" }]).toBe("hello");
     expectText({ type: "web_search_tool_result_error", error_code: "unavailable" }).toContain(
       '"error_code":"unavailable"',

@@ -234,7 +234,7 @@ it.each(["applied", "restart-pending"] as const)(
         expect(result.reply?.text).toContain(
           status === "applied"
             ? "All OpenAI models are now visible."
-            : "Model access was saved, but OpenClaw has not confirmed it is active. Open Settings and select Apply changes, then send /models.",
+            : "Model access was saved, but FRIDAY has not confirmed it is active. Open Settings and select Apply changes, then send /models.",
         );
         expect(result.reply?.presentation).toBeUndefined();
         expect(runModelsAuthLoginFlowMock).toHaveBeenCalledOnce();
@@ -360,7 +360,7 @@ it.each(["show", "keep", "before-read", "preflight", "runtime-preflight"] as con
       const wrongSession = await dispatch(command, { sessionKey: "agent:main:other" });
       expect(loginChoiceCommand(wrongSession?.reply)).not.toBe(command);
       const denied = await dispatch(command, { command: { senderIsOwner: false } });
-      expect(denied?.reply?.text).toContain("Only an OpenClaw owner can sign in here.");
+      expect(denied?.reply?.text).toContain("Only an FRIDAY owner can sign in here.");
       setRuntimeConfigSnapshot(revokedConfig);
       await expect(dispatch()).rejects.toThrow("Provider login authority is no longer active.");
       expect(await fs.readFile(state.configPath, "utf8")).toBe(beforeDenied);

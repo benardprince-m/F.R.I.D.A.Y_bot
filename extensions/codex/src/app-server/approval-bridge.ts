@@ -380,7 +380,7 @@ function buildApprovalResponse(
   }
   return {
     decision: "decline",
-    reason: "OpenClaw codex app-server bridge does not grant native approvals yet.",
+    reason: "FRIDAY codex app-server bridge does not grant native approvals yet.",
   };
 }
 
@@ -520,7 +520,7 @@ async function runOpenClawToolPolicyForApprovalRequest(params: {
     return {
       outcome: "denied",
       reason:
-        "OpenClaw tool policy rewrote Codex app-server approval params; refusing original request.",
+        "FRIDAY tool policy rewrote Codex app-server approval params; refusing original request.",
     };
   }
   if (outcome.approvalResolution) {
@@ -616,7 +616,7 @@ async function runOpenClawToolPolicyForApprovalRequest(params: {
       }
       return {
         outcome: "denied",
-        reason: `OpenClaw native hook relay unavailable for Codex app-server approval: ${formatCodexDisplayText(
+        reason: `FRIDAY native hook relay unavailable for Codex app-server approval: ${formatCodexDisplayText(
           coerceErrorMessage(error),
         )}`,
         failureDisposition: "failed",
@@ -634,7 +634,7 @@ function readNativeRelayPreToolUseDenial(
       reason:
         sanitizeRelayDecisionReason(response?.stderr) ||
         sanitizeRelayDecisionReason(response?.stdout) ||
-        "OpenClaw native hook relay failed for Codex app-server approval.",
+        "FRIDAY native hook relay failed for Codex app-server approval.",
       failureDisposition: response?.failureDisposition ?? "failed",
     };
   }
@@ -652,7 +652,7 @@ function readNativeRelayPreToolUseDenial(
       outcome: "denied",
       reason:
         readString(output, "permissionDecisionReason") ||
-        "OpenClaw native hook policy denied Codex app-server approval.",
+        "FRIDAY native hook policy denied Codex app-server approval.",
       ...(response.failureDisposition ? { failureDisposition: response.failureDisposition } : {}),
     };
   }
@@ -661,8 +661,8 @@ function readNativeRelayPreToolUseDenial(
   return {
     outcome: "denied",
     reason: output
-      ? "OpenClaw native hook relay returned a non-deny Codex app-server approval decision."
-      : "OpenClaw native hook relay returned an unreadable Codex app-server approval result.",
+      ? "FRIDAY native hook relay returned a non-deny Codex app-server approval decision."
+      : "FRIDAY native hook relay returned an unreadable Codex app-server approval result.",
     failureDisposition: "failed",
   };
 }

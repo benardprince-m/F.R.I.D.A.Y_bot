@@ -94,7 +94,7 @@ ${fixtureReceiptClientSource(receipts.endpoint)}
 const args = process.argv.slice(2);
 const state = process.env.OPENCLAW_STATE_DIR;
 if (args[0] === "--version") {
-  console.log("OpenClaw 2026.8.1");
+  console.log("FRIDAY 2026.8.1");
 } else if (args[0] === "plugins" && args[1] === "enable") {
   fs.appendFileSync(path.join(state, "activation.jsonl"), JSON.stringify({ runtimePublished: fs.existsSync(path.join(state, "runtime")) }) + "\\n");
   if (${JSON.stringify(build)} === "activation-failed") { console.error("plugin dependency missing"); process.exit(1); }

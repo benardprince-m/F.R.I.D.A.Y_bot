@@ -130,7 +130,7 @@ export async function noteWebFetchProxyDiagnostic(params: {
       `- Direct TLS connectivity to ${DIRECT_PROBE_HOST}:${DIRECT_PROBE_PORT} ${directConnectivity === "reachable" ? "succeeded" : "failed"}.`,
       "- If direct web_fetch requests time out and the proxy is operator-controlled, enable the explicit opt-in:",
       `  ${formatCliCommand("openclaw config set tools.web.fetch.useTrustedEnvProxy true")}`,
-      "- Keep the opt-in disabled for untrusted proxies; enabling it lets the proxy resolve DNS after OpenClaw's hostname checks.",
+      "- Keep the opt-in disabled for untrusted proxies; enabling it lets the proxy resolve DNS after FRIDAY's hostname checks.",
     ].join("\n"),
     "Web fetch proxy",
   );

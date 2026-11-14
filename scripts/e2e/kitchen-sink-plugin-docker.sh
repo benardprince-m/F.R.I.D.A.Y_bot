@@ -38,7 +38,7 @@ SCENARIOS
 )"
 KITCHEN_SINK_SCENARIOS="${OPENCLAW_KITCHEN_SINK_PLUGIN_SCENARIOS:-$DEFAULT_KITCHEN_SINK_SCENARIOS}"
 if [[ "${OPENCLAW_KITCHEN_SINK_LIVE_CLAWHUB:-0}" = "1" ]]; then
-  echo "The OpenClaw Kitchen Sink package is delisted from ClawHub; use the default fixture scenarios or npm scenarios." >&2
+  echo "The FRIDAY Kitchen Sink package is delisted from ClawHub; use the default fixture scenarios or npm scenarios." >&2
   exit 2
 fi
 MAX_MEMORY_MIB="$(

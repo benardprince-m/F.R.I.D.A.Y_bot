@@ -11,7 +11,7 @@ function commitSource(fsSafeVersion: string, defaults: string, remoteBranch?: st
   const root = tempDirectories.make("openclaw-fs-safe-contract-");
   execFileSync("git", ["init", "-q"], { cwd: root });
   execFileSync("git", ["config", "user.email", "test@openclaw.local"], { cwd: root });
-  execFileSync("git", ["config", "user.name", "OpenClaw test"], { cwd: root });
+  execFileSync("git", ["config", "user.name", "FRIDAY test"], { cwd: root });
   writeFileSync(
     join(root, "package.json"),
     `${JSON.stringify({ version: "2026.8.33", dependencies: { "@openclaw/fs-safe": fsSafeVersion } })}\n`,

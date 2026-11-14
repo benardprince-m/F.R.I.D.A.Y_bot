@@ -403,7 +403,7 @@ export async function trackProjectWithGit(tmp: string) {
   git("add", "--all");
   git(
     "-c",
-    "user.name=OpenClaw Test",
+    "user.name=FRIDAY Test",
     "-c",
     "user.email=test@openclaw.invalid",
     "-c",

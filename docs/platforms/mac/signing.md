@@ -7,10 +7,10 @@ title: "macOS signing"
 
 # mac signing (debug builds)
 
-[`scripts/package-mac-app.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/package-mac-app.sh) builds a staged app, calls [`scripts/codesign-mac-app.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/codesign-mac-app.sh), and verifies the signed runtime before replacing `dist/OpenClaw.app`. macOS ties TCC permissions to the bundle ID and code signature. Keep both stable across rebuilds, and keep the app at a fixed path. macOS then keeps its TCC grants (notifications, accessibility, screen recording, mic, speech).
+[`scripts/package-mac-app.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/package-mac-app.sh) builds a staged app, calls [`scripts/codesign-mac-app.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/codesign-mac-app.sh), and verifies the signed runtime before replacing `dist/FRIDAY.app`. macOS ties TCC permissions to the bundle ID and code signature. Keep both stable across rebuilds, and keep the app at a fixed path. macOS then keeps its TCC grants (notifications, accessibility, screen recording, mic, speech).
 
 - Debug bundle identifier defaults to `ai.openclaw.mac.debug` (override with `BUNDLE_ID=...`).
-- Build-time Node: `>=24.16.0 <25` or `>=26.1.0` (repo `package.json` `engines`). The app bundles the pinned OpenClaw Bun fork instead of Node, plus the OpenClaw package and Control UI (`pnpm ui:build`).
+- Build-time Node: `>=24.16.0 <25` or `>=26.1.0` (repo `package.json` `engines`). The app bundles the pinned FRIDAY Bun fork instead of Node, plus the FRIDAY package and Control UI (`pnpm ui:build`).
 - Requires a real signing identity by default. The codesign script exits with an error if it finds no identity and `ALLOW_ADHOC_SIGNING` is not set. Ad-hoc signing (`SIGN_IDENTITY="-"`) is explicit opt-in and does not persist TCC permissions across rebuilds. See [macOS permissions](/platforms/mac/permissions).
 - Reads `SIGN_IDENTITY` from the environment (e.g. `export SIGN_IDENTITY="Apple Development: Your Name (TEAMID)"`, or a Developer ID Application cert). Without it, `codesign-mac-app.sh` auto-selects an identity. The order is Developer ID Application, Apple Distribution, Apple Development, then the first valid codesigning identity found.
 - `SIGN_IDENTITY` also accepts a certificate SHA-1 hash to distinguish certificates with the same common name.
@@ -35,7 +35,7 @@ declaration maps, and audited dependency source/test/example files through
 package manifests, executable source maps, native addons, and plugin-owned trees
 remain available. Dependency source pruning is version-specific; new versions
 keep their sources until audited. Tauri uses the same pruning owner when staging
-its bundled OpenClaw package, before hashing and encoding resources.
+its bundled FRIDAY package, before hashing and encoding resources.
 
 For a [standalone executable](/install/standalone#macos-signing), use the
 mode-specific `macos.entitlements` map in its `manifest.json` instead of applying
@@ -81,7 +81,7 @@ independently of that development flag.
 
 ## Build metadata for About
 
-Choose **About OpenClaw** to select **About** in the native Connection window. It shows the app version and build number, build date, and shortened git commit from Info.plist, even without a Gateway connection. Hover over the commit or date for the full value, or choose **Copy Build Info** to copy all build metadata. Missing or invalid timestamp and commit values appear as unavailable. Re-run the packager after code changes to refresh these values. App update controls live under **Dashboard → Settings → Updates → This Mac**.
+Choose **About FRIDAY** to select **About** in the native Connection window. It shows the app version and build number, build date, and shortened git commit from Info.plist, even without a Gateway connection. Hover over the commit or date for the full value, or choose **Copy Build Info** to copy all build metadata. Missing or invalid timestamp and commit values appear as unavailable. Re-run the packager after code changes to refresh these values. App update controls live under **Dashboard → Settings → Updates → This Mac**.
 
 ## Related
 

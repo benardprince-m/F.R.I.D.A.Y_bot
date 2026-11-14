@@ -174,7 +174,7 @@ export function createCodexUserInputBridge(params: {
             kind: "compiled" as const,
             input: {
               kind: "unsupported" as const,
-              message: "OpenClaw declined a malformed or over-limit MCP elicitation request.",
+              message: "FRIDAY declined a malformed or over-limit MCP elicitation request.",
             },
           };
       if (compiled.kind === "ignored") {
@@ -185,7 +185,7 @@ export function createCodexUserInputBridge(params: {
       return await enqueue(
         {
           cancelValue,
-          failureValue: declineElicitation("OpenClaw could not handle this elicitation."),
+          failureValue: declineElicitation("FRIDAY could not handle this elicitation."),
           run: async (signal) => {
             const resource =
               params.prepareResourceContext && requestSnapshot && hasResourceInput(requestSnapshot)

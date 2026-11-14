@@ -1,8 +1,8 @@
 ---
 doc-schema-version: 1
-summary: "Uninstall OpenClaw completely (CLI, service, state, workspace)"
+summary: "Uninstall FRIDAY completely (CLI, service, state, workspace)"
 read_when:
-  - You want to remove OpenClaw from a machine
+  - You want to remove FRIDAY from a machine
   - The gateway service is still running after uninstall
 title: "Uninstall"
 ---
@@ -82,7 +82,7 @@ rm -rf /path/to/external/workspace
 7. If you installed the macOS app:
 
 ```bash
-rm -rf /Applications/OpenClaw.app
+rm -rf /Applications/FRIDAY.app
 ```
 
 - If you used profiles (`--profile` / `OPENCLAW_PROFILE`), repeat steps 3-4 for each state dir (defaults are `~/.openclaw-<profile>`).
@@ -115,12 +115,12 @@ systemctl --user daemon-reload
 
 ### Windows (Scheduled Task)
 
-Default task name is `OpenClaw Gateway` (or `OpenClaw Gateway (<profile>)`).
+Default task name is `FRIDAY Gateway` (or `FRIDAY Gateway (<profile>)`).
 The task launches a windowless `gateway.vbs` script under your state dir, which in turn
 runs `gateway.cmd`; remove both.
 
 ```powershell
-schtasks /Delete /F /TN "OpenClaw Gateway"
+schtasks /Delete /F /TN "FRIDAY Gateway"
 Remove-Item -Force "$env:USERPROFILE\.openclaw\gateway.cmd" -ErrorAction SilentlyContinue
 Remove-Item -Force "$env:USERPROFILE\.openclaw\gateway.vbs" -ErrorAction SilentlyContinue
 ```
@@ -138,22 +138,22 @@ If you used a profile, delete the matching task name and the `gateway.cmd` /
 
 Remove the Gateway service **before** deleting a checkout, launcher, or prefix. Inspect the resolved command and its target first; if ownership is unclear, leave it in place. Check [Installer internals](/install/installer) for custom checkout and prefix options.
 
-| Installation method                               | CLI owner and removal                                                                                                                                                                                                                                                                                                               |
-| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Global npm (`install.sh` / `install.ps1` default) | Run `npm rm -g openclaw` with the npm/prefix that owns this install.                                                                                                                                                                                                                                                                |
-| Global pnpm or Bun                                | Run only the matching command: `pnpm remove -g openclaw` or `bun remove -g openclaw`. For a Bun-only shell launcher, first inspect `$(bun pm bin -g)/openclaw` for its `OpenClaw Bun launcher` header and intended package path, then remove that launcher after removing the package; Bun can leave regular launcher files behind. |
-| `install.sh --install-method git`                 | Inspect `~/.local/bin/openclaw`; remove that launcher only if it points to the intended checkout, then remove that checkout.                                                                                                                                                                                                        |
-| `install.ps1 -InstallMethod git`                  | Inspect `%USERPROFILE%\.local\bin\openclaw.cmd`; remove that launcher only if it points to the intended checkout, then remove that checkout.                                                                                                                                                                                        |
-| `install-cli.sh` (npm or Git)                     | Inspect `<prefix>/bin/openclaw`. The prefix defaults to `~/.openclaw`; `--prefix` / `OPENCLAW_PREFIX` overrides it. Remove a dedicated prefix only after preserving data; Git mode also needs its separate checkout removed.                                                                                                        |
-| Direct source checkout                            | Remove only your own wrapper/symlink, then the checkout. Keep shims owned by other installations.                                                                                                                                                                                                                                   |
+| Installation method                               | CLI owner and removal                                                                                                                                                                                                                                                                                                             |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Global npm (`install.sh` / `install.ps1` default) | Run `npm rm -g openclaw` with the npm/prefix that owns this install.                                                                                                                                                                                                                                                              |
+| Global pnpm or Bun                                | Run only the matching command: `pnpm remove -g openclaw` or `bun remove -g openclaw`. For a Bun-only shell launcher, first inspect `$(bun pm bin -g)/openclaw` for its `FRIDAY Bun launcher` header and intended package path, then remove that launcher after removing the package; Bun can leave regular launcher files behind. |
+| `install.sh --install-method git`                 | Inspect `~/.local/bin/openclaw`; remove that launcher only if it points to the intended checkout, then remove that checkout.                                                                                                                                                                                                      |
+| `install.ps1 -InstallMethod git`                  | Inspect `%USERPROFILE%\.local\bin\openclaw.cmd`; remove that launcher only if it points to the intended checkout, then remove that checkout.                                                                                                                                                                                      |
+| `install-cli.sh` (npm or Git)                     | Inspect `<prefix>/bin/openclaw`. The prefix defaults to `~/.openclaw`; `--prefix` / `OPENCLAW_PREFIX` overrides it. Remove a dedicated prefix only after preserving data; Git mode also needs its separate checkout removed.                                                                                                      |
+| Direct source checkout                            | Remove only your own wrapper/symlink, then the checkout. Keep shims owned by other installations.                                                                                                                                                                                                                                 |
 
 Git checkouts default to `~/openclaw` (`%USERPROFILE%\openclaw` on Windows); use the actual target of the launcher, including custom `--git-dir` / `-GitDir` or `OPENCLAW_GIT_DIR`. On POSIX, `OPENCLAW_HOME` can change the default checkout. Remove state/workspaces only as selected above.
 
-Before deleting a prefix, move any state, configuration, and workspaces you want to keep outside it. **Never delete a shared prefix wholesale**: remove only verified OpenClaw files, preserving shared Node runtimes, packages, and tools.
+Before deleting a prefix, move any state, configuration, and workspaces you want to keep outside it. **Never delete a shared prefix wholesale**: remove only verified FRIDAY files, preserving shared Node runtimes, packages, and tools.
 
-If completion was installed, remove only its `# OpenClaw Completion` block and OpenClaw source line from the [selected shell profile](/cli/completion#install-flow). Remove a legacy `openclaw completion` source/eval line only if it contains no other command; preserve surrounding content.
+If completion was installed, remove only its `# FRIDAY Completion` block and FRIDAY source line from the [selected shell profile](/cli/completion#install-flow). Remove a legacy `openclaw completion` source/eval line only if it contains no other command; preserve surrounding content.
 
-Remove an installer-added PATH entry only when no other command uses it. Keep shared bin directories such as `~/.local/bin`. On Windows, the same rule applies to portable Node/MinGit and their PATH entries under `%LOCALAPPDATA%\OpenClaw\deps`.
+Remove an installer-added PATH entry only when no other command uses it. Keep shared bin directories such as `~/.local/bin`. On Windows, the same rule applies to portable Node/MinGit and their PATH entries under `%LOCALAPPDATA%\FRIDAY\deps`.
 
 Open a new shell and check `command -v openclaw` (PowerShell: `Get-Command openclaw -ErrorAction SilentlyContinue`). If a command still resolves, inspect it: a second install or foreign wrapper may remain.
 

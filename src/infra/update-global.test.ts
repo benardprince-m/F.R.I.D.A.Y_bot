@@ -277,8 +277,8 @@ describe("update global helpers", () => {
       envSnapshot = captureEnv(["LOCALAPPDATA"]);
       const injectedLocalAppData = path.join(base, "injected-local-app-data");
       const trustedLocalAppData = path.join(base, "trusted-local-app-data");
-      const injectedGitDir = path.join(injectedLocalAppData, "OpenClaw/deps/portable-git/cmd");
-      const trustedGitDir = path.join(trustedLocalAppData, "OpenClaw/deps/portable-git/cmd");
+      const injectedGitDir = path.join(injectedLocalAppData, "FRIDAY/deps/portable-git/cmd");
+      const trustedGitDir = path.join(trustedLocalAppData, "FRIDAY/deps/portable-git/cmd");
       await fs.mkdir(injectedGitDir, { recursive: true });
       await fs.mkdir(trustedGitDir, { recursive: true });
 
@@ -511,7 +511,7 @@ describe("update global helpers", () => {
     expect(globalInstallArgs("npm", "openclaw@latest")).toEqual(expectedNpmInstall);
   });
   it.each(["openclaw@latest", "github:openclaw/openclaw#release/2026.5.12"])(
-    "allows only OpenClaw builds for pnpm target %s",
+    "allows only FRIDAY builds for pnpm target %s",
     (spec) => {
       expect(globalInstallArgs("pnpm", spec)).toEqual([
         "pnpm",

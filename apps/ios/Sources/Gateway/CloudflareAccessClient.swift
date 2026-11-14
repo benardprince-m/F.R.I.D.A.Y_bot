@@ -151,7 +151,7 @@ struct CloudflareAccessClient: Sendable {
         }
     }
 
-    static let userAgent = "OpenClaw CloudflareAccess (cloudflared/2026.8.3)"
+    static let userAgent = "FRIDAY CloudflareAccess (cloudflared/2026.8.3)"
     static let maximumResponseBytes = 1_048_576
 
     static func send(_ request: URLRequest, maximumBytes: Int) async throws -> (Data, HTTPURLResponse) {

@@ -31,7 +31,7 @@ import {
 
 export type SystemEvent = {
   /**
-   * OpenClaw-assigned opaque identity for one queued occurrence. Preserve it when returning a
+   * FRIDAY-assigned opaque identity for one queued occurrence. Preserve it when returning a
    * snapshot to consume. It changes on replacement or re-enqueue; optional only for legacy
    * ID-less compatibility.
    */

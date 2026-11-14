@@ -14,7 +14,7 @@ scenario:
     tools:
       # Keep MCP tools directly visible in the provider request instead of behind
       # tool search, and route exec to a node host so the Codex harness drops its
-      # native tool surface and materializes configured MCP through OpenClaw.
+      # native tool surface and materializes configured MCP through FRIDAY.
       toolSearch: false
       exec:
         host: node

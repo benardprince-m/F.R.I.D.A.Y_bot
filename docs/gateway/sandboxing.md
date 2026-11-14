@@ -1,12 +1,12 @@
 ---
-summary: "How OpenClaw sandboxing works: modes, scopes, workspace access, and images"
+summary: "How FRIDAY sandboxing works: modes, scopes, workspace access, and images"
 title: "Sandboxing"
 sidebarTitle: "Sandboxing"
 read_when: "You want a dedicated explanation of sandboxing or need to tune agents.defaults.sandbox."
 status: active
 ---
 
-OpenClaw can run tool execution inside a sandbox backend to limit the damage tools can cause. Sandboxing is off by default and controlled by `agents.defaults.sandbox` (global), `agents.entries.*.sandbox` (per-agent), or a required creator-role sandbox policy. The Gateway process always stays on the host; only tool execution moves into the sandbox when enabled.
+FRIDAY can run tool execution inside a sandbox backend to limit the damage tools can cause. Sandboxing is off by default and controlled by `agents.defaults.sandbox` (global), `agents.entries.*.sandbox` (per-agent), or a required creator-role sandbox policy. The Gateway process always stays on the host; only tool execution moves into the sandbox when enabled.
 
 <Note>
 This is not a perfect security boundary, but it materially limits filesystem and process access when the model does something dumb.
@@ -83,7 +83,7 @@ Publication-eligible managed sessions can use `github_publish` under the default
 Sandboxed execution excludes the agent's managed GitHub identity by default.
 Set `agents.entries.<id>.tools.github.allowInSandbox: true` on that agent's
 managed identity to allow it inside the agent's own Docker or Podman sandbox.
-OpenClaw mounts the selected profile read-only at `/openclaw/github`, sets
+FRIDAY mounts the selected profile read-only at `/openclaw/github`, sets
 `GH_CONFIG_DIR` to that path, and provides the same managed token and Git author
 as host execution. The container needs `gh` installed for GitHub CLI commands.
 

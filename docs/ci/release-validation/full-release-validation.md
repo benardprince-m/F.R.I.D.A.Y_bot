@@ -125,10 +125,10 @@ with a sparse checkout. Ancestry and release-ref checks remain unchanged, while
 historical file contents stay out of this metadata-only job. Build and test jobs
 check out their own complete source trees.
 
-`OpenClaw Release Publish` is the manual mutating release workflow. Dispatch
+`FRIDAY Release Publish` is the manual mutating release workflow. Dispatch
 regular beta and stable publishes from a protected lightweight
 `release-publish/<tooling-sha12>-<epoch>` tag at the frozen Tooling SHA after the
-release tag exists and after the OpenClaw npm preflight has succeeded (the preflight runs
+release tag exists and after the FRIDAY npm preflight has succeeded (the preflight runs
 `pnpm plugins:sync:check` among its checks). The tag still selects the exact
 release commit, including a commit on `release/YYYY.M.PATCH`. For current validation runs,
 set `preflight_run_id` and `full_release_validation_run_id` to the same successful
@@ -145,7 +145,7 @@ revalidates the immutable source, prepared artifacts, attestations and alias
 state before writing. Docker Hub credentials remain required caller-provided
 secrets. Failed preparation, denied approval and cancellation cannot publish.
 
-Historical recovery may still supply a separate successful `OpenClaw NPM Release`
+Historical recovery may still supply a separate successful `FRIDAY NPM Release`
 preflight run ID alongside the matching successful Full Release Validation run
 and attempt. Create the tooling tag with the [release publish commands](https://github.com/openclaw/openclaw/blob/main/.agents/skills/release-openclaw-maintainer/references/regular-release.md#qualify-publication-bytes);
 real core npm, plugin npm, or ClawHub publication from `main` is rejected before
@@ -153,7 +153,7 @@ child dispatch. Docker-only recovery may still use `main`.
 
 The publisher dispatches `Plugin NPM Release` for all
 publishable plugin packages, dispatches `Plugin ClawHub Release` for the same
-release SHA, then dispatches `OpenClaw NPM Release` after plugin npm succeeds.
+release SHA, then dispatches `FRIDAY NPM Release` after plugin npm succeeds.
 Stable Windows promotion is optional: supply both an exact `windows_node_tag`
 and candidate-approved `windows_node_installer_digests` to dispatch its signed
 installers after GitHub release finalization. Omit both to skip Windows.
@@ -252,7 +252,7 @@ Flakes get at most two explicit same-SHA reruns and a tracked fix on `main`;
 record an eligible still-failing job instead of changing tooling, re-cutting,
 or starting another Full Release Validation. Narrow evidence is not publish authorization by itself.
 
-`OpenClaw Release Checks` uses the trusted workflow ref to resolve the selected ref once into a `release-package-under-test` tarball, then passes that artifact to cross-OS checks and Package Acceptance, plus the live/E2E release-path Docker workflow when soak coverage runs. That keeps the package bytes consistent across release boxes and avoids repacking the same candidate in multiple child jobs. Source package preparation has a 35-minute whole-job budget so cold declaration generation and package inventory can finish before artifact upload; downstream jobs still consume only the immutable uploaded package. For the Codex npm-plugin live lane, release checks either pass a matching published plugin spec derived from `release_package_spec`, pass the operator-supplied `codex_plugin_spec`, or leave the input blank so the Docker script packs the selected checkout's Codex plugin.
+`FRIDAY Release Checks` uses the trusted workflow ref to resolve the selected ref once into a `release-package-under-test` tarball, then passes that artifact to cross-OS checks and Package Acceptance, plus the live/E2E release-path Docker workflow when soak coverage runs. That keeps the package bytes consistent across release boxes and avoids repacking the same candidate in multiple child jobs. Source package preparation has a 35-minute whole-job budget so cold declaration generation and package inventory can finish before artifact upload; downstream jobs still consume only the immutable uploaded package. For the Codex npm-plugin live lane, release checks either pass a matching published plugin spec derived from `release_package_spec`, pass the operator-supplied `codex_plugin_spec`, or leave the input blank so the Docker script packs the selected checkout's Codex plugin.
 
 Full Release Validation concurrency is keyed by Validation SHA, Tooling SHA,
 rerun group, release profile, and effective soak coverage with

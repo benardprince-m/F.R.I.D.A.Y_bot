@@ -1,8 +1,8 @@
-# OpenClaw Perplexity Plugin
+# FRIDAY Perplexity Plugin
 
-Official OpenClaw plugin for Perplexity.
+Official FRIDAY plugin for Perplexity.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/perplexity-plugin

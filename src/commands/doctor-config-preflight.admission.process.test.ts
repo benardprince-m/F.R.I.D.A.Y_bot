@@ -110,7 +110,7 @@ it.each<[string, AdmissionCase]>([
   ["Missing config", { config: "absent" }],
   ["Missing config", { config: "absent", consolidated: true }],
   ["Configured plugin load path is unavailable", { consolidated: true, unavailablePlugin: true }],
-  ["OpenClaw config is invalid", { consolidated: true, unavailablePlugin: true, repairable: true }],
+  ["FRIDAY config is invalid", { consolidated: true, unavailablePlugin: true, repairable: true }],
   ["Legacy device identity exists", { identityFile: "device.json" }],
   ["__CANONICAL_IDENTITY_READY__", { identityFile: "device.json", canonicalIdentity: true }],
 ])(

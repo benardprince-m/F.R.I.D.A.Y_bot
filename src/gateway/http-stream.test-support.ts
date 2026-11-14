@@ -294,7 +294,7 @@ type BufferedReplacementCase = {
 function bufferedReplacement(
   name: string,
   replacement: BufferedReplacementCase["replacement"],
-  expected = "No response from OpenClaw.",
+  expected = "No response from FRIDAY.",
 ): BufferedReplacementCase {
   return { name, replacement, finalText: replacement.text ?? "", expected };
 }

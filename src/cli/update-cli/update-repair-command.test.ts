@@ -217,7 +217,7 @@ describe("update repair ledger recovery", () => {
     async ({ legacy, target }) => {
       const run = createUpdateRun({ trigger: "cli", before: { version: "2026.9.2" } });
       const detail =
-        "Update refused: package manager owner is unknown; no changes were made. Run this OpenClaw install through its active npm, pnpm, or Bun global shim, or reinstall it with that package manager, then retry.";
+        "Update refused: package manager owner is unknown; no changes were made. Run this FRIDAY install through its active npm, pnpm, or Bun global shim, or reinstall it with that package manager, then retry.";
       const captureSteps: UpdateRunRecord["steps"] = [
         {
           step: "original-state-capture",
@@ -460,7 +460,7 @@ describe("update repair ledger recovery", () => {
       expect(mocks.runtime.exit).not.toHaveBeenCalledWith(1);
       const repaired = getUpdateRun(run.runId)!;
       expect(await buildStatusUpdateRows(null)).toEqual([
-        { Item: "Update run", Value: "ℹ️ OpenClaw abandoned update reconciled." },
+        { Item: "Update run", Value: "ℹ️ FRIDAY abandoned update reconciled." },
       ]);
       expect(renderUpdateRunReport(repaired).markdown).not.toContain("openclaw triage");
       expect(
@@ -471,7 +471,7 @@ describe("update repair ledger recovery", () => {
             muted: (message) => `muted: ${message}`,
           },
         ),
-      ).toBe("muted: ℹ️ OpenClaw abandoned update reconciled.");
+      ).toBe("muted: ℹ️ FRIDAY abandoned update reconciled.");
       expect(getUpdateRun(run.runId)).toEqual(repaired);
       await updateRepairCommand({});
       expect(mocks.finalize).toHaveBeenCalledExactlyOnceWith({}, [], undefined);
@@ -527,7 +527,7 @@ describe("update repair ledger recovery", () => {
         expect.objectContaining({ message: expect.stringContaining("already reconciled") }),
       );
       expect(await buildStatusUpdateRows(null)).toEqual([
-        { Item: "Update run", Value: "ℹ️ OpenClaw abandoned update reconciled." },
+        { Item: "Update run", Value: "ℹ️ FRIDAY abandoned update reconciled." },
       ]);
       await updateRepairCommand({});
       expect(mocks.finalize).toHaveBeenCalledExactlyOnceWith({}, [], undefined);

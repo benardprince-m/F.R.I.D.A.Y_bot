@@ -489,7 +489,7 @@ describe("OpenAI realtime voice provider routing", () => {
         createBrowserSession.mock.calls[0]?.[0],
         "quicksilver request",
       );
-      expect(quicksilverRequest.instructions).toMatch(/^You are OpenClaw's realtime voice layer\./);
+      expect(quicksilverRequest.instructions).toMatch(/^You are FRIDAY's realtime voice layer\./);
       for (const instruction of [
         "Delegate each user request once and wait for its result.",
         "New user follow-ups, corrections, and explicit retries are new requests.",

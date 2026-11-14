@@ -32,17 +32,17 @@ Look for:
 - `Config write rejected: ...`
 - A timestamped `openclaw.json.rejected.*` file beside the active config.
 - A timestamped `openclaw.json.clobbered.*` file if `doctor --fix` repaired a broken direct edit.
-- OpenClaw keeps the latest 32 `.clobbered.*` files for each config path and rotates older ones.
+- FRIDAY keeps the latest 32 `.clobbered.*` files for each config path and rotates older ones.
 
 <AccordionGroup>
   <Accordion title="What happened">
-    - The config did not validate during startup, hot reload, or an OpenClaw-owned write.
+    - The config did not validate during startup, hot reload, or an FRIDAY-owned write.
     - Gateway startup leaves legacy keys unchanged and refuses config that needs their repair, with an `openclaw doctor --fix` hint.
     - Hot reload skips invalid external edits and keeps the current runtime config active.
-    - OpenClaw-owned writes reject invalid/destructive payloads before commit and save `.rejected.*`.
+    - FRIDAY-owned writes reject invalid/destructive payloads before commit and save `.rejected.*`.
     - `openclaw doctor --fix` owns legacy-key repair. It can also remove non-JSON prefixes or restore the last-known-good copy while preserving the rejected payload as `.clobbered.*`.
-    - When many repairs happen for one config path, OpenClaw rotates older `.clobbered.*` files so the newest repaired payload is still available.
-    - If OpenClaw cannot save the `.clobbered.*` copy, recovery is deferred with a warning and the active file stays unchanged. Retry recovery once the snapshot lock or storage problem is resolved.
+    - When many repairs happen for one config path, FRIDAY rotates older `.clobbered.*` files so the newest repaired payload is still available.
+    - If FRIDAY cannot save the `.clobbered.*` copy, recovery is deferred with a warning and the active file stays unchanged. Retry recovery once the snapshot lock or storage problem is resolved.
 
   </Accordion>
   <Accordion title="Inspect and repair">
@@ -56,11 +56,11 @@ Look for:
   </Accordion>
   <Accordion title="Common signatures">
     - `.clobbered.*` exists → doctor preserved a broken external edit while repairing the active config.
-    - `.rejected.*` exists → an OpenClaw-owned config write failed schema or clobber checks before commit.
+    - `.rejected.*` exists → an FRIDAY-owned config write failed schema or clobber checks before commit.
     - `Config write rejected:` → the write tried to drop required shape, shrink the file sharply, or persist invalid config.
     - `config reload skipped (invalid config):` → a direct edit failed validation and was ignored by the running Gateway.
     - `Invalid config at ...` → startup failed before Gateway services booted.
-    - `missing-meta-vs-last-good`, `gateway-mode-missing-vs-last-good`, or `size-drop-vs-last-good:*` → an OpenClaw-owned write was rejected because it lost fields or size compared with the last-known-good backup.
+    - `missing-meta-vs-last-good`, `gateway-mode-missing-vs-last-good`, or `size-drop-vs-last-good:*` → an FRIDAY-owned write was rejected because it lost fields or size compared with the last-known-good backup.
     - `Config last-known-good promotion skipped` → the candidate contained redacted secret placeholders such as `***`.
 
   </Accordion>
@@ -102,7 +102,7 @@ Look for:
 Warning meanings:
 
 - `ssh_tunnel_failed` → SSH setup failed, but the command still tried direct configured/loopback targets.
-- `multiple reachable gateway identities detected` → distinct gateways answered, or OpenClaw could not prove reachable targets are the same gateway. An SSH tunnel, proxy URL, or configured remote URL to the same gateway is treated as one gateway with multiple transports, even when transport ports differ.
+- `multiple reachable gateway identities detected` → distinct gateways answered, or FRIDAY could not prove reachable targets are the same gateway. An SSH tunnel, proxy URL, or configured remote URL to the same gateway is treated as one gateway with multiple transports, even when transport ports differ.
 - `probe_scope_limited` → connect worked, but detail RPC is scope-limited; pair device identity or use credentials with `operator.read`.
 - `Gateway accepted the WebSocket connection, but follow-up read diagnostics failed` → connect worked, but the full diagnostic RPC set timed out or failed. Treat this as a reachable Gateway with degraded diagnostics; compare `connect.ok` and `connect.rpcOk` in `--json` output.
 - `Capability: pairing-pending` or `gateway closed (1008): pairing required` → the gateway answered, but this client still needs pairing/approval before normal operator access.

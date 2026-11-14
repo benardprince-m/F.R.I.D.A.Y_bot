@@ -52,7 +52,7 @@ const allowed = (proof: string) => ({
 });
 const rejectedQuestions = (detail: string) => ({
   behavior: "deny",
-  message: `OpenClaw rejected malformed Claude user questions: ${detail}. Correct the invalid field and retry AskUserQuestion.`,
+  message: `FRIDAY rejected malformed Claude user questions: ${detail}. Correct the invalid field and retry AskUserQuestion.`,
 });
 function ask(
   authorizer: ReturnType<typeof authorizerFor>,

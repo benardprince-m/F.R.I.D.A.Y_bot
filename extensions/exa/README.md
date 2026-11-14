@@ -1,8 +1,8 @@
-# OpenClaw Exa Plugin
+# FRIDAY Exa Plugin
 
-Official OpenClaw plugin for Exa.
+Official FRIDAY plugin for Exa.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/exa-plugin

@@ -65,13 +65,13 @@ describe("execSchtasks", () => {
         termination,
       });
 
-      await expect(
-        execSchtasks(["/Change", "/TN", "OpenClaw Gateway", "/DISABLE"]),
-      ).resolves.toEqual({
-        stdout: "",
-        stderr: detail,
-        code: 124,
-      });
+      await expect(execSchtasks(["/Change", "/TN", "FRIDAY Gateway", "/DISABLE"])).resolves.toEqual(
+        {
+          stdout: "",
+          stderr: detail,
+          code: 124,
+        },
+      );
       await expect(isRegisteredScheduledTask({})).resolves.toBe(false);
     },
   );
@@ -80,7 +80,7 @@ describe("execSchtasks", () => {
     runCommandWithTimeout.mockRejectedValue(new Error("synthetic spawn failure"));
     await expect(isRegisteredScheduledTask({})).resolves.toBe(false);
     expect(runCommandWithTimeout).toHaveBeenCalledExactlyOnceWith(
-      ["schtasks", "/Query", "/TN", "OpenClaw Gateway"],
+      ["schtasks", "/Query", "/TN", "FRIDAY Gateway"],
       expect.objectContaining({ timeoutMs: 15_000, noOutputTimeoutMs: 30_000 }),
     );
   });

@@ -9,7 +9,7 @@ import type {
   CodexDynamicToolDiagnosticTerminalType,
 } from "./protocol.js";
 
-/** OpenClaw-only dynamic-tool facts that never cross into the Codex protocol. */
+/** FRIDAY-only dynamic-tool facts that never cross into the Codex protocol. */
 export type CodexDynamicToolRuntimeResponse = CodexDynamicToolCallResponse & {
   asyncStarted?: boolean;
   diagnosticTerminalReason?: CodexDynamicToolDiagnosticTerminalReason;

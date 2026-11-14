@@ -1,5 +1,5 @@
 ---
-summary: "Fixes for common Ollama failures in OpenClaw"
+summary: "Fixes for common Ollama failures in FRIDAY"
 read_when:
   - Ollama is not detected, or no models are available
   - You hit connection refused, garbled output, or timeouts
@@ -23,7 +23,7 @@ sidebarTitle: "Troubleshooting"
     `ollama.service` right after WSL2 startup, and SIGTERM from systemd rather
     than the Linux OOM killer.
 
-    OpenClaw logs a startup warning when it detects WSL2, `ollama.service`
+    FRIDAY logs a startup warning when it detects WSL2, `ollama.service`
     enabled with `Restart=always`, and visible CUDA markers.
 
     Mitigation:
@@ -87,7 +87,7 @@ sidebarTitle: "Troubleshooting"
 
   </Accordion>
 
-  <Accordion title="Remote host works with curl but not OpenClaw">
+  <Accordion title="Remote host works with curl but not FRIDAY">
     Verify from the same machine and runtime that runs the Gateway:
 
     ```bash
@@ -126,7 +126,7 @@ sidebarTitle: "Troubleshooting"
 
     When a reply consists of a structured tool-call attempt naming an available
     tool, including wrapped XML, ReAct `Action`/`Action Input`, and legacy
-    `[TOOL_CALL]` blocks, OpenClaw asks the model once to call the tool natively
+    `[TOOL_CALL]` blocks, FRIDAY asks the model once to call the tool natively
     when recovery is safe. Earlier side effects can prevent that retry. A repeated text call
     fails visibly instead of reporting success. Text calls are never executed
     by this guard; examples in substantive answers remain text.
@@ -141,7 +141,7 @@ sidebarTitle: "Troubleshooting"
     keep their configured behavior. Direct exposure does not enable a denied
     tool, enable memory, or configure a web-search provider.
 
-    OpenClaw stops after three consecutive identical failures for the same tool
+    FRIDAY stops after three consecutive identical failures for the same tool
     and arguments, including repeated unknown tool IDs. This protection is always
     active; enabling `tools.loopDetection` is not required.
 
@@ -165,7 +165,7 @@ sidebarTitle: "Troubleshooting"
   </Accordion>
 
   <Accordion title="Repetitive output stopped">
-    OpenClaw stopped a long repetition-dominated response from a model with a
+    FRIDAY stopped a long repetition-dominated response from a model with a
     known total size in the 32B class or smaller. It replaced the affected unfinished
     block in session history with `[Repetitive output stopped]`. Earlier blocks
     and completed tool work remain; side effects are not retried automatically.
@@ -234,7 +234,7 @@ sidebarTitle: "Troubleshooting"
   <Accordion title="Large-context model is too slow or runs out of memory">
     Many models advertise contexts larger than your hardware can run
     comfortably. Native requests forward the effective `contextTokens` unless
-    `params.num_ctx` overrides it. Cap both OpenClaw's budget and Ollama's request
+    `params.num_ctx` overrides it. Cap both FRIDAY's budget and Ollama's request
     context for predictable first-token latency:
 
     ```json5
@@ -257,7 +257,7 @@ sidebarTitle: "Troubleshooting"
     }
     ```
 
-    Lower the model entry's `contextTokens` if OpenClaw sends too much prompt. Lower
+    Lower the model entry's `contextTokens` if FRIDAY sends too much prompt. Lower
     `params.num_ctx` if Ollama's runtime context is too large for the machine.
     Lower `maxTokens` if generation runs too long.
 

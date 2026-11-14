@@ -52,7 +52,7 @@ the installation. Do not substitute host shell access or a reviewer child.
 Supply the review target and only explicitly requested overrides. The installed
 canonical helper owns model, thinking, severity, prompts, pass planning, and
 review timeout settings. Updating that helper updates its defaults without an
-OpenClaw release. `mode`, `base`, `commit`, `model`, `thinking`, `maxPriority`,
+FRIDAY release. `mode`, `base`, `commit`, `model`, `thinking`, `maxPriority`,
 `passes`, `timeoutSeconds`, `prompt`, `promptFiles`, `datasets`, `sourceContext`,
 and `sourceContextFiles` map to its matching options. File inputs are relative
 to the current sandbox repository. The original session deadline and cancellation

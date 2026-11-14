@@ -77,7 +77,7 @@ suite.define(() => {
         await sidebar.waitFor({ state: "visible", timeout: 10_000 });
         if (target === "conversation") {
           await page
-            .getByPlaceholder("Message OpenClaw")
+            .getByPlaceholder("Message FRIDAY")
             .waitFor({ state: "visible", timeout: 10_000 });
         }
         await expectVisible(sidebar);

@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawKit
 import XCTest
-@testable import OpenClaw
+@testable import FRIDAY
 
 @MainActor
 final class TalkRealtimeVoiceSessionCleanupTests: XCTestCase {

@@ -121,7 +121,7 @@ const CREATE_MEET_FROM_BROWSER_SCRIPT = `async () => {
     return true;
   };
   if (!current().startsWith("https://meet.google.com/")) {
-    return manualActionFor("google-login-required", "Sign in to Google in the OpenClaw browser profile, then retry meeting creation.");
+    return manualActionFor("google-login-required", "Sign in to Google in the FRIDAY browser profile, then retry meeting creation.");
   }
   const href = current();
   if (meetUrlPattern.test(href)) {
@@ -140,16 +140,16 @@ const CREATE_MEET_FROM_BROWSER_SCRIPT = `async () => {
     return { browserUrl: href, browserTitle: document.title, notes, retryAfterMs: 1000 };
   }
   if (/do you want people to hear you in the meeting/i.test(pageText)) {
-    return manualActionFor("meet-audio-choice-required", "Meet is showing the microphone choice. Click Use microphone in the OpenClaw browser profile, then retry meeting creation.", href);
+    return manualActionFor("meet-audio-choice-required", "Meet is showing the microphone choice. Click Use microphone in the FRIDAY browser profile, then retry meeting creation.", href);
   }
   if (/allow.*(microphone|camera)|blocked.*(microphone|camera)|permission.*(microphone|camera)/i.test(pageText)) {
-    return manualActionFor("meet-permission-required", "Allow microphone/camera permissions for Meet in the OpenClaw browser profile, then retry meeting creation.", href);
+    return manualActionFor("meet-permission-required", "Allow microphone/camera permissions for Meet in the FRIDAY browser profile, then retry meeting creation.", href);
   }
   if (/couldn't create|unable to create/i.test(pageText)) {
-    return manualActionFor("browser-control-unavailable", "Resolve the Google Meet page prompt in the OpenClaw browser profile, then retry meeting creation.", href);
+    return manualActionFor("browser-control-unavailable", "Resolve the Google Meet page prompt in the FRIDAY browser profile, then retry meeting creation.", href);
   }
   if (location.hostname.toLowerCase() === "accounts.google.com" || /use your google account|to continue to google meet|choose an account|sign in to (join|continue)/i.test(pageText)) {
-    return manualActionFor("google-login-required", "Sign in to Google in the OpenClaw browser profile, then retry meeting creation.", href);
+    return manualActionFor("google-login-required", "Sign in to Google in the FRIDAY browser profile, then retry meeting creation.", href);
   }
   return {
     retryAfterMs: 500,

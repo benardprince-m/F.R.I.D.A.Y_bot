@@ -139,7 +139,7 @@ describe("agent database open timings", () => {
     );
     expect(logger.warn).toHaveBeenNthCalledWith(
       2,
-      "slow OpenClaw agent database open",
+      "slow FRIDAY agent database open",
       expect.objectContaining({
         elapsedMs: 1_150,
         integrityGateOutcome: "cached",
@@ -200,7 +200,7 @@ describe("agent database open timings", () => {
       expect(databases[1]).toBe(databases[0]);
       expect(databases[0]?.db.isOpen).toBe(true);
       expect(logger.warn).toHaveBeenCalledExactlyOnceWith(
-        "slow OpenClaw agent database open",
+        "slow FRIDAY agent database open",
         expect.objectContaining({
           agentId: options.agentId,
           elapsedMs: 1_310,

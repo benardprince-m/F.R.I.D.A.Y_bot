@@ -467,7 +467,7 @@ suite.define(() => {
       await expect
         .poll(() => trimmedTextContents(settingsLinks))
         .toEqual([
-          "Ask OpenClaw",
+          "Ask FRIDAY",
           "Approvals",
           "Infrastructure",
           "Labs",
@@ -601,12 +601,12 @@ suite.define(() => {
       await expect.poll(() => settingsSearch.inputValue()).toBe("");
       await captureSettingsSidebarProof(settingsSidebar, "01g-settings-search-reset.png");
       await holdUiProof(page);
-      await settingsSidebar.getByRole("link", { name: "Ask OpenClaw" }).click();
+      await settingsSidebar.getByRole("link", { name: "Ask FRIDAY" }).click();
       await expect.poll(() => new URL(page.url()).pathname).toBe("/custodian");
       await expect
         .poll(() => page.locator(".shell").getAttribute("class"))
         .not.toContain("shell--onboarding");
-      // Ask OpenClaw is a settings-takeover page (#111686): the settings
+      // Ask FRIDAY is a settings-takeover page (#111686): the settings
       // sidebar owns navigation there, not the app sidebar.
       await expect.poll(() => settingsSidebar.isVisible()).toBe(true);
       await expect.poll(() => sidebar.isVisible()).toBe(false);
@@ -623,7 +623,7 @@ suite.define(() => {
       );
       await expect.poll(() => trimmedTextContents(pinnedItems)).not.toContain("Logbook");
       expect(await pages.getByRole("link", { name: "Workboard", exact: true }).count()).toBe(0);
-      expect(await pages.getByRole("link", { name: "OpenClaw", exact: true }).count()).toBe(0);
+      expect(await pages.getByRole("link", { name: "FRIDAY", exact: true }).count()).toBe(0);
       const usage = pages
         .locator(".sidebar-pages__entry")
         .filter({ has: page.getByRole("link", { name: "Usage", exact: true }) });

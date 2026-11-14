@@ -92,8 +92,8 @@ async function runMatrixQaRecoveryScenario(
     const loginClient = createMatrixQaClient({ baseUrl: context.baseUrl });
     const recoveryDevice = await loginClient.loginWithPassword({
       deviceName: ownerVerificationRequired
-        ? "OpenClaw Matrix QA Owner Verification Required Device"
-        : "OpenClaw Matrix QA Recovery Restore Device",
+        ? "FRIDAY Matrix QA Owner Verification Required Device"
+        : "FRIDAY Matrix QA Recovery Restore Device",
       password: driverPassword,
       userId: context.driverUserId,
     });

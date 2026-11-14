@@ -55,10 +55,10 @@ describe("statusSummaryRuntime", () => {
         sessionKey: "agent:main:main",
         acpMeta: null,
       }),
-    ).toEqual({ id: "codex", label: "OpenAI Codex (previous runtime: OpenClaw Default)" });
+    ).toEqual({ id: "codex", label: "OpenAI Codex (previous runtime: FRIDAY Default)" });
   });
 
-  it("reports the owning Codex harness for a locked session with stale OpenClaw metadata", () => {
+  it("reports the owning Codex harness for a locked session with stale FRIDAY metadata", () => {
     expect(
       statusSummaryRuntime.resolveSessionRuntime({
         cfg: runtimeConfig("openclaw"),

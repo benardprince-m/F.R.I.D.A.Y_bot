@@ -12,7 +12,7 @@ import {
 } from "node:fs";
 import { isAbsolute, join, resolve } from "node:path";
 
-const HEADER = "#!/bin/sh\n# OpenClaw Bun launcher\n";
+const HEADER = "#!/bin/sh\n# FRIDAY Bun launcher\n";
 const BODY = `bun= entry= records=0 malformed=
 while IFS= read -r line; do
   case $line in

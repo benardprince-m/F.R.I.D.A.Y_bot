@@ -1,8 +1,8 @@
-# OpenClaw Gradium Plugin
+# FRIDAY Gradium Plugin
 
-Official OpenClaw plugin for Gradium.
+Official FRIDAY plugin for Gradium.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/gradium-speech

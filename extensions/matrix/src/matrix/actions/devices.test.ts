@@ -19,7 +19,7 @@ function expectResolvedActionClientCall(): void {
   expect(withStartedActionClientMock).not.toHaveBeenCalled();
 }
 
-function device(deviceId: string, displayName = "OpenClaw Gateway", current = false) {
+function device(deviceId: string, displayName = "FRIDAY Gateway", current = false) {
   return { deviceId, displayName, lastSeenIp: null, lastSeenTs: null, current };
 }
 
@@ -29,7 +29,7 @@ describe("matrix device actions", () => {
   });
 
   it("lists own devices without starting a sync client", async () => {
-    const devices = [device("A7hWrQ70ea", "OpenClaw Gateway", true)];
+    const devices = [device("A7hWrQ70ea", "FRIDAY Gateway", true)];
     const expected = structuredClone(devices);
     withResolvedActionClientMock.mockImplementation(async (_opts, run) => {
       return await run({ listOwnDevices: vi.fn(async () => devices) });
@@ -41,12 +41,12 @@ describe("matrix device actions", () => {
     expect(result).toEqual(expected);
   });
 
-  it("prunes stale OpenClaw-managed devices but preserves the current device", async () => {
-    const current = device("du314Zpw3A", "OpenClaw Gateway", true);
+  it("prunes stale FRIDAY-managed devices but preserves the current device", async () => {
+    const current = device("du314Zpw3A", "FRIDAY Gateway", true);
     const devices = [
       current,
       device("BritdXC6iL"),
-      device("G6NJU9cTgs", "OpenClaw Debug"),
+      device("G6NJU9cTgs", "FRIDAY Debug"),
       device("My3T0hkTE0"),
       device("phone123", "Element iPhone"),
     ];

@@ -330,7 +330,7 @@ describe("backupVerifyCommand", () => {
     });
 
     expect(runtime.error).toHaveBeenCalledWith(
-      `Backup archive verification failed: ${archivePath}. Archive is not a valid OpenClaw backup. path is required. Choose another archive or create a new one with \`openclaw backup create\`.`,
+      `Backup archive verification failed: ${archivePath}. Archive is not a valid FRIDAY backup. path is required. Choose another archive or create a new one with \`openclaw backup create\`.`,
     );
     expect(runtime.exit).toHaveBeenCalledWith(1);
     expect(runtime.log).not.toHaveBeenCalled();
@@ -417,7 +417,7 @@ describe("backupVerifyCommand", () => {
   it.runIf(process.platform === "win32")(
     "verifies a canonical global SQLite backup beyond MAX_PATH",
     async () => {
-      const stateDir = String.raw`C:\Users\OpenClaw\.openclaw`;
+      const stateDir = String.raw`C:\Users\FRIDAY\.openclaw`;
       const stateAssetArchivePath = buildBackupArchivePath(TEST_ARCHIVE_ROOT, stateDir);
       const sqliteArchivePath = `${stateAssetArchivePath}/state/openclaw.sqlite`;
       const sqlitePayload = await createSqlitePayload((database) => {
@@ -523,7 +523,7 @@ describe("backupVerifyCommand", () => {
 
   it("rejects case-mangled canonical SQLite paths", async () => {
     const stateAssetArchivePath = `${TEST_ARCHIVE_ROOT}/payload/posix/tmp/.openclaw`;
-    const sqliteArchivePath = `${stateAssetArchivePath}/State/OpenClaw.SQLITE`;
+    const sqliteArchivePath = `${stateAssetArchivePath}/State/FRIDAY.SQLITE`;
     const sqlitePayload = await createSqlitePayload((database) => {
       database.exec(`
         CREATE TABLE schema_meta (meta_key TEXT NOT NULL PRIMARY KEY, role TEXT NOT NULL);
@@ -536,7 +536,7 @@ describe("backupVerifyCommand", () => {
         manifestAssetArchivePath: stateAssetArchivePath,
         payloads: [archivePayload(sqliteArchivePath, sqlitePayload)],
       },
-      /SQLite path with incorrect letter casing.*State\/OpenClaw\.SQLITE/u,
+      /SQLite path with incorrect letter casing.*State\/FRIDAY\.SQLITE/u,
     );
   });
 
@@ -746,7 +746,7 @@ describe("backupVerifyCommand", () => {
     {
       name: "case-insensitive Windows drive ownership",
       agentRoots: [
-        { agentId: "main", sourcePath: String.raw`C:\OpenClaw\Agent` },
+        { agentId: "main", sourcePath: String.raw`C:\FRIDAY\Agent` },
         { agentId: "other", sourcePath: String.raw`c:\openclaw\agent` },
       ],
       error: /duplicate agent root ownership/u,

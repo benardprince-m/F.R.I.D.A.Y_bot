@@ -83,7 +83,7 @@ it("renders a persisted standalone tool result as a Grant card without expanding
     throw new Error("Expected a tool message group");
   }
   const view = createMessageGroupHarness(container);
-  view.render(group, { assistantName: "OpenClaw", showReasoning: false });
+  view.render(group, { assistantName: "FRIDAY", showReasoning: false });
   await settleToolBridges(container);
   expect(container.querySelector(".chat-permission-card")?.textContent).toContain(
     "Grant Screen Recording",

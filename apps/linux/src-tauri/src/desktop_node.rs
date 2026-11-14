@@ -124,7 +124,7 @@ impl DesktopNode {
             .desired
             .stopping
         {
-            return Err("OpenClaw is quitting.".into());
+            return Err("FRIDAY is quitting.".into());
         }
         let result = self.profiles.set_desktop_sharing_enabled(enabled);
         let mut shared = self
@@ -153,7 +153,7 @@ impl DesktopNode {
         match self.sender.try_send(()) {
             Ok(()) | Err(mpsc::TrySendError::Full(())) => Ok(()),
             Err(mpsc::TrySendError::Disconnected(())) => {
-                Err("Desktop sharing stopped unexpectedly. Restart OpenClaw-Tauri.".into())
+                Err("Desktop sharing stopped unexpectedly. Restart FRIDAY-Tauri.".into())
             }
         }
     }
@@ -345,7 +345,7 @@ fn prepare(
         }
     }
     let cli = OpenClawCli::locate().map_err(|_| {
-        "Install or update the local OpenClaw CLI to prepare desktop sharing.".to_string()
+        "Install or update the local FRIDAY CLI to prepare desktop sharing.".to_string()
     })?;
     let mut probe = |args: &[&str]| {
         let command = cli.command(args).map_err(|error| error.to_string())?;
@@ -353,7 +353,7 @@ fn prepare(
             .ok_or_else(|| "Desktop sharing setup was superseded.".to_string())
     };
     if !probe(&["--version"])?.status.success() {
-        return Err("Install or update the local OpenClaw CLI to prepare desktop sharing.".into());
+        return Err("Install or update the local FRIDAY CLI to prepare desktop sharing.".into());
     }
     let config_file_output = probe(&["config", "file", "--json"])?;
     if !config_file_output.status.success() {
@@ -414,7 +414,7 @@ fn prepare(
 
 fn resolve_desktop_enabled(output: &Output) -> Result<bool, String> {
     let value: Value = serde_json::from_slice(&output.stdout).map_err(|_| {
-        "The local CLI returned invalid desktop settings. Update OpenClaw and try again."
+        "The local CLI returned invalid desktop settings. Update FRIDAY and try again."
     })?;
     if output.status.success() {
         return value

@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @Suite(.serialized)
 @MainActor

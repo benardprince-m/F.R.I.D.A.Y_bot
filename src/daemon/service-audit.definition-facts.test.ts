@@ -142,8 +142,8 @@ it.each(["drop-in-dependency", "description"])(
       (unit) =>
         description
           ? unit.replace(
-              "Description=OpenClaw Gateway",
-              `Description=${kind === "description" ? "operator-secret" : "OpenClaw Gateway (v2026.9.4)"}`,
+              "Description=FRIDAY Gateway",
+              `Description=${kind === "description" ? "operator-secret" : "FRIDAY Gateway (v2026.9.4)"}`,
             )
           : kind === "base"
             ? unit.replace("[Service]", "[Service]\nExecStartPre=/private/operator-secret")
@@ -260,7 +260,7 @@ it.each([
         : command.programArguments,
       ...(customized === "WorkingDirectory" ? { workingDirectory: "/operator/workspace" } : {}),
       label: "ai.openclaw.gateway",
-      comment: customized === "Comment" ? "Operator service" : "OpenClaw Gateway",
+      comment: customized === "Comment" ? "Operator service" : "FRIDAY Gateway",
       stdoutPath,
       stderrPath: stdoutPath,
     })
@@ -371,7 +371,7 @@ it.each([{ count: "9", stale: true }])(
     expect(native.task).toHaveBeenCalledExactlyOnceWith([
       "/Query",
       "/TN",
-      "OpenClaw Gateway",
+      "FRIDAY Gateway",
       "/XML",
     ]);
   },
@@ -588,7 +588,7 @@ it.each(["legacy-wrapper", "malformed-args", "wrapper", "metadata"])(
             }
           : {}),
         label: "ai.openclaw.gateway",
-        comment: kind === "metadata" ? "operator-private" : "OpenClaw Gateway",
+        comment: kind === "metadata" ? "operator-private" : "FRIDAY Gateway",
         stdoutPath,
         stderrPath: stdoutPath,
       }),
@@ -682,7 +682,7 @@ it.each([
     (kind === "script" ? "echo operator-private\r\n" : "");
   const launcher =
     (releasedWaiting
-      ? `' OpenClaw Gateway (v2026.9.3)\r\nWScript.Quit CreateObject("WScript.Shell").Run("""${scriptPath.replaceAll('"', '""')}""", 0, True)\r\n`
+      ? `' FRIDAY Gateway (v2026.9.3)\r\nWScript.Quit CreateObject("WScript.Shell").Run("""${scriptPath.replaceAll('"', '""')}""", 0, True)\r\n`
       : buildHiddenLauncherScript({ scriptPath, taskSupervisor: true })) +
     (kind === "launcher" || kind === "inactive-launcher" || kind === "released-waiting-custom"
       ? 'WScript.Echo "operator-private"\r\n'
@@ -695,7 +695,7 @@ it.each([
     code: 0,
     stderr: "",
     stdout: buildScheduledTaskXml({
-      taskDescription: kind === "metadata" ? "operator-private" : "OpenClaw Gateway",
+      taskDescription: kind === "metadata" ? "operator-private" : "FRIDAY Gateway",
       taskUser: "fixture",
       interactive: true,
       launchPath:

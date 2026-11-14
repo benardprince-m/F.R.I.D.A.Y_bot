@@ -44,7 +44,7 @@ export const ZOOM_MEETINGS_PLATFORM_ADAPTER = MeetingPlatformAdapter.create<
     participantIdentity: (transport) =>
       transport === "chrome-node"
         ? "Zoom guest in Chrome on a paired node"
-        : "Zoom guest in the OpenClaw Chrome profile",
+        : "Zoom guest in the FRIDAY Chrome profile",
   },
   nodeCommandName: "zoommeetings.chrome",
   nodeConfigPath: "plugins.entries.zoom-meetings.config.chromeNode.node",
@@ -68,7 +68,7 @@ export const ZOOM_MEETINGS_PLATFORM_ADAPTER = MeetingPlatformAdapter.create<
     admissionReasons: ["zoom-passcode-required", "zoom-captcha-required"],
     retryCaptions: true,
     unavailableMessage:
-      "Open the OpenClaw browser profile, finish the Zoom sign-in, admission, or permission prompt, then retry.",
+      "Open the FRIDAY browser profile, finish the Zoom sign-in, admission, or permission prompt, then retry.",
     origin: (meetingUrl) =>
       normalizeZoomMeetingUrlForReuse(meetingUrl) ? "https://app.zoom.us" : undefined,
     scripts: zoomMeetingPageScripts,

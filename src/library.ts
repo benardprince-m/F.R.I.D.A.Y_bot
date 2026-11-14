@@ -1,4 +1,4 @@
-// Public library facade for consumers embedding OpenClaw reply runtime APIs.
+// Public library facade for consumers embedding FRIDAY reply runtime APIs.
 import type { getReplyFromConfig as getReplyFromConfigRuntime } from "./auto-reply/reply.runtime.js";
 import type { promptYesNo as promptYesNoRuntime } from "./cli/prompt.js";
 import type { ensureBinary as ensureBinaryRuntime } from "./infra/binaries.js";

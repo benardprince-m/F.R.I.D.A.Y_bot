@@ -392,7 +392,7 @@ suite.define(() => {
           expect(settled.agents).toEqual(view === "pages" ? [] : ["main", "forge", "scout"]);
           expect(settled.agentNames).toEqual(view === "pages" ? [] : ["Harbor", "Forge", "Scout"]);
           expect(settled.avatarText).toEqual(view === "pages" ? [] : ["⚓", "🔧", "🔭"]);
-          expect(settled.brand).toBe("OpenClaw");
+          expect(settled.brand).toBe("FRIDAY");
           expect(settled.footer).toBe("Riley");
           expect(settled.online).toEqual([]);
           expect(settled.selectedBounds).not.toBeNull();

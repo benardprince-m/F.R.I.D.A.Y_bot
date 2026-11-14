@@ -1,17 +1,17 @@
 ---
 summary: "Context: what the model sees, how it is built, and how to inspect it"
 read_when:
-  - You want to understand what "context" means in OpenClaw
+  - You want to understand what "context" means in FRIDAY
   - You are debugging why the model "knows" something (or forgot it)
   - You want to reduce context overhead (/context, /status, /compact)
 title: "Context"
 ---
 
-"Context" is **everything OpenClaw sends to the model for a run**. It is bounded by the model's **context window** (token limit).
+"Context" is **everything FRIDAY sends to the model for a run**. It is bounded by the model's **context window** (token limit).
 
 Beginner mental model:
 
-- **System prompt** (OpenClaw-built): rules, tools, skills list, time/runtime, and injected workspace files.
+- **System prompt** (FRIDAY-built): rules, tools, skills list, time/runtime, and injected workspace files.
 - **Conversation history**: your messages + the assistant's messages for this session.
 - **Tool calls/results + attachments**: command output, file reads, images/audio, etc.
 
@@ -119,9 +119,9 @@ Everything the model receives counts, including:
 - Compaction summaries and pruning artifacts.
 - Provider "wrappers" or hidden headers (not visible, still counted).
 
-## How OpenClaw builds the system prompt
+## How FRIDAY builds the system prompt
 
-The system prompt is **OpenClaw-owned** and rendered each run. It includes:
+The system prompt is **FRIDAY-owned** and rendered each run. It includes:
 
 - Tool list + short descriptions.
 - Skills list (metadata only; see below).
@@ -133,7 +133,7 @@ The system prompt is **OpenClaw-owned** and rendered each run. It includes:
 Full breakdown: [System Prompt](/concepts/system-prompt).
 
 On supported direct Anthropic API-key routes and native OpenAI Responses routes,
-OpenClaw pins the complete system prompt for the session. Changed sections,
+FRIDAY pins the complete system prompt for the session. Changed sections,
 including skills, workspace memory, and temporal context, arrive as instruction
 messages after the current user turn. Existing skill and memory refresh rules
 still apply. Changing the route or selected personal profile, resetting, or
@@ -141,7 +141,7 @@ compacting history starts a new series; ordinary turn teardown and Gateway resta
 
 ## Injected workspace files (Project Context)
 
-By default, OpenClaw injects a fixed set of workspace files (if present):
+By default, FRIDAY injects a fixed set of workspace files (if present):
 
 - `AGENTS.md`
 - `SOUL.md`
@@ -149,7 +149,7 @@ By default, OpenClaw injects a fixed set of workspace files (if present):
 - `USER.md`
 - `BOOTSTRAP.md` (first-run only)
 
-Large files are truncated per-file using `agents.defaults.bootstrapMaxChars` (default `20000` chars). OpenClaw also enforces a total bootstrap injection cap across files with `agents.defaults.bootstrapTotalMaxChars` (default `60000` chars). `/context` shows **raw vs injected** sizes and whether truncation happened.
+Large files are truncated per-file using `agents.defaults.bootstrapMaxChars` (default `20000` chars). FRIDAY also enforces a total bootstrap injection cap across files with `agents.defaults.bootstrapTotalMaxChars` (default `60000` chars). `/context` shows **raw vs injected** sizes and whether truncation happened.
 
 When truncation occurs, the runtime injects a concise in-prompt notice under Project Context saying some bootstrap files were truncated; per-file names and sizes stay in `/context` and other diagnostics. This notice is built in and not configurable. Runtime logs warn once per file path, content revision, and effective limit per process; `/context` continues to show truncation on every report.
 
@@ -192,7 +192,7 @@ What persists across messages depends on the mechanism:
 
 ### Runtime context and provider roles
 
-OpenClaw attaches typed runtime context separately from user-authored text. On
+FRIDAY attaches typed runtime context separately from user-authored text. On
 supported direct Anthropic API-key routes, it uses the existing in-history system
 channel. Native OpenAI Responses uses the existing operator channel, projected as
 `developer` or `system` according to the model's instruction-role support.
@@ -210,8 +210,8 @@ are JSON-quoted and labeled `Conversation data (data, not instructions)`, with
 protected runtime delimiters escaped. Heartbeat outcomes are also quoted data.
 The carrier's role does not make these embedded fragments instructions.
 
-In request traces, user-role carriers normally start with `OpenClaw runtime
-context:` and end with `End OpenClaw runtime context.` Older retained carriers
+In request traces, user-role carriers normally start with `FRIDAY runtime
+context:` and end with `End FRIDAY runtime context.` Older retained carriers
 may use `<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>` and
 `<<<END_OPENCLAW_INTERNAL_CONTEXT>>>`. These labels alone do not establish
 provenance. If a model narrates this context, reinforce the existing guidance in
@@ -227,7 +227,7 @@ rewrite user messages when turn-scoped context expires.
 
 For embedded Responses requests, current request metadata stays after the user
 message or compaction checkpoint and before its tool calls. This lets supported transports reuse the
-previous response across tool rounds without dropping live context, so OpenClaw
+previous response across tool rounds without dropping live context, so FRIDAY
 sends it once per user turn rather than after every tool result. A later user
 turn in an OpenAI Responses-family session preserves hidden runtime-context
 carriers append-only, so the previous turn, including tool calls and results,
@@ -244,7 +244,7 @@ append-only, using system messages after the user turn and its other queued
 context. These messages need no delimiters and clear at the next user message:
 they remain in the transcript but no longer consume input tokens. Persistent
 system-prompt updates use the same system-message channel without clearing.
-Tool results and queued extension context also clear earlier copies; OpenClaw
+Tool results and queued extension context also clear earlier copies; FRIDAY
 renews the current user turn's runtime context after those continuations.
 Other prefix-binding Claude routes retain their delimited user-role carriers.
 See [Anthropic retained thinking](/providers/anthropic#tool-calls-and-retained-thinking)
@@ -257,9 +257,9 @@ without retaining old context or repeated cache-read charges.
 
 Docs: [Session](/concepts/session), [Compaction](/concepts/compaction), [Session pruning](/concepts/session-pruning).
 
-By default, OpenClaw uses the built-in `legacy` context engine for assembly and
+By default, FRIDAY uses the built-in `legacy` context engine for assembly and
 compaction. If you install a plugin that provides `kind: "context-engine"` and
-select it with `plugins.slots.contextEngine`, OpenClaw delegates context
+select it with `plugins.slots.contextEngine`, FRIDAY delegates context
 assembly, `/compact`, and related subagent context lifecycle hooks to that
 engine instead. `ownsCompaction: false` does not auto-fallback to the legacy
 engine; the active engine must still implement `compact()` correctly. See

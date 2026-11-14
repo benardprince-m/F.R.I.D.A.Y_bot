@@ -312,7 +312,7 @@ async function configureWorkerProfile(sandbox: string, options: WorkerOptions) {
             }
           : {}),
         model: worker.model.provider + "/" + worker.model.id,
-        next: "Use this model's non-secret metadata and the OpenClaw runtime on the Gateway. Device pairing, current availability, worker capability, and model admission are checked at dispatch. The device identity was read inside the selected sandbox; broker egress remains the OpenShell deployment trust contract.",
+        next: "Use this model's non-secret metadata and the FRIDAY runtime on the Gateway. Device pairing, current availability, worker capability, and model admission are checked at dispatch. The device identity was read inside the selected sandbox; broker egress remains the OpenShell deployment trust contract.",
       },
       null,
       2,
@@ -365,7 +365,7 @@ export function registerOpenShellWorkerCli(program: Command, config: OpenClawCon
     .description("Run a dedicated brokered node; stops the entire sandbox on exit or cancellation")
     .option(
       "--target-file <path>",
-      "Private local file containing a single-use OpenClaw join URL or setup code; never put it in argv",
+      "Private local file containing a single-use FRIDAY join URL or setup code; never put it in argv",
     )
     .action((sandbox: string, options: WorkerOptions) =>
       runOpenShellWorker(config, sandbox, options),

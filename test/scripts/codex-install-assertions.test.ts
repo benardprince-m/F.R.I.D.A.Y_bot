@@ -1145,7 +1145,7 @@ describe("Codex install helpers", () => {
     const result = runCodexNpmPluginLiveFollowthroughAssertions(fixture);
 
     expect(result.status).not.toBe(0);
-    expect(result.stderr).toContain("invalid OpenClaw legacy transcript event");
+    expect(result.stderr).toContain("invalid FRIDAY legacy transcript event");
   });
 
   it("rejects completion sent before the artifact write succeeds", () => {

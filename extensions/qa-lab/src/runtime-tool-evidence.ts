@@ -51,7 +51,7 @@ function extractTranscriptText(value: unknown): string {
 
 function extractTranscriptToolCalls(message: Record<string, unknown>): Record<string, unknown>[] {
   const calls: Record<string, unknown>[] = [];
-  // OpenClaw mirrors provider arguments separately; a placeholder input can be empty.
+  // FRIDAY mirrors provider arguments separately; a placeholder input can be empty.
   for (const { block, id, tool, args } of readQaMessageToolCalls(message, {
     preferArguments: true,
   })) {

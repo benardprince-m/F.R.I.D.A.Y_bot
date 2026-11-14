@@ -123,7 +123,7 @@ function installedProcessIdentity(entrypoint) {
       entrypointSha256: hash(fs.readFileSync(file)),
     };
   }
-  throw new Error("Observed CLI is outside an OpenClaw package");
+  throw new Error("Observed CLI is outside an FRIDAY package");
 }
 
 function observeProcess() {

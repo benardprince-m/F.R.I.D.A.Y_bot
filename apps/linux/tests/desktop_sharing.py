@@ -266,7 +266,7 @@ class DesktopSharingFixture(GatewaySwitchFixture):
                 raise RuntimeError("Could not enter synthetic connection settings") from None
 
         def quit_app(run=None):
-            self.open_native_menu(app, "Quit OpenClaw")
+            self.open_native_menu(app, "Quit FRIDAY")
             app.wait(timeout=10)
             if app.returncode != 0:
                 raise RuntimeError("The native Quit action did not finish cleanly")

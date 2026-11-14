@@ -77,7 +77,7 @@ describe("shrink-ratchet", () => {
     execFileSync("git", ["add", baselinePath], { cwd: root, stdio: "ignore" });
     execFileSync(
       "git",
-      ["-c", "user.name=OpenClaw", "-c", "user.email=test@openclaw.local", "commit", "-m", "base"],
+      ["-c", "user.name=FRIDAY", "-c", "user.email=test@openclaw.local", "commit", "-m", "base"],
       { cwd: root, stdio: "ignore" },
     );
     fs.writeFileSync(absolutePath, padding + "2\n");

@@ -2,13 +2,13 @@
 doc-schema-version: 1
 summary: "Overview of automation mechanisms: automations, hooks, standing orders, and workflows"
 read_when:
-  - Deciding how to automate work with OpenClaw
+  - Deciding how to automate work with FRIDAY
   - Choosing between heartbeat, automations, hooks, and standing orders
   - Looking for the right automation entry point
 title: "Automation"
 ---
 
-OpenClaw runs work in the background through native runtimes, scheduled jobs, event hooks,
+FRIDAY runs work in the background through native runtimes, scheduled jobs, event hooks,
 and standing instructions. Use this page to pick the right mechanism.
 
 ## Quick decision guide
@@ -62,7 +62,7 @@ when periodic main-session awareness is useful.
 
 ### Automations
 
-Automations are OpenClaw's built-in scheduler for all recurring and one-shot
+Automations are FRIDAY's built-in scheduler for all recurring and one-shot
 work, including heartbeat monitors. The scheduler persists jobs, wakes the agent
 at the right time, and can deliver output to a chat channel or webhook endpoint.
 It supports one-shot reminders, recurring intervals and cron expressions, and
@@ -117,7 +117,7 @@ See [Heartbeat](/gateway/heartbeat).
 
 ## Retired inferred commitments
 
-The inferred commitments experiment was removed in v2026.8.1: OpenClaw no longer
+The inferred commitments experiment was removed in v2026.8.1: FRIDAY no longer
 extracts follow-ups from conversations or delivers them through heartbeat.
 The `openclaw commitments` maintenance CLI is also gone. The database migration
 discards the old commitment rows and removes their table and indexes.

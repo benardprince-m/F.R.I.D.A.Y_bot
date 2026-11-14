@@ -15,7 +15,7 @@ function createDoctorAgentLeaseRefusal(
   cause?: unknown,
   detail = "An agent database is in use.",
 ): DoctorMaintenanceRefusalError {
-  const message = `Doctor could not enter maintenance. ${detail} Stop other OpenClaw processes using this state, then retry the update.`;
+  const message = `Doctor could not enter maintenance. ${detail} Stop other FRIDAY processes using this state, then retry the update.`;
   return new DoctorMaintenanceRefusalError(
     message,
     { kind: "deferred", reason: "agent-database-in-use" },
@@ -105,7 +105,7 @@ export async function assertDoctorAgentLeaseAdmission(env: NodeJS.ProcessEnv): P
 function describeHolders(pids: readonly number[]) {
   // Failure facts are bounded; three PIDs identify the holders well enough.
   const shown = pids.length > 3 ? `${pids.slice(0, 3).join(", ")}, ...` : pids.join(", ");
-  return `OpenClaw ${pids.length === 1 ? "process" : "processes"} ${shown}`;
+  return `FRIDAY ${pids.length === 1 ? "process" : "processes"} ${shown}`;
 }
 
 /**
@@ -169,7 +169,7 @@ export async function admitDoctorAgentLeases(params: {
       }
       waited = true;
     }
-    // Holding no OpenClaw lock lets the holder record its close.
+    // Holding no FRIDAY lock lets the holder record its close.
     const releaseFailure = await params.state.release();
     if (releaseFailure) {
       throw releaseFailure;

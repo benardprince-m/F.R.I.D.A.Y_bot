@@ -109,7 +109,7 @@ export async function resolveDeviceIdentityForGatewayCall(
       : await loadOrCreateDeviceIdentityAsync();
   } catch (cause) {
     throw new Error(
-      'Cannot load device identity. Check access to your OpenClaw state directory and run "openclaw doctor --fix", then retry.',
+      'Cannot load device identity. Check access to your FRIDAY state directory and run "openclaw doctor --fix", then retry.',
       { cause },
     );
   }

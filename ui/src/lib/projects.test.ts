@@ -175,11 +175,11 @@ describe("registered project catalog", () => {
   });
 
   it.each([
-    ["github.com:OpenClaw/ClawSweeper.git", true],
-    ["ssh://github.com/OpenClaw/ClawSweeper.git", true],
-    ["ssh://github.com:22/OpenClaw/ClawSweeper.git", true],
-    ["ssh://github.com:2222/OpenClaw/ClawSweeper.git", false],
-    ["ssh://github.com.evil.test/OpenClaw/ClawSweeper.git", false],
+    ["github.com:FRIDAY/ClawSweeper.git", true],
+    ["ssh://github.com/FRIDAY/ClawSweeper.git", true],
+    ["ssh://github.com:22/FRIDAY/ClawSweeper.git", true],
+    ["ssh://github.com:2222/FRIDAY/ClawSweeper.git", false],
+    ["ssh://github.com.evil.test/FRIDAY/ClawSweeper.git", false],
     ["https://user:secret@github.com/openclaw/clawsweeper.git", false],
     ["git@evil.test:openclaw/clawsweeper.git", false],
     ["/workspace/clawsweeper", false],

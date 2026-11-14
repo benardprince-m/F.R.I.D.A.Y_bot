@@ -84,7 +84,7 @@ export async function createOpenAIRealtimeClientSecret(
     if (!response.ok) {
       const error = await createProviderHttpError(response, `${label} client secret failed`);
       // Provider details can echo a masked credential while hiding which
-      // OpenClaw auth source won. Keep the status metadata, but give callers
+      // FRIDAY auth source won. Keep the status metadata, but give callers
       // a bounded remediation for an explicitly configured key.
       if (response.status === 401 && params.authRejectedMessage) {
         error.message = params.authRejectedMessage;

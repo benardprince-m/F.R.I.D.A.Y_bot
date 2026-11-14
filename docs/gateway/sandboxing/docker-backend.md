@@ -37,7 +37,7 @@ the default restricted runtime posture:
 }
 ```
 
-OpenClaw also creates Docker sandbox containers with an init process and
+FRIDAY also creates Docker sandbox containers with an init process and
 `no-new-privileges`. With `workspaceAccess: "ro"`, the agent workspace is
 mounted read-only at `/agent`; write operations to the agent workspace are
 rejected, while the configured tmpfs paths remain writable.
@@ -64,23 +64,23 @@ To expose host GPUs, set `agents.defaults.sandbox.docker.gpus` (or the per-agent
 
 If the Gateway runs in Docker, it creates sibling sandbox containers through the host's Docker socket.
 Keep workspace paths in `openclaw.json` relative to the Gateway filesystem, such as `/home/node/.openclaw/workspace`.
-OpenClaw translates managed workspace, agent-workspace, and skill mounts into the Docker host's paths automatically.
+FRIDAY translates managed workspace, agent-workspace, and skill mounts into the Docker host's paths automatically.
 Shell and browser containers use the same mapping rules.
 Nested Gateway binds are projected too, with their read-only permissions preserved.
 
-- Bind-mount the workspace and OpenClaw state directories into the Gateway. Their host and Gateway paths can differ.
-- Use the Docker daemon that runs the Gateway. OpenClaw verifies its container identity before trusting the daemon's mount table.
+- Bind-mount the workspace and FRIDAY state directories into the Gateway. Their host and Gateway paths can differ.
+- Use the Docker daemon that runs the Gateway. FRIDAY verifies its container identity before trusting the daemon's mount table.
 - Managed sources and their visible nested mounts must come from bind mounts. Named volumes, tmpfs, and files in the Gateway image are unsupported sources for sibling sandbox mounts.
 - A writable sandbox requires a writable Gateway bind. Use `workspaceAccess: "ro"` for read-only Gateway sources.
-- Explicit `sandbox.docker.binds` and `sandbox.browser.binds` retain their host-path contract. OpenClaw does not translate these operator-supplied sources.
-- Restart the Gateway after changing its mounts or Docker connection. If an existing sandbox has different mounts, OpenClaw reports a scoped `sandbox recreate` command.
-  Recently used containers remain running until you recreate them, but OpenClaw refuses to reuse their stale mounts.
+- Explicit `sandbox.docker.binds` and `sandbox.browser.binds` retain their host-path contract. FRIDAY does not translate these operator-supplied sources.
+- Restart the Gateway after changing its mounts or Docker connection. If an existing sandbox has different mounts, FRIDAY reports a scoped `sandbox recreate` command.
+  Recently used containers remain running until you recreate them, but FRIDAY refuses to reuse their stale mounts.
 
-- **Codex code mode**: when an OpenClaw sandbox is active, OpenClaw disables Codex app-server native Code Mode, user MCP servers, and app-backed plugin execution for that turn (those run from the Gateway-host app-server process, not the OpenClaw sandbox backend), unless the sandbox tool policy exposes the required tools and you opt into the experimental sandbox exec-server path. Shell access then routes through OpenClaw sandbox-backed tools such as `sandbox_exec` and `sandbox_process`. Do not mount the host Docker socket into agent sandbox containers or custom Codex sandboxes. See [Codex Harness](/plugins/codex-harness) for the full behavior.
+- **Codex code mode**: when an FRIDAY sandbox is active, FRIDAY disables Codex app-server native Code Mode, user MCP servers, and app-backed plugin execution for that turn (those run from the Gateway-host app-server process, not the FRIDAY sandbox backend), unless the sandbox tool policy exposes the required tools and you opt into the experimental sandbox exec-server path. Shell access then routes through FRIDAY sandbox-backed tools such as `sandbox_exec` and `sandbox_process`. Do not mount the host Docker socket into agent sandbox containers or custom Codex sandboxes. See [Codex Harness](/plugins/codex-harness) for the full behavior.
 
 On Ubuntu/AppArmor hosts with Docker sandbox mode enabled, Codex app-server `workspace-write` shell execution needs unprivileged user namespaces inside the sandbox container, and this can fail before shell startup when the service user cannot create them. This needs an unprivileged network namespace too when Docker sandbox egress is disabled (`network: "none"`, the default). Common symptoms: `bwrap: setting up uid map: Permission denied` and `bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted`.
 
-These Codex bwrap checks run in standalone `openclaw doctor` and are omitted during `openclaw update`; run `openclaw doctor` after the update. Doctor checks the user namespace with `unshare`. When Docker sandbox egress is disabled and a local Codex runtime is configured, it also runs the configured Codex binary's own `workspace-write` sandbox with network access disabled, exercising Bubblewrap's loopback setup. Unrecognized check failures are reported as unverified rather than as a namespace diagnosis. If doctor reports a Codex bwrap namespace check failure, prefer an AppArmor profile that grants the required namespaces to the OpenClaw service process. `kernel.apparmor_restrict_unprivileged_userns=0` is a host-wide fallback with security tradeoffs; use it only when that host posture is acceptable. Do not grant broader Docker container privileges just to satisfy nested `bwrap`.
+These Codex bwrap checks run in standalone `openclaw doctor` and are omitted during `openclaw update`; run `openclaw doctor` after the update. Doctor checks the user namespace with `unshare`. When Docker sandbox egress is disabled and a local Codex runtime is configured, it also runs the configured Codex binary's own `workspace-write` sandbox with network access disabled, exercising Bubblewrap's loopback setup. Unrecognized check failures are reported as unverified rather than as a namespace diagnosis. If doctor reports a Codex bwrap namespace check failure, prefer an AppArmor profile that grants the required namespaces to the FRIDAY service process. `kernel.apparmor_restrict_unprivileged_userns=0` is a host-wide fallback with security tradeoffs; use it only when that host posture is acceptable. Do not grant broader Docker container privileges just to satisfy nested `bwrap`.
 </Warning>
 
 ### Sandboxed browser
@@ -89,6 +89,6 @@ These Codex bwrap checks run in standalone `openclaw doctor` and are omitted dur
 - Sandbox browser containers use a dedicated Docker network (`openclaw-sandbox-browser`) instead of the global `bridge` network. Configure with `agents.defaults.sandbox.browser.network`.
 - Sandbox browser network mode `"none"` is unsupported because browser control requires host-published CDP ports. Use the dedicated default, `bridge`, or another custom bridge network. `openclaw doctor --fix` disables affected persisted sidecars and restores the dedicated network without silently enabling egress.
 - `agents.defaults.sandbox.browser.cdpSourceRange` restricts container-edge CDP ingress with a CIDR allowlist (for example `172.21.0.1/32`).
-- noVNC observer access is password-protected by default; OpenClaw emits a short-lived token URL that serves a local bootstrap page and opens noVNC with the password in the URL fragment (not query string or header logs).
+- noVNC observer access is password-protected by default; FRIDAY emits a short-lived token URL that serves a local bootstrap page and opens noVNC with the password in the URL fragment (not query string or header logs).
 - `agents.defaults.sandbox.browser.allowHostControl` (default `false`) lets sandboxed sessions target the host browser explicitly.
 - Optional allowlists gate `target: "custom"`: `allowedControlUrls`, `allowedControlHosts`, `allowedControlPorts`.

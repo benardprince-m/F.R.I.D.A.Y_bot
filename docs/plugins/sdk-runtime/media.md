@@ -43,13 +43,13 @@ JavaScript-only host export; its declarations are excluded from the package.
     ```typescript
     // Standard TTS
     const clip = await api.runtime.tts.textToSpeech({
-      text: "Hello from OpenClaw",
+      text: "Hello from FRIDAY",
       cfg: api.config,
     });
 
     // Telephony-optimized TTS
     const telephonyClip = await api.runtime.tts.textToSpeechTelephony({
-      text: "Hello from OpenClaw",
+      text: "Hello from FRIDAY",
       cfg: api.config,
     });
 
@@ -184,7 +184,7 @@ JavaScript-only host export; its declarations are excluded from the package.
 
     const result = await api.runtime.webSearch.search({
       config: api.config,
-      args: { query: "OpenClaw plugin SDK", count: 5 },
+      args: { query: "FRIDAY plugin SDK", count: 5 },
     });
     ```
 

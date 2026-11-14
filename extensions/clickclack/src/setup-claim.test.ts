@@ -34,7 +34,7 @@ function claimResponse(extra: Record<string, unknown> = {}): Record<string, unkn
     bot: {
       id: "usr_bot",
       handle: "openclaw",
-      display_name: "OpenClaw",
+      display_name: "FRIDAY",
     },
     workspace: {
       id: "wsp_1",
@@ -208,7 +208,7 @@ describe("ClickClack setup-code claim", () => {
     const fetchMock = vi.fn(async () =>
       Response.json({
         token: "test-token",
-        bot: { id: "usr_bot", handle: "openclaw", display_name: "OpenClaw" },
+        bot: { id: "usr_bot", handle: "openclaw", display_name: "FRIDAY" },
         workspace: { id: "wsp_1", route_id: "clickclack", slug: "default" },
         defaults: {},
       }),

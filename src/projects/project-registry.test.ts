@@ -63,7 +63,7 @@ async function initializeRepository(
   const repo = path.join(root, name);
   await fs.mkdir(repo, { recursive: true });
   await execFileAsync("git", ["init", "-b", "main", `--object-format=${objectFormat}`, repo]);
-  await git(repo, "config", "user.name", "OpenClaw Tests");
+  await git(repo, "config", "user.name", "FRIDAY Tests");
   await git(repo, "config", "user.email", "tests@openclaw.invalid");
   await commitFile(repo, "README.md", `${name}\n`);
   return await fs.realpath(repo);
@@ -169,11 +169,11 @@ describe("project registry", () => {
     await fs.symlink(repo, alias, "dir");
     const options = { path: path.join(root, "state.sqlite") };
 
-    const first = await registerProjectRegistry({ path: alias, name: "OpenClaw" }, options);
-    const second = await registerProjectRegistry({ path: repo, name: "OpenClaw" }, options);
+    const first = await registerProjectRegistry({ path: alias, name: "FRIDAY" }, options);
+    const second = await registerProjectRegistry({ path: repo, name: "FRIDAY" }, options);
     expect(first).toMatchObject({
       id: "openclaw",
-      displayName: "OpenClaw",
+      displayName: "FRIDAY",
       repoRoot: repo,
       source: "registered",
     });
@@ -188,7 +188,7 @@ describe("project registry", () => {
       },
     } as OpenClawConfig;
     expect((await listProjectRegistry(cfg, options)).map((project) => project.displayName)).toEqual(
-      ["alpha", "OpenClaw", "zeta"],
+      ["alpha", "FRIDAY", "zeta"],
     );
     const sharedWorkspaceCfg = {
       agents: {

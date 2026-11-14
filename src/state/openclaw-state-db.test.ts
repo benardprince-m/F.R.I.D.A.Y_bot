@@ -2639,7 +2639,7 @@ describe("openclaw state database", () => {
     });
 
     expectMigrations(options, databasePath).contains("operator-approvals-system-agent");
-    expectRepair(options, ["Migrated shared state operator approvals → OpenClaw system changes"]);
+    expectRepair(options, ["Migrated shared state operator approvals → FRIDAY system changes"]);
 
     const reopened = openOpenClawStateDatabase(options);
     const migratedSql = reopened.db

@@ -44,7 +44,7 @@ OPENCLAW_KITCHEN_SINK_NPM_SPEC=npm-pack:/fixtures/kitchen-sink.tgz \
   pnpm test:plugins:kitchen-sink-rpc -- --resource-profile /out/resources.json
 ```
 
-This mode requires Linux Node with `process.threadCpuUsage`, a built OpenClaw
+This mode requires Linux Node with `process.threadCpuUsage`, a built FRIDAY
 entry in the current package root, `dist/build-info.json` with a full source
 commit, and a local npm-pack fixture. It does not download a floating fixture.
 The normal RPC walk, including its Bun command, is unchanged.
@@ -143,7 +143,7 @@ profiling results to this inventory.
 
 Source-checkout campaign tools can import `resolveResourceGatewayRuntime` and
 `runResourceGatewayCase` from `scripts/e2e/kitchen-sink-rpc-walk.mts`. Kitchen Sink
-uses this same host lifecycle. Run from one frozen, built OpenClaw package root
+uses this same host lifecycle. Run from one frozen, built FRIDAY package root
 per process; this is a testing interface, not a published plugin SDK API.
 
 The preparation callback receives an isolated config path, loopback port, test

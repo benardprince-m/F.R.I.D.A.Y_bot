@@ -224,7 +224,7 @@ type CodexSessionGenerationReclaimParams = {
   reclaimStale?: boolean;
 };
 
-/** Builds the terminal coordination error used when a newer OpenClaw session owns the binding. */
+/** Builds the terminal coordination error used when a newer FRIDAY session owns the binding. */
 export function createCodexSessionGenerationSupersededError(
   sessionId: string,
 ): AgentHarnessSessionSupersededError {
@@ -233,7 +233,7 @@ export function createCodexSessionGenerationSupersededError(
   );
 }
 
-/** Lets the authoritative OpenClaw session generation claim a stale stable binding row. */
+/** Lets the authoritative FRIDAY session generation claim a stale stable binding row. */
 export async function reclaimCurrentCodexSessionGeneration(
   params: CodexSessionGenerationReclaimParams,
 ): Promise<boolean> {

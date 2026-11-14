@@ -147,7 +147,7 @@ To start an existing fixture without regenerating it, set `HOME` and
 in a credential-free environment. Also set `OPENCLAW_PROFILE=team-shape-40967`
 and the native selector: `OPENCLAW_SYSTEMD_UNIT=openclaw-gateway-team-shape-40967`
 on Linux, `OPENCLAW_LAUNCHD_LABEL=ai.openclaw.team-shape-40967` on macOS, or
-`OPENCLAW_WINDOWS_TASK_NAME=OpenClaw Gateway (team-shape-40967)` on Windows.
+`OPENCLAW_WINDOWS_TASK_NAME=FRIDAY Gateway (team-shape-40967)` on Windows.
 Use the corresponding suffix when changing ports. The generated config uses no authentication
 and is only suitable for isolated loopback repros.
 

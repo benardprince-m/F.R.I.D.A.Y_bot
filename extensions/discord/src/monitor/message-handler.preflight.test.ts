@@ -277,7 +277,7 @@ describe("preflightDiscordMessage", () => {
       threadId,
       "⚙️ codex-acp session active (idle expiry in 24h). Messages here go directly to this session.",
       {
-        author: { id: "relay-bot-1", bot: true, username: "OpenClaw" },
+        author: { id: "relay-bot-1", bot: true, username: "FRIDAY" },
       },
     );
 
@@ -678,7 +678,7 @@ describe("preflightDiscordMessage", () => {
           id: "parent",
           channelId: "channel-reply-ping",
           content: "parent message",
-          author: { id: "openclaw-bot", bot: true, username: "OpenClaw" },
+          author: { id: "openclaw-bot", bot: true, username: "FRIDAY" },
         }),
       }),
     ).toBeNull();
@@ -737,7 +737,7 @@ describe("preflightDiscordMessage", () => {
       accepted: true,
       botId: "123456789012345678",
       hydrate: { content: "<@123456789012345678> take over", native: true },
-      expectedText: "prior context\n@OpenClaw take over",
+      expectedText: "prior context\n@FRIDAY take over",
     },
     {
       contents: ["prior context", "<@123456789012345678> missing content"],
@@ -772,7 +772,7 @@ describe("preflightDiscordMessage", () => {
       if (hydrate) {
         const payload = makeMessage("m-batch-1", channelId, hydrate.content, {
           author: { id: "relay-bot", bot: true, username: "Relay" },
-          mentionedUsers: hydrate.native ? [{ id: botId, username: "OpenClaw" }] : [],
+          mentionedUsers: hydrate.native ? [{ id: botId, username: "FRIDAY" }] : [],
           type: MessageType.Reply,
         });
         const fetchMessage = vi
@@ -926,7 +926,7 @@ describe("preflightDiscordMessage", () => {
           }
           return {
             ...message.rawData,
-            mentions: mentions ? [{ id: botUserId, username: "OpenClaw", bot: true }] : [],
+            mentions: mentions ? [{ id: botUserId, username: "FRIDAY", bot: true }] : [],
           };
         }),
       } as unknown as DiscordClient["rest"];
@@ -1331,7 +1331,7 @@ describe("shouldIgnoreBoundThreadWebhookMessage", () => {
       "outbound webhook echo without a mention",
       {
         webhookId: "wh-1",
-        author: { id: "relay-bot-1", bot: true, username: "OpenClaw" },
+        author: { id: "relay-bot-1", bot: true, username: "FRIDAY" },
       },
     );
     const result = await runGuildPreflight({

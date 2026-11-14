@@ -211,7 +211,7 @@ describe("plugin discovery identity and local join", () => {
       expect(item?.catalog.author).toBe(official ? "openclaw" : undefined);
       expect(item?.catalog.publishedToClawHub).not.toBe(true);
       expect(joinLocalPluginDetail({ plugin, local: inventory }).detail.author).toEqual(
-        official ? { handle: "openclaw", displayName: "OpenClaw", official: true } : undefined,
+        official ? { handle: "openclaw", displayName: "FRIDAY", official: true } : undefined,
       );
     },
   );

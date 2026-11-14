@@ -2,7 +2,7 @@ import Darwin
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct ExecHostCwdTests {
     @Test(.execApprovalsStateIsolated, arguments: ["/tmp", "/private/tmp"])

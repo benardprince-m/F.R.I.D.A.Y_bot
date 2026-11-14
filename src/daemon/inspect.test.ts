@@ -54,7 +54,7 @@ Environment=HOME=/home/clawdbot
 
 const CUSTOM_OPENCLAW_GATEWAY_CONTENTS = `\
 [Unit]
-Description=Custom OpenClaw gateway
+Description=Custom FRIDAY gateway
 
 [Service]
 ExecStart=/usr/bin/node /opt/openclaw/dist/entry.js gateway --port 18888

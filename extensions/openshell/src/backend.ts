@@ -839,7 +839,7 @@ class OpenShellSandboxBackendImpl {
       [
         `Registered legacy OpenShell sandbox "${this.params.execContext.sandboxName}" is not usable.`,
         detail,
-        `OpenClaw will not recreate this retired runtime name. Run \`${recreateCommand}\` to migrate this scope to the current naming format.`,
+        `FRIDAY will not recreate this retired runtime name. Run \`${recreateCommand}\` to migrate this scope to the current naming format.`,
       ]
         .filter(Boolean)
         .join(" "),

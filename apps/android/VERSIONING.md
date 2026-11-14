@@ -1,4 +1,4 @@
-# OpenClaw Android Versioning
+# FRIDAY Android Versioning
 
 Android APK publication and ordinary local archives use pinned app metadata.
 Google Play releases calculate their version and build numbers for each run and
@@ -119,7 +119,7 @@ To configure unattended runs:
 4. Create a Firebase tester group and its self-service invitation link. Set
    `FIREBASE_APP_ID` and `FIREBASE_TESTER_GROUPS` (comma-separated group aliases)
    consistently in the workflow and local environment. The workflow uses the
-   existing OpenClaw app and `android-daily` group. The Firebase JSON key belongs
+   existing FRIDAY app and `android-daily` group. The Firebase JSON key belongs
    to a dedicated service account with `roles/firebaseappdistro.admin` on the
    Firebase project. No Firebase SDK or configuration file is needed in the app.
 5. From `main`, run **Android Store Release** with `operation=internal` and verify
@@ -205,8 +205,8 @@ original failure and recovery artifacts until both destinations are confirmed.
 
 ### Gateway APK publication and upload recovery
 
-For a regular final or correction OpenClaw release whose tagged Android pin
-matches the stable train, `OpenClaw Release Publish` dispatches **Android APK
+For a regular final or correction FRIDAY release whose tagged Android pin
+matches the stable train, `FRIDAY Release Publish` dispatches **Android APK
 Artifact Publish** after core npm publishes successfully. A mismatched pin
 records an explicit skip. This separate workflow attaches the signed third-party
 APK, checksum manifest, and GitHub provenance; it may finish after the GitHub
@@ -223,7 +223,7 @@ saved plan, notes, and exact AABs when investigating a failed or uncertain uploa
 Agent-driven recovery requires explicit maintainer direction after reporting the
 failure; do not automatically rerun the upload or record its ref.
 
-The third-party flavor is archived as a signed APK for non-Play distribution. The Play release lane never uploads it. Official GitHub distribution is owned only by `.github/workflows/android-release.yml`, which publishes regular final and correction tags through the protected `android-release` environment as `OpenClaw-Android.apk`.
+The third-party flavor is archived as a signed APK for non-Play distribution. The Play release lane never uploads it. Official GitHub distribution is owned only by `.github/workflows/android-release.yml`, which publishes regular final and correction tags through the protected `android-release` environment as `FRIDAY-Android.apk`.
 
 ## Release SHA tracking
 
@@ -242,7 +242,7 @@ refs/openclaw/mobile-releases/android/v2/2026.9.4/0/1/2026090452-2026090453
 
 These refs are intentionally outside `refs/tags/*` and `refs/heads/*`. They do
 not appear on GitHub release or tag pages, and they do not participate in the
-core OpenClaw release machinery.
+core FRIDAY release machinery.
 
 Before the first new-format upload, the lane creates one marker:
 

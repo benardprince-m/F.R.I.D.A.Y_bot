@@ -104,7 +104,7 @@ export function registerMigrateCommand(program: Command) {
     .option("--yes", "Apply without prompting after preview", false);
   addMigrationSelectionOptions(migrate)
     .option("--backup-output <path>", "Pre-migration backup archive path or directory")
-    .option("--no-backup", "Skip the pre-migration OpenClaw backup")
+    .option("--no-backup", "Skip the pre-migration FRIDAY backup")
     .option("--force", "Allow dangerous options such as --no-backup", false)
     .option("--json", "Output JSON", false);
   addVerifyPluginAppsOption(migrate)
@@ -169,7 +169,7 @@ export function registerMigrateCommand(program: Command) {
   )
     .option("--yes", "Apply without prompting", false)
     .option("--backup-output <path>", "Pre-migration backup archive path or directory")
-    .option("--no-backup", "Skip the pre-migration OpenClaw backup")
+    .option("--no-backup", "Skip the pre-migration FRIDAY backup")
     .option("--force", "Allow dangerous options such as --no-backup", false)
     .action(async (provider, opts, command) => {
       await runCommandWithRuntime(defaultRuntime, async () => {

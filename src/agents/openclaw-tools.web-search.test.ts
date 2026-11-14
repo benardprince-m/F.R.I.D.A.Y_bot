@@ -181,7 +181,7 @@ describe("unconfigured web search tool surface", () => {
       const prompt = render(true);
       expect(prompt).toContain("Web search is supported but not configured.");
       expect(prompt).toContain("openclaw configure --section web");
-      expect(prompt).toContain("Settings → Ask OpenClaw");
+      expect(prompt).toContain("Settings → Ask FRIDAY");
       expect(prompt).not.toContain("- web_search:");
       expect(render(false)).not.toContain("Web search is supported but not configured.");
       expect(render(true, ["web_search"])).not.toContain(

@@ -472,7 +472,7 @@ const ALLOWED_UI_LITERALS = new Map<string, ReadonlySet<string>>([
       "OC",
       "OK",
       "OPENCLAW",
-      "OpenClaw",
+      "FRIDAY",
       "U",
       "e.g. America/New_York",
       "current-step-alpha",

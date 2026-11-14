@@ -532,7 +532,7 @@ describe("subagents info", () => {
       outcome: {
         status: "error",
         error: [
-          "OpenClaw runtime context (internal):",
+          "FRIDAY runtime context (internal):",
           "This context is runtime-generated, not user-authored. Keep internal details private.",
           "",
           "[Internal task completion event]",
@@ -544,7 +544,7 @@ describe("subagents info", () => {
     expectText(
       text,
       ["Subagent info", "Outcome: error", "Task summary: Needs manual follow-up."],
-      ["OpenClaw runtime context (internal):", "Internal task completion event"],
+      ["FRIDAY runtime context (internal):", "Internal task completion event"],
     );
   });
 });

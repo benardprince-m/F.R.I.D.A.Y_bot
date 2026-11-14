@@ -271,7 +271,7 @@ export async function applyPersistentOperation(params: {
     // The mutation already committed. Keep success truthful while making the
     // missing audit record visible to every CLI/chat capture surface.
     runtime.error(
-      `${outcome.summary}, but OpenClaw could not record its audit entry: ${formatErrorMessage(error)}`,
+      `${outcome.summary}, but FRIDAY could not record its audit entry: ${formatErrorMessage(error)}`,
     );
   }
   runtime.log(`[openclaw] done: ${auditOperation}`);
@@ -400,21 +400,21 @@ async function verifyCurrentSetupInference(runtime: RuntimeEnv): Promise<{
   const before = await readConfigFileSnapshot();
   if (!before.exists || !before.valid) {
     throw new Error(
-      "OpenClaw setup requires a valid configured inference route. Run `openclaw onboard` on the machine running OpenClaw, then retry.",
+      "FRIDAY setup requires a valid configured inference route. Run `openclaw onboard` on the machine running FRIDAY, then retry.",
     );
   }
   const beforeConfig = before.runtimeConfig ?? before.config;
   const beforeRoute = await projectInferenceRoute(beforeConfig);
   if (!beforeRoute.route) {
     throw new Error(
-      "OpenClaw setup requires working inference first. Run `openclaw onboard` on the machine running OpenClaw, then retry.",
+      "FRIDAY setup requires working inference first. Run `openclaw onboard` on the machine running FRIDAY, then retry.",
     );
   }
   const { verifySetupInferenceConfig } = await import("./setup-inference.js");
   const verification = await verifySetupInferenceConfig({ config: beforeConfig, runtime });
   if (!verification.ok) {
     throw new Error(
-      `OpenClaw setup requires working inference first. The configured route failed a live check: ${verification.error} Run \`openclaw onboard\` on the machine running OpenClaw, then retry.`,
+      `FRIDAY setup requires working inference first. The configured route failed a live check: ${verification.error} Run \`openclaw onboard\` on the machine running FRIDAY, then retry.`,
     );
   }
 
@@ -451,13 +451,13 @@ export async function executeSetup(
   const modelRole = overview.defaultModel ? "default" : "setup";
   if (!setupModel) {
     throw new Error(
-      "OpenClaw setup requires working inference first. Run `openclaw onboard` on the machine running OpenClaw to configure and verify a default model, then start OpenClaw again.",
+      "FRIDAY setup requires working inference first. Run `openclaw onboard` on the machine running FRIDAY to configure and verify a default model, then start FRIDAY again.",
     );
   }
   const requestedModel = operation.model?.trim();
   if (requestedModel && requestedModel !== setupModel) {
     throw new Error(
-      `OpenClaw setup will preserve the verified ${modelRole} model ${setupModel}. Staging, live-testing, and saving a different inference route is \`openclaw onboard\` on the machine running OpenClaw.`,
+      `FRIDAY setup will preserve the verified ${modelRole} model ${setupModel}. Staging, live-testing, and saving a different inference route is \`openclaw onboard\` on the machine running FRIDAY.`,
     );
   }
   if (!opts.approved) {
@@ -471,7 +471,7 @@ export async function executeSetup(
   const verified = await verifyCurrentSetupInference(runtime);
   if (requestedModel && requestedModel !== verified.modelRef) {
     throw new Error(
-      `The verified default model is now ${verified.modelRef}, not ${requestedModel}. Review the current route, or run \`openclaw onboard\` on the machine running OpenClaw, before retrying setup.`,
+      `The verified default model is now ${verified.modelRef}, not ${requestedModel}. Review the current route, or run \`openclaw onboard\` on the machine running FRIDAY, before retrying setup.`,
     );
   }
   return await applyPersistentOperation({
@@ -594,7 +594,7 @@ export async function executeSetDefaultModel(
                 "The final live inference test did not return a reusable session binding, so the requested model was not saved. Retry the model change.",
               );
             }
-            // The live probe can outlive the original OpenClaw authority.
+            // The live probe can outlive the original FRIDAY authority.
             // Re-check it last, immediately before the writer crosses to disk.
             ctx.assertPersistentApply?.();
             persistedModelRef = latestVerification.modelRef;

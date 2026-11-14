@@ -87,7 +87,7 @@ class PackagedRuntimeAbiTest(unittest.TestCase):
         host_machine="x86_64",
     ):
         appimage = self.write_elf(
-            self.root / "OpenClaw.AppImage",
+            self.root / "FRIDAY.AppImage",
             appimage_output,
             machine=machine,
         )
@@ -103,7 +103,7 @@ class PackagedRuntimeAbiTest(unittest.TestCase):
             )
 
     def test_missing_bundled_runtime_requires_explicit_historical_opt_in(self):
-        appimage = self.write_elf(self.root / "OpenClaw.AppImage", version_output())
+        appimage = self.write_elf(self.root / "FRIDAY.AppImage", version_output())
         with mock.patch.object(smoke.platform, "machine", return_value="x86_64"):
             with self.assertRaisesRegex(RuntimeError, "Missing required bundled runtime"):
                 smoke.collect_abi_report(appimage, self.appdir, readelf=str(self.readelf))
@@ -262,7 +262,7 @@ class PackagedRuntimeAbiTest(unittest.TestCase):
 
     def test_report_includes_outer_runtime_and_sorts_relative_paths(self):
         appimage = self.write_elf(
-            self.root / "OpenClaw.AppImage",
+            self.root / "FRIDAY.AppImage",
             version_output(needs=("GLIBC_2.34",)),
         )
         self.write_elf(
@@ -283,7 +283,7 @@ class PackagedRuntimeAbiTest(unittest.TestCase):
         self.assertEqual(
             [(entry["path"], entry["source"]) for entry in report["files"]],
             [
-                ("OpenClaw.AppImage", "appimage-runtime"),
+                ("FRIDAY.AppImage", "appimage-runtime"),
                 ("usr/bin/a", "appdir"),
                 ("usr/lib/z.so", "appdir"),
             ],
@@ -336,7 +336,7 @@ class PackagedRuntimeAbiTest(unittest.TestCase):
 
     def test_readelf_errors_fail_closed(self):
         appimage = self.write_elf(
-            self.root / "OpenClaw.AppImage",
+            self.root / "FRIDAY.AppImage",
             version_output(),
         )
         Path(f"{appimage}.readelf-error").touch()

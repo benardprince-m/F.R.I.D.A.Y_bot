@@ -8,7 +8,7 @@ import type {
 export const WORKER_RESULT_REF_PREFIX = "refs/openclaw/worker-results";
 export const WORKER_RESULT_CANDIDATE_REF_PREFIX = "refs/openclaw/worker-result-candidates";
 export const WORKER_RESULT_CLEANUP_REF_PREFIX = "refs/openclaw/worker-result-cleanup";
-export const STAGED_RESULT_MESSAGE = "OpenClaw worker workspace result";
+export const STAGED_RESULT_MESSAGE = "FRIDAY worker workspace result";
 const BASE_REFRESH_REF_PREFIX = "refs/openclaw/workspace-base-refresh";
 const BASE_REFRESH_REF = /^refs\/openclaw\/workspace-base-refresh\/[a-f0-9]{64}$/u;
 

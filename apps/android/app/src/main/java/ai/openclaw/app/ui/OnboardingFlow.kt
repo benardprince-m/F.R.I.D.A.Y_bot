@@ -219,7 +219,7 @@ internal enum class OnboardingErrorCode(
     GatewayEndpointValidationError.INVALID_URL,
     GatewayEndpointInputSource.SETUP_CODE,
   ),
-  InvalidSetupQr(message = nativeText("That QR code is not an OpenClaw setup QR. Generate a fresh code with openclaw qr, then try again.")),
+  InvalidSetupQr(message = nativeText("That QR code is not an FRIDAY setup QR. Generate a fresh code with openclaw qr, then try again.")),
   QrInsecureRemote(
     GatewayEndpointValidationError.INSECURE_REMOTE_URL,
     GatewayEndpointInputSource.QR_SCAN,
@@ -919,7 +919,7 @@ fun OnboardingFlow(
           checkRequested = nodeApprovalCheckRequested,
           ready = ready,
           onBack = ::goBack,
-          onCopyCommand = { command -> context.copyTextWithConfirmation("OpenClaw pairing approval command", command, nativeText("Approval command copied").resolveNativeText()) },
+          onCopyCommand = { command -> context.copyTextWithConfirmation("FRIDAY pairing approval command", command, nativeText("Approval command copied").resolveNativeText()) },
           onCheckApproval = ::checkNodeApproval,
           onApprove = { requestId ->
             nodeApprovalCheckRequested = false
@@ -970,8 +970,8 @@ internal fun WelcomeScreen(
   modifier: Modifier = Modifier,
 ) {
   OnboardingIntroScreen(
-    title = nativeString("Welcome to OpenClaw"),
-    subtitle = nativeString("Turn this device into a secure OpenClaw node for chat, voice, camera, and device tools."),
+    title = nativeString("Welcome to FRIDAY"),
+    subtitle = nativeString("Turn this device into a secure FRIDAY node for chat, voice, camera, and device tools."),
     mark = { WelcomeLogo(mood = mascotMood, announceLogo = true) },
     modifier = modifier,
     actions = {
@@ -1000,7 +1000,7 @@ private fun WelcomeLogo(
   ) {
     Box(modifier = Modifier.fillMaxSize().padding(12.dp), contentAlignment = Alignment.Center) {
       OpenClawMascot(
-        contentDescription = if (announceLogo) nativeString("OpenClaw logo") else null,
+        contentDescription = if (announceLogo) nativeString("FRIDAY logo") else null,
         modifier = Modifier.fillMaxSize(),
         mood = mood,
       )
@@ -1061,7 +1061,7 @@ private fun WelcomeChecklist() {
     Column(verticalArrangement = Arrangement.spacedBy(13.dp)) {
       WelcomeChecklistRow(icon = Icons.Default.Link, text = nativeString("Connect to your Gateway"))
       WelcomeChecklistRow(icon = Icons.Default.Security, text = nativeString("Choose device permissions"))
-      WelcomeChecklistRow(icon = Icons.Default.CheckCircle, text = nativeString("Use OpenClaw from your phone"))
+      WelcomeChecklistRow(icon = Icons.Default.CheckCircle, text = nativeString("Use FRIDAY from your phone"))
     }
   }
 }
@@ -1085,7 +1085,7 @@ private fun SecurityNotice() {
       Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Text(text = nativeString("Security notice"), style = ClawTheme.type.section, color = ClawTheme.colors.text)
         Text(
-          text = nativeString("The connected OpenClaw agent can use device capabilities you enable. Continue only if you trust the Gateway and agent you connect to."),
+          text = nativeString("The connected FRIDAY agent can use device capabilities you enable. Continue only if you trust the Gateway and agent you connect to."),
           style = ClawTheme.type.body,
           color = ClawTheme.colors.textMuted,
         )
@@ -1105,7 +1105,7 @@ internal fun GatewaySetupScreen(
   val uriHandler = LocalUriHandler.current
   OnboardingIntroScreen(
     title = nativeString("Connect Gateway"),
-    subtitle = nativeString("Scan a QR code or use the setup code from your OpenClaw Gateway."),
+    subtitle = nativeString("Scan a QR code or use the setup code from your FRIDAY Gateway."),
     mark = { ClawIconBadge(Icons.Default.QrCode2, size = OnboardingHeroMarkSize, iconSize = 40.dp, color = ClawTheme.colors.surfaceRaised) },
     modifier = modifier,
     onBack = onBack,
@@ -1155,7 +1155,7 @@ private fun GatewayPrerequisites(onOpenSetupGuide: () -> Unit) {
     )
     GatewayPrerequisiteRow(
       title = nativeString("Access to the Gateway device"),
-      body = nativeString("Have a terminal open on the device running OpenClaw."),
+      body = nativeString("Have a terminal open on the device running FRIDAY."),
     )
     GatewayPrerequisiteRow(
       title = nativeString("Phone can reach the Gateway"),
@@ -1885,7 +1885,7 @@ private fun GatewayRecoveryScreen(
     GatewayRecoveryDiagnosticDialog(
       diagnosticText = diagnosticText,
       onDismiss = { diagnosticDialogVisible = false },
-      onCopy = { context.copyTextWithConfirmation("OpenClaw gateway diagnostic", diagnosticText, nativeText("Details copied").resolveNativeText()) },
+      onCopy = { context.copyTextWithConfirmation("FRIDAY gateway diagnostic", diagnosticText, nativeText("Details copied").resolveNativeText()) },
     )
   }
 
@@ -1916,7 +1916,7 @@ private fun GatewayRecoveryScreen(
   ) {
     approvalCommand?.let { command ->
       Spacer(modifier = Modifier.height(18.dp))
-      ApprovalCommandBlock(command = command, onCopy = { context.copyTextWithConfirmation("OpenClaw pairing approval command", command, nativeText("Approval command copied").resolveNativeText()) })
+      ApprovalCommandBlock(command = command, onCopy = { context.copyTextWithConfirmation("FRIDAY pairing approval command", command, nativeText("Approval command copied").resolveNativeText()) })
     }
     protocolUpdateCommand?.let { command ->
       Spacer(modifier = Modifier.height(18.dp))
@@ -1926,7 +1926,7 @@ private fun GatewayRecoveryScreen(
         color = ClawTheme.colors.textMuted,
       )
       Spacer(modifier = Modifier.height(8.dp))
-      ApprovalCommandBlock(command = command, onCopy = { context.copyTextWithConfirmation("OpenClaw gateway command", command, nativeText("Command copied").resolveNativeText()) })
+      ApprovalCommandBlock(command = command, onCopy = { context.copyTextWithConfirmation("FRIDAY gateway command", command, nativeText("Command copied").resolveNativeText()) })
     }
     if (recoveryProgressItems.isNotEmpty()) {
       Spacer(modifier = Modifier.height(20.dp))
@@ -2045,7 +2045,7 @@ private fun NodeApprovalScreen(
     onBack = onBack,
     mood = onboardingMascotMood(step = OnboardingStep.NodeApproval),
     headline = nativeString("Approve node access"),
-    message = nativeString("Gateway pairing is complete. Approve this phone as a node so OpenClaw can use the device capabilities you enable."),
+    message = nativeString("Gateway pairing is complete. Approve this phone as a node so FRIDAY can use the device capabilities you enable."),
     actions = {
       OnboardingActions {
         val loading = action.approving || checkingApproval
@@ -2501,7 +2501,7 @@ internal enum class GatewayRecoveryUiState(
   ),
   Finishing(
     title = nativeText("Connecting Gateway"),
-    message = nativeText("OpenClaw is checking gateway and node access."),
+    message = nativeText("FRIDAY is checking gateway and node access."),
   ),
   Failed(
     title = nativeText("Connection issue"),
@@ -2562,7 +2562,7 @@ internal fun gatewayRecoveryDiagnosticText(
 ): String =
   // Diagnostic labels are UI copy; values stay verbatim so copied evidence matches gateway state.
   listOf(
-    localizeLabel("OpenClaw Android gateway diagnostic"),
+    localizeLabel("FRIDAY Android gateway diagnostic"),
     "${localizeLabel("Gateway")}: $gatewayName",
     "${localizeLabel("Status")}: $statusText",
     "${localizeLabel("Gateway paired")}: $gatewayPaired",
@@ -2677,7 +2677,7 @@ internal fun recoveryGatewayAuthDetail(gatewayConnectionProblem: GatewayConnecti
   when (gatewayConnectionProblem.code) {
     "NETWORK_UNREACHABLE" -> {
       if (gatewayConnectionProblem.isTailscaleRoute && gatewayConnectionProblem.reason != "transport-cleanup") {
-        nativeString("This address may use Tailscale. Open Tailscale and connect to the Gateway's tailnet, then retry. Check that the Gateway computer is online and OpenClaw is running.")
+        nativeString("This address may use Tailscale. Open Tailscale and connect to the Gateway's tailnet, then retry. Check that the Gateway computer is online and FRIDAY is running.")
       } else {
         gatewayConnectionStatusForDisplay(gatewayConnectionProblem.message)
       }
@@ -2736,9 +2736,9 @@ private fun recoveryGatewayProtocolMismatchDetail(gatewayConnectionProblem: Gate
   val expected = gatewayConnectionProblem.expectedProtocol
   val summary =
     when {
-      clientMax != null && expected != null && clientMax < expected -> nativeString("This app is older than the Gateway. Update OpenClaw on this device, then retry.")
-      clientMin != null && expected != null && clientMin > expected -> nativeString("The Gateway is older than this app. Update OpenClaw on the Gateway host, then retry.")
-      else -> nativeString("The app and Gateway use incompatible protocol versions. Update OpenClaw on both, then retry.")
+      clientMax != null && expected != null && clientMax < expected -> nativeString("This app is older than the Gateway. Update FRIDAY on this device, then retry.")
+      clientMin != null && expected != null && clientMin > expected -> nativeString("The Gateway is older than this app. Update FRIDAY on the Gateway host, then retry.")
+      else -> nativeString("The app and Gateway use incompatible protocol versions. Update FRIDAY on both, then retry.")
     }
   return protocolMismatchVersions(clientMin, clientMax, expected)?.let { nativeString("\$summary \$details", summary, it) } ?: summary
 }
@@ -2874,7 +2874,7 @@ private enum class PermissionRowId(
   Photos(nativeText("Photos"), nativeText("Read recent photos and media"), Icons.Default.Image),
   Contacts(nativeText("Contacts"), nativeText("Find people and contact details"), Icons.Default.Person, requiredContactPermissions),
   Calendar(nativeText("Calendar"), nativeText("Read and update events"), Icons.Default.CalendarMonth, requiredCalendarPermissions),
-  Notifications(nativeText("Notifications"), nativeText("Show OpenClaw alerts"), Icons.Default.Notifications),
+  Notifications(nativeText("Notifications"), nativeText("Show FRIDAY alerts"), Icons.Default.Notifications),
   NotificationListener(nativeText("Notification listener"), nativeText("Read selected app notifications"), Icons.Default.Sensors),
   Motion(nativeText("Motion"), nativeText("Share steps and activity"), Icons.Default.Sensors, listOf(Manifest.permission.ACTIVITY_RECOGNITION)),
   Sms(nativeText("SMS"), nativeText("Device access; Gateway opt-in still required"), Icons.Default.Notifications, listOf(Manifest.permission.SEND_SMS, Manifest.permission.READ_SMS)),

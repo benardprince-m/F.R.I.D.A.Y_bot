@@ -433,7 +433,7 @@ describe("state storage", () => {
         } else {
           fs.mkdirSync(syncedDir);
         }
-        const stateDir = path.join(syncedDir, "OpenClaw", ".openclaw");
+        const stateDir = path.join(syncedDir, "FRIDAY", ".openclaw");
         expect(fs.existsSync(stateDir)).toBe(false);
         vi.spyOn(process, "platform", "get").mockReturnValue("darwin");
         vi.spyOn(os, "homedir").mockReturnValue(home);
@@ -446,7 +446,7 @@ describe("state storage", () => {
     it("detects a missing OneDrive business leaf case-insensitively and explains service relocation", () => {
       const personal = path.resolve("/Users/tester/OneDrive");
       const business = path.resolve("/Users/tester/OneDrive - Contoso");
-      const root = path.join(business, "OpenClaw").toUpperCase();
+      const root = path.join(business, "FRIDAY").toUpperCase();
       const stateDir = path.join(root, ".openclaw");
       vi.spyOn(process, "platform", "get").mockReturnValue("win32");
       vi.spyOn(boundaryPath, "safeRealpathSync").mockImplementation((target) =>
@@ -476,7 +476,7 @@ describe("state storage", () => {
     });
 
     it("follows a junction out of OneDrive when the state leaf is absent", () => {
-      const root = path.resolve("/Users/tester/OneDrive/OpenClaw");
+      const root = path.resolve("/Users/tester/OneDrive/FRIDAY");
       vi.spyOn(process, "platform", "get").mockReturnValue("win32");
       vi.spyOn(boundaryPath, "safeRealpathSync").mockImplementation((target) =>
         target === root ? path.resolve("/local-openclaw") : null,

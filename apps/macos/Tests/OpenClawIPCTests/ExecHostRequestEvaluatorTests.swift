@@ -1,7 +1,7 @@
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct ExecHostRequestEvaluatorTests {
     @Test func `validate request rejects empty command`() {

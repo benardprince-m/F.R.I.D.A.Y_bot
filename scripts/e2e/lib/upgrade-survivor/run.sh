@@ -1185,7 +1185,7 @@ configure_watchos_tls_fixture() {
   mkdir -p "$WATCH_TLS_ROOT"
   chmod 700 "$WATCH_TLS_ROOT"
   openssl req -x509 -newkey rsa:2048 -nodes -sha256 -days 1 \
-    -subj "/CN=OpenClaw watchOS survivor CA" \
+    -subj "/CN=FRIDAY watchOS survivor CA" \
     -addext "basicConstraints=critical,CA:TRUE" \
     -addext "keyUsage=critical,keyCertSign,cRLSign" \
     -keyout "$WATCH_TLS_CA_KEY" \

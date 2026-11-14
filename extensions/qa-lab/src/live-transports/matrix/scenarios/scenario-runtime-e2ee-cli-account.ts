@@ -30,7 +30,7 @@ export async function runMatrixQaE2eeCliAccountAddEnableE2eeScenario(
   const accountId = "cli-add-e2ee";
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: "OpenClaw Matrix QA CLI Account Add Owner",
+    deviceName: "FRIDAY Matrix QA CLI Account Add Owner",
     scenarioId: "matrix-e2ee-cli-account-add-enable-e2ee",
   });
   const cli = await createMatrixQaCliE2eeSetupRuntime({
@@ -56,7 +56,7 @@ export async function runMatrixQaE2eeCliAccountAddEnableE2eeScenario(
         "--password",
         account.password,
         "--device-name",
-        "OpenClaw Matrix QA CLI Account Add E2EE",
+        "FRIDAY Matrix QA CLI Account Add E2EE",
         "--allow-private-network",
         "--enable-e2ee",
         "--json",
@@ -144,7 +144,7 @@ async function runMatrixQaCliEncryptionSetup(
   const deviceLabel = idempotent ? "Encryption Idempotent" : "Encryption Setup";
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: `OpenClaw Matrix QA CLI ${deviceLabel} Owner`,
+    deviceName: `FRIDAY Matrix QA CLI ${deviceLabel} Owner`,
     scenarioId: idempotent
       ? "matrix-e2ee-cli-encryption-setup-idempotent"
       : "matrix-e2ee-cli-encryption-setup",
@@ -152,7 +152,7 @@ async function runMatrixQaCliEncryptionSetup(
   const cliDevice = await loginMatrixQaCliDevice(
     context.baseUrl,
     account,
-    `OpenClaw Matrix QA CLI ${deviceLabel} Device`,
+    `FRIDAY Matrix QA CLI ${deviceLabel} Device`,
     idempotent ? "Matrix E2EE CLI idempotent setup" : "Matrix E2EE CLI encryption setup",
   );
   const cli = await createMatrixQaCliE2eeSetupRuntime({
@@ -268,13 +268,13 @@ export async function runMatrixQaE2eeCliEncryptionSetupBootstrapFailureScenario(
   const accountId = "cli-encryption-failure";
   const account = await registerMatrixQaCliE2eeAccount({
     context,
-    deviceName: "OpenClaw Matrix QA CLI Encryption Failure Owner",
+    deviceName: "FRIDAY Matrix QA CLI Encryption Failure Owner",
     scenarioId: "matrix-e2ee-cli-encryption-setup-bootstrap-failure",
   });
   const cliDevice = await loginMatrixQaCliDevice(
     context.baseUrl,
     account,
-    "OpenClaw Matrix QA CLI Encryption Failure Device",
+    "FRIDAY Matrix QA CLI Encryption Failure Device",
     "Matrix E2EE CLI bootstrap-failure",
   );
   const proxy = await startMatrixQaFaultProxy({

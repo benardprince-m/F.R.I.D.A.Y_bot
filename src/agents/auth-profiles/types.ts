@@ -45,7 +45,7 @@ export type ApiKeyCredential = SchemaContract<
   keyRef?: SecretRef;
 };
 
-/** Static token credential that OpenClaw does not refresh. */
+/** Static token credential that FRIDAY does not refresh. */
 type TokenCredential = SchemaContract<
   Omit<Extract<InlineAuthProfileCredential, { type: "token" }>, "token">
 > & {

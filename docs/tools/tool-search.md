@@ -1,25 +1,25 @@
 ---
-summary: "Tool Search: compact large OpenClaw tool catalogs behind search, describe, and call"
+summary: "Tool Search: compact large FRIDAY tool catalogs behind search, describe, and call"
 title: "Tool Search"
 read_when:
-  - You want OpenClaw agents to use a large tool catalog without adding every tool schema to the prompt
-  - You want OpenClaw tools, MCP tools, and client tools exposed through one compact runtime surface
-  - You are implementing or debugging tool discovery for OpenClaw runs
+  - You want FRIDAY agents to use a large tool catalog without adding every tool schema to the prompt
+  - You want FRIDAY tools, MCP tools, and client tools exposed through one compact runtime surface
+  - You are implementing or debugging tool discovery for FRIDAY runs
 ---
 
-Tool Search is an experimental OpenClaw agent runtime feature. It gives agents one
+Tool Search is an experimental FRIDAY agent runtime feature. It gives agents one
 compact way to discover and call large tool catalogs. It is useful when the run
 has many available tools but the model is likely to need only a few of them.
 
-This page documents OpenClaw Tool Search. It is not the Codex-native tool
+This page documents FRIDAY Tool Search. It is not the Codex-native tool
 search or dynamic-tools surface. Codex-native code mode, tool search, deferred
 dynamic tools, and nested tool calls are stable Codex harness surfaces and do
 not depend on `tools.toolSearch`.
 
-For the generic OpenClaw runtime that exposes a JavaScript `exec`/`wait`
+For the generic FRIDAY runtime that exposes a JavaScript `exec`/`wait`
 surface instead of Tool Search controls, see [Code Mode](/tools/code-mode).
 
-OpenClaw embedded and Copilot runs use structured Tool Search automatically when
+FRIDAY embedded and Copilot runs use structured Tool Search automatically when
 `tools.toolSearch` is unset. This defers tool schemas while keeping the
 policy-approved capabilities available. It does not enable lean mode or remove
 optional tools. Set `tools.toolSearch: false` to restore direct schemas. Engaged
@@ -33,7 +33,7 @@ Other optional tools still use Tool Search. Any explicit `tools.toolSearch` valu
 keeps its configured behavior, including `true`, an object, or `false`. Known
 hosted Ollama routes and the OpenAI-compatible transport keep the general default.
 
-When enabled for OpenClaw runs, the model automatically receives a bounded
+When enabled for FRIDAY runs, the model automatically receives a bounded
 directory of the available trusted tool names and descriptions, plus the
 structured `tool_search`, `tool_describe`, and `dispatch_action` controls. Setting
 `tools.toolSearch: true` or an object without a mode selects this structured
@@ -41,7 +41,7 @@ surface. Direct-only tools remain visible alongside the controls.
 
 The directory scales with the active model's context window. When space is tight,
 descriptions shorten before tool names are omitted; every authorized catalog
-entry remains searchable and callable. Invalid arguments for OpenClaw-owned
+entry remains searchable and callable. Invalid arguments for FRIDAY-owned
 tools include a bounded expected input signature when one can be rendered,
 plus the received type at the rejected field. Short scalar previews can show
 serialization mistakes such as `"10"` instead of `10`. Sensitive fields and
@@ -54,28 +54,28 @@ to the skill’s complete instructions instead of sending the model through tool
 The deferred directory omits tools already exposed directly. They remain searchable,
 so discovery can still return their complete schemas without duplicating native guidance.
 
-The catalog can include catalog-eligible OpenClaw tools, plugin tools, MCP
+The catalog can include catalog-eligible FRIDAY tools, plugin tools, MCP
 tools, and client-provided tools. The directory gives the model an idea of
 which trusted capabilities it can discover without exposing every cataloged
 schema up front. It also explains that policy-approved MCP and client tools
 may be discoverable. Their untrusted names and descriptions are not copied into
 the system prompt. Instead, the model searches compact descriptors, describes
 one selected tool when it needs the exact schema, and calls that tool through
-OpenClaw. Direct-only tools remain model-visible and are not added to the
+FRIDAY. Direct-only tools remain model-visible and are not added to the
 catalog.
 
-Codex harness runs do not receive these experimental OpenClaw Tool Search
-controls. OpenClaw passes product capabilities to Codex as dynamic tools, and
+Codex harness runs do not receive these experimental FRIDAY Tool Search
+controls. FRIDAY passes product capabilities to Codex as dynamic tools, and
 Codex owns the stable native code mode, native tool search, deferred dynamic
 tools, and nested tool calls.
 
 ## How a turn runs
 
-At planning time the OpenClaw embedded runner builds the effective catalog for the
+At planning time the FRIDAY embedded runner builds the effective catalog for the
 run:
 
 1. Resolve the active tool policy for the agent, profile, sandbox, and session.
-2. List eligible OpenClaw and plugin tools.
+2. List eligible FRIDAY and plugin tools.
 3. List eligible MCP tools through the session MCP runtime.
 4. Add eligible client tools supplied for the current run.
 5. Keep core coding primitives and direct-only tools model-visible and index
@@ -85,7 +85,7 @@ run:
 7. Expose the structured search, describe, and call tools or the compact
    directory surface alongside those stable, directly callable tools.
 
-At execution time every real tool call returns to OpenClaw, where the normal
+At execution time every real tool call returns to FRIDAY, where the normal
 policy, approval, hook, logging, and result handling still apply.
 
 ## Modes
@@ -101,17 +101,17 @@ policy, approval, hook, logging, and result handling still apply.
   tools, and tools required by the run's delivery policy remain visible; other
   schemas stay deferred.
 
-All modes use the same policy-filtered catalog and normal OpenClaw execution
+All modes use the same policy-filtered catalog and normal FRIDAY execution
 path. Tools marked `catalogMode: "direct-only"` stay outside that catalog and
 remain model-visible. In `directory` mode, client-provided tools stay directly visible
-for the current run while OpenClaw tools, plugin tools, and MCP tools can be
+for the current run while FRIDAY tools, plugin tools, and MCP tools can be
 compacted behind the directory catalog. A direct call to an exact hidden
 directory name is hydrated from that same authorized catalog before execution
 in the embedded harness. The [Copilot harness](/plugins/copilot) instead maps
-`directory` to structured `tools` semantics: hidden OpenClaw catalog names must
+`directory` to structured `tools` semantics: hidden FRIDAY catalog names must
 be invoked through `dispatch_action`, because they are not registered SDK handlers.
 
-The structured `tools` surface is on by default for OpenClaw runs. Target tools
+The structured `tools` surface is on by default for FRIDAY runs. Target tools
 keep their own timeouts and approval behavior. Codex harness runs use their
 native surfaces.
 
@@ -120,7 +120,7 @@ additional discovery turns can offset initial payload savings. Set
 `tools.toolSearch: false` when direct schemas suit your workload better.
 
 There is no separate source-selection config. When Tool Search is enabled, the
-catalog includes catalog-eligible OpenClaw, MCP, and client tools after normal
+catalog includes catalog-eligible FRIDAY, MCP, and client tools after normal
 policy filtering; direct-only tools are retained separately.
 
 ## Why this exists
@@ -148,12 +148,12 @@ servers or client-provided app tools. Structured search is the default, but
 actual request size and latency depend on the catalog and the model's calls.
 
 The capability directory is sorted by tool name, limited to 18,000 characters,
-and built from the already policy-filtered catalog. OpenClaw reuses the
+and built from the already policy-filtered catalog. FRIDAY reuses the
 rendered directory for an unchanged catalog snapshot and places it above the
 system-prompt cache boundary. User messages, per-turn tool guesses, session
 identifiers, and untrusted MCP or client metadata do not enter the directory.
 This keeps repeated turns eligible for prompt KV-cache reuse. When the
-authorized catalog changes, OpenClaw builds a new directory for the new
+authorized catalog changes, FRIDAY builds a new directory for the new
 snapshot. Prompt-hook `toolsAllow` restrictions apply before the final prompt is
 submitted: the embedded and Copilot prompts advertise only the remaining
 catalog, without rerunning the hook or rewriting earlier conversation turns.
@@ -184,7 +184,7 @@ Results are compact and safe
 to put back into prompt context. Each hit includes a bounded TypeScript-style
 `input` signature, such as `{ id: string; mode?: "drip" | "flood" }`, so the
 model can skip `tool_describe` when that signature is sufficient. A trusted
-OpenClaw core or plugin tool may also include a compact `output` hint, such as
+FRIDAY core or plugin tool may also include a compact `output` hint, such as
 `Array<{ id: string; paid: boolean }>`. MCP and client output-schema claims are
 not promoted into this trusted hint. Their untrusted input schemas are also
 deferred as `input: "unknown"`; use `tool_describe` before calling them. Open,
@@ -208,13 +208,13 @@ tool declares one.
 ### Call
 
 `dispatch_action` accepts a tool `id` and its target `args`, calls the selected tool
-through OpenClaw, and returns the `{ tool, result }` envelope. The model-facing
+through FRIDAY, and returns the `{ tool, result }` envelope. The model-facing
 `result` contains the target's content and model-relevant status fields.
-OpenClaw validates a trusted core or plugin tool's declared input schema before
+FRIDAY validates a trusted core or plugin tool's declared input schema before
 execution. Missing required arguments, incorrect types, and forbidden
 properties return actionable tool errors instead of executing the tool;
 misspelled properties include a suggested parameter when available.
-If a trusted tool also declares `outputSchema`, OpenClaw compiles that schema
+If a trusted tool also declares `outputSchema`, FRIDAY compiles that schema
 before execution and validates final `details` after normal tool hooks before
 returning the catalog call. MCP and client-owned schemas remain deferred to
 their owning execution boundary.
@@ -326,12 +326,12 @@ the bounded directory omits entries, use `tool_search` to find them and
 hidden directory tool name directly, the embedded harness resolves it from the
 authorized catalog before normal execution. Copilot uses `dispatch_action` instead,
 as described under [Modes](#modes).
-Directory-mode client tool names must not collide with OpenClaw, plugin, or MCP
+Directory-mode client tool names must not collide with FRIDAY, plugin, or MCP
 tool names because exact deferred dispatch uses those names.
 
 ## Execution policy
 
-Normal OpenClaw behavior still applies to final calls:
+Normal FRIDAY behavior still applies to final calls:
 
 - tool allow and deny policies
 - per-agent and per-sandbox tool restrictions
@@ -344,7 +344,7 @@ Normal OpenClaw behavior still applies to final calls:
 
 ## Config
 
-With `tools.toolSearch` unset, OpenClaw runs use structured `tools` mode with
+With `tools.toolSearch` unset, FRIDAY runs use structured `tools` mode with
 a default search limit of 8 and a maximum of 20. Local Ollama models, LM Studio,
 and managed local services retain their smaller limits of 5 and 10. Known hosted
 Ollama routes use the general limits. An untagged alias served by an Ollama daemon
@@ -383,7 +383,7 @@ Pin the structured default explicitly:
 }
 ```
 
-Use the compact directory surface instead for OpenClaw runs:
+Use the compact directory surface instead for FRIDAY runs:
 
 ```json5
 {
@@ -446,7 +446,7 @@ JavaScript orchestration.
 ## Session activity
 
 Search, describe, and call results carry the catalog data for that operation.
-OpenClaw does not record serialized tool or prompt byte counts. The
+FRIDAY does not record serialized tool or prompt byte counts. The
 [E2E scenario](#e2e-validation) measures provider payload bytes separately from
 the mock provider lane.
 
@@ -458,12 +458,12 @@ Session logs therefore still answer:
 - how many tool schemas the model saw up front
 - how many search and describe operations it performed
 - which final tool was called
-- whether the result came from OpenClaw, MCP, or a client tool
+- whether the result came from FRIDAY, MCP, or a client tool
 
 ## E2E validation
 
 The QA Lab gateway scenario compares direct and structured Tool Search with the
-OpenClaw runtime:
+FRIDAY runtime:
 
 ```bash
 pnpm openclaw qa suite --provider-mode mock-openai --scenario tool-search-gateway-e2e
@@ -493,7 +493,7 @@ pnpm test:live -- src/agents/tool-search.live.test.ts
 
 This opt-in check uses configured OpenAI credentials; without them it is skipped.
 It compares direct exposure, the unset default, and both explicit Tool Search modes with small and large
-synthetic catalogs through the OpenClaw runner. A verification code created inside
+synthetic catalogs through the FRIDAY runner. A verification code created inside
 the target tool proves actual execution. The check covers policy-denied and
 direct-only tools, deferred schemas, and transcript delivery without forcing a
 model tool choice. It reports request bytes, discovery and call counts, schema

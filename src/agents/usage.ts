@@ -367,7 +367,7 @@ export function toOpenAiChatCompletionsUsage(usage: NormalizedUsage | undefined)
  * Maps normalized usage to OpenAI Responses `usage` fields.
  *
  * Responses reports cache reads and writes as subsets of `input_tokens`, so
- * recombine OpenClaw's separately priced buckets and retain their details.
+ * recombine FRIDAY's separately priced buckets and retain their details.
  * Reasoning tokens remain a detail of `output_tokens`, not an extra bucket.
  */
 export function toOpenAiResponsesUsage(usage: NormalizedUsage | undefined) {

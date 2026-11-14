@@ -265,7 +265,7 @@ describe("createCopilotByokProxy", () => {
     async (authHeader) => {
       mockResponse("azure-ok");
       const configuredHeaders = {
-        "X-OpenClaw-Copilot-Byok-Proxy-Token": "configured-value",
+        "X-FRIDAY-Copilot-Byok-Proxy-Token": "configured-value",
         "X-Trace": "test",
       };
       const proxy = await startProxy(

@@ -201,7 +201,7 @@ describe("discordApprovalNativeRuntime", () => {
         accent_color: accentColor,
         components: expect.arrayContaining(
           [
-            `## ${systemAgent ? "OpenClaw Change" : "Exec"} Approval: ${label}`,
+            `## ${systemAgent ? "FRIDAY Change" : "Exec"} Approval: ${label}`,
             `### ${systemAgent ? "Change" : "Command"}\n\`\`\`\n${"x".repeat(commandLimit)}...\n\`\`\``,
             `### Shell Preview\n\`\`\`\n${"y".repeat(secondaryLimit)}...\n\`\`\``,
             "- agent: crew",

@@ -1,8 +1,8 @@
-# OpenClaw Inworld Plugin
+# FRIDAY Inworld Plugin
 
-Official OpenClaw plugin for Inworld.
+Official FRIDAY plugin for Inworld.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/inworld-speech

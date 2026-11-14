@@ -28,7 +28,7 @@ Two ways to start an ACP session:
 
     <Note>
     `runtime` defaults to `subagent`, so set `runtime: "acp"` explicitly for
-    ACP sessions. If `agentId` is omitted, OpenClaw uses `acp.defaultAgent`
+    ACP sessions. If `agentId` is omitted, FRIDAY uses `acp.defaultAgent`
     when configured. `mode: "session"` requires `thread: true` to keep a
     persistent bound conversation.
     </Note>
@@ -72,7 +72,7 @@ Two ways to start an ACP session:
 <ParamField path="agentId" type="string">
   ACP target harness id or configured ACP agent alias. Falls back to
   `acp.defaultAgent` if set. Raw harnesses create children under the requesting
-  OpenClaw agent; configured aliases own their children. The harness remains
+  FRIDAY agent; configured aliases own their children. The harness remains
   the ACP runtime identity in either case.
   For cross-agent aliases, thread binding and inline delivery use the owner's bound channel account.
   A raw harness keeps the requesting agent's active inbound account.
@@ -82,12 +82,12 @@ Two ways to start an ACP session:
 </ParamField>
 <ParamField path="mode" type='"run" | "session"' default="run">
   `"run"` is one-shot; `"session"` is persistent. If `thread: true` and
-  `mode` is omitted, OpenClaw may default to persistent behaviour per
+  `mode` is omitted, FRIDAY may default to persistent behaviour per
   runtime path. `mode: "session"` requires `thread: true`.
 </ParamField>
 <ParamField path="cwd" type="string">
   Requested runtime working directory (validated by backend/runtime policy).
-  If omitted, ACP spawn inherits the OpenClaw owner's workspace when configured;
+  If omitted, ACP spawn inherits the FRIDAY owner's workspace when configured;
   missing inherited paths fall back to backend defaults, while real access
   errors are returned.
 </ParamField>
@@ -101,12 +101,12 @@ Two ways to start an ACP session:
   to the requester (the requester itself or a session it spawned or parented).
   Unknown IDs are rejected without enumerating the agent's sessions.
   Historical harness-owned records remain eligible under the same checks;
-  spawning does not move or rewrite their histories. OpenClaw checks ownership
+  spawning does not move or rewrite their histories. FRIDAY checks ownership
   again before initializing the resumed runtime.
 </ParamField>
 <ParamField path="streamTo" type='"parent"'>
   `"parent"` streams initial ACP run progress summaries back to the requester
-  session as system events. OpenClaw records the full relay history in the
+  session as system events. FRIDAY records the full relay history in the
   child agent's SQLite state and removes it with the child session. Parent
   progress streams show assistant commentary and ACP status progress by default unless
   `streaming.progress.commentary=false`. Discord parent progress requires an

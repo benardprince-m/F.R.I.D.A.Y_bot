@@ -88,7 +88,7 @@ describe("diagnostics-otel gateway runtime", () => {
             enabled: true,
             baseUrl,
             botUserId: "openclaw",
-            botDisplayName: "OpenClaw QA",
+            botDisplayName: "FRIDAY QA",
             allowFrom: ["*"],
             pollTimeoutMs: 250,
           },

@@ -28,7 +28,7 @@ afterEach(async () => {
 });
 
 it.each(HF_LOCAL_APP_CASES)(
-  "Hugging Face OpenClaw local-app CLI contract: onboard and agent for %s",
+  "Hugging Face FRIDAY local-app CLI contract: onboard and agent for %s",
   async (_name, providerId, modelId) => {
     const fakeServer = await startFakeOpenAiServer({ modelId });
     fakeServers.push(fakeServer);

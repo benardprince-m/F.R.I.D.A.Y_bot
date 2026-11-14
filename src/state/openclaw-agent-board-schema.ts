@@ -22,7 +22,7 @@ function canonicalBoardWidgetsCreateSql(): string {
   return extractSqliteTableSchema(OPENCLAW_AGENT_BOARD_SCHEMA_SQL, "board_widgets", {
     endMarker: "CREATE INDEX IF NOT EXISTS idx_agent_board_widgets_tab_position",
     includeEndMarker: false,
-    errorMessage: "OpenClaw agent board widget schema markers are missing.",
+    errorMessage: "FRIDAY agent board widget schema markers are missing.",
   }).trim();
 }
 
@@ -32,7 +32,7 @@ function legacyBoardWidgetsCreateSql(): string {
     .replace(PLUGIN_CONTENT_KIND_CLAUSE_PATTERN, "content_kind IN ('html', 'mcp-app')")
     .replace(PLUGIN_PAYLOAD_BRANCH_PATTERN, "");
   if (legacy === canonical) {
-    throw new Error("OpenClaw agent board widget legacy schema derivation failed.");
+    throw new Error("FRIDAY agent board widget legacy schema derivation failed.");
   }
   return legacy;
 }
@@ -63,23 +63,21 @@ export function ensureOpenClawAgentBoardSchemaInTransaction(db: EngineConnection
       .prepare("SELECT sql FROM sqlite_schema WHERE type = 'table' AND name = 'board_widgets'")
       .get()?.sql;
   if (typeof sql !== "string") {
-    throw new Error("OpenClaw agent board widget schema is missing after ensure.");
+    throw new Error("FRIDAY agent board widget schema is missing after ensure.");
   }
   const normalizedSchema = normalizeBoardWidgetsCreateSql(sql);
   if (normalizedSchema === normalizeBoardWidgetsCreateSql(canonicalBoardWidgetsCreateSql())) {
     return;
   }
   if (normalizedSchema !== normalizeBoardWidgetsCreateSql(legacyBoardWidgetsCreateSql())) {
-    throw new Error(
-      "OpenClaw agent board widget schema has an unsupported content-kind constraint.",
-    );
+    throw new Error("FRIDAY agent board widget schema has an unsupported content-kind constraint.");
   }
   const existingMigrationTable = db // sqlite-allow-raw -- Fail closed if an abandoned migration table exists.
     .prepare("SELECT 1 FROM sqlite_schema WHERE type = 'table' AND name = ?")
     .get(BOARD_WIDGETS_MIGRATION_TABLE);
   if (existingMigrationTable) {
     throw new Error(
-      `OpenClaw agent board migration table already exists: ${BOARD_WIDGETS_MIGRATION_TABLE}`,
+      `FRIDAY agent board migration table already exists: ${BOARD_WIDGETS_MIGRATION_TABLE}`,
     );
   }
   const migrationCreateSql = canonicalBoardWidgetsCreateSql().replace(

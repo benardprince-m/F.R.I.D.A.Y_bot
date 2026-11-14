@@ -298,7 +298,7 @@ export interface ExtensionContext {
   signal: AbortSignal | undefined;
   abort(): void;
   hasPendingMessages(): boolean;
-  /** Gracefully shut down OpenClaw and exit. Available in all contexts. */
+  /** Gracefully shut down FRIDAY and exit. Available in all contexts. */
   shutdown(): void;
   getContextUsage(): ContextUsage | undefined;
   /** Trigger compaction without awaiting completion. */

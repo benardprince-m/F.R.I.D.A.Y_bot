@@ -87,7 +87,7 @@ data class SystemAgentChatState(
 private fun newSystemAgentSessionId(): String = "android-settings-openclaw-${UUID.randomUUID()}"
 
 /**
- * Keeps the settings-only OpenClaw conversation outside ordinary chat/session state.
+ * Keeps the settings-only FRIDAY conversation outside ordinary chat/session state.
  * Every request captures a physical Gateway lease, so it cannot retarget a replacement connection.
  */
 internal class SystemAgentChatController(
@@ -297,7 +297,7 @@ internal class SystemAgentChatController(
               ?.message
               ?.trim()
               ?.takeIf(String::isNotEmpty)
-              ?: nativeString("OpenClaw request failed.")
+              ?: nativeString("FRIDAY request failed.")
           commitRequestState(requestGeneration, lease) { it.copy(sending = false, errorText = message) }
         }
       }
@@ -393,4 +393,4 @@ private fun SystemAgentGatewayAccess.toChatAccess(): SystemAgentChatAccess =
     else -> SystemAgentChatAccess.Ready
   }
 
-private fun routeChangedMessage(): String = nativeString("The Gateway connection changed. Restart OpenClaw to reconnect.")
+private fun routeChangedMessage(): String = nativeString("The Gateway connection changed. Restart FRIDAY to reconnect.")

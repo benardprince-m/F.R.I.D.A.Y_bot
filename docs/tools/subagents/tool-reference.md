@@ -65,8 +65,8 @@ apply the inherited spawn limit.
 - **Model:** same-agent native sub-agents inherit the caller's active model, including session and one-shot overrides, unless you set `agents.defaults.subagents.model` (or per-agent `agents.entries.*.subagents.model`). The inherited model ID is preserved exactly, even when it contains a provider prefix. Cross-agent spawns use the target agent's configured model. ACP runtime spawns use the same configured subagent model when present; otherwise the ACP harness keeps its own default. An explicit `sessions_spawn.model` still wins.
 - **Thinking:** native sub-agents inherit the caller's explicitly selected thinking level, including one-shot thinking overrides, unless you set `agents.defaults.subagents.thinking` (or per-agent `agents.entries.*.subagents.thinking`). Unselected native children use their own model default. ACP runtime spawns also apply the target agent's `thinkingDefault`, then its per-model `agents.entries.*.models["provider/model"].params.thinking` or the shared `agents.defaults.models["provider/model"].params.thinking`. An explicit `sessions_spawn.thinking` still wins. Native children save this preference at creation and use subsequent session preference edits when they launch.
 - **Fast mode:** with swarm enabled, native sub-agents inherit the requester's setting only when the resolved child provider and model match the requester's active model. A different child model uses its own defaults. Explicit `sessions_spawn.fastMode` values (`true`, `false`, or `"auto"`) take precedence; aliases resolving to the same model preserve inheritance.
-- **Run timeout:** pass `runTimeoutSeconds` to set a timeout for a specific native, ACP, or visible sub-agent run. When omitted, OpenClaw uses `agents.defaults.subagents.runTimeoutSeconds` if configured; otherwise it falls back to `0` (no timeout). An explicit `0` disables the timeout for that run.
-- **Process lifetime:** a detached OpenClaw sub-agent has its own run lifecycle. A background task created inside an external CLI backend is different: it shares the parent CLI subprocess and stops if that parent reaches `agents.defaults.timeoutSeconds`.
+- **Run timeout:** pass `runTimeoutSeconds` to set a timeout for a specific native, ACP, or visible sub-agent run. When omitted, FRIDAY uses `agents.defaults.subagents.runTimeoutSeconds` if configured; otherwise it falls back to `0` (no timeout). An explicit `0` disables the timeout for that run.
+- **Process lifetime:** a detached FRIDAY sub-agent has its own run lifecycle. A background task created inside an external CLI backend is different: it shares the parent CLI subprocess and stops if that parent reaches `agents.defaults.timeoutSeconds`.
 - **Task delivery:** hidden and visible native sub-agents receive their delegated task in a user message appended after any forked history. Model-only runtime context identifies the current assignment; the Control UI displays only the task text. Hidden sub-agents receive exact child and requester session identities, their label, and requester channel alongside the assignment. Their system prompt carries shared runtime rules, keeping its prefix reusable across equivalent child spawns. Inherited conversation remains background context.
 
 Guests with `operator.sessions.write` can launch hidden native children for their
@@ -145,7 +145,7 @@ Selecting a cloud profile is available only to Gateway-side visible spawns. The 
 
 ### Delegation prompt mode
 
-`agents.defaults.subagents.delegationMode` controls prompt guidance only; it does not change tool policy or enforce delegation. With no explicit setting, OpenClaw uses `prefer` in each agent's main session and `suggest` in every other session.
+`agents.defaults.subagents.delegationMode` controls prompt guidance only; it does not change tool policy or enforce delegation. With no explicit setting, FRIDAY uses `prefer` in each agent's main session and `suggest` in every other session.
 
 - `suggest`: keep the standard prompt nudge to use sub-agents for larger or slower work.
 - `prefer`: tell the agent to stay responsive and delegate anything more involved than a direct reply through `sessions_spawn`.
@@ -225,7 +225,7 @@ In either mode, internal QA, research, coding, review, and test lanes use ordina
   `"delete"` archives the session immediately after announce and snapshots its managed worktree before removing the checkout through the session lifecycle. `"keep"` retains the session and worktree under normal idle and archive cleanup. The Control UI's **Tasks** inspector can preview the retained transcript under the [post-cleanup access rules](/tools/subagents/announce#announce).
 </ParamField>
 <ParamField path="expectsCompletionMessage" type="boolean" default="true">
-  Set `false` for fire-and-forget children. When the child finishes, OpenClaw skips the completion handoff to the requester (no announce or steer turn), records the delivery as not required, and still runs child cleanup. Inspect such children with `subagents` or `sessions_history`. `collect: true` always uses `false`.
+  Set `false` for fire-and-forget children. When the child finishes, FRIDAY skips the completion handoff to the requester (no announce or steer turn), records the delivery as not required, and still runs child cleanup. Inspect such children with `subagents` or `sessions_history`. `collect: true` always uses `false`.
 </ParamField>
 <ParamField path="completionTarget" type='"parent"'>
   Return the result in a private requester turn with no automatic channel delivery. The parent reviews the result, continues unfinished work, and records the outcome internally. If the parent yielded while waiting, it resumes and answers under the conversation's normal reply rules; message-tool-only rooms still require the `message` tool. Supported only for hidden native `mode: "run"` children; unavailable with ACP, `collect`, `visible`, `thread`, session mode, or `expectsCompletionMessage: false`. Omit to keep normal completion delivery. See [Private parent completion](/tools/subagents/announce#private-parent-completion).
@@ -293,7 +293,7 @@ because they already have control meanings.
 Ends the current model turn and waits for announced child completion events
 to arrive as the next message. Use it when the requester needs results from
 announcing children before answering. It does not collect Swarm results:
-collectors require `agents_wait`, or an awaited `agents.run()` in OpenClaw
+collectors require `agents_wait`, or an awaited `agents.run()` in FRIDAY
 Code Mode, and do not send completion notifications.
 
 `sessions_yield` is the waiting primitive for announced completions. Do not replace it with polling
@@ -302,7 +302,7 @@ loops over `subagents`, `sessions_list`, `sessions_history`, shell
 
 With Astra async tools, `sessions_yield` stays a synchronous call, so the model
 response pauses at the yield. When an earlier async tool call in that response
-has results the model has not received yet, OpenClaw defers the yield and keeps
+has results the model has not received yet, FRIDAY defers the yield and keeps
 the turn active. The next request delivers those results ahead of the deferred
 yield result; the model yields again only if external work still requires
 waiting. This applies even when the tool has already finished and its result
@@ -310,7 +310,7 @@ appears in the transcript.
 
 Use the optional `message` field for private context that the resumed turn
 should receive. This does not send a message to another session; use
-`sessions_send` when available for inter-session communication. OpenClaw sends
+`sessions_send` when available for inter-session communication. FRIDAY sends
 a waiting reply when an interactive turn would otherwise end silently;
 `acknowledgment` supplies its text.
 This waiting reply is not sent to the user from sub-agent, heartbeat, or silent
@@ -433,7 +433,7 @@ context is asking for its own audience, so it runs as a separate sibling and
 delivers there instead. The paused run stays resumable, and a later default
 follow-up still continues it.
 
-When active children exist, OpenClaw injects a compact runtime-generated
+When active children exist, FRIDAY injects a compact runtime-generated
 `Active Subagents` prompt block into normal turns so the requester can see
 the current child sessions, run ids, statuses, labels, tasks, and
 `taskName` aliases without polling. The task and label fields in that

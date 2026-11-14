@@ -572,7 +572,7 @@ it("requires exclusive state ownership", async () => {
     await gatewayLock.release();
   }
 
-  expect(result.warnings[0]).toContain("OpenClaw state database is busy");
+  expect(result.warnings[0]).toContain("FRIDAY state database is busy");
   expect(fs.existsSync(sourcePath)).toBe(true);
 });
 

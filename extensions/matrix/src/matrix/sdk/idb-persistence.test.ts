@@ -388,7 +388,7 @@ describe("Matrix IndexedDB persistence", () => {
     await write(canonicalSnapshot);
     fs.writeFileSync(snapshotPath, snapshot);
     const remediation =
-      'Install OpenClaw 2026.9.5, run "openclaw doctor --fix", and start the Matrix channel once to migrate it, then upgrade to latest.';
+      'Install FRIDAY 2026.9.5, run "openclaw doctor --fix", and start the Matrix channel once to migrate it, then upgrade to latest.';
 
     await expect(restoreIdbFromDisk(snapshotPath)).rejects.toMatchObject({
       name: "MatrixIdbSnapshotMigrationRequiredError",

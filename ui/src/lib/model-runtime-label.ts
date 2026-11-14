@@ -13,7 +13,7 @@ const AGENT_RUNTIME_LABELS = new Map([
   ["codex", "Codex"],
   ["codex-cli", "Codex"],
   ["google-gemini-cli", "Gemini CLI"],
-  ["openclaw", "OpenClaw"],
+  ["openclaw", "FRIDAY"],
 ]);
 
 function formatAgentRuntimeLabel(id: string): string {

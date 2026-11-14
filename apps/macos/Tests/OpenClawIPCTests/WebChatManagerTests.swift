@@ -3,7 +3,7 @@ import Foundation
 import OpenClawKit
 import SwiftUI
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawChatUI
 
 @Suite(.serialized)

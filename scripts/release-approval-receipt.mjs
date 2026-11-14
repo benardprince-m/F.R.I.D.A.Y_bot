@@ -16,7 +16,7 @@ import {
 
 const REPOSITORY = "openclaw/openclaw";
 const PARENT_WORKFLOW = ".github/workflows/openclaw-release-publish.yml";
-const PARENT_APPROVAL_JOB = "Publish plugins, then OpenClaw";
+const PARENT_APPROVAL_JOB = "Publish plugins, then FRIDAY";
 const PARENT_RECEIPT_STEP = "Write release approval receipt";
 const APPROVAL_ENVIRONMENT = "npm-release";
 const MAX_RECEIPT_BYTES = 8 * 1024;

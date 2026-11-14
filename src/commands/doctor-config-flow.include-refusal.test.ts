@@ -117,9 +117,7 @@ describe("doctor config persistence", () => {
         expect(failure).toBeInstanceOf(Error);
         expect(failure).toHaveProperty(
           "message",
-          expect.stringContaining(
-            `Install OpenClaw ${name === "Discord" ? "2026.9.7" : "2026.9.5"}`,
-          ),
+          expect.stringContaining(`Install FRIDAY ${name === "Discord" ? "2026.9.7" : "2026.9.5"}`),
         );
         for (const field of fields) {
           expect(failure).toHaveProperty("message", expect.stringContaining(field));
@@ -268,7 +266,7 @@ describe("doctor config persistence", () => {
 
             const preparing = prepareDoctorContext(configPath);
             await expect(preparing).rejects.toThrow(key);
-            await expect(preparing).rejects.toThrow("Install OpenClaw 2026.9.5");
+            await expect(preparing).rejects.toThrow("Install FRIDAY 2026.9.5");
             await expect(fs.readFile(configPath, "utf8")).resolves.toBe(rootRaw);
             await expect(fs.readFile(includePath, "utf8")).resolves.toBe(includeRaw);
             await expect(fs.readFile(`${configPath}.bak`, "utf8")).resolves.toBe(backupRaw);

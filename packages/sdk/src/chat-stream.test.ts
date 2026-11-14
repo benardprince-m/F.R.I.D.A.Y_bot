@@ -197,9 +197,9 @@ describe("SDK streaming projections", () => {
         );
         expect(seen.at(-1)?.data).toEqual({ text, delta: " 501" });
         await expect(run.events()[Symbol.asyncIterator]().next()).rejects.toThrow(
-          "OpenClaw SDK client is closed",
+          "FRIDAY SDK client is closed",
         );
-        await expect(oc.connect()).rejects.toThrow("OpenClaw SDK client is closed");
+        await expect(oc.connect()).rejects.toThrow("FRIDAY SDK client is closed");
       }
     },
   );

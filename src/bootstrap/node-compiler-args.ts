@@ -6,7 +6,7 @@ const COMPILER_FLAGS = new Set([
   "--concurrent-sparkplug",
 ]);
 
-/** Forward explicit compiler policy into OpenClaw-owned Node workers. */
+/** Forward explicit compiler policy into FRIDAY-owned Node workers. */
 export function resolveForwardedNodeCompilerArgs(
   execArgv: readonly string[] = process.execArgv,
 ): string[] {

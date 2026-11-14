@@ -175,7 +175,7 @@ it("refuses state removal while a peer owns a cached database, then removes afte
     const [ready] = await receive(signal, "readiness");
     expect(ready).toMatchObject({ ready: true });
     await expect(remove()).rejects.toThrow(
-      "Cannot remove OpenClaw state directory while another SQLite connection is active",
+      "Cannot remove FRIDAY state directory while another SQLite connection is active",
     );
     expect(fs.readFileSync(configPath, "utf8")).toBe("{}\n");
     expect(fs.existsSync(databasePath)).toBe(true);

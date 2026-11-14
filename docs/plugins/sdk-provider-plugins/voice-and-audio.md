@@ -311,7 +311,7 @@ Register each capability inside `register(api)` alongside your existing
     type-only imports do not load the host's session or provider registry runtime.
 
     Set `supportsToolResultSuppression: false` when the provider cannot
-    honor `options.suppressResponse`. OpenClaw then avoids suppression for
+    honor `options.suppressResponse`. FRIDAY then avoids suppression for
     internal forced-consult and cancellation results, and rejects direct
     suppressed-result requests instead of silently starting a response.
     Consumers of `createRealtimeVoiceBridgeSession` may likewise return a
@@ -325,7 +325,7 @@ Register each capability inside `register(api)` alongside your existing
     `onClearAudio("barge-in")` when available; continuous providers can stop
     speaking without a separate clear event. Hosts must not invent a local
     interruption for those providers. Response-based providers that omit the
-    flag use OpenClaw's local input-audio fallback detection.
+    flag use FRIDAY's local input-audio fallback detection.
 
     A browser-session request's `clientControl: { owner: "gateway" }`
     records explicitly negotiated server-owned control. The request type
@@ -462,7 +462,7 @@ Register each capability inside `register(api)` alongside your existing
     WebSocket `url`.
 
     Configured proxy routes retain resolved target-address checks.
-    Applicable ambient HTTP(S) proxies and OpenClaw-managed proxies retain
+    Applicable ambient HTTP(S) proxies and FRIDAY-managed proxies retain
     their existing DNS delegation; `NO_PROXY` bypasses and `ALL_PROXY` alone
     do not disable target-address checks.
 
@@ -496,7 +496,7 @@ Register each capability inside `register(api)` alongside your existing
 
     Local or self-hosted media providers that intentionally do not require
     credentials can expose `resolveAuth` and return `kind: "none"`.
-    OpenClaw still keeps the normal auth gate for providers that do not
+    FRIDAY still keeps the normal auth gate for providers that do not
     explicitly opt in. Existing providers can keep reading `req.apiKey`;
     new providers should prefer `req.auth`.
 

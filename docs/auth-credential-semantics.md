@@ -265,7 +265,7 @@ OAuth re-authentication preserves an existing profile id only when the provider'
 
 - When `auth.order.<provider>` or the auth-store order override is set for a provider, `models status --probe` only checks profile ids that remain in the resolved auth order for that provider. The stored override wins over `auth.order` config.
 - A stored profile for that provider that is omitted from the explicit order is not silently tried later. Check output reports it with `reasonCode: excluded_by_auth_order` and the detail `Excluded by auth.order for this provider.`
-- A valid session user pin is an explicit per-session exception: OpenClaw tries that profile first even when it is omitted from the provider order, then uses the ordered same-provider profiles as retry candidates. A cooldown or disabled window applies only to the affected profile; it does not suppress its eligible siblings.
+- A valid session user pin is an explicit per-session exception: FRIDAY tries that profile first even when it is omitted from the provider order, then uses the ordered same-provider profiles as retry candidates. A cooldown or disabled window applies only to the affected profile; it does not suppress its eligible siblings.
 
 Prepared agent requests use their selected plugin metadata, configuration, workspace, and environment for auth profile eligibility, ordering, and environment credential evidence. An empty selected plugin set remains authoritative; another request’s plugin aliases cannot add profiles or change the credential owner.
 
@@ -310,24 +310,24 @@ they do not change message-execution profile rotation or session pins.
 ## Check target resolution
 
 - Check targets can come from auth profiles, environment credentials, or `models.json` (result `source`: `profile`, `env`, `models.json`).
-- If a provider has credentials but OpenClaw cannot resolve a model candidate that can be tested for it, `models status --probe` reports `status: no_model` with `reasonCode: no_model`.
+- If a provider has credentials but FRIDAY cannot resolve a model candidate that can be tested for it, `models status --probe` reports `status: no_model` with `reasonCode: no_model`.
 
 ## External CLI credential discovery
 
 - Supported external CLI credentials are discovered only when the provider, runtime, or auth profile is in scope for the current operation, or when a stored local profile for that external source already exists.
 - Auth-store callers choose an explicit external-CLI discovery mode: `none` for persisted/plugin auth only, `existing` for refreshing already stored external CLI profiles, or `scoped` for a concrete provider/profile set.
 - Read-only/status paths pass `allowKeychainPrompt: false`; they use file-backed external CLI credentials only and do not read or reuse macOS Keychain results.
-- `/models` reuses external login evidence already prepared with its catalog, so those providers remain visible without a second OpenClaw login. Opening the default menu does not repeat external CLI discovery; explicit auth order and route compatibility still apply.
+- `/models` reuses external login evidence already prepared with its catalog, so those providers remain visible without a second FRIDAY login. Opening the default menu does not repeat external CLI discovery; explicit auth order and route compatibility still apply.
 
 Codex owns its native login. Ordinary status and model reads do not import its
-credentials into OpenClaw profiles. To retain a configured CLI-backed
+credentials into FRIDAY profiles. To retain a configured CLI-backed
 `openai:default` profile, explicitly import the current Codex login with
 `openclaw models auth login --provider openai --method device-code`. When that
 OAuth profile is declared in `auth.profiles`, the source is the current native
 Codex home, and no other managed OpenAI OAuth profile exists, import preserves
 the profile ID and its existing model and session pins. The configured model
 and native credential file stay unchanged. An explicitly isolated agent home
-continues to use the imported OpenClaw profile through its isolated runtime.
+continues to use the imported FRIDAY profile through its isolated runtime.
 
 Since 2026.9.5, native Codex login no longer supplies the runtime-only
 `openai:default` profile. If that OAuth profile is still declared but absent from

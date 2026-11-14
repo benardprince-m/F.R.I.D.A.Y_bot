@@ -17,7 +17,7 @@ export const buildInfo = {
   builtAt: "2026-08-28T00:00:00Z",
   buildId: "fixture-build",
 };
-const authority = "Developer ID Application: OpenClaw Foundation (FWJYW4S8P8)";
+const authority = "Developer ID Application: FRIDAY Foundation (FWJYW4S8P8)";
 const entitlements = "<plist><dict/></plist>\n";
 export const runtimeRoot = "Contents/Resources/runtime";
 export const runtimeDist = "lib/node_modules/openclaw/dist";
@@ -41,7 +41,7 @@ export async function artifactFixture(mac: MacScriptFixture) {
   const binaries = await compiledMacNativeFixtures(root, mac);
   const home = path.join(root, "home [portable]");
   const payload = path.join(root, "payload [archive]");
-  const app = path.join(payload, "OpenClaw.app");
+  const app = path.join(payload, "FRIDAY.app");
   const bin = path.join(home, "bin");
   const installer = path.join(home, "elevation-installer.sh");
   const archive = path.join(home, "elevation.zip");
@@ -67,7 +67,7 @@ export async function artifactFixture(mac: MacScriptFixture) {
 </dict></plist>`,
   );
   for (const [name, bytes] of [
-    ["MacOS/OpenClaw", binaries.universal],
+    ["MacOS/FRIDAY", binaries.universal],
     ["MacOS/openclaw-mlx-tts", binaries.universal],
     ["Frameworks/shared [fixture].dylib", binaries.universalLibrary],
   ] as const) {
@@ -106,7 +106,7 @@ deny() { printf '%s\\n' "$*" >>"$TEST_FORBIDDEN"; exit 97; }
 shasum() {
   [[ "$1 $2" == '-a 256' && "$#" -le 3 ]] || deny unexpected-shasum
   shift 2
-  if [[ -n "\${WORK_ROOT:-}" && "\${1:-}" == "$WORK_ROOT/OpenClaw.app/Contents/MacOS/OpenClaw" ]]; then record candidate-helper-hash; fi
+  if [[ -n "\${WORK_ROOT:-}" && "\${1:-}" == "$WORK_ROOT/FRIDAY.app/Contents/MacOS/FRIDAY" ]]; then record candidate-helper-hash; fi
   /usr/bin/openssl dgst -sha256 -r "$@"
 }
 for tool in launchctl open kill pkill killall pgrep lsof defaults diskutil sqlite3 security osascript openclaw node bun python python3 curl ssh; do
@@ -270,7 +270,7 @@ plutil() {
     teamIdentifier: "FWJYW4S8P8",
     cdhashes: { arm64: "FIXTUREARM64", x86_64: "FIXTUREX8664" },
     architectures: {
-      main: await architectures("OpenClaw"),
+      main: await architectures("FRIDAY"),
       helper: await architectures("openclaw-mlx-tts"),
     },
     entitlementsSha256: { main: digest(entitlements), helper: digest(entitlements) },

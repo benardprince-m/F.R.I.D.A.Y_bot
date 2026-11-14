@@ -400,7 +400,7 @@ function publicationFixture() {
   };
   const publisherJobs = [
     {
-      ...job("Publish plugins, then OpenClaw", "failure"),
+      ...job("Publish plugins, then FRIDAY", "failure"),
       id: 8801,
       run_id: 88,
       run_attempt: 1,

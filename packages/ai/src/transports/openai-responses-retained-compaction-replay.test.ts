@@ -161,7 +161,7 @@ describe("Responses retained-user compaction replay", () => {
     ];
     const carrier = {
       role: "user",
-      content: "OpenClaw runtime context:\ncurrent request metadata",
+      content: "FRIDAY runtime context:\ncurrent request metadata",
       timestamp: 3,
       runtimeContext: {},
     } satisfies Context["messages"][number];

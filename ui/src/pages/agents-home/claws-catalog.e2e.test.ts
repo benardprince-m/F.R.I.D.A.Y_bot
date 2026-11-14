@@ -305,7 +305,7 @@ describe.skipIf(!browserAvailable)("Claws Add in Agents", () => {
         const detail = page.locator(".plugin-catalog-detail");
         await detail.getByRole("heading", { name: "Skills" }).waitFor();
         const publisher = detail.locator(".plugin-catalog-detail__publisher");
-        expect(await publisher.locator("strong").textContent()).toBe("OpenClaw");
+        expect(await publisher.locator("strong").textContent()).toBe("FRIDAY");
         expect(await publisher.getByRole("link", { name: "@openclaw" }).getAttribute("href")).toBe(
           "https://clawhub.ai/openclaw",
         );

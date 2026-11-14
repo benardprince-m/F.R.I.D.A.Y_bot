@@ -552,7 +552,7 @@ ${posixAgentTurnScript({
     return await extractLastOpenClawVersion(
       this.runDir,
       phaseId,
-      /(OpenClaw [^\r\n]+ \([0-9a-f]{7,}\))/g,
+      /(FRIDAY [^\r\n]+ \([0-9a-f]{7,}\))/g,
     );
   }
 

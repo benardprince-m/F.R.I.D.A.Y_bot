@@ -46,7 +46,7 @@ function checkRegistryCoverage(inventory: UpdateCompatibilityInventory, output: 
   const entries = resolveNpmJsonEntries(npmView("openclaw", "dist-tags"));
   const tags = entries.length === 1 ? entries[0] : undefined;
   if (typeof tags !== "object" || tags === null || Array.isArray(tags)) {
-    throw new Error("npm returned invalid OpenClaw dist-tags; expected latest and beta versions");
+    throw new Error("npm returned invalid FRIDAY dist-tags; expected latest and beta versions");
   }
   const taggedVersions: string[] = [];
   // Extended-stable installs follow their own selector once a monthly line has published.
@@ -56,7 +56,7 @@ function checkRegistryCoverage(inventory: UpdateCompatibilityInventory, output: 
       continue;
     }
     if (typeof version !== "string" || parseReleaseVersion(version)?.version !== version) {
-      throw new Error(`npm OpenClaw dist-tag ${tag} is missing or invalid`);
+      throw new Error(`npm FRIDAY dist-tag ${tag} is missing or invalid`);
     }
     taggedVersions.push(version);
   }

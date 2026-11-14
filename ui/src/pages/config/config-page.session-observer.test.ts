@@ -105,7 +105,7 @@ describe("ConfigPage navigation", () => {
       agentSelection: { state: { selectedId: "main" }, subscribe },
       agents: { state: { agentsList: null }, subscribe },
       config: {
-        current: { assistantIdentity: { name: "OpenClaw" }, serverVersion: "test" },
+        current: { assistantIdentity: { name: "FRIDAY" }, serverVersion: "test" },
         subscribe,
       },
       runtimeConfig: {
@@ -492,7 +492,7 @@ describe("ConfigPage model catalog lifecycle", () => {
       runtimeConfig: { state: { configSnapshot: {}, configSchema: {} }, subscribe },
       theme: { branding: resolveThemeBranding(undefined), serverSelection: null, subscribe },
       overlays: { snapshot: {}, subscribe },
-      config: { current: { assistantIdentity: { name: "OpenClaw" } }, subscribe },
+      config: { current: { assistantIdentity: { name: "FRIDAY" } }, subscribe },
       webPush: { subscribe },
     } as unknown as ApplicationContext;
     const view = mountConfigPage(context, { pageId: "appearance" });
@@ -803,7 +803,7 @@ describe("ConfigPage meeting capture", () => {
         agents: { state: { agentsList: null } },
         theme: { branding: resolveThemeBranding(undefined) },
         navigate: vi.fn(),
-        config: { current: { assistantIdentity: { name: "OpenClaw" } } },
+        config: { current: { assistantIdentity: { name: "FRIDAY" } } },
         overlays: { snapshot: { updateRunning: false, updateReconciliationPending: false } },
         webPush: { snapshot: {} },
       } as unknown as ApplicationContext;

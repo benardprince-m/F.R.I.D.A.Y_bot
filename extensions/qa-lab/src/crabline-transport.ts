@@ -145,7 +145,7 @@ function readTelegramLifecycleEvent(params: {
       kind: chatId.startsWith("-") ? "group" : "direct",
     },
     senderId: "openclaw",
-    senderName: "OpenClaw QA",
+    senderName: "FRIDAY QA",
     text,
     timestamp: Date.now(),
     ...(threadId ? { threadId } : {}),
@@ -540,7 +540,7 @@ function createQaCrablineTransport(params: {
       };
       // Provider-native targets must retain their own classification (for example,
       // Telegram negative group ids and Slack C/G conversation ids). Matrix and
-      // Mattermost also require OpenClaw to forward threads separately at the
+      // Mattermost also require FRIDAY to forward threads separately at the
       // Gateway request boundary instead of passing them into Crabline delivery setup.
       const providerThreadId =
         selection.channel === "matrix" || selection.channel === "mattermost"
@@ -592,7 +592,7 @@ function createQaCrablineTransport(params: {
     },
 
     createReportNotes: (_params) => [
-      `Runs OpenClaw's ${selection.channel} channel plugin against a Crabline local provider server.`,
+      `Runs FRIDAY's ${selection.channel} channel plugin against a Crabline local provider server.`,
       "No live channel service or external credential lease is required.",
     ],
 

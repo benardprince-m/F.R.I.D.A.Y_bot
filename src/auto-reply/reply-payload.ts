@@ -326,7 +326,7 @@ export type ReplyPayloadMetadata = {
     accountId?: string;
   };
   /**
-   * Internal OpenClaw notices and host-owned artifacts are not assistant source
+   * Internal FRIDAY notices and host-owned artifacts are not assistant source
    * replies. Dispatch may deliver them even when normal assistant source replies
    * are message-tool-only; sendPolicy deny still wins.
    */

@@ -13,7 +13,7 @@ function mutationQueue(namespace: "thread" | "conversation") {
     await nativeThreadOwners.enqueue(`${namespace}:${id}`, run);
 }
 
-/** Serialize OpenClaw-owned lifecycle changes, not native-internal thread controllers. */
+/** Serialize FRIDAY-owned lifecycle changes, not native-internal thread controllers. */
 export const withCodexAppServerThreadMutation = mutationQueue("thread");
 
 /** Serializes bound turns and retirement so detach cannot unsubscribe an active turn. */

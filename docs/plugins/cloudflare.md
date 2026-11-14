@@ -1,8 +1,8 @@
 ---
-summary: "Configure Cloudflare R2 as an encrypted OpenClaw storage location"
+summary: "Configure Cloudflare R2 as an encrypted FRIDAY storage location"
 title: "Cloudflare"
 read_when:
-  - You want to store OpenClaw artifacts in Cloudflare R2
+  - You want to store FRIDAY artifacts in Cloudflare R2
   - You need to configure an R2 bucket, credentials, or jurisdiction
   - You are diagnosing R2 storage access
 ---
@@ -10,7 +10,7 @@ read_when:
 # Cloudflare
 
 The bundled Cloudflare plugin provides `r2` storage locations through Cloudflare's
-S3-compatible API. OpenClaw handles location identity and encryption; the plugin
+S3-compatible API. FRIDAY handles location identity and encryption; the plugin
 transfers objects to your bucket. Configuring a location does not schedule backups
 or move existing data.
 
@@ -37,7 +37,7 @@ Make the saved credentials available as `R2_ACCESS_KEY_ID` and
 separate encryption passphrase, keep a recoverable copy in your secret manager,
 and provide it as `OPENCLAW_STORAGE_PASSPHRASE` in that environment.
 
-Add this to your OpenClaw config, replacing the example account ID and bucket:
+Add this to your FRIDAY config, replacing the example account ID and bucket:
 
 ```json5
 {
@@ -136,7 +136,7 @@ command. For temporary credentials, also verify that the session token is presen
 and has not expired.
 
 If the bucket is missing, create it in the configured account or correct
-`accountId`, `bucket`, and `jurisdiction`. OpenClaw does not create buckets.
+`accountId`, `bucket`, and `jurisdiction`. FRIDAY does not create buckets.
 
 If the location has no initialization marker, confirm that the prefix is correct before
 running `openclaw storage init <name>`. Changing the prefix selects a different

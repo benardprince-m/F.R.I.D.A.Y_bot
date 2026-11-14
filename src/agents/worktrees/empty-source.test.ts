@@ -22,9 +22,9 @@ import { ManagedWorktreeService, SNAPSHOT_RETENTION_MS } from "./service.js";
 import { retireExpiredManagedWorktreeSnapshot } from "./snapshot-host.js";
 
 const identity = {
-  GIT_AUTHOR_NAME: "OpenClaw Test",
+  GIT_AUTHOR_NAME: "FRIDAY Test",
   GIT_AUTHOR_EMAIL: "openclaw-test@example.invalid",
-  GIT_COMMITTER_NAME: "OpenClaw Test",
+  GIT_COMMITTER_NAME: "FRIDAY Test",
   GIT_COMMITTER_EMAIL: "openclaw-test@example.invalid",
 };
 

@@ -102,7 +102,7 @@ describe("runSystemAgentWithInference", () => {
     expect(currentRuntime.exit).not.toHaveBeenCalled();
   });
 
-  it("lets interactive OpenClaw execution errors propagate", async () => {
+  it("lets interactive FRIDAY execution errors propagate", async () => {
     inferenceMocks.runSystemAgent.mockRejectedValue(new Error("interactive operation failed"));
 
     await expect(
@@ -133,7 +133,7 @@ describe("runSystemAgentWithInference", () => {
     await runSystemAgentWithInference({ input: pipe, output: pipe }, currentRuntime);
 
     expect(currentRuntime.error).toHaveBeenCalledWith(
-      "OpenClaw needs an interactive TTY. Use --message for one command.",
+      "FRIDAY needs an interactive TTY. Use --message for one command.",
     );
     expect(currentRuntime.exit).toHaveBeenCalledWith(1);
     expect(inferenceMocks.verifySetupInference).not.toHaveBeenCalled();
@@ -143,7 +143,7 @@ describe("runSystemAgentWithInference", () => {
     await runSystemAgentWithInference({ json: true, yes: true }, currentRuntime);
 
     expect(currentRuntime.log).toHaveBeenCalledWith(
-      expect.stringContaining('"error": "OpenClaw --yes requires --message'),
+      expect.stringContaining('"error": "FRIDAY --yes requires --message'),
     );
     expect(currentRuntime.error).not.toHaveBeenCalled();
     expect(exitMocks.requestExitAfterOneShotOutput).toHaveBeenCalledWith(currentRuntime, 1);

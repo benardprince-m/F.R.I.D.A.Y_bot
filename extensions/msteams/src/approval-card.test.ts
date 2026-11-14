@@ -48,10 +48,10 @@ describe("Microsoft Teams approval Adaptive Cards", () => {
         ...createExecPendingView(),
         approvalId: "system-agent:change-1",
         approvalKind: "system-agent",
-        title: "OpenClaw change",
+        title: "FRIDAY change",
         operationSummary: "restart the Gateway",
       } satisfies PendingApprovalView,
-      label: "OpenClaw Change",
+      label: "FRIDAY Change",
       decision: "allow-once",
       decisionLabel: "Allowed once",
       subject: [
@@ -191,7 +191,7 @@ describe("Microsoft Teams approval Adaptive Cards", () => {
         ...result.approval,
         presentation: {
           kind: "system-agent",
-          title: "OpenClaw change",
+          title: "FRIDAY change",
           description: "restart the Gateway",
           proposalHash: "a".repeat(64),
           allowedDecisions: ["allow-once", "deny"],

@@ -17,13 +17,13 @@ const scriptPath = "scripts/create-dmg.sh";
 
 function makeApp(
   entries: Record<string, string> = {
-    CFBundleName: "OpenClaw",
+    CFBundleName: "FRIDAY",
     CFBundleShortVersionString: "2026.6.16",
   },
 ): string {
   const dir = mkdtempSync(path.join(tmpdir(), "openclaw-create-dmg-"));
   tempDirs.push(dir);
-  const app = path.join(dir, "OpenClaw.app");
+  const app = path.join(dir, "FRIDAY.app");
   const contents = path.join(app, "Contents");
   mkdirSync(contents, { recursive: true });
   const dict = Object.entries(entries)
@@ -166,7 +166,7 @@ function fixture(subdirectory = "") {
   const root = mkdtempSync(path.join(tmpdir(), "openclaw-create-dmg-output-"));
   tempDirs.push(root);
   const outputDir = path.join(root, subdirectory);
-  const output = path.join(outputDir, "OpenClaw.dmg");
+  const output = path.join(outputDir, "FRIDAY.dmg");
   const tools = makeFakeDmgTools();
   return {
     outputDir,
@@ -214,7 +214,7 @@ describe("create-dmg plist validation", () => {
   it.runIf(process.platform === "darwin")(
     "fails before hdiutil when required plist keys are missing",
     () => {
-      const app = makeApp({ CFBundleName: "OpenClaw" });
+      const app = makeApp({ CFBundleName: "FRIDAY" });
       const result = runScript([app, path.join(path.dirname(app), "out.dmg")]);
 
       expect(result.status).toBe(1);
@@ -229,7 +229,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     "publishes to %s without touching caller siblings",
     (subdirectory) => {
       const { outputDir, output, tools, run } = fixture(subdirectory);
-      const sibling = path.join(outputDir, "OpenClaw-rw.dmg");
+      const sibling = path.join(outputDir, "FRIDAY-rw.dmg");
       if (!subdirectory) {
         writeFileSync(output, "previous output", "utf8");
         writeFileSync(sibling, "caller owned", "utf8");
@@ -412,7 +412,7 @@ describe.runIf(process.platform === "darwin")("create-dmg ownership boundaries",
     expect(applescript).toContain('set dmgRoot to POSIX file "');
     expect(applescript).toContain('/mount" as alias');
     expect(applescript).toContain("set dmgDisk to disk of dmgRoot");
-    expect(applescript).not.toContain('tell disk "OpenClaw"');
+    expect(applescript).not.toContain('tell disk "FRIDAY"');
     expect(applescript).not.toContain("close every window");
   });
 });

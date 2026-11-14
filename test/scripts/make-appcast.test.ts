@@ -50,7 +50,7 @@ describe("make_appcast cleanup", () => {
         "#!/bin/sh\necho '<p>Release notes</p>'\n",
         { mode: 0o755 },
       );
-      const zip = path.join(root, `OpenClaw-${version}.zip`);
+      const zip = path.join(root, `FRIDAY-${version}.zip`);
       writeFileSync(zip, "fixture archive");
       writeFileSync(path.join(root, "appcast.xml"), "previous feed");
       const generator = path.join(root, "generate-appcast");
@@ -101,7 +101,7 @@ fs.writeFileSync(output, '<rss><channel><item><sparkle:shortVersionString>${vers
       expect(readFileSync(path.join(root, "appcast.xml"), "utf8")).toContain(
         `<sparkle:shortVersionString>${version}</sparkle:shortVersionString>`,
       );
-      expect(existsSync(path.join(root, `OpenClaw-${version}.html`))).toBe(false);
+      expect(existsSync(path.join(root, `FRIDAY-${version}.html`))).toBe(false);
     } finally {
       rmSync(root, { recursive: true, force: true });
     }

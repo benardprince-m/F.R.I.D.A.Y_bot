@@ -185,7 +185,7 @@ export function registerWorkerTurnInferenceTests(): void {
           ? "Allow that model in the agent model policy"
           : rejection === "missing-node"
             ? "settings.device to a connected node"
-            : "Update and restart its OpenClaw node host",
+            : "Update and restart its FRIDAY node host",
       );
       expect(environments.acquireTurnCredential).not.toHaveBeenCalled();
       expect(environments.startTunnel).not.toHaveBeenCalled();

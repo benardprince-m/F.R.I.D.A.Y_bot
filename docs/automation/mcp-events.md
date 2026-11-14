@@ -9,7 +9,7 @@ title: "MCP Events"
 ---
 
 MCP Events connects a remote MCP server to [Automations](/automation/cron-jobs).
-The MCP server filters changes and sends signed webhooks. OpenClaw durably accepts
+The MCP server filters changes and sends signed webhooks. FRIDAY durably accepts
 them and runs the automation's existing instructions, tool policy, delivery, and
 history. Events do not introduce another scheduler or require an MCP App view to
 remain open.
@@ -20,7 +20,7 @@ The bundled, opt-in `mcp-events` plugin implements the
 [OpenAI webhook profile](https://developers.openai.com/plugins/build/mcp-events):
 MCP protocol `2026-07-28`, `server/discover`, `events/list`,
 `events/subscribe`, and `events/unsubscribe` over Streamable HTTP.
-It uses OpenClaw's existing configured MCP connections and authentication.
+It uses FRIDAY's existing configured MCP connections and authentication.
 Legacy MCP tool connections keep their existing handshake.
 
 This is a versioned integration with an experimental specification, not a claim
@@ -58,7 +58,7 @@ the plugin with a public HTTPS callback origin:
 The origin must have no credentials, path, query, or fragment. Route only
 `/plugins/mcp-events/callback/` to the Gateway through your HTTPS reverse proxy.
 Do not expose the Control UI, Gateway WebSocket, or other administrative paths.
-OpenClaw does not open a tunnel or change your network configuration.
+FRIDAY does not open a tunnel or change your network configuration.
 
 The remote server must be able to reach this origin and verify its TLS
 certificate. Public DNS validation is a prerequisite, not proof of reachability;
@@ -121,11 +121,11 @@ are not trusted authorization facts.
 
 ## Subscription lifecycle
 
-OpenClaw prepares a callback binding and signing secret before subscribing. The
+FRIDAY prepares a callback binding and signing secret before subscribing. The
 server can therefore send its signed verification challenge before returning the
 subscription ID. Verification confirms the callback; it never starts an agent.
 
-Subscriptions have finite leases. OpenClaw refreshes them before the server's
+Subscriptions have finite leases. FRIDAY refreshes them before the server's
 `refreshBefore` deadline, using the existing Gateway scheduler and the last
 persisted cursor. Protocol maintenance does not invoke a model. Setting `cron.triggers.enabled` to
 `false` pauses event-run admission as well as the existing trigger surfaces,
@@ -158,7 +158,7 @@ auth scopes are not promoted to ambient shared authority.
 ## Receipt, execution, and recovery
 
 A successful webhook response acknowledges durable receipt, not model completion
-or output delivery. OpenClaw verifies the signature over the exact request body,
+or output delivery. FRIDAY verifies the signature over the exact request body,
 checks the signing timestamp and source binding, and stores the event before
 returning `2xx`. One request contains one event, no larger than 256 KiB.
 
@@ -167,7 +167,7 @@ Duplicate event IDs are scoped to their source binding; they do not suppress
 unrelated events from another server or subscription. The handoff to a run
 transfers the ingress claim and records the automation receipt together. Before
 that transfer, restart recovery can retry admission. After it, the run receipt
-owns completion or interruption; OpenClaw does not automatically repeat a
+owns completion or interruption; FRIDAY does not automatically repeat a
 possibly side-effecting run to hide an uncertain outcome.
 
 The plugin's `maxPendingEvents` setting bounds pending intake (default 10,000).

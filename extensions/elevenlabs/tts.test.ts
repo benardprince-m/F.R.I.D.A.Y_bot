@@ -162,7 +162,7 @@ describe("elevenlabs tts diagnostics", () => {
 
     await expect(
       synthesizeElevenLabsLiveSpeech({
-        text: "OpenClaw leak check.",
+        text: "FRIDAY leak check.",
         apiKey: "x",
         outputFormat: "mp3_44100_128",
         timeoutMs: 1_000,

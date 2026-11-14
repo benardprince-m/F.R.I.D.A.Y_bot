@@ -79,7 +79,7 @@ describe("formatCodexUsageLimitErrorMessage", () => {
       nowMs,
     });
 
-    expect(message).toContain("OpenClaw could not determine a reset time from Codex.");
+    expect(message).toContain("FRIDAY could not determine a reset time from Codex.");
     expect(message).toContain("Wait until Codex becomes available");
     expect(message).not.toContain("Next reset");
     expect(message).not.toContain("1 hour");
@@ -106,7 +106,7 @@ describe("formatCodexUsageLimitErrorMessage", () => {
 
     expect(message).not.toContain("current account usage does not report an exhausted limit");
     expect(message).not.toContain("Retry the request");
-    expect(message).toContain("OpenClaw could not determine a reset time from Codex.");
+    expect(message).toContain("FRIDAY could not determine a reset time from Codex.");
   });
 });
 

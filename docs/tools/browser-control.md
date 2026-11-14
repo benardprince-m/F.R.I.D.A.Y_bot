@@ -1,5 +1,5 @@
 ---
-summary: "OpenClaw browser control API, CLI reference, and scripting actions"
+summary: "FRIDAY browser control API, CLI reference, and scripting actions"
 read_when:
   - Scripting or debugging the agent browser via the local control API
   - Looking for the `openclaw browser` CLI reference
@@ -40,7 +40,7 @@ Prefer the single-purpose tab routes above when scripting directly.
 All endpoints accept `?profile=<name>`. `POST /start?headless=true` requests a
 one-shot headless launch for local managed profiles without changing persisted
 browser config. Attach-only, remote CDP, and existing-session profiles reject
-that override because OpenClaw does not launch those browser processes.
+that override because FRIDAY does not launch those browser processes.
 
 For tab endpoints, `targetId` is the compatibility field name. Prefer passing
 `suggestedTargetId` from `GET /tabs` or `POST /tabs/open`. Labels and `tabId`
@@ -53,7 +53,7 @@ For profiles configured with `driver: "extension"`, `GET /tabs` and the browser
 tool can also return `webExtensionTabId`, the runtime-scoped numeric Chrome
 WebExtensions tab ID for the same tab. This field is omitted for other drivers
 or when extension metadata is unavailable. Use it only when calling a
-WebExtensions API; continue to use `suggestedTargetId` or `tabId` for OpenClaw
+WebExtensions API; continue to use `suggestedTargetId` or `tabId` for FRIDAY
 browser actions because a `webExtensionTabId` can change after the browser or
 extension reconnects.
 
@@ -71,7 +71,7 @@ When URL validation fails during tab listing, the tab keeps its identity and
 title but returns `url: ""` and `urlUnavailableReason`:
 
 - `navigation_blocked`: navigation rules rejected the address.
-- `navigation_check_failed`: OpenClaw could not validate the address, for example
+- `navigation_check_failed`: FRIDAY could not validate the address, for example
   because DNS lookup failed. Refresh to check again.
 
 An empty URL alone does not indicate a policy denial. Navigation-policy errors
@@ -203,7 +203,7 @@ not supported for element screenshots`.
 
 If you see `Playwright is not available in this gateway build`, the packaged
 Gateway is missing the core browser runtime dependency. Reinstall or update
-OpenClaw, then restart the gateway. For Docker, also install the Chromium
+FRIDAY, then restart the gateway. For Docker, also install the Chromium
 browser binaries as shown below.
 
 #### Docker Playwright install
@@ -354,19 +354,19 @@ Notes:
   download URL, suggested filename, and guarded local path. Explicit download
   interception is available for managed Playwright profiles. Existing-session
   profiles return an unsupported-operation error.
-- Prefer atomic chooser uploads: pass the trigger `--ref` with the upload so OpenClaw arms and clicks in one request. Paths-only `upload` remains supported when a later trigger is intentional. Use `--input-ref` or `--element` to set a file input directly. `dialog` is an arming call. Run it before the click/press that triggers the dialog. If an action opens a modal, the action response includes `blockedByDialog` and `browserState.dialogs.pending`. Pass that `dialogId` to respond directly. Dialogs handled outside OpenClaw appear under `browserState.dialogs.recent`.
+- Prefer atomic chooser uploads: pass the trigger `--ref` with the upload so FRIDAY arms and clicks in one request. Paths-only `upload` remains supported when a later trigger is intentional. Use `--input-ref` or `--element` to set a file input directly. `dialog` is an arming call. Run it before the click/press that triggers the dialog. If an action opens a modal, the action response includes `blockedByDialog` and `browserState.dialogs.pending`. Pass that `dialogId` to respond directly. Dialogs handled outside FRIDAY appear under `browserState.dialogs.recent`.
 - Cancelling a pending locator click, typing, or upload operation leaves other tabs connected. Upload waiters belong to the selected tab. A new upload on that tab replaces its previous waiter.
 - `click`/`type`/etc require a `ref` from `snapshot` (for example, Playwright ref `f1e12`, role ref `e12`, or actionable ARIA ref `ax12`). Copy the returned ref unchanged, including any frame prefix. CSS selectors are intentionally not supported for actions. Use `click-coords` when the visible viewport position is the only reliable target.
-- Download and trace paths are constrained to OpenClaw temp roots: `/tmp/openclaw{,/downloads}` (fallback: `${os.tmpdir()}/openclaw/...`).
-- `upload` accepts files from the OpenClaw temp uploads root and
-  OpenClaw-managed inbound media. Managed inbound media can be referenced as
+- Download and trace paths are constrained to FRIDAY temp roots: `/tmp/openclaw{,/downloads}` (fallback: `${os.tmpdir()}/openclaw/...`).
+- `upload` accepts files from the FRIDAY temp uploads root and
+  FRIDAY-managed inbound media. Managed inbound media can be referenced as
   `media://inbound/<id>`, sandbox-relative `media/inbound/<id>`, or a resolved
   path inside the managed inbound media directory. Nested media refs,
   traversal, symlinks, hardlinks, and arbitrary local paths are still rejected.
 - `upload` can also set file inputs directly via `--input-ref` or `--element`; these operations honor the upload timeout.
 - Dialog prompt text preserves whitespace and empty strings exactly. Reading all local or session storage preserves empty keys and keys such as `__proto__`.
 
-Stable tab ids and labels survive Chromium raw-target replacement when OpenClaw
+Stable tab ids and labels survive Chromium raw-target replacement when FRIDAY
 can prove the replacement tab, such as a unique old/new pair for the same URL or
 a single old tab becoming a single new tab after form submission. Ambiguous
 duplicate-URL replacements receive fresh handles. Raw target ids are still
@@ -375,7 +375,7 @@ volatile. Prefer `suggestedTargetId` from `tabs` in scripts.
 Snapshot flags at a glance:
 
 - `--format ai` (default with Playwright): AI snapshot with native Playwright refs, including frame-qualified refs such as `f1e12`.
-- `--format aria`: accessibility tree with `axN` refs. When Playwright is available, OpenClaw binds refs with backend DOM ids to the live page. Follow-up actions can then use them. Otherwise treat the output as inspection-only.
+- `--format aria`: accessibility tree with `axN` refs. When Playwright is available, FRIDAY binds refs with backend DOM ids to the live page. Follow-up actions can then use them. Otherwise treat the output as inspection-only.
 - `--efficient` (or `--mode efficient`): compact role snapshot preset. Set `browser.snapshotDefaults.mode: "efficient"` to make this the default (see [Gateway configuration](/gateway/config-browser-ui-desktop#browser)).
 - `--interactive`, `--compact`, `--depth`, `--selector` force a role snapshot with `ref=e12` refs. `--frame "<iframe>"` scopes role snapshots to an iframe.
 - Selector- and frame-scoped role refs bind to the captured DOM controls, including shadow DOM and external `aria-owns` members. Reordering controls does not retarget those refs. Removed controls or failed bindings require a new snapshot instead of matching another control by name.
@@ -394,7 +394,7 @@ Snapshot flags at a glance:
 
 ## Snapshots and refs
 
-OpenClaw supports three "snapshot" styles:
+FRIDAY supports three "snapshot" styles:
 
 - **AI snapshot (native refs)**: `openclaw browser snapshot` (default, `--format ai`)
   - Output: a text snapshot with refs such as `f1e12` and matching `refs` metadata.

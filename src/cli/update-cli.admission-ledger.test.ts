@@ -495,9 +495,7 @@ describe("update-cli", () => {
           "Phase: verifying",
           "Phase: finished",
         ]);
-        expect(output.indexOf("OpenClaw updated")).toBeGreaterThan(
-          output.indexOf("Phase: finished"),
-        );
+        expect(output.indexOf("FRIDAY updated")).toBeGreaterThan(output.indexOf("Phase: finished"));
       } finally {
         release.resolve();
         await settled;

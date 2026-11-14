@@ -625,7 +625,7 @@ function resolveResponseText(bodyText, body) {
   const markerText = markerBody ? JSON.stringify(markerBody) : bodyText;
   const servingChecks = Array.from(
     markerText.matchAll(
-      /This is an OpenClaw update serving check\. Do not use tools\. Reply with exactly: (update-verified-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\b/gu,
+      /This is an FRIDAY update serving check\. Do not use tools\. Reply with exactly: (update-verified-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\b/gu,
     ),
   );
   if (servingChecks.length > 0) {

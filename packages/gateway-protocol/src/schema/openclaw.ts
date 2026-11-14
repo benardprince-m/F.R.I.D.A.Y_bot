@@ -15,7 +15,7 @@ import {
   SetupInferenceFailureStatusSchema,
 } from "./setup-inference.js";
 import { withSince } from "./since.js";
-// Gateway Protocol schema module defines OpenClaw chat payloads.
+// Gateway Protocol schema module defines FRIDAY chat payloads.
 import { stringLiteralUnion } from "./string-literal-union.js";
 import { WizardAnswerSchema, WizardStartResultSchema, WizardStepSchema } from "./wizard.js";
 
@@ -40,7 +40,7 @@ const PluginCapabilityNamesSchema = Type.Optional(
 );
 
 /**
- * OpenClaw chat lets clients (macOS app onboarding, future UIs) hold the
+ * FRIDAY chat lets clients (macOS app onboarding, future UIs) hold the
  * setup/repair conversation over the gateway. The gateway live-tests the
  * configured inference route before creating a session. Omitting `message`
  * returns the welcome/greeting for a verified fresh session without input.
@@ -136,7 +136,7 @@ export const SystemAgentChatQuestionSchema = closedObject({
   skipAction: Type.Optional(Type.Literal("exit")),
 });
 
-/** One OpenClaw reply; `action` tells clients about conversation handoffs. */
+/** One FRIDAY reply; `action` tells clients about conversation handoffs. */
 export const SystemAgentChatResultSchema = closedObject({
   sessionId: NonEmptyString,
   reply: NonEmptyString,

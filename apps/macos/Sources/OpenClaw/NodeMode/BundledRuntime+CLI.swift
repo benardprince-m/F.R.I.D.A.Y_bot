@@ -3,7 +3,7 @@ import Foundation
 import OSLog
 
 extension BundledRuntime {
-    private static let shimSignature = "# OpenClaw.app managed CLI (bundled runtime)"
+    private static let shimSignature = "# FRIDAY.app managed CLI (bundled runtime)"
     private static let macCLITargetAttribute = "ai.openclaw.mac-cli-target"
     private static let cliLogger = Logger(subsystem: "ai.openclaw", category: "bundled-runtime.cli")
 

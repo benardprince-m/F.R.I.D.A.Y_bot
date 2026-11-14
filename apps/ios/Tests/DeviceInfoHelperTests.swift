@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 struct DeviceInfoHelperTests {
     @Test func `iOS version display omits platform prefix`() {
@@ -26,7 +26,7 @@ struct DeviceInfoHelperTests {
             interfaceIdiom: .pad,
             isIOSAppOnMac: true)
 
-        #expect(name == "OpenClaw Mac App")
+        #expect(name == "FRIDAY Mac App")
     }
 
     @Test func `iOS app on Mac replaces persisted generic iPad device name`() {
@@ -36,7 +36,7 @@ struct DeviceInfoHelperTests {
             interfaceIdiom: .pad,
             isIOSAppOnMac: true)
 
-        #expect(name == "OpenClaw Mac App")
+        #expect(name == "FRIDAY Mac App")
     }
 
     @Test func `iOS app on Mac replaces persisted generic iPhone device name`() {
@@ -46,7 +46,7 @@ struct DeviceInfoHelperTests {
             interfaceIdiom: .phone,
             isIOSAppOnMac: true)
 
-        #expect(name == "OpenClaw Mac App")
+        #expect(name == "FRIDAY Mac App")
     }
 
     @Test func `iOS app on Mac preserves a custom node name`() {
@@ -81,7 +81,7 @@ struct DeviceInfoHelperTests {
 
     @Test func `physical iPhone replaces stale Mac compatibility default`() {
         let name = NodeDisplayName.resolve(
-            existing: "OpenClaw Mac App",
+            existing: "FRIDAY Mac App",
             deviceName: "QA iPhone",
             interfaceIdiom: .phone,
             isIOSAppOnMac: false)

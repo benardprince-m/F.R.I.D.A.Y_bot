@@ -138,7 +138,7 @@ export class FaceTimeHelperSupervisor {
     state.connected = false;
     state.stale = true;
     state.staleProcessId = processId;
-    state.lastError = `Restart ${target} to load the updated OpenClaw helper`;
+    state.lastError = `Restart ${target} to load the updated FRIDAY helper`;
     if (!wasStale) {
       this.params.logger.warn(`[facetime] ${state.lastError}`);
     }

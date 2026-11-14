@@ -212,7 +212,7 @@ it.each([
   ["2026.7.21", ["## 2026.7.21\n\nNew notes.\n\nOld notes."]],
   ["2026.7.21 - 2026-07-23", ["## 2026.7.21 - 2026-07-23\n\nNew notes.\n\nOld notes."]],
 ] as const)("cuts idempotent release notes for %s", (heading, expected) => {
-  const current = `# OpenClaw iOS Changelog\n\n## Unreleased\n\nNew notes.\n\n## ${heading}\n\nOld notes.\n`;
+  const current = `# FRIDAY iOS Changelog\n\n## Unreleased\n\nNew notes.\n\n## ${heading}\n\nOld notes.\n`;
   const updated = cutIosReleaseChangelog(current, "2026.7.21");
   for (const fragment of expected) {
     expect(updated).toContain(fragment);

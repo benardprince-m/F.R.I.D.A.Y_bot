@@ -152,7 +152,7 @@ describe("memory reindex state", () => {
       { providerKey: hashText(JSON.stringify({ provider: "local", model: "other" })) },
     ]);
   });
-  it("invalidates indexes with missing provenance version as OpenClaw-owned", () => {
+  it("invalidates indexes with missing provenance version as FRIDAY-owned", () => {
     expect(
       resolveMemoryIndexIdentityState(
         createIdentityParams({ meta: createMeta({ provenanceVersion: undefined }) }),
@@ -180,7 +180,7 @@ describe("memory reindex state", () => {
     },
   );
 
-  it("classifies missing metadata as OpenClaw-owned", () => {
+  it("classifies missing metadata as FRIDAY-owned", () => {
     expect(resolveMemoryIndexIdentityState(createIdentityParams({ meta: null }))).toEqual({
       status: "missing",
       reason: "index metadata is missing",

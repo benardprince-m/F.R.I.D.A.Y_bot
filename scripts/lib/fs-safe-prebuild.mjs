@@ -297,7 +297,7 @@ export function restoreFsSafePrebuild(packageRoot, env = process.env, log = cons
     log.log?.(`[postinstall] restored ${probe.name}@${probe.version}`);
   } catch (error) {
     log.warn?.(
-      `[postinstall] fs-safe native support is unavailable: ${error instanceof Error ? error.message : String(error)}. Installation will continue; retry the OpenClaw installation to restore native support.`,
+      `[postinstall] fs-safe native support is unavailable: ${error instanceof Error ? error.message : String(error)}. Installation will continue; retry the FRIDAY installation to restore native support.`,
     );
   } finally {
     for (const ownedRoot of [installedRoot, stageRoot]) {

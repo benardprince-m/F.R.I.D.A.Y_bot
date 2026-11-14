@@ -201,7 +201,7 @@ async function runRegister(output: ReefCliOutput, options: RegisterOptions): Pro
       (explicitHandle !== undefined && identity.handle !== explicitHandle))
   ) {
     throw new Error(
-      `This OpenClaw state already holds the Reef identity @${identity.handle} on ${identity.relayUrl}. Re-register the same handle and relay.`,
+      `This FRIDAY state already holds the Reef identity @${identity.handle} on ${identity.relayUrl}. Re-register the same handle and relay.`,
     );
   }
   const requestedHandle = explicitHandle ?? identity?.handle;

@@ -4,7 +4,7 @@ import { MODEL_FALLBACK_NOTICE_KIND } from "./model-fallback-notice.js";
 
 export { OPENCLAW_TRANSCRIPT_ARTIFACT_PROVIDER } from "../../packages/agent-core/src/harness/session/transcript-model.js";
 
-// Identifies OpenClaw-authored assistant rows that are transcript bookkeeping,
+// Identifies FRIDAY-authored assistant rows that are transcript bookkeeping,
 // not provider model output. Some history surfaces keep gateway-injected rows
 // visible, so use the narrower delivery-mirror predicate when visibility matters.
 export const OPENCLAW_TRANSCRIPT_ARTIFACT_API = "openclaw-transcript" as const;
@@ -43,7 +43,7 @@ export function isTranscriptOnlyOpenClawAssistantModel(provider: unknown, model:
 }
 
 /**
- * Returns true when the message is an OpenClaw-authored transcript artifact
+ * Returns true when the message is an FRIDAY-authored transcript artifact
  * that must not be replayed to providers.
  *
  * Primary check: provider="openclaw" + model in known transcript-only set.

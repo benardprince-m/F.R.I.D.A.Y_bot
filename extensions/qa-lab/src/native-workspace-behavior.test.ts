@@ -18,7 +18,7 @@ describe("Codex-native workspace mock planning", () => {
     },
   );
 
-  it("does not change unmarked OpenClaw dynamic-tool planning", () => {
+  it("does not change unmarked FRIDAY dynamic-tool planning", () => {
     expect(buildQaToolSearchArgs("exec", false)).toEqual({
       command: "echo runtime-tool-fixture",
       timeoutSeconds: 5,

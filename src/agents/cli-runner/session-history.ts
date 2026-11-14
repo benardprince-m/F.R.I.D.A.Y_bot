@@ -146,7 +146,7 @@ export function buildCliSessionHistoryPrompt(params: {
 
   const tailRaw = tailMessages.map(renderHistoryMessage).filter(Boolean).join("\n\n").trim();
 
-  const truncationMarker = "[OpenClaw reseed history truncated; older turns dropped]";
+  const truncationMarker = "[FRIDAY reseed history truncated; older turns dropped]";
   const renderTruncatedTail = (raw: string, budget: number): string => {
     if (budget <= truncationMarker.length + "\n".length) {
       return sliceUtf16Safe(raw, -budget).trimStart();
@@ -201,7 +201,7 @@ export function buildCliSessionHistoryPrompt(params: {
   }
 
   return [
-    "Continue this conversation using the OpenClaw transcript below as prior session history.",
+    "Continue this conversation using the FRIDAY transcript below as prior session history.",
     "Treat it as authoritative context for this fresh CLI session.",
     "",
     "<conversation_history>",
@@ -590,7 +590,7 @@ function renderClaudeSessionGap(
     : countsPreservedTurns
       ? "messages recorded in this chat since your last reply here (possibly already in this session)"
       : "messages occurred outside this Claude session";
-  return `[OpenClaw: ${gap.length} ${description} from ${first.timestamp} to ${last.timestamp}, using ${modelSummary}${modelNames.length > 4 ? ` (+${modelNames.length - 4} more models)` : ""}. Their contents are not included here.${readHint}]`;
+  return `[FRIDAY: ${gap.length} ${description} from ${first.timestamp} to ${last.timestamp}, using ${modelSummary}${modelNames.length > 4 ? ` (+${modelNames.length - 4} more models)` : ""}. Their contents are not included here.${readHint}]`;
 }
 
 /** Reads one active branch for bounded reference notes and eligible fresh-session history. */

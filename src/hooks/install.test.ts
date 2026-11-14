@@ -264,7 +264,7 @@ describe("installHooksFromPath", () => {
     });
   });
 
-  it("preserves the declared OpenClaw dependency during update", async () => {
+  it("preserves the declared FRIDAY dependency during update", async () => {
     const { pkgDir, hooksDir } = makePackage("@openclaw/test-hooks", { openclaw: ">=2026.4.5" });
     fs.mkdirSync(path.join(hooksDir, "test-hooks"), { recursive: true });
     runCommandWithTimeoutMock.mockImplementation(async (_argv, optionsOrTimeout) => {

@@ -20,7 +20,7 @@ describe("telegramApprovalNativeRuntime", () => {
             resolvedAtMs: 1_000,
             presentation: {
               kind: "system-agent",
-              title: "OpenClaw change",
+              title: "FRIDAY change",
               description: "Restart the Gateway",
               proposalHash: "a".repeat(64),
               allowedDecisions: ["allow-once", "deny"],
@@ -29,7 +29,7 @@ describe("telegramApprovalNativeRuntime", () => {
         },
         fallbackApprovalId: "system-agent:cancelled",
       }),
-    ).toBe("⚠️ OpenClaw change was cancelled because its run ended. No change was made. Retry.");
+    ).toBe("⚠️ FRIDAY change was cancelled because its run ended. No change was made. Retry.");
   });
 
   it("builds the Control UI link with its configured base path and encoded approval ID", async () => {
@@ -45,7 +45,7 @@ describe("telegramApprovalNativeRuntime", () => {
       request: {
         id: "system-agent:change-1",
         request: {
-          title: "OpenClaw change",
+          title: "FRIDAY change",
           description: "set config gateway.port to 19001",
           command: "set config gateway.port to 19001",
           proposalHash: "a".repeat(64),
@@ -62,7 +62,7 @@ describe("telegramApprovalNativeRuntime", () => {
         approvalKind: "system-agent",
         approvalId: "system-agent:change-1",
         phase: "pending",
-        title: "OpenClaw change requires approval",
+        title: "FRIDAY change requires approval",
         description: "set config gateway.port to 19001",
         metadata: [{ label: "Agent", value: "main" }],
         agentId: "main",
@@ -91,7 +91,7 @@ describe("telegramApprovalNativeRuntime", () => {
       request: {
         id: "system-agent:change-disabled-ui",
         request: {
-          title: "OpenClaw change",
+          title: "FRIDAY change",
           description: "restart the Gateway",
           command: "restart the Gateway",
           proposalHash: "e".repeat(64),
@@ -107,7 +107,7 @@ describe("telegramApprovalNativeRuntime", () => {
         approvalKind: "system-agent",
         approvalId: "system-agent:change-disabled-ui",
         phase: "pending",
-        title: "OpenClaw change requires approval",
+        title: "FRIDAY change requires approval",
         metadata: [],
         commandText: "restart the Gateway",
         operationSummary: "restart the Gateway",
@@ -199,7 +199,7 @@ describe("telegramApprovalNativeRuntime", () => {
       decision: "allow-once",
       applicationStatus: "applied",
       summary: ` ${"x".repeat(2798)}😀tail `,
-      expected: `✅ OpenClaw change approved and applied: ${"x".repeat(2798)}…`,
+      expected: `✅ FRIDAY change approved and applied: ${"x".repeat(2798)}…`,
     },
   ] as const)(
     "renders exact system-agent terminal receipts: $name",
@@ -208,7 +208,7 @@ describe("telegramApprovalNativeRuntime", () => {
         approvalKind: "system-agent" as const,
         id: "system-agent:change-3",
         request: {
-          title: "OpenClaw change",
+          title: "FRIDAY change",
           description: summary,
           command: summary,
           proposalHash: "c".repeat(64),
@@ -234,7 +234,7 @@ describe("telegramApprovalNativeRuntime", () => {
             approvalKind: "system-agent",
             approvalId: request.id,
             phase: "resolved",
-            title: "OpenClaw change",
+            title: "FRIDAY change",
             metadata: [],
             commandText: summary,
             operationSummary: summary,
@@ -294,7 +294,7 @@ describe("telegramApprovalNativeRuntime", () => {
       approvalKind: "system-agent" as const,
       id: "system-agent:origin-followup",
       request: {
-        title: "OpenClaw change",
+        title: "FRIDAY change",
         description: "restart the Gateway",
         command: "restart the Gateway",
         proposalHash: "d".repeat(64),
@@ -315,13 +315,13 @@ describe("telegramApprovalNativeRuntime", () => {
       entry: { chatId: "5678", messageId: "m1" },
       request,
       approvalKind: "system-agent",
-      payload: { text: "✅ OpenClaw change approved. Applying: restart the Gateway" },
+      payload: { text: "✅ FRIDAY change approved. Applying: restart the Gateway" },
       phase: "resolved",
     });
 
     expect(sendMessage).toHaveBeenCalledWith(
       "1234",
-      "✅ OpenClaw change approved. Applying: restart the Gateway",
+      "✅ FRIDAY change approved. Applying: restart the Gateway",
       {
         cfg: {},
         token: "tg-token",
@@ -338,7 +338,7 @@ describe("telegramApprovalNativeRuntime", () => {
       entry: { chatId: "9012", messageId: "m2" },
       request,
       approvalKind: "system-agent",
-      payload: { text: "✅ OpenClaw change approved. Applying: restart the Gateway" },
+      payload: { text: "✅ FRIDAY change approved. Applying: restart the Gateway" },
       phase: "resolved",
     });
     expect(sendMessage).toHaveBeenCalledOnce();
@@ -359,7 +359,7 @@ describe("telegramApprovalNativeRuntime", () => {
       entry: { chatId: "9013", messageId: "m3" },
       request,
       approvalKind: "system-agent",
-      payload: { text: "✅ OpenClaw change approved. Applying: restart the Gateway" },
+      payload: { text: "✅ FRIDAY change approved. Applying: restart the Gateway" },
       phase: "resolved",
     });
     expect(sendMessage).toHaveBeenCalledTimes(2);
@@ -372,7 +372,7 @@ describe("telegramApprovalNativeRuntime", () => {
       approvalKind: "system-agent" as const,
       id: "system-agent:origin-edit-failure",
       request: {
-        title: "OpenClaw change",
+        title: "FRIDAY change",
         description: "restart the Gateway",
         command: "restart the Gateway",
         proposalHash: "f".repeat(64),
@@ -393,13 +393,13 @@ describe("telegramApprovalNativeRuntime", () => {
         entry: { chatId: "5678", messageId: "m1" },
         request,
         approvalKind: "system-agent",
-        payload: { text: "⚠️ OpenClaw change approved, but it was not applied." },
+        payload: { text: "⚠️ FRIDAY change approved, but it was not applied." },
         phase: "resolved",
       }),
     ).rejects.toThrow("message was deleted");
     expect(sendMessage).toHaveBeenCalledWith(
       "1234",
-      "⚠️ OpenClaw change approved, but it was not applied.",
+      "⚠️ FRIDAY change approved, but it was not applied.",
       {
         cfg: {},
         token: "tg-token",
@@ -416,7 +416,7 @@ describe("telegramApprovalNativeRuntime", () => {
       approvalKind: "system-agent" as const,
       id: "system-agent:origin-account",
       request: {
-        title: "OpenClaw change",
+        title: "FRIDAY change",
         description: "restart the Gateway",
         command: "restart the Gateway",
         proposalHash: "g".repeat(64),
@@ -429,7 +429,7 @@ describe("telegramApprovalNativeRuntime", () => {
       createdAtMs: 0,
       expiresAtMs: 60_000,
     };
-    const payload = { text: "✅ OpenClaw change approved and applied." };
+    const payload = { text: "✅ FRIDAY change approved and applied." };
 
     await telegramApprovalNativeRuntime.transport.updateEntry?.({
       cfg: {} as never,

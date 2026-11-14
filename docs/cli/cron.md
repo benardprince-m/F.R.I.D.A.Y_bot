@@ -55,7 +55,7 @@ openclaw automations create "0 18 * * 1-5" \
   --webhook "https://example.invalid/openclaw/cron"
 ```
 
-Use `--command` for script-based shell-style jobs that run inside the OpenClaw scheduler without starting an isolated agent/model run:
+Use `--command` for script-based shell-style jobs that run inside the FRIDAY scheduler without starting an isolated agent/model run:
 
 ```bash
 openclaw automations create "*/15 * * * *" \
@@ -137,7 +137,7 @@ An isolated agent-turn job created from a conversation also captures that conver
   </Accordion>
 </AccordionGroup>
 
-When an operator removes an automation with an active run, OpenClaw requests cancellation of that run. An admitted automation can remove its own job without cancelling the active run. If the caller cannot be confirmed as the job's exact live run, self-removal fails without deleting the job or cancelling the active run. The JSON removal response includes `activeRunCancellationRequested: true` when cancellation was requested. For an isolated automation, reusable-session cleanup then waits for the active run to stop and reports `sessionCleanup: "pending"` while cleanup is deferred. Run history is retained.
+When an operator removes an automation with an active run, FRIDAY requests cancellation of that run. An admitted automation can remove its own job without cancelling the active run. If the caller cannot be confirmed as the job's exact live run, self-removal fails without deleting the job or cancelling the active run. The JSON removal response includes `activeRunCancellationRequested: true` when cancellation was requested. For an isolated automation, reusable-session cleanup then waits for the active run to stop and reports `sessionCleanup: "pending"` while cleanup is deferred. Run history is retained.
 
 If session cleanup fails, the error is logged. A removal with no active run also returns the cleanup error to the caller. Use `openclaw sessions list --json` to find the remaining session, then `openclaw sessions delete <key> --yes` to retry cleanup after the Gateway or worker recovers.
 
@@ -228,7 +228,7 @@ Skipped runs are tracked separately from execution errors. They do not affect re
 
 A local configured model provider has a base URL on loopback, on a private network, or on `.local`. For isolated jobs that target such a provider, the scheduler runs a lightweight provider preflight before it starts the agent turn. The scheduler checks `api: "ollama"` providers at `/api/tags`. It checks other local OpenAI-compatible providers (`api: "openai-completions"`, for example vLLM, SGLang, and LM Studio) at `/models`. If the endpoint is unreachable, the scheduler records the run as `skipped` and retries it on a later schedule. It caches the reachability result per endpoint for 5 minutes, so many jobs against the same local server do not send repeated checks.
 
-Automation jobs, pending runtime state, and run history live in the shared SQLite state database. The file store it replaced in 2026.6.1 is retired. If `jobs.json`, `<name>-state.json`, or `runs/*.jsonl` files remain, install OpenClaw `2026.9.7` and run `openclaw doctor --fix` before upgrading to the latest version. Current Doctor preserves these files and reports the intermediate upgrade requirement. Supported `jobs-quarantine.json` sidecars are still imported and archived with a `.migrated` suffix. Edit schedules with `openclaw automations add|edit|remove` instead of editing JSON files.
+Automation jobs, pending runtime state, and run history live in the shared SQLite state database. The file store it replaced in 2026.6.1 is retired. If `jobs.json`, `<name>-state.json`, or `runs/*.jsonl` files remain, install FRIDAY `2026.9.7` and run `openclaw doctor --fix` before upgrading to the latest version. Current Doctor preserves these files and reports the intermediate upgrade requirement. Supported `jobs-quarantine.json` sidecars are still imported and archived with a `.migrated` suffix. Edit schedules with `openclaw automations add|edit|remove` instead of editing JSON files.
 
 ### Manual runs
 
@@ -268,7 +268,7 @@ The automation `--model` is a **job primary**, not a chat-session `/model` overr
 - Configured model fallbacks still apply when the selected job model fails.
 - Per-job payload `fallbacks` replaces the configured fallback list when present.
 - An empty per-job fallback list (`--fallbacks ""` or `fallbacks: []` in the job payload/API) makes the run strict.
-- When a job has `--model` but no fallback list is configured, OpenClaw passes an explicit empty fallback override. The agent primary is therefore not appended as a hidden retry target.
+- When a job has `--model` but no fallback list is configured, FRIDAY passes an explicit empty fallback override. The agent primary is therefore not appended as a hidden retry target.
 - Local-provider preflight checks walk configured fallbacks before marking a run `skipped`.
 
 When every local provider is unreachable, `automations runs` and `automations show` retain the skipped status and preflight reason. Start the provider or correct its configured endpoint. Repeated preflight skips use the existing failure-alert route and threshold without requiring `failureAlert.includeSkipped`, while explicit alert opt-outs still apply. Recurring jobs stay enabled and resume on a later scheduled run once reachability is checked again; endpoint results are cached for up to five minutes.

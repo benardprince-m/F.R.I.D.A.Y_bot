@@ -68,7 +68,7 @@ function ensureChangelogEntry(changelogPath: string, version: string, write: boo
   if (content.includes(`## ${version}`)) {
     return false;
   }
-  const entry = `## ${version}\n\n### Changes\n- Version alignment with core OpenClaw release numbers.\n\n`;
+  const entry = `## ${version}\n\n### Changes\n- Version alignment with core FRIDAY release numbers.\n\n`;
   const next = content.startsWith("# Changelog\n\n")
     ? content.replace("# Changelog\n\n", `# Changelog\n\n${entry}`)
     : `# Changelog\n\n${entry}${content.trimStart()}\n`;

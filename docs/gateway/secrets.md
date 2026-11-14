@@ -9,7 +9,7 @@ title: "Secrets management"
 sidebarTitle: "Secrets management"
 ---
 
-OpenClaw supports additive SecretRefs so supported credentials do not need to live as plaintext in configuration.
+FRIDAY supports additive SecretRefs so supported credentials do not need to live as plaintext in configuration.
 
 <Note>
 Plaintext still works. SecretRefs are opt-in per credential.

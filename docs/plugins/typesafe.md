@@ -9,12 +9,12 @@ read_when:
 
 # TypeSafe AI
 
-The official external `typesafe` plugin connects OpenClaw's optional decision
+The official external `typesafe` plugin connects FRIDAY's optional decision
 model role to TypeSafe AI's hosted Jev models or an explicitly configured
 System One server such as [Kev](https://github.com/jaredpalmer/kev). Its models appear in the separate
 **Decision** picker, never in the conversational model picker.
 
-The adapter and decision model role were added after released OpenClaw
+The adapter and decision model role were added after released FRIDAY
 `2026.9.5`. Packaged installs require a host and plugin API of at least
 `2026.9.6`; the installer rejects older hosts before loading the plugin.
 
@@ -44,7 +44,7 @@ Until a supporting release is available, use a source checkout containing the
 decision-provider API and `extensions/typesafe`. Build it with
 `pnpm install --frozen-lockfile` and `pnpm build`, then apply the configuration
 below. Source-checkout plugins use the host's co-versioned development API;
-that does not make the packaged plugin compatible with OpenClaw `2026.9.5`.
+that does not make the packaged plugin compatible with FRIDAY `2026.9.5`.
 
 ## Enable and configure
 
@@ -126,7 +126,7 @@ KEV_DTYPE=bf16 uv run --extra serve python -m kev.serve \
 The newer default Kev-4B checkpoint uses Qwen3.5; its Mac performance differs
 from the Qwen3 checkpoint above. Follow the upstream model cards when choosing
 another checkpoint. Kev-0.6B uses less memory; Kev-8B trades more memory and
-latency for decision quality. All of them use the same OpenClaw model label
+latency for decision quality. All of them use the same FRIDAY model label
 for the server you configure below.
 
 From the same Kev checkout in a second terminal, verify the loaded checkpoint
@@ -138,7 +138,7 @@ KEV_BASE_URL=http://127.0.0.1:8009 \
   uv run --extra serve python -m pytest tests/test_api.py -q
 ```
 
-### Connect OpenClaw
+### Connect FRIDAY
 
 Start your System One server separately, then set `baseUrl` to its loopback
 origin and select `typesafe/kev-latest`:
@@ -181,7 +181,7 @@ policy still applies. `localhost` stays pinned to loopback, independently of sys
 Kev runs one checkpoint per server process. Its request model label does not
 load or switch weights. Choose the checkpoint when starting the server and
 inspect `GET /v1/models` to verify it. See Kev's [serving instructions](https://github.com/jaredpalmer/kev#quick-start)
-for installation, model selection, and hardware requirements. OpenClaw does not
+for installation, model selection, and hardware requirements. FRIDAY does not
 download weights or start that process. An unavailable server produces an
 unavailable decision, without automatically switching to hosted Jev.
 
@@ -192,7 +192,7 @@ increase queueing time. Native decisions admit at most four concurrent requests
 per provider and return `overloaded` beyond that limit. The core evaluation tool
 uses the same admission limit.
 
-Cancellation closes OpenClaw's HTTP request, but the Kev server may finish
+Cancellation closes FRIDAY's HTTP request, but the Kev server may finish
 inference already in progress. Avoid immediately resubmitting canceled work;
 choose a deadline that allows for inference and queueing on your hardware.
 
@@ -231,7 +231,7 @@ TypeSafe decisions to a self-hosted System One server or HTTPS reverse proxy:
 ```
 
 Merge the example with existing configuration. The provider `baseUrl` is the API
-root; OpenClaw appends `/systemone`. An origin-only URL implies `/v1`, so both
+root; FRIDAY appends `/systemone`. An origin-only URL implies `/v1`, so both
 `https://decision.example.com` and `https://decision.example.com/v1` target
 `/v1/systemone`. Do not include URL credentials, a query, or a fragment.
 
@@ -261,7 +261,7 @@ for the shared exact-origin and private-network rules.
 
 **Trust and credentials:** Evaluation state, questions, and rubrics are user
 content. They leave the Gateway host when the selected endpoint is remote. Only
-configure a server you trust with that content. Authentication proves OpenClaw's
+configure a server you trust with that content. Authentication proves FRIDAY's
 identity to the server; it does not establish that the server is trustworthy.
 Request content and model output cannot change the destination.
 
@@ -288,11 +288,11 @@ Consumers call the provider-neutral
 The host supplies the model selected for the owning agent. The adapter translates
 the supported question types:
 
-| OpenClaw | TypeSafe | Result                                                       |
-| -------- | -------- | ------------------------------------------------------------ |
-| Choice   | Choice   | Reported label and probability estimates                     |
-| Score    | Score    | Reported fractional zero-based rubric position and estimates |
-| Boolean  | Noul     | Probability of true, preserved from 0 to 1                   |
+| FRIDAY  | TypeSafe | Result                                                       |
+| ------- | -------- | ------------------------------------------------------------ |
+| Choice  | Choice   | Reported label and probability estimates                     |
+| Score   | Score    | Reported fractional zero-based rubric position and estimates |
+| Boolean | Noul     | Probability of true, preserved from 0 to 1                   |
 
 Choice supports 2–255 alternatives; Score supports 2–10 rubric levels.
 Unsupported input is rejected before transmission; the adapter does not truncate
@@ -304,7 +304,7 @@ and node limits still apply.
 
 Reported probabilities can be rounded, so they may not sum exactly to one. A
 reported label or Score can also differ from a calculation over those estimates.
-OpenClaw preserves the returned values. Normalizing estimates or choosing their
+FRIDAY preserves the returned values. Normalizing estimates or choosing their
 largest value is an explicit consumer policy. Probabilities and confidence are
 not demonstrated accuracy guarantees or permission to act.
 

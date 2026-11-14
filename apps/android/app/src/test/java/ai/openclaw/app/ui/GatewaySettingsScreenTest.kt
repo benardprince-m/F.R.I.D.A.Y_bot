@@ -88,16 +88,16 @@ class GatewaySettingsScreenTest {
   fun gatewayMetricUsesLocalOverrideAndRestoresConnectedServerName() {
     showGateway(connected = true)
     capture("default-gateway-metric")
-    composeRule.onNodeWithText("OpenClaw Gateway").assertIsDisplayed()
+    composeRule.onNodeWithText("FRIDAY Gateway").assertIsDisplayed()
     composeRule.runOnIdle {
       assertTrue(prefs.gatewayRegistry.rename("manual|127.0.0.1|18789", "My gateway"))
     }
     composeRule.onAllNodesWithText("My gateway").assertCountEquals(2)
-    composeRule.onNodeWithText("OpenClaw Gateway").assertDoesNotExist()
+    composeRule.onNodeWithText("FRIDAY Gateway").assertDoesNotExist()
     composeRule.runOnIdle {
       assertTrue(prefs.gatewayRegistry.rename("manual|127.0.0.1|18789", ""))
     }
-    composeRule.onNodeWithText("OpenClaw Gateway").assertIsDisplayed()
+    composeRule.onNodeWithText("FRIDAY Gateway").assertIsDisplayed()
   }
 
   @Test

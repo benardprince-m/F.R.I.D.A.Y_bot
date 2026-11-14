@@ -371,7 +371,7 @@ function appliedLocalOverridesResult(
     warnings:
       conflicts.length > 0
         ? [
-            "Local OpenClaw changes were preserved but not reapplied because the update changed the same file(s).",
+            "Local FRIDAY changes were preserved but not reapplied because the update changed the same file(s).",
           ]
         : [],
   };
@@ -397,7 +397,7 @@ export async function applyLocalPackageOverrides(params: {
       status: "preserved",
       applied: 0,
       warnings: [
-        "Local OpenClaw changes were preserved in the recovery bundle and were not reapplied. Inspect the bundle and copy back trusted files manually, or run the update with --reapply-local-overrides when you want trusted edits replayed during that update.",
+        "Local FRIDAY changes were preserved in the recovery bundle and were not reapplied. Inspect the bundle and copy back trusted files manually, or run the update with --reapply-local-overrides when you want trusted edits replayed during that update.",
       ],
     };
   }
@@ -590,7 +590,7 @@ export async function applyLocalPackageOverrides(params: {
         reason,
       })),
       warnings: [
-        "Local OpenClaw changes were preserved but could not be reapplied.",
+        "Local FRIDAY changes were preserved but could not be reapplied.",
         ...(rollbackFailures.size > 0
           ? [
               `Rollback could not fully restore ${rollbackFailures.size} installed file(s); the package may be partially modified. Inspect the preserved rollback data before retrying.`,

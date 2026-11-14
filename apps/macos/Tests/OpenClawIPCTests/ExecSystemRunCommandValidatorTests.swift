@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 private struct SystemRunCommandContractFixture: Decodable {
     let cases: [SystemRunCommandContractCase]

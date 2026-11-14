@@ -51,7 +51,7 @@ export function withSiblingAccount(config: OpenClawConfig, baseUrl?: string): Op
           enabled: true,
           baseUrl,
           botUserId: "openclaw",
-          botDisplayName: "OpenClaw QA",
+          botDisplayName: "FRIDAY QA",
           allowFrom: ["*"],
           pollTimeoutMs: 250,
         }),

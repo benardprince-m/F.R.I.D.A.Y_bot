@@ -111,7 +111,7 @@ internal class CloudflareAccessClient(
   }
 
   companion object {
-    const val userAgent = "OpenClaw CloudflareAccess (cloudflared/2026.8.3)"
+    const val userAgent = "FRIDAY CloudflareAccess (cloudflared/2026.8.3)"
     const val maximumResponseBytes = 1_048_576
     private val client =
       OkHttpClient

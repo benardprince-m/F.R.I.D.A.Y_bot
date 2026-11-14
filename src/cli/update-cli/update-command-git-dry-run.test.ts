@@ -20,7 +20,7 @@ function createGitFixture(base: string, options: { partial?: boolean } = {}) {
   git(base, "init", "--bare", "--initial-branch=main", remote);
   git(remote, "config", "uploadpack.allowFilter", "true");
   git(source, "init", "--initial-branch=main");
-  git(source, "config", "user.name", "OpenClaw Test");
+  git(source, "config", "user.name", "FRIDAY Test");
   git(source, "config", "user.email", "openclaw@example.com");
   fs.writeFileSync(
     path.join(source, "package.json"),

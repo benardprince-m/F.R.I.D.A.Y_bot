@@ -1,5 +1,5 @@
 ---
-summary: "Install OpenClaw - desktop app downloads, installer script, npm/pnpm/bun, from source, Docker, and more"
+summary: "Install FRIDAY - desktop app downloads, installer script, npm/pnpm/bun, from source, Docker, and more"
 read_when:
   - You need an install method other than the Getting Started quickstart
   - You want to download the Windows Hub or macOS desktop app instead of the CLI
@@ -16,24 +16,24 @@ title: "Install"
 
 ## Download the desktop app
 
-Prefer a normal app download over the CLI? OpenClaw ships desktop companions:
+Prefer a normal app download over the CLI? FRIDAY ships desktop companions:
 
 - **Windows (recommended)**: the native [Windows Hub](/platforms/windows#recommended-windows-hub) companion app — a signed installer you download and run like any Windows app, with setup, tray status, chat, and node mode:
   - [OpenClawCompanion-Setup-x64.exe](https://github.com/openclaw/openclaw-windows-node/releases/latest/download/OpenClawCompanion-Setup-x64.exe)
   - [OpenClawCompanion-Setup-arm64.exe](https://github.com/openclaw/openclaw-windows-node/releases/latest/download/OpenClawCompanion-Setup-arm64.exe)
   - All Hub releases: [Windows Hub releases page](https://github.com/openclaw/openclaw-windows-node/releases/latest)
-- **macOS**: the [macOS menu bar app](/platforms/macos) — download the `OpenClaw-<version>.dmg` (preferred) or `.zip` asset from [OpenClaw GitHub releases](https://github.com/openclaw/openclaw/releases), then install and launch **OpenClaw.app**. See the [macOS app page](/platforms/macos) for details, including what to do when the newest release ships no macOS asset.
+- **macOS**: the [macOS menu bar app](/platforms/macos) — download the `FRIDAY-<version>.dmg` (preferred) or `.zip` asset from [FRIDAY GitHub releases](https://github.com/openclaw/openclaw/releases), then install and launch **FRIDAY.app**. See the [macOS app page](/platforms/macos) for details, including what to do when the newest release ships no macOS asset.
 
 On Windows, the cross-platform [Tauri desktop app](/platforms/windows#backup-tauri-desktop-app)
-is the backup option. Its `OpenClaw-<version>-windows-x86_64.exe` installer ships
-in regular [OpenClaw releases](https://github.com/openclaw/openclaw/releases)
+is the backup option. Its `FRIDAY-<version>-windows-x86_64.exe` installer ships
+in regular [FRIDAY releases](https://github.com/openclaw/openclaw/releases)
 and can set up a local Windows Gateway with bundled Bun or connect remotely.
 
 Both native desktop apps can provision a local Gateway during first-run setup, or connect to an existing remote Gateway.
 
 ## Recommended: installer script
 
-The fastest way to install. It detects your OS, installs Node if needed, installs OpenClaw, and launches onboarding.
+The fastest way to install. It detects your OS, installs Node if needed, installs FRIDAY, and launches onboarding.
 
 <Note>
 For Windows desktop setup, we recommend the native [Windows Hub](/platforms/windows#recommended-windows-hub) companion app, which includes setup, tray status, chat, node mode, and local MCP mode.
@@ -73,7 +73,7 @@ For all flags and CI/automation options, see [Installer internals](/install/inst
 
 ### Local prefix installer (`install-cli.sh`)
 
-Use this when you want OpenClaw and Node kept under a local prefix such as
+Use this when you want FRIDAY and Node kept under a local prefix such as
 `~/.openclaw`, without depending on a system-wide Node install:
 
 ```bash
@@ -105,7 +105,7 @@ If you already manage Node yourself:
 
     <Note>
     npm 12 blocks unapproved package lifecycle scripts by default. The
-    `--allow-scripts=openclaw` option explicitly allows OpenClaw's `preinstall`
+    `--allow-scripts=openclaw` option explicitly allows FRIDAY's `preinstall`
     and `postinstall` steps; without it, npm reports them as `blocked because
     they are not covered by allowScripts`.
 
@@ -119,7 +119,7 @@ If you already manage Node yourself:
 
     <Note>
     The hosted installer clears npm freshness filters such as `min-release-age`
-    for the OpenClaw package install. If you install manually with npm, your own
+    for the FRIDAY package install. If you install manually with npm, your own
     npm policy still applies.
     </Note>
 
@@ -142,8 +142,8 @@ If you already manage Node yourself:
     ```
 
     <Note>
-    `--trust` allows OpenClaw's package lifecycle scripts for this install. Bun
-    1.4.3 or newer can also run OpenClaw's CLI, local agent, and Gateway. Node
+    `--trust` allows FRIDAY's package lifecycle scripts for this install. Bun
+    1.4.3 or newer can also run FRIDAY's CLI, local agent, and Gateway. Node
     remains the primary runtime, so the plain `openclaw` executable keeps its
     Node shebang. `bun run --bun` forces the Bun runtime, while
     `--daemon-runtime bun` installs the managed Gateway under Bun.
@@ -167,7 +167,7 @@ openclaw onboard --install-daemon
 
 `pnpm add --global "openclaw@link:$PWD"` links the CLI to this checkout without changing its package files. If pnpm reports that its global bin directory is not on `PATH`, run `pnpm setup`, reopen your shell, and retry.
 
-For a server checkout that only runs OpenClaw, use `pnpm build:runtime` to build
+For a server checkout that only runs FRIDAY, use `pnpm build:runtime` to build
 the JavaScript, plugins, Control UI, and metadata without TypeScript declarations.
 Use `pnpm build` for development or packaging that needs declarations and their
 validation; CI typechecks still apply to runtime-only builds.
@@ -245,7 +245,7 @@ If you want managed startup after install:
 
 ## Hosting and deployment
 
-Deploy OpenClaw on a cloud server or VPS. See [Linux server](/vps) for the full
+Deploy FRIDAY on a cloud server or VPS. See [Linux server](/vps) for the full
 provider picker (DigitalOcean, Hetzner, Hostinger, Fly.io, GCP, Azure, Railway,
 Northflank, Oracle Cloud, Raspberry Pi, and more), deploy declaratively on
 [Render](/install/render), or try the experimental [Cloudflare Containers](/install/cloudflare)
@@ -279,13 +279,13 @@ template.
     Create, verify, and restore state archives.
   </Card>
   <Card title="Updating" href="/install/updating" icon="refresh-cw">
-    Keep OpenClaw up to date.
+    Keep FRIDAY up to date.
   </Card>
   <Card title="Migrating" href="/install/migrating" icon="arrow-right">
     Move to a new machine.
   </Card>
   <Card title="Uninstall" href="/install/uninstall" icon="trash-2">
-    Remove OpenClaw completely.
+    Remove FRIDAY completely.
   </Card>
 </CardGroup>
 

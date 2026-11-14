@@ -109,7 +109,7 @@ export async function dispatchCronDelivery(
   const failTarget = (error: string) => {
     const detail = params.sourceDeliveryOutcome.unverifiedMessageToolDelivery
       ? error +
-        "; the agent used the message tool, but OpenClaw could not verify that message matched the cron delivery target"
+        "; the agent used the message tool, but FRIDAY could not verify that message matched the cron delivery target"
       : error;
     record("not-delivered", detail);
     return finish({ kind: "error", error: detail, errorKind: "delivery-target" });

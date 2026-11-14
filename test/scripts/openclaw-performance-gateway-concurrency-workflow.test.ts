@@ -86,7 +86,7 @@ posixIt("resolves the immutable workload without requiring a Kova fixture schema
   const root = tempDirs.make("gateway-concurrency-resolution-");
   const output = join(root, "output");
   const sha = "a".repeat(40);
-  const resolver = step("Resolve OpenClaw target ref", workflow.jobs.resolve_target);
+  const resolver = step("Resolve FRIDAY target ref", workflow.jobs.resolve_target);
   const result = runShell(
     'python3() { printf "%s\\n" "$FIXTURE_SHA"; }\nnode() { return 91; }\n' + resolver.run,
     {

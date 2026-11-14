@@ -4,7 +4,7 @@ import Foundation
 import OpenClawIPC
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @Suite(.testWaitLimit)
 struct MacNodeRuntimeTests {
@@ -508,7 +508,7 @@ struct MacNodeRuntimeTests {
         #expect(!overlay.model.isVisible)
     }
 
-    @Test func `camera enumeration requires only the OpenClaw toggle`() async {
+    @Test func `camera enumeration requires only the FRIDAY toggle`() async {
         await TestIsolation.withUserDefaultsValues([cameraEnabledKey: false]) {
             let services = await MainActor.run {
                 let services = MainActorServicesProbe()

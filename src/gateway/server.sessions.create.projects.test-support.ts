@@ -31,7 +31,7 @@ export async function createGitWorkspace(root: string): Promise<string> {
   await execFileAsync("git", ["-C", workspace, "add", "README.md"]);
   await execFileAsync("git", [
     "-c",
-    "user.name=OpenClaw Test",
+    "user.name=FRIDAY Test",
     "-c",
     "user.email=openclaw-test@example.invalid",
     "-C",
@@ -76,7 +76,7 @@ export async function initializeRepository(root: string, name: string): Promise<
   const repo = path.join(root, name);
   await fs.mkdir(repo, { recursive: true });
   await execFileAsync("git", ["init", "-b", "main", repo]);
-  await execFileAsync("git", ["-C", repo, "config", "user.name", "OpenClaw Tests"]);
+  await execFileAsync("git", ["-C", repo, "config", "user.name", "FRIDAY Tests"]);
   await execFileAsync("git", ["-C", repo, "config", "user.email", "tests@openclaw.invalid"]);
   await fs.writeFile(path.join(repo, "README.md"), `${name}\n`);
   await execFileAsync("git", ["-C", repo, "add", "README.md"]);

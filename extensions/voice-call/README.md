@@ -1,6 +1,6 @@
 # @openclaw/voice-call
 
-Official Voice Call plugin for **OpenClaw**.
+Official Voice Call plugin for **FRIDAY**.
 
 Providers:
 
@@ -189,7 +189,7 @@ These features are disabled by default. Configure them under
   outcome, important facts, duration, end reason and, by default, transcript.
   `reports.inboundSessionKey` selects the destination for ordinary inbound calls.
   A Gateway restart marks an interrupted pending report or live-transcript delivery
-  as failed. OpenClaw does not resend it because the earlier process may already
+  as failed. FRIDAY does not resend it because the earlier process may already
   have reached the channel.
 - Live transcript sends both sides' final lines to the requester in batches,
   at most once per `live.minIntervalMs` (default 5000).
@@ -236,7 +236,7 @@ streaming speech on calls. Override examples and provider caveats live here:
 ## CLI
 
 ```bash
-openclaw voicecall call --to "+15555550123" --message "Hello from OpenClaw"
+openclaw voicecall call --to "+15555550123" --message "Hello from FRIDAY"
 openclaw voicecall continue --call-id <id> --message "Any questions?"
 openclaw voicecall speak --call-id <id> --message "One moment"
 openclaw voicecall end --call-id <id>

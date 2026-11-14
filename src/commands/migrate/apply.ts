@@ -36,8 +36,8 @@ async function createPreMigrationBackup(output: string | undefined): Promise<str
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     if (
-      message.includes("No local OpenClaw state was found to back up") ||
-      message.includes("No OpenClaw config file was found to back up")
+      message.includes("No local FRIDAY state was found to back up") ||
+      message.includes("No FRIDAY config file was found to back up")
     ) {
       return undefined;
     }

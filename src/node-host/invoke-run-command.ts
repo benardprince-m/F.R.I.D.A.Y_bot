@@ -78,7 +78,7 @@ export async function runCommand(
   assertCurrent?.();
   try {
     const launch = resolveCommandLaunch(argv);
-    // Only OpenClaw's generated login-shell envelope needs service PATH restoration.
+    // Only FRIDAY's generated login-shell envelope needs service PATH restoration.
     const servicePath = env?.PATH;
     let childEnv = env;
     if (servicePath && argv.length === 3 && argv[0] === "/bin/sh" && argv[1] === "-lc") {

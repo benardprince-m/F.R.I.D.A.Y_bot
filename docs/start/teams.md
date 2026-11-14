@@ -1,13 +1,13 @@
 ---
-summary: "Set up a shared OpenClaw gateway for a team: workspace chat, shared sessions, ownership, and roles"
+summary: "Set up a shared FRIDAY gateway for a team: workspace chat, shared sessions, ownership, and roles"
 read_when:
-  - Setting up OpenClaw for a team or shared workspace
+  - Setting up FRIDAY for a team or shared workspace
   - Adding teammates to an existing gateway
   - Deciding between one shared gateway and separate gateways
 title: "Team setup"
 ---
 
-This guide sets up one OpenClaw gateway that a whole team uses: a bot in the workspace chat you already have, shared sessions everyone can open and steer in the Control UI, and roles that bound what each person can do. It is the same product as the [personal assistant setup](/start/openclaw) - team operation is configuration, not a separate edition.
+This guide sets up one FRIDAY gateway that a whole team uses: a bot in the workspace chat you already have, shared sessions everyone can open and steer in the Control UI, and roles that bound what each person can do. It is the same product as the [personal assistant setup](/start/openclaw) - team operation is configuration, not a separate edition.
 
 For an always-on Linux deployment with Cloudflare Access, GitHub identity sync,
 role bootstrap, and operations, follow [Deploy a team server](/gateway/team-server).
@@ -15,7 +15,7 @@ role bootstrap, and operations, follow [Deploy a team server](/gateway/team-serv
 ## Before you begin
 
 - A host for the Gateway that stays on: a small VPS, an office Mac, or any [supported install target](/install).
-- OpenClaw installed and onboarded on that host - see [Getting started](/start/getting-started).
+- FRIDAY installed and onboarded on that host - see [Getting started](/start/getting-started).
 - A chat workspace the team already uses (Discord, Google Chat, Mattermost, Microsoft Teams, Slack, Telegram, ...) - see [Channels](/channels).
 - A strong latest-generation model. Shared gateways see more varied input than a solo setup, and modern models are substantially more resistant to prompt injection - see [Security](/gateway/security/prompt-injection).
 - Optional: teammates' GitHub accounts, if you want verified identity and commit credit.
@@ -143,7 +143,7 @@ container network when that access needs tighter controls. See
 [Sandboxing](/gateway/sandboxing#workspace-access) for workspace and network policy.
 
 Guests publish through **Publish PR** from sessions they created. Publication
-uses the shared GitHub account and opens a draft pull request; OpenClaw never
+uses the shared GitHub account and opens a draft pull request; FRIDAY never
 merges. Protect the base branch with GitHub rules so the shared account cannot
 merge or bypass review. If the checkout's `origin` is the upstream repository,
 guest branches live in that repository and its pull request workflows receive
@@ -165,7 +165,7 @@ guest pull requests come from the fork, where GitHub withholds secrets from
 
 ## Related
 
-- [Why OpenClaw: working together](/start/why-openclaw#working-together) - the team collaboration surfaces in one place
+- [Why FRIDAY: working together](/start/why-openclaw#working-together) - the team collaboration surfaces in one place
 - [Multi-user mode](/concepts/multi-user) - ownership, participants, and owner filtering in depth
 - [Operator scopes](/gateway/operator-scopes) - connection roles, scopes, and role assignment
 - [Groups](/channels/groups) - group behavior, mention gating, and context visibility

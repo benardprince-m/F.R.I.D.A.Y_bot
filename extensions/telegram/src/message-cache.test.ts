@@ -38,9 +38,9 @@ function message(message_id: number, firstName: string, overrides: Record<string
 }
 
 const botMessage = (messageId: number, text: string, overrides: Record<string, unknown> = {}) =>
-  message(messageId, "OpenClaw", {
+  message(messageId, "FRIDAY", {
     text,
-    from: sender(999, "OpenClaw", true),
+    from: sender(999, "FRIDAY", true),
     ...overrides,
   });
 
@@ -236,7 +236,7 @@ describe("telegram message cache", () => {
     const businessMessage = message(9128, "Business User", {
       text: "Business reply",
       from: sender(700, "Business User"),
-      sender_business_bot: sender(42, "OpenClaw", true),
+      sender_business_bot: sender(42, "FRIDAY", true),
     });
     const live = await record(businessMessage, {
       botUserId: 42,

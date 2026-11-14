@@ -3,7 +3,7 @@ import Darwin
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @Suite(.serialized, .testWaitLimit)
 struct MacNodeCodexThreadCatalogTests {

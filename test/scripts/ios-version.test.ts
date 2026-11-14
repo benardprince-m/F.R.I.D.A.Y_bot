@@ -42,7 +42,7 @@ describe("resolveIosVersion", () => {
   it("rejects semver-only package versions", () => {
     const rootDir = writeIosFixture({
       packageVersion: "1.2.3",
-      changelog: "# OpenClaw iOS Changelog\n\n## Unreleased\n\nNotes.\n",
+      changelog: "# FRIDAY iOS Changelog\n\n## Unreleased\n\nNotes.\n",
     });
 
     expect(() => resolveIosVersion(rootDir)).toThrow("Invalid gateway version");
@@ -51,7 +51,7 @@ describe("resolveIosVersion", () => {
   it("rejects prerelease suffixes in explicit gateway versions", () => {
     const rootDir = writeIosFixture({
       packageVersion: "2026.4.6",
-      changelog: "# OpenClaw iOS Changelog\n\n## Unreleased\n\nNotes.\n",
+      changelog: "# FRIDAY iOS Changelog\n\n## Unreleased\n\nNotes.\n",
     });
 
     expect(() => resolveIosVersion(rootDir, { releaseVersion: "2026.4.6-beta.1" })).toThrow(
@@ -66,7 +66,7 @@ describe("gateway version ownership", () => {
     (packageVersion) => {
       const rootDir = writeIosFixture({
         packageVersion,
-        changelog: "# OpenClaw iOS Changelog\n\n## Unreleased\n\nNotes.\n",
+        changelog: "# FRIDAY iOS Changelog\n\n## Unreleased\n\nNotes.\n",
       });
 
       expect(resolveGatewayVersionForIosRelease(rootDir)).toEqual({
@@ -83,7 +83,7 @@ describe("release note extraction", () => {
       appStoreRevision: 1,
       releaseVersion: "2026.7.2",
     });
-    const changelog = `# OpenClaw iOS Changelog
+    const changelog = `# FRIDAY iOS Changelog
 
 ## Unreleased
 
@@ -104,7 +104,7 @@ Draft notes.
       appStoreRevision: 1,
       releaseVersion: "2026.7.2",
     });
-    const changelog = "# OpenClaw iOS Changelog\n\n## Unreleased\n\nDraft notes.\n";
+    const changelog = "# FRIDAY iOS Changelog\n\n## Unreleased\n\nDraft notes.\n";
 
     expect(() => renderIosReleaseNotes(version, changelog)).toThrow(
       "Unable to find iOS changelog notes for 2026.7.21",
@@ -113,7 +113,7 @@ Draft notes.
 
   it("falls back to Unreleased when the release section does not exist yet", () => {
     const version = resolveIosVersion(".", { releaseVersion: "2026.4.6" });
-    const changelog = `# OpenClaw iOS Changelog
+    const changelog = `# FRIDAY iOS Changelog
 
 ## Unreleased
 
@@ -130,7 +130,7 @@ Draft notes.
   it("extracts markdown bodies without the version heading", () => {
     expect(
       extractChangelogSection(
-        `# OpenClaw iOS Changelog\n\n## 2026.4.6 - 2026-04-06\n\nLine one.\n\n## 2026.4.5\n`,
+        `# FRIDAY iOS Changelog\n\n## 2026.4.6 - 2026-04-06\n\nLine one.\n\n## 2026.4.5\n`,
         "2026.4.6",
       ),
     ).toBe("Line one.");

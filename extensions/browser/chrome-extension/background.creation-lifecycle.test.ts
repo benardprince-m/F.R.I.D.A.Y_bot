@@ -35,7 +35,7 @@ async function setup(mode: "all" | "selected" = "all") {
     return groupId;
   });
   harness.tabGroupsUpdate.mockImplementation(async () => {
-    harness.tabGroupUpdatedListener?.({ id: 7, title: "OpenClaw" });
+    harness.tabGroupUpdatedListener?.({ id: 7, title: "FRIDAY" });
   });
   const create = async () => {
     expect(await request({ ...createTab(), background: true })).toMatchObject({
@@ -152,7 +152,7 @@ describe("physical tab creation authority", () => {
     expectType(await h.request({ type: "attach", tabId: 101 }));
     h.debuggerSendCommand.mockImplementationOnce(async () => {
       h.tabGroupUpdatedListener?.({ id: 7, title: "Other" });
-      h.tabGroupUpdatedListener?.({ id: 7, title: "OpenClaw" });
+      h.tabGroupUpdatedListener?.({ id: 7, title: "FRIDAY" });
       return { frameId: "main" };
     });
     expect(await h.request(cdp("Page.navigate", { url }))).toMatchObject({
@@ -173,8 +173,8 @@ describe("physical tab creation authority", () => {
       const h = await setup("selected");
       h.tabGroupsUpdate.mockImplementationOnce(async () => {
         if (event === "removal") {
-          h.tabGroupUpdatedListener?.({ id: 7, title: "OpenClaw" });
-          h.tabGroupRemovedListener?.({ id: 7, title: "OpenClaw" });
+          h.tabGroupUpdatedListener?.({ id: 7, title: "FRIDAY" });
+          h.tabGroupRemovedListener?.({ id: 7, title: "FRIDAY" });
         } else {
           h.tabGroupsGet.mockResolvedValue({ id: 7, title: "Other", windowId: 1 });
         }

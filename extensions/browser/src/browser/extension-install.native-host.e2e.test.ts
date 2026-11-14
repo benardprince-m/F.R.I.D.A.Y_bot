@@ -110,7 +110,7 @@ describe.skipIf(process.platform === "win32")("native host registration", () => 
         manifest,
         JSON.stringify({
           name: "ai.openclaw.browser_bootstrap",
-          description: "OpenClaw browser extension bootstrap",
+          description: "FRIDAY browser extension bootstrap",
           path: launcher,
           type: "stdio",
           allowed_origins: [origin],
@@ -139,7 +139,7 @@ describe.skipIf(process.platform === "win32")("native host registration", () => 
             HOME: value.homeDir,
             OPENCLAW_STATE_DIR: value.stateDir,
             OPENCLAW_CONFIG_PATH: config,
-            // Bun otherwise writes its transpiler cache under HOME; it is not OpenClaw state.
+            // Bun otherwise writes its transpiler cache under HOME; it is not FRIDAY state.
             BUN_RUNTIME_TRANSPILER_CACHE_PATH: "0",
           },
         });

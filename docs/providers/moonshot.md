@@ -36,7 +36,7 @@ and [Kimi K2.7 Code](https://platform.kimi.ai/docs/pricing/chat-k27-code)
 before making cost decisions.
 
 Kimi K3 always reasons and accepts `reasoning_effort` values `low`, `high`,
-and `max` (the default). On the direct Moonshot route OpenClaw exposes only
+and `max` (the default). On the direct Moonshot route FRIDAY exposes only
 `/think max` and always sends `reasoning_effort: "max"`. It omits the K2-only
 `thinking` field and removes sampling overrides (`temperature`, `top_p`, `n`, `presence_penalty`, and
 `frequency_penalty`) that K3 fixes to provider defaults. Kimi K2.7 Code also
@@ -243,7 +243,7 @@ onboarding.
     Kimi Coding's default model, `kimi/kimi-for-coding`, and its
     `kimi/kimi-for-coding-highspeed` variant expose only `/think on` (level `low`)
     and default to it. Their K2 backend can put raw reasoning into visible replies
-    when thinking is disabled. OpenClaw keeps thinking enabled with a 1024-token
+    when thinking is disabled. FRIDAY keeps thinking enabled with a 1024-token
     budget; stored `off` preferences resolve to `on` without failing the turn.
     These models do not expose K3's effort levels. Explicit model
     `params.thinking` overrides are still honored, including disabling thinking,
@@ -330,14 +330,14 @@ Config lives under `plugins.entries.moonshot.config.webSearch`:
 ## Advanced configuration
 
 Moonshot automatically caches matching prompt prefixes. Kimi K3 uses a five-minute
-cache by default and reports cache writes separately from cache reads. OpenClaw's
+cache by default and reports cache writes separately from cache reads. FRIDAY's
 default cost estimate prices those writes at $3 per million tokens and cache reads
 at $0.30 per million tokens. See
 [Kimi context caching](https://platform.kimi.ai/docs/guide/context-caching).
 
 <AccordionGroup>
   <Accordion title="Native thinking mode">
-    Moonshot API Kimi K3 always reasons at maximum effort. OpenClaw exposes only
+    Moonshot API Kimi K3 always reasons at maximum effort. FRIDAY exposes only
     `/think max`, sends `reasoning_effort: "max"`, and ignores stale lower or
     `off` settings.
 
@@ -360,14 +360,14 @@ at $0.30 per million tokens. See
     not change the hosted Moonshot API's always-on policy.
 
     Moonshot API K3 supports `auto`, `none`, `required`, and pinned tool choices,
-    so OpenClaw preserves the requested `tool_choice`. For multi-turn tool use,
-    OpenClaw preserves the assistant reasoning content required by Moonshot's
+    so FRIDAY preserves the requested `tool_choice`. For multi-turn tool use,
+    FRIDAY preserves the assistant reasoning content required by Moonshot's
     replay contract.
 
     Kimi K2.7 Code always uses native thinking. Moonshot requires clients to
-    omit the `thinking` field for this model, so OpenClaw exposes only `on` and
+    omit the `thinking` field for this model, so FRIDAY exposes only `on` and
     ignores stale `off` settings. K2.7 also fixes `temperature`, `top_p`, `n`,
-    `presence_penalty`, and `frequency_penalty`; OpenClaw omits configured
+    `presence_penalty`, and `frequency_penalty`; FRIDAY omits configured
     overrides for those fields.
 
     Other Moonshot Kimi models support binary native thinking:
@@ -393,7 +393,7 @@ at $0.30 per million tokens. See
     }
     ```
 
-    OpenClaw maps runtime `/think` levels for those models:
+    FRIDAY maps runtime `/think` levels for those models:
 
     | `/think` level       | Moonshot behavior          |
     | -------------------- | -------------------------- |
@@ -407,9 +407,9 @@ at $0.30 per million tokens. See
     Kimi K2.6 also accepts an optional `thinking.keep` field that controls
     multi-turn retention of `reasoning_content`. Set it to `"all"` to keep full
     reasoning across turns; omit it (or leave it `null`) to use the server
-    default strategy. OpenClaw only forwards `thinking.keep` for
+    default strategy. FRIDAY only forwards `thinking.keep` for
     `moonshot/kimi-k2.6` and strips it from other models. Kimi K2.7 Code
-    preserves full reasoning history by default while OpenClaw omits the entire
+    preserves full reasoning history by default while FRIDAY omits the entire
     `thinking` field.
 
     ```json5
@@ -431,7 +431,7 @@ at $0.30 per million tokens. See
   </Accordion>
 
   <Accordion title="Tool schema compatibility">
-    On Moonshot-family OpenAI-compatible routes, OpenClaw adds missing `type`
+    On Moonshot-family OpenAI-compatible routes, FRIDAY adds missing `type`
     fields to `anyOf` and `oneOf` tool-schema branches when their literal values
     or constraints identify a single type. This prevents Moonshot from rejecting
     common MCP schemas with untyped branches. Explicit types and ambiguous
@@ -439,13 +439,13 @@ at $0.30 per million tokens. See
   </Accordion>
 
   <Accordion title="Tool call id sanitization">
-    Moonshot Kimi serves native tool_call ids shaped like `functions.<name>:<index>`. OpenClaw preserves the first occurrence of each native Kimi id and rewrites later duplicates to stable OpenAI-style `call_*` ids. Matching tool results are remapped with the same id so replay remains unique without stripping Kimi's first native id. This behavior is wired into the bundled Moonshot provider and is not a user-configurable setting.
+    Moonshot Kimi serves native tool_call ids shaped like `functions.<name>:<index>`. FRIDAY preserves the first occurrence of each native Kimi id and rewrites later duplicates to stable OpenAI-style `call_*` ids. Matching tool results are remapped with the same id so replay remains unique without stripping Kimi's first native id. This behavior is wired into the bundled Moonshot provider and is not a user-configurable setting.
   </Accordion>
 
   <Accordion title="Streaming usage compatibility">
     Native Moonshot endpoints (`https://api.moonshot.ai/v1` and
     `https://api.moonshot.cn/v1`) advertise streaming usage compatibility.
-    OpenClaw keys this off the endpoint host, not the provider id, so a custom
+    FRIDAY keys this off the endpoint host, not the provider id, so a custom
     provider id pointed at the same native Moonshot host inherits the same
     streaming-usage behavior.
 

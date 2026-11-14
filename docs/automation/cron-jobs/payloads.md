@@ -136,10 +136,10 @@ and action, and the bot's required Discord permissions. Use an updated Discord p
 [scheduled write support](/plugins/sdk-channel-plugins#scheduled-channel-administration).
 
 Account-bound jobs can use Discord `channel-edit` when an authenticated Discord
-turn has authorized their current definition. OpenClaw privately retains that
+turn has authorized their current definition. FRIDAY privately retains that
 requester's Discord account and sender identity, and Discord's current channel
 or thread permissions must allow the edit. The original session creator and a
-configured OpenClaw owner are not substitutes for those native permissions.
+configured FRIDAY owner are not substitutes for those native permissions.
 
 Executable edits from the job's owning conversation and account bind the job to
 the current authorized editor. This includes the prompt, model, name, schedule,
@@ -203,7 +203,7 @@ An explicit update from an authorized native creator can adopt its runtime autho
 Moving a job to an agent with a different credential owner requires explicit account adoption.
 Tool and delivery accounts remain separate from the inference account.
 
-`--model` sets the job's primary model; it does not replace a session `/model` override, so configured fallback chains still apply on top of it. An unresolved or disallowed model fails the run with an explicit validation error rather than silently falling back to the default. If a job has `--model` but no explicit or configured fallback list, OpenClaw passes an empty fallback override instead of silently appending the agent primary as a hidden retry target.
+`--model` sets the job's primary model; it does not replace a session `/model` override, so configured fallback chains still apply on top of it. An unresolved or disallowed model fails the run with an explicit validation error rather than silently falling back to the default. If a job has `--model` but no explicit or configured fallback list, FRIDAY passes an empty fallback override instead of silently appending the agent primary as a hidden retry target.
 
 A fallback after a provider timeout continues the same scheduled turn and reuses its saved user input. Failed attempts do not complete the turn or duplicate the scheduled prompt.
 
@@ -226,7 +226,7 @@ When a runtime reports token usage without a cost, automation estimates use the 
 
 If a run hits a live model-switch handoff, the scheduler retries with the switched provider/model and persists that model selection for the active run. A job with a recorded inference account retains that account and its compatible authentication route; a switch cannot adopt a different account. Retries are bounded: after the initial attempt plus 2 switch retries, the scheduler aborts instead of looping.
 
-Before an isolated run starts, OpenClaw checks reachable local endpoints for configured `api: "ollama"` and `api: "openai-completions"` providers whose `baseUrl` is loopback, private-network, or `.local`. This preflight walks the job's configured fallback chain and only marks the run `skipped` once every candidate is unreachable; `--fallbacks ""` keeps that walk strict to just the primary model. A down endpoint records the run as `skipped` with a clear error instead of starting a model call. The result is cached for 5 minutes per endpoint (not per job or model), so many due jobs sharing a dead local Ollama/vLLM/SGLang/LM Studio server cost one check instead of a request storm. Skipped preflight runs do not increment execution-error backoff. They use the existing [failure-alert policy](/automation/cron-jobs/delivery#failure-notifications) without requiring `failureAlert.includeSkipped`; recurring jobs remain enabled and recover automatically when a later preflight finds the provider reachable.
+Before an isolated run starts, FRIDAY checks reachable local endpoints for configured `api: "ollama"` and `api: "openai-completions"` providers whose `baseUrl` is loopback, private-network, or `.local`. This preflight walks the job's configured fallback chain and only marks the run `skipped` once every candidate is unreachable; `--fallbacks ""` keeps that walk strict to just the primary model. A down endpoint records the run as `skipped` with a clear error instead of starting a model call. The result is cached for 5 minutes per endpoint (not per job or model), so many due jobs sharing a dead local Ollama/vLLM/SGLang/LM Studio server cost one check instead of a request storm. Skipped preflight runs do not increment execution-error backoff. They use the existing [failure-alert policy](/automation/cron-jobs/delivery#failure-notifications) without requiring `failureAlert.includeSkipped`; recurring jobs remain enabled and recover automatically when a later preflight finds the provider reachable.
 
 Client-side preflight timeouts are not cached. The next scheduled run checks the endpoint again instead of inheriting a timeout from another run.
 
@@ -288,7 +288,7 @@ The script may return an object with these optional fields:
 Throws, timeouts, exhausted tool budgets, invalid results, and `nextCheck` without pacing are normal automation run errors: they enter run history, backoff, and failure-alert handling without persisting returned state.
 
 Plugin reloads invalidate cached script preparation. If a plugin retires during setup,
-OpenClaw refreshes the tools once before starting the script, within the original
+FRIDAY refreshes the tools once before starting the script, within the original
 deadline. A failure after the script starts never triggers this setup retry.
 If the refresh fails, run history and failure alerts explain that automatic setup
 recovery failed and the script did not run.
@@ -329,7 +329,7 @@ judgment and move the repeatable parts into code:
 ### Codex apps in scheduled automations
 
 Codex-created automations can retain the app IDs and permission ceiling
-available to the authenticated creator thread. At execution, OpenClaw requires
+available to the authenticated creator thread. At execution, FRIDAY requires
 the same prepared Codex profile and account, then narrows the stored cap against
 current app policy. Revoked apps, account/runtime changes, and interactive
 approval requirements stop execution with a recovery message; they never fall
@@ -367,7 +367,7 @@ With `announce`, agent, command, and script results belong to the chat or topic 
 
   </Accordion>
   <Accordion title="What 'fresh session' means for isolated jobs">
-    A new transcript/session id per run. OpenClaw carries safe preferences (thinking/fast/verbose settings, labels, explicit user-selected model/auth overrides), but does not inherit ambient conversation context from an older automation session row: channel/group routing, send or queue policy, elevation, origin, or ACP runtime binding. Use `current` or `session:<id>` when a recurring job should deliberately build on the same conversation context.
+    A new transcript/session id per run. FRIDAY carries safe preferences (thinking/fast/verbose settings, labels, explicit user-selected model/auth overrides), but does not inherit ambient conversation context from an older automation session row: channel/group routing, send or queue policy, elevation, origin, or ACP runtime binding. Use `current` or `session:<id>` when a recurring job should deliberately build on the same conversation context.
   </Accordion>
   <Accordion title="Unattended run contract">
     Isolated automation and hook agent turns are explicitly unattended: no one is present to clarify or approve. The final reply must be the deliverable rather than a plan, acknowledgement, or request for input. The agent returns `NO_REPLY` when nothing needs doing. When the task failed or is blocked, the reply explains what failed and what it tried in ordinary prose.
@@ -378,9 +378,9 @@ With `announce`, agent, command, and script results belong to the chat or topic 
 
   </Accordion>
   <Accordion title="Subagent and Discord delivery">
-    When isolated automation runs orchestrate subagents, delivery prefers the final descendant output over stale parent interim text. If descendant tasks are still running or settling, OpenClaw suppresses that partial parent update instead of announcing it. This includes a yielded orchestrator waiting for its successor to start and completed descendants whose result delivery is still pending. The wait shares the existing run deadline and stops on cancellation. A `delivery.mode: "none"` run whose turn only handed work to a child waits for the child under the same deadline and records the child's final reply as the run output without sending it. Subagents must return a meaningful result or a concrete blocker, even when delivery is `none`. A child that returns only `NO_REPLY` enters [missing-answer recovery](/tools/subagents/announce#announce); if it still produces no result or times out, the automation fails.
+    When isolated automation runs orchestrate subagents, delivery prefers the final descendant output over stale parent interim text. If descendant tasks are still running or settling, FRIDAY suppresses that partial parent update instead of announcing it. This includes a yielded orchestrator waiting for its successor to start and completed descendants whose result delivery is still pending. The wait shares the existing run deadline and stops on cancellation. A `delivery.mode: "none"` run whose turn only handed work to a child waits for the child under the same deadline and records the child's final reply as the run output without sending it. Subagents must return a meaningful result or a concrete blocker, even when delivery is `none`. A child that returns only `NO_REPLY` enters [missing-answer recovery](/tools/subagents/announce#announce); if it still produces no result or times out, the automation fails.
 
-    For text-only Discord announce targets, OpenClaw sends the final assistant text once instead of replaying both streamed/intermediate text and the final answer. Media and structured Discord payloads are still delivered separately so attachments and components are not dropped.
+    For text-only Discord announce targets, FRIDAY sends the final assistant text once instead of replaying both streamed/intermediate text and the final answer. Media and structured Discord payloads are still delivered separately so attachments and components are not dropped.
 
   </Accordion>
 </AccordionGroup>

@@ -125,7 +125,7 @@ export function requireAgentsApiSessionFingerprint({
   const fingerprint = createHash("sha256").update(JSON.stringify(identity)).digest("hex");
   if (existingFingerprint && existingFingerprint !== fingerprint) {
     throw new Error(
-      "Agents API model, environment, MCP, web-search, or forwarding policy changed; reset the OpenClaw session before continuing",
+      "Agents API model, environment, MCP, web-search, or forwarding policy changed; reset the FRIDAY session before continuing",
     );
   }
   return fingerprint;

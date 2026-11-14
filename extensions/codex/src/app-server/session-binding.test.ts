@@ -813,7 +813,7 @@ describe("Codex app-server binding store", () => {
     expect(values.size).toBe(1);
   });
 
-  it("reclaims a stale stable generation only for the current OpenClaw session", async () => {
+  it("reclaims a stale stable generation only for the current FRIDAY session", async () => {
     const { values, store, previous, current } = await createGenerationFixture();
     await expectReclaim(store, current, false, "other-session");
     expect(values.get(storeKey(previous))).toMatchObject({

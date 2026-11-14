@@ -522,17 +522,17 @@ function assertHistoricalAndFocusedEvidence(policy: AuthorizedBetaFocusedPolicy)
     },
     {
       runId: historical.releaseChecksRunId,
-      name: `OpenClaw Release Checks ${historicalRunName}-release-checks`,
+      name: `FRIDAY Release Checks ${historicalRunName}-release-checks`,
       path: ".github/workflows/openclaw-release-checks.yml",
       conclusion: "success",
       jobs: [[historical.releaseChecksVerifierJobId, "Verify release checks"]],
     },
     {
       runId: historical.performanceRunId,
-      name: `OpenClaw Performance ${historicalRunName}`,
+      name: `FRIDAY Performance ${historicalRunName}`,
       path: ".github/workflows/openclaw-performance.yml",
       conclusion: "failure",
-      jobs: [[historical.performanceFailedJobId, "OpenClaw source performance probes"]],
+      jobs: [[historical.performanceFailedJobId, "FRIDAY source performance probes"]],
     },
   ] as const) {
     requireRun({

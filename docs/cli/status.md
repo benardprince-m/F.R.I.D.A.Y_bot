@@ -179,7 +179,7 @@ Use `openclaw skills check --agent <id>` to inspect the missing requirements.
 
 - Session status output separates `Execution:` from `Runtime:`. `Execution`
   is the sandbox path (`direct`, `docker/*`), while `Runtime` tells you
-  whether the session is using `OpenClaw Default`, `OpenAI Codex`, a CLI
+  whether the session is using `FRIDAY Default`, `OpenAI Codex`, a CLI
   backend, or an ACP backend such as `codex (acp/acpx)`. See
   [Agent runtimes](/concepts/agent-runtimes) for the provider/model/runtime
   distinction.
@@ -223,10 +223,10 @@ Use `openclaw skills check --agent <id>` to inspect the missing requirements.
   from starting another request; completed provider snapshots remain available.
 - In an explicit multi-agent setup, `--usage` reads the auth profiles owned by
   `agents.defaults.systemAgent.agentId` by default. Pass `--agent <id>` to
-  inspect another agent; without either owner, OpenClaw does not guess one
+  inspect another agent; without either owner, FRIDAY does not guess one
   agent's credentials from an ambiguous roster.
 - MiniMax's raw `usage_percent` / `usagePercent` fields are remaining quota,
-  so OpenClaw inverts them before display; count-based fields win when
+  so FRIDAY inverts them before display; count-based fields win when
   present. `model_remains` responses prefer the chat-model entry, derive the
   window label from timestamps when needed, and include the model name in
   the plan label.

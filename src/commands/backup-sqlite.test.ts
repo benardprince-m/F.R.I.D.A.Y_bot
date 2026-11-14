@@ -195,7 +195,7 @@ describe("SQLite backup commands", () => {
     ).rejects.toThrow(missingSnapshotMessage);
   });
 
-  it("requires exactly one named OpenClaw database source", async () => {
+  it("requires exactly one named FRIDAY database source", async () => {
     const runtime = createRuntimeCapture();
 
     await expect(

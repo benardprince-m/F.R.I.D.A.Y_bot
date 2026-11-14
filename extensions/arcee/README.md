@@ -1,8 +1,8 @@
-# OpenClaw Arcee AI Provider
+# FRIDAY Arcee AI Provider
 
-Official OpenClaw provider plugin for Arcee AI.
+Official FRIDAY provider plugin for Arcee AI.
 
-Install from OpenClaw:
+Install from FRIDAY:
 
 ```bash
 openclaw plugins install @openclaw/arcee-provider

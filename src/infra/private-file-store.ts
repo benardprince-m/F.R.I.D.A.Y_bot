@@ -9,7 +9,7 @@ import { readExistingStateRootMode, tightenPrivateDirRootSync } from "./private-
 
 const PRIVATE_STORE_DIR_MODE = 0o700;
 
-// fs-safe 0.8 leaves existing root modes unchanged; OpenClaw tightens its own roots.
+// fs-safe 0.8 leaves existing root modes unchanged; FRIDAY tightens its own roots.
 /** Create an async private file store rooted at `rootDir`. */
 export function privateFileStore(rootDir: string): FileStore {
   tightenPrivateDirRootSync(rootDir, PRIVATE_STORE_DIR_MODE);

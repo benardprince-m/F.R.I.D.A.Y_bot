@@ -273,7 +273,7 @@ class ChatControllerStreamReplayTest {
             assertEquals(status, 1, controller.pendingRunCount.value)
             assertEquals(status, "Original output", controller.streamingAssistantText.value)
             assertEquals(status, originalTools, controller.pendingToolCalls.value)
-            if (status != "ok") assertEquals("OpenClaw request failed.", controller.errorText.value)
+            if (status != "ok") assertEquals("FRIDAY request failed.", controller.errorText.value)
           } finally {
             release.complete(Unit)
           }
@@ -1155,7 +1155,7 @@ class ChatControllerStreamReplayTest {
       gateway.respond("sessions.describe") {
         adoptionStarted.complete(Unit)
         releaseAdoption.await()
-        """{"session":{"key":"$key","sessionId":"session-main","agentId":"main","label":"OpenClaw App","archived":false}}"""
+        """{"session":{"key":"$key","sessionId":"session-main","agentId":"main","label":"FRIDAY App","archived":false}}"""
       }
       gateway.respond("sessions.patch") { error("rename unavailable") }
       val controller =
@@ -1166,7 +1166,7 @@ class ChatControllerStreamReplayTest {
       try {
         controller.load(key)
         runCurrent()
-        controller.onGatewayConnected(MainSessionBinding(key, "OpenClaw App"))
+        controller.onGatewayConnected(MainSessionBinding(key, "FRIDAY App"))
         runCurrent()
         assertTrue(adoptionStarted.isCompleted)
         assertFalse(controller.patchSession(ChatSessionPatch(key = key, label = "Renamed")))

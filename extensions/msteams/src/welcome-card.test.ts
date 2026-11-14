@@ -102,8 +102,8 @@ describe("buildWelcomeCard", () => {
 });
 
 describe("buildGroupWelcomeText", () => {
-  it("defaults to OpenClaw", () => {
+  it("defaults to FRIDAY", () => {
     const text = buildGroupWelcomeText();
-    expect(text).toContain("OpenClaw");
+    expect(text).toContain("FRIDAY");
   });
 });

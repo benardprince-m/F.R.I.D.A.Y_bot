@@ -16,7 +16,7 @@ export function unsupportedIsolatedCompletionError(
 ): Error & { code: "unsupported" } {
   return Object.assign(
     new Error(
-      `CLI backend "${backendId}" does not support isolated completion; OpenClaw did not start the run.`,
+      `CLI backend "${backendId}" does not support isolated completion; FRIDAY did not start the run.`,
     ),
     { name: "IsolatedCompletionUnsupportedError", code: "unsupported" as const },
   );

@@ -39,14 +39,14 @@ worker, storage, or embedding provider must satisfy. Part of the
 
 Transcript source providers that share an account namespace with an inbound
 channel declare an `accountOwnership` descriptor with that channel id and a
-shared account resolver. OpenClaw then
+shared account resolver. FRIDAY then
 ignores model-selected account ids for same-channel capture, binds the trusted
 inbound account, and records it as the session owner for later lifecycle
-actions. The resolver also selects an omitted account before OpenClaw starts or
+actions. The resolver also selects an omitted account before FRIDAY starts or
 persists live capture. It validates an already-bound trusted account without
 redirecting it and returns an actionable typed error when no unique capable
 account exists. Configured auto-start must supply a nonempty source account or
-resolve one with this descriptor. OpenClaw rejects ambiguous or unresolved ownership before it
+resolve one with this descriptor. FRIDAY rejects ambiguous or unresolved ownership before it
 persists the start or invokes the provider. Provider aliases are lookup names
 only and must not be used for this declaration.
 

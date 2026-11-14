@@ -1,15 +1,15 @@
 ---
-summary: "Updating OpenClaw safely (global install or source), plus rollback strategy"
+summary: "Updating FRIDAY safely (global install or source), plus rollback strategy"
 read_when:
-  - Updating OpenClaw
+  - Updating FRIDAY
   - Something breaks after an update
 title: "Updating"
 ---
 
-Keep OpenClaw up to date.
+Keep FRIDAY up to date.
 
 App-owned packages declare their update owner in `openclaw-install-owner.json`
-at the package root. For `owner: "macos-app"`, update OpenClaw.app through its
+at the package root. For `owner: "macos-app"`, update FRIDAY.app through its
 app updater to update the bundled Gateway and runtime together. `openclaw update`,
 `openclaw update repair`, and Gateway update requests return the marker's update
 hint without changing the package or stopping the Gateway; background checks
@@ -106,7 +106,7 @@ against the agent schema. Their plugin owns migration; they remain in the
 snapshot and rollback inventory even when the plugin is disabled. The primary
 shared-state database is checked against the shared-state schema.
 
-OpenClaw.app runs plugin convergence through the selected runtime's Doctor while
+FRIDAY.app runs plugin convergence through the selected runtime's Doctor while
 the app owns Gateway activation. This aligns managed official npm plugins with the new
 core before plugin migrations, repairs host peer links, and refreshes the plugin
 registry. Unavailable replacements remain nonblocking: the app's recovery
@@ -130,7 +130,7 @@ copies or removing resources. Keep separate state and credentials for each
 See [container image updates](/install/docker#upgrading-container-images),
 [backups](/install/backups), and the
 [downgrade limitation](/install/updating/rollback-and-recovery#downgrade) before
-changing images or restoring an older OpenClaw version.
+changing images or restoring an older FRIDAY version.
 
 ## Upgrading very old versions
 
@@ -168,7 +168,7 @@ Back up the state first and use a [supported Node version](/install/node):
 Node 24.16+ on the 24.x line, or Node 26.1+. Keep the same owning account,
 installation prefix, profile, and state/configuration paths throughout.
 
-For an npm installation with an OpenClaw-managed Gateway service, run this
+For an npm installation with an FRIDAY-managed Gateway service, run this
 first stage from a terminal:
 
 ```bash
@@ -265,7 +265,7 @@ openclaw update
 
 Use the unit and scope reported by `openclaw gateway status --deep` for a custom
 profile or system service. If an operator applies a mask or another start
-restriction during the update, OpenClaw retains the activated candidate and
+restriction during the update, FRIDAY retains the activated candidate and
 reports a service-definition warning instead of rolling back because systemd
 refused to start it. Gateway readiness is still unverified; remove the reported
 restriction, run `openclaw gateway start`, then check `openclaw gateway status --deep`.
@@ -453,7 +453,7 @@ pnpm add -g --allow-build=openclaw openclaw@VERSION </dev/null
 Replace `VERSION` with a release containing this fix. Then run Doctor and restart
 through the same owner as described in the manual procedure. Updates driven by
 the fixed version supply noninteractive input to pnpm themselves. The recovery
-command permits OpenClaw's own install scripts without approving additional dependencies.
+command permits FRIDAY's own install scripts without approving additional dependencies.
 
 The installed 2026.9.4 updater can refuse with `managed-service-preflight` before
 the target code runs. To reach a release containing this repair, use the
@@ -499,7 +499,7 @@ from an older release, check [Node requirements](/install/node) and the npm
 prefix's permissions first; see [update troubleshooting](/install/update-troubleshooting#node-and-global-install-permissions).
 
 <Note>
-On FreeBSD, OpenClaw 2026.9.4 can stop before staging an update with
+On FreeBSD, FRIDAY 2026.9.4 can stop before staging an update with
 `managed handoff process start identity is unavailable`. Changing the target or
 adding `--no-restart` cannot repair the installed updater.
 
@@ -517,10 +517,10 @@ FreeBSD rc.d service updates.
 After an upgrade, check the [FreeBSD model-runtime limitation](/install/installer#install-clish) before starting agent turns.
 </Note>
 
-An already-installed registry package version or Git target SHA still runs plugin maintenance, repairs eligible old OpenClaw release pins, and restarts a running managed Gateway when plugins change or its service points at another installation, unless `--no-restart` is set. Unchanged runs finish as `skipped` / `already-current`.
+An already-installed registry package version or Git target SHA still runs plugin maintenance, repairs eligible old FRIDAY release pins, and restarts a running managed Gateway when plugins change or its service points at another installation, unless `--no-restart` is set. Unchanged runs finish as `skipped` / `already-current`.
 
 Plugin maintenance does not fail an otherwise successful core update. If a plugin
-cannot be updated, OpenClaw continues with the remaining plugins, keeps the previous
+cannot be updated, FRIDAY continues with the remaining plugins, keeps the previous
 installation where possible, and prints a short next action. A running updated
 Gateway can also report a plugin that did not load without turning the core update
 into a failure. Individual plugin outcomes remain available in `--json` output.
@@ -544,7 +544,7 @@ described above.
 Local copies selected through `plugins.load.paths` are operator-managed. Updates
 and `openclaw update repair` retain the selected copy and any npm install it
 shadows, and record a `plugin-operator-managed` warning in the outcome and update
-history. Verify that copy against the updated OpenClaw version, or remove its
+history. Verify that copy against the updated FRIDAY version, or remove its
 path from `plugins.load.paths` to use the managed installation again. This does
 not grant the local copy trusted plugin privileges.
 An explicit package artifact (for example, a tarball path or URL) is validated
@@ -775,7 +775,7 @@ can settle `prepared`, `publishing`, `publication-complete`, and superseded oper
 when the journal's inodes still match under a consistent device-number mapping.
 Ordinary update admission stays strict.
 
-If the installed updater cannot read the journal, a separately installed OpenClaw
+If the installed updater cannot read the journal, a separately installed FRIDAY
 version containing this fix provides the same settlement-only path:
 
 ```bash
@@ -826,7 +826,7 @@ layouts still require their original recovery owner.
 
 An installed 2026.9.8 or 2026.9.9 updater can reject a completed `anchor-retired`
 receipt before downloading a fix when saved filesystem device numbers change.
-Use a separately installed OpenClaw version containing the completed-receipt
+Use a separately installed FRIDAY version containing the completed-receipt
 recovery fix. Its standalone helper can archive completed history for the original
 installation while that installation's Gateway keeps running:
 
@@ -918,7 +918,7 @@ beta updates. Plugins still follow the installed core version where required
 for compatibility.
 
 `--channel extended-stable` is package-only, and installation remains
-foreground-only. OpenClaw reads the public npm `extended-stable` selector,
+foreground-only. FRIDAY reads the public npm `extended-stable` selector,
 verifies the selected exact package, and installs that exact version. Missing
 or inconsistent registry data stops the update; it never falls back to `latest`.
 If the selected version is older than the installed version, the normal
@@ -930,7 +930,7 @@ checks only the verified `extended-stable` selector for update availability.
 That direct command is for npm 12 or npm 11.16+. On npm 11.15 and earlier,
 omit `--allow-scripts=openclaw`.
 After the core swap, eligible official npm and trusted official ClawHub plugins with bare/default or
-`latest` intent converge to that exact core version. Eligible older OpenClaw release
+`latest` intent converge to that exact core version. Eligible older FRIDAY release
 pins resume that default update policy. Explicit non-`latest` tags, independently
 versioned pins, third-party plugins, custom ClawHub registries, and other sources retain
 their existing behavior.
@@ -944,8 +944,8 @@ remain loadable even when they are older than the host. Run
 `openclaw update repair`, or `openclaw plugins update codex`, then restart the
 Gateway. Newer explicit pins and independently versioned plugins retain their
 existing compatibility behavior.
-Catalog installs created by current OpenClaw versions retain that default
-intent. Verified OpenClaw-owned packages recorded at an exact OpenClaw release
+Catalog installs created by current FRIDAY versions retain that default
+intent. Verified FRIDAY-owned packages recorded at an exact FRIDAY release
 no newer than core resume their catalog's default selector after a successful
 update. This includes old automatic and manual pins. Their recorded registry
 and plugin settings are preserved, and subsequent updates continue following
@@ -977,7 +977,7 @@ See [Release channels](/install/development-channels) for channel semantics.
 
 ### Updating from 2026.9.2 across a schema bump
 
-Updates driven by OpenClaw 2026.9.2 can cross a shared-state schema bump normally.
+Updates driven by FRIDAY 2026.9.2 can cross a shared-state schema bump normally.
 The target applies the migration content while retaining the old published
 schema version, so the old updater can finish its ledger writes and final
 report. Doctor explains that schema content is applied and version publication
@@ -1003,7 +1003,7 @@ If npm postinstall emits this typed refusal, the updater reports it without
 retrying the install with optional dependencies omitted. Other install failures
 retain their existing retry behavior.
 Before package commit, let the failed update finish restoring the previous
-package. OpenClaw 2026.9.2 leaves the Gateway service stopped after failed
+package. FRIDAY 2026.9.2 leaves the Gateway service stopped after failed
 post-install verification. After package commit, the old package backup is gone:
 finish `openclaw doctor --fix` with the installed compatible build, then run
 `openclaw gateway start`. Package rollback cannot undo migrated state.
@@ -1055,7 +1055,7 @@ intended Gateway. Native updates also check current administrator access when yo
 confirm and show an access error if it was revoked. Once an update starts, its
 progress report remains available through that Gateway's restart.
 
-Ask the agent to update OpenClaw, or send `/update` from Discord or another
+Ask the agent to update FRIDAY, or send `/update` from Discord or another
 connected chat. Natural-language requests use the existing `gateway` tool's
 `update.run` action. The minimal, coding, and messaging profiles expose that update
 action without granting configuration reads or other Gateway controls. Explicit tool
@@ -1086,7 +1086,7 @@ External update and restart notices go to destinations listed in
 channel resolves a direct recipient to its stable sender identity before checking
 the administrator link; group and channel targets do not inherit a person's
 administrator authority. Selecting a non-owner chat in the Control UI does not
-authorize notices to that contact. If no owner destination resolves, OpenClaw
+authorize notices to that contact. If no owner destination resolves, FRIDAY
 logs the skipped notice and keeps the update outcome in the run record and
 Control UI; it does not redirect the notice to another chat or wake the rejected
 session with diagnostics.
@@ -1120,7 +1120,7 @@ not execute them in the shell of the Gateway hosting its session. A missing
 owner permission requires owner setup, and an externally supervised installation
 uses its deployment owner's update workflow.
 
-For installations updated by OpenClaw itself, chat, CLI, Control UI, and automatic updates share a durable run ID.
+For installations updated by FRIDAY itself, chat, CLI, Control UI, and automatic updates share a durable run ID.
 Use `openclaw update status` to read the active or latest report, including after a restart; `--json` exposes the `activeRun` and `lastRun` records.
 See [Run history and reports](/cli/update#run-history-and-reports) for Gateway history queries.
 
@@ -1153,9 +1153,9 @@ stay coordinated.
 The standalone `scripts/freebsd-service-inspect.mjs` diagnostic reports which
 `openclaw` rc.d definitions the native configuration selects. It requires a
 root-owned Node installation, script, and shared discovery helper. It does not
-require the OpenClaw Ports service package.
+require the FRIDAY Ports service package.
 
-From an existing root shell, install the script from a trusted OpenClaw package:
+From an existing root shell, install the script from a trusted FRIDAY package:
 
 ```sh
 install -d -o root -g wheel -m 0755 /usr/local/libexec/lib
@@ -1216,7 +1216,7 @@ Wait for that update to finish, or stop the named driver on its host and rerun
 repair after it exits. See [Update repair](/cli/update/repair-and-recovery#update-repair)
 for maintenance and recovery behavior.
 
-OpenClaw 2026.9.2 does not reject a new CLI update because an older running row
+FRIDAY 2026.9.2 does not reject a new CLI update because an older running row
 exists: its [admission path](https://github.com/openclaw/openclaw/blob/v2026.9.2/src/cli/update-cli/update-command-run.ts#L77)
 creates a new run, and its [ledger](https://github.com/openclaw/openclaw/blob/v2026.9.2/src/infra/update-run-ledger.ts#L250)
 checks only for a duplicate run ID. Upgrade normally, then use the updated
@@ -1264,7 +1264,7 @@ Use these steps after a manual installation or when checking a reported problem.
 openclaw doctor
 ```
 
-Migrates config, audits DM policies, and checks gateway health. Doctor also compares active official plugins with the OpenClaw package the managed service will load after restart. Resolve any plugin restart-readiness warning before continuing. Details: [Doctor](/gateway/doctor)
+Migrates config, audits DM policies, and checks gateway health. Doctor also compares active official plugins with the FRIDAY package the managed service will load after restart. Resolve any plugin restart-readiness warning before continuing. Details: [Doctor](/gateway/doctor)
 
 If you use the unpacked Chrome extension, also run `openclaw browser doctor --browser-profile chrome`.
 For a version-mismatch warning, reload the extension from `chrome://extensions`;
@@ -1286,7 +1286,7 @@ openclaw health
 
 ### Background exec notifications after an update
 
-`[OpenClaw exec completion]` identifies an automatic follow-up for a background
+`[FRIDAY exec completion]` identifies an automatic follow-up for a background
 command, rather than a recurring heartbeat poll. These follow-ups can run with
 `agents.defaults.heartbeat.every: "0m"`. To keep background exec without these
 extra model calls, set `tools.exec.notifyOnExit: false` and check per-agent

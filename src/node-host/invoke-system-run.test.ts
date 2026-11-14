@@ -539,14 +539,14 @@ describe("handleSystemRunInvoke mac app exec host routing", () => {
         error: {
           code: "PERMISSION_MISSING",
           reason: "permission:screenRecording",
-          message: "Relaunch OpenClaw",
+          message: "Relaunch FRIDAY",
           details,
         },
       },
     });
     expect(invokeResult(result.sendInvokeResult)).toEqual({
       ok: false,
-      error: { code: "PERMISSION_MISSING", message: "Relaunch OpenClaw", details },
+      error: { code: "PERMISSION_MISSING", message: "Relaunch FRIDAY", details },
     });
     expect(result.runCommand).not.toHaveBeenCalled();
   });

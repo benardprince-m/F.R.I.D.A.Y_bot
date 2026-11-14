@@ -40,7 +40,7 @@ read_when:
   </Accordion>
 
   <Accordion title='How do I send a Discord message from Telegram? ("Cross-context messaging denied")'>
-    OpenClaw allows **cross-provider** messaging by default. An agent in Telegram or WebChat can send to Discord when the destination is configured and its tool and channel policies permit it.
+    FRIDAY allows **cross-provider** messaging by default. An agent in Telegram or WebChat can send to Discord when the destination is configured and its tool and channel policies permit it.
 
     If you see "Cross-context messaging denied", check for `tools.message.crossContext.allowAcrossProviders: false` globally or in the agent's configuration. Remove that restriction or explicitly allow cross-provider messaging; this takes effect without a Gateway restart:
 

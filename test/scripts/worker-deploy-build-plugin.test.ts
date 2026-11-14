@@ -547,7 +547,7 @@ console.log("relocated worker facade activation follows the shared config snapsh
           );
           expect(closure.error, closure.stderr).toBeUndefined();
           expect(closure.status, closure.stderr).toBe(0);
-          expect(closure.stdout.trim()).toBe("OpenClaw package dist import closure passed.");
+          expect(closure.stdout.trim()).toBe("FRIDAY package dist import closure passed.");
         }),
       180_000,
     );

@@ -3,7 +3,7 @@ import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { isRecord } from "openclaw/plugin-sdk/string-coerce-runtime";
 import { migrateVoiceCallLegacyConfigInput } from "./src/config-migration.js";
 
-/** Migrate voice-call plugin config inside the full OpenClaw config object. */
+/** Migrate voice-call plugin config inside the full FRIDAY config object. */
 function migrateVoiceCallPluginConfig(config: OpenClawConfig): {
   config: OpenClawConfig;
   changes: string[];

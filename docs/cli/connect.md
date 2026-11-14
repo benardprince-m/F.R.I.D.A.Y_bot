@@ -1,5 +1,5 @@
 ---
-summary: "Connect a machine to an OpenClaw Gateway with one pasted command"
+summary: "Connect a machine to an FRIDAY Gateway with one pasted command"
 read_when:
   - Pairing a new headless node with a Gateway
   - Installing a node host from a join URL or setup code
@@ -8,7 +8,7 @@ title: "Connect"
 
 # `openclaw connect`
 
-Connect the current machine to an OpenClaw Gateway as a headless node. The
+Connect the current machine to an FRIDAY Gateway as a headless node. The
 command redeems a short-lived bootstrap credential, saves the Gateway endpoint
 in the existing node-host state, and runs the same runtime as
 [`openclaw node run`](/cli/node).
@@ -32,7 +32,7 @@ Only use session hosting on a machine you trust as shared Gateway infrastructure
 The printed command makes that consent explicit with `--session-host`; the node
 runtime's default remains non-hosting. See [Session hosting](/nodes/session-hosting).
 For a command-only node, omit `--session-host` and keep `--service`.
-The `-y` flag skips npm's package-install confirmation, not OpenClaw pairing or
+The `-y` flag skips npm's package-install confirmation, not FRIDAY pairing or
 session-hosting consent.
 
 The Gateway chooses its own published npm version, even when you run
@@ -42,7 +42,7 @@ otherwise unpinned `openclaw`, with a note to use a matching Gateway build.
 Registry checks are bounded to two seconds; an unavailable registry also shows
 the matching-build note.
 
-Already have OpenClaw installed? Run: `openclaw connect <join-url> --service --session-host`.
+Already have FRIDAY installed? Run: `openclaw connect <join-url> --service --session-host`.
 This uses your installed build instead of npx; make sure it matches the Gateway.
 
 The shortcode has 128 bits of entropy, expires with the setup credential after
@@ -142,7 +142,7 @@ the platform user service:
 npx openclaw connect https://gateway.example/j/<shortcode> --service
 ```
 
-OpenClaw completes the first authenticated connection before installing the
+FRIDAY completes the first authenticated connection before installing the
 service. The short-lived bootstrap token is never stored in the service command
 or node-host configuration; later starts use the durable paired-device token.
 When restarting against that saved endpoint, ambient Gateway credentials from
@@ -154,7 +154,7 @@ Use [`openclaw node status`](/cli/node#service-background) to inspect the
 installed service.
 
 When run through `npx`, service installation first installs the selected
-OpenClaw release into `npm` under the node's state directory. The service uses
+FRIDAY release into `npm` under the node's state directory. The service uses
 that durable installation, not npm's temporary `_npx` cache. The installation
 output shows the package version, chosen runtime, service command, and a node
 update command:
@@ -179,7 +179,7 @@ npx openclaw connect https://gateway.example/j/<shortcode> --service --session-h
 
 The one-shot bootstrap connection authenticates and saves the durable device
 identity without advertising worker hosting. Only after that connection
-succeeds does OpenClaw persist `nodeHost.workerRuns.enabled=true`, preserving
+succeeds does FRIDAY persist `nodeHost.workerRuns.enabled=true`, preserving
 the rest of the config, and install the service. If the config write fails,
 service installation does not start. The installed service advertises worker
 hosting and exact capacity from this durable consent when it starts.
@@ -204,8 +204,8 @@ hosting and exact capacity from this durable consent when it starts.
 
 `--target-file <path>` accepts a regular file up to 64 KiB. It removes the path
 only after reading a non-empty target. If the file is empty, too large,
-unreadable, or not a regular file, OpenClaw leaves it in place. A symlink is
-allowed; OpenClaw reads its target, removes the symlink after a successful read,
+unreadable, or not a regular file, FRIDAY leaves it in place. A symlink is
+allowed; FRIDAY reads its target, removes the symlink after a successful read,
 and keeps the backing file. The dormant installer wrapper uses this handoff to
 keep the single-use target out of child-process arguments.
 

@@ -41,7 +41,7 @@ function connectParams(value: unknown) {
 
 const onboardingWelcome = {
   sessionId: "e2e-first-run",
-  reply: "Your model is ready. Let's finish setting up OpenClaw.",
+  reply: "Your model is ready. Let's finish setting up FRIDAY.",
   action: "none",
 };
 

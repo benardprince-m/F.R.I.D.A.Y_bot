@@ -1,5 +1,5 @@
 ---
-summary: "Scripted onboarding and agent setup for the OpenClaw CLI"
+summary: "Scripted onboarding and agent setup for the FRIDAY CLI"
 read_when:
   - You are automating onboarding in scripts or CI
   - You need non-interactive examples for specific providers
@@ -17,7 +17,7 @@ Each command can install a managed Gateway with `--install-daemon`, require an a
 
 ## Review required plugins
 
-Bundled plugins and verified plugins from OpenClaw's official catalog do not
+Bundled plugins and verified plugins from FRIDAY's official catalog do not
 require capability consent during setup. This includes the official Codex
 runtime installed for OpenAI setup.
 
@@ -188,7 +188,7 @@ openclaw onboard --non-interactive --accept-risk --skip-health \
 
     For `openai` or `openai-responses`, omit `--custom-model-id` to save the models discovered from `/v1/models` and use the first as the default. Supplying the flag skips discovery. If discovery fails or finds no usable models, rerun with an explicit ID. The `anthropic` example above requires an explicit model ID.
 
-    OpenClaw infers image-input support from known vision model-id patterns (`gpt-4o`, `claude-3/4`, `gemini`, `-vl`/`vision` suffixes, and similar). Add `--custom-image-input` to force it on for an unrecognized vision model, or `--custom-text-input` to force text-only.
+    FRIDAY infers image-input support from known vision model-id patterns (`gpt-4o`, `claude-3/4`, `gemini`, `-vl`/`vision` suffixes, and similar). Add `--custom-image-input` to force it on for an unrecognized vision model, or `--custom-text-input` to force text-only.
 
     Ref-mode variant, storing `apiKey` as `{ source: "env", provider: "default", id: "CUSTOM_API_KEY" }`:
 
@@ -209,7 +209,7 @@ openclaw onboard --non-interactive --accept-risk --skip-health \
   </Accordion>
 </AccordionGroup>
 
-Anthropic setup-token auth remains supported, but OpenClaw prefers Claude CLI reuse when a local Claude CLI login is available. For production, prefer an Anthropic API key.
+Anthropic setup-token auth remains supported, but FRIDAY prefers Claude CLI reuse when a local Claude CLI login is available. For production, prefer an Anthropic API key.
 
 ## Add another agent
 

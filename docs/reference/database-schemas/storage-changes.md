@@ -545,7 +545,7 @@ execution joins accepted work without replaying the command.
 
 Startup, schema mutation, and offline maintenance share one removable process-owner
 sidecar. On Unix it lives under the selected state directory's temporary storage;
-on Windows it uses the user's OpenClaw locks directory. Ordinary database access
+on Windows it uses the user's FRIDAY locks directory. Ordinary database access
 checks that owner for conflicting maintenance without acquiring another lock.
 Workers obtain schema authority from their live host operation; serialized paths
 and environment selectors grant no authority. Normal release removes the owner
@@ -851,7 +851,7 @@ reset clears the cache. Requests recheck conversation ownership after storage wa
 Approval scope, one-use decisions, channel binding APIs, and Doctor imports are unchanged.
 
 Copilot SDK session bindings use these worker-backed data operations. The harness
-serializes binding reads, writes, and in-memory publication per OpenClaw session;
+serializes binding reads, writes, and in-memory publication per FRIDAY session;
 reset and shutdown join admitted binding work and deferred compaction cleanup.
 Failed persistence retains the existing in-memory fallback. Binding formats,
 compatibility checks, namespace limits, and expiry remain unchanged.
@@ -1058,7 +1058,7 @@ worker. Sends await provisional echo persistence before transport and cleanup
 before reporting failure. Inbound echo matching awaits persisted facts before
 choosing whether to dispatch. Hosts with plugin-state comparison methods use the
 worker for recovery cursor writes; conditional writes preserve the greatest
-admitted row for each account and database. The declared OpenClaw 2026.9.4 peer
+admitted row for each account and database. The declared FRIDAY 2026.9.4 peer
 and plugin API floor remains supported: hosts without those comparison methods
 run the same row decision in the retained synchronous store's transactional
 `update` callback. Failures from an available comparison method never fall back
@@ -1075,7 +1075,7 @@ A successfully read counter remains available if later entry hydration fails.
 The shared action dispatcher awaits the async conversation-matching companion
 before entering the action, including the first action after a restart. The
 existing boolean callback retains synchronous cold hydration for published
-OpenClaw 2026.9.4 hosts and other hosts without that companion. It remains a
+FRIDAY 2026.9.4 hosts and other hosts without that companion. It remains a
 literal boolean, never a promise. Remove this plugin fallback only when its
 declared host floor excludes hosts without async matching. Existing cache
 namespaces, record shapes, TTLs, limits, and best-effort failure policy are unchanged.

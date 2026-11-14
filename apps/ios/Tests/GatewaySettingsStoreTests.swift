@@ -3,7 +3,7 @@ import OpenClawKit
 import os
 import Security
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 private struct KeychainEntry: Hashable {
     let service: String

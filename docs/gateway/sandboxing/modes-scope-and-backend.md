@@ -56,7 +56,7 @@ Native runtime selection and sending can offer **Continue for this chat** when a
 administrator explicitly chooses the native agent's own permissions. This
 combines the optional sandbox opt-out with Full access and consent bound to that
 chat and runtime. Optional native tool and workspace restrictions are then
-delegated to the native agent; OpenClaw-hosted tools keep their existing policy.
+delegated to the native agent; FRIDAY-hosted tools keep their existing policy.
 If setup already remembered consent for that runtime on the chat's owning agent,
 the administrator can recover without another prompt. Otherwise, both ordinary
 agent chats and global chats require explicit confirmation.
@@ -90,7 +90,7 @@ When original Guest access is revoked, registered background commands retain tha
 access dependency and are cancelled even after their foreground turn finishes.
 Closing the browser or stopping one turn does not revoke this retained access.
 
-OpenClaw also stops and verifies a Docker or Podman container when it created
+FRIDAY also stops and verifies a Docker or Podman container when it created
 that container under the original access and every use has remained with the
 same original invitation and profile. Multiple connections and sessions can
 share that private container. Revoking one device or source preserves it while

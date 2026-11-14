@@ -264,7 +264,7 @@ async function main() {
     { command: "device.status" },
     {
       command: "system.notify",
-      params: { title: "OpenClaw E2E", body: `ios-node-e2e @ ${isoNow()}`, delivery: "system" },
+      params: { title: "FRIDAY E2E", body: `ios-node-e2e @ ${isoNow()}`, delivery: "system" },
     },
     {
       command: "contacts.search",

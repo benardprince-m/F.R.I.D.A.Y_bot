@@ -128,7 +128,7 @@ describe("Codex participant native admission", () => {
         {
           type: "function",
           name: "sessions_spawn",
-          description: "Create an OpenClaw child session.",
+          description: "Create an FRIDAY child session.",
           inputSchema: { type: "object", properties: {} },
         },
       ];
@@ -403,7 +403,7 @@ describe("Codex native hook Gateway fallback", () => {
             bindingStore: createCodexTestBindingStore(),
             nativeHookRelay: disabled ? { enabled: false } : undefined,
           }),
-        ).rejects.toThrow(/managed-only hooks.*OpenClaw native hook relay/i);
+        ).rejects.toThrow(/managed-only hooks.*FRIDAY native hook relay/i);
         expect(waitUntilReady).not.toHaveBeenCalled();
         expect(
           harness.requests.filter(({ method }) =>

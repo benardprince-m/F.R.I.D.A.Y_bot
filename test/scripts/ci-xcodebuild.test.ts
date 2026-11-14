@@ -18,9 +18,9 @@ describe.skipIf(process.platform === "win32")("CI Xcode diagnostics", () => {
     const trace = path.join(root, "build.json");
     const args = [
       "-project",
-      "project with spaces/OpenClaw.xcodeproj",
+      "project with spaces/FRIDAY.xcodeproj",
       "-scheme",
-      "OpenClaw",
+      "FRIDAY",
       "-destination",
       "platform=iOS Simulator,id=fixture",
       "build-for-testing",

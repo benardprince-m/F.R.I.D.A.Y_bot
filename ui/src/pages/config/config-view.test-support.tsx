@@ -167,7 +167,7 @@ export const baseProps = () => ({
   resetChatFollowUpMode: vi.fn(),
   catalogOpenTarget: "viewer" as const,
   gatewayUrl: "",
-  assistantName: "OpenClaw",
+  assistantName: "FRIDAY",
 });
 
 export function renderConfigView(overrides: Partial<ConfigProps> = {}): {

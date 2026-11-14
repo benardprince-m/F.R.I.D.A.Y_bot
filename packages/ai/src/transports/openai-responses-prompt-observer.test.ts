@@ -288,7 +288,7 @@ describe("OpenAI Responses provider prompt observer", () => {
       toolOutput.content = [{ type: "text", text: "large historical tool output\n".repeat(8_000) }];
       context.messages.push({
         role: "user",
-        content: "OpenClaw runtime context:\ncurrent runtime facts",
+        content: "FRIDAY runtime context:\ncurrent runtime facts",
         timestamp: 2,
         runtimeContext: {},
       });

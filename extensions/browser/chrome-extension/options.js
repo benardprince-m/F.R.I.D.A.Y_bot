@@ -63,7 +63,7 @@ for (const [element, event, request, success] of [
     useLocal,
     "click",
     () => ({ type: "setNativeBootstrapEnabled", enabled: true }),
-    () => "Looking for local OpenClaw…",
+    () => "Looking for local FRIDAY…",
   ],
   [
     accessMode,

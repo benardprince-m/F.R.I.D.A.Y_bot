@@ -354,7 +354,7 @@ function updateCompletionProfile(
 
   for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i] ?? "";
-    if (line.trim() === "# OpenClaw Completion") {
+    if (line.trim() === "# FRIDAY Completion") {
       const following = lines[i + 1] ?? "";
       if (isPortableCompletionSourceLine(following, shell, cachePath, homeDir)) {
         filtered.push(line);
@@ -387,7 +387,7 @@ function updateCompletionProfile(
     return { next, changed: next !== content, hadExisting };
   }
   const trimmed = filtered.join("\n").replace(/(?<!\n)\n+$/u, "");
-  const block = `# OpenClaw Completion\n${formatCompletionSourceLine(shell, cachePath)}`;
+  const block = `# FRIDAY Completion\n${formatCompletionSourceLine(shell, cachePath)}`;
   const next = trimmed ? `${trimmed}\n\n${block}\n` : `${block}\n`;
   return { next, changed: next !== content, hadExisting };
 }
@@ -401,7 +401,7 @@ async function resolveCompletionProfileWritePath(profilePath: string): Promise<s
   return path.join(await fs.realpath(targetDir), path.basename(targetPath));
 }
 
-/** Resolves the shell startup profile path that should contain the OpenClaw completion block. */
+/** Resolves the shell startup profile path that should contain the FRIDAY completion block. */
 export function resolveCompletionProfilePath(
   shell: CompletionShell,
   options: {
@@ -473,7 +473,7 @@ export function resolveCompletionProfileHint(shell: CompletionShell): string {
     : profilePath;
 }
 
-/** Returns whether a shell profile already contains an OpenClaw completion block or source line. */
+/** Returns whether a shell profile already contains an FRIDAY completion block or source line. */
 export async function isCompletionInstalled(
   shell: CompletionShell,
   binName = "openclaw",

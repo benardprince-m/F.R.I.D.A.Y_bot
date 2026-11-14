@@ -1,7 +1,7 @@
 ---
-summary: "Symptom first troubleshooting hub for OpenClaw"
+summary: "Symptom first troubleshooting hub for FRIDAY"
 read_when:
-  - OpenClaw is not working and you need the fastest path to a fix
+  - FRIDAY is not working and you need the fastest path to a fix
   - You want a triage flow before diving into deep runbooks
 title: "General troubleshooting"
 ---
@@ -70,23 +70,23 @@ Full profile/group table: [Tool profiles](/gateway/config-tools/tool-policy#tool
 `HTTP 429: rate_limit_error: Extra usage is required for long context requests`
 → [Anthropic 429 extra usage required for long context](/gateway/troubleshooting#anthropic-429-extra-usage-required-for-long-context).
 
-## Local OpenAI-compatible backend works directly but fails in OpenClaw
+## Local OpenAI-compatible backend works directly but fails in FRIDAY
 
 Your local/self-hosted `/v1` backend answers direct `/v1/chat/completions`
 checks but fails on `openclaw infer model run` or normal agent turns:
 
 1. Error mentions `messages[].content` expecting a string: set
    `models.providers.<provider>.models[].compat.requiresStringContent: true`.
-2. Still fails only on OpenClaw agent turns: set
+2. Still fails only on FRIDAY agent turns: set
    `models.providers.<provider>.models[].compat.supportsTools: false` and retry.
-3. Tiny direct calls work but larger OpenClaw prompts crash the backend: that
-   is an upstream model/server limit, not an OpenClaw bug. Continue in
+3. Tiny direct calls work but larger FRIDAY prompts crash the backend: that
+   is an upstream model/server limit, not an FRIDAY bug. Continue in
    [Local OpenAI-compatible backend passes direct checks but agent runs fail](/gateway/troubleshooting#local-openai-compatible-backend-passes-direct-probes-but-agent-runs-fail).
 
 ## Plugin install fails with missing openclaw extensions
 
 `package.json missing openclaw.extensions` means the plugin package uses a
-shape OpenClaw no longer accepts.
+shape FRIDAY no longer accepts.
 
 Fix in the plugin package:
 
@@ -113,12 +113,12 @@ policy`, `install policy failed closed`, or `Disabled "<plugin>" after plugin
 update failure`: check `security.installPolicy`.
 
 Install policy runs on plugin installs and updates. `@openclaw/*` plugin
-versions normally move with the OpenClaw release, so an OpenClaw update can
+versions normally move with the FRIDAY release, so an FRIDAY update can
 need a matching plugin update during post-update sync.
 
 Avoid these policy shapes unless you also maintain the matching upgrade rule:
 
-- Freezing OpenClaw-owned plugins to one exact old version (for example, only
+- Freezing FRIDAY-owned plugins to one exact old version (for example, only
   `@openclaw/*@2026.5.3`).
 - Blocking by source kind alone (every npm, network, or `request.mode:
   "update"` request).
@@ -163,7 +163,7 @@ plugin present but blocked
 
 The plugin files are owned by a different Unix user than the process loading
 them. Do not remove the plugin config; fix the file ownership, or run
-OpenClaw as the user that owns the state directory.
+FRIDAY as the user that owns the state directory.
 
 Docker installs run as `node` (uid `1000`). Repair the host bind mounts:
 
@@ -172,7 +172,7 @@ sudo chown -R 1000:1000 /path/to/openclaw-config /path/to/openclaw-workspace
 openclaw doctor --fix
 ```
 
-If you intentionally run OpenClaw as root, repair the managed plugin root
+If you intentionally run FRIDAY as root, repair the managed plugin root
 instead:
 
 ```bash
@@ -186,7 +186,7 @@ Deeper docs: [Blocked plugin path ownership](/tools/plugin#blocked-plugin-path-o
 
 ```mermaid
 flowchart TD
-  A[OpenClaw is not working] --> B{What breaks first}
+  A[FRIDAY is not working] --> B{What breaks first}
   B --> C[No replies]
   B --> D[Dashboard or Control UI will not connect]
   B --> E[Gateway will not start or service installed but not running]

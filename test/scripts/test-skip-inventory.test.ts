@@ -84,7 +84,7 @@ describe("collectTestSkipInventoryReport", () => {
 
     const rendered = renderTestSkipInventoryReport(report, { limit: 4 });
 
-    expect(rendered).toContain("OpenClaw test skip inventory");
+    expect(rendered).toContain("FRIDAY test skip inventory");
     expect(rendered).toContain("Findings: 14 in 4 file(s)");
     expect(rendered).toContain("platform-gate: 6");
     expect(rendered).toContain("- src/example.test.ts (11)");
@@ -142,7 +142,7 @@ describe("collectTestSkipInventoryReport", () => {
     ];
     expect(renderTestSkipInventoryReport(report, { limit: 0 })).toBe(
       [
-        "OpenClaw test skip inventory",
+        "FRIDAY test skip inventory",
         "Scanned files: 2",
         "Findings: 3 in 2 file(s)",
         "Reasons: explicit-skip: 1, focused-only: 1, todo: 1",
@@ -159,7 +159,7 @@ describe("collectTestSkipInventoryReport", () => {
       repoRoot: createTempDir("openclaw-skip-empty-"),
     });
     expect(renderTestSkipInventoryReport(report)).toBe(
-      "OpenClaw test skip inventory\nScanned files: 0\nFindings: 0 in 0 file(s)\nReasons: none\n\nFindings: none\n",
+      "FRIDAY test skip inventory\nScanned files: 0\nFindings: 0 in 0 file(s)\nReasons: none\n\nFindings: none\n",
     );
   });
 });

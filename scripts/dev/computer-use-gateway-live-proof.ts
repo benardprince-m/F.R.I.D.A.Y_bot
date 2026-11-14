@@ -445,7 +445,7 @@ try {
     deliveryMode: "foreground",
   });
   const focused = editor(await act("get_window_state", { windowRef, includeScreenshot: false }));
-  const marker = `OpenClaw Gateway CUA proof ${randomUUID()}`;
+  const marker = `FRIDAY Gateway CUA proof ${randomUUID()}`;
   await act("type", {
     windowRef,
     elementRef: focused.element.elementRef,

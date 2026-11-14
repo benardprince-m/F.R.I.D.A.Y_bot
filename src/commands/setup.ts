@@ -53,7 +53,7 @@ async function setupUnderOwner(
         import("../config/issue-format.js"),
       ]);
       writeRuntimeJson(runtime, {
-        ...formatCliJsonFailure(`OpenClaw config is invalid: ${shortenHomePath(configPath)}`),
+        ...formatCliJsonFailure(`FRIDAY config is invalid: ${shortenHomePath(configPath)}`),
         issues: normalizeConfigIssues(snapshot.issues),
       });
     }

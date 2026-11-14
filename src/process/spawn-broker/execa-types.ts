@@ -39,7 +39,7 @@ export type CommandSpawnOptions = Pick<
     | readonly [NativeInput, NativeOutput, NativeOutput, "pipe"];
 };
 
-/** The result fields consumed by OpenClaw's command callers, independent of execa helpers. */
+/** The result fields consumed by FRIDAY's command callers, independent of execa helpers. */
 type CommandResult<OptionsType extends Options = Options> = Pick<
   Result<OptionsType>,
   "stdout" | "stderr"

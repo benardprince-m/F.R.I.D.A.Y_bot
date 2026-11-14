@@ -41,7 +41,7 @@ function truncatePersistedDetailString(
   if (value.length <= maxChars) {
     return value;
   }
-  return `${truncateUtf16Safe(value, maxChars)}\n\n[OpenClaw persisted detail truncated: ${value.length - maxChars} original chars omitted]`;
+  return `${truncateUtf16Safe(value, maxChars)}\n\n[FRIDAY persisted detail truncated: ${value.length - maxChars} original chars omitted]`;
 }
 
 function copyPersistedSummaryFields(params: {

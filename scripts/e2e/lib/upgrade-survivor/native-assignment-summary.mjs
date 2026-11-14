@@ -55,7 +55,7 @@ export function publishedNativeAssignments(snapshot) {
     proof.candidateSha256 !== eligibility.candidateSha256 ||
     proof.source !== "published-gateway-agent-native-events" ||
     proof.backend !== "synthetic-codex-websocket" ||
-    !/^OpenClaw 2026\.9\.4(?:\s|$)/u.test(proof.baselineCore ?? "") ||
+    !/^FRIDAY 2026\.9\.4(?:\s|$)/u.test(proof.baselineCore ?? "") ||
     proof.sessionKey !== "agent:native-proof:upgrade-native-proof" ||
     JSON.stringify(proof.recoveredRunIds) !==
       JSON.stringify([

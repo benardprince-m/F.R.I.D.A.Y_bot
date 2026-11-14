@@ -48,7 +48,7 @@ if (!unsupportedControlUiBrowser) {
     void import("./app/native-gateways.runtime.ts")
       .then(({ nativeGatewaysCapability }) => nativeGatewaysCapability())
       .catch((error: unknown) => {
-        console.warn("OpenClaw embedder Gateway switcher failed to load.", error);
+        console.warn("FRIDAY embedder Gateway switcher failed to load.", error);
       });
   }
 
@@ -62,7 +62,7 @@ if (!unsupportedControlUiBrowser) {
       import("./app/sw-refresh.runtime.ts")
         .then(({ refreshControlUiServiceWorker }) => refreshControlUiServiceWorker())
         .catch((error: unknown) => {
-          console.warn("OpenClaw service worker refresh failed.", error);
+          console.warn("FRIDAY service worker refresh failed.", error);
         });
     navigator.serviceWorker.addEventListener("message", (event) => {
       if (
@@ -81,7 +81,7 @@ if (!unsupportedControlUiBrowser) {
       .register(swUrl, { updateViaCache: "none" })
       .then(refresh)
       .catch((error: unknown) => {
-        console.warn("OpenClaw service worker registration failed.", error);
+        console.warn("FRIDAY service worker registration failed.", error);
       });
   } else if (!isProd && !isRemoteControlUiIngress() && "serviceWorker" in navigator) {
     // Unregister any leftover dev SW to avoid stale cache issues.

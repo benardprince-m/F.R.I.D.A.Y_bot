@@ -11,7 +11,7 @@ import {
 
 const QA_GATEWAY_CHILD_RESTART_BOUNDARY_TIMEOUT_MS = 90_000;
 const QA_GATEWAY_MIGRATION_CONVERGENCE_RESTART_PREFIX =
-  "OpenClaw plugin migration inputs changed during startup convergence;";
+  "FRIDAY plugin migration inputs changed during startup convergence;";
 
 type QaGatewayHealthChild = {
   exitCode: number | null;

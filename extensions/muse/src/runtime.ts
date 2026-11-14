@@ -66,7 +66,7 @@ export async function openMuseSession(runtime: MuseRuntime, options: MuseOpenSes
       });
     } catch (error) {
       // A server-authored refusal means Muse ran nothing, so a new root session
-      // is safe (the OpenClaw transcript keeps the conversation). Transport
+      // is safe (the FRIDAY transcript keeps the conversation). Transport
       // failures stay ambiguous, and an in-use or overloaded session may still
       // be live elsewhere, so those fail the turn instead.
       if (!(error instanceof MspError) || RESUME_RETRY_KINDS[error.kind]) {

@@ -145,7 +145,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
         ),
       ).resolves.toMatchObject({ outcome: "completed" });
 
-      expect(schtasksCalls).toContainEqual(["/Run", "/TN", "OpenClaw Gateway"]);
+      expect(schtasksCalls).toContainEqual(["/Run", "/TN", "FRIDAY Gateway"]);
       expect(schtasksCalls.filter(([action]) => action === "/End")).toHaveLength(1);
       expect(() => admission.assertCurrent()).not.toThrow();
     });
@@ -196,7 +196,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
           expect(errors).toContain(stopFailure);
         }
         expect(errors).toContain(cleanupFailure);
-        expect(schtasksCalls).not.toContainEqual(["/Run", "/TN", "OpenClaw Gateway"]);
+        expect(schtasksCalls).not.toContainEqual(["/Run", "/TN", "FRIDAY Gateway"]);
         expect(() => admission.assertCurrent()).toThrow("undergoing offline maintenance");
       } finally {
         // The test retains handles only to clean its fixture; production retires the CLI process.
@@ -242,8 +242,8 @@ describe("Scheduled Task stop/restart cleanup", () => {
         await expect(stopped).resolves.toBeUndefined();
         expect(schtasksCalls).toEqual([
           ["/Query"],
-          ["/Query", "/TN", "OpenClaw Gateway"],
-          ["/End", "/TN", "OpenClaw Gateway"],
+          ["/Query", "/TN", "FRIDAY Gateway"],
+          ["/End", "/TN", "FRIDAY Gateway"],
         ]);
         expect(onMutation).toHaveBeenCalledWith({ mode: "schtasks-stop" });
       } else {
@@ -531,7 +531,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
       }),
     ).resolves.toBeUndefined();
 
-    expect(schtasksCalls).toContainEqual(["/Run", "/TN", "OpenClaw Gateway"]);
+    expect(schtasksCalls).toContainEqual(["/Run", "/TN", "FRIDAY Gateway"]);
     expect(onMutation).toHaveBeenCalledWith({ mode: "schtasks-start" });
     expect(
       expectDefined(onMutation.mock.invocationCallOrder[0], "start audit call order"),
@@ -609,7 +609,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
   taskTest("preserves gateway listeners during node task restart", async ({ env, stdout }) => {
     pushSuccessfulSchtasksResponses(4);
     env.OPENCLAW_SERVICE_KIND = "node";
-    env.OPENCLAW_WINDOWS_TASK_NAME = "OpenClaw Node";
+    env.OPENCLAW_WINDOWS_TASK_NAME = "FRIDAY Node";
     findVerifiedGatewayListenerPidsOnPortSync.mockReturnValue([4242]);
     inspectPortUsageMock.mockResolvedValue(busyPortUsage(4242));
 
@@ -622,9 +622,9 @@ describe("Scheduled Task stop/restart cleanup", () => {
     expect(killProcessTreeMock).not.toHaveBeenCalled();
     expect(schtasksCalls).toEqual([
       ["/Query"],
-      ["/Query", "/TN", "OpenClaw Node"],
-      ["/End", "/TN", "OpenClaw Node"],
-      ["/Run", "/TN", "OpenClaw Node"],
+      ["/Query", "/TN", "FRIDAY Node"],
+      ["/End", "/TN", "FRIDAY Node"],
+      ["/Run", "/TN", "FRIDAY Node"],
     ]);
   });
 
@@ -651,7 +651,7 @@ describe("Scheduled Task stop/restart cleanup", () => {
     ).rejects.toThrow("repair continuation retired");
 
     expect(schtasksCalls.filter(([action]) => action === "/End" || action === "/Run")).toEqual(
-      process.platform === "win32" ? [] : [["/End", "/TN", "OpenClaw Gateway"]],
+      process.platform === "win32" ? [] : [["/End", "/TN", "FRIDAY Gateway"]],
     );
     expect(killProcessTreeMock).not.toHaveBeenCalled();
   });

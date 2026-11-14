@@ -103,7 +103,7 @@ suite.define(() => {
         const pendingIdentity = createDeviceIdentity();
         const unauthorizedIdentity = createDeviceIdentity();
         const undeclaredMessage =
-          "This model uses the Codex harness, which is unavailable on this device. Install it on that node (openclaw plugins install @openclaw/codex), or enable an existing install (openclaw plugins enable codex). Then restart the node (openclaw node restart) and approve its updated command surface, or choose a model using the OpenClaw harness.";
+          "This model uses the Codex harness, which is unavailable on this device. Install it on that node (openclaw plugins install @openclaw/codex), or enable an existing install (openclaw plugins enable codex). Then restart the node (openclaw node restart) and approve its updated command surface, or choose a model using the FRIDAY harness.";
         const pendingMessage = `paired-device command ${COMMAND} is awaiting pairing approval for node ${pendingIdentity.deviceId}; find its updated command surface request with openclaw nodes pending, then run openclaw nodes approve <requestId>`;
         const unauthorizedMessage = `paired-device command ${COMMAND} is blocked by Gateway policy for node ${unauthorizedIdentity.deviceId}; allow it in gateway.nodes.commands.allow and remove any matching gateway.nodes.commands.deny entry`;
 

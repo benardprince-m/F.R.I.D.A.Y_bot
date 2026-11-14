@@ -2,7 +2,7 @@ import AVFoundation
 import Foundation
 import OpenClawKit
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 private final class ScreenRecordServiceProbe: @unchecked Sendable {
     private let lock = NSLock()

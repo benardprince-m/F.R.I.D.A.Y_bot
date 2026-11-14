@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/xiaomi-provider",
   "version": "2026.10.4",
-  "description": "OpenClaw Xiaomi provider plugin.",
+  "description": "FRIDAY Xiaomi provider plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/openclaw/openclaw"

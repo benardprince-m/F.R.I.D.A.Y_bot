@@ -260,7 +260,7 @@ export function createMatrixUpdateKeepCredentialsPrompter(params?: {
     },
     text: {
       "Matrix homeserver URL": "https://matrix.example.org",
-      "Matrix device name (optional)": "OpenClaw Gateway",
+      "Matrix device name (optional)": "FRIDAY Gateway",
       ...(params?.roomsAllowlist
         ? { "Matrix rooms allowlist (comma-separated)": params.roomsAllowlist }
         : {}),

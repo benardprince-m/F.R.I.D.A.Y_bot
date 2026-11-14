@@ -14,8 +14,8 @@ const sourceSha = "b".repeat(40);
 
 const linuxVersion = "2026.9.4";
 const sourceTag = "v2026.9.4";
-const appImage = "OpenClaw-2026.9.4-amd64.AppImage";
-const deb = "OpenClaw-2026.9.4-amd64.deb";
+const appImage = "FRIDAY-2026.9.4-amd64.AppImage";
+const deb = "FRIDAY-2026.9.4-amd64.deb";
 const publishWorkflow = ".github/workflows/openclaw-release-publish.yml";
 const promoteWorkflow = ".github/workflows/openclaw-release-promote.yml";
 const requestWorkflow = ".github/workflows/linux-app-release-request.yml";
@@ -76,7 +76,7 @@ function manifest(version: string, overrides: Record<string, unknown> = {}) {
       platforms: {
         "linux-x86_64": {
           signature: Buffer.from("signed original AppImage").toString("base64"),
-          url: `https://github.com/${repository}/releases/download/v${version}/OpenClaw-${version}-amd64.AppImage`,
+          url: `https://github.com/${repository}/releases/download/v${version}/FRIDAY-${version}-amd64.AppImage`,
         },
       },
       ...overrides,
@@ -90,14 +90,14 @@ function release(version: string, overrides: Partial<Release> = {}): Release {
   return {
     isDraft: false,
     isPrerelease: false,
-    assets: [`OpenClaw-${version}-amd64.AppImage`],
+    assets: [`FRIDAY-${version}-amd64.AppImage`],
     manifest: manifest(version),
     ...overrides,
   };
 }
 
 function completeRelease(version: string): Release {
-  const names = [`OpenClaw-${version}-amd64.AppImage`, `OpenClaw-${version}-amd64.deb`];
+  const names = [`FRIDAY-${version}-amd64.AppImage`, `FRIDAY-${version}-amd64.deb`];
   const hashes = ["1".repeat(64), "2".repeat(64)];
   return release(version, {
     assets: names,
@@ -216,7 +216,7 @@ const result = (value) => { save(); process.stdout.write(typeof value === 'strin
 const fail = (message) => { save(); process.stderr.write(message); process.exit(1); };
 const metadata = (tag, entry) => ({databaseId: 42, tagName: tag, isDraft: entry.isDraft, isPrerelease: entry.isPrerelease,
   assets: [...entry.assets, ...(entry.manifest === undefined ? [] : ['latest.json']),
-    ...(entry.immutable === undefined ? [] : ['OpenClaw-' + tag.slice(1) + '-linux.json']),
+    ...(entry.immutable === undefined ? [] : ['FRIDAY-' + tag.slice(1) + '-linux.json']),
     ...(entry.checksums === undefined ? [] : ['SHA256SUMS.linux-app.txt'])]
     .map(name => {
       const bytes = name === 'latest.json' ? entry.manifest : name === 'SHA256SUMS.linux-app.txt' ? entry.checksums :
@@ -282,7 +282,7 @@ if (args[0] === 'api') {
     result(metadata(tag, entry));
   } else if (args[1] === 'download') {
     const name = args[args.indexOf('--pattern') + 1];
-    if (!['latest.json', 'SHA256SUMS.linux-app.txt', 'OpenClaw-' + tag.slice(1) + '-linux.json'].includes(name) ||
+    if (!['latest.json', 'SHA256SUMS.linux-app.txt', 'FRIDAY-' + tag.slice(1) + '-linux.json'].includes(name) ||
         args[args.indexOf('--output') + 1] !== '-') fail('Only manifest downloads are permitted.');
     const bytes = name === 'latest.json' ? entry.manifest : name === 'SHA256SUMS.linux-app.txt' ? entry.checksums : entry.immutable;
     if (bytes === undefined) fail('asset not found (HTTP 404)');
@@ -446,7 +446,7 @@ it.each(["2026.9.3", "2026.9.5"])(
     const remote = fixture({}, (state) => {
       fixtureRelease(state, "v2026.9.5").manifest = manifest(version);
       if (version === "2026.9.5") {
-        fixtureRelease(state, "v2026.9.5").assets = ["OpenClaw-2026.9.5-amd64.AppImage"];
+        fixtureRelease(state, "v2026.9.5").assets = ["FRIDAY-2026.9.5-amd64.AppImage"];
       }
     });
     const result = remote.run("carry");
@@ -479,7 +479,7 @@ it.each<{
   {
     kind: "cross-repository",
     platform: {
-      url: `https://github.com/foreign/repository/releases/download/v2026.9.3/OpenClaw-2026.9.3-amd64.AppImage`,
+      url: `https://github.com/foreign/repository/releases/download/v2026.9.3/FRIDAY-2026.9.3-amd64.AppImage`,
     },
   },
   { kind: "empty-signature", platform: { signature: "" } },
@@ -674,7 +674,7 @@ it.each(["current", "missing", "older", "replaced-release", "replaced-asset"])(
 it.each(["present", "withdrawn", "replaced", "changed-digest", "missing-appimage", "missing-deb"])(
   "accepts only a withdrawn non-Linux companion in a four-asset Linux publication (%s)",
   (kind) => {
-    const exe = "OpenClaw-2026.9.4-windows-x86_64.exe";
+    const exe = "FRIDAY-2026.9.4-windows-x86_64.exe";
     const exeSha256 = "e".repeat(64);
     const remote = fixture({}, (state) => {
       // The immutable checksum file keeps the withdrawn companion's row.
@@ -707,7 +707,7 @@ it.each(["present", "withdrawn", "replaced", "changed-digest", "missing-appimage
     expect(observed.status, observed.stderr).toBe(0);
     const withdrawn = kind === "withdrawn" ? { withdrawnCompanionAssets: [exe] } : {};
     expect(JSON.parse(observed.stdout).immutableManifest).toEqual({
-      name: "OpenClaw-2026.9.4-linux.json",
+      name: "FRIDAY-2026.9.4-linux.json",
       sha256: createHash("sha256")
         .update(expectDefined(remote.read().releases[sourceTag]?.immutable, "immutable"))
         .digest("hex"),

@@ -40,8 +40,8 @@ function createRigRepository(): {
   fixtureRoots.push(root);
   const scriptsDev = path.join(root, "scripts", "dev");
   const fakeBin = path.join(root, "fake-bin");
-  const app = path.join(root, "OpenClaw.app");
-  const appExecutable = path.join(app, "Contents", "MacOS", "OpenClaw");
+  const app = path.join(root, "FRIDAY.app");
+  const appExecutable = path.join(app, "Contents", "MacOS", "FRIDAY");
   mkdirSync(scriptsDev, { recursive: true });
   mkdirSync(fakeBin);
   mkdirSync(path.dirname(appExecutable), { recursive: true });
@@ -72,7 +72,7 @@ console.log(JSON.stringify({
   writeExecutable(path.join(fakeBin, "xdpyinfo"), "#!/bin/sh\nexit 0\n");
 
   runGit(root, "init", "-q");
-  runGit(root, "config", "user.name", "OpenClaw Test");
+  runGit(root, "config", "user.name", "FRIDAY Test");
   runGit(root, "config", "user.email", "openclaw-test@example.com");
   runGit(root, "add", "scripts");
   runGit(root, "commit", "-q", "-m", "fixture");

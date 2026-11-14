@@ -24,7 +24,7 @@ Provider plugins have three layers:
   stream wrapping, thinking levels, replay policy, and usage endpoints. See
   [Hook order and usage](#hook-order-and-usage).
 
-OpenClaw still owns the generic agent loop, failover, transcript handling, and
+FRIDAY still owns the generic agent loop, failover, transcript handling, and
 tool policy. These hooks are the extension surface for provider-specific
 behavior without needing a whole custom inference transport.
 
@@ -57,9 +57,9 @@ Describe env-driven channel setup and auth through the owning
 
 ### Hook order and usage
 
-For model/provider plugins, OpenClaw calls hooks in this rough order.
+For model/provider plugins, FRIDAY calls hooks in this rough order.
 The "When to use" column is the quick decision guide.
-Compatibility-only provider fields that OpenClaw no longer calls, such as
+Compatibility-only provider fields that FRIDAY no longer calls, such as
 `ProviderPlugin.capabilities` and `suppressBuiltInModel`, are intentionally not
 listed here.
 
@@ -67,7 +67,7 @@ listed here.
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | `catalog`                         | Publish provider config into `models.providers` during `models.json` generation                                | Provider owns a catalog or base URL defaults                                                                                                  |
 | `applyConfigDefaults`             | Apply provider-owned global config defaults during config materialization                                      | Defaults depend on auth mode, env, or provider model-family semantics                                                                         |
-| _(built-in model lookup)_         | OpenClaw tries the normal registry/catalog path first                                                          | _(not a plugin hook)_                                                                                                                         |
+| _(built-in model lookup)_         | FRIDAY tries the normal registry/catalog path first                                                            | _(not a plugin hook)_                                                                                                                         |
 | `normalizeModelId`                | Normalize legacy or preview model-id aliases before lookup                                                     | Provider owns alias cleanup before normalized model resolution                                                                                |
 | `normalizeTransport`              | Normalize provider-family `api` / `baseUrl` before generic model assembly                                      | Provider owns transport cleanup for custom provider ids in the same transport family                                                          |
 | `normalizeConfig`                 | Normalize `models.providers.<id>` before runtime/provider resolution                                           | Provider needs config cleanup that should live with the owning plugin                                                                         |
@@ -89,7 +89,7 @@ listed here.
 | `resolveTransportTurnState`       | Attach native per-turn headers, metadata, or WebSocket policy                                                  | Provider wants generic transports to send provider-native turn identity or tune WebSocket headers and fallback cool-down                      |
 | `resolveWebSocketSessionPolicy`   | Deprecated compatibility hook for WebSocket policy                                                             | Existing plugins migrate WebSocket fields into `resolveTransportTurnState`                                                                    |
 | `formatApiKey`                    | Auth-profile formatter: stored profile becomes the runtime `apiKey` string                                     | Provider stores extra auth metadata and needs a custom runtime token shape                                                                    |
-| `refreshOAuth`                    | OAuth refresh override for custom refresh endpoints or refresh-failure policy                                  | Provider does not fit the shared OpenClaw refreshers                                                                                          |
+| `refreshOAuth`                    | OAuth refresh override for custom refresh endpoints or refresh-failure policy                                  | Provider does not fit the shared FRIDAY refreshers                                                                                            |
 | `buildAuthDoctorHint`             | Repair hint appended when OAuth refresh fails                                                                  | Provider needs provider-owned auth repair guidance after refresh failure                                                                      |
 | `matchesContextOverflowError`     | Provider-owned context-window overflow matcher                                                                 | Provider has raw overflow errors generic heuristics would miss                                                                                |
 | `classifyFailoverReason`          | Provider-owned failover reason classification                                                                  | Provider can map raw API/transport errors to rate-limit/overload/etc                                                                          |
@@ -120,7 +120,7 @@ Normalization dispatch is hook-specific:
 
 - Model references apply manifest-declared model-ID normalization once before
   `normalizeModelId` dispatch. The matched provider hook can refine that prepared
-  model ID; an empty result keeps it unchanged. OpenClaw does not try other
+  model ID; an empty result keeps it unchanged. FRIDAY does not try other
   providers' normalization hooks or reapply manifest rules afterward.
   Reference parsing reads the selected runtime registry without activating
   plugins. Executable normalization requires a prepared runtime owner; reads
@@ -142,9 +142,9 @@ separate core compatibility backstop.
 
 If the provider needs a fully custom wire protocol or custom request executor,
 that is a different class of extension. These hooks are for provider behavior
-that still runs on OpenClaw's normal inference loop.
+that still runs on FRIDAY's normal inference loop.
 
-`resolveUsageAuth` decides whether OpenClaw should call `fetchUsageSnapshot` or
+`resolveUsageAuth` decides whether FRIDAY should call `fetchUsageSnapshot` or
 fall back to generic credential resolution for usage/status surfaces. Return
 `{ token, accountId?, subscriptionType?, rateLimitTier? }` when the provider
 has a usage credential (the optional plan metadata flows into
@@ -160,7 +160,7 @@ surfaces recognize them without making them inference auth candidates.
 ### Provider example
 
 `example-proxy`, `exchangeToken`, and `fetchExampleProxyUsage` are placeholders
-for your own provider id and vendor API calls, not exported OpenClaw helpers.
+for your own provider id and vendor API calls, not exported FRIDAY helpers.
 
 ```ts
 api.registerProvider({
@@ -225,7 +225,7 @@ mirroring the list.
   <Accordion title="Pass-through catalog providers">
     OpenRouter, Kilocode, Z.AI, xAI register `catalog` plus
     `resolveDynamicModel` / `prepareDynamicModel` so they can surface upstream
-    model ids ahead of OpenClaw's static catalog.
+    model ids ahead of FRIDAY's static catalog.
   </Accordion>
   <Accordion title="OAuth and usage endpoint providers">
     GitHub Copilot, Gemini CLI, ChatGPT Codex, MiniMax, Xiaomi, z.ai pair
@@ -257,7 +257,7 @@ mirroring the list.
 Provider plugins can define model catalogs for inference with
 `registerProvider({ catalog: { run(...) { ... } } })`.
 
-`catalog.run(...)` returns the same shape OpenClaw writes into
+`catalog.run(...)` returns the same shape FRIDAY writes into
 `models.providers`:
 
 - `{ provider }` for one provider entry
@@ -266,7 +266,7 @@ Provider plugins can define model catalogs for inference with
 Use `catalog` when the plugin owns provider-specific model ids, base URL
 defaults, or auth-gated model metadata.
 
-`catalog.order` controls when a plugin's catalog merges relative to OpenClaw's
+`catalog.order` controls when a plugin's catalog merges relative to FRIDAY's
 built-in implicit providers:
 
 - `simple`: plain API-key or env-driven providers
@@ -289,7 +289,7 @@ static catalog rows automatically from `defaultModel`, `models`, and
 
 Compatibility:
 
-- `discovery` was a legacy alias for `catalog`. OpenClaw removed the alias and
+- `discovery` was a legacy alias for `catalog`. FRIDAY removed the alias and
   its deprecation warnings in 2026.4.26
 - rename `discovery` to `catalog`. A provider plugin that still registers
   `discovery` publishes no catalog rows

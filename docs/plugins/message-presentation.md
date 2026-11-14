@@ -8,7 +8,7 @@ read_when:
   - Debugging provider-specific card/block/component rendering regressions
 ---
 
-Message presentation is OpenClaw's shared contract for rich outbound chat UI.
+Message presentation is FRIDAY's shared contract for rich outbound chat UI.
 It lets agents, CLI commands, approval flows, and plugins describe the message
 intent once, while each channel plugin renders the best native shape it can.
 
@@ -150,7 +150,7 @@ Button semantics:
   the approval service; they must not parse `/approve` command text or infer
   kind from the ID.
 - `action.type: "question"` identifies one choice for a live, runtime-authored
-  question. Like `approval`, this is an OpenClaw runtime action;
+  question. Like `approval`, this is an FRIDAY runtime action;
   agents and plugins must not synthesize question IDs. Telegram, Discord,
   Slack, Mattermost, and LINE direct chats map it to transport-private native
   callbacks and resolve the choice through the Gateway. When the question becomes answered,
@@ -166,7 +166,7 @@ Button semantics:
   LINE draws at most four controls on one card, matching its two-to-four option
   bound. Other question shapes degrade to label text, and the user can answer
   with a plain-text reply. These renderer contracts are separate from tool
-  availability: OpenClaw's built-in [`ask_user`](/tools/ask-user) is exposed only
+  availability: FRIDAY's built-in [`ask_user`](/tools/ask-user) is exposed only
   on Discord, Slack, Telegram, and WebChat. Native agent runtimes can have their
   own question tools. Bundled channels no longer use question reactions.
 - `intent: "custom-input"` switches a live question to its free-text answer
@@ -177,7 +177,7 @@ Button semantics:
   and LINE keep the visible text route.
 - `action.type: "url"` opens a normal link.
 - `action.type: "web-app"` launches a channel-native web app. Set `url` for a
-  URL-backed app or `widgetId` for an OpenClaw-hosted widget whose launch
+  URL-backed app or `widgetId` for an FRIDAY-hosted widget whose launch
   mechanics are owned by the channel; at least one is required. When both are
   present, a channel can prefer its native hosted-widget launch and use the URL
   where that mechanism is unavailable.

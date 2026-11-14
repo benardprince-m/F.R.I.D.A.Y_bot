@@ -2,7 +2,7 @@ import OpenClawKit
 import SwiftUI
 import Testing
 import UIKit
-@testable import OpenClaw
+@testable import FRIDAY
 @testable import OpenClawChatUI
 
 struct SwiftUIRenderSmokeTests {
@@ -129,7 +129,7 @@ struct SwiftUIRenderSmokeTests {
                 markdownVariant: .standard,
                 userAccent: nil,
                 displayOptions: [],
-                assistantName: "OpenClaw",
+                assistantName: "FRIDAY",
                 assistantAvatarText: "OC",
                 assistantAvatarTint: nil,
                 showsAssistantAvatar: true,
@@ -169,7 +169,7 @@ struct SwiftUIRenderSmokeTests {
             markdownVariant: .standard,
             userAccent: nil,
             displayOptions: [],
-            assistantName: "OpenClaw",
+            assistantName: "FRIDAY",
             assistantAvatarText: "OC",
             assistantAvatarTint: nil,
             showsAssistantAvatar: true,
@@ -215,7 +215,7 @@ struct SwiftUIRenderSmokeTests {
         let root = ChatStreamingAssistantBubble(
             text: ChatStreamingAssistantText(sourceText: text, includesThinking: false),
             markdownVariant: .standard,
-            assistantName: "OpenClaw",
+            assistantName: "FRIDAY",
             assistantAvatarText: "OC",
             assistantAvatarTint: nil,
             showsAssistantAvatar: true,
@@ -252,7 +252,7 @@ struct SwiftUIRenderSmokeTests {
                 markdownVariant: .standard,
                 userAccent: nil,
                 displayOptions: [],
-                assistantName: "OpenClaw",
+                assistantName: "FRIDAY",
                 assistantAvatarText: "OC",
                 assistantAvatarTint: nil,
                 showsAssistantAvatar: true,

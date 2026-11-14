@@ -64,99 +64,97 @@ int main(int argc, char **argv) {
   return compiled;
 }
 
-describe.runIf(["darwin", "linux"].includes(process.platform))(
-  "OpenClaw Bun runtime staging",
-  () => {
-    it.concurrent.for([
-      ["cached", ""],
-      ["download", ""],
-      ["archive-checksum", "sha256 mismatch"],
-      ["executable-checksum", "executable checksum mismatch"],
-      ["architecture", "executable architecture mismatch"],
-      ["revision", "fork revision mismatch"],
-      ["commit", "fork revision mismatch"],
-      ["release-manifest-checksum", "sha256 mismatch"],
-      ["release-identity", "release tag mismatch"],
-      ["release-artifact", "release artifact differs from pin"],
-      ["release-archive-checksum", "sha256 mismatch"],
-    ] as const)(
-      "admits only pinned native payloads: %s",
-      ([scenario, expectedError], { command, expect }) =>
-        command.lifetime.run(async () => {
-          const root = command.createTempDir("openclaw-bun-stage-");
-          const file = (name: string) => path.join(root, name);
-          const write = async (name: string, data: string | Buffer, mode?: number) => {
-            await mkdir(path.dirname(file(name)), { recursive: true });
-            await writeFile(file(name), data, { mode });
-          };
-          const run = toolRunner(root, command);
-          const checksum = (kind: string, value: string) =>
-            scenario === kind ? "0".repeat(64) : value;
-          const redownload = ["download", "archive-checksum"].includes(scenario);
-          const binaries = await revisionExecutables(root, command);
-          const tag = "fixture-release";
-          await mkdir(file("downloads"));
-          const arches: Arch[] =
-            scenario === "cached" && process.platform === "darwin" ? ["arm64", "x64"] : [hostArch];
-          const artifacts: Record<
-            string,
-            { asset: string; sha256: string; executable: string; executableSha256: string }
-          > = {};
-          for (const arch of arches) {
-            const directory = `bun-${process.platform}-${arch}`;
-            const executable = `${directory}/bun`;
-            const asset = `${directory}.zip`;
-            const binary = binaries[scenario === "architecture" ? otherArch : arch];
-            await write(executable, binary);
-            const archive = file(`downloads/${asset}`);
-            await run("/usr/bin/zip", ["-q", archive, executable]);
-            const archiveBytes = await readFile(archive);
-            await write(
-              `.cache/openclaw-bun/${tag}/${asset}`,
-              redownload ? "damaged cache" : archiveBytes,
-            );
-            artifacts[`${process.platform}-${arch}`] = {
-              asset,
-              sha256: checksum("archive-checksum", digest(archiveBytes)),
-              executable,
-              executableSha256: checksum("executable-checksum", digest(binary)),
-            };
-          }
-          const pin = {
-            tag,
-            revision: scenario === "revision" ? "wrong-revision" : revision,
-            commit: scenario === "commit" ? "f".repeat(40) : commit,
-            artifacts,
-          };
-          await write("scripts/lib/openclaw-bun.json", JSON.stringify(pin));
-          await copyFile(stageScript, file(stageScript));
-          const release = {
-            repository: "openclaw/bun",
-            tag: scenario === "release-identity" ? "different-release" : tag,
-            bun: { commit: pin.commit, revision: pin.revision },
-            assets: Object.entries(artifacts).map(([target, artifact]) => ({
-              target,
-              name: artifact.asset,
-              sha256: checksum("release-artifact", artifact.sha256),
-              executable: { path: artifact.executable, sha256: artifact.executableSha256 },
-            })),
-          };
-          const releaseBytes = Buffer.from(JSON.stringify(release));
-          await write("downloads/manifest.json", releaseBytes);
+describe.runIf(["darwin", "linux"].includes(process.platform))("FRIDAY Bun runtime staging", () => {
+  it.concurrent.for([
+    ["cached", ""],
+    ["download", ""],
+    ["archive-checksum", "sha256 mismatch"],
+    ["executable-checksum", "executable checksum mismatch"],
+    ["architecture", "executable architecture mismatch"],
+    ["revision", "fork revision mismatch"],
+    ["commit", "fork revision mismatch"],
+    ["release-manifest-checksum", "sha256 mismatch"],
+    ["release-identity", "release tag mismatch"],
+    ["release-artifact", "release artifact differs from pin"],
+    ["release-archive-checksum", "sha256 mismatch"],
+  ] as const)(
+    "admits only pinned native payloads: %s",
+    ([scenario, expectedError], { command, expect }) =>
+      command.lifetime.run(async () => {
+        const root = command.createTempDir("openclaw-bun-stage-");
+        const file = (name: string) => path.join(root, name);
+        const write = async (name: string, data: string | Buffer, mode?: number) => {
+          await mkdir(path.dirname(file(name)), { recursive: true });
+          await writeFile(file(name), data, { mode });
+        };
+        const run = toolRunner(root, command);
+        const checksum = (kind: string, value: string) =>
+          scenario === kind ? "0".repeat(64) : value;
+        const redownload = ["download", "archive-checksum"].includes(scenario);
+        const binaries = await revisionExecutables(root, command);
+        const tag = "fixture-release";
+        await mkdir(file("downloads"));
+        const arches: Arch[] =
+          scenario === "cached" && process.platform === "darwin" ? ["arm64", "x64"] : [hostArch];
+        const artifacts: Record<
+          string,
+          { asset: string; sha256: string; executable: string; executableSha256: string }
+        > = {};
+        for (const arch of arches) {
+          const directory = `bun-${process.platform}-${arch}`;
+          const executable = `${directory}/bun`;
+          const asset = `${directory}.zip`;
+          const binary = binaries[scenario === "architecture" ? otherArch : arch];
+          await write(executable, binary);
+          const archive = file(`downloads/${asset}`);
+          await run("/usr/bin/zip", ["-q", archive, executable]);
+          const archiveBytes = await readFile(archive);
           await write(
-            "downloads/SHA256SUMS",
-            [
-              `${checksum("release-manifest-checksum", digest(releaseBytes))}  manifest.json`,
-              ...Object.values(artifacts).map(
-                (artifact) =>
-                  `${checksum("release-archive-checksum", artifact.sha256)}  ${artifact.asset}`,
-              ),
-            ].join("\n") + "\n",
+            `.cache/openclaw-bun/${tag}/${asset}`,
+            redownload ? "damaged cache" : archiveBytes,
           );
-          const curlLog = file("curl-log");
-          await write(
-            "tools/curl",
-            `#!/bin/bash
+          artifacts[`${process.platform}-${arch}`] = {
+            asset,
+            sha256: checksum("archive-checksum", digest(archiveBytes)),
+            executable,
+            executableSha256: checksum("executable-checksum", digest(binary)),
+          };
+        }
+        const pin = {
+          tag,
+          revision: scenario === "revision" ? "wrong-revision" : revision,
+          commit: scenario === "commit" ? "f".repeat(40) : commit,
+          artifacts,
+        };
+        await write("scripts/lib/openclaw-bun.json", JSON.stringify(pin));
+        await copyFile(stageScript, file(stageScript));
+        const release = {
+          repository: "openclaw/bun",
+          tag: scenario === "release-identity" ? "different-release" : tag,
+          bun: { commit: pin.commit, revision: pin.revision },
+          assets: Object.entries(artifacts).map(([target, artifact]) => ({
+            target,
+            name: artifact.asset,
+            sha256: checksum("release-artifact", artifact.sha256),
+            executable: { path: artifact.executable, sha256: artifact.executableSha256 },
+          })),
+        };
+        const releaseBytes = Buffer.from(JSON.stringify(release));
+        await write("downloads/manifest.json", releaseBytes);
+        await write(
+          "downloads/SHA256SUMS",
+          [
+            `${checksum("release-manifest-checksum", digest(releaseBytes))}  manifest.json`,
+            ...Object.values(artifacts).map(
+              (artifact) =>
+                `${checksum("release-archive-checksum", artifact.sha256)}  ${artifact.asset}`,
+            ),
+          ].join("\n") + "\n",
+        );
+        const curlLog = file("curl-log");
+        await write(
+          "tools/curl",
+          `#!/bin/bash
 set -euo pipefail
 printf 'download\\n' >> "$fixture_curl_log"
 while [[ "$#" -gt 0 ]]; do
@@ -168,51 +166,48 @@ while [[ "$#" -gt 0 ]]; do
 done
 exit 2
 `,
-            0o755,
-          );
-          const bun = file("runtime/bin/bun");
-          await write("runtime/bin/bun", "previous runtime");
-          const result = await command.run(
-            "/bin/bash",
-            [file(stageScript), file("runtime"), process.platform, ...arches],
-            {
-              encoding: "utf8",
-              env: {
-                PATH: `${file("tools")}:${nodeDirectory}:/usr/bin:/bin`,
-                TMPDIR: root,
-                fixture_downloads: file("downloads"),
-                fixture_curl_log: curlLog,
-                HOME: root,
-              },
+          0o755,
+        );
+        const bun = file("runtime/bin/bun");
+        await write("runtime/bin/bun", "previous runtime");
+        const result = await command.run(
+          "/bin/bash",
+          [file(stageScript), file("runtime"), process.platform, ...arches],
+          {
+            encoding: "utf8",
+            env: {
+              PATH: `${file("tools")}:${nodeDirectory}:/usr/bin:/bin`,
+              TMPDIR: root,
+              fixture_downloads: file("downloads"),
+              fixture_curl_log: curlLog,
+              HOME: root,
             },
-          );
-          const downloadsMade = await readFile(curlLog, "utf8").catch((error: unknown) => {
-            if (hasNodeErrorCode(error, "ENOENT")) {
-              return "";
-            }
-            throw error;
-          });
-          expect(downloadsMade).toBe("download\ndownload\n" + (redownload ? "download\n" : ""));
-          if (expectedError) {
-            expect(result.status).not.toBe(0);
-            expect(result.stderr).toContain(expectedError);
-            expect(await readFile(bun, "utf8")).toBe("previous runtime");
-            return;
+          },
+        );
+        const downloadsMade = await readFile(curlLog, "utf8").catch((error: unknown) => {
+          if (hasNodeErrorCode(error, "ENOENT")) {
+            return "";
           }
-          expect(result.status, result.stderr).toBe(0);
-          expect((await stat(bun)).mode & 0o777).toBe(0o755);
-          if (process.platform === "darwin") {
-            const stagedArches = await run("/usr/bin/lipo", ["-archs", bun]);
-            expect(stagedArches.split(/\s+/).toSorted()).toEqual(
-              arches.map((arch) => (arch === "x64" ? "x86_64" : arch)).toSorted(),
-            );
-          }
-          expect(await run(bun, ["--revision"])).toBe(revision);
-          expect(await run(bun, ["-p", "Bun.revision"])).toBe(commit);
-          expect(JSON.parse(await readFile(file("runtime/bun-manifest.json"), "utf8")).tag).toBe(
-            tag,
+          throw error;
+        });
+        expect(downloadsMade).toBe("download\ndownload\n" + (redownload ? "download\n" : ""));
+        if (expectedError) {
+          expect(result.status).not.toBe(0);
+          expect(result.stderr).toContain(expectedError);
+          expect(await readFile(bun, "utf8")).toBe("previous runtime");
+          return;
+        }
+        expect(result.status, result.stderr).toBe(0);
+        expect((await stat(bun)).mode & 0o777).toBe(0o755);
+        if (process.platform === "darwin") {
+          const stagedArches = await run("/usr/bin/lipo", ["-archs", bun]);
+          expect(stagedArches.split(/\s+/).toSorted()).toEqual(
+            arches.map((arch) => (arch === "x64" ? "x86_64" : arch)).toSorted(),
           );
-        }),
-    );
-  },
-);
+        }
+        expect(await run(bun, ["--revision"])).toBe(revision);
+        expect(await run(bun, ["-p", "Bun.revision"])).toBe(commit);
+        expect(JSON.parse(await readFile(file("runtime/bun-manifest.json"), "utf8")).tag).toBe(tag);
+      }),
+  );
+});

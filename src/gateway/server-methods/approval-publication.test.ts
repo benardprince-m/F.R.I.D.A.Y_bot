@@ -24,7 +24,7 @@ async function publishSystemAgentTerminal(status: "denied" | "expired" | "cancel
   return handleSystemAgentApprovalResolved;
 }
 
-describe("publishAppliedApprovalResolution for OpenClaw changes", () => {
+describe("publishAppliedApprovalResolution for FRIDAY changes", () => {
   // Decisions publish their applied outcome from the system-agent owner; a
   // second chat update here would duplicate the terminal message.
   it("leaves the denied chat outcome to the owner", async () => {

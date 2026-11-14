@@ -153,8 +153,8 @@ it("guards an explicit private sandbox policy while preserving the catalog key's
         ...params,
         method: "turn/start",
       });
-      expect(blockedNative.block).toContain("OpenClaw sandboxing is active");
-      expect(blockedRequest.block).toContain("OpenClaw sandboxing is active");
+      expect(blockedNative.block).toContain("FRIDAY sandboxing is active");
+      expect(blockedRequest.block).toContain("FRIDAY sandboxing is active");
 
       // The source's private key supplies policy, not the independent main/non-main identity.
       const main = await prepareCodexNativeExecutionBlock({

@@ -1,7 +1,7 @@
 import Darwin
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import FRIDAY
 
 @MainActor
 struct ManagedNodeGatewayMigrationTests {
@@ -127,7 +127,7 @@ struct ManagedNodeGatewayMigrationTests {
         #!/bin/sh
         for argument in "$@"; do
           if [ "$argument" = --version ]; then
-            printf '%s\n' 'OpenClaw 2026.10.3'
+            printf '%s\n' 'FRIDAY 2026.10.3'
             exit 0
           fi
         done
@@ -475,7 +475,7 @@ struct ManagedNodeGatewayMigrationTests {
                     try Data().write(to: entry)
                     try Data(#"{"name":"openclaw","version":"2026.9.6"}"#.utf8)
                         .write(to: package.appendingPathComponent("package.json"))
-                    try Data("#!/bin/sh\nprintf 'OpenClaw 2026.9.6\\n'\n".utf8).write(to: node)
+                    try Data("#!/bin/sh\nprintf 'FRIDAY 2026.9.6\\n'\n".utf8).write(to: node)
                     try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: node.path)
                 }
                 try FileManager.default.createSymbolicLink(at: alias, withDestinationURL: oldRoot)
@@ -934,7 +934,7 @@ struct ManagedNodeGatewayMigrationTests {
                     await Task.yield()
                     let text = operatorReplacesWrapper
                         ? "#!/bin/sh\nexec /operator/openclaw \"$@\"\n"
-                        : "#!/bin/sh\n# OpenClaw.app managed CLI (bundled runtime)\n"
+                        : "#!/bin/sh\n# FRIDAY.app managed CLI (bundled runtime)\n"
                     try Data(text.utf8).write(to: wrapper)
                 })
             let dispatched = GatewayLaunchAgentManager.testingResolvedDaemonCommandsSnapshot()
@@ -1589,7 +1589,7 @@ extension AppStateIsolationTests {
                 },
                 restorationInstaller: { installerResolutions += 1
                     if ownershipChange == "missing-installer" {
-                        throw ManagedNodeGatewayMigration.Failure(message: "Reinstall OpenClaw.app.")
+                        throw ManagedNodeGatewayMigration.Failure(message: "Reinstall FRIDAY.app.")
                     }
                     return installer
                 },
@@ -1606,7 +1606,7 @@ extension AppStateIsolationTests {
                 #expect(error.localizedDescription.contains("retained selection probe failed"))
                 if ownershipChange == "missing-installer" {
                     #expect(error.localizedDescription
-                        .contains("Node restoration also failed: Reinstall OpenClaw.app."))
+                        .contains("Node restoration also failed: Reinstall FRIDAY.app."))
                 }
             }
             let installs = GatewayLaunchAgentManager.testingDaemonCommandCallsSnapshot()

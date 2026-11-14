@@ -73,7 +73,7 @@ describe("Team-shaped fixture CLI", () => {
         OPENCLAW_PROFILE: "team-shape-40967",
         OPENCLAW_SYSTEMD_UNIT: "openclaw-gateway-team-shape-40967",
         OPENCLAW_LAUNCHD_LABEL: "ai.openclaw.team-shape-40967",
-        OPENCLAW_WINDOWS_TASK_NAME: "OpenClaw Gateway (team-shape-40967)",
+        OPENCLAW_WINDOWS_TASK_NAME: "FRIDAY Gateway (team-shape-40967)",
         TMPDIR: path.join(stateDir, "tmp"),
         TMP: path.join(stateDir, "tmp"),
         TEMP: path.join(stateDir, "tmp"),

@@ -45,7 +45,7 @@ it("confirms file paths in the pane before requesting or opening a file", async 
   const [hostTransport, appTransport] = InMemoryTransport.createLinkedPair();
   const bridge = new OpenClawAppBridge(
     null,
-    { name: "OpenClaw", version: "test" },
+    { name: "FRIDAY", version: "test" },
     buildMcpAppHostCapabilities(undefined, false, false, { openFiles: true }),
   );
   const app = new App({ name: "file-proof", version: "1" }, {}, { autoResize: false });
@@ -143,7 +143,7 @@ it("negotiates extension capabilities and preserves rich request metadata over t
   const [hostTransport, appTransport] = InMemoryTransport.createLinkedPair();
   const bridge = new OpenClawAppBridge(
     null,
-    { name: "OpenClaw", version: "test" },
+    { name: "FRIDAY", version: "test" },
     buildMcpAppHostCapabilities(undefined, true, true, {
       richModelContext: true,
       fileResources: true,
@@ -399,7 +399,7 @@ it("forwards resource metadata and keeps subscriptions with the extracted bridge
   const [hostTransport, appTransport] = InMemoryTransport.createLinkedPair();
   const bridge = new OpenClawAppBridge(
     null,
-    { name: "OpenClaw", version: "test" },
+    { name: "FRIDAY", version: "test" },
     buildMcpAppHostCapabilities(undefined, true, false, { fileResources: true }),
   );
   const app = new App({ name: "resources-proof", version: "1" }, {}, { autoResize: false });

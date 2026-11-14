@@ -190,7 +190,7 @@ export async function listAdoptedSessionEntries(params: {
       );
       if (adopted.has(sourceKey)) {
         throw new Error(
-          `multiple OpenClaw sessions adopt Codex thread ${sourceThreadId} from the same home`,
+          `multiple FRIDAY sessions adopt Codex thread ${sourceThreadId} from the same home`,
         );
       }
       adopted.set(sourceKey, { key: sessionKey, sessionId, agentId, boundThreadId });
@@ -274,7 +274,7 @@ async function ensurePendingAdoptionBinding(params: {
   });
   params.initialization.assertCurrent();
   if (!ownsGeneration) {
-    throw new Error(`failed to claim the OpenClaw session generation for ${params.sourceThreadId}`);
+    throw new Error(`failed to claim the FRIDAY session generation for ${params.sourceThreadId}`);
   }
   const existing = await params.bindingStore.readAsync(params.identity);
   params.initialization.assertCurrent();
@@ -282,7 +282,7 @@ async function ensurePendingAdoptionBinding(params: {
     if (matchesPendingAdoptionBinding(existing, params)) {
       return;
     }
-    throw new Error(`OpenClaw session is already bound to Codex thread ${existing.threadId}`);
+    throw new Error(`FRIDAY session is already bound to Codex thread ${existing.threadId}`);
   }
   const binding = {
     threadId: params.sourceThreadId,
@@ -413,7 +413,7 @@ async function continueLocalCodexSessionInner(
     // Catalog state can race archive/reset. Restore only the same locked generation
     // under the session-store write lock so a stale Open Chat cannot revive a replacement.
     const changedError = () =>
-      new CatalogParamsError("Codex OpenClaw session changed before it could be opened. Retry.");
+      new CatalogParamsError("Codex FRIDAY session changed before it could be opened. Retry.");
     const restored = await params.api.runtime.agent.session.prepareSessionEntryPatch({
       sessionKey: existing.key,
       readConsistency: "latest",
@@ -474,7 +474,7 @@ async function continueLocalCodexSessionInner(
   return { sessionKey: adopted.key, disposition: "forked" };
 }
 
-/** Creates one locked OpenClaw branch whose first harness run forks the Codex source. */
+/** Creates one locked FRIDAY branch whose first harness run forks the Codex source. */
 export async function continueLocalCodexSession(params: ContinueLocalCodexSessionParams): Promise<{
   sessionKey: string;
   disposition: CodexSessionDisposition;

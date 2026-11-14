@@ -1,4 +1,4 @@
-// OpenClaw test instance helper spawns isolated OpenClaw processes.
+// FRIDAY test instance helper spawns isolated FRIDAY processes.
 import { type ChildProcess, type ChildProcessByStdio, spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
@@ -155,7 +155,7 @@ const COMMAND_TIMEOUT_MS = 30_000;
 const LOG_TAIL_MAX_BYTES = 256 * 1024;
 const GATEWAY_MIGRATION_CONVERGENCE_MAX_RESTARTS = 1;
 const GATEWAY_MIGRATION_CONVERGENCE_REFUSAL_PREFIX =
-  "OpenClaw plugin migration inputs changed during startup convergence;";
+  "FRIDAY plugin migration inputs changed during startup convergence;";
 const GATEWAY_MIGRATION_CONVERGENCE_RESTART_MARKER =
   "[openclaw-test-instance] restarting gateway after migration convergence refusal\n";
 const entrypointPromises = new Map<string, Promise<string[]>>();
@@ -1261,13 +1261,13 @@ export async function createOpenClawTestInstance(
               // Admission after a checkpoint and a refused migration step have
               // different reports; both must name the source and its repair.
               const admissionRefusal = completedStderr.match(
-                /^(?:Gateway failed to start: )?Legacy session store requires migration: (.+)\. Run "([^"\r\n]+)" against the same state\/config before starting OpenClaw\.\r?$/mu,
+                /^(?:Gateway failed to start: )?Legacy session store requires migration: (.+)\. Run "([^"\r\n]+)" against the same state\/config before starting FRIDAY\.\r?$/mu,
               );
               const legacyStorePath =
                 admissionRefusal?.[2] === formatCliCommand("openclaw doctor --fix", env)
                   ? admissionRefusal[1]
                   : completedStderr.match(
-                      /^OpenClaw startup migrations did not complete cleanly; refusing to report the gateway ready\.\r?\n- Legacy sessions store unreadable; left in place at ([^\r\n]+)\r?\n(?:- [^\r\n]+\r?\n)*Run "openclaw doctor --fix" against the same state\/config, then restart the gateway\.\r?$/mu,
+                      /^FRIDAY startup migrations did not complete cleanly; refusing to report the gateway ready\.\r?\n- Legacy sessions store unreadable; left in place at ([^\r\n]+)\r?\n(?:- [^\r\n]+\r?\n)*Run "openclaw doctor --fix" against the same state\/config, then restart the gateway\.\r?$/mu,
                     )?.[1];
               if (legacyStorePath) {
                 throw new GatewayStartupRefusedError(

@@ -1,11 +1,11 @@
 import { html, parseFragment, type DefaultTreeAdapterMap } from "parse5";
 import { z } from "zod";
 
-// Geometry from blobster-creator-v2 / OpenClaw, MIT © 2026 OpenClaw Foundation.
+// Geometry from blobster-creator-v2 / FRIDAY, MIT © 2026 FRIDAY Foundation.
 // The complete upstream notice is retained with the reference fixtures.
 const LICENSE = `MIT License
 
-Copyright (c) 2026 OpenClaw Foundation
+Copyright (c) 2026 FRIDAY Foundation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

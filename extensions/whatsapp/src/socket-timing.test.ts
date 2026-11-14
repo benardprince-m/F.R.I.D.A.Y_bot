@@ -37,7 +37,7 @@ afterEach(() => {
 });
 
 describe("resolveWhatsAppSocketTiming", () => {
-  it("uses OpenClaw's explicit WhatsApp Web socket defaults", () => {
+  it("uses FRIDAY's explicit WhatsApp Web socket defaults", () => {
     expect(resolveWhatsAppSocketTiming()).toEqual(DEFAULT_WHATSAPP_SOCKET_TIMING);
   });
 

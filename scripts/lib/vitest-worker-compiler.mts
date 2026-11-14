@@ -436,7 +436,7 @@ async function writeVitestWorkerManifest(
 ): Promise<VitestWorkerManifest> {
   const outDir = path.join(directory, "dist");
   // Version consumers need the built source identity without making this
-  // disposable generation a competing OpenClaw installation root.
+  // disposable generation a competing FRIDAY installation root.
   const buildInfo = `${JSON.stringify(resolveBuildInfo({ rootDir: root }), null, 2)}\n`;
   fs.writeFileSync(path.join(outDir, "build-info.json"), buildInfo, restored ? {} : { flag: "wx" });
   outputs["build-info.json"] = hashVitestWorkerArtifact(buildInfo);

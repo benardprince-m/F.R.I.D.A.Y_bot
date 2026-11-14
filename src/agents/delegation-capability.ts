@@ -14,7 +14,7 @@ import { ToolAuthorizationError } from "./tools/common.js";
 
 const log = createSubsystemLogger("agents/delegation-capability");
 
-// Host-only continuations retain tools fenced by OpenClaw at their final effect;
+// Host-only continuations retain tools fenced by FRIDAY at their final effect;
 // native collaboration cannot inherit that settlement authority.
 export type DelegationCapability = "full" | "host_only" | "report_only";
 

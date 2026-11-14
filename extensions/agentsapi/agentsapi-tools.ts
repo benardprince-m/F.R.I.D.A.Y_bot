@@ -388,7 +388,7 @@ export async function buildAgentsApiToolSurface(
         }
       >({
         tool: entry?.tool,
-        unavailableToolMessage: `OpenClaw tool is not available for this turn: ${call.name}`,
+        unavailableToolMessage: `FRIDAY tool is not available for this turn: ${call.name}`,
         call: {
           toolCallId: call.call_id,
           toolName: call.name,
@@ -401,7 +401,7 @@ export async function buildAgentsApiToolSurface(
         boundaries: executionBoundaries,
         prepareArguments: (args) => {
           if (!isRecord(args)) {
-            throw new Error(`Arguments for OpenClaw tool ${call.name} must be an object`);
+            throw new Error(`Arguments for FRIDAY tool ${call.name} must be an object`);
           }
           return args;
         },
@@ -426,7 +426,7 @@ export async function buildAgentsApiToolSurface(
                 });
                 if (!validation.ok) {
                   throw new Error(
-                    `Invalid arguments for OpenClaw tool ${call.name}: ${validation.errors
+                    `Invalid arguments for FRIDAY tool ${call.name}: ${validation.errors
                       .slice(0, 4)
                       .map((error) => error.text)
                       .join("; ")}`,
@@ -513,7 +513,7 @@ export async function buildAgentsApiToolSurface(
           executionBoundary = boundary;
           executedArgs = executedArguments;
           startedAt = invocationStartedAt;
-          const message = formatToolExecutionErrorMessage(error, "OpenClaw tool failed");
+          const message = formatToolExecutionErrorMessage(error, "FRIDAY tool failed");
           const disposition =
             getBeforeToolCallFailureDisposition(error) ??
             (signal.aborted ? "cancelled" : resolveToolExecutionErrorKind(error));

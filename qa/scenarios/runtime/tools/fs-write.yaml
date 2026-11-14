@@ -7,9 +7,9 @@ scenario:
   coverage:
     secondary:
       - agent-runtime.tool-fs-write
-  objective: Verify file write behavior is tracked across OpenClaw and Codex while Codex owns write natively.
+  objective: Verify file write behavior is tracked across FRIDAY and Codex while Codex owns write natively.
   successCriteria:
-    - OpenClaw may expose OpenClaw write while Codex app-server mode may omit duplicate OpenClaw dynamic write.
+    - FRIDAY may expose FRIDAY write while Codex app-server mode may omit duplicate FRIDAY dynamic write.
     - Codex writes through its native command tool and projects a correlated bash receipt.
     - The fixture validates exact happy-path file bytes, correlates a failed outside-workspace write, and verifies the existing sentinel's exact contents remain unchanged.
   docsRefs:
@@ -33,8 +33,8 @@ scenario:
         tracking: "#80319"
         codexDefaultImpact: P4
         qaImpact: P1
-        action: execute native file-write behavior separately from OpenClaw dynamic tool parity
-        reason: Codex has no dedicated write tool; its native command contract owns file writes without requiring OpenClaw dynamic write exposure.
+        action: execute native file-write behavior separately from FRIDAY dynamic tool parity
+        reason: Codex has no dedicated write tool; its native command contract owns file writes without requiring FRIDAY dynamic write exposure.
       happyPrompt: >-
         tool search qa check target=write. Use the write tool exactly once with
         path="runtime-tool-fixture-write.txt" and content="runtime tool fixture\n".

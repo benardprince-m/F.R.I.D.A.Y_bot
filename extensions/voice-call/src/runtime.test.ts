@@ -668,7 +668,7 @@ describe("createVoiceCallRuntime lifecycle", () => {
     mocks.resolveRealtimeFastContextConsult.mockResolvedValue({
       handled: true,
       result: {
-        text: "Fast OpenClaw memory or session context found.\nThe caller's basement lights are on.",
+        text: "Fast FRIDAY memory or session context found.\nThe caller's basement lights are on.",
       },
     });
 
@@ -695,7 +695,7 @@ describe("createVoiceCallRuntime lifecycle", () => {
       sessionKey: "agent:main:voice:15550001234",
       labels: {
         audienceLabel: "caller",
-        contextName: "OpenClaw memory or session context",
+        contextName: "FRIDAY memory or session context",
       },
       liveness: { signal: undefined, assertCurrent: expect.any(Function) },
     });
@@ -750,7 +750,7 @@ describe("createVoiceCallRuntime lifecycle", () => {
       mocks.managerGetCall.mockReturnValue(undefined);
       const result = await pending;
       expect(requireRecord(result, "fast context result").text).toContain(
-        "No relevant OpenClaw memory or session context was found quickly",
+        "No relevant FRIDAY memory or session context was found quickly",
       );
       expect(open).not.toHaveBeenCalled();
     });

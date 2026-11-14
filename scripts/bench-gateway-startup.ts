@@ -370,7 +370,7 @@ function parseOptions(argv: string[] = process.argv.slice(2)): CliOptions {
 }
 
 function printUsage(): void {
-  console.log(`OpenClaw Gateway startup benchmark
+  console.log(`FRIDAY Gateway startup benchmark
 
 Usage:
   pnpm test:startup:gateway -- [options]

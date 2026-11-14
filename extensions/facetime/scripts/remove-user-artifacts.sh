@@ -8,10 +8,10 @@ fi
 
 user_home=$1
 temporary_root=$2
-/bin/rm -rf "$user_home/Library/Caches/OpenClaw/FaceTime/driver/OpenClawBridge.driver"
+/bin/rm -rf "$user_home/Library/Caches/FRIDAY/FaceTime/driver/OpenClawBridge.driver"
 /bin/rm -f \
-  "$user_home/Library/Application Support/OpenClaw/FaceTime/helper-ipc-key" \
-  "$user_home/Library/Application Support/OpenClaw/FaceTime/helper-build.sha256"
+  "$user_home/Library/Application Support/FRIDAY/FaceTime/helper-ipc-key" \
+  "$user_home/Library/Application Support/FRIDAY/FaceTime/helper-build.sha256"
 for container in com.apple.FaceTime com.apple.mobilephone; do
   staged="$user_home/Library/Containers/$container/Data/tmp"
   if test -d "$staged"; then

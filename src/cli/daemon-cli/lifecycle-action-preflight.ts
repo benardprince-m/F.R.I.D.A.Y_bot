@@ -62,7 +62,7 @@ export async function getServiceActionPreflightFailure(
       message:
         action === "start"
           ? futureBlock.message
-          : `Config was last written by OpenClaw ${futureBlock.touchedVersion}; this binary is ${futureBlock.currentVersion}.`,
+          : `Config was last written by FRIDAY ${futureBlock.touchedVersion}; this binary is ${futureBlock.currentVersion}.`,
       hints: futureBlock.hints,
     };
   }

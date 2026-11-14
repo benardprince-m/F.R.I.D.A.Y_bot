@@ -25,7 +25,7 @@ function resolvePackageChangelogVersions(packageVersion, options = {}) {
   const match = RELEASE_VERSION_PATTERN.exec(packageVersion);
   if (!match) {
     throw new Error(
-      `Unsupported OpenClaw package version for changelog packaging: ${packageVersion}`,
+      `Unsupported FRIDAY package version for changelog packaging: ${packageVersion}`,
     );
   }
   if (PRERELEASE_VERSION_PATTERN.test(packageVersion)) {

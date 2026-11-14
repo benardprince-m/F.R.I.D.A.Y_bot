@@ -606,7 +606,7 @@ suite.define(() => {
         ["Archive refresh 2"],
       ]);
       expect(history?.selectedTitle.filter((title) => title !== "Archive refresh 2")).toEqual([]);
-      expect(history?.documentTitle).not.toContain("New session — OpenClaw");
+      expect(history?.documentTitle).not.toContain("New session — FRIDAY");
       const archivedNotice = activePane.locator(".agent-chat__disabled-banner");
       await archivedNotice.waitFor({ state: "visible", timeout: 10_000 });
       await expectText(archivedNotice, "This session is archived.");

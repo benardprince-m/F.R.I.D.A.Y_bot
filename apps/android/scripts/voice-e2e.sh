@@ -222,7 +222,7 @@ case "$MODE" in
 esac
 
 adb logcat -d -v time |
-  rg -i 'OpenClaw|TalkMode|MicCapture|AudioRecord|SpeechRecognizer|realtime|talk.session|appendAudio|transcript|Talk failed|Transcription failed|Speech network|VoiceE2E' |
+  rg -i 'FRIDAY|TalkMode|MicCapture|AudioRecord|SpeechRecognizer|realtime|talk.session|appendAudio|transcript|Talk failed|Transcription failed|Speech network|VoiceE2E' |
   tail -250 >"$ARTIFACT_DIR/logcat.txt" || true
 
 if [[ "$CLEANUP" -eq 1 ]]; then

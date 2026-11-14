@@ -1,5 +1,5 @@
 ---
-summary: "First-run setup flow for OpenClaw (macOS app)"
+summary: "First-run setup flow for FRIDAY (macOS app)"
 read_when:
   - Setting up the macOS app for the first time
   - Choosing between a local and a remote Gateway during macOS setup
@@ -15,25 +15,25 @@ agent.
 For CLI onboarding and a comparison of both paths, see [Onboarding Overview](/start/onboarding-overview).
 
 <Tip>
-Need the app first? [Download OpenClaw for macOS](/platforms/macos#download),
+Need the app first? [Download FRIDAY for macOS](/platforms/macos#download),
 then return here for first-run setup.
 </Tip>
 
 <Steps>
 <Step title="Approve macOS warning">
-The first time you open OpenClaw.app, macOS asks you to approve a downloaded
+The first time you open FRIDAY.app, macOS asks you to approve a downloaded
 app. Click **Open** to continue.
 
 <Frame>
-<img src="/assets/macos-onboarding/01-macos-warning.jpeg" alt="macOS dialog that asks whether to open the downloaded OpenClaw app" />
+<img src="/assets/macos-onboarding/01-macos-warning.jpeg" alt="macOS dialog that asks whether to open the downloaded FRIDAY app" />
 </Frame>
 </Step>
 <Step title="Approve find local networks">
-macOS then asks whether OpenClaw may find devices on your local network.
+macOS then asks whether FRIDAY may find devices on your local network.
 Click **Allow**. The app uses this to reach a Gateway on another machine.
 
 <Frame>
-<img src="/assets/macos-onboarding/02-local-networks.jpeg" alt="macOS dialog that asks whether OpenClaw may find devices on the local network" />
+<img src="/assets/macos-onboarding/02-local-networks.jpeg" alt="macOS dialog that asks whether FRIDAY may find devices on the local network" />
 </Frame>
 </Step>
 <Step title="Welcome and security notice">
@@ -41,12 +41,12 @@ The app opens on its welcome screen with the security notice. Read the notice,
 then continue when you accept the trust model below.
 
 <Frame caption="Read the security notice displayed and decide accordingly">
-<img src="/assets/macos-onboarding/03-security-notice.png" alt="OpenClaw welcome screen with the security notice" />
+<img src="/assets/macos-onboarding/03-security-notice.png" alt="FRIDAY welcome screen with the security notice" />
 </Frame>
 
 Security trust model:
 
-- By default, OpenClaw is a personal agent: one trusted operator boundary.
+- By default, FRIDAY is a personal agent: one trusted operator boundary.
 - Shared/multi-user setups need lock-down: split trust boundaries, keep tool access minimal, and follow [Security](/gateway/security).
 - Local onboarding selects `tools.profile: "full"` when no profile is configured and preserves explicit profiles and other tool policies. Full tool selection does not grant execution permissions. See [Tool profiles](/gateway/config-tools/tool-policy#tool-profiles).
 - If hooks/webhooks or other untrusted content feeds are enabled, use a strong modern model tier and keep strict tool policy/sandboxing.
@@ -90,7 +90,7 @@ If the connected Gateway already has a configured agent model, automatic setup
 keeps it without writing new settings. Otherwise the Gateway automatically
 tries usable AI access in this deterministic order:
 
-1. Saved OpenClaw auth profiles.
+1. Saved FRIDAY auth profiles.
 2. Codex credentials from `~/.codex` or `CODEX_HOME` on the Gateway host.
 3. A Claude CLI login.
 4. `OPENAI_API_KEY`, then `ANTHROPIC_API_KEY`.
@@ -102,7 +102,7 @@ existing activation flow, and stops at the first successful completion before
 saving the primary model. Apple Foundation Models remains a utility option and
 is never selected as the primary model.
 
-If no detected connection works, OpenClaw automatically installs or enables the
+If no detected connection works, FRIDAY automatically installs or enables the
 official Codex plugin. It then uses an existing Codex login or offers ChatGPT
 sign-in. This first-party Codex installation is the only plugin capability
 approval granted by automatic setup. If installation or activation fails, the
@@ -114,12 +114,12 @@ When automatic setup selects an existing Codex ChatGPT or API-key login, it sets
 `plugins.entries.codex.config.appServer.homeScope: "user"`. Codex's app-server
 then uses `CODEX_HOME`, or `~/.codex` when unset, on the Gateway host. This shares
 your native Codex login, threads, and `config.toml`. Codex owns authentication
-and token refresh; OpenClaw does not copy or register the OAuth tokens in its
+and token refresh; FRIDAY does not copy or register the OAuth tokens in its
 auth store.
 
 If there is no Codex login, the offered ChatGPT sign-in stays isolated in an
-OpenClaw-owned agent home. These are the two Codex modes: **Reuse** shares your
-existing login and sessions; **Separate** uses an OpenClaw login and agent home.
+FRIDAY-owned agent home. These are the two Codex modes: **Reuse** shares your
+existing login and sessions; **Separate** uses an FRIDAY login and agent home.
 To switch from reuse to separate, choose **Use a separate login** on the setup
 card and follow the inline ChatGPT sign-in. You can also open **Model Setup**
 and sign in with ChatGPT or enter an OpenAI API key. Completing that sign-in
@@ -128,7 +128,7 @@ See [Native Codex state](/plugins/codex-harness/native-features#share-threads-wi
 for the home-scope settings. Manual setup retains its existing API-key import
 behavior.
 
-The dashboard explains what OpenClaw picked and lists alternatives. Use its
+The dashboard explains what FRIDAY picked and lists alternatives. Use its
 provider and model settings to switch, or **Connection… → Gateways** to connect
 to another Gateway. The manual picker still only detects and presents choices;
 it waits for your selection before testing, installing, or saving a connection.
@@ -137,7 +137,7 @@ Ollama checks `/api/ps` for loaded models; an eligible
 model that is only installed on disk requires explicit setup through
 **Choose connection** → **Local only**. See [Ollama](/providers/ollama).
 
-The manual provider picker is built from installed manifests and OpenClaw's official
+The manual provider picker is built from installed manifests and FRIDAY's official
 provider-plugin catalog, so installable providers such as Meta appear before their
 plugin is present. When a connection needs a runtime plugin, the app and dashboard show the
 staged package's source and capabilities, with integrity when available before installing or
@@ -197,7 +197,7 @@ so another provider can opt in without adding provider-specific macOS code.
 
 The manual key/token picker uses the same provider registry. In every route,
 the provider supplies its starter model and configuration. If the starter is an
-alias, OpenClaw tests and saves the provider's full model name while
+alias, FRIDAY tests and saves the provider's full model name while
 preserving existing model settings that the starter does not replace.
 A replacement credential stays inactive until you accept **Activate this saved
 sign-in?** after verification. Declining keeps your current connection and the
@@ -209,7 +209,7 @@ chat cannot start without working inference.
 </Step>
 <Step title="Continue in the dashboard">
 After a new model passes its live check, native setup closes and opens guided
-onboarding in the dashboard. OpenClaw helps configure the remaining workspace,
+onboarding in the dashboard. FRIDAY helps configure the remaining workspace,
 Gateway, channels, and other optional features, then hands you off to normal
 agent chat. An already configured model opens the normal dashboard instead.
 
@@ -228,8 +228,8 @@ Location. See [macOS permissions](/platforms/mac/permissions) for grant and
 recovery guidance.
 
 See [Bootstrapping](/start/bootstrapping) for what happens on the Gateway host
-during the agent's first real turn. OpenClaw remains available later under
-**Settings → OpenClaw**.
+during the agent's first real turn. FRIDAY remains available later under
+**Settings → FRIDAY**.
 </Step>
 </Steps>
 

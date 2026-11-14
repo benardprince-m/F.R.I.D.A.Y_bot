@@ -113,7 +113,7 @@ const SCRIPT_INVOCATION = new RegExp(
 );
 
 // Verify literal, straight-line prefixes ending in a Gateway lifecycle call to
-// an absolute OpenClaw path; inspectJob also excludes shell-altering job environments.
+// an absolute FRIDAY path; inspectJob also excludes shell-altering job environments.
 // Other syntax is report-only. This checks metadata, not binary executability,
 // interpreter availability or quarantine, and never dequotes or expands shell words.
 function scriptActions(script: string): GatewayAction[] {
@@ -250,7 +250,7 @@ async function inspectJob(
   if (
     hasServiceMarker ||
     generatedWrapper ||
-    /<key>Comment<\/key>\s*<string>OpenClaw (Gateway|Node)\b/.test(plist ?? "")
+    /<key>Comment<\/key>\s*<string>FRIDAY (Gateway|Node)\b/.test(plist ?? "")
   ) {
     return null;
   }
@@ -321,14 +321,14 @@ export async function findForeignLaunchdJobs(
   ].toSorted();
   if (labels.length > MAX_JOBS) {
     throw new Error(
-      `Too many OpenClaw launchd jobs to inspect safely (${labels.length}; limit ${MAX_JOBS}).`,
+      `Too many FRIDAY launchd jobs to inspect safely (${labels.length}; limit ${MAX_JOBS}).`,
     );
   }
   const jobs: ForeignLaunchdJob[] = [];
   const deadline = Date.now() + 10_000;
   for (const label of labels) {
     if (Date.now() >= deadline) {
-      throw new Error("OpenClaw launchd job inspection exceeded its 10-second budget.");
+      throw new Error("FRIDAY launchd job inspection exceeded its 10-second budget.");
     }
     const job = await inspectJob(label, env);
     if (job) {

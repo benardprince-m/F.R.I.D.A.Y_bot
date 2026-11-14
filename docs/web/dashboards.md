@@ -96,12 +96,12 @@ charts, or links. Reports render directly on the dashboard without an iframe or
 inline preview. The agent updates the report's data when you ask; use an HTML
 widget when you need custom interactivity. See [Native dashboard reports](/tools/show-widget#native-dashboard-reports).
 
-Watch Patrick Erichsen build an OpenClaw 2.0 release dashboard from one prompt:
+Watch Patrick Erichsen build an FRIDAY 2.0 release dashboard from one prompt:
 
 <iframe
   style={{ width: "100%", height: "auto", aspectRatio: "16 / 9", border: 0, borderRadius: "8px" }}
   src="https://www.youtube-nocookie.com/embed/gHyBueWideg"
-  title="Build an OpenClaw Dashboard with One Prompt"
+  title="Build an FRIDAY Dashboard with One Prompt"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerPolicy="strict-origin-when-cross-origin"
   allowFullScreen
@@ -179,7 +179,7 @@ never needs the agent.
   Side chat or Files when Chat remains main. It also preserves a closed side panel
   or a focused Chat view. Existing browser layouts without presentation provenance retain
   their complete saved layout
-  until you deliberately choose a presentation; OpenClaw does not guess whether
+  until you deliberately choose a presentation; FRIDAY does not guess whether
   an older expansion was automatic. Local layout retention remains 500 sessions.
   An explicit `?dashboard=expanded` link requests fullscreen for that visit only.
 - **Agent parity.** The agent's `dashboard` tool creates or updates trusted
@@ -257,7 +257,7 @@ no injected Gateway tokens, widget tool bridge, or permission to navigate the pa
 app. It follows the website's own authentication and your browser's cookie policy.
 
 Some websites refuse embedding, and some sign-in flows require a separate tab.
-Use **Open website** if the frame stays blank or cannot sign in. OpenClaw does
+Use **Open website** if the frame stays blank or cannot sign in. FRIDAY does
 not proxy the site or remove its embedding restrictions. This widget is separate
 from custom HTML widgets and does not loosen their sandbox or network grants.
 
@@ -274,7 +274,7 @@ To show the browser beside chat, ask to open the
 existing panel without creating a dashboard widget or expanding the board.
 
 The Browser plugin's `browser:dashboard` widget presents a tab in a local
-OpenClaw-managed browser. The Control UI streams that tab, so HTTP apps also
+FRIDAY-managed browser. The Control UI streams that tab, so HTTP apps also
 work when the Control UI itself uses HTTPS. The browser's existing navigation
 policy still applies. It does not inherit the browser cookies on your phone or
 laptop. Administrators use the managed profile's login session. Other session

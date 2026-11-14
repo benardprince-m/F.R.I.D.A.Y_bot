@@ -116,7 +116,7 @@ export async function inspectNpmGlobalDestination(
           ).replace(/^openclaw\b/, () => `node ${quote(launcherTarget)}`)
         : undefined;
     const message = [
-      `Selected npm destination ${prefix} is occupied by another OpenClaw installation: package ${packageRoot}; launcher ${launcher}${launcherTarget ? ` -> ${launcherTarget}` : " (target unresolved)"}.`,
+      `Selected npm destination ${prefix} is occupied by another FRIDAY installation: package ${packageRoot}; launcher ${launcher}${launcherTarget ? ` -> ${launcherTarget}` : " (target unresolved)"}.`,
       layout?.entrypoint
         ? `The selected service${layout.sourcePath ? ` (${layout.sourcePath})` : ""} uses ${layout.entrypoint}; it does not own this destination.`
         : "No selected managed service could be verified as owning this destination.",
