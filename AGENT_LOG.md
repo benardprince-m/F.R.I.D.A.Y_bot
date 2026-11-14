@@ -6,6 +6,32 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-14T09:35Z — WS-A/WS-E: quiet modes + idempotency keys
+
+**Goal:** Close two more unblocked, spec-mandated gaps: the quiet-mode/escalation ceiling (MSG-06) and idempotency keys for money/public writes (AUT-06).
+
+**Scope:** `src/friday/policy/quiet-modes.ts` + test, `src/friday/tasks/idempotency.ts` + test. No engine internals modified.
+
+**Execution:**
+
+- `quiet-modes.ts`: `decideDelivery(mode, urgency)` — free delivers all; school/focus/dnd/sleep queue non-emergencies; only `emergency` overrides a quiet mode. `mayFollowUp()` enforces the one-follow-up ceiling (two pings total).
+- `idempotency.ts`: `idempotencyKey(scope, action, target)` derives a stable key; `claim()` blocks a retried intent; `record()` is append-only (a second record for the same key is a NOOP).
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test src/friday --maxWorkers=1` → **13 files, 77 tests passed** (2.3s).
+- `pnpm tsgo:core` → **exit 0**.
+
+**Side effects:** Four new files; board updated (A-05, E-03 → DONE-PROOF). Repository still private.
+
+**Outcome:** Completed — both modules implemented and proven.
+
+**Known risks:** Neither is wired into the engine yet (delivery path, external-write path). The idempotency ledger is in-memory until persisted.
+
+**Next action:** Continue unblocked soul-layer work (degradation ladder G-02, five-layer memory map B-01); then engine wiring.
+
+---
+
 ## 2026-11-14T09:34Z — WS-B/WS-F: correction path + protected-file integrity check
 
 **Goal:** Close two unblocked, spec-mandated soul-layer gaps that need no credentials: the memory correction path (§7.4) and the Constitution/persona integrity check (§7.5).

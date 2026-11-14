@@ -24,7 +24,7 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 | A-02 | Wire owner identity to the engine allowlist/owner concept (contract, not a new allowlist)         | MSG-01         | OpenHands | BLOCKED-INPUT (owner Telegram id) | —                                                                |
 | A-03 | Telegram text round-trip: message → reply, live                                                   | MSG-01, MSG-04 | OpenHands | BLOCKED-INPUT (bot token)         | —                                                                |
 | A-04 | Conversation continuity via checkpoint, not transcript dump                                       | MSG-02         | OpenHands | TODO                              | —                                                                |
-| A-05 | Quiet-mode batching + one-follow-up ceiling policy                                                | MSG-06, §5.3   | OpenHands | TODO                              | —                                                                |
+| A-05 | Quiet-mode batching + one-follow-up ceiling policy                                                | MSG-06, §5.3   | OpenHands | DONE-PROOF (unit)                 | `src/friday/policy/quiet-modes.ts` · tests pass                  |
 
 ### WS-B · Memory — five-layer model, Librarian, forget-with-evidence
 
@@ -61,7 +61,7 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 | ---- | ----------------------------------------------------------------------------------------------- | ------------ | --------- | -------------------- | ----------------------------------------------------------- |
 | E-01 | Durable task record: owner, goal, status, start, checkpoint, tools, budget, next-wake, evidence | §6.2, AUT-01 | OpenHands | DONE-PROOF (unit)    | `src/friday/tasks/ledger.ts` · commit b7ae3617 · tests pass |
 | E-02 | Restart-resume from a verified checkpoint; no silent loss                                       | §6.2, AUT-02 | OpenHands | TODO (engine wiring) | `resume()` unit-tested                                      |
-| E-03 | Idempotency keys for money/public writes; no duplicate side effect                              | AUT-06       | OpenHands | TODO                 | —                                                           |
+| E-03 | Idempotency keys for money/public writes; no duplicate side effect                              | AUT-06       | OpenHands | DONE-PROOF (unit)    | `src/friday/tasks/idempotency.ts` · tests pass              |
 | E-04 | Debrief generator: outcome / proof / cost / failures / next action                              | §5.1, AUT-04 | OpenHands | DONE-PROOF (unit)    | `renderDebrief()` · commit b7ae3617 · tests pass            |
 
 ### WS-F · Security & Vault — PII filter, injection scrub, kill-switch
