@@ -8,6 +8,8 @@ Statuses: `TODO` · `CLAIMED` · `IN-PROGRESS` · `BLOCKED-INPUT` (needs the own
 
 `(unit)` = the pure module is implemented, committed, and tested. `(engine wiring)` = hooking it into the running engine, proven at that entry point — still TODO.
 
+**Binding constraint (owner, 2026-11-13): the owner is phone-only — no laptop, no desktop.** Every build, deploy, and control path must work without a local terminal. See `docs/contracts/phone-only.md`. Consequences: chat is the only interface _and_ the only management channel; deploys must be phone-triggerable; secrets are pasted in chat then deleted; `doctor` in chat is the owner's only health window.
+
 Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 
 ---
@@ -76,13 +78,14 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 
 ### WS-G · Heartbeat & Ops — watchdog, health, doctor, docker
 
-| ID   | Task                                                          | Spec      | Owner     | Status               | Proof |
-| ---- | ------------------------------------------------------------- | --------- | --------- | -------------------- | ----- |
-| G-01 | Heartbeat loop (≈1 min) over the engine's cron/heartbeat      | §7.8      | OpenHands | TODO                 | —     |
-| G-02 | Component checks + degradation ladder + honest status         | §7.9      | OpenHands | TODO                 | —     |
-| G-03 | `doctor` in chat: healthy / degraded / incident with evidence | §7.8, §9  | OpenHands | TODO                 | —     |
-| G-04 | Docker compose for the VPS host                               | §6.1, §11 | OpenHands | BLOCKED-INPUT (host) | —     |
-| G-05 | systemd watchdog units                                        | §7.9      | OpenHands | BLOCKED-INPUT (host) | —     |
+| ID   | Task                                                                                                               | Spec            | Owner     | Status               | Proof |
+| ---- | ------------------------------------------------------------------------------------------------------------------ | --------------- | --------- | -------------------- | ----- |
+| G-01 | Heartbeat loop (≈1 min) over the engine's cron/heartbeat                                                           | §7.8            | OpenHands | TODO                 | —     |
+| G-02 | Component checks + degradation ladder + honest status                                                              | §7.9            | OpenHands | TODO                 | —     |
+| G-03 | `doctor` in chat: healthy / degraded / incident with evidence                                                      | §7.8, §9        | OpenHands | TODO                 | —     |
+| G-04 | Docker compose for the VPS host (must ship with a phone-triggerable deploy path)                                   | §6.1, §11       | OpenHands | BLOCKED-INPUT (host) | —     |
+| G-05 | systemd watchdog units (or the managed-host equivalent)                                                            | §7.9            | OpenHands | BLOCKED-INPUT (host) | —     |
+| G-06 | Phone-only control path: chat command to deploy/update/restart + ingest a secret from chat then delete the message | §4.1 law 2, §14 | OpenHands | TODO                 | —     |
 
 ---
 

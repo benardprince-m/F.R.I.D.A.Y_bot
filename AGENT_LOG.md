@@ -6,6 +6,41 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-14T09:32Z — Phone-only constraint baked in + secret intake from chat
+
+**Goal:** Act on a new binding constraint — the owner is phone-only (no laptop, no desktop) — and implement the one phone-only requirement that needs no host: ingesting a credential pasted into chat, storing it, and deleting the message.
+
+**Scope:** `docs/contracts/phone-only.md` (new), `src/friday/policy/secret-intake.ts` (new) + test, `TASKBOARD.md`, `OWNER_REQUIREMENTS.md`. No engine internals modified.
+
+**Plan:**
+
+1. Record the phone-only constraint and its consequences as a contract.
+2. Promote it into the taskboard (new task G-06) and the owner report (hosting/deploy/secret-intake decisions).
+3. Implement the secret-intake parser now — it is phone-only-critical and testable without a host.
+
+**Execution:**
+
+- Wrote `docs/contracts/phone-only.md`: chat is the only interface _and_ the only management channel; deploys must be phone-triggerable; secrets pasted in chat then deleted; `doctor` in chat is the owner's only health window. Proposed default host: a managed always-on host with a phone web UI (Fly.io/Railway/Render class). No new phone app (§4.1 law 2).
+- Added TASKBOARD `G-06` (phone-only control path); rewrote `OWNER_REQUIREMENTS.md` with a "Priority 2b — phone-only operational decisions" block (hosting platform, deploy trigger, secret intake).
+- Wrote `parseSecretIntake(text)`: recognises `/secret NAME value` and `/secret set NAME value`; captures the value verbatim (multi-line PEM supported); returns `{kind:"store", name, value, deleteMessage:true, reply}` where the reply never contains the value. Bare `/secret` → help; ordinary messages → ignore.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test src/friday/policy/secret-intake.test.ts --maxWorkers=1` → **9 tests passed**.
+- `pnpm test src/friday --maxWorkers=1` → **9 files, 57 tests passed** (2.0s).
+- `pnpm tsgo:core` → **exit 0**.
+- (Recreated the `~/.local/bin/pnpm` shim again — a host restart cleared `$HOME` for the second session in a row.)
+
+**Side effects:** Two new files, one new contract, board + owner-report updates. Not yet committed at time of writing; committed this session. Repository still private.
+
+**Outcome:** Completed — phone-only constraint recorded and enforced in the build plan; secret intake implemented and proven.
+
+**Known risks:** The phone-only _deploy/update_ path (G-06 remainder) and the host choice are BLOCKED-INPUT. Full `pnpm build` still not run (host OOMs). The `deleteMessage` step is the caller's obligation — its engine wiring is unstarted.
+
+**Next action:** Wire `parseSecretIntake` into the channel ingress (store via the engine secret store, then delete the message). Continue unblocked soul-layer work (WS-B five-layer map, WS-E resume wiring).
+
+---
+
 ## 2026-11-13T22:40Z — WS-F: compose the FRIDAY turn pipeline at one seam
 
 **Goal:** Reduce the Phase 0 engine wiring from four separate hooks to one, by composing the soul-layer policies into a single pure function the engine calls per inbound message.
