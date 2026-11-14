@@ -6,6 +6,34 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-14T12:45Z — Cruft removal; mass-rebrand reverted (correctness)
+
+**Goal:** Owner's two asks — (1) why pushed commits were not visible, (2) delete OpenClaw cruft not essential to the FRIDAY build.
+
+**Scope:** Repository root, `.github/`, `docs/assets/`. No engine logic changed.
+
+**Execution:**
+
+- ASK-1 (push visibility): 17 commits were local-only. Confirmed `origin` is the owner's own repo (`benardprince-m/F.R.I.D.A.Y_bot`), pushed `main`.
+- ASK-2 (delete cruft): removed `.github/pr-proof/` (13 files, 1.2 MB of OpenClaw PR screenshots) and `.github/ISSUE_TEMPLATE/` (4 files) — zero references anywhere. Then removed 17 orphaned docs assets: `docs/assets/sponsors/*.svg` (14 upstream sponsor logos, no page renders them), `docs/assets/pixel-lobster.svg`, `docs/assets/openclaw-banner-light.png`, `docs/assets/macos-onboarding/05-permissions.png`. All verified with `git grep` per basename.
+- **Mass rebrand attempted three times and reverted each time.** The standalone brand word `OpenClaw` is an overloaded token in this engine: it is simultaneously display prose, protocol identity (`X-OpenRouter-Title`, `MM-API-Source`, `OpenClaw.SQLITE`, `OpenClaw-Publication:` commit trailers), filesystem paths (`apps/macos/Sources/OpenClaw/`, 1300 native paths), GitHub workflow `name:` fields, and GitHub user handles (`handle: "openclaw"`). A string-only rename changes consumers (tests/scripts) without their producers (directories/workflows) and desyncs every one of those. The first attempt (`0c98f7e4`) shipped dangling path strings (`apps/macos/Sources/FRIDAY/` against an `OpenClaw/` directory) and was reverted (`382c8c52e`) before anything depended on it.
+
+**Verification (exact commands + actual results):**
+
+- `git grep -l <basename>` per deleted asset → 0 references outside the file.
+- `node scripts/run-vitest.mjs run --config test/vitest/vitest.cli.config.ts src/cli/banner.test.ts src/cli/tagline.test.ts src/cli/claw-banner.test.ts` → 2 files, 9 tests passed (wordmark clean, no mascot art).
+- `git diff f2565414 HEAD --stat` after revert → empty (tree identical to last-good).
+
+**Side effects:** Commits `f1fbe941` (PR-proof + issue templates) and `312a702` (docs assets) on `main`, pushed. Revert commit `382c8c52`. Repository private.
+
+**Outcome:** Completed — ASK-1 resolved; ASK-2 advanced with the safely-deletable cruft removed.
+
+**Known risks:** The user-facing rebrand (already done in `35bdaa53`/`bcb001d1` for CLI `--version`, help, descriptors) must NOT be extended to a repo-wide sed. Per §2.3, internal contracts (`openclaw` binary, config keys, state paths, `OpenClawConfig`) stay unchanged; the rest of the `OpenClaw` token is coupled to paths/protocols/handles and a mechanical rename breaks the build. Any further rebrand must be surgical and per-surface.
+
+**Next action:** None pending for these asks. Continue Phase 0 wiring (soul layer into entry points) when unblocked.
+
+---
+
 ## 2026-11-14T09:37Z — WS-D: skill acquisition protocol + manifest validation
 
 **Goal:** Build WS-D, the last workstream with no implementation — the controlled capability-acquisition protocol (§7.6) and the skill manifest (§6.3).
