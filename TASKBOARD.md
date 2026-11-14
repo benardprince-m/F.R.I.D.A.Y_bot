@@ -30,7 +30,7 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 
 | ID   | Task                                                                          | Spec      | Owner     | Status                       | Proof                                                             |
 | ---- | ----------------------------------------------------------------------------- | --------- | --------- | ---------------------------- | ----------------------------------------------------------------- |
-| B-01 | Map FRIDAY's five memory layers onto the engine's memory subsystem (contract) | §7.4      | OpenHands | TODO                         | —                                                                 |
+| B-01 | Map FRIDAY's five memory layers onto the engine's memory subsystem (contract) | §7.4      | OpenHands | DONE-PROOF (unit)            | `src/friday/memory/layers.ts` · tests pass                        |
 | B-02 | Librarian classify: ADD / UPDATE / MERGE / NOOP with importance×recency×use   | §7.4      | OpenHands | DONE-PROOF (unit)            | `src/friday/memory/librarian.ts` · commit b7ae3617 · tests pass   |
 | B-03 | Provenance on every memory (source + date); confidence labels                 | §7.4      | OpenHands | DONE-PROOF (unit)            | `Provenance`/`Confidence` types · `docs/contracts/friday-core.md` |
 | B-04 | "Forget X" purge across all layers + verifiable evidence report               | §7.4, §14 | OpenHands | DONE-PROOF (unit)            | `src/friday/memory/forget.ts` · commit b7ae3617 · tests pass      |
@@ -78,14 +78,14 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 
 ### WS-G · Heartbeat & Ops — watchdog, health, doctor, docker
 
-| ID   | Task                                                                                                               | Spec            | Owner     | Status               | Proof |
-| ---- | ------------------------------------------------------------------------------------------------------------------ | --------------- | --------- | -------------------- | ----- |
-| G-01 | Heartbeat loop (≈1 min) over the engine's cron/heartbeat                                                           | §7.8            | OpenHands | TODO                 | —     |
-| G-02 | Component checks + degradation ladder + honest status                                                              | §7.9            | OpenHands | TODO                 | —     |
-| G-03 | `doctor` in chat: healthy / degraded / incident with evidence                                                      | §7.8, §9        | OpenHands | TODO                 | —     |
-| G-04 | Docker compose for the VPS host (must ship with a phone-triggerable deploy path)                                   | §6.1, §11       | OpenHands | BLOCKED-INPUT (host) | —     |
-| G-05 | systemd watchdog units (or the managed-host equivalent)                                                            | §7.9            | OpenHands | BLOCKED-INPUT (host) | —     |
-| G-06 | Phone-only control path: chat command to deploy/update/restart + ingest a secret from chat then delete the message | §4.1 law 2, §14 | OpenHands | TODO                 | —     |
+| ID   | Task                                                                                                               | Spec            | Owner     | Status               | Proof                                           |
+| ---- | ------------------------------------------------------------------------------------------------------------------ | --------------- | --------- | -------------------- | ----------------------------------------------- |
+| G-01 | Heartbeat loop (≈1 min) over the engine's cron/heartbeat                                                           | §7.8            | OpenHands | TODO                 | —                                               |
+| G-02 | Component checks + degradation ladder + honest status                                                              | §7.9            | OpenHands | DONE-PROOF (unit)    | `src/friday/policy/degradation.ts` · tests pass |
+| G-03 | `doctor` in chat: healthy / degraded / incident with evidence                                                      | §7.8, §9        | OpenHands | TODO                 | —                                               |
+| G-04 | Docker compose for the VPS host (must ship with a phone-triggerable deploy path)                                   | §6.1, §11       | OpenHands | BLOCKED-INPUT (host) | —                                               |
+| G-05 | systemd watchdog units (or the managed-host equivalent)                                                            | §7.9            | OpenHands | BLOCKED-INPUT (host) | —                                               |
+| G-06 | Phone-only control path: chat command to deploy/update/restart + ingest a secret from chat then delete the message | §4.1 law 2, §14 | OpenHands | TODO                 | —                                               |
 
 ---
 

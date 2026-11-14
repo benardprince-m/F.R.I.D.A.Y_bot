@@ -6,6 +6,32 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-14T09:36Z — WS-B/WS-G: five-layer memory map + degradation ladder
+
+**Goal:** Close the five-layer memory contract (B-01) and the degradation ladder with honest status (G-02).
+
+**Scope:** `src/friday/memory/layers.ts` + test, `src/friday/policy/degradation.ts` + test. No engine internals modified.
+
+**Execution:**
+
+- `layers.ts`: declares the five spec layers (core-identity, working, episodic, semantic, vault) with holds/rule/engine-surface. The vault is explicitly NOT a purgeable memory layer; the four real layers are what "forget" targets. Each layer maps to an existing engine surface (no second store, §6.1).
+- `degradation.ts`: `capabilityTier()` (full → reduced → low-power → offline) and `healthReport()` (healthy/degraded/incident) with an honest summary naming each non-up component. Never reports healthy when a component is not up.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test src/friday --maxWorkers=1` → **15 files, 90 tests passed** (2.4s).
+- `pnpm tsgo:core` → **exit 0**.
+
+**Side effects:** Four new files; board updated (B-01, G-02 → DONE-PROOF). Repository still private.
+
+**Outcome:** Completed — both implemented and proven.
+
+**Known risks:** Neither is wired into the engine yet. The layer map is a contract, not a store; the actual purge must be wired to the engine's memory write/forget path.
+
+**Next action:** Continue unblocked work; then engine wiring (turn pipeline, secret intake, integrity, correction, degradation) at the real entry points.
+
+---
+
 ## 2026-11-14T09:35Z — WS-A/WS-E: quiet modes + idempotency keys
 
 **Goal:** Close two more unblocked, spec-mandated gaps: the quiet-mode/escalation ceiling (MSG-06) and idempotency keys for money/public writes (AUT-06).
