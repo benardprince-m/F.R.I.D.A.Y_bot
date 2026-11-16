@@ -43,21 +43,23 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 
 ### WS-C · Model Router — free-tier chain, failover, cost tracking
 
-| ID   | Task                                                                         | Spec        | Owner     | Status                                         | Proof |
-| ---- | ---------------------------------------------------------------------------- | ----------- | --------- | ---------------------------------------------- | ----- |
-| C-01 | Route via the engine's model gateway; no second router (§6.1)                | §7.10, §6.3 | OpenHands | TODO                                           | —     |
-| C-02 | Free-tier provider chain config: Gemini→Groq→Mistral→Cohere→Cloudflare→local | §7.10       | OpenHands | BLOCKED-INPUT (API keys)                       | —     |
-| C-03 | Failover + circuit breaker (closed→open→half-open)                           | §7.9        | OpenHands | TODO (engine has failover; add breaker policy) | —     |
-| C-04 | Per-task/day/week cost tracking; morning-brief spend line                    | §7.10       | OpenHands | TODO                                           | —     |
-| C-05 | Budget ceiling behavior: shift to cache/local, batch, notify                 | §7.10       | OpenHands | BLOCKED-INPUT (budget amount)                  | —     |
+| ID   | Task                                                                         | Spec        | Owner     | Status                                            | Proof                                                                                                                                     |
+| ---- | ---------------------------------------------------------------------------- | ----------- | --------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| C-01 | Route via the engine's model gateway; no second router (§6.1)                | §7.10, §6.3 | OpenHands | DONE-PROOF (unit + entry point)                   | `extensions/friday/src/ops/router.ts` · wired at `before_model_resolve` in `index.ts` · `index.test.ts` (no-op until a local pair is set) |
+| C-02 | Free-tier provider chain config: Gemini→Groq→Mistral→Cohere→Cloudflare→local | §7.10       | OpenHands | BLOCKED-INPUT (API keys)                          | —                                                                                                                                         |
+| C-03 | Failover + circuit breaker (closed→open→half-open)                           | §7.9        | OpenHands | TODO (engine has failover; add breaker policy)    | —                                                                                                                                         |
+| C-04 | Per-task/day/week cost tracking; morning-brief spend line                    | §7.10       | OpenHands | DONE-PROOF (unit)                                 | `extensions/friday/src/ops/ledger.ts` (`costOf`, `spendLine`) · tests pass                                                                |
+| C-05 | Budget ceiling behavior: shift to cache/local, batch, notify                 | §7.10       | OpenHands | BLOCKED-INPUT (budget amount) — policy unit ready | `extensions/friday/src/ops/ledger.ts` (`decideBudget`) · tests pass                                                                       |
+| C-06 | Response cache: serve a repeated request with zero tokens                    | §7.10       | OpenHands | DONE-PROOF (unit)                                 | `extensions/friday/src/cache/response-cache.ts` · tests pass                                                                              |
 
 ### WS-D · Skill Factory & Library — registry, acquisition protocol
 
-| ID   | Task                                                                         | Spec | Owner     | Status                          | Proof                                                      |
-| ---- | ---------------------------------------------------------------------------- | ---- | --------- | ------------------------------- | ---------------------------------------------------------- |
-| D-01 | Acquisition protocol contract: detect→research→assess→sandbox→registry→log   | §7.6 | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/skills/acquisition.ts` · tests pass |
-| D-02 | Skill manifest: permissions, data classes, egress, cost, failure behavior    | §6.3 | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/skills/manifest.ts` · tests pass    |
-| D-03 | Agent-Reach as first acquisition: read docs, sandbox, per-channel diagnostic | §7.6 | OpenHands | BLOCKED-INPUT (source/backends) | —                                                          |
+| ID   | Task                                                                         | Spec       | Owner     | Status                          | Proof                                                      |
+| ---- | ---------------------------------------------------------------------------- | ---------- | --------- | ------------------------------- | ---------------------------------------------------------- |
+| D-01 | Acquisition protocol contract: detect→research→assess→sandbox→registry→log   | §7.6       | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/skills/acquisition.ts` · tests pass |
+| D-02 | Skill manifest: permissions, data classes, egress, cost, failure behavior    | §6.3       | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/skills/manifest.ts` · tests pass    |
+| D-03 | Agent-Reach as first acquisition: read docs, sandbox, per-channel diagnostic | §7.6       | OpenHands | BLOCKED-INPUT (source/backends) | —                                                          |
+| D-04 | Promote a proven debrief into a candidate skill (detected stage)             | §5.1, §7.6 | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/skills/promotion.ts` · tests pass   |
 
 ### WS-E · Task Ledger & Debriefs — durable records, checkpoints, resume
 
@@ -75,21 +77,21 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 | F-01 | PII + secret filter before any third-party model call                                   | §7.15, §9   | OpenHands | DONE-PROOF (unit + entry point) | `extensions/friday/src/policy/redaction.ts` · wired at `before_message_write` in `index.ts` · `index.test.ts`                                |
 | F-02 | Prompt-injection scrubber + label untrusted content                                     | §7.15       | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/policy/injection-guard.ts` · commit b7ae3617 · tests pass                                                             |
 | F-03 | `/lockdown` kill switch: stop non-essential egress, keep owner messaging                | §7.15       | OpenHands | DONE-PROOF (unit + entry point) | `extensions/friday/src/policy/kill-switch.ts` · wired at `before_agent_run` + `/lockdown`,`/unlock` commands in `index.ts` · `index.test.ts` |
-| F-04 | Secret store: just-in-time fetch, never in memory/logs/prompts/Git                      | §7.11, §6.3 | OpenHands | TODO (engine provides store)    | —                                                                                                                                            |
+| F-04 | Secret store: just-in-time fetch, never in memory/logs/prompts/Git                      | §7.11, §6.3 | OpenHands | TODO (engine provides store)    | `extensions/friday/src/ops/secrets.ts` (write plan) · tests pass · store/delete wiring pending                                               |
 | F-05 | Constitution/persona integrity check vs owner-approved baseline                         | §7.5        | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/policy/integrity.ts` · tests pass                                                                                     |
 | F-06 | Vault dual-auth + $10 unattended cap at the enforcement layer                           | §7.11       | OpenHands | BLOCKED-INPUT (vault factors)   | —                                                                                                                                            |
 | F-07 | Turn pipeline: compose admission → trust label → egress scrub → egress gate at one seam | §6.3, §7.15 | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/turn.ts` · commit 6c91d742 · 9 tests pass                                                                             |
 
 ### WS-G · Heartbeat & Ops — watchdog, health, doctor, docker
 
-| ID   | Task                                                                                                               | Spec            | Owner     | Status               | Proof                                                      |
-| ---- | ------------------------------------------------------------------------------------------------------------------ | --------------- | --------- | -------------------- | ---------------------------------------------------------- |
-| G-01 | Heartbeat loop (≈1 min) over the engine's cron/heartbeat                                                           | §7.8            | OpenHands | TODO                 | —                                                          |
-| G-02 | Component checks + degradation ladder + honest status                                                              | §7.9            | OpenHands | DONE-PROOF (unit)    | `extensions/friday/src/policy/degradation.ts` · tests pass |
-| G-03 | `doctor` in chat: healthy / degraded / incident with evidence                                                      | §7.8, §9        | OpenHands | TODO                 | —                                                          |
-| G-04 | Docker compose for the VPS host (must ship with a phone-triggerable deploy path)                                   | §6.1, §11       | OpenHands | BLOCKED-INPUT (host) | —                                                          |
-| G-05 | systemd watchdog units (or the managed-host equivalent)                                                            | §7.9            | OpenHands | BLOCKED-INPUT (host) | —                                                          |
-| G-06 | Phone-only control path: chat command to deploy/update/restart + ingest a secret from chat then delete the message | §4.1 law 2, §14 | OpenHands | TODO                 | —                                                          |
+| ID   | Task                                                                                                               | Spec            | Owner     | Status                                   | Proof                                                      |
+| ---- | ------------------------------------------------------------------------------------------------------------------ | --------------- | --------- | ---------------------------------------- | ---------------------------------------------------------- |
+| G-01 | Heartbeat loop (≈1 min) over the engine's cron/heartbeat                                                           | §7.8            | OpenHands | TODO (engine wiring) — policy unit ready | `extensions/friday/src/ops/heartbeat.ts` · tests pass      |
+| G-02 | Component checks + degradation ladder + honest status                                                              | §7.9            | OpenHands | DONE-PROOF (unit)                        | `extensions/friday/src/policy/degradation.ts` · tests pass |
+| G-03 | `doctor` in chat: healthy / degraded / incident with evidence                                                      | §7.8, §9        | OpenHands | TODO                                     | —                                                          |
+| G-04 | Docker compose for the VPS host (must ship with a phone-triggerable deploy path)                                   | §6.1, §11       | OpenHands | BLOCKED-INPUT (host)                     | —                                                          |
+| G-05 | systemd watchdog units (or the managed-host equivalent)                                                            | §7.9            | OpenHands | BLOCKED-INPUT (host)                     | —                                                          |
+| G-06 | Phone-only control path: chat command to deploy/update/restart + ingest a secret from chat then delete the message | §4.1 law 2, §14 | OpenHands | TODO                                     | —                                                          |
 
 ---
 

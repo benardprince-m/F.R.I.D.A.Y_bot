@@ -6,6 +6,38 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-16T18:20Z — WS-C: model router + ops/cache/skill-promotion units; cutover repaired
+
+**Goal:** Finish the in-flight WS-C batch left by a session the host killed mid-run, and repair the cutover it did not complete.
+
+**Scope:** `extensions/friday/` (entry wiring, config, new pure modules), `docs/contracts/friday-core.md`, `TASKBOARD.md`, `src/plugins/contracts/boundary-invariants.test.ts`. No engine internals changed.
+
+**Execution:**
+
+- **Recovered the orphaned batch.** `git status` showed uncommitted work from ~8.5 h earlier: a new `before_model_resolve` hook in `index.ts`, four new pure modules (`ops/router.ts`, `ops/ledger.ts`, `ops/heartbeat.ts`, `ops/secrets.ts`, `cache/response-cache.ts`, `skills/promotion.ts`) with tests, and config-field additions. All were unit-green but undocumented and not fully cut over.
+- **Repaired a red gate.** The new `before_model_resolve` hook was not on the bundled typed-hook allowlist, so `src/plugins/contracts/boundary-invariants.test.ts` failed (1 failed / 11 passed). Added the hook to the `extensions/friday/index.ts` guards entry → 12/12.
+- **Reconciled config with the manifest.** The orphaned `config.ts` parsed four fields (`secretDir`, `budgetUsd`, `cacheTtlMs`, `cacheMaxEntries`) that the manifest schema (`additionalProperties: false`) does not declare and that nothing reads. Trimmed the parser to the fields actually honored (`ownerIds`, `lockedDown`, `personaDir`, `localProvider`, `localModel`) so the operator surface cannot advertise a setting that does nothing.
+- **Added a guard test** (`config.test.ts`) asserting the parser accepts exactly the fields the manifest declares, so this drift cannot recur silently.
+- **Wired C-01** is honest: `routeTurn` is a no-op until `localProvider`/`localModel` are set; under lockdown or a spent budget a hard turn stays local rather than escalating.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test extensions/friday` → 27 files, **192 passed**.
+- `pnpm test src/plugins/contracts` → 2 files, **64 passed** (incl. boundary-invariants 12/12).
+- `pnpm tsgo:extensions` → clean (exit 0).
+- `node scripts/run-oxlint.mjs extensions/friday` → clean (exit 0).
+- Restored the pnpm 12.11.1 shim (lost on restart) and cleared a stale `dist-artifacts` lock owned by a dead PID before running the gates.
+
+**Side effects:** Edits under `extensions/friday/`, the contracts doc, `TASKBOARD.md`, and one core test allowlist. Committed on `main`. Repository private.
+
+**Outcome:** Completed — WS-C router wired at a real entry point; five new pure units documented and proven; red gate repaired; config surface made honest.
+
+**Known risks:** Ledger persistence, response-cache and secret-store wiring, and the heartbeat loop still need a bounded store plus a phone-readable read surface; wiring them now would be a dishonest stub (recorded in `index.ts`). Live channel/model proof remains BLOCKED-INPUT (owner credentials).
+
+**Next action:** Wire the ledger/cache/heartbeat once a bounded store and a phone-readable surface exist; otherwise continue the remaining WS-A/WS-G entry-point wiring.
+
+---
+
 ## 2026-11-14T12:45Z — Cruft removal; mass-rebrand reverted (correctness)
 
 **Goal:** Owner's two asks — (1) why pushed commits were not visible, (2) delete OpenClaw cruft not essential to the FRIDAY build.

@@ -13,9 +13,24 @@ export interface FridayConfig {
   lockedDown: boolean;
   /** Directory holding PERSONA.md and CONSTITUTION.md. Defaults to the process cwd. */
   personaDir?: string;
+  /** Local provider id used for cheap-first routing (§7.10). Unset disables routing overrides. */
+  localProvider?: string;
+  /** Local model id paired with `localProvider`. */
+  localModel?: string;
 }
 
 const EMPTY_CONFIG: FridayConfig = { ownerIds: [], lockedDown: false };
+
+const STRING_FIELDS = ["localProvider", "localModel"] as const;
+
+function isKnownField(key: string): boolean {
+  return (
+    key === "ownerIds" ||
+    key === "personaDir" ||
+    key === "lockedDown" ||
+    (STRING_FIELDS as readonly string[]).includes(key)
+  );
+}
 
 function invalid(detail: string): Error {
   return new Error(`friday: ${detail}`);
@@ -35,7 +50,7 @@ export function parseFridayConfig(raw: unknown): FridayConfig {
     throw invalid("configuration must be an object");
   }
   for (const key of Object.keys(raw)) {
-    if (key !== "ownerIds" && key !== "lockedDown" && key !== "personaDir") {
+    if (!isKnownField(key)) {
       throw invalid(`unknown configuration field: ${key}`);
     }
   }
@@ -66,12 +81,29 @@ export function parseFridayConfig(raw: unknown): FridayConfig {
   if (rawPersonaDir !== undefined && typeof rawPersonaDir !== "string") {
     throw invalid("personaDir must be a string");
   }
+
+  const optionalString = (key: (typeof STRING_FIELDS)[number]): string | undefined => {
+    const value = raw[key];
+    if (value === undefined) {
+      return undefined;
+    }
+    if (typeof value !== "string") {
+      throw invalid(`${key} must be a string`);
+    }
+    return value.trim() ? value : undefined;
+  };
+
+  const localProvider = optionalString("localProvider");
+  const localModel = optionalString("localModel");
+
   return {
     ownerIds,
     lockedDown: lockedDown === true,
     ...(typeof rawPersonaDir === "string" && rawPersonaDir.trim()
       ? { personaDir: rawPersonaDir }
       : {}),
+    ...(localProvider ? { localProvider } : {}),
+    ...(localModel ? { localModel } : {}),
   };
 }
 

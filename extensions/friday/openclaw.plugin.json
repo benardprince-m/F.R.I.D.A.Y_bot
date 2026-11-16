@@ -24,6 +24,16 @@
         "type": "string",
         "minLength": 1,
         "description": "Owner-controlled directory holding PERSONA.md and CONSTITUTION.md. Defaults to the process working directory."
+      },
+      "localProvider": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Local provider id (e.g. \"ollama\") for cheap-first routing. Set together with localModel; unset disables routing overrides."
+      },
+      "localModel": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Local model id paired with localProvider. Set together with localProvider."
       }
     }
   },
@@ -37,6 +47,16 @@
       "label": "Persona directory",
       "placeholder": "/srv/friday",
       "help": "Holds PERSONA.md and CONSTITUTION.md. Keep it outside agent-writable workspaces."
+    },
+    "localProvider": {
+      "label": "Local provider",
+      "placeholder": "ollama",
+      "help": "Serves cheap-first turns locally. Leave empty to use the engine's default routing."
+    },
+    "localModel": {
+      "label": "Local model",
+      "placeholder": "llama3.3:8b",
+      "help": "The model id used with the local provider."
     }
   }
 }

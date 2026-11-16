@@ -215,15 +215,95 @@ Contract: `renderDebrief` never claims success without at least one `evidence` e
 
 ---
 
+## C-01 · Model router (`extensions/friday/src/ops/router.ts`)
+
+Cheap-first routing with a verifier-driven cascade (§7.10, §7.9).
+
+```ts
+function classifyTurn(prompt: string): "trivial" | "standard" | "hard";
+function routeTurn(prompt: string, config: RouterConfig, state: RouterState): RoutingDecision;
+function verifyLocalAnswer(answer: string): VerifierVerdict;
+```
+
+Contract: with no local provider configured the decision is `tier: "default"` (the engine's own routing); under lockdown or a spent budget a hard turn stays local rather than escalating to a paid target. FRIDAY never runs a second router — it only chooses which model the engine's gateway calls.
+
+## C-05 · Spend ledger & budget (`extensions/friday/src/ops/ledger.ts`)
+
+Per-call cost accounting and the monthly ceiling (§7.10).
+
+```ts
+function costOf(usage: ModelUsage): number;
+function recordUsage(snapshot: LedgerSnapshot, usage: ModelUsage, at: string): LedgerSnapshot;
+function decideBudget(snapshot: LedgerSnapshot, budgetUsd?: number): BudgetDecision;
+function spendLine(snapshot: LedgerSnapshot, budgetUsd?: number): string;
+```
+
+Contract: an unknown model records zero cost rather than a guess; with no ceiling configured every call is allowed and the reason says so; at or past the ceiling the call is refused with the exact spend.
+
+## G-01 · Heartbeat & night shift (`extensions/friday/src/ops/heartbeat.ts`)
+
+Pulse cadence and the overnight work window (§7.8).
+
+```ts
+function inNightShift(hour: number, window: NightShiftWindow): boolean;
+function decideHeartbeat(
+  state: HeartbeatState,
+  now: number,
+  intervalMs: number,
+  hour: number,
+  window: NightShiftWindow,
+): HeartbeatDecision;
+```
+
+Contract: a paused heartbeat never fires; a window that wraps midnight (e.g. 23→6) is supported.
+
+## G-06 · Chat secret intake (`extensions/friday/src/ops/secrets.ts`)
+
+The safe half of pasting a credential into chat (§7.11, §6.3).
+
+```ts
+function planSecretWrite(secretDir: string, name: string, value: string): SecretPlan;
+function secretStoredReply(name: string): string;
+```
+
+Contract: the name is strictly `[A-Z][A-Z0-9_]{1,63}` and the file is `<secretDir>/<NAME>.secret`; a rejected name returns `ok: false` rather than a path that could escape `secretDir`. The reply never contains the value. The atomic write and the chat-message deletion are the caller's job.
+
+## E-04 → D-01 · Skill promotion (`extensions/friday/src/skills/promotion.ts`)
+
+The debrief-to-skill loop (§5.1, §7.6).
+
+```ts
+function decidePromotion(task: TaskRecord): PromotionDecision;
+```
+
+Contract: only a `done` task with at least one `evidence` entry and at least one approved tool is promotable; the candidate enters the acquisition protocol at `stage: "detected"`, never straight to production.
+
+## C-05 → cache · Response cache (`extensions/friday/src/cache/response-cache.ts`)
+
+Serve a repeated request with zero tokens (§7.10).
+
+```ts
+function cacheKey(text: string): string;
+class ResponseCache {
+  get(text: string, now: number): string | undefined;
+  set(text: string, value: string, now: number): void;
+}
+```
+
+Contract: the key is case- and whitespace-insensitive; the store is TTL- and size-bounded; a miss is always safe because the caller runs the model as usual.
+
+---
+
 ## Engine wiring points (per workstream, surgical)
 
-| Contract             | Engine entry point                                  | Workstream | Status                                                                 |
-| -------------------- | --------------------------------------------------- | ---------- | ---------------------------------------------------------------------- |
-| F-01 redactForEgress | `before_message_write` hook (pre-model user text)   | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                          |
-| F-02 guardContent    | untrusted-content ingestion (tool/file/web results) | WS-F       | PENDING — pure fn ready; no ingestion hook yet                         |
-| A-01 decideAdmission | `before_agent_run` hook (channel admission)         | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                          |
-| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)      | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test    |
-| B-02/B-04            | memory write + forget commands                      | WS-B       | PENDING — no plugin-facing purge surface yet (see TASKBOARD F-04/B-04) |
-| E-01/E-04            | task start / completion + chat reply                | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                     |
+| Contract             | Engine entry point                                  | Workstream | Status                                                                         |
+| -------------------- | --------------------------------------------------- | ---------- | ------------------------------------------------------------------------------ |
+| F-01 redactForEgress | `before_message_write` hook (pre-model user text)   | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                                  |
+| C-01 routeTurn       | `before_model_resolve` hook (model selection)       | WS-C       | WIRED — `index.ts`; proven in `index.test.ts`; no-op until a local pair is set |
+| F-02 guardContent    | untrusted-content ingestion (tool/file/web results) | WS-F       | PENDING — pure fn ready; no ingestion hook yet                                 |
+| A-01 decideAdmission | `before_agent_run` hook (channel admission)         | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                                  |
+| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)      | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test            |
+| B-02/B-04            | memory write + forget commands                      | WS-B       | PENDING — no plugin-facing purge surface yet (see TASKBOARD F-04/B-04)         |
+| E-01/E-04            | task start / completion + chat reply                | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                             |
 
 Each wiring is proven by a test that exercises the real entry point, not just the pure function.

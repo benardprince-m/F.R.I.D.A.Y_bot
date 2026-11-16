@@ -47,9 +47,51 @@ describe("friday plugin entry", () => {
     expect([...hooks.keys()].toSorted()).toEqual([
       "before_agent_run",
       "before_message_write",
+      "before_model_resolve",
       "before_prompt_build",
     ]);
     expect([...commands.keys()].toSorted()).toEqual(["lockdown", "unlock"]);
+  });
+
+  describe("before_model_resolve routing (C-01)", () => {
+    function resolveHandler(pluginConfig: unknown) {
+      const { hooks, on } = captureHooks();
+      plugin.register(createTestPluginApi({ on, pluginConfig }));
+      return hooks.get("before_model_resolve")!;
+    }
+
+    it("is a no-op without a configured local provider", () => {
+      const handler = resolveHandler({});
+      expect(handler({ prompt: "hi" })).toBeUndefined();
+    });
+
+    it("overrides provider and model to the local tier when configured", () => {
+      const handler = resolveHandler({ localProvider: "ollama", localModel: "llama3.3:8b" });
+      expect(handler({ prompt: "hi" })).toEqual({
+        providerOverride: "ollama",
+        modelOverride: "llama3.3:8b",
+      });
+    });
+
+    it("keeps a hard turn local rather than escalating (no paid target)", () => {
+      const handler = resolveHandler({ localProvider: "ollama", localModel: "llama3.3:8b" });
+      expect(handler({ prompt: "please debug this failure" })).toEqual({
+        providerOverride: "ollama",
+        modelOverride: "llama3.3:8b",
+      });
+    });
+
+    it("still routes locally under lockdown (owner messaging keeps working)", () => {
+      const handler = resolveHandler({
+        localProvider: "ollama",
+        localModel: "llama3.3:8b",
+        lockedDown: true,
+      });
+      expect(handler({ prompt: "hi" })).toEqual({
+        providerOverride: "ollama",
+        modelOverride: "llama3.3:8b",
+      });
+    });
   });
 
   describe("before_agent_run gate", () => {

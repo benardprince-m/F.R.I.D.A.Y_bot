@@ -1,18 +1,23 @@
 // FRIDAY — owner-controlled, messaging-first "second brain" for OpenClaw.
 //
 // This entry is the thin wiring layer. All policy is pure and lives under `./src`; this file
-// only translates engine hook events into policy calls and back. It wires three seams:
+// only translates engine hook events into policy calls and back. It wires four seams:
 //
 //   * `before_agent_run`      — fail-closed gate: owner admission, /lockdown, hard-credential
 //                               block. Owner-only access to tools and memory (MSG-01, §9).
+//   * `before_model_resolve`  — cheap-first routing: serve the turn on a configured local
+//                               provider, so the engine's own gateway does the call (§7.10,
+//                               §6.1, C-01). A no-op until `localProvider`/`localModel` are set.
 //   * `before_message_write`  — PII/secret scrub of the owner's inbound text before the model
 //                               ever sees it (§7.15, §6.3, F-01).
 //   * `before_prompt_build`   — inject the FRIDAY persona + Constitution as cached system
 //                               context, deterministically (§6.1).
 //
-// Plus the `/lockdown` + `/unlock` commands (F-03). `/forget` and `/secret` are not wired yet:
-// neither has a plugin-facing memory-purge or secret-store/delete surface, so wiring them now
-// would be a dishonest stub. See TASKBOARD F-04 / B-04 / G-06.
+// Plus the `/lockdown` + `/unlock` commands (F-03). `/forget`, `/secret`, the spend ledger, and
+// the response cache are not wired yet: the first two have no plugin-facing memory-purge or
+// secret-store/delete surface, and the ledger/cache need a bounded store plus a phone-readable
+// read surface, so wiring them now would be a dishonest stub. See TASKBOARD C-04 / C-05 /
+// F-04 / B-04 / G-06.
 
 import path from "node:path";
 import {
@@ -25,6 +30,7 @@ import {
 import manifest from "./openclaw.plugin.json" with { type: "json" };
 import { readFridayConfig, type FridayConfig } from "./src/config.js";
 import { evaluateGate, redactUserMessage } from "./src/gate.js";
+import { routeTurn } from "./src/ops/router.js";
 import { loadSystemContext } from "./src/persona.js";
 
 const HOOK_PRIORITY = 100;
@@ -99,6 +105,28 @@ export default definePluginEntry({
           message: decision.message,
           category: decision.category,
         };
+      },
+      { priority: HOOK_PRIORITY },
+    );
+
+    api.on(
+      "before_model_resolve",
+      (event) => {
+        const config = resolveConfig(api);
+        // Budget enforcement (C-05) is not wired yet, so no ceiling is applied; escalation is
+        // not offered either (no paid target is configured), keeping every turn cheap-first.
+        const decision = routeTurn(
+          event.prompt,
+          {
+            localProvider: config.localProvider,
+            localModel: config.localModel,
+          },
+          { lockedDown: config.lockedDown, budgetAllowed: true },
+        );
+        if (decision.tier === "default" || !decision.provider || !decision.model) {
+          return undefined;
+        }
+        return { providerOverride: decision.provider, modelOverride: decision.model };
       },
       { priority: HOOK_PRIORITY },
     );
