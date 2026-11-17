@@ -6,6 +6,38 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-16T23:00Z — Lane 4 · C-03 circuit breaker (memory wiring deferred to owner)
+
+**Goal:** The planned Lane 4 was B-02/B-04 memory write + forget wiring. Recon showed that is not honestly buildable yet, so the lane pivoted to the clearly-unblocked C-03 circuit breaker and the memory-wiring gap was recorded as a named blocker.
+
+**Why the pivot (evidence):**
+
+- The engine exposes **no plugin-facing memory read/write/delete surface** (`grep` of `src/plugins/runtime/types-core.ts` and `src/plugin-sdk/plugin-test-api.ts`: only `registerMemoryCapability`/`registerMemoryPromptSupplement`/`registerMemoryCorpusSupplement` registration hooks, no search/write/delete). FRIDAY's own `forget.ts`/`librarian.ts` are pure policy over layers the caller supplies.
+- So a `/forget` command or a Librarian write path would have to invent a competing memory owner next to `extensions/memory-core` — a one-owner-per-responsibility violation and a consequential architecture decision. Recorded as **BLK-7** (owner decision) and marked the B-04 row "wiring BLOCKED-INPUT" rather than shipping a dishonest stub.
+- C-03 was explicitly requested on the board ("engine has failover; add breaker policy") and is pure, so it was the correct next unblocked lane.
+
+**Scope:** `extensions/friday/src/ops/breaker.ts` (+ test), `docs/contracts/friday-core.md` (C-03), `TASKBOARD.md` (C-03 row + BLK-7). No engine internals.
+
+**Execution:**
+
+- Added the pure circuit breaker: `newBreaker`, `admit`, `recordOutcome`, `breakerLine`, keyed by provider. Closed trips open after N consecutive failures; open refuses all calls until the cooldown elapses, then admits exactly one half-open probe; a successful probe closes, a failed probe reopens and restarts the cooldown; outcomes for un-admitted calls are ignored. The engine's own failover is untouched — this is only the _stopping_ policy.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test extensions/friday/src/ops/breaker.test.ts` → **10 passed**.
+- `pnpm tsgo:extensions` → clean (exit 0).
+- `node scripts/run-oxlint.mjs extensions/friday` → clean (exit 0).
+
+**Side effects:** New module + test; two docs; board gained BLK-7. Committed on `main`.
+
+**Outcome:** Completed — breaker policy done and proven. Memory write/forget wiring is now a named owner decision (BLK-7), not a silent gap.
+
+**Known risks:** The breaker is not yet consulted on the live call path (needs the engine's per-call outcome signal); named in the contract as a follow-up.
+
+**Next action:** Lane 5 · G-01 heartbeat wiring over the engine's cron/heartbeat.
+
+---
+
 ## 2026-11-16T22:40Z — G-03 · `/doctor` in chat
 
 **Goal:** Lane 3 of the serial plan — give the owner a phone-only health window: ask "are you well?" in chat and get an honest answer with evidence (§7.8, §9).

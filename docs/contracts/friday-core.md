@@ -273,6 +273,19 @@ function verifyLocalAnswer(answer: string): VerifierVerdict;
 
 Contract: with no local provider configured the decision is `tier: "default"` (the engine's own routing); under lockdown or a spent budget a hard turn stays local rather than escalating to a paid target. FRIDAY never runs a second router — it only chooses which model the engine's gateway calls.
 
+## C-03 · Circuit breaker (`extensions/friday/src/ops/breaker.ts`)
+
+Stop calling a provider that keeps failing, so it cannot burn budget or latency on every turn (§7.9).
+
+```ts
+function newBreaker(): BreakerState;
+function admit(state: BreakerState, now: number, policy?): BreakerAdmission;
+function recordOutcome(state: BreakerState, ok: boolean, now: number, policy?): BreakerState;
+function breakerLine(provider: string, state: BreakerState): string | undefined;
+```
+
+Contract: closed admits and trips open after `failureThreshold` consecutive failures; open refuses every call until the cooldown elapses, then admits exactly one half-open probe; a successful probe closes the breaker, a failed probe reopens it and restarts the cooldown. Outcomes for calls that were never admitted are ignored. The engine's own failover is unchanged — this is FRIDAY's _stopping_ policy layered on top, keyed by provider.
+
 ## C-05 · Spend ledger & budget (`extensions/friday/src/ops/ledger.ts`)
 
 Per-call cost accounting and the monthly ceiling (§7.10).

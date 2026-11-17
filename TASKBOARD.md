@@ -32,14 +32,14 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 
 ### WS-B · Memory — five-layer model, Librarian, forget-with-evidence
 
-| ID   | Task                                                                          | Spec      | Owner     | Status                       | Proof                                                                      |
-| ---- | ----------------------------------------------------------------------------- | --------- | --------- | ---------------------------- | -------------------------------------------------------------------------- |
-| B-01 | Map FRIDAY's five memory layers onto the engine's memory subsystem (contract) | §7.4      | OpenHands | DONE-PROOF (unit)            | `extensions/friday/src/memory/layers.ts` · tests pass                      |
-| B-02 | Librarian classify: ADD / UPDATE / MERGE / NOOP with importance×recency×use   | §7.4      | OpenHands | DONE-PROOF (unit)            | `extensions/friday/src/memory/librarian.ts` · commit b7ae3617 · tests pass |
-| B-03 | Provenance on every memory (source + date); confidence labels                 | §7.4      | OpenHands | DONE-PROOF (unit)            | `Provenance`/`Confidence` types · `docs/contracts/friday-core.md`          |
-| B-04 | "Forget X" purge across all layers + verifiable evidence report               | §7.4, §14 | OpenHands | DONE-PROOF (unit)            | `extensions/friday/src/memory/forget.ts` · commit b7ae3617 · tests pass    |
-| B-05 | Correction path: update fact, keep audit trail, no revival                    | §7.4      | OpenHands | DONE-PROOF (unit)            | `extensions/friday/src/memory/correction.ts` · tests pass                  |
-| B-06 | Nightly consolidation: merge/compress/decay, idempotent                       | §7.4      | OpenHands | DEFERRED (Phase 1 heartbeat) | —                                                                          |
+| ID   | Task                                                                          | Spec      | Owner     | Status                                   | Proof                                                                                                                 |
+| ---- | ----------------------------------------------------------------------------- | --------- | --------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| B-01 | Map FRIDAY's five memory layers onto the engine's memory subsystem (contract) | §7.4      | OpenHands | DONE-PROOF (unit)                        | `extensions/friday/src/memory/layers.ts` · tests pass                                                                 |
+| B-02 | Librarian classify: ADD / UPDATE / MERGE / NOOP with importance×recency×use   | §7.4      | OpenHands | DONE-PROOF (unit)                        | `extensions/friday/src/memory/librarian.ts` · commit b7ae3617 · tests pass                                            |
+| B-03 | Provenance on every memory (source + date); confidence labels                 | §7.4      | OpenHands | DONE-PROOF (unit)                        | `Provenance`/`Confidence` types · `docs/contracts/friday-core.md`                                                     |
+| B-04 | "Forget X" purge across all layers + verifiable evidence report               | §7.4, §14 | OpenHands | DONE-PROOF (unit) · wiring BLOCKED-INPUT | `extensions/friday/src/memory/forget.ts` · tests pass · no plugin-facing memory read/write/delete surface yet (BLK-7) |
+| B-05 | Correction path: update fact, keep audit trail, no revival                    | §7.4      | OpenHands | DONE-PROOF (unit)                        | `extensions/friday/src/memory/correction.ts` · tests pass                                                             |
+| B-06 | Nightly consolidation: merge/compress/decay, idempotent                       | §7.4      | OpenHands | DEFERRED (Phase 1 heartbeat)             | —                                                                                                                     |
 
 ### WS-C · Model Router — free-tier chain, failover, cost tracking
 
@@ -47,7 +47,7 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 | ---- | ---------------------------------------------------------------------------- | ----------- | --------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | C-01 | Route via the engine's model gateway; no second router (§6.1)                | §7.10, §6.3 | OpenHands | DONE-PROOF (unit + entry point)                   | `extensions/friday/src/ops/router.ts` · wired at `before_model_resolve` in `index.ts` · `index.test.ts` (no-op until a local pair is set) |
 | C-02 | Free-tier provider chain config: Gemini→Groq→Mistral→Cohere→Cloudflare→local | §7.10       | OpenHands | BLOCKED-INPUT (API keys)                          | —                                                                                                                                         |
-| C-03 | Failover + circuit breaker (closed→open→half-open)                           | §7.9        | OpenHands | TODO (engine has failover; add breaker policy)    | —                                                                                                                                         |
+| C-03 | Failover + circuit breaker (closed→open→half-open)                           | §7.9        | OpenHands | DONE-PROOF (unit)                                 | `extensions/friday/src/ops/breaker.ts` · tests pass · engine has failover; this adds the stop policy                                      |
 | C-04 | Per-task/day/week cost tracking; morning-brief spend line                    | §7.10       | OpenHands | DONE-PROOF (unit)                                 | `extensions/friday/src/ops/ledger.ts` (`costOf`, `spendLine`) · tests pass                                                                |
 | C-05 | Budget ceiling behavior: shift to cache/local, batch, notify                 | §7.10       | OpenHands | BLOCKED-INPUT (budget amount) — policy unit ready | `extensions/friday/src/ops/ledger.ts` (`decideBudget`) · tests pass                                                                       |
 | C-06 | Response cache: serve a repeated request with zero tokens                    | §7.10       | OpenHands | DONE-PROOF (unit)                                 | `extensions/friday/src/cache/response-cache.ts` · tests pass                                                                              |
@@ -111,13 +111,14 @@ Fingerprint spoofing / human-mouse-path evasion · privileged Kali/Metasploit of
 
 ## Blocked-input register (feeds the consolidated owner report)
 
-| Ref   | Need                                                   | Unblocks         |
-| ----- | ------------------------------------------------------ | ---------------- |
-| BLK-1 | Telegram bot token + owner Telegram user id            | A-02, A-03       |
-| BLK-2 | Model provider keys (free-tier chain) + chosen default | C-02             |
-| BLK-3 | Hard monthly budget ceiling                            | C-05, §7.10 gate |
-| BLK-4 | Vault factor design + recovery model                   | F-06             |
-| BLK-5 | Host for systemd + Docker deployment                   | G-04, G-05       |
-| BLK-6 | Agent-Reach source + permitted backends                | D-03             |
+| Ref   | Need                                                                                                                            | Unblocks         |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| BLK-1 | Telegram bot token + owner Telegram user id                                                                                     | A-02, A-03       |
+| BLK-2 | Model provider keys (free-tier chain) + chosen default                                                                          | C-02             |
+| BLK-3 | Hard monthly budget ceiling                                                                                                     | C-05, §7.10 gate |
+| BLK-4 | Vault factor design + recovery model                                                                                            | F-06             |
+| BLK-5 | Host for systemd + Docker deployment                                                                                            | G-04, G-05       |
+| BLK-6 | Agent-Reach source + permitted backends                                                                                         | D-03             |
+| BLK-7 | Owner decision: memory surface for `/forget` + Librarian writes (engine memory-core has no plugin-facing read/write/delete API) | B-02/B-04 wiring |
 
 Full detail: `OWNER_REQUIREMENTS.md`.
