@@ -6,6 +6,38 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-16T23:30Z — Lane 5 · F-07 single turn seam (gate/turn cutover, fixes F-03 violation)
+
+**Goal:** Resolve the BLK-8 finding — `index.ts` wired `gate.ts` while F-07 declared `turn.ts` the "single seam", and both re-composed the same admission/lockdown/redaction policy.
+
+**Root cause (deep):** The duplication was not just redundancy — the two seams **contradicted**. `turn.ts` derived admission from the config `owner` list only (ignoring the host's `senderIsOwner` bit) and routed the egress decision through `decideEgress("non-essential")` even for owner channel turns. That made `turn.ts` **block owner messaging under lockdown — a direct F-03 violation** ("keep owner messaging"). `gate.ts` (the wired seam) had the correct semantics: it keys on the host's `senderIsOwner` bit (A-01), treats channel turns as owner messaging, and blocks only non-channel/system turns under lockdown. F-01 already scrubs PII at `before_message_write`, so `turn.ts`'s redaction was also a duplicate of a live seam.
+
+**Owner-approved direction:** `gate.ts` owns the decision; `turn.ts` is the single wired seam that composes it.
+
+**Scope:** `extensions/friday/src/turn.ts` (rewritten as a thin adapter), `turn.test.ts` (rewritten to the corrected contract), `extensions/friday/index.ts` (wires `prepareTurn` at `before_agent_run`), `extensions/friday/index.test.ts` (+1 F-03 proof), `docs/contracts/friday-core.md` (new F-07 section + wiring table), `TASKBOARD.md` (F-07).
+
+**Execution:**
+
+- `prepareTurn` now delegates the decision to `evaluateGate` (gate.ts) and applies only the trust label (`guardContent`, F-02). It no longer re-derives admission/lockdown and no longer scrubs (F-01 owns the single scrub).
+- `index.ts`'s `before_agent_run` calls `prepareTurn`; `before_message_write` still calls `redactUserMessage` (F-01).
+- Corrected `turn.test.ts` to the gate contract; added an entry-point test proving owner messaging passes under lockdown through the wired seam.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test extensions/friday/src/turn.test.ts extensions/friday/src/gate.test.ts extensions/friday/index.test.ts` → **41 passed** (9 turn + gate + index).
+- `pnpm test extensions/friday` → **30 files / 222 tests passed**.
+- `pnpm tsgo:extensions` → clean (exit 0); `node scripts/run-oxlint.mjs extensions/friday` → clean (exit 0).
+
+**Side effects:** `turn.ts` shrunk (~120 → ~100 lines) and lost its duplicate policy; the F-03 lockdown contradiction is gone. One seam now composes the decision.
+
+**Outcome:** Completed — one owner for the turn decision, F-07 wired, F-03 no longer violated. BLK-8 closed.
+
+**Known risks:** `prepareTurn` passes `trust: "owner"` from the engine's `before_agent_run`; untrusted (tool/file/web) content ingestion still needs its own seam (F-02, PENDING).
+
+**Next action:** Lane 6 · G-06 phone-only control path (chat deploy/update/restart), or G-01 heartbeat plumbing.
+
+---
+
 ## 2026-11-16T23:00Z — Lane 4 · C-03 circuit breaker (memory wiring deferred to owner)
 
 **Goal:** The planned Lane 4 was B-02/B-04 memory write + forget wiring. Recon showed that is not honestly buildable yet, so the lane pivoted to the clearly-unblocked C-03 circuit breaker and the memory-wiring gap was recorded as a named blocker.

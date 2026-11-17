@@ -130,6 +130,13 @@ describe("friday plugin entry", () => {
         category: "lockdown",
       });
     });
+
+    it("still passes owner messaging under lockdown (F-03: core messaging stays up)", () => {
+      const gate = gateHandler({ lockedDown: true });
+      expect(
+        gate({ prompt: "hi", channelId: "telegram", senderId: "1", senderIsOwner: true }),
+      ).toEqual({ outcome: "pass" });
+    });
   });
 
   it("scrubs PII from an inbound user message", () => {

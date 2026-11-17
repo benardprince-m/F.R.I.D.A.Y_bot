@@ -1,36 +1,31 @@
-// FRIDAY turn pipeline: the single seam the engine calls for one inbound message.
+// FRIDAY turn pipeline: the single seam the engine calls for one inbound message
+// (Product Specification §6.3, §7.15, §9; F-07).
 //
-// Composition, in order (Product Specification §6.3, §7.15, §9):
-//   1. Admission   — only the authenticated owner may reach tools or memory (MSG-01).
-//   2. Trust label — untrusted content is fenced, never executed as instructions (§4.1 law 5).
-//   3. Egress scrub— PII and secrets are filtered before anything leaves for a model (§7.15).
-//   4. Egress gate — /lockdown blocks non-essential outbound traffic (§7.15).
+// The pipeline is admission → trust label → egress scrub → egress gate. This module owns the
+// COMPOSITION; it does not re-implement the policy:
+//   * admission, lockdown, and the hard-credential gate are `evaluateGate` (gate.ts, A-01/F-03);
+//   * PII/secret scrubbing happens once at `before_message_write` (F-01, `redactUserMessage`);
+//   * untrusted content is fenced by `guardContent` (F-02) at the ingestion seam.
 //
-// This module is pure: it takes data and returns a decision object. It performs no I/O, so
-// it is unit-testable without credentials, network, or a running Gateway. Wiring it into the
-// engine's model-egress path is a separate, surgical change proven at that entry point.
+// Keeping the decision in one place (gate.ts) is deliberate: an earlier copy of this module
+// re-derived it and blocked owner messaging under lockdown, contradicting F-03.
 //
-// Contract: see docs/contracts/friday-core.md.
+// Pure: it takes data and returns a decision object; no I/O, so it is unit-testable without
+// credentials, network, or a running Gateway.
+//
+// Contract: see docs/contracts/friday-core.md (F-07).
 
+import type { FridayConfig } from "./config.js";
+import { evaluateGate, type GateEvent } from "./gate.js";
 import { guardContent, type GuardedContent, type TrustLevel } from "./policy/injection-guard.js";
-import { decideEgress, type EgressClass } from "./policy/kill-switch.js";
-import { decideAdmission, type SenderIdentity } from "./policy/owner-auth.js";
-import { redactForEgress, type RedactionKind, type RedactionResult } from "./policy/redaction.js";
 
-export interface InboundTurn {
-  sender: SenderIdentity;
-  text: string;
+export interface InboundTurn extends GateEvent {
   /** Owner-typed content is "owner"; anything forwarded or fetched is "untrusted". */
   trust: TrustLevel;
 }
 
 export interface TurnContext {
-  owner: SenderIdentity[];
-  lockedDown: boolean;
-  /** Egress class for the model call; defaults to "non-essential". */
-  egressClass?: EgressClass;
-  /** Redaction kinds the caller explicitly permits to pass through (never hard credentials). */
-  allowRedactionKinds?: RedactionKind[];
+  config: FridayConfig;
 }
 
 export interface PreparedTurn {
@@ -38,80 +33,50 @@ export interface PreparedTurn {
   accepted: boolean;
   /** Human-readable, safe to log; never echoes raw sender ids or secret values. */
   reason: string;
-  /** The content a model may see, after trust labelling and egress redaction. */
+  /** Owner-facing block message ("" when accepted). */
+  message: string;
+  /** Block category for logging: "admission" | "lockdown" | "credential"; "" when accepted. */
+  category: string;
+  /** The trust-labelled content a model may see. PII scrubbing is F-01's `before_message_write`. */
   modelText: string;
   guard: GuardedContent;
-  redaction: RedactionResult;
-  /** The egress gate result for the model call. */
-  egress: "allow" | "block";
-  allowTools: boolean;
-  allowMemory: boolean;
 }
-
-const DENIED_REASON = "sender is not the owner; tools and memory withheld";
 
 /**
  * Prepare one inbound turn for the model.
  *
- * Fails closed at every stage: a non-owner sender, a locked-down non-essential egress, or a
- * detected hard credential all produce `accepted: false` with an explicit reason. The model
- * only ever sees `modelText`, which has been trust-labelled and scrubbed.
+ * The decision is `evaluateGate` (fail-closed admission, lockdown, hard-credential block); the
+ * trust label is `guardContent`. Redaction stays with F-01 so the scrub happens once, at the
+ * message-write seam, not twice.
  */
 export function prepareTurn(inbound: InboundTurn, ctx: TurnContext): PreparedTurn {
-  const admission = decideAdmission(inbound.sender, ctx.owner);
-  const guard = guardContent(inbound.text, inbound.trust);
-  const redaction = redactForEgress(guard.text, { allow: ctx.allowRedactionKinds });
-  const egress = decideEgress(ctx.egressClass ?? "non-essential", { lockedDown: ctx.lockedDown });
+  const decision = evaluateGate(
+    {
+      prompt: inbound.prompt,
+      channelId: inbound.channelId,
+      senderId: inbound.senderId,
+      senderIsOwner: inbound.senderIsOwner,
+    },
+    ctx.config,
+  );
+  const guard = guardContent(inbound.prompt, inbound.trust);
 
-  if (admission.admission !== "owner") {
+  if (decision.outcome === "pass") {
     return {
-      accepted: false,
-      reason: DENIED_REASON,
-      modelText: "",
+      accepted: true,
+      reason: "turn accepted",
+      message: "",
+      category: "",
+      modelText: guard.text,
       guard,
-      redaction,
-      egress: "block",
-      allowTools: false,
-      allowMemory: false,
     };
   }
-
-  if (egress === "block") {
-    return {
-      accepted: false,
-      reason: "lockdown active; non-essential model egress is blocked",
-      modelText: "",
-      guard,
-      redaction,
-      egress,
-      allowTools: false,
-      allowMemory: false,
-    };
-  }
-
-  // A hard credential (key, token, private key, password) must never reach a model, even
-  // redacted: refuse the turn and tell the owner to use the vault instead (§7.15, §9).
-  if (redaction.blocked) {
-    return {
-      accepted: false,
-      reason: "content contained a credential; not sent to any model — use the vault",
-      modelText: "",
-      guard,
-      redaction,
-      egress,
-      allowTools: admission.allowTools,
-      allowMemory: admission.allowMemory,
-    };
-  }
-
   return {
-    accepted: true,
-    reason: "owner turn accepted",
-    modelText: redaction.text,
+    accepted: false,
+    reason: decision.reason,
+    message: decision.message,
+    category: decision.category,
+    modelText: "",
     guard,
-    redaction,
-    egress,
-    allowTools: admission.allowTools,
-    allowMemory: admission.allowMemory,
   };
 }

@@ -3,8 +3,9 @@
 // This entry is the thin wiring layer. All policy is pure and lives under `./src`; this file
 // only translates engine hook events into policy calls and back. It wires four seams:
 //
-//   * `before_agent_run`      — fail-closed gate: owner admission, /lockdown, hard-credential
-//                               block. Owner-only access to tools and memory (MSG-01, §9).
+//   * `before_agent_run`      — the single turn seam (`prepareTurn`, F-07): fail-closed owner
+//                               admission, /lockdown, hard-credential block, then the trust
+//                               label. Owner-only access to tools and memory (MSG-01, §9).
 //   * `before_model_resolve`  — cheap-first routing: serve the turn on a configured local
 //                               provider, so the engine's own gateway does the call (§7.10,
 //                               §6.1, C-01). A no-op until `localProvider`/`localModel` are set.
@@ -29,10 +30,11 @@ import {
 } from "openclaw/plugin-sdk/plugin-entry";
 import manifest from "./openclaw.plugin.json" with { type: "json" };
 import { readFridayConfig, type FridayConfig } from "./src/config.js";
-import { evaluateGate, redactUserMessage } from "./src/gate.js";
+import { redactUserMessage } from "./src/gate.js";
 import { buildDoctorReport } from "./src/ops/doctor.js";
 import { routeTurn } from "./src/ops/router.js";
 import { loadSystemContext } from "./src/persona.js";
+import { prepareTurn } from "./src/turn.js";
 
 const HOOK_PRIORITY = 100;
 
@@ -108,16 +110,17 @@ export default definePluginEntry({
     api.on(
       "before_agent_run",
       (event) => {
-        const decision = evaluateGate(
+        const decision = prepareTurn(
           {
             prompt: event.prompt,
             channelId: event.channelId,
             senderId: event.senderId,
             senderIsOwner: event.senderIsOwner,
+            trust: "owner",
           },
-          resolveConfig(api),
+          { config: resolveConfig(api) },
         );
-        if (decision.outcome === "pass") {
+        if (decision.accepted) {
           return { outcome: "pass" as const };
         }
         return {

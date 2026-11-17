@@ -80,7 +80,7 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 | F-04 | Secret store: just-in-time fetch, never in memory/logs/prompts/Git                      | §7.11, §6.3 | OpenHands | TODO (engine provides store)    | `extensions/friday/src/ops/secrets.ts` (write plan) · tests pass · store/delete wiring pending                                               |
 | F-05 | Constitution/persona integrity check vs owner-approved baseline                         | §7.5        | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/policy/integrity.ts` · tests pass                                                                                     |
 | F-06 | Vault dual-auth + $10 unattended cap at the enforcement layer                           | §7.11       | OpenHands | BLOCKED-INPUT (vault factors)   | —                                                                                                                                            |
-| F-07 | Turn pipeline: compose admission → trust label → egress scrub → egress gate at one seam | §6.3, §7.15 | OpenHands | DONE-PROOF (unit)               | `extensions/friday/src/turn.ts` · commit 6c91d742 · 9 tests pass                                                                             |
+| F-07 | Turn pipeline: compose admission → trust label → egress scrub → egress gate at one seam | §6.3, §7.15 | OpenHands | DONE-PROOF (unit + entry point) | `extensions/friday/src/turn.ts` · wired at `before_agent_run` in `index.ts` · composes A-01/F-03 + F-02 · `turn.test.ts` + `index.test.ts`   |
 
 ### WS-G · Heartbeat & Ops — watchdog, health, doctor, docker
 
