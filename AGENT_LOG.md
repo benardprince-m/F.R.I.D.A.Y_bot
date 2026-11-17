@@ -6,6 +6,35 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-17T00:50Z — Lane 8 · G-01 heartbeat plumbing (service + scheduler)
+
+**Goal:** Make FRIDAY demonstrably alive. G-01 existed as a pure decision unit with no loop; nothing beat, so nothing proved the process was up, and F-05 had no periodic trigger.
+
+**Recon:** `PluginServiceSchedulerV1` (via `registerService` apiVersion 2) is the host-owned timed-work contract: the host schedules, binds work to the service lifetime, and joins `stop()`. `heartbeat.ts` already had `decideHeartbeat`/`inNightShift`. The proactive-notify half of G-01 (morning brief, violation alert to chat) has **no plugin-facing surface** in the SDK, so it is out of scope for this lane — a stub would be dishonest.
+
+**Scope:** `src/ops/heartbeat.ts` (+`heartbeatTick`, `HEARTBEAT_INTERVAL_MS`, `DEFAULT_NIGHT_SHIFT`, `HeartbeatDeps`), new `src/ops/heartbeat-service.ts`, `index.ts` (+`friday-heartbeat` service), plus tests and docs.
+
+**Execution:**
+
+- `heartbeatTick(state, now, deps)` threads `lastBeatAt` through its return value (the caller owns persistence); a failed beat is reported and does **not** advance the clock, so the next tick retries instead of skipping.
+- `HeartbeatService` schedules one beat a minute on `ctx.scheduler`, sets `paused` from the live `lockedDown` config each beat (so `/lockdown` pauses it within a beat), and runs the F-05 integrity check on a liveness beat.
+- A night-shift beat is an honest no-op in Phase 0: the consolidation/skill work it will drive is Phase 1. The window (23:00–06:00) is wired so the routing is proven, not stubbed.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm vitest run extensions/friday` → **33 files / 259 tests passed** (was 32/249).
+- `pnpm tsgo:extensions` → clean (exit 0); `node scripts/run-oxlint.mjs extensions/friday` → clean (exit 0).
+
+**Side effects:** A 60s timer runs while the plugin is enabled; each liveness beat reads the protected files and the integrity baseline (cheap). The loop is paused under lockdown.
+
+**Outcome:** Completed — the heartbeat is a real host-bound service, proven at the entry point.
+
+**Known risks:** The proactive-notify surface (chat alert / morning brief) does not exist in the SDK, so G-01's proactive half stays deferred and the service currently only logs a violation (no owner alert). The night-shift beat is a no-op until Phase 1.
+
+**Next action:** Wire a lane that the SDK can actually reach; E-02 (durable continuity) live wiring is the leading candidate, with its per-turn fold risk to resolve first.
+
+---
+
 ## 2026-11-17T00:20Z — Lane 7 · F-05 protected-file integrity (baseline + /doctor)
 
 **Goal:** Make F-05 real. The integrity check existed as a pure unit with no way to record or consult a baseline, so a tampered Constitution/persona would go unnoticed. Wire it to a phone-reachable surface.

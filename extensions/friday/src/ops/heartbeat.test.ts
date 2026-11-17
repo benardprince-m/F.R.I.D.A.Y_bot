@@ -1,7 +1,7 @@
 // Tests for the heartbeat and night-shift window (G-01). Invariant: a paused heartbeat never
 // fires, and the window wraps past midnight.
-import { describe, expect, it } from "vitest";
-import { decideHeartbeat, inNightShift, NIGHT_SHIFT_TASKS } from "./heartbeat.js";
+import { describe, expect, it, vi } from "vitest";
+import { decideHeartbeat, heartbeatTick, inNightShift, NIGHT_SHIFT_TASKS } from "./heartbeat.js";
 
 const WINDOW = { startHour: 23, endHour: 6 };
 
@@ -52,5 +52,65 @@ describe("decideHeartbeat", () => {
 describe("NIGHT_SHIFT_TASKS", () => {
   it("lists consolidation first", () => {
     expect(NIGHT_SHIFT_TASKS[0]).toContain("consolidate memory");
+  });
+});
+
+describe("heartbeatTick", () => {
+  const deps = (overrides: Partial<Parameters<typeof heartbeatTick>[2]> = {}) => {
+    const liveness = vi.fn(async () => {});
+    const nightShift = vi.fn(async () => {});
+    const onError = vi.fn();
+    return {
+      liveness,
+      nightShift,
+      onError,
+      deps: {
+        localHour: () => 12,
+        window: WINDOW,
+        runLiveness: liveness,
+        runNightShift: nightShift,
+        onError,
+        ...overrides,
+      },
+    };
+  };
+
+  it("runs a liveness beat and advances the clock", async () => {
+    const { deps: d, liveness } = deps();
+    const next = await heartbeatTick({ paused: false }, 1_000, d);
+    expect(liveness).toHaveBeenCalledOnce();
+    expect(next.lastBeatAt).toBe(1_000);
+  });
+
+  it("does not beat before the interval elapses", async () => {
+    const { deps: d, liveness } = deps();
+    const next = await heartbeatTick({ lastBeatAt: 1_000, paused: false }, 30_000, d);
+    expect(liveness).not.toHaveBeenCalled();
+    expect(next.lastBeatAt).toBe(1_000);
+  });
+
+  it("runs a night-shift beat inside the window", async () => {
+    const { deps: d, nightShift, liveness } = deps({ localHour: () => 2 });
+    await heartbeatTick({ lastBeatAt: 0, paused: false }, 60_000, d);
+    expect(nightShift).toHaveBeenCalledOnce();
+    expect(liveness).not.toHaveBeenCalled();
+  });
+
+  it("never beats while paused", async () => {
+    const { deps: d, liveness } = deps();
+    const next = await heartbeatTick({ lastBeatAt: 0, paused: true }, 999_999, d);
+    expect(liveness).not.toHaveBeenCalled();
+    expect(next.lastBeatAt).toBe(0);
+  });
+
+  it("reports a failed beat and retries next tick instead of skipping", async () => {
+    const { deps: d, onError } = deps({
+      runLiveness: async () => {
+        throw new Error("boom");
+      },
+    });
+    const next = await heartbeatTick({ lastBeatAt: 0, paused: false }, 60_000, d);
+    expect(onError).toHaveBeenCalledOnce();
+    expect(next.lastBeatAt).toBe(0);
   });
 });

@@ -338,9 +338,14 @@ function decideHeartbeat(
   hour: number,
   window: NightShiftWindow,
 ): HeartbeatDecision;
+async function heartbeatTick(
+  state: HeartbeatState,
+  now: number,
+  deps: HeartbeatDeps,
+): Promise<HeartbeatState>;
 ```
 
-Contract: a paused heartbeat never fires; a window that wraps midnight (e.g. 23→6) is supported.
+Contract: `decideHeartbeat`/`inNightShift` are pure — a paused heartbeat never fires and a window that wraps midnight (e.g. 23→6) is supported. `heartbeatTick` advances the loop by one beat and threads `lastBeatAt` through its return value (the caller owns persistence); a failed beat is reported and does **not** advance the clock, so the next tick retries rather than skipping. The service (`heartbeat-service.ts`) owns the loop: it schedules one beat a minute on the host scheduler (`PluginServiceSchedulerV1`, bound to the service lifetime), sets `paused` from the live `lockedDown` config each beat, and runs the F-05 integrity check on a liveness beat. A night-shift beat is a no-op in Phase 0 — the consolidation/skill work it will drive is Phase 1. Wired as the `friday-heartbeat` service in `index.ts`; proven in `heartbeat.test.ts` + `heartbeat-service.test.ts`.
 
 ## G-03 · `/doctor` in chat (`extensions/friday/src/ops/doctor.ts`)
 
@@ -391,16 +396,17 @@ Contract: the key is case- and whitespace-insensitive; the store is TTL- and siz
 
 ## Engine wiring points (per workstream, surgical)
 
-| Contract             | Engine entry point                                  | Workstream | Status                                                                                  |
-| -------------------- | --------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
-| F-01 redactForEgress | `before_message_write` hook (pre-model user text)   | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                                           |
-| C-01 routeTurn       | `before_model_resolve` hook (model selection)       | WS-C       | WIRED — `index.ts`; proven in `index.test.ts`; no-op until a local pair is set          |
-| F-02 guardContent    | `tool_result_persist` hook (tool/web/file results)  | WS-F       | WIRED — `index.ts` (`fenceToolResultMessage`); proven in `index.test.ts`                |
-| A-01 decideAdmission | `before_agent_run` hook (channel admission)         | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                                           |
-| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)      | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test                     |
-| F-07 prepareTurn     | `before_agent_run` hook (the single turn seam)      | WS-F       | WIRED — `index.ts`; composes A-01/F-03 decision + F-02 label; proven in `index.test.ts` |
-| F-05 checkIntegrity  | `/doctor` + `/trust-persona` baseline (state store) | WS-F       | WIRED — `index.ts`; baseline persisted; proven in `index.test.ts`                       |
-| B-02/B-04            | memory write + forget commands                      | WS-B       | PENDING — no plugin-facing purge surface yet (see TASKBOARD F-04/B-04)                  |
-| E-01/E-04            | task start / completion + chat reply                | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                                      |
+| Contract             | Engine entry point                                  | Workstream | Status                                                                                    |
+| -------------------- | --------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------- |
+| F-01 redactForEgress | `before_message_write` hook (pre-model user text)   | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                                             |
+| C-01 routeTurn       | `before_model_resolve` hook (model selection)       | WS-C       | WIRED — `index.ts`; proven in `index.test.ts`; no-op until a local pair is set            |
+| F-02 guardContent    | `tool_result_persist` hook (tool/web/file results)  | WS-F       | WIRED — `index.ts` (`fenceToolResultMessage`); proven in `index.test.ts`                  |
+| A-01 decideAdmission | `before_agent_run` hook (channel admission)         | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                                             |
+| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)      | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test                       |
+| F-07 prepareTurn     | `before_agent_run` hook (the single turn seam)      | WS-F       | WIRED — `index.ts`; composes A-01/F-03 decision + F-02 label; proven in `index.test.ts`   |
+| F-05 checkIntegrity  | `/doctor` + `/trust-persona` baseline (state store) | WS-F       | WIRED — `index.ts`; baseline persisted; proven in `index.test.ts`                         |
+| G-01 heartbeat       | `registerService` v2 + `PluginServiceSchedulerV1`   | WS-G       | WIRED — `index.ts`; 60s loop, F-05 check on a beat; proven in `heartbeat-service.test.ts` |
+| B-02/B-04            | memory write + forget commands                      | WS-B       | PENDING — no plugin-facing purge surface yet (see TASKBOARD F-04/B-04)                    |
+| E-01/E-04            | task start / completion + chat reply                | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                                        |
 
 Each wiring is proven by a test that exercises the real entry point, not just the pure function.

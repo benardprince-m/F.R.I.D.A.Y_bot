@@ -16,7 +16,9 @@
 //   * `tool_result_persist`   — fence untrusted tool/web/file results before they enter the
 //                               transcript, so injected instructions stay data (§7.15, F-02).
 //
-// Plus the `/doctor` (G-03), `/trust-persona` (F-05), `/lockdown` + `/unlock` commands (F-03).
+// Plus a background heartbeat service (G-01): a beat every minute that runs the F-05 integrity
+// check, bound to the Gateway's lifetime so it stops cleanly. And the `/doctor` (G-03),
+// `/trust-persona` (F-05), `/lockdown` + `/unlock` commands (F-03).
 // `/forget`, `/secret`, the spend ledger, and the response cache are not wired yet: the first two
 // have no plugin-facing memory-purge or secret-store/delete surface, and the ledger/cache need a
 // bounded store plus a phone-readable read surface, so wiring them now would be a dishonest stub.
@@ -34,12 +36,16 @@ import manifest from "./openclaw.plugin.json" with { type: "json" };
 import { readFridayConfig, type FridayConfig } from "./src/config.js";
 import { redactUserMessage, fenceToolResultMessage } from "./src/gate.js";
 import { buildDoctorReport } from "./src/ops/doctor.js";
+import { HeartbeatService } from "./src/ops/heartbeat-service.js";
 import { checkProtectedIntegrity, recordBaseline } from "./src/ops/integrity-baseline.js";
 import { routeTurn } from "./src/ops/router.js";
 import { loadSystemContext, readProtectedFiles } from "./src/persona.js";
 import { prepareTurn } from "./src/turn.js";
 
 const HOOK_PRIORITY = 100;
+
+/** The running heartbeat service, held so `stop` can join it. One per plugin registration. */
+let heartbeat: HeartbeatService | null = null;
 
 function resolveConfig(api: OpenClawPluginApi): FridayConfig {
   const current = api.runtime?.config?.current;
@@ -240,6 +246,26 @@ export default definePluginEntry({
       requireAuth: true,
       exposeSenderIsOwner: true,
       handler: (ctx) => (isOwner(ctx) ? setLockdown(api, ctx, false) : { text: "Owner only." }),
+    });
+
+    api.registerService({
+      id: "friday-heartbeat",
+      apiVersion: 2,
+      start: (ctx) => {
+        const service = new HeartbeatService({
+          readConfig: () => resolveConfig(api),
+          scheduler: ctx.scheduler,
+          logger: ctx.logger,
+          runtime: api.runtime,
+        });
+        service.start();
+        heartbeat = service;
+      },
+      stop: async () => {
+        const current = heartbeat;
+        heartbeat = null;
+        await current?.stop();
+      },
     });
   },
 });

@@ -2,7 +2,10 @@ import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import type { OpenClawPluginApi } from "openclaw/plugin-sdk/plugin-entry";
-import { createTestPluginApi } from "openclaw/plugin-sdk/plugin-test-api";
+import {
+  createTestPluginApi,
+  createTestPluginServiceScheduler,
+} from "openclaw/plugin-sdk/plugin-test-api";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import plugin from "./index.js";
 import manifest from "./openclaw.plugin.json" with { type: "json" };
@@ -330,6 +333,31 @@ describe("friday plugin entry", () => {
       expect(
         await commands.get("trust-persona")!.handler({ senderIsOwner: false } as never),
       ).toEqual({ text: "Owner only." });
+    });
+  });
+
+  describe("heartbeat service (G-01)", () => {
+    it("registers a heartbeat service that starts and stops cleanly", async () => {
+      const { on } = captureHooks();
+      let service: Parameters<OpenClawPluginApi["registerService"]>[0] | undefined;
+      const registerService = vi.fn((registered) => {
+        service = registered as typeof service;
+      });
+      plugin.register(
+        createTestPluginApi({
+          on,
+          registerService: registerService as never,
+          pluginConfig: { ownerIds: ["telegram:1"], personaDir: dir },
+        }),
+      );
+      expect(service?.id).toBe("friday-heartbeat");
+      expect(service?.apiVersion).toBe(2);
+      const ctx = {
+        scheduler: createTestPluginServiceScheduler(),
+        logger: { info() {}, warn() {}, error() {} },
+      };
+      await service!.start(ctx as never);
+      await service!.stop?.(ctx as never);
     });
   });
 });
