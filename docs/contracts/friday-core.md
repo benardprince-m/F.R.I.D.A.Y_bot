@@ -102,6 +102,35 @@ Contract: fail-closed — anything not an exact owner match is `denied` with `al
 
 ---
 
+## A-04 · Conversation continuity (`extensions/friday/src/continuity.ts`)
+
+Continuity via a bounded checkpoint, not a transcript dump (MSG-02, §7.4).
+
+```ts
+type TurnRole = "owner" | "friday";
+interface Turn {
+  role: TurnRole;
+  text: string;
+  at: Iso8601;
+}
+interface Checkpoint {
+  version: 1;
+  updatedAt: Iso8601;
+  turnCount: number; // total turns ever folded in — survives tail trimming
+  recent: Turn[]; // newest turns kept verbatim, bounded by maxTurns
+  pinned: string[]; // stable facts, sourced from memory layers (not the transcript)
+  openThreads: string[];
+}
+function foldCheckpoint(prev: Checkpoint, turns: readonly Turn[], limits?): Checkpoint;
+function withPinned(cp: Checkpoint, facts: readonly string[], limits?): Checkpoint;
+function withOpenThreads(cp: Checkpoint, threads: readonly string[], limits?): Checkpoint;
+function renderCheckpoint(cp: Checkpoint, limits?): string;
+```
+
+Contract: the verbatim tail is bounded by `maxTurns` and the render by `maxChars`; every dropped turn is reported as an explicit "N earlier omitted" count, never a silent loss. Pinned facts come from the memory layers, so the checkpoint never becomes a second transcript. Inputs are never mutated. Persistence and the `before_prompt_build` wiring land with E-02 (WS-E); this row is the pure policy.
+
+---
+
 ## F-03 · Lockdown kill switch (`extensions/friday/src/policy/kill-switch.ts`)
 
 Stop non-essential egress; keep owner messaging (§7.15).

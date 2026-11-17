@@ -6,6 +6,35 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-16T22:00Z — A-04 · Conversation continuity via bounded checkpoint
+
+**Goal:** Lane 1 of the serial plan — build the pure continuity policy for "remembers" (MSG-02) at unit level, without pulling persistence forward.
+
+**Scope:** `extensions/friday/src/continuity.ts` (+ test), `docs/contracts/friday-core.md` (A-04), `TASKBOARD.md` (A-04 row). No engine internals; no wiring yet.
+
+**Execution:**
+
+- Added `continuity.ts`: a versioned `Checkpoint` (bounded verbatim tail + pinned facts + open threads + a `turnCount` that survives trimming), with `foldCheckpoint`, `withPinned`, `withOpenThreads`, `renderCheckpoint`. Deterministic, no I/O, no mutation of inputs.
+- Honesty invariant: when the tail or the char cap drops turns, the render reports an explicit "N earlier omitted" count — trimming is never a silent loss.
+- Deliberately deferred persistence + the `before_prompt_build` wiring to E-02 (Lane 2), where the store decision lives; the checkpoint is already plain JSON so resume is a serialise/parse.
+- Host restarted mid-lane (5 min uptime): the WS-C commit `698f26e5f` survived; the pnpm shim + corepack cache were wiped. Rebuilt the shim as a self-healing wrapper that re-prepares pnpm on first use, so a restart no longer blocks the build.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test extensions/friday/src/continuity.test.ts` → **11 passed** (first run 10/11: my own test expectation was wrong — newest-wins dedup keeps the newest `a`, corrected the expectation, not the code).
+- `pnpm tsgo:extensions` → clean (exit 0).
+- `node scripts/run-oxlint.mjs extensions/friday` → clean (exit 0).
+
+**Side effects:** New module + test; two docs updated. Committed on `main`.
+
+**Outcome:** Completed — A-04 pure policy done and proven; persistence/wiring handed to E-02 with an explicit note in both the contract and the board row.
+
+**Known risks:** The checkpoint bounds size but does not summarise semantically (that needs a model); acceptable for Phase 0 and named in the module header.
+
+**Next action:** Lane 2 · E-02 restart-resume: decide the persistence surface, persist the checkpoint, wire `resume()` and the continuity render at the engine seam.
+
+---
+
 ## 2026-11-16T18:20Z — WS-C: model router + ops/cache/skill-promotion units; cutover repaired
 
 **Goal:** Finish the in-flight WS-C batch left by a session the host killed mid-run, and repair the cutover it did not complete.
