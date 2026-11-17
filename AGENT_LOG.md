@@ -6,6 +6,36 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-17T00:20Z — Lane 7 · F-05 protected-file integrity (baseline + /doctor)
+
+**Goal:** Make F-05 real. The integrity check existed as a pure unit with no way to record or consult a baseline, so a tampered Constitution/persona would go unnoticed. Wire it to a phone-reachable surface.
+
+**Recon:** §7.5 says the check runs nightly, but the night shift is Phase 1 (heartbeat deferred) and the owner is phone-only — a nightly job she cannot see is worth less than an on-demand check in the window she already uses (`/doctor`). The plugin-state store (`runtime.state.openKeyedStoreV2`) is the SQLite-backed home for the baseline (repo doctrine: state in SQLite, not JSON sidecars); `readProtectedFiles` reads the same `personaDir` the prompt already loads.
+
+**Scope:** `src/persona.ts` (+`readProtectedFiles`), new `src/ops/integrity-baseline.ts`, `src/ops/doctor.ts` (+integrity component/line), `index.ts` (+`/trust-persona`, `/doctor` async), plus tests and docs.
+
+**Execution:**
+
+- `readProtectedFiles(dir)` returns `{path, content}` keyed by basename (`PERSONA.md`/`CONSTITUTION.md`), so the baseline is independent of the configured directory.
+- `integrity-baseline.ts` stores the baseline in plugin-state namespace `friday-integrity`; `checkProtectedIntegrity` returns `ok` / `violation` / `unverified`. A host with no store, or no baseline, is `unverified` — never a false `ok`.
+- `buildDoctorReport` gained an optional `integrity` input: `violation` → component `down` (status incident), `unverified` → `degraded` with a `/trust-persona` hint.
+- `/trust-persona` records the baseline; `/doctor` now reports the integrity line.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm vitest run extensions/friday` → **32 files / 249 tests passed** (was 30/229).
+- `pnpm tsgo:extensions` → clean (exit 0); `node scripts/run-oxlint.mjs extensions/friday` → clean (exit 0).
+
+**Side effects:** `/doctor` now does a store read and a filesystem read per invocation (cheap, on demand). Two new commands: `/trust-persona` (owner-only). No change to the per-turn hot path.
+
+**Outcome:** Completed — F-05 is wired at a real entry point and proven there.
+
+**Known risks:** The check runs on demand, not nightly; when the Phase 1 heartbeat lands, it should also call `checkProtectedIntegrity` (noted in the contract). The baseline lives in plugin state, so a store wipe loses it and reverts to `unverified` (honest, recoverable via `/trust-persona`).
+
+**Next action:** Lane 8 · G-01 heartbeat plumbing (service + `PluginServiceSchedulerV1`), which will also drive the nightly integrity check.
+
+---
+
 ## 2026-11-16T23:50Z — Lane 6 · F-02 untrusted-content fencing (wire the guard)
 
 **Goal:** Wire the pure F-02 injection guard to a real ingestion seam so tool/web/file results are fenced before the model sees them, instead of leaving it an unwired unit.

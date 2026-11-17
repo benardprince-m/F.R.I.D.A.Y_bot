@@ -51,7 +51,12 @@ describe("friday plugin entry", () => {
       "before_prompt_build",
       "tool_result_persist",
     ]);
-    expect([...commands.keys()].toSorted()).toEqual(["doctor", "lockdown", "unlock"]);
+    expect([...commands.keys()].toSorted()).toEqual([
+      "doctor",
+      "lockdown",
+      "trust-persona",
+      "unlock",
+    ]);
   });
 
   describe("before_model_resolve routing (C-01)", () => {
@@ -235,34 +240,96 @@ describe("friday plugin entry", () => {
     });
   });
 
-  describe("/doctor", () => {
-    function doctorHandler(pluginConfig: unknown = {}, runtime?: unknown) {
+  describe("/doctor and /trust-persona (F-05 integrity)", () => {
+    /** In-memory keyed store matching the plugin-state contract; one instance per test. */
+    function memoryRuntime() {
+      const map = new Map<string, unknown>();
+      const store = {
+        lookup: async (key: string) => map.get(key),
+        register: async (key: string, value: unknown) => {
+          map.set(key, value);
+        },
+      };
+      return { state: { openKeyedStoreV2: () => store } };
+    }
+
+    function commandsFor(pluginConfig: unknown, runtime?: unknown) {
       const { on } = captureHooks();
       const { commands, registerCommand } = captureCommands();
       plugin.register(
         createTestPluginApi({ on, registerCommand, pluginConfig, runtime: runtime as never }),
       );
-      return commands.get("doctor")!.handler;
+      return commands;
     }
 
-    it("reports honestly, refusing to claim healthy while core surfaces are unverified", () => {
+    it("reports honestly, refusing to claim healthy while core surfaces are unverified", async () => {
       writeFileSync(path.join(dir, "PERSONA.md"), "persona body");
-      const handler = doctorHandler({ ownerIds: ["telegram:1"], personaDir: dir });
-      const result = handler({ senderIsOwner: true } as never) as { text: string };
+      const commands = commandsFor({ ownerIds: ["telegram:1"], personaDir: dir });
+      const result = (await commands.get("doctor")!.handler({
+        senderIsOwner: true,
+      } as never)) as { text: string };
       expect(result.text).toContain("FRIDAY doctor");
       expect(result.text).toContain("not verified from chat");
       expect(result.text).toContain("openclaw doctor");
     });
 
-    it("flags a missing owner identity as down", () => {
-      const handler = doctorHandler({});
-      const result = handler({ senderIsOwner: true } as never) as { text: string };
+    it("flags a missing owner identity as down", async () => {
+      const commands = commandsFor({});
+      const result = (await commands.get("doctor")!.handler({
+        senderIsOwner: true,
+      } as never)) as { text: string };
       expect(result.text).toContain("owner: down");
     });
 
-    it("refuses a non-owner", () => {
-      const handler = doctorHandler({ ownerIds: ["telegram:1"] });
-      expect(handler({ senderIsOwner: false } as never)).toEqual({ text: "Owner only." });
+    it("refuses a non-owner", async () => {
+      const commands = commandsFor({ ownerIds: ["telegram:1"] });
+      expect(await commands.get("doctor")!.handler({ senderIsOwner: false } as never)).toEqual({
+        text: "Owner only.",
+      });
+    });
+
+    it("reports integrity unverified until a baseline is recorded", async () => {
+      writeFileSync(path.join(dir, "PERSONA.md"), "persona body");
+      const commands = commandsFor({ ownerIds: ["telegram:1"], personaDir: dir }, memoryRuntime());
+      const result = (await commands.get("doctor")!.handler({
+        senderIsOwner: true,
+      } as never)) as { text: string };
+      expect(result.text).toContain("integrity: unverified");
+    });
+
+    it("records the baseline, after which /doctor reports integrity ok", async () => {
+      writeFileSync(path.join(dir, "PERSONA.md"), "persona body");
+      const runtime = memoryRuntime();
+      const commands = commandsFor({ ownerIds: ["telegram:1"], personaDir: dir }, runtime);
+      const recorded = (await commands.get("trust-persona")!.handler({
+        senderIsOwner: true,
+      } as never)) as { text: string };
+      expect(recorded.text).toContain("Baseline recorded");
+
+      const doctor = (await commands.get("doctor")!.handler({
+        senderIsOwner: true,
+      } as never)) as { text: string };
+      expect(doctor.text).toContain("integrity: ok");
+    });
+
+    it("flags tampering after a baseline is recorded", async () => {
+      writeFileSync(path.join(dir, "PERSONA.md"), "persona body");
+      const runtime = memoryRuntime();
+      const commands = commandsFor({ ownerIds: ["telegram:1"], personaDir: dir }, runtime);
+      await commands.get("trust-persona")!.handler({ senderIsOwner: true } as never);
+
+      writeFileSync(path.join(dir, "PERSONA.md"), "persona body TAMPERED");
+      const doctor = (await commands.get("doctor")!.handler({
+        senderIsOwner: true,
+      } as never)) as { text: string };
+      expect(doctor.text).toContain("integrity: VIOLATION");
+    });
+
+    it("refuses a non-owner for /trust-persona", async () => {
+      const commands = commandsFor({ ownerIds: ["telegram:1"] });
+      expect(
+        await commands.get("trust-persona")!.handler({ senderIsOwner: false } as never),
+      ).toEqual({ text: "Owner only." });
     });
   });
 });

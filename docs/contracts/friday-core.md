@@ -159,6 +159,18 @@ Contract: `prepareTurn` composes — it does **not** re-implement — the decisi
 
 ---
 
+## F-05 · Protected-file integrity (`extensions/friday/src/policy/integrity.ts`)
+
+The Constitution and persona are protected files; an unexpected change must be caught (§7.5).
+
+```ts
+function checkIntegrity(files: ProtectedFile[], baseline: IntegrityBaseline): IntegrityReport;
+```
+
+Contract: pure — it hashes content and compares against the baseline; it never reads the filesystem and never edits the Constitution "to fix" an incident. The owner records the approved baseline once from chat (`/trust-persona`); the baseline is persisted in the engine's SQLite plugin-state store (`extensions/friday/src/ops/integrity-baseline.ts`), never a JSON sidecar. `/doctor` (and, in Phase 1, the heartbeat) then compares the live files: `ok` / `violation` / `unverified`. A missing store or baseline is `unverified` — never a false `ok`. Wired in `index.ts`; proven in `index.test.ts` + `integrity-baseline.test.ts`.
+
+---
+
 ## B-02 · Librarian classify (`extensions/friday/src/memory/librarian.ts`)
 
 ADD / UPDATE / MERGE / NOOP with an importance×recency×use score (§7.4).
@@ -338,7 +350,7 @@ Health status in the owner's chat, from a phone (§7.8, §9).
 function buildDoctorReport(input: DoctorInput): DoctorReport;
 ```
 
-Contract: the report is healthy / degraded / incident, built on the G-02 ladder over the components the plugin can verify (owner config, persona, durable continuity). It never claims "healthy" while the engine surfaces it cannot see from chat (model, telegram, memory, sandbox, vault, disk) are unverified — those cap the status at "degraded" and the report names them and points to `openclaw doctor` on the host. Wired as the owner-only `/doctor` command.
+Contract: the report is healthy / degraded / incident, built on the G-02 ladder over the components the plugin can verify (owner config, persona, durable continuity, and — when supplied — F-05 integrity). It never claims "healthy" while the engine surfaces it cannot see from chat (model, telegram, memory, sandbox, vault, disk) are unverified — those cap the status at "degraded" and the report names them and points to `openclaw doctor` on the host. Wired as the owner-only `/doctor` command; it also runs the F-05 integrity check against the recorded baseline.
 
 ## G-06 · Chat secret intake (`extensions/friday/src/ops/secrets.ts`)
 
@@ -379,15 +391,16 @@ Contract: the key is case- and whitespace-insensitive; the store is TTL- and siz
 
 ## Engine wiring points (per workstream, surgical)
 
-| Contract             | Engine entry point                                 | Workstream | Status                                                                                  |
-| -------------------- | -------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
-| F-01 redactForEgress | `before_message_write` hook (pre-model user text)  | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                                           |
-| C-01 routeTurn       | `before_model_resolve` hook (model selection)      | WS-C       | WIRED — `index.ts`; proven in `index.test.ts`; no-op until a local pair is set          |
-| F-02 guardContent    | `tool_result_persist` hook (tool/web/file results) | WS-F       | WIRED — `index.ts` (`fenceToolResultMessage`); proven in `index.test.ts`                |
-| A-01 decideAdmission | `before_agent_run` hook (channel admission)        | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                                           |
-| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)     | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test                     |
-| F-07 prepareTurn     | `before_agent_run` hook (the single turn seam)     | WS-F       | WIRED — `index.ts`; composes A-01/F-03 decision + F-02 label; proven in `index.test.ts` |
-| B-02/B-04            | memory write + forget commands                     | WS-B       | PENDING — no plugin-facing purge surface yet (see TASKBOARD F-04/B-04)                  |
-| E-01/E-04            | task start / completion + chat reply               | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                                      |
+| Contract             | Engine entry point                                  | Workstream | Status                                                                                  |
+| -------------------- | --------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
+| F-01 redactForEgress | `before_message_write` hook (pre-model user text)   | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                                           |
+| C-01 routeTurn       | `before_model_resolve` hook (model selection)       | WS-C       | WIRED — `index.ts`; proven in `index.test.ts`; no-op until a local pair is set          |
+| F-02 guardContent    | `tool_result_persist` hook (tool/web/file results)  | WS-F       | WIRED — `index.ts` (`fenceToolResultMessage`); proven in `index.test.ts`                |
+| A-01 decideAdmission | `before_agent_run` hook (channel admission)         | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                                           |
+| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)      | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test                     |
+| F-07 prepareTurn     | `before_agent_run` hook (the single turn seam)      | WS-F       | WIRED — `index.ts`; composes A-01/F-03 decision + F-02 label; proven in `index.test.ts` |
+| F-05 checkIntegrity  | `/doctor` + `/trust-persona` baseline (state store) | WS-F       | WIRED — `index.ts`; baseline persisted; proven in `index.test.ts`                       |
+| B-02/B-04            | memory write + forget commands                      | WS-B       | PENDING — no plugin-facing purge surface yet (see TASKBOARD F-04/B-04)                  |
+| E-01/E-04            | task start / completion + chat reply                | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                                      |
 
 Each wiring is proven by a test that exercises the real entry point, not just the pure function.

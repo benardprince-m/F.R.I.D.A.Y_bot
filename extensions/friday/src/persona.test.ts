@@ -2,7 +2,7 @@ import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { composeSystemContext, loadSystemContext } from "./persona.js";
+import { composeSystemContext, loadSystemContext, readProtectedFiles } from "./persona.js";
 
 describe("composeSystemContext", () => {
   it("orders persona before constitution and joins with a blank line", () => {
@@ -36,5 +36,19 @@ describe("loadSystemContext", () => {
 
   it("returns empty text when the files are missing", () => {
     expect(loadSystemContext(dir)).toBe("");
+  });
+
+  it("reads protected files keyed by basename for the integrity check", () => {
+    writeFileSync(path.join(dir, "PERSONA.md"), "persona body");
+    writeFileSync(path.join(dir, "CONSTITUTION.md"), "constitution body");
+    expect(readProtectedFiles(dir)).toEqual([
+      { path: "PERSONA.md", content: "persona body" },
+      { path: "CONSTITUTION.md", content: "constitution body" },
+    ]);
+  });
+
+  it("omits a missing protected file rather than inventing one", () => {
+    writeFileSync(path.join(dir, "PERSONA.md"), "persona body");
+    expect(readProtectedFiles(dir)).toEqual([{ path: "PERSONA.md", content: "persona body" }]);
   });
 });

@@ -16,11 +16,11 @@
 //   * `tool_result_persist`   — fence untrusted tool/web/file results before they enter the
 //                               transcript, so injected instructions stay data (§7.15, F-02).
 //
-// Plus the `/doctor` (G-03), `/lockdown` + `/unlock` commands (F-03). `/forget`, `/secret`, the
-// spend ledger, and the response cache are not wired yet: the first two have no plugin-facing
-// memory-purge or secret-store/delete surface, and the ledger/cache need a bounded store plus a
-// phone-readable read surface, so wiring them now would be a dishonest stub. See TASKBOARD
-// C-04 / C-05 / F-04 / B-04 / G-06.
+// Plus the `/doctor` (G-03), `/trust-persona` (F-05), `/lockdown` + `/unlock` commands (F-03).
+// `/forget`, `/secret`, the spend ledger, and the response cache are not wired yet: the first two
+// have no plugin-facing memory-purge or secret-store/delete surface, and the ledger/cache need a
+// bounded store plus a phone-readable read surface, so wiring them now would be a dishonest stub.
+// See TASKBOARD C-04 / C-05 / F-04 / B-04 / G-06.
 
 import path from "node:path";
 import {
@@ -34,8 +34,9 @@ import manifest from "./openclaw.plugin.json" with { type: "json" };
 import { readFridayConfig, type FridayConfig } from "./src/config.js";
 import { redactUserMessage, fenceToolResultMessage } from "./src/gate.js";
 import { buildDoctorReport } from "./src/ops/doctor.js";
+import { checkProtectedIntegrity, recordBaseline } from "./src/ops/integrity-baseline.js";
 import { routeTurn } from "./src/ops/router.js";
-import { loadSystemContext } from "./src/persona.js";
+import { loadSystemContext, readProtectedFiles } from "./src/persona.js";
 import { prepareTurn } from "./src/turn.js";
 
 const HOOK_PRIORITY = 100;
@@ -66,16 +67,32 @@ function continuityStoreAvailable(api: OpenClawPluginApi): boolean {
   );
 }
 
-function doctorText(api: OpenClawPluginApi): string {
+function doctorText(api: OpenClawPluginApi): Promise<string> {
   const config = resolveConfig(api);
-  const report = buildDoctorReport({
-    ownerConfigured: config.ownerIds.length > 0,
-    personaPresent: loadSystemContext(path.resolve(personaDir(api))).length > 0,
-    continuityStoreAvailable: continuityStoreAvailable(api),
-    lockedDown: config.lockedDown,
-    localRoutingConfigured: Boolean(config.localProvider && config.localModel),
-  });
-  return report.lines.join("\n");
+  return checkProtectedIntegrity(api.runtime, readProtectedFiles(personaDir(api))).then(
+    (integrity) => {
+      const report = buildDoctorReport({
+        ownerConfigured: config.ownerIds.length > 0,
+        personaPresent: loadSystemContext(personaDir(api)).length > 0,
+        continuityStoreAvailable: continuityStoreAvailable(api),
+        lockedDown: config.lockedDown,
+        localRoutingConfigured: Boolean(config.localProvider && config.localModel),
+        integrity: integrity.status,
+      });
+      return report.lines.join("\n");
+    },
+  );
+}
+
+async function trustPersona(api: OpenClawPluginApi): Promise<string> {
+  const files = readProtectedFiles(personaDir(api));
+  if (files.length === 0) {
+    return "No PERSONA.md or CONSTITUTION.md found to record.";
+  }
+  const recorded = await recordBaseline(api.runtime, files);
+  return recorded
+    ? `Baseline recorded for: ${files.map((f) => f.path).join(", ")}. /doctor will now flag unexpected changes.`
+    : "Could not record a baseline: this host has no plugin-state store.";
 }
 
 async function setLockdown(
@@ -193,7 +210,18 @@ export default definePluginEntry({
       acceptsArgs: false,
       requireAuth: true,
       exposeSenderIsOwner: true,
-      handler: (ctx) => (isOwner(ctx) ? { text: doctorText(api) } : { text: "Owner only." }),
+      handler: async (ctx) =>
+        isOwner(ctx) ? { text: await doctorText(api) } : { text: "Owner only." },
+    });
+
+    api.registerCommand({
+      name: "trust-persona",
+      description: "Record the current PERSONA.md/CONSTITUTION.md as the owner-approved baseline.",
+      acceptsArgs: false,
+      requireAuth: true,
+      exposeSenderIsOwner: true,
+      handler: async (ctx) =>
+        isOwner(ctx) ? { text: await trustPersona(api) } : { text: "Owner only." },
     });
 
     api.registerCommand({

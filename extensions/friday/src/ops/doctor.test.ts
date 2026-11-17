@@ -49,4 +49,20 @@ describe("buildDoctorReport", () => {
   it("always points the owner to the host doctor for unverified surfaces", () => {
     expect(buildDoctorReport(healthy).lines.join("\n")).toContain("openclaw doctor");
   });
+
+  it("omits the integrity line when no integrity result is supplied", () => {
+    expect(buildDoctorReport(healthy).lines.join("\n")).not.toContain("integrity:");
+  });
+
+  it("reports an integrity violation as down and incident", () => {
+    const report = buildDoctorReport({ ...healthy, integrity: "violation" });
+    expect(report.lines.join("\n")).toContain("integrity: VIOLATION");
+    expect(report.components.find((c) => c.name === "integrity")?.state).toBe("down");
+  });
+
+  it("reports integrity unverified as degraded with the baseline hint", () => {
+    const report = buildDoctorReport({ ...healthy, integrity: "unverified" });
+    expect(report.lines.join("\n")).toContain("integrity: unverified");
+    expect(report.lines.join("\n")).toContain("/trust-persona");
+  });
 });

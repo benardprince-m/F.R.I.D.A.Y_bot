@@ -31,6 +31,11 @@ export interface DoctorInput {
   lockedDown: boolean;
   /** True when a local provider+model are configured for cheap-first routing. */
   localRoutingConfigured: boolean;
+  /**
+   * F-05 result: "ok" when protected files match the baseline, "violation" when they changed,
+   * "unverified" when the baseline or store is unavailable. Omitted means not checked.
+   */
+  integrity?: "ok" | "violation" | "unverified";
 }
 
 export interface DoctorReport {
@@ -71,6 +76,22 @@ export function buildDoctorReport(input: DoctorInput): DoctorReport {
     },
   ];
 
+  if (input.integrity) {
+    components.push({
+      name: "integrity",
+      state:
+        input.integrity === "ok" ? "up" : input.integrity === "violation" ? "down" : "degraded",
+      ...(input.integrity === "ok"
+        ? {}
+        : {
+            note:
+              input.integrity === "violation"
+                ? "protected files changed; run /trust-persona only if the change is yours"
+                : "no baseline recorded; run /trust-persona to record one",
+          }),
+    });
+  }
+
   const base = healthReport(components);
   const unverified = [...UNVERIFIED_SURFACES];
 
@@ -86,6 +107,17 @@ export function buildDoctorReport(input: DoctorInput): DoctorReport {
     `- owner: ${input.ownerConfigured ? "up" : "down"}${input.ownerConfigured ? "" : " (not configured)"}`,
     `- persona: ${input.personaPresent ? "up" : "degraded (missing PERSONA.md/CONSTITUTION.md)"}`,
     `- continuity: ${input.continuityStoreAvailable ? "up" : "degraded (no durable store)"}`,
+    ...(input.integrity
+      ? [
+          `- integrity: ${
+            input.integrity === "ok"
+              ? "ok (protected files match the baseline)"
+              : input.integrity === "violation"
+                ? "VIOLATION (protected files changed unexpectedly)"
+                : "unverified (no baseline — run /trust-persona)"
+          }`,
+        ]
+      : []),
     `- lockdown: ${input.lockedDown ? "on (non-essential outbound paused)" : "off"}`,
     `- routing: ${input.localRoutingConfigured ? "cheap-first (local provider set)" : "default"}`,
     `- not verified from chat: ${unverified.join(", ")} — run \`openclaw doctor\` on the host`,

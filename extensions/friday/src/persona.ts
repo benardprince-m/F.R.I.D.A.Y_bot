@@ -8,6 +8,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import type { ProtectedFile } from "./policy/integrity.js";
 
 /** Bound the injected context so a runaway file cannot blow the prompt budget. */
 const MAX_SECTION_BYTES = 64 * 1024;
@@ -54,4 +55,20 @@ export function loadSystemContext(dir: string): string {
     persona: readBounded(path.join(dir, "PERSONA.md")),
     constitution: readBounded(path.join(dir, "CONSTITUTION.md")),
   });
+}
+
+/**
+ * Read the protected files for the integrity check (F-05), keyed by basename so the
+ * baseline is independent of the directory the owner configures. Missing/oversized files
+ * are omitted; the caller reports those as absent.
+ */
+export function readProtectedFiles(dir: string): ProtectedFile[] {
+  const files: ProtectedFile[] = [];
+  for (const name of ["PERSONA.md", "CONSTITUTION.md"]) {
+    const content = readBounded(path.join(dir, name));
+    if (content !== undefined) {
+      files.push({ path: name, content });
+    }
+  }
+  return files;
 }
