@@ -6,6 +6,35 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-16T23:50Z — Lane 6 · F-02 untrusted-content fencing (wire the guard)
+
+**Goal:** Wire the pure F-02 injection guard to a real ingestion seam so tool/web/file results are fenced before the model sees them, instead of leaving it an unwired unit.
+
+**Recon:** `tool_result_persist` is the correct seam — a synchronous hook that fires when a tool result is about to be persisted to the transcript, with `{ toolName, toolCallId, message, isSynthetic }` and a `{ message }` result. Untrusted content (web fetches, file reads, tool output) enters the transcript here.
+
+**Scope:** `extensions/friday/src/policy/injection-guard.ts` (+`isFencedContent`), `extensions/friday/src/gate.ts` (+`fenceToolResultMessage`), `extensions/friday/index.ts` (wire the hook), plus tests and docs.
+
+**Execution:**
+
+- Added `fenceToolResultMessage(message)`: fences string and text-part content with `guardContent(content, "untrusted")`, and skips content that already carries the envelope (via `isFencedContent`) so a re-persisted result is not nested.
+- Wired `tool_result_persist` in `index.ts`; returns `{ message }` only when something changed.
+- `fenceToolResultMessage` narrows `"content" in message` first, because `AgentMessage` is a union that includes `BashExecutionMessage` (no `content`).
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test extensions/friday` → **30 files / 229 tests passed** (added 2 entry-point + 3 gate + 2 guard tests).
+- `pnpm tsgo:extensions` → clean (exit 0); `node scripts/run-oxlint.mjs extensions/friday` → clean (exit 0).
+
+**Side effects:** Untrusted tool results are now fenced in the live transcript; already-fenced content is idempotent. No change to owner or assistant messages.
+
+**Outcome:** Completed — F-02 is wired at its real entry point and proven there.
+
+**Known risks:** The guard flags and fences; it does not sanitise (by design, and the contract says so). Tool results are treated as untrusted by default; if a specific tool result is owner-authored, it will still be fenced — acceptable and conservative.
+
+**Next action:** Lane 7 · G-01 heartbeat plumbing (service + `PluginServiceSchedulerV1`), or G-06 chat control path.
+
+---
+
 ## 2026-11-16T23:30Z — Lane 5 · F-07 single turn seam (gate/turn cutover, fixes F-03 violation)
 
 **Goal:** Resolve the BLK-8 finding — `index.ts` wired `gate.ts` while F-07 declared `turn.ts` the "single seam", and both re-composed the same admission/lockdown/redaction policy.

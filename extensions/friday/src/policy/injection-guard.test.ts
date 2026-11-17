@@ -1,6 +1,6 @@
 // FRIDAY core tests: prompt-injection guard (F-02).
 import { describe, expect, it } from "vitest";
-import { guardContent } from "./injection-guard.js";
+import { guardContent, isFencedContent } from "./injection-guard.js";
 
 describe("guardContent", () => {
   it("passes owner content through byte-for-byte", () => {
@@ -37,5 +37,16 @@ describe("guardContent", () => {
     expect(result.signals).toHaveLength(0);
     expect(result.text).toContain("<<UNTRUSTED_CONTENT");
     expect(result.text).toContain("Today's weather is sunny.");
+  });
+});
+
+describe("isFencedContent", () => {
+  it("detects the untrusted envelope", () => {
+    expect(isFencedContent(guardContent("x", "untrusted").text)).toBe(true);
+    expect(isFencedContent("plain text")).toBe(false);
+  });
+
+  it("treats owner content as not fenced", () => {
+    expect(isFencedContent(guardContent("x", "owner").text)).toBe(false);
   });
 });

@@ -77,6 +77,8 @@ function guardContent(input: string, trust: TrustLevel): GuardedContent;
 
 Contract: never mutates meaning for `owner` content; wraps and annotates `untrusted` content; detection is heuristic and the output says so — it never claims to have "sanitised" all attacks.
 
+Wired at `tool_result_persist` in `index.ts` via `fenceToolResultMessage` (gate.ts): every tool/web/file result is fenced before it enters the transcript, and already-fenced content (`isFencedContent`) is left unchanged so a re-persisted result is never nested. Proven in `index.test.ts` + `gate.test.ts`.
+
 ---
 
 ## A-01 · Owner admission (`extensions/friday/src/policy/owner-auth.ts`)
@@ -377,15 +379,15 @@ Contract: the key is case- and whitespace-insensitive; the store is TTL- and siz
 
 ## Engine wiring points (per workstream, surgical)
 
-| Contract             | Engine entry point                                  | Workstream | Status                                                                                  |
-| -------------------- | --------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
-| F-01 redactForEgress | `before_message_write` hook (pre-model user text)   | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                                           |
-| C-01 routeTurn       | `before_model_resolve` hook (model selection)       | WS-C       | WIRED — `index.ts`; proven in `index.test.ts`; no-op until a local pair is set          |
-| F-02 guardContent    | untrusted-content ingestion (tool/file/web results) | WS-F       | PENDING — pure fn ready; no ingestion hook yet                                          |
-| A-01 decideAdmission | `before_agent_run` hook (channel admission)         | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                                           |
-| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)      | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test                     |
-| F-07 prepareTurn     | `before_agent_run` hook (the single turn seam)      | WS-F       | WIRED — `index.ts`; composes A-01/F-03 decision + F-02 label; proven in `index.test.ts` |
-| B-02/B-04            | memory write + forget commands                      | WS-B       | PENDING — no plugin-facing purge surface yet (see TASKBOARD F-04/B-04)                  |
-| E-01/E-04            | task start / completion + chat reply                | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                                      |
+| Contract             | Engine entry point                                 | Workstream | Status                                                                                  |
+| -------------------- | -------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
+| F-01 redactForEgress | `before_message_write` hook (pre-model user text)  | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                                           |
+| C-01 routeTurn       | `before_model_resolve` hook (model selection)      | WS-C       | WIRED — `index.ts`; proven in `index.test.ts`; no-op until a local pair is set          |
+| F-02 guardContent    | `tool_result_persist` hook (tool/web/file results) | WS-F       | WIRED — `index.ts` (`fenceToolResultMessage`); proven in `index.test.ts`                |
+| A-01 decideAdmission | `before_agent_run` hook (channel admission)        | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                                           |
+| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)     | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test                     |
+| F-07 prepareTurn     | `before_agent_run` hook (the single turn seam)     | WS-F       | WIRED — `index.ts`; composes A-01/F-03 decision + F-02 label; proven in `index.test.ts` |
+| B-02/B-04            | memory write + forget commands                     | WS-B       | PENDING — no plugin-facing purge surface yet (see TASKBOARD F-04/B-04)                  |
+| E-01/E-04            | task start / completion + chat reply               | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                                      |
 
 Each wiring is proven by a test that exercises the real entry point, not just the pure function.

@@ -11,6 +11,7 @@
 
 import type { AgentMessage } from "openclaw/plugin-sdk/agent-core";
 import type { FridayConfig } from "./config.js";
+import { guardContent, isFencedContent } from "./policy/injection-guard.js";
 import { decideEgress } from "./policy/kill-switch.js";
 import { decideAdmission, type SenderIdentity } from "./policy/owner-auth.js";
 import { redactForEgress } from "./policy/redaction.js";
@@ -132,5 +133,43 @@ export function redactUserMessage(message: AgentMessage): AgentMessage {
     return message;
   }
   const { content, changed } = redactContentText(message.content);
+  return changed ? ({ ...message, content } as AgentMessage) : message;
+}
+
+function fenceContentText(content: unknown): { content: unknown; changed: boolean } {
+  if (typeof content === "string") {
+    if (isFencedContent(content)) {
+      return { content, changed: false };
+    }
+    return { content: guardContent(content, "untrusted").text, changed: true };
+  }
+  if (Array.isArray(content)) {
+    let changed = false;
+    const next = content.map((part) => {
+      if (part && typeof part === "object" && (part as { type?: string }).type === "text") {
+        const text = (part as { text?: unknown }).text;
+        if (typeof text === "string" && !isFencedContent(text)) {
+          changed = true;
+          return { ...part, text: guardContent(text, "untrusted").text };
+        }
+      }
+      return part;
+    });
+    return { content: changed ? next : content, changed };
+  }
+  return { content, changed: false };
+}
+
+/**
+ * Fence an untrusted tool/web/file result before it is persisted to the transcript (F-02).
+ * Tool results are untrusted by default — they can carry injected instructions. Content that
+ * already carries the envelope is left unchanged, so a re-persisted result is never nested.
+ * Returns the original message when nothing changed.
+ */
+export function fenceToolResultMessage(message: AgentMessage): AgentMessage {
+  if (!("content" in message)) {
+    return message;
+  }
+  const { content, changed } = fenceContentText(message.content);
   return changed ? ({ ...message, content } as AgentMessage) : message;
 }

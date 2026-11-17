@@ -1,7 +1,7 @@
 // FRIDAY — owner-controlled, messaging-first "second brain" for OpenClaw.
 //
 // This entry is the thin wiring layer. All policy is pure and lives under `./src`; this file
-// only translates engine hook events into policy calls and back. It wires four seams:
+// only translates engine hook events into policy calls and back. It wires five seams:
 //
 //   * `before_agent_run`      — the single turn seam (`prepareTurn`, F-07): fail-closed owner
 //                               admission, /lockdown, hard-credential block, then the trust
@@ -13,6 +13,8 @@
 //                               ever sees it (§7.15, §6.3, F-01).
 //   * `before_prompt_build`   — inject the FRIDAY persona + Constitution as cached system
 //                               context, deterministically (§6.1).
+//   * `tool_result_persist`   — fence untrusted tool/web/file results before they enter the
+//                               transcript, so injected instructions stay data (§7.15, F-02).
 //
 // Plus the `/doctor` (G-03), `/lockdown` + `/unlock` commands (F-03). `/forget`, `/secret`, the
 // spend ledger, and the response cache are not wired yet: the first two have no plugin-facing
@@ -30,7 +32,7 @@ import {
 } from "openclaw/plugin-sdk/plugin-entry";
 import manifest from "./openclaw.plugin.json" with { type: "json" };
 import { readFridayConfig, type FridayConfig } from "./src/config.js";
-import { redactUserMessage } from "./src/gate.js";
+import { redactUserMessage, fenceToolResultMessage } from "./src/gate.js";
 import { buildDoctorReport } from "./src/ops/doctor.js";
 import { routeTurn } from "./src/ops/router.js";
 import { loadSystemContext } from "./src/persona.js";
@@ -172,6 +174,15 @@ export default definePluginEntry({
       () => {
         const context = loadSystemContext(path.resolve(personaDir(api)));
         return context ? { appendSystemContext: context } : undefined;
+      },
+      { priority: HOOK_PRIORITY },
+    );
+
+    api.on(
+      "tool_result_persist",
+      (event) => {
+        const next = fenceToolResultMessage(event.message);
+        return next === event.message ? undefined : { message: next };
       },
       { priority: HOOK_PRIORITY },
     );
