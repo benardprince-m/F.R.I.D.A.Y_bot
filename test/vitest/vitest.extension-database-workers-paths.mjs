@@ -6,6 +6,9 @@ export const databaseWorkerExtensionTestRoots = [
 ];
 
 export const databaseWorkerExtensionTestFiles = [
+  // FRIDAY's durable continuity store opens the shared plugin-state SQLite store, so it
+  // exercises the main-thread broker and must run in this lane (pool: "forks").
+  "extensions/friday/src/continuity-store.test.ts",
   "extensions/alibaba/video-generation-provider.test.ts",
   "extensions/mcp-events/src/service.test.ts",
   "extensions/codex/src/conversation-binding.test.ts",

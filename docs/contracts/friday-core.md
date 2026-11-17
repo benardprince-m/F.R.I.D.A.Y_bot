@@ -127,7 +127,7 @@ function withOpenThreads(cp: Checkpoint, threads: readonly string[], limits?): C
 function renderCheckpoint(cp: Checkpoint, limits?): string;
 ```
 
-Contract: the verbatim tail is bounded by `maxTurns` and the render by `maxChars`; every dropped turn is reported as an explicit "N earlier omitted" count, never a silent loss. Pinned facts come from the memory layers, so the checkpoint never becomes a second transcript. Inputs are never mutated. Persistence and the `before_prompt_build` wiring land with E-02 (WS-E); this row is the pure policy.
+Contract: the verbatim tail is bounded by `maxTurns` and the render by `maxChars`; every dropped turn is reported as an explicit "N earlier omitted" count, never a silent loss. Pinned facts come from the memory layers, so the checkpoint never becomes a second transcript. Inputs are never mutated. Durable persistence is E-02 (`continuity-store.ts`); the live `before_prompt_build` wiring remains.
 
 ---
 
@@ -203,6 +203,23 @@ function forget(
 ```
 
 Contract: `complete` is true only when `remainingMatches` is empty across all layers; the report is the evidence, not a claim.
+
+---
+
+## E-02 · Durable continuity store (`extensions/friday/src/continuity-store.ts`)
+
+Restart-resume: persist the A-04 checkpoint in the engine's plugin-state store, keyed by session (AUT-02, §6.2).
+
+```ts
+function continuityStoreOptions(): OpenAsyncKeyedStoreOptions; // namespace "friday-continuity", reject-new
+function continuityKey(sessionKey: string): string;
+function isCheckpoint(value: unknown): value is Checkpoint;
+function loadCheckpoint(store, sessionKey): Promise<Checkpoint | undefined>;
+function saveCheckpoint(store, sessionKey, checkpoint): Promise<void>;
+function clearCheckpoint(store, sessionKey): Promise<boolean>;
+```
+
+Contract: the store namespace is bounded with `overflowPolicy: "reject-new"` — a full namespace rejects a write loudly rather than silently evicting another session's checkpoint (the "no silent loss" guarantee). A stored value that fails `isCheckpoint` is treated as absent, never trusted: the store read is a trust boundary. Proven by a test that writes a checkpoint, closes the state DB, reopens a fresh store over the same state dir, and reads the checkpoint back. Wiring this store into the live `before_prompt_build`/turn path is a separate surgical change (WS-A/WS-G).
 
 ---
 

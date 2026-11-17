@@ -6,6 +6,37 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-16T22:20Z — E-02 · Durable continuity store (restart-resume)
+
+**Goal:** Lane 2 of the serial plan — make the A-04 checkpoint durable so a restart cannot silently lose conversation continuity (AUT-02).
+
+**Scope:** `extensions/friday/src/continuity-store.ts` (+ test), `test/vitest/vitest.extension-database-workers-paths.mjs` (lane routing), `docs/contracts/friday-core.md` (E-02), `TASKBOARD.md` (E-02). No engine internals.
+
+**Execution:**
+
+- Recon (narrow, read-only subagent) pinned the engine's plugin-state store contract: writes are `register` (upsert) / `registerIfAbsent`, reads are async `lookup`, conditional mutation is `observe` + `compareAndApply`; values are JSON, capped at 1 MiB. The opener `api.runtime.state.openKeyedStore` is synchronous and returns a store whose methods are async.
+- Added `continuity-store.ts`: the only place the A-04 checkpoint is persisted, keyed by session in the `friday-continuity` namespace. `loadCheckpoint` validates every stored value with `isCheckpoint` and treats a mismatch as absent — the store read is a trust boundary, so a corrupt/version-mismatched row cannot crash a turn.
+- Store choice: bounded namespace with `overflowPolicy: "reject-new"`. A full namespace rejects a write loudly instead of silently evicting another session's checkpoint — the "no silent loss" guarantee. (Tried `retention: "retained"` first; retained stores require shared-state admission that the test worker cannot install, and `reject-new` is the honest bounded form anyway.)
+- Test proof of restart-resume: write a checkpoint, close the state DB, reopen a fresh store over the same state dir, read the checkpoint back. Real store, no mocks.
+- Lane fix: the store opens the shared SQLite state DB, which requires the main-thread broker, so the test is routed to the `extension-database-workers` lane (`pool: "forks"`) — the same lane as `extensions/memory-core`, whose store tests work this way.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test extensions/friday/src/continuity-store.test.ts` → **6 passed** (in the database-workers lane; includes the restart-persistence test).
+- `pnpm test extensions/friday/src/continuity.test.ts` → 11 passed (unchanged).
+- `pnpm tsgo:extensions` → clean (exit 0).
+- `node scripts/run-oxlint.mjs extensions/friday` → clean (exit 0).
+
+**Side effects:** New module + test; one test-lane routing list; two docs. Committed on `main`.
+
+**Outcome:** Completed — the continuity checkpoint is durable and restart-safe at the store boundary. The live `before_prompt_build` wiring (load → fold → render → save per turn) is the remaining E-02 slice; it needs the turn's session key and belongs with the WS-A/WS-G wiring, recorded in the contract and board.
+
+**Known risks:** The store is validated but the live wiring is not yet exercised end to end (no Telegram token yet to drive a real turn); this is a named gap, not a silent one.
+
+**Next action:** Lane 3 · G-03 `/doctor` in chat — the owner's phone-only health window, using the existing degradation policy.
+
+---
+
 ## 2026-11-16T22:00Z — A-04 · Conversation continuity via bounded checkpoint
 
 **Goal:** Lane 1 of the serial plan — build the pure continuity policy for "remembers" (MSG-02) at unit level, without pulling persistence forward.
