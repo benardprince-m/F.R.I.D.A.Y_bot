@@ -13,11 +13,11 @@
 //   * `before_prompt_build`   — inject the FRIDAY persona + Constitution as cached system
 //                               context, deterministically (§6.1).
 //
-// Plus the `/lockdown` + `/unlock` commands (F-03). `/forget`, `/secret`, the spend ledger, and
-// the response cache are not wired yet: the first two have no plugin-facing memory-purge or
-// secret-store/delete surface, and the ledger/cache need a bounded store plus a phone-readable
-// read surface, so wiring them now would be a dishonest stub. See TASKBOARD C-04 / C-05 /
-// F-04 / B-04 / G-06.
+// Plus the `/doctor` (G-03), `/lockdown` + `/unlock` commands (F-03). `/forget`, `/secret`, the
+// spend ledger, and the response cache are not wired yet: the first two have no plugin-facing
+// memory-purge or secret-store/delete surface, and the ledger/cache need a bounded store plus a
+// phone-readable read surface, so wiring them now would be a dishonest stub. See TASKBOARD
+// C-04 / C-05 / F-04 / B-04 / G-06.
 
 import path from "node:path";
 import {
@@ -30,6 +30,7 @@ import {
 import manifest from "./openclaw.plugin.json" with { type: "json" };
 import { readFridayConfig, type FridayConfig } from "./src/config.js";
 import { evaluateGate, redactUserMessage } from "./src/gate.js";
+import { buildDoctorReport } from "./src/ops/doctor.js";
 import { routeTurn } from "./src/ops/router.js";
 import { loadSystemContext } from "./src/persona.js";
 
@@ -51,6 +52,26 @@ function personaDir(api: OpenClawPluginApi): string {
 
 function isOwner(ctx: PluginCommandContext): boolean {
   return ctx.senderIsOwner === true || ctx.isAuthorizedSender;
+}
+
+/** Best-effort check that the durable continuity store can be opened on this host. */
+function continuityStoreAvailable(api: OpenClawPluginApi): boolean {
+  return (
+    typeof (api.runtime as { state?: { openKeyedStore?: unknown } } | undefined)?.state
+      ?.openKeyedStore === "function"
+  );
+}
+
+function doctorText(api: OpenClawPluginApi): string {
+  const config = resolveConfig(api);
+  const report = buildDoctorReport({
+    ownerConfigured: config.ownerIds.length > 0,
+    personaPresent: loadSystemContext(path.resolve(personaDir(api))).length > 0,
+    continuityStoreAvailable: continuityStoreAvailable(api),
+    lockedDown: config.lockedDown,
+    localRoutingConfigured: Boolean(config.localProvider && config.localModel),
+  });
+  return report.lines.join("\n");
 }
 
 async function setLockdown(
@@ -151,6 +172,15 @@ export default definePluginEntry({
       },
       { priority: HOOK_PRIORITY },
     );
+
+    api.registerCommand({
+      name: "doctor",
+      description: "FRIDAY health from chat: healthy / degraded / incident, with evidence.",
+      acceptsArgs: false,
+      requireAuth: true,
+      exposeSenderIsOwner: true,
+      handler: (ctx) => (isOwner(ctx) ? { text: doctorText(api) } : { text: "Owner only." }),
+    });
 
     api.registerCommand({
       name: "lockdown",

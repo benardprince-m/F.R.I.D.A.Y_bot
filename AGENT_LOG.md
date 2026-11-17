@@ -6,6 +6,34 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-16T22:40Z — G-03 · `/doctor` in chat
+
+**Goal:** Lane 3 of the serial plan — give the owner a phone-only health window: ask "are you well?" in chat and get an honest answer with evidence (§7.8, §9).
+
+**Scope:** `extensions/friday/src/ops/doctor.ts` (+ test), `extensions/friday/index.ts` (command wiring), `extensions/friday/index.test.ts`, `docs/contracts/friday-core.md` (G-03), `TASKBOARD.md` (G-03). No engine internals.
+
+**Execution:**
+
+- Added `buildDoctorReport`: maps the signals the plugin can actually verify (owner configured, persona present, durable continuity store available, lockdown, routing) through the existing G-02 degradation ladder to healthy / degraded / incident, with a line-by-line evidence list.
+- Honesty rule enforced in code: the engine surfaces the plugin cannot see from chat (model, telegram, memory, sandbox, vault, disk) are listed as unverified and cap the status at "degraded". FRIDAY refuses to print "healthy" while core surfaces are unverified, and points the owner to `openclaw doctor` on the host.
+- Wired an owner-only `/doctor` command in `index.ts` (same `requireAuth` + `exposeSenderIsOwner` pattern as `/lockdown`); it reads live config and checks the store opener's presence best-effort.
+
+**Verification (exact commands + actual results):**
+
+- `pnpm test extensions/friday/src/ops/doctor.test.ts extensions/friday/index.test.ts` → **23 passed** (5 new doctor-unit, 3 new `/doctor` entry-point tests).
+- `pnpm tsgo:extensions` → clean (exit 0).
+- `node scripts/run-oxlint.mjs extensions/friday` → clean (exit 0).
+
+**Side effects:** New module + test; `index.ts` gained one command; two docs. Committed on `main`.
+
+**Outcome:** Completed — the owner can now get an honest health status from chat, and the report never overstates health.
+
+**Known risks:** The status is honest by construction but conservative (always at least "degraded" until engine surfaces are verified); the richer per-component engine checks remain the host `doctor`'s job.
+
+**Next action:** Lane 4 · B-02/B-04 memory write + forget wiring — the `/forget` path with purge evidence.
+
+---
+
 ## 2026-11-16T22:20Z — E-02 · Durable continuity store (restart-resume)
 
 **Goal:** Lane 2 of the serial plan — make the A-04 checkpoint durable so a restart cannot silently lose conversation continuity (AUT-02).

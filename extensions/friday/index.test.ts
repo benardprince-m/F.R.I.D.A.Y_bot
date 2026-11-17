@@ -50,7 +50,7 @@ describe("friday plugin entry", () => {
       "before_model_resolve",
       "before_prompt_build",
     ]);
-    expect([...commands.keys()].toSorted()).toEqual(["lockdown", "unlock"]);
+    expect([...commands.keys()].toSorted()).toEqual(["doctor", "lockdown", "unlock"]);
   });
 
   describe("before_model_resolve routing (C-01)", () => {
@@ -190,6 +190,37 @@ describe("friday plugin entry", () => {
       const result = await commands.get("unlock")!.handler({ senderIsOwner: false } as never);
       expect(result).toEqual({ text: "Owner only." });
       expect(mutateConfigFile).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("/doctor", () => {
+    function doctorHandler(pluginConfig: unknown = {}, runtime?: unknown) {
+      const { on } = captureHooks();
+      const { commands, registerCommand } = captureCommands();
+      plugin.register(
+        createTestPluginApi({ on, registerCommand, pluginConfig, runtime: runtime as never }),
+      );
+      return commands.get("doctor")!.handler;
+    }
+
+    it("reports honestly, refusing to claim healthy while core surfaces are unverified", () => {
+      writeFileSync(path.join(dir, "PERSONA.md"), "persona body");
+      const handler = doctorHandler({ ownerIds: ["telegram:1"], personaDir: dir });
+      const result = handler({ senderIsOwner: true } as never) as { text: string };
+      expect(result.text).toContain("FRIDAY doctor");
+      expect(result.text).toContain("not verified from chat");
+      expect(result.text).toContain("openclaw doctor");
+    });
+
+    it("flags a missing owner identity as down", () => {
+      const handler = doctorHandler({});
+      const result = handler({ senderIsOwner: true } as never) as { text: string };
+      expect(result.text).toContain("owner: down");
+    });
+
+    it("refuses a non-owner", () => {
+      const handler = doctorHandler({ ownerIds: ["telegram:1"] });
+      expect(handler({ senderIsOwner: false } as never)).toEqual({ text: "Owner only." });
     });
   });
 });

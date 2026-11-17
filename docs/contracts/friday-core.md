@@ -303,6 +303,16 @@ function decideHeartbeat(
 
 Contract: a paused heartbeat never fires; a window that wraps midnight (e.g. 23→6) is supported.
 
+## G-03 · `/doctor` in chat (`extensions/friday/src/ops/doctor.ts`)
+
+Health status in the owner's chat, from a phone (§7.8, §9).
+
+```ts
+function buildDoctorReport(input: DoctorInput): DoctorReport;
+```
+
+Contract: the report is healthy / degraded / incident, built on the G-02 ladder over the components the plugin can verify (owner config, persona, durable continuity). It never claims "healthy" while the engine surfaces it cannot see from chat (model, telegram, memory, sandbox, vault, disk) are unverified — those cap the status at "degraded" and the report names them and points to `openclaw doctor` on the host. Wired as the owner-only `/doctor` command.
+
 ## G-06 · Chat secret intake (`extensions/friday/src/ops/secrets.ts`)
 
 The safe half of pasting a credential into chat (§7.11, §6.3).
