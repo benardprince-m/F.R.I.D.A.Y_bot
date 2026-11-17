@@ -36,6 +36,11 @@ export interface DoctorInput {
    * "unverified" when the baseline or store is unavailable. Omitted means not checked.
    */
   integrity?: "ok" | "violation" | "unverified";
+  /**
+   * G-01 liveness: true when the heartbeat service is running. Omitted when the service has not
+   * been started (so we never falsely claim it down before it starts).
+   */
+  heartbeat?: boolean;
 }
 
 export interface DoctorReport {
@@ -92,9 +97,16 @@ export function buildDoctorReport(input: DoctorInput): DoctorReport {
     });
   }
 
+  if (input.heartbeat !== undefined) {
+    components.push({
+      name: "heartbeat",
+      state: input.heartbeat ? "up" : "down",
+      ...(input.heartbeat ? {} : { note: "heartbeat service not running" }),
+    });
+  }
+
   const base = healthReport(components);
   const unverified = [...UNVERIFIED_SURFACES];
-
   // Cap: unverified engine surfaces mean we cannot honestly claim "healthy".
   const capped = base.status === "healthy" && unverified.length > 0;
   const status: HealthStatus = capped ? "degraded" : base.status;
@@ -117,6 +129,9 @@ export function buildDoctorReport(input: DoctorInput): DoctorReport {
                 : "unverified (no baseline — run /trust-persona)"
           }`,
         ]
+      : []),
+    ...(input.heartbeat !== undefined
+      ? [`- heartbeat: ${input.heartbeat ? "beating (60s)" : "DOWN (service not running)"}`]
       : []),
     `- lockdown: ${input.lockedDown ? "on (non-essential outbound paused)" : "off"}`,
     `- routing: ${input.localRoutingConfigured ? "cheap-first (local provider set)" : "default"}`,

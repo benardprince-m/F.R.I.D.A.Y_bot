@@ -274,6 +274,8 @@ describe("friday plugin entry", () => {
       expect(result.text).toContain("FRIDAY doctor");
       expect(result.text).toContain("not verified from chat");
       expect(result.text).toContain("openclaw doctor");
+      // No service was registered in this test, so liveness is honestly reported as down.
+      expect(result.text).toContain("heartbeat: DOWN");
     });
 
     it("flags a missing owner identity as down", async () => {

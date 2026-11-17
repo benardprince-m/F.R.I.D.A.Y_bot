@@ -65,4 +65,17 @@ describe("buildDoctorReport", () => {
     expect(report.lines.join("\n")).toContain("integrity: unverified");
     expect(report.lines.join("\n")).toContain("/trust-persona");
   });
+
+  it("omits the heartbeat line until a liveness result is supplied", () => {
+    expect(buildDoctorReport(healthy).lines.join("\n")).not.toContain("heartbeat:");
+  });
+
+  it("reports a beating heartbeat as up and a stopped one as down", () => {
+    expect(buildDoctorReport({ ...healthy, heartbeat: true }).lines.join("\n")).toContain(
+      "heartbeat: beating",
+    );
+    const down = buildDoctorReport({ ...healthy, heartbeat: false });
+    expect(down.lines.join("\n")).toContain("heartbeat: DOWN");
+    expect(down.components.find((c) => c.name === "heartbeat")?.state).toBe("down");
+  });
 });

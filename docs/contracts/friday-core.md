@@ -355,7 +355,7 @@ Health status in the owner's chat, from a phone (§7.8, §9).
 function buildDoctorReport(input: DoctorInput): DoctorReport;
 ```
 
-Contract: the report is healthy / degraded / incident, built on the G-02 ladder over the components the plugin can verify (owner config, persona, durable continuity, and — when supplied — F-05 integrity). It never claims "healthy" while the engine surfaces it cannot see from chat (model, telegram, memory, sandbox, vault, disk) are unverified — those cap the status at "degraded" and the report names them and points to `openclaw doctor` on the host. Wired as the owner-only `/doctor` command; it also runs the F-05 integrity check against the recorded baseline.
+Contract: the report is healthy / degraded / incident, built on the G-02 ladder over the components the plugin can verify (owner config, persona, durable continuity, and — when supplied — F-05 integrity and G-01 heartbeat liveness). It never claims "healthy" while the engine surfaces it cannot see from chat (model, telegram, memory, sandbox, vault, disk) are unverified — those cap the status at "degraded" and the report names them and points to `openclaw doctor` on the host. Wired as the owner-only `/doctor` command; it also runs the F-05 integrity check against the recorded baseline and reports whether the heartbeat service is beating.
 
 ## G-06 · Chat secret intake (`extensions/friday/src/ops/secrets.ts`)
 

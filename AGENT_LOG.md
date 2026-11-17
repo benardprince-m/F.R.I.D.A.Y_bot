@@ -19,19 +19,20 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 - `heartbeatTick(state, now, deps)` threads `lastBeatAt` through its return value (the caller owns persistence); a failed beat is reported and does **not** advance the clock, so the next tick retries instead of skipping.
 - `HeartbeatService` schedules one beat a minute on `ctx.scheduler`, sets `paused` from the live `lockedDown` config each beat (so `/lockdown` pauses it within a beat), and runs the F-05 integrity check on a liveness beat.
 - A night-shift beat is an honest no-op in Phase 0: the consolidation/skill work it will drive is Phase 1. The window (23:00–06:00) is wired so the routing is proven, not stubbed.
+- `/doctor` gained a `heartbeat` line: it reports "beating" while the service is registered and "DOWN" otherwise, so the owner can see liveness from chat (closes the G-01↔G-03 loop).
 
 **Verification (exact commands + actual results):**
 
-- `pnpm vitest run extensions/friday` → **33 files / 259 tests passed** (was 32/249).
+- `pnpm vitest run extensions/friday` → **33 files / 261 tests passed** (was 32/249).
 - `pnpm tsgo:extensions` → clean (exit 0); `node scripts/run-oxlint.mjs extensions/friday` → clean (exit 0).
 
-**Side effects:** A 60s timer runs while the plugin is enabled; each liveness beat reads the protected files and the integrity baseline (cheap). The loop is paused under lockdown.
+**Side effects:** A 60s timer runs while the plugin is enabled; each liveness beat reads the protected files and the integrity baseline (cheap). The loop is paused under lockdown. `/doctor` now reads the heartbeat state.
 
 **Outcome:** Completed — the heartbeat is a real host-bound service, proven at the entry point.
 
 **Known risks:** The proactive-notify surface (chat alert / morning brief) does not exist in the SDK, so G-01's proactive half stays deferred and the service currently only logs a violation (no owner alert). The night-shift beat is a no-op until Phase 1.
 
-**Next action:** Wire a lane that the SDK can actually reach; E-02 (durable continuity) live wiring is the leading candidate, with its per-turn fold risk to resolve first.
+**Next action:** Wire a lane the SDK can actually reach. E-02 (durable continuity) live wiring is the leading candidate, but its per-turn fold risk (transcript corruption) must be resolved first — check `before_prompt_build` rebuild/compaction semantics before wiring.
 
 ---
 

@@ -84,6 +84,7 @@ function doctorText(api: OpenClawPluginApi): Promise<string> {
         lockedDown: config.lockedDown,
         localRoutingConfigured: Boolean(config.localProvider && config.localModel),
         integrity: integrity.status,
+        heartbeat: heartbeat !== null,
       });
       return report.lines.join("\n");
     },
