@@ -52,6 +52,7 @@ describe("friday plugin entry", () => {
       "before_message_write",
       "before_model_resolve",
       "before_prompt_build",
+      "llm_output",
       "model_call_ended",
       "tool_result_persist",
     ]);
@@ -61,21 +62,22 @@ describe("friday plugin entry", () => {
       "lockdown",
       "memory",
       "remember",
+      "spend",
       "trust-persona",
       "unlock",
     ]);
   });
 
   describe("before_model_resolve routing (C-01)", () => {
-    function resolveHandler(pluginConfig: unknown) {
+    function resolveHandler(pluginConfig: unknown, runtime?: unknown) {
       const { hooks, on } = captureHooks();
-      plugin.register(createTestPluginApi({ on, pluginConfig }));
+      plugin.register(createTestPluginApi({ on, pluginConfig, runtime: runtime as never }));
       return hooks.get("before_model_resolve")!;
     }
 
-    it("defaults to the DeepSeek chain when no local provider is configured", () => {
+    it("defaults to the DeepSeek chain when no local provider is configured", async () => {
       const handler = resolveHandler({});
-      expect(handler({ prompt: "hi" })).toEqual({
+      expect(await handler({ prompt: "hi" })).toEqual({
         providerOverride: "deepseek",
         modelOverride: "deepseek-v4.1-flash",
         fallbacksOverride: [
@@ -88,47 +90,47 @@ describe("friday plugin entry", () => {
       });
     });
 
-    it("honors an owner model + chain override", () => {
+    it("honors an owner model + chain override", async () => {
       const handler = resolveHandler({
         model: "deepseek/deepseek-v4-pro",
         modelChain: ["google/gemini-2.5-pro"],
       });
-      expect(handler({ prompt: "hi" })).toEqual({
+      expect(await handler({ prompt: "hi" })).toEqual({
         providerOverride: "deepseek",
         modelOverride: "deepseek-v4-pro",
         fallbacksOverride: ["google/gemini-2.5-pro"],
       });
     });
 
-    it("overrides provider and model to the local tier when configured", () => {
+    it("overrides provider and model to the local tier when configured", async () => {
       const handler = resolveHandler({ localProvider: "ollama", localModel: "llama3.3:8b" });
-      expect(handler({ prompt: "hi" })).toEqual({
+      expect(await handler({ prompt: "hi" })).toEqual({
         providerOverride: "ollama",
         modelOverride: "llama3.3:8b",
       });
     });
 
-    it("keeps a hard turn local rather than escalating (no paid target)", () => {
+    it("keeps a hard turn local rather than escalating (no paid target)", async () => {
       const handler = resolveHandler({ localProvider: "ollama", localModel: "llama3.3:8b" });
-      expect(handler({ prompt: "please debug this failure" })).toEqual({
+      expect(await handler({ prompt: "please debug this failure" })).toEqual({
         providerOverride: "ollama",
         modelOverride: "llama3.3:8b",
       });
     });
 
-    it("still routes locally under lockdown (owner messaging keeps working)", () => {
+    it("still routes locally under lockdown (owner messaging keeps working)", async () => {
       const handler = resolveHandler({
         localProvider: "ollama",
         localModel: "llama3.3:8b",
         lockedDown: true,
       });
-      expect(handler({ prompt: "hi" })).toEqual({
+      expect(await handler({ prompt: "hi" })).toEqual({
         providerOverride: "ollama",
         modelOverride: "llama3.3:8b",
       });
     });
 
-    it("skips a provider whose breaker opened, promoting the next ref (C-03)", () => {
+    it("skips a provider whose breaker opened, promoting the next ref (C-03)", async () => {
       const { hooks, on } = captureHooks();
       plugin.register(createTestPluginApi({ on }));
       const resolve = hooks.get("before_model_resolve")!;
@@ -136,7 +138,7 @@ describe("friday plugin entry", () => {
       for (let i = 0; i < 3; i += 1) {
         ended({ provider: "deepseek", model: "deepseek-v4.1-flash", outcome: "error" });
       }
-      expect(resolve({ prompt: "hi" })).toEqual({
+      expect(await resolve({ prompt: "hi" })).toEqual({
         providerOverride: "google",
         modelOverride: "gemini-2.5-flash",
         fallbacksOverride: [
@@ -388,6 +390,105 @@ describe("friday plugin entry", () => {
         { senderId: "999", channel: "telegram" },
       )) as { appendContext?: string } | undefined;
       expect(result?.appendContext).toBeUndefined();
+    });
+  });
+
+  describe("/spend, budget ceiling, and usage recording (C-04/C-05)", () => {
+    /** In-memory keyed store matching the plugin-state contract; one instance per test. */
+    function ledgerRuntime() {
+      const map = new Map<string, unknown>();
+      const store = {
+        lookup: async (key: string) => map.get(key),
+        register: async (key: string, value: unknown) => {
+          map.set(key, value);
+        },
+      };
+      return { state: { openKeyedStoreV2: () => store } };
+    }
+
+    function commandsFor(pluginConfig: unknown, runtime?: unknown) {
+      const { hooks, on } = captureHooks();
+      const { commands, registerCommand } = captureCommands();
+      plugin.register(
+        createTestPluginApi({ on, registerCommand, pluginConfig, runtime: runtime as never }),
+      );
+      return { commands, hooks };
+    }
+
+    it("reports no ceiling and no spend before any call", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, ledgerRuntime());
+      const result = (await commands.get("spend")!.handler({ senderIsOwner: true } as never)) as {
+        text: string;
+      };
+      expect(result.text).toContain("no ceiling");
+    });
+
+    it("records a call's usage and reports it on /spend", async () => {
+      const runtime = ledgerRuntime();
+      const { commands, hooks } = commandsFor({ ownerIds: ["telegram:1"], budgetUsd: 5 }, runtime);
+      await hooks.get("llm_output")!({
+        provider: "google",
+        model: "gemini-2.5-flash",
+        usage: { input: 1_000_000, output: 1_000_000 },
+      });
+      const result = (await commands.get("spend")!.handler({ senderIsOwner: true } as never)) as {
+        text: string;
+      };
+      expect(result.text).toContain("$2.80 of $5.00");
+    });
+
+    it("records nothing when a call reports no usage", async () => {
+      const runtime = ledgerRuntime();
+      const { commands, hooks } = commandsFor({ ownerIds: ["telegram:1"] }, runtime);
+      await hooks.get("llm_output")!({ provider: "google", model: "gemini-2.5-flash" });
+      const result = (await commands.get("spend")!.handler({ senderIsOwner: true } as never)) as {
+        text: string;
+      };
+      expect(result.text).toContain("$0.00");
+    });
+
+    it("refuses paid escalation once the ceiling is reached (C-05)", async () => {
+      const runtime = ledgerRuntime();
+      const { hooks } = commandsFor(
+        {
+          ownerIds: ["telegram:1"],
+          budgetUsd: 1,
+          localProvider: "ollama",
+          localModel: "llama3.3:8b",
+        },
+        runtime,
+      );
+      // Spend past the $1 ceiling.
+      await hooks.get("llm_output")!({
+        provider: "google",
+        model: "gemini-2.5-flash",
+        usage: { input: 1_000_000, output: 1_000_000 },
+      });
+      // A hard turn with an escalation target would normally escalate; the spent budget keeps it local.
+      const decision = (await hooks.get("before_model_resolve")!({
+        prompt: "please debug this failure",
+      })) as { providerOverride?: string };
+      expect(decision.providerOverride).toBe("ollama");
+    });
+
+    it("shows the spend line in /doctor when the ledger store is available", async () => {
+      const runtime = ledgerRuntime();
+      const { commands } = commandsFor(
+        { ownerIds: ["telegram:1"], personaDir: dir, budgetUsd: 5 },
+        runtime,
+      );
+      const result = (await commands.get("doctor")!.handler({
+        senderIsOwner: true,
+      } as never)) as { text: string };
+      expect(result.text).toContain("Spend");
+      expect(result.text).toContain("of $5.00");
+    });
+
+    it("refuses a non-owner for /spend", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, ledgerRuntime());
+      expect(await commands.get("spend")!.handler({ senderIsOwner: false } as never)).toEqual({
+        text: "Owner only.",
+      });
     });
   });
 

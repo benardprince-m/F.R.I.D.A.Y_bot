@@ -9,9 +9,13 @@
 //   * `before_model_resolve`  — model default + fallback layering (C-02): FRIDAY's primary is
 //                               DeepSeek v4.1 Flash with a free-tier fallback chain behind it,
 //                               handed to the engine's gateway. Cheap-first local routing (§7.10,
-//                               C-01) is a no-op until `localProvider`/`localModel` are set.
+//                               C-01) is a no-op until `localProvider`/`localModel` are set. The
+//                               monthly budget ceiling (C-05) is enforced here: a spent budget
+//                               refuses paid escalation rather than spending past it.
 //   * `model_call_ended`      — per-call outcome feeds the C-03 circuit breaker, keyed by
 //                               provider, so a failing provider is skipped until it recovers.
+//   * `llm_output`            — each call's reported token usage is recorded against the durable
+//                               monthly spend ledger (C-04), so `/spend` and `/doctor` are real.
 //   * `before_message_write`  — PII/secret scrub of the owner's inbound text before the model
 //                               ever sees it (§7.15, §6.3, F-01).
 //   * `before_prompt_build`   — inject the FRIDAY persona + Constitution as cached system
@@ -22,12 +26,11 @@
 //
 // Plus a background heartbeat service (G-01): a beat every minute that runs the F-05 integrity
 // check, bound to the Gateway's lifetime so it stops cleanly. Commands: `/doctor` (G-03),
-// `/trust-persona` (F-05), `/lockdown` + `/unlock` (F-03), and `/remember` + `/memory` +
-// `/forget` (B-02/B-04) over FRIDAY's own bounded memory store (the engine has no plugin-facing
-// memory API, so FRIDAY owns the semantic layer — see src/memory/).
-// `/secret`, the spend ledger, and the response cache are not wired yet: they need a
-// secret-store/delete surface and a bounded store plus a phone-readable read surface, so wiring
-// them now would be a dishonest stub. See TASKBOARD C-04 / C-05 / G-06.
+// `/trust-persona` (F-05), `/lockdown` + `/unlock` (F-03), `/remember` + `/memory` + `/forget`
+// (B-02/B-04) over FRIDAY's own bounded memory store, and `/spend` (C-04).
+// `/secret` and the response cache are not wired yet: they need a secret-store/delete surface
+// and careful reply-hook semantics, so wiring them now would be a dishonest stub. See TASKBOARD
+// C-06 / G-06.
 
 import path from "node:path";
 import {
@@ -55,6 +58,8 @@ import { newBreaker, recordOutcome, type BreakerState } from "./src/ops/breaker.
 import { buildDoctorReport } from "./src/ops/doctor.js";
 import { HeartbeatService } from "./src/ops/heartbeat-service.js";
 import { checkProtectedIntegrity, recordBaseline } from "./src/ops/integrity-baseline.js";
+import { loadMonth, openLedgerStore, saveMonth } from "./src/ops/ledger-store.js";
+import { decideBudget, recordUsage, spendLine, type BudgetDecision } from "./src/ops/ledger.js";
 import { effectiveChain, resolveModelChain, splitModelRef } from "./src/ops/model-chain.js";
 import { routeTurn } from "./src/ops/router.js";
 import { loadSystemContext, readProtectedFiles } from "./src/persona.js";
@@ -116,12 +121,51 @@ function continuityStoreAvailable(api: OpenClawPluginApi): boolean {
   );
 }
 
+/** The live budget decision for this instant (C-05). No ceiling configured ⇒ always allowed. */
+async function budgetDecision(api: OpenClawPluginApi): Promise<BudgetDecision> {
+  const config = resolveConfig(api);
+  const store = openLedgerStore(api.runtime);
+  if (!store) {
+    return decideBudget({ month: "", entries: [] }, config.budgetUsd);
+  }
+  const at = new Date().toISOString();
+  return decideBudget(await loadMonth(store, at), config.budgetUsd);
+}
+
+/** Record one model call's reported usage against the durable monthly ledger (C-04). */
+async function recordCallUsage(
+  api: OpenClawPluginApi,
+  usage: { provider: string; model: string; inputTokens?: number; outputTokens?: number },
+): Promise<void> {
+  const store = openLedgerStore(api.runtime);
+  if (!store) {
+    return;
+  }
+  const at = new Date().toISOString();
+  const next = recordUsage(await loadMonth(store, at), usage, at);
+  await saveMonth(store, next);
+}
+
+/** `/spend` — the owner's month-to-date spend and remaining budget, in chat (C-04). */
+async function spendText(api: OpenClawPluginApi): Promise<string> {
+  const config = resolveConfig(api);
+  const store = openLedgerStore(api.runtime);
+  if (!store) {
+    return "Spend is unavailable: this host has no plugin-state store.";
+  }
+  const at = new Date().toISOString();
+  return spendLine(await loadMonth(store, at), config.budgetUsd);
+}
+
 function doctorText(api: OpenClawPluginApi): Promise<string> {
   const config = resolveConfig(api);
   return checkProtectedIntegrity(api.runtime, readProtectedFiles(personaDir(api))).then(
-    (integrity) => {
+    async (integrity) => {
       const chain = resolveModelChain({ model: config.model, modelChain: config.modelChain });
       const effective = effectiveChain(chain, breakers, Date.now());
+      const at = new Date().toISOString();
+      const store = openLedgerStore(api.runtime);
+      const spend = store ? spendLine(await loadMonth(store, at), config.budgetUsd) : undefined;
       const report = buildDoctorReport({
         ownerConfigured: config.ownerIds.length > 0,
         personaPresent: loadSystemContext(personaDir(api)).length > 0,
@@ -131,6 +175,7 @@ function doctorText(api: OpenClawPluginApi): Promise<string> {
         integrity: integrity.status,
         heartbeat: heartbeat !== null,
         model: effective,
+        ...(spend ? { spend } : {}),
       });
       return report.lines.join("\n");
     },
@@ -265,8 +310,11 @@ export default definePluginEntry({
 
     api.on(
       "before_model_resolve",
-      (event) => {
+      async (event) => {
         const config = resolveConfig(api);
+        // C-05: the ceiling is enforced at routing — a spent budget refuses paid escalation and
+        // keeps the turn on the free/local tier rather than silently spending past it.
+        const budget = await budgetDecision(api);
         // C-01 cheap-first local routing wins when configured: serve the turn on the local
         // provider so the engine's own gateway makes the call (§7.10, §6.1).
         const routing = routeTurn(
@@ -275,7 +323,7 @@ export default definePluginEntry({
             localProvider: config.localProvider,
             localModel: config.localModel,
           },
-          { lockedDown: config.lockedDown, budgetAllowed: true },
+          { lockedDown: config.lockedDown, budgetAllowed: budget.allowed },
         );
         if (routing.tier !== "default" && routing.provider && routing.model) {
           return { providerOverride: routing.provider, modelOverride: routing.model };
@@ -301,6 +349,25 @@ export default definePluginEntry({
       "model_call_ended",
       (event) => {
         trackModelOutcome(event.provider, event.outcome === "completed");
+      },
+      { priority: HOOK_PRIORITY },
+    );
+
+    // C-04: record each call's reported token usage against the durable monthly ledger. Only a
+    // completed call with reported usage is recorded; a call with no usage records zero rather
+    // than a guess. Best-effort — a store hiccup never fails the turn.
+    api.on(
+      "llm_output",
+      async (event) => {
+        if (!event.usage) {
+          return;
+        }
+        await recordCallUsage(api, {
+          provider: event.provider,
+          model: event.model,
+          inputTokens: event.usage.input,
+          outputTokens: event.usage.output,
+        });
       },
       { priority: HOOK_PRIORITY },
     );
@@ -421,6 +488,16 @@ export default definePluginEntry({
       exposeSenderIsOwner: true,
       handler: async (ctx) =>
         isOwner(ctx) ? { text: await forgetText(api, ctx.args ?? "") } : { text: "Owner only." },
+    });
+
+    api.registerCommand({
+      name: "spend",
+      description: "Show month-to-date model spend and remaining budget (C-04).",
+      acceptsArgs: false,
+      requireAuth: true,
+      exposeSenderIsOwner: true,
+      handler: async (ctx) =>
+        isOwner(ctx) ? { text: await spendText(api) } : { text: "Owner only." },
     });
 
     api.registerService({

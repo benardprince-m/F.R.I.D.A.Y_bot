@@ -46,6 +46,11 @@ export interface DoctorInput {
    * not resolved (so we never print a chain the engine is not using).
    */
   model?: { primary: string; fallbacks: string[] };
+  /**
+   * C-04 spend line: month-to-date spend and remaining budget. Omitted when the ledger store is
+   * unavailable (so we never print a spend figure we could not read).
+   */
+  spend?: string;
 }
 
 export interface DoctorReport {
@@ -146,6 +151,7 @@ export function buildDoctorReport(input: DoctorInput): DoctorReport {
           }`,
         ]
       : []),
+    ...(input.spend ? [`- ${input.spend}`] : []),
     `- lockdown: ${input.lockedDown ? "on (non-essential outbound paused)" : "off"}`,
     `- routing: ${input.localRoutingConfigured ? "cheap-first (local provider set)" : "default"}`,
     `- not verified from chat: ${unverified.join(", ")} — run \`openclaw doctor\` on the host`,

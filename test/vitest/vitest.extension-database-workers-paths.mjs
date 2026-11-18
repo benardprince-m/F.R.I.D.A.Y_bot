@@ -10,6 +10,7 @@ export const databaseWorkerExtensionTestFiles = [
   // exercises the main-thread broker and must run in this lane (pool: "forks").
   "extensions/friday/src/continuity-store.test.ts",
   "extensions/friday/src/memory/store.test.ts",
+  "extensions/friday/src/ops/ledger-store.test.ts",
   "extensions/alibaba/video-generation-provider.test.ts",
   "extensions/mcp-events/src/service.test.ts",
   "extensions/codex/src/conversation-binding.test.ts",

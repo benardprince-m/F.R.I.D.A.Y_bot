@@ -12,6 +12,9 @@ function sampleValue(key: string): unknown {
   if (key === "modelChain") {
     return ["google/gemini-2.5-flash"];
   }
+  if (key === "budgetUsd") {
+    return 10;
+  }
   return "value";
 }
 
@@ -80,9 +83,20 @@ describe("parseFridayConfig", () => {
     expect(() => parseFridayConfig({ modelChain: [123] })).toThrow(/string/);
   });
 
+  it("carries the monthly budget ceiling through and rejects a negative one", () => {
+    expect(parseFridayConfig({ budgetUsd: 10 })).toEqual({
+      ownerIds: [],
+      lockedDown: false,
+      budgetUsd: 10,
+    });
+    expect(() => parseFridayConfig({ budgetUsd: -1 })).toThrow(/non-negative/);
+    expect(() => parseFridayConfig({ budgetUsd: "10" })).toThrow(/non-negative/);
+  });
+
   it("accepts exactly the fields the manifest schema declares", () => {
     const declared = Object.keys(manifest.configSchema.properties).toSorted();
     expect(declared).toEqual([
+      "budgetUsd",
       "localModel",
       "localProvider",
       "lockedDown",

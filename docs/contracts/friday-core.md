@@ -360,6 +360,16 @@ function spendLine(snapshot: LedgerSnapshot, budgetUsd?: number): string;
 
 Contract: an unknown model records zero cost rather than a guess; with no ceiling configured every call is allowed and the reason says so; at or past the ceiling the call is refused with the exact spend.
 
+**Wiring (C-04/C-05).** The snapshot is durable: `ledger-store.ts` keeps one row per month in the
+`friday-ledger` keyed store (bounded, `reject-new`), and a row that fails `isLedgerSnapshot` is
+treated as absent — the read is a trust boundary. `index.ts` records each call's reported usage at
+the `llm_output` hook (`event.usage.input`/`output`); a call with no reported usage records zero,
+never a guess. The ceiling is enforced at `before_model_resolve`: `budgetDecision` reads the current
+month's spend and feeds `routeTurn`'s `budgetAllowed`, so a spent ceiling refuses paid escalation
+and keeps the turn on the free/local tier rather than silently spending past it. `/spend` reports
+month-to-date spend and the remaining budget, and `/doctor` prints the same spend line. The ceiling
+amount is owner config (`budgetUsd`, §7.10 gate, BLK-3).
+
 ## G-01 · Heartbeat & night shift (`extensions/friday/src/ops/heartbeat.ts`)
 
 Pulse cadence and the overnight work window (§7.8).
@@ -444,6 +454,8 @@ Contract: the key is case- and whitespace-insensitive; the store is TTL- and siz
 | F-05 checkIntegrity  | `/doctor` + `/trust-persona` baseline (state store) | WS-F       | WIRED — `index.ts`; baseline persisted; proven in `index.test.ts`                                               |
 | G-01 heartbeat       | `registerService` v2 + `PluginServiceSchedulerV1`   | WS-G       | WIRED — `index.ts`; 60s loop, F-05 check on a beat; proven in `heartbeat-service.test.ts`                       |
 | B-02/B-04            | memory write + forget commands                      | WS-B       | WIRED — `index.ts` (`/remember`,`/memory`,`/forget`) + owner-scoped retrieval; `index.test.ts`, `store.test.ts` |
+| C-04 spend ledger    | `llm_output` hook (per-call token usage)            | WS-C       | WIRED — `index.ts`; durable `friday-ledger` store; `/spend`; proven in `index.test.ts`, `ledger-store.test.ts`  |
+| C-05 budget ceiling  | `before_model_resolve` (router `budgetAllowed`)     | WS-C       | WIRED — `index.ts`; a spent ceiling refuses paid escalation; proven in `index.test.ts`                          |
 | E-01/E-04            | task start / completion + chat reply                | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                                                              |
 
 Each wiring is proven by a test that exercises the real entry point, not just the pure function.

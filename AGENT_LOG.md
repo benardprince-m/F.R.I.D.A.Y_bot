@@ -6,6 +6,37 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-17T11:40Z — Lane 11 · C-04/C-05 spend ledger + budget ceiling (durable + wired)
+
+**Goal:** Close C-04/C-05 — make model spend real and bounded. The pure ledger existed (`costOf`/`recordUsage`/`decideBudget`/`spendLine`) but nothing fed it real usage and nothing enforced the ceiling, so "don't waste resources" was a claim with no evidence behind it.
+
+**Owner framing (this session):** keys last — build the machine first. So the resource layer lands now; only the ceiling _amount_ (BLK-3) waits on the owner.
+
+**Recon:** `llm_output` carries `usage: { input, output, cacheRead, cacheWrite, total }` per call (`PluginHookLlmOutputEvent`), emitted by the embedded runner after each attempt (`attempt-result.ts`) — the real token surface. `before_agent_run` is async and `before_model_resolve` accepts overrides; `routeTurn` already takes `budgetAllowed`, so the ceiling has a real enforcement point at routing. The monthly key is the month, so one row per month bounds the store.
+
+**Scope:** new `src/ops/ledger-store.ts` (+ test), `index.ts` (record at `llm_output`; enforce at `before_model_resolve`; `/spend`; `/doctor` spend line), `src/ops/doctor.ts` (spend line), `src/config.ts` + `openclaw.plugin.json` (`budgetUsd`), `config.test.ts`, `index.test.ts`, `docs/contracts/friday-core.md`, `TASKBOARD.md`, `test/vitest/vitest.extension-database-workers-paths.mjs`.
+
+**Execution:**
+
+- `ledger-store.ts` opens the `friday-ledger` namespace (`maxEntries: 3000`, `reject-new`) and keys by month; `loadMonth` validates via `isLedgerSnapshot` and treats a bad row as absent (read = trust boundary). `saveMonth` writes the month row.
+- `index.ts` records usage at `llm_output` (a call with no `usage` records nothing — never a guess), and computes `budgetDecision` at `before_model_resolve`, feeding `routeTurn`'s `budgetAllowed`. A spent ceiling refuses paid escalation and keeps the turn on the free/local tier. `/spend` and `/doctor` read the same month row.
+- `budgetUsd` added to config (validated non-negative finite) and the manifest schema (owner-settable ceiling).
+- `openclaw.plugin.json` schema + `config.test.ts` field list updated together.
+
+**Verification (exact commands + actual results):**
+
+- `./node_modules/.bin/vitest run extensions/friday` → **37 files / 314 tests passed** (was 36/303; +11). New `index.test.ts` C-04/C-05 block (6) + `config.test.ts` budget cases (2) + ledger-store (4 in the db-worker lane) — reconciled by file.
+- `./node_modules/.bin/vitest run --config test/vitest/vitest.extension-database-workers.config.ts extensions/friday` → 3 files / 14 tests passed (continuity + memory + ledger stores).
+- `node scripts/run-tsgo.mjs -p tsconfig.extensions.json` → exit 0; `oxlint extensions/friday` → exit 0; `oxfmt --check extensions/friday` clean.
+
+**Side effects:** `before_model_resolve` is now async (awaits the ledger read); one new `llm_output` registration; one new command (`/spend`); `/doctor` gains a spend line when the ledger store is open. New state: the `friday-ledger` namespace.
+
+**Known risks:** Cost uses FRIDAY's static price table; an unknown model records zero (the ceiling still applies) — deliberate, recorded in the contract. The ceiling is enforced at routing, not by hard-refusing the turn, so a spent owner still gets a (free/local) reply rather than silence — the honest Phase 0 behavior. Recording is per attempt; the engine may report an attempt's usage more than once only if it emits `llm_output` more than once for one call.
+
+**Next action:** Lane 12 — C-06 response cache (write at `llm_output`, serve at `before_agent_reply` for owner turns), after verifying the reply-hook's tool-loop/command semantics so a hit can never bypass tools or owner commands.
+
+---
+
 ## 2026-11-17T09:20Z — Lane 10 · B-02/B-04 memory surface (records + keyed store + commands)
 
 **Goal:** Close BLK-7 — give the owner a working memory surface. The engine's memory-core has no plugin-facing read/write/delete API, so `/remember` (Librarian writes, B-02), `/forget` (purge with evidence, B-04), and retrieval into the prompt were all unwired; the pure modules existed but nothing could reach them from chat.

@@ -21,6 +21,8 @@ export interface FridayConfig {
   model?: string;
   /** Ordered fallback model refs. Defaults to the free-tier chain. */
   modelChain?: string[];
+  /** Hard monthly spend ceiling in USD (§7.10, C-05). Unset means no ceiling. */
+  budgetUsd?: number;
 }
 
 const EMPTY_CONFIG: FridayConfig = { ownerIds: [], lockedDown: false };
@@ -33,6 +35,7 @@ function isKnownField(key: string): boolean {
     key === "personaDir" ||
     key === "lockedDown" ||
     key === "modelChain" ||
+    key === "budgetUsd" ||
     (STRING_FIELDS as readonly string[]).includes(key)
   );
 }
@@ -116,6 +119,14 @@ export function parseFridayConfig(raw: unknown): FridayConfig {
         })
       : undefined;
 
+  const rawBudget = raw.budgetUsd;
+  if (
+    rawBudget !== undefined &&
+    (typeof rawBudget !== "number" || !Number.isFinite(rawBudget) || rawBudget < 0)
+  ) {
+    throw invalid("budgetUsd must be a non-negative finite number");
+  }
+
   return {
     ownerIds,
     lockedDown: lockedDown === true,
@@ -126,6 +137,7 @@ export function parseFridayConfig(raw: unknown): FridayConfig {
     ...(localModel ? { localModel } : {}),
     ...(model ? { model } : {}),
     ...(modelChain ? { modelChain } : {}),
+    ...(typeof rawBudget === "number" ? { budgetUsd: rawBudget } : {}),
   };
 }
 

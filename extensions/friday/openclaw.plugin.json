@@ -44,6 +44,11 @@
         "type": "array",
         "items": { "type": "string", "minLength": 1 },
         "description": "Ordered fallback model refs (provider/model). Defaults to the free-tier chain: Gemini, Groq, Mistral, Cohere, Cloudflare."
+      },
+      "budgetUsd": {
+        "type": "number",
+        "minimum": 0,
+        "description": "Hard monthly spend ceiling in USD (§7.10). Unset means no ceiling; at or past it, FRIDAY refuses paid calls and says so."
       }
     }
   },
@@ -76,6 +81,11 @@
     "modelChain": {
       "label": "Fallback chain",
       "help": "Ordered fallbacks used when the primary provider fails. Leave empty for the free-tier chain."
+    },
+    "budgetUsd": {
+      "label": "Monthly budget (USD)",
+      "placeholder": "10",
+      "help": "Hard monthly spend ceiling. Leave empty for no ceiling."
     }
   }
 }
