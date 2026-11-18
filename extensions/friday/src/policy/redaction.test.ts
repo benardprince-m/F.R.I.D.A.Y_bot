@@ -64,4 +64,20 @@ describe("redactForEgress", () => {
     expect(result.findings).toHaveLength(0);
     expect(result.blocked).toBe(false);
   });
+
+  it("does not mistake an ISO date for a phone number", () => {
+    const text = "remind me on 2026-11-18 to submit 12 forms";
+    const result = redactForEgress(text);
+    expect(result.text).toBe(text);
+    expect(result.findings).toHaveLength(0);
+  });
+
+  it("still redacts a real phone number (with or without a country code)", () => {
+    expect(redactForEgress("call me on 0801 234 5678").findings).toEqual([
+      { kind: "phone", token: "[[PHONE_1]]" },
+    ]);
+    expect(redactForEgress("reach me at +1 (555) 123-4567").findings).toEqual([
+      { kind: "phone", token: "[[PHONE_1]]" },
+    ]);
+  });
 });

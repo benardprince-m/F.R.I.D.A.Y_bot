@@ -49,6 +49,40 @@ describe("HeartbeatService", () => {
       now: () => Date.parse("2026-11-17T12:00:00Z"),
     });
 
+  it("runs the injected night-shift work on a night-shift beat", async () => {
+    const runNightShift = vi.fn(async () => {});
+    const service = new HeartbeatService({
+      readConfig: () => ({ lockedDown: false, personaDir: dir }),
+      scheduler: createTestPluginServiceScheduler(),
+      logger,
+      runtime,
+      // A window that contains local noon, so this beat is a night-shift beat regardless of TZ.
+      window: { startHour: 12, endHour: 13 },
+      runNightShift,
+      now: () => Date.parse("2026-11-17T12:00:00Z"),
+    });
+    await service.tick(NOON);
+    expect(runNightShift).toHaveBeenCalledTimes(1);
+    await service.stop();
+  });
+
+  it("survives a failing night-shift mission (logs, never crashes the loop)", async () => {
+    const service = new HeartbeatService({
+      readConfig: () => ({ lockedDown: false, personaDir: dir }),
+      scheduler: createTestPluginServiceScheduler(),
+      logger,
+      runtime,
+      window: { startHour: 12, endHour: 13 },
+      runNightShift: async () => {
+        throw new Error("consolidation exploded");
+      },
+      now: () => Date.parse("2026-11-17T12:00:00Z"),
+    });
+    await expect(service.tick(NOON)).resolves.toBeUndefined();
+    expect(logger.warn).toHaveBeenCalledWith(expect.stringContaining("night-shift mission failed"));
+    await service.stop();
+  });
+
   it("warns when a protected file changed since the recorded baseline", async () => {
     await recordBaseline(runtime, [{ path: "PERSONA.md", content: "persona body" }]);
     writeFileSync(path.join(dir, "PERSONA.md"), "persona body TAMPERED");

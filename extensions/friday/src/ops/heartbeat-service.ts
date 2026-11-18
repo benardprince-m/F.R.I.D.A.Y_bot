@@ -1,10 +1,9 @@
-// FRIDAY ops: the heartbeat service (G-01, §7.8).
+// FRIDAY ops: the heartbeat service (G-01, §7.8; Phase 1 night shift).
 //
 // Phase 0 needs FRIDAY to be demonstrably alive: a beat every minute, bound to the Gateway's
-// lifetime so it stops cleanly and never outlives the host. This service owns that loop. The
-// night-shift work it will drive (memory consolidation, skill research) is Phase 1 — deferred —
-// so for now a night-shift beat is an honest no-op and the liveness beat runs the F-05
-// protected-file integrity check, the one self-check that is real today.
+// lifetime so it stops cleanly and never outlives the host. This service owns that loop. A
+// liveness beat runs the F-05 protected-file integrity check; a night-shift beat runs the
+// injected unattended work (memory consolidation + mission planning, see `runNightShift`).
 //
 // Pause semantics: lockdown (or quiet mode) pauses the loop, matching `decideHeartbeat`'s
 // "a paused heartbeat never fires". The loop reads the live config each beat, so /lockdown and
@@ -33,6 +32,12 @@ export interface HeartbeatServiceDeps {
   window?: NightShiftWindow;
   /** Inject the clock for tests; defaults to the host scheduler's clock. */
   now?: () => number;
+  /**
+   * The unattended night-shift work (Phase 1): memory consolidation, mission planning, the
+   * morning brief. Runs inside the night-shift window on a beat. A failure here is logged and
+   * never crashes the loop — the next beat retries.
+   */
+  runNightShift?: () => Promise<void>;
 }
 
 /** Run the loop until `stop()` is called. The host joins `stop()` before teardown. */
@@ -67,7 +72,7 @@ export class HeartbeatService {
         localHour: () => new Date(now).getHours(),
         window: this.deps.window ?? DEFAULT_NIGHT_SHIFT,
         runLiveness: () => this.livenessBeat(),
-        runNightShift: () => Promise.resolve(),
+        runNightShift: () => this.nightShiftBeat(),
         onError: (error) =>
           this.deps.logger.warn(`friday: heartbeat beat failed: ${String(error)}`),
       });
@@ -84,6 +89,18 @@ export class HeartbeatService {
       this.deps.logger.warn(
         "friday: integrity violation — a protected file changed since the owner-approved baseline",
       );
+    }
+  }
+
+  private async nightShiftBeat(): Promise<void> {
+    if (!this.deps.runNightShift) {
+      return;
+    }
+    try {
+      await this.deps.runNightShift();
+    } catch (error) {
+      // Unattended work must never take the loop down; the next beat retries.
+      this.deps.logger.warn(`friday: night-shift mission failed: ${String(error)}`);
     }
   }
 

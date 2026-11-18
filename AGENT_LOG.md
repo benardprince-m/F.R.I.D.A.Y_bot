@@ -6,6 +6,44 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-18T18:40Z — Lane 16 · F-09 active defence + Phase 1 autonomy (finish + harden)
+
+**Goal:** finish the increment a host restart left uncommitted — F-09 active defence and the Phase 1 autonomy night shift — and fix the defects it contained before landing.
+
+**Scope:** `extensions/friday/src/defense/` (new), `extensions/friday/src/autonomy/` (new), `extensions/friday/src/memory/consolidate.ts` (new); wiring in `index.ts` (`before_agent_run` reflex, `before_agent_finalize` critique, `/defense`, night-shift beat); `heartbeat-service.ts`; two defensive fixes in existing modules. No engine internals.
+
+**Plan:** read the whole increment against its contract, run it, attack the new surfaces for real defects (as F-08 did), fix each at its owner with a regression, then complete the missing governance (contract doc, board rows, this log).
+
+**Execution — completion:**
+
+- F-09 active defence: `threat.ts` (shared vocabulary + posture ladder), `instinct.ts` (fast reflex over every inbound message), `ledger.ts` (durable per-actor offence history with decay), `countermeasures.ts` (observe/warn/tarpit/quarantine/ban — defence, never offence), `guard.ts` (composed per-turn decision), `store.ts` (durable `friday-threats` row). Wired at `before_agent_run` before the deliberate gate; `/defense` shows the owner the active ledger (hashed actor tags).
+- Autonomy: `missions.ts` (bounded night-shift planner), `critique.ts` (self-critique before an answer ships), `memory/consolidate.ts` (merge/decay/cap). Wired at `before_agent_finalize` (owner turns) and into the heartbeat night-shift beat via an injected `runNightShift`.
+
+**Execution — defects found and fixed (root, at the owning module):**
+
+1. **`phone` redaction rule ate ISO dates (F-01).** `/(?:\+?\d[\d\s().-]{7,}\d)/` matched `2026-11-18`, so the owner's own dated messages were rewritten to `[[PHONE_1]]` before the model saw them, and every dated answer was misread as a leak. Fixed: require ≥9 digits, separators space/paren/dash only (never a dot), with lookarounds so it cannot swallow a longer number. Real phone numbers still redact.
+2. **Self-critique treated any PII as a leak.** `critiqueAnswer` forced `revise` when `redactForEgress` reported _any_ finding, so a legitimate technical answer with an email or a long number looped back for revision. Fixed: only a **hard** credential (`blocked`) forces revision; generic PII is handled on egress to the model by F-01 and must not gate shipping.
+3. **Two `consistent-return` lint errors** in the new `postureLine`/`countermeasure` switches. Fixed by making both total maps over `Posture`.
+4. **Stale heartbeat comment** ("night shift is a Phase 1 no-op") contradicted the new wiring. Corrected.
+
+**Verification (exact commands + actual results):**
+
+- `node --import ./scripts/tsx.mjs scripts/test-extension.mts friday` → **39 files / 441 tests passed** (was 34/310 before this lane; +5 suites / +131 tests, incl. new defence + autonomy + heartbeat night-shift + redaction regression).
+- `node scripts/run-tsgo.mjs -p tsconfig.extensions.json` → exit 0.
+- `node scripts/run-oxlint.mjs --tsconfig extensions/tsconfig.json extensions/friday` → exit 0 (after the two switch fixes).
+- `oxfmt --check extensions/friday` → clean.
+- Regression proof for defect 1: `redactForEgress("remind me on 2026-11-18 …")` now returns the text unchanged; `"call me on 0801 234 5678"` and `"+1 (555) 123-4567"` still redact. For defect 2: `critiqueAnswer("Deployed on 2026-11-18. 12 tests passed.")` → `ship`.
+
+**Side effects:** new `docs/contracts/friday-defense.md`; `TASKBOARD.md` F-09 + B-06/B-07/B-08 rows; new heartbeat night-shift tests; two existing modules hardened. A stale `.artifacts/dist-artifacts.lock` left by the crashed `tsgo` run was cleared (owner PID confirmed dead) so the typecheck could run.
+
+**Outcome:** F-09 and Phase 1 autonomy complete and proven at their entry points; three real defects fixed with regressions; the increment is no longer half-built.
+
+**Known risks:** this proves the _logic_, not a live body — no live Telegram/Discord/model/host (BLK-1/2/3/5), so it is not a live-fire result. The reflex detectors and the redaction rules are pattern lists; each must be extended when a new provider key shape or evasion is seen. `runNightShift` runs on the host heartbeat only when the Gateway is up.
+
+**Next action:** the remaining Phase 0 items are the `/secret` half of G-06 and F-04 (both blocked on the engine's plugin-facing message-delete seam, BLK-9); live-channel proof waits on BLK-1/2/3/5.
+
+---
+
 ## 2026-11-18T13:20Z — Lane 15 · RED TEAM engagement (adversarial drill; 13 cracks found + fixed)
 
 **Goal:** owner-requested breach-and-attack drill. Attack FRIDAY, try to trick it into leaking credentials, find bugs/cracks/open windows, run a "system under cyber attack" scenario, and report findings in plain language.

@@ -44,8 +44,15 @@ import {
 } from "openclaw/plugin-sdk/plugin-entry";
 import { fetchWithRuntimeDispatcher } from "openclaw/plugin-sdk/runtime-fetch";
 import manifest from "./openclaw.plugin.json" with { type: "json" };
+import { critiqueAnswer } from "./src/autonomy/critique.js";
+import { planNightShift, renderPlan } from "./src/autonomy/missions.js";
 import { readFridayConfig, type FridayConfig } from "./src/config.js";
+import { defendTurn } from "./src/defense/guard.js";
+import { activeThreats, actorTag } from "./src/defense/ledger.js";
+import { loadThreats, openThreatStore, saveThreats } from "./src/defense/store.js";
+import { DEFAULT_DEFENSE } from "./src/defense/threat.js";
 import { redactUserMessage, fenceToolResultMessage } from "./src/gate.js";
+import { consolidateMemory, renderConsolidation } from "./src/memory/consolidate.js";
 import { renderForgetReport } from "./src/memory/forget.js";
 import {
   applyCandidate,
@@ -127,6 +134,77 @@ function continuityStoreAvailable(api: OpenClawPluginApi): boolean {
     typeof (api.runtime as { state?: { openKeyedStore?: unknown } } | undefined)?.state
       ?.openKeyedStore === "function"
   );
+}
+
+/**
+ * Per-actor recent-arrival timestamps, for the flood reflex. Bounded per actor and pruned to the
+ * policy window, so a long-lived process does not accumulate state for a noisy actor.
+ */
+const arrivalWindows = new Map<string, number[]>();
+
+/** True when this arrival puts the actor over the flood threshold within the window. */
+function isFlood(actor: string, now: number): boolean {
+  const window = DEFAULT_DEFENSE.floodWindowMs;
+  const recent = (arrivalWindows.get(actor) ?? []).filter((t) => now - t < window);
+  recent.push(now);
+  arrivalWindows.set(actor, recent);
+  return recent.length > DEFAULT_DEFENSE.floodThreshold;
+}
+
+/** `/defense` — the owner's window into the active threat ledger (F-09). */
+async function defenseText(api: OpenClawPluginApi): Promise<string> {
+  const store = openThreatStore(api.runtime);
+  if (!store) {
+    return "Defence ledger is unavailable: this host has no plugin-state store.";
+  }
+  const now = Date.now();
+  const ledger = await loadThreats(store);
+  const active = activeThreats(ledger, now);
+  if (active.length === 0) {
+    return "No active threats. FRIDAY's reflex is armed and the ledger is empty.";
+  }
+  const lines = active.map(
+    (t) => `${actorTag(t.actor)}: ${t.posture} — ${t.offences} offence(s) on record`,
+  );
+  return ["Active threats (posture, offences):", ...lines].join("\n");
+}
+
+/**
+ * The unattended night shift: consolidate memory and plan what to advance, then log the honest
+ * outcome. This is the autonomy pillar's heartbeat — FRIDAY working its own queue while the owner
+ * sleeps. It never invents goals: missions come only from tasks, memory, and acquisitions the
+ * owner already set up.
+ */
+async function runNightShift(
+  api: OpenClawPluginApi,
+  logger: { info: (message: string) => void; warn: (message: string) => void },
+): Promise<void> {
+  const memStore = openMemoryStore(api.runtime);
+  let consolidationLine = "Memory: store unavailable.";
+  if (memStore) {
+    const now = Date.now();
+    const before = await loadMemories(memStore);
+    const { records, report } = consolidateMemory(before, now);
+    if (report.mergedAway > 0 || report.decayed > 0) {
+      await saveMemories(memStore, records);
+    }
+    consolidationLine = renderConsolidation(report);
+  }
+
+  const taskStore = openTaskStore(api.runtime);
+  const openTasks = taskStore
+    ? (await loadTasks(taskStore)).filter(
+        (t) => t.status === "planned" || t.status === "running" || t.status === "waiting-owner",
+      )
+    : [];
+  const missions = planNightShift({
+    openTasks,
+    memoryNeedsConsolidation: false,
+    openAcquisitions: [],
+    wantsBrief: false,
+    maxMissions: 5,
+  });
+  logger.info(`friday night shift: ${consolidationLine}; ${renderPlan(missions)}`);
 }
 
 /** The live budget decision for this instant (C-05). No ceiling configured ⇒ always allowed. */
@@ -391,7 +469,33 @@ export default definePluginEntry({
 
     api.on(
       "before_agent_run",
-      (event) => {
+      async (event) => {
+        // Instinct first: the reflex runs before the deliberate gate so a known-bad actor is cut
+        // off (quarantine/ban) before the model is ever reached, and a tarpit is fed a decoy. The
+        // deliberate gate below still owns admission and credential policy; the reflex never
+        // broadens access, it only narrows it.
+        const now = Date.now();
+        const actor = event.channelId ? `${event.channelId}:${event.senderId ?? ""}` : undefined;
+        const store = openThreatStore(api.runtime);
+        if (store && actor && event.senderIsOwner !== true) {
+          const flood = isFlood(actor, now);
+          const decision = defendTurn(
+            { prompt: event.prompt, actor, fromOwner: false, now, flood },
+            await loadThreats(store),
+          );
+          if (decision.ledger.actors.length > 0) {
+            await saveThreats(store, decision.ledger);
+          }
+          if (!decision.proceed) {
+            return {
+              outcome: "block" as const,
+              reason: decision.reason,
+              message: decision.countermeasure.message || "This assistant is private.",
+              category: "defense",
+            };
+          }
+        }
+
         const decision = prepareTurn(
           {
             prompt: event.prompt,
@@ -411,6 +515,27 @@ export default definePluginEntry({
           message: decision.message,
           category: decision.category,
         };
+      },
+      { priority: HOOK_PRIORITY },
+    );
+
+    // Self-critique (autonomy): before FRIDAY ships an answer, it reads its own draft. A leak is
+    // forced back for revision; unsupported success / hedging asks the harness for another pass.
+    // Only the owner's own turns are critiqued — a decoy to an attacker is deliberately shallow.
+    api.on(
+      "before_agent_finalize",
+      (event, ctx) => {
+        if (!isOwnerTurn(api, ctx) || !event.lastAssistantMessage) {
+          return undefined;
+        }
+        const critique = critiqueAnswer(event.lastAssistantMessage);
+        if (critique.verdict === "revise") {
+          return {
+            action: "revise" as const,
+            reason: `FRIDAY self-critique: ${critique.issues.map((i) => i.detail).join("; ")}`,
+          };
+        }
+        return undefined;
       },
       { priority: HOOK_PRIORITY },
     );
@@ -651,6 +776,16 @@ export default definePluginEntry({
         isOwner(ctx) ? { text: await deployText() } : { text: "Owner only." },
     });
 
+    api.registerCommand({
+      name: "defense",
+      description: "Show the active threat ledger: actors, posture, offences (F-09).",
+      acceptsArgs: false,
+      requireAuth: true,
+      exposeSenderIsOwner: true,
+      handler: async (ctx) =>
+        isOwner(ctx) ? { text: await defenseText(api) } : { text: "Owner only." },
+    });
+
     api.registerService({
       id: "friday-heartbeat",
       apiVersion: 2,
@@ -660,6 +795,7 @@ export default definePluginEntry({
           scheduler: ctx.scheduler,
           logger: ctx.logger,
           runtime: api.runtime,
+          runNightShift: () => runNightShift(api, ctx.logger),
         });
         service.start();
         heartbeat = service;

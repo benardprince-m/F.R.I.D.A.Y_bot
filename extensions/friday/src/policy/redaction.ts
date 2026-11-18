@@ -67,7 +67,9 @@ const PATTERNS: readonly Pattern[] = [
   { kind: "ip", regex: /\b(?:\d{1,3}\.){3}\d{1,3}\b/g },
   { kind: "card", regex: /\b(?:\d[ -]?){13,19}\b/g },
   { kind: "national-id", regex: /\b\d{7,9}\b/g },
-  { kind: "phone", regex: /(?:\+?\d[\d\s().-]{7,}\d)/g },
+  // A phone number needs at least 9 digits and uses space/paren/dash separators (never a dot,
+  // so it cannot swallow a date like 2026-11-18); the lookarounds stop it eating a longer number.
+  { kind: "phone", regex: /(?<![\d-])\+?(?:\d[\s()-]*){9,}(?<![\s()-])(?![\d-])/g },
 ];
 
 /**

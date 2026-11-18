@@ -48,6 +48,7 @@ describe("friday plugin entry", () => {
     const { commands, registerCommand } = captureCommands();
     plugin.register(createTestPluginApi({ on, registerCommand }));
     expect([...hooks.keys()].toSorted()).toEqual([
+      "before_agent_finalize",
       "before_agent_run",
       "before_message_write",
       "before_model_resolve",
@@ -57,6 +58,7 @@ describe("friday plugin entry", () => {
       "tool_result_persist",
     ]);
     expect([...commands.keys()].toSorted()).toEqual([
+      "defense",
       "deploy",
       "doctor",
       "forget",
@@ -156,46 +158,51 @@ describe("friday plugin entry", () => {
   });
 
   describe("before_agent_run gate", () => {
-    function gateHandler(pluginConfig: unknown) {
+    function gateHandler(pluginConfig: unknown, runtime?: unknown) {
       const { hooks, on } = captureHooks();
-      plugin.register(createTestPluginApi({ on, pluginConfig }));
+      plugin.register(
+        createTestPluginApi({
+          on,
+          pluginConfig,
+          ...(runtime ? { runtime: runtime as never } : {}),
+        }),
+      );
       return hooks.get("before_agent_run")!;
     }
 
-    it("passes an owner turn", () => {
+    it("passes an owner turn", async () => {
       const gate = gateHandler({});
       expect(
-        gate({ prompt: "hi", channelId: "telegram", senderId: "1", senderIsOwner: true }),
+        await gate({ prompt: "hi", channelId: "telegram", senderId: "1", senderIsOwner: true }),
       ).toEqual({ outcome: "pass" });
     });
 
-    it("blocks a non-owner turn", () => {
-      const gate = gateHandler({});
-      expect(gate({ prompt: "hi", channelId: "telegram", senderIsOwner: false })).toMatchObject({
-        outcome: "block",
-        category: "admission",
-      });
-    });
-
-    it("blocks an owner message carrying a credential", () => {
+    it("blocks a non-owner turn", async () => {
       const gate = gateHandler({});
       expect(
-        gate({ prompt: "sk-abcdefghijklmnop", channelId: "telegram", senderIsOwner: true }),
+        await gate({ prompt: "hi", channelId: "telegram", senderIsOwner: false }),
+      ).toMatchObject({ outcome: "block", category: "admission" });
+    });
+
+    it("blocks an owner message carrying a credential", async () => {
+      const gate = gateHandler({});
+      expect(
+        await gate({ prompt: "sk-abcdefghijklmnop", channelId: "telegram", senderIsOwner: true }),
       ).toMatchObject({ outcome: "block", category: "credential" });
     });
 
-    it("blocks a system turn when locked down", () => {
+    it("blocks a system turn when locked down", async () => {
       const gate = gateHandler({ lockedDown: true });
-      expect(gate({ prompt: "heartbeat" })).toMatchObject({
+      expect(await gate({ prompt: "heartbeat" })).toMatchObject({
         outcome: "block",
         category: "lockdown",
       });
     });
 
-    it("still passes owner messaging under lockdown (F-03: core messaging stays up)", () => {
+    it("still passes owner messaging under lockdown (F-03: core messaging stays up)", async () => {
       const gate = gateHandler({ lockedDown: true });
       expect(
-        gate({ prompt: "hi", channelId: "telegram", senderId: "1", senderIsOwner: true }),
+        await gate({ prompt: "hi", channelId: "telegram", senderId: "1", senderIsOwner: true }),
       ).toEqual({ outcome: "pass" });
     });
   });
