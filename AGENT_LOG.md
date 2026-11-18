@@ -6,6 +6,37 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-13T12:55Z — Identity layer: Control UI topbar says FRIDAY (safe rebrand, one surface)
+
+**Goal:** Advance the owner's "one system, Hermes-like" direction by removing the last visible "OpenClaw" surface a phone-only owner meets, without touching load-bearing internals.
+
+**Scope:** `ui/src/components/app-topbar-solid.tsx` only. No engine internals, no i18n, no package/config/binary names.
+
+**Plan:** Recon first — most safe surfaces were already rebranded by prior sessions (`bcb001d1`, `35bdaa53`: banner, `--version`, help, descriptors, README, system-prompt identity, theme `brandName` default FRIDAY). Found one genuine visible gap: the Control UI topbar hardcoded the literal string "OpenClaw" in both the `aria-label` and the title, while `theme.brandName` already defaults to "FRIDAY". Recon also surfaced a prior session's finding (`0616e26f0`): a repo-wide `OpenClaw` sed is unsafe — the token is simultaneously display prose, protocol identity (`OpenClaw.SQLITE`, commit trailers), filesystem paths (`apps/macos/Sources/OpenClaw/`), workflow names, and user handles; three mass-rename attempts were reverted. So the change is surgical and per-surface.
+
+**Execution:** `app-topbar-solid.tsx` now reads the theme brand via the codebase's established reactive pattern (`projectSource(null, { read: currentThemeBranding, subscribe: subscribeThemeBranding, equality: Object.is })`), matching `settings-sidebar.tsx` and `theme-brand-icon.tsx`. Both the `aria-label` and the visible title render `branding.read().brandName`. No test asserted the topbar's literal title text, so no test edits were needed.
+
+**Verification (exact commands + actual results):**
+
+- `node scripts/run-vitest.mjs run --config test/vitest/vitest.ui.config.ts ui/src/components/shell-chrome.test.tsx` → 2 tests passed.
+- `node scripts/run-vitest.mjs run --config test/vitest/vitest.ui.config.ts ui/src/components/shell-chrome.test.tsx ui/src/app/app-shell-view.test.ts ui/src/app/app-host-pairing-access.test.ts` → 3 files, 31 tests passed.
+- `node scripts/run-tsgo.mjs -p ui/tsconfig.json` → 11 errors, all pre-existing in `ui/src/e2e/*.test.ts` (identical count with the change stashed); 0 in `app-topbar-solid.tsx`.
+- `node scripts/run-oxlint.mjs ui/src/components/app-topbar-solid.tsx` → exit 0.
+- `npx oxfmt --write ui/src/components/app-topbar-solid.tsx` → clean.
+- Pre-existing unrelated failure noted: `ui/src/components/settings-sidebar.test.tsx` fails on the clean tree (asserts the literal "Ask OpenClaw" from i18n); not touched by this change.
+
+**Stop line (owner instruction: "when it gets risky, don't rebrand"):** the Control UI i18n system is the risky boundary — 61 locale files, 8,478 `OpenClaw` occurrences, a translation-memory pipeline (`.i18n/*.tm.jsonl`), and verify/sync scripts (`ui:i18n:verify`, `lint:ui:i18n`). Not attempted. Engine internals (binary `openclaw`, `~/.openclaw` paths, `OpenClawConfig` and 807 related symbols, plugin-SDK import specifiers) also untouched per §2.3/§11.
+
+**Side effects:** One UI source file changed. No new deps.
+
+**Outcome:** Completed — the Control UI topbar now displays the configured brand (FRIDAY by default), consistent with the sidebar and login gate.
+
+**Known risks:** The brand still reads "OpenClaw" in remaining i18n strings (chat placeholder "Message OpenClaw…", settings copy, etc.). Those are the deferred, higher-risk surface; a future pass must run the i18n verify pipeline and is a per-string decision, not a sed.
+
+**Next action:** Owner to provide a Cloudflare API token (`CLOUDFLARE_API_KEY`, Workers AI / AI Gateway) so a live model route can be configured; then continue Phase 0 wiring when unblocked.
+
+---
+
 ## 2026-11-18T18:40Z — Lane 16 · F-09 active defence + Phase 1 autonomy (finish + harden)
 
 **Goal:** finish the increment a host restart left uncommitted — F-09 active defence and the Phase 1 autonomy night shift — and fix the defects it contained before landing.

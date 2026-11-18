@@ -3,7 +3,9 @@ import { Show } from "solid-js";
 import type { ControlUiEnvironment } from "../../../src/gateway/control-ui-bootstrap-contract.js";
 import { beginNativeWindowDrag } from "../app/native-window-drag.ts";
 import { controlUiPublicAssetPath } from "../app/public-assets.ts";
+import { currentThemeBranding, subscribeThemeBranding } from "../app/theme-branding.ts";
 import { t } from "../lib/reactive/i18n.ts";
+import { projectSource } from "../lib/reactive/projection.ts";
 import { defineSolidBridge } from "../lib/solid-bridge.ts";
 import { Icon } from "./solid/icon.tsx";
 import { Kbd, ShortcutText } from "./solid/kbd.tsx";
@@ -24,6 +26,12 @@ defineSolidBridge<Props>(
   (props, host) => {
     host.style.display = "contents";
     const drawerLabel = () => (props.navDrawerOpen ? t("nav.collapse") : t("nav.expand"));
+    const branding = projectSource(null, {
+      read: currentThemeBranding,
+      subscribe: (_source, notify) => subscribeThemeBranding(notify),
+      equality: Object.is,
+    });
+    const brandName = () => branding.read().brandName;
     return (
       <header class="topbar">
         <div class="topnav-shell">
@@ -41,7 +49,7 @@ defineSolidBridge<Props>(
             </button>
           </openclaw-tooltip>
           <div class="topnav-shell__content" onMouseDown={beginNativeWindowDrag}>
-            <div class="topbar-brand" aria-label="OpenClaw">
+            <div class="topbar-brand" aria-label={brandName()}>
               <img
                 class="topbar-brand__logo"
                 src={controlUiPublicAssetPath("apple-touch-icon.png", props.resourceBasePath)}
@@ -49,7 +57,7 @@ defineSolidBridge<Props>(
                 alt=""
                 aria-hidden="true"
               />
-              <span class="topbar-brand__title">OpenClaw</span>
+              <span class="topbar-brand__title">{brandName()}</span>
               <Show when={props.environment}>
                 {(environment) => (
                   <span class="control-ui-environment-pill">{environment().label}</span>
