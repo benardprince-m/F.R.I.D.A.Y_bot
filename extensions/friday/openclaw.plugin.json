@@ -34,6 +34,16 @@
         "type": "string",
         "minLength": 1,
         "description": "Local model id paired with localProvider. Set together with localProvider."
+      },
+      "model": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Primary model ref (provider/model). Defaults to deepseek/deepseek-v4.1-flash."
+      },
+      "modelChain": {
+        "type": "array",
+        "items": { "type": "string", "minLength": 1 },
+        "description": "Ordered fallback model refs (provider/model). Defaults to the free-tier chain: Gemini, Groq, Mistral, Cohere, Cloudflare."
       }
     }
   },
@@ -57,6 +67,15 @@
       "label": "Local model",
       "placeholder": "llama3.3:8b",
       "help": "The model id used with the local provider."
+    },
+    "model": {
+      "label": "Primary model",
+      "placeholder": "deepseek/deepseek-v4.1-flash",
+      "help": "FRIDAY's primary model. Leave empty for the default (DeepSeek v4.1 Flash)."
+    },
+    "modelChain": {
+      "label": "Fallback chain",
+      "help": "Ordered fallbacks used when the primary provider fails. Leave empty for the free-tier chain."
     }
   }
 }

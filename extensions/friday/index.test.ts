@@ -52,6 +52,7 @@ describe("friday plugin entry", () => {
       "before_message_write",
       "before_model_resolve",
       "before_prompt_build",
+      "model_call_ended",
       "tool_result_persist",
     ]);
     expect([...commands.keys()].toSorted()).toEqual([
@@ -69,9 +70,31 @@ describe("friday plugin entry", () => {
       return hooks.get("before_model_resolve")!;
     }
 
-    it("is a no-op without a configured local provider", () => {
+    it("defaults to the DeepSeek chain when no local provider is configured", () => {
       const handler = resolveHandler({});
-      expect(handler({ prompt: "hi" })).toBeUndefined();
+      expect(handler({ prompt: "hi" })).toEqual({
+        providerOverride: "deepseek",
+        modelOverride: "deepseek-v4.1-flash",
+        fallbacksOverride: [
+          "google/gemini-2.5-flash",
+          "groq/llama-3.3-70b-versatile",
+          "mistral/mistral-small-latest",
+          "cohere/command-a-plus-05-2026",
+          "cloudflare-ai-gateway/gemini-2.5-flash-lite",
+        ],
+      });
+    });
+
+    it("honors an owner model + chain override", () => {
+      const handler = resolveHandler({
+        model: "deepseek/deepseek-v4-pro",
+        modelChain: ["google/gemini-2.5-pro"],
+      });
+      expect(handler({ prompt: "hi" })).toEqual({
+        providerOverride: "deepseek",
+        modelOverride: "deepseek-v4-pro",
+        fallbacksOverride: ["google/gemini-2.5-pro"],
+      });
     });
 
     it("overrides provider and model to the local tier when configured", () => {
@@ -99,6 +122,26 @@ describe("friday plugin entry", () => {
       expect(handler({ prompt: "hi" })).toEqual({
         providerOverride: "ollama",
         modelOverride: "llama3.3:8b",
+      });
+    });
+
+    it("skips a provider whose breaker opened, promoting the next ref (C-03)", () => {
+      const { hooks, on } = captureHooks();
+      plugin.register(createTestPluginApi({ on }));
+      const resolve = hooks.get("before_model_resolve")!;
+      const ended = hooks.get("model_call_ended")!;
+      for (let i = 0; i < 3; i += 1) {
+        ended({ provider: "deepseek", model: "deepseek-v4.1-flash", outcome: "error" });
+      }
+      expect(resolve({ prompt: "hi" })).toEqual({
+        providerOverride: "google",
+        modelOverride: "gemini-2.5-flash",
+        fallbacksOverride: [
+          "groq/llama-3.3-70b-versatile",
+          "mistral/mistral-small-latest",
+          "cohere/command-a-plus-05-2026",
+          "cloudflare-ai-gateway/gemini-2.5-flash-lite",
+        ],
       });
     });
   });

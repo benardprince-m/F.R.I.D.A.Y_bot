@@ -6,9 +6,12 @@
 //   * `before_agent_run`      — the single turn seam (`prepareTurn`, F-07): fail-closed owner
 //                               admission, /lockdown, hard-credential block, then the trust
 //                               label. Owner-only access to tools and memory (MSG-01, §9).
-//   * `before_model_resolve`  — cheap-first routing: serve the turn on a configured local
-//                               provider, so the engine's own gateway does the call (§7.10,
-//                               §6.1, C-01). A no-op until `localProvider`/`localModel` are set.
+//   * `before_model_resolve`  — model default + fallback layering (C-02): FRIDAY's primary is
+//                               DeepSeek v4.1 Flash with a free-tier fallback chain behind it,
+//                               handed to the engine's gateway. Cheap-first local routing (§7.10,
+//                               C-01) is a no-op until `localProvider`/`localModel` are set.
+//   * `model_call_ended`      — per-call outcome feeds the C-03 circuit breaker, keyed by
+//                               provider, so a failing provider is skipped until it recovers.
 //   * `before_message_write`  — PII/secret scrub of the owner's inbound text before the model
 //                               ever sees it (§7.15, §6.3, F-01).
 //   * `before_prompt_build`   — inject the FRIDAY persona + Constitution as cached system
@@ -35,9 +38,11 @@ import {
 import manifest from "./openclaw.plugin.json" with { type: "json" };
 import { readFridayConfig, type FridayConfig } from "./src/config.js";
 import { redactUserMessage, fenceToolResultMessage } from "./src/gate.js";
+import { newBreaker, recordOutcome, type BreakerState } from "./src/ops/breaker.js";
 import { buildDoctorReport } from "./src/ops/doctor.js";
 import { HeartbeatService } from "./src/ops/heartbeat-service.js";
 import { checkProtectedIntegrity, recordBaseline } from "./src/ops/integrity-baseline.js";
+import { effectiveChain, resolveModelChain, splitModelRef } from "./src/ops/model-chain.js";
 import { routeTurn } from "./src/ops/router.js";
 import { loadSystemContext, readProtectedFiles } from "./src/persona.js";
 import { prepareTurn } from "./src/turn.js";
@@ -46,6 +51,18 @@ const HOOK_PRIORITY = 100;
 
 /** The running heartbeat service, held so `stop` can join it. One per plugin registration. */
 let heartbeat: HeartbeatService | null = null;
+
+/** Live C-03 breaker state, keyed by provider id. One map per plugin registration. */
+let breakers = new Map<string, BreakerState>();
+
+/** Record a model call outcome against its provider's breaker (C-03). */
+function trackModelOutcome(provider: string, ok: boolean): void {
+  if (!provider) {
+    return;
+  }
+  const current = breakers.get(provider) ?? newBreaker();
+  breakers.set(provider, recordOutcome(current, ok, Date.now()));
+}
 
 function resolveConfig(api: OpenClawPluginApi): FridayConfig {
   const current = api.runtime?.config?.current;
@@ -77,6 +94,8 @@ function doctorText(api: OpenClawPluginApi): Promise<string> {
   const config = resolveConfig(api);
   return checkProtectedIntegrity(api.runtime, readProtectedFiles(personaDir(api))).then(
     (integrity) => {
+      const chain = resolveModelChain({ model: config.model, modelChain: config.modelChain });
+      const effective = effectiveChain(chain, breakers, Date.now());
       const report = buildDoctorReport({
         ownerConfigured: config.ownerIds.length > 0,
         personaPresent: loadSystemContext(personaDir(api)).length > 0,
@@ -85,6 +104,7 @@ function doctorText(api: OpenClawPluginApi): Promise<string> {
         localRoutingConfigured: Boolean(config.localProvider && config.localModel),
         integrity: integrity.status,
         heartbeat: heartbeat !== null,
+        model: effective,
       });
       return report.lines.join("\n");
     },
@@ -133,6 +153,9 @@ export default definePluginEntry({
     "Owner-controlled, messaging-first second brain: owner gate, PII egress scrub, persona.",
   configSchema: buildJsonPluginConfigSchema(manifest.configSchema),
   register(api: OpenClawPluginApi) {
+    // Fresh per registration, so a re-register (or a test) never inherits stale health.
+    breakers = new Map();
+
     api.on(
       "before_agent_run",
       (event) => {
@@ -163,9 +186,9 @@ export default definePluginEntry({
       "before_model_resolve",
       (event) => {
         const config = resolveConfig(api);
-        // Budget enforcement (C-05) is not wired yet, so no ceiling is applied; escalation is
-        // not offered either (no paid target is configured), keeping every turn cheap-first.
-        const decision = routeTurn(
+        // C-01 cheap-first local routing wins when configured: serve the turn on the local
+        // provider so the engine's own gateway makes the call (§7.10, §6.1).
+        const routing = routeTurn(
           event.prompt,
           {
             localProvider: config.localProvider,
@@ -173,10 +196,30 @@ export default definePluginEntry({
           },
           { lockedDown: config.lockedDown, budgetAllowed: true },
         );
-        if (decision.tier === "default" || !decision.provider || !decision.model) {
-          return undefined;
+        if (routing.tier !== "default" && routing.provider && routing.model) {
+          return { providerOverride: routing.provider, modelOverride: routing.model };
         }
-        return { providerOverride: decision.provider, modelOverride: decision.model };
+        // C-02 otherwise: FRIDAY's primary + fallback chain, minus providers whose breaker is
+        // open. The first admitting ref becomes the primary so a down provider is skipped.
+        const chain = effectiveChain(
+          resolveModelChain({ model: config.model, modelChain: config.modelChain }),
+          breakers,
+          Date.now(),
+        );
+        const { provider, model } = splitModelRef(chain.primary);
+        return {
+          ...(provider ? { providerOverride: provider } : {}),
+          modelOverride: model,
+          fallbacksOverride: chain.fallbacks,
+        };
+      },
+      { priority: HOOK_PRIORITY },
+    );
+
+    api.on(
+      "model_call_ended",
+      (event) => {
+        trackModelOutcome(event.provider, event.outcome === "completed");
       },
       { priority: HOOK_PRIORITY },
     );

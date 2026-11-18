@@ -78,4 +78,26 @@ describe("buildDoctorReport", () => {
     expect(down.lines.join("\n")).toContain("heartbeat: DOWN");
     expect(down.components.find((c) => c.name === "heartbeat")?.state).toBe("down");
   });
+
+  it("omits the model lines until a chain is supplied", () => {
+    expect(buildDoctorReport(healthy).lines.join("\n")).not.toContain("fallbacks:");
+  });
+
+  it("shows the model chain in force, primary then fallbacks", () => {
+    const report = buildDoctorReport({
+      ...healthy,
+      model: { primary: "deepseek/deepseek-v4.1-flash", fallbacks: ["google/gemini-2.5-flash"] },
+    });
+    const text = report.lines.join("\n");
+    expect(text).toContain("model: deepseek/deepseek-v4.1-flash (primary)");
+    expect(text).toContain("fallbacks: google/gemini-2.5-flash");
+  });
+
+  it("says 'none' when the chain has no fallbacks", () => {
+    const report = buildDoctorReport({
+      ...healthy,
+      model: { primary: "deepseek/deepseek-v4.1-flash", fallbacks: [] },
+    });
+    expect(report.lines.join("\n")).toContain("fallbacks: none");
+  });
 });

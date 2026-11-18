@@ -17,17 +17,22 @@ export interface FridayConfig {
   localProvider?: string;
   /** Local model id paired with `localProvider`. */
   localModel?: string;
+  /** Primary model ref (§7.10, C-02). Defaults to DeepSeek v4.1 Flash. */
+  model?: string;
+  /** Ordered fallback model refs. Defaults to the free-tier chain. */
+  modelChain?: string[];
 }
 
 const EMPTY_CONFIG: FridayConfig = { ownerIds: [], lockedDown: false };
 
-const STRING_FIELDS = ["localProvider", "localModel"] as const;
+const STRING_FIELDS = ["localProvider", "localModel", "model"] as const;
 
 function isKnownField(key: string): boolean {
   return (
     key === "ownerIds" ||
     key === "personaDir" ||
     key === "lockedDown" ||
+    key === "modelChain" ||
     (STRING_FIELDS as readonly string[]).includes(key)
   );
 }
@@ -95,6 +100,21 @@ export function parseFridayConfig(raw: unknown): FridayConfig {
 
   const localProvider = optionalString("localProvider");
   const localModel = optionalString("localModel");
+  const model = optionalString("model");
+
+  const rawChain = raw.modelChain;
+  if (rawChain !== undefined && !Array.isArray(rawChain)) {
+    throw invalid("modelChain must be an array");
+  }
+  const modelChain =
+    Array.isArray(rawChain) && rawChain.length > 0
+      ? rawChain.map((entry) => {
+          if (typeof entry !== "string") {
+            throw invalid("each modelChain entry must be a string");
+          }
+          return entry;
+        })
+      : undefined;
 
   return {
     ownerIds,
@@ -104,6 +124,8 @@ export function parseFridayConfig(raw: unknown): FridayConfig {
       : {}),
     ...(localProvider ? { localProvider } : {}),
     ...(localModel ? { localModel } : {}),
+    ...(model ? { model } : {}),
+    ...(modelChain ? { modelChain } : {}),
   };
 }
 

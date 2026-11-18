@@ -41,6 +41,11 @@ export interface DoctorInput {
    * been started (so we never falsely claim it down before it starts).
    */
   heartbeat?: boolean;
+  /**
+   * C-02 model chain actually in force: the primary ref and the ordered fallbacks. Omitted when
+   * not resolved (so we never print a chain the engine is not using).
+   */
+  model?: { primary: string; fallbacks: string[] };
 }
 
 export interface DoctorReport {
@@ -132,6 +137,14 @@ export function buildDoctorReport(input: DoctorInput): DoctorReport {
       : []),
     ...(input.heartbeat !== undefined
       ? [`- heartbeat: ${input.heartbeat ? "beating (60s)" : "DOWN (service not running)"}`]
+      : []),
+    ...(input.model
+      ? [
+          `- model: ${input.model.primary} (primary)`,
+          `- fallbacks: ${
+            input.model.fallbacks.length > 0 ? input.model.fallbacks.join(" → ") : "none"
+          }`,
+        ]
       : []),
     `- lockdown: ${input.lockedDown ? "on (non-essential outbound paused)" : "off"}`,
     `- routing: ${input.localRoutingConfigured ? "cheap-first (local provider set)" : "default"}`,

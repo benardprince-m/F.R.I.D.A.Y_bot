@@ -10,12 +10,12 @@
 
 ## Priority 1 — unblocks Phase 0 "Alive" (the only active phase)
 
-| #   | Need                            | Why                                                                               | Unblocks                                       | How to provide                                                                                                    |
-| --- | ------------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| 1   | **Telegram bot token**          | FRIDAY's first channel — and, phone-only, the owner's only management channel too | A-03 (Telegram round-trip)                     | BotFather token; paste into chat, stored in the secret store, message deleted                                     |
-| 2   | **Owner Telegram user id**      | owner-only admission (MSG-01)                                                     | A-02 (owner identity wired to the allowlist)   | The numeric id of the account Benard messages from                                                                |
-| 3   | **Chosen default model + keys** | reply to a message requires a model                                               | C-02 (free-tier chain)                         | Keys for the free-tier chain (Gemini→Groq→Mistral→Cohere→Cloudflare) or a local Ollama endpoint; which is default |
-| 4   | **Hard monthly budget ceiling** | poverty-proof is a design law (§7.10)                                             | C-05 (budget behavior); the paid-services gate | A number in USD/month, or "0 — free/local only"                                                                   |
+| #   | Need                            | Why                                                                                                     | Unblocks                                       | How to provide                                                                                    |
+| --- | ------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 1   | **Telegram bot token**          | FRIDAY's first channel — and, phone-only, the owner's only management channel too                       | A-03 (Telegram round-trip)                     | BotFather token; paste into chat, stored in the secret store, message deleted                     |
+| 2   | **Owner Telegram user id**      | owner-only admission (MSG-01)                                                                           | A-02 (owner identity wired to the allowlist)   | The numeric id of the account Benard messages from                                                |
+| 3   | **Provider keys for the chain** | the model is chosen (below); a key is still needed for at least one provider before a reply is possible | C-02 (free-tier chain, live)                   | Keys for the free-tier chain (Gemini→Groq→Mistral→Cohere→Cloudflare); paste into the secret store |
+| 4   | **Hard monthly budget ceiling** | poverty-proof is a design law (§7.10)                                                                   | C-05 (budget behavior); the paid-services gate | A number in USD/month, or "0 — free/local only"                                                   |
 
 ## Priority 2 — unblocks Phase 0 security completeness
 

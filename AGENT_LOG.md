@@ -6,6 +6,36 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-17T08:05Z — Lane 9 · C-02 model default + fallback layering (and C-03 wiring)
+
+**Goal:** Make FRIDAY's reply path use a real model. The owner chose DeepSeek v4.1 Flash as the default; C-02 (the free-tier fallback chain) was still unconfigured and C-03 (the breaker) had no live input, so a single provider outage would have stopped owner messaging.
+
+**Owner decisions (this session):** primary model = **DeepSeek v4.1 Flash** (`deepseek/deepseek-v4.1-flash`), with a proper fallback chain. Persona naming is already settled in `PERSONA.md`/`CONSTITUTION.md` (owner = Benard Prince, agent = FRIDAY); no change made.
+
+**Recon:** `before_model_resolve` (C-01 hook) accepts `fallbacksOverride` — "Replace this run's fallback chain" (`src/agents/embedded-agent-runner/run/setup.ts`), and `model_call_ended` reports `{ provider, model, outcome: "completed" | "error" }` per call. Together these are the real surfaces for C-02 (chain) and C-03 (breaker input). The engine resolves `provider/model` refs from the catalog; the catalog and docs confirm provider ids `deepseek`, `google`, `groq`, `mistral`, `cohere`, `cloudflare-ai-gateway`.
+
+**Scope:** new `src/ops/model-chain.ts` (+ test), `src/config.ts` (+`model`, `modelChain`), `openclaw.plugin.json` (schema + uiHints), `index.ts` (chain in `before_model_resolve`, breaker on `model_call_ended`, doctor line), `src/ops/doctor.ts` (+model chain line), tests, docs.
+
+**Execution:**
+
+- `resolveModelChain` defaults the primary to `deepseek/deepseek-v4.1-flash` and the fallbacks to Gemini → Groq → Mistral → Cohere → Cloudflare; it drops blanks and never repeats the primary as a fallback. An owner `model`/`modelChain` override replaces the defaults.
+- `effectiveChain` folds in live breaker health: the first admitting ref becomes the primary, so a provider whose breaker is open is skipped instead of retried every turn; if every ref is open the chain stays strict on the configured primary and fails honestly.
+- `index.ts` `before_model_resolve`: C-01 local routing still wins when configured; otherwise it returns `providerOverride`/`modelOverride`/`fallbacksOverride` from `effectiveChain`. `model_call_ended` records the outcome into the C-03 breaker (`trackModelOutcome`), keyed by provider, reset per registration.
+- `/doctor` gained a model line: `model: <primary> (primary)` + `fallbacks: a → b → …`.
+
+**Verification (exact commands + actual results):**
+
+- `./node_modules/.bin/vitest run extensions/friday` → **34 files / 277 tests passed** (was 33/261).
+- `node scripts/run-tsgo.mjs -p tsconfig.extensions.json` → exit 0; `oxlint` on changed files → exit 0; `oxfmt --check` clean after `--write` of `index.ts`.
+
+**Side effects:** With the plugin enabled, `before_model_resolve` now always returns a model override (DeepSeek + chain) instead of `undefined` when no local provider is set. Live calls still require provider keys (BLK-2), so this changes routing, not reachability; a missing key fails honestly at the provider, not silently.
+
+**Known risks:** The engine's per-call `outcome` is coarse (completed/error); a mid-stream failure still counts as an error, which is the conservative choice for tripping a breaker. The breaker is in-memory, so it resets on restart — acceptable for Phase 0 (the engine's own failover still covers the restart window).
+
+**Next action:** Wire the memory surface for `/forget` + Librarian writes (BLK-7, Lane 10); owner supplies provider keys (BLK-2).
+
+---
+
 ## 2026-11-17T00:50Z — Lane 8 · G-01 heartbeat plumbing (service + scheduler)
 
 **Goal:** Make FRIDAY demonstrably alive. G-01 existed as a pure decision unit with no loop; nothing beat, so nothing proved the process was up, and F-05 had no periodic trigger.

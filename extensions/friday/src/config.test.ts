@@ -9,6 +9,9 @@ function sampleValue(key: string): unknown {
   if (key === "lockedDown") {
     return true;
   }
+  if (key === "modelChain") {
+    return ["google/gemini-2.5-flash"];
+  }
   return "value";
 }
 
@@ -56,12 +59,35 @@ describe("parseFridayConfig", () => {
     expect(parseFridayConfig({ localProvider: "  " })).toEqual({ ownerIds: [], lockedDown: false });
   });
 
+  it("carries the model and chain through, dropping blanks and an empty chain", () => {
+    expect(
+      parseFridayConfig({
+        model: "deepseek/deepseek-v4.1-flash",
+        modelChain: ["google/gemini-2.5-flash", "groq/llama-3.3-70b-versatile"],
+      }),
+    ).toEqual({
+      ownerIds: [],
+      lockedDown: false,
+      model: "deepseek/deepseek-v4.1-flash",
+      modelChain: ["google/gemini-2.5-flash", "groq/llama-3.3-70b-versatile"],
+    });
+    expect(parseFridayConfig({ modelChain: [] })).toEqual({ ownerIds: [], lockedDown: false });
+    expect(parseFridayConfig({ model: "  " })).toEqual({ ownerIds: [], lockedDown: false });
+  });
+
+  it("rejects a malformed model chain", () => {
+    expect(() => parseFridayConfig({ modelChain: "google/gemini-2.5-flash" })).toThrow(/array/);
+    expect(() => parseFridayConfig({ modelChain: [123] })).toThrow(/string/);
+  });
+
   it("accepts exactly the fields the manifest schema declares", () => {
     const declared = Object.keys(manifest.configSchema.properties).toSorted();
     expect(declared).toEqual([
       "localModel",
       "localProvider",
       "lockedDown",
+      "model",
+      "modelChain",
       "ownerIds",
       "personaDir",
     ]);

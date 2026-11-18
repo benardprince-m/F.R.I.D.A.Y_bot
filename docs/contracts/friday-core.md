@@ -299,6 +299,20 @@ function verifyLocalAnswer(answer: string): VerifierVerdict;
 
 Contract: with no local provider configured the decision is `tier: "default"` (the engine's own routing); under lockdown or a spent budget a hard turn stays local rather than escalating to a paid target. FRIDAY never runs a second router — it only chooses which model the engine's gateway calls.
 
+## C-02 · Model default & fallback layering (`extensions/friday/src/ops/model-chain.ts`)
+
+FRIDAY's primary model plus an ordered free-tier fallback chain (§7.10), handed to the engine's gateway through `fallbacksOverride`.
+
+```ts
+function resolveModelChain(config?: ModelChainConfig): ModelChain;
+function splitModelRef(ref: string): { provider: string; model: string };
+function providerOf(ref: string): string;
+function admittingRefs(refs, breakers, now, policy?): string[];
+function effectiveChain(chain, breakers, now, policy?): ModelChain;
+```
+
+Contract: the primary defaults to `deepseek/deepseek-v4.1-flash` and the fallbacks default to the ordered free-tier chain Gemini → Groq → Mistral → Cohere → Cloudflare. The chain is always self-consistent: blank entries are dropped and the primary never repeats as a fallback. `effectiveChain` folds in live C-03 breaker health — the first admitting ref becomes the primary, so a provider whose breaker is open is skipped rather than retried every turn; if every ref is open the chain stays strict on the configured primary and fails honestly. An owner `model`/`modelChain` override replaces the defaults.
+
 ## C-03 · Circuit breaker (`extensions/friday/src/ops/breaker.ts`)
 
 Stop calling a provider that keeps failing, so it cannot burn budget or latency on every turn (§7.9).
@@ -400,6 +414,8 @@ Contract: the key is case- and whitespace-insensitive; the store is TTL- and siz
 | -------------------- | --------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------- |
 | F-01 redactForEgress | `before_message_write` hook (pre-model user text)   | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                                             |
 | C-01 routeTurn       | `before_model_resolve` hook (model selection)       | WS-C       | WIRED — `index.ts`; proven in `index.test.ts`; no-op until a local pair is set            |
+| C-02 model chain     | `before_model_resolve` hook (`fallbacksOverride`)   | WS-C       | WIRED — `index.ts`; DeepSeek v4.1 Flash + free-tier chain; proven in `index.test.ts`      |
+| C-03 breaker         | `model_call_ended` hook (per-call outcome)          | WS-C       | WIRED — `index.ts`; open breaker skips the provider; proven in `index.test.ts`            |
 | F-02 guardContent    | `tool_result_persist` hook (tool/web/file results)  | WS-F       | WIRED — `index.ts` (`fenceToolResultMessage`); proven in `index.test.ts`                  |
 | A-01 decideAdmission | `before_agent_run` hook (channel admission)         | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                                             |
 | F-03 decideEgress    | `before_agent_run` hook (non-essential egress)      | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test                       |
