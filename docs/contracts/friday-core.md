@@ -437,6 +437,15 @@ class ResponseCache {
 
 Contract: the key is case- and whitespace-insensitive; the store is TTL- and size-bounded; a miss is always safe because the caller runs the model as usual.
 
+**Wiring deferred (BLK-8).** The module is pure and tested but **not** wired. The planned seam
+(`before_agent_reply` serve, `llm_output` write) is unsafe: `before_agent_reply` runs before the
+`before_agent_run` admission gate (`run-orchestrator.ts` awaits the reply hook before
+`runPreparedEmbeddedLoop`), and its `PluginHookAgentContext` carries no `senderIsOwner`, so a hit
+would answer a turn that admission never cleared — violating A-01/F-03/F-01. `llm_output` also
+carries no `prompt`, so the write key cannot be paired with the reply hook's `cleanedBody`. The
+cache stays unwired until the engine exposes a reply-capable hook that runs after admission or
+carries the owner bit.
+
 ---
 
 ## Engine wiring points (per workstream, surgical)

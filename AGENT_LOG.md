@@ -33,7 +33,31 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 **Known risks:** Cost uses FRIDAY's static price table; an unknown model records zero (the ceiling still applies) — deliberate, recorded in the contract. The ceiling is enforced at routing, not by hard-refusing the turn, so a spent owner still gets a (free/local) reply rather than silence — the honest Phase 0 behavior. Recording is per attempt; the engine may report an attempt's usage more than once only if it emits `llm_output` more than once for one call.
 
-**Next action:** Lane 12 — C-06 response cache (write at `llm_output`, serve at `before_agent_reply` for owner turns), after verifying the reply-hook's tool-loop/command semantics so a hit can never bypass tools or owner commands.
+**Next action:** Lane 12 — C-06 response cache. Recon done (see the entry below): the safe wiring is blocked on an engine hook surface, so the pure module stays unwired and C-06 is parked as BLK-8.
+
+---
+
+## 2026-11-17T12:05Z — Lane 12 · C-06 response cache — hook-semantics recon (wiring deferred, BLK-8)
+
+**Goal:** Wire the response cache so a repeated request is served with zero tokens. The pure module (`src/cache/response-cache.ts`) already exists and is tested; this pass was the planned hook-semantics check before wiring.
+
+**Finding — the planned wiring is unsafe, so I did not do it.** The plan was "write at `llm_output`, serve at `before_agent_reply`". Reading the engine:
+
+- `before_agent_reply` runs **before** `before_agent_run` admission. In `src/agents/embedded-agent-runner/run-orchestrator.ts` the reply hook is awaited at line ~484 and the model loop (`runPreparedEmbeddedLoop`) — which contains the `before_agent_run` gate (`run/attempt-before-agent-run.ts`) — starts at line ~533. So a cache hit at the reply seam short-circuits the turn with `providerStarted: false` **without** the owner/lockdown/credential gate ever running.
+
+- The reply-hook context (`PluginHookAgentContext`) carries **no** `senderIsOwner` (`grep -c senderIsOwner src/plugins/hook-agent-context.types.ts` → 0). The owner bit is set only in `before_agent_run`'s event (`PluginHookBeforeAgentRunEvent.senderIsOwner`) and `inbound_claim`'s event. A reply-hook handler therefore cannot re-gate admission itself.
+
+- `llm_output` carries **no** `prompt` field at its emission site (`run/attempt-result.ts`), so the write side has no clean key to pair with the reply hook's `cleanedBody`. The only prompt-bearing hook, `llm_input`, fires once per model loop (not per turn), so it cannot represent a full turn's answer.
+
+**Decision:** serve nothing rather than serve unsafely. A cache hit that answers a non-owner, or answers while locked down, or skips the credential gate, would violate A-01/F-03/F-01 — the exact invariants FRIDAY exists to hold. The honest move is to leave the pure cache unwired and record the blocker.
+
+**Scope:** docs only — `TASKBOARD.md` (C-06 → BLOCKED-INPUT/BLK-8), `AGENT_LOG.md` (this entry). No code changed; the pure module and its tests are untouched.
+
+**Verification:** no behavior changed, so no new tests. The existing `response-cache.test.ts` (6 tests) still passes in the extensions lane. Facts above are cited to file + line, not asserted.
+
+**Known risks:** none introduced (no wiring). The risk avoided is the silent one: a cache that appears to work while bypassing admission.
+
+**Next action:** BLK-8 — needs an engine hook that is reply-capable **and** either runs after owner admission or carries `senderIsOwner`. Until then, C-06 stays a tested pure module. Otherwise, continue down the TASKBOARD on work that is not blocked.
 
 ---
 
