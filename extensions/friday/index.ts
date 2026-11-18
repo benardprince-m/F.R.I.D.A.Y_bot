@@ -34,6 +34,7 @@
 // C-06 / G-06.
 
 import path from "node:path";
+import { captureEffectAuthority } from "openclaw/plugin-sdk/fetch-runtime";
 import {
   buildJsonPluginConfigSchema,
   definePluginEntry,
@@ -41,6 +42,7 @@ import {
   type OpenClawPluginApi,
   type PluginCommandContext,
 } from "openclaw/plugin-sdk/plugin-entry";
+import { fetchWithRuntimeDispatcher } from "openclaw/plugin-sdk/runtime-fetch";
 import manifest from "./openclaw.plugin.json" with { type: "json" };
 import { readFridayConfig, type FridayConfig } from "./src/config.js";
 import { redactUserMessage, fenceToolResultMessage } from "./src/gate.js";
@@ -56,6 +58,7 @@ import {
 } from "./src/memory/records.js";
 import { deleteMemories, loadMemories, openMemoryStore, saveMemories } from "./src/memory/store.js";
 import { newBreaker, recordOutcome, type BreakerState } from "./src/ops/breaker.js";
+import { planDeploy, deployReply } from "./src/ops/deploy.js";
 import { buildDoctorReport } from "./src/ops/doctor.js";
 import { HeartbeatService } from "./src/ops/heartbeat-service.js";
 import { checkProtectedIntegrity, recordBaseline } from "./src/ops/integrity-baseline.js";
@@ -312,6 +315,38 @@ async function taskStatusText(api: OpenClawPluginApi, args: string): Promise<str
   const updated = withStatus(task, status, rest.join(" "));
   await saveTask(store, updated);
   return renderDebrief(updated);
+}
+
+/** `/deploy` — trigger the phone-only deploy workflow (G-06). Owner-gated. */
+async function deployText(): Promise<string> {
+  const plan = planDeploy(process.env);
+  if (!plan.ok) {
+    return plan.reason;
+  }
+  const token = (process.env.FRIDAY_DEPLOY_TOKEN ?? "").trim();
+  try {
+    const response = await captureEffectAuthority().initiate(() =>
+      fetchWithRuntimeDispatcher(plan.url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/vnd.github+json",
+          "Content-Type": "application/json",
+          "User-Agent": "friday",
+        },
+        body: JSON.stringify(plan.body),
+        signal: AbortSignal.timeout(20_000),
+      }),
+    );
+    // 204 No Content is GitHub's success for a workflow dispatch.
+    if (response.ok || response.status === 204) {
+      return deployReply({ ok: true, detail: `${plan.target.repo} (${plan.target.workflow})` });
+    }
+    return deployReply({ ok: false, detail: `GitHub returned ${response.status}.` });
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : "request failed";
+    return deployReply({ ok: false, detail });
+  }
 }
 
 async function setLockdown(
@@ -598,6 +633,16 @@ export default definePluginEntry({
         isOwner(ctx)
           ? { text: await taskStatusText(api, ctx.args ?? "") }
           : { text: "Owner only." },
+    });
+
+    api.registerCommand({
+      name: "deploy",
+      description: "Trigger the phone-only deploy workflow (G-06). Owner only.",
+      acceptsArgs: false,
+      requireAuth: true,
+      exposeSenderIsOwner: true,
+      handler: async (ctx) =>
+        isOwner(ctx) ? { text: await deployText() } : { text: "Owner only." },
     });
 
     api.registerService({

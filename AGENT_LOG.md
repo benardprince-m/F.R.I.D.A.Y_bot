@@ -6,6 +6,40 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-18T11:50Z — Lane 14 · G-04/G-05/G-06 phone-only deploy path (host-agnostic, tap-to-deploy)
+
+**Goal:** Make FRIDAY deployable and controllable from a phone, with no laptop and no terminal. The owner is phone-only (binding constraint, `docs/contracts/phone-only.md`), and G-04/G-05 were parked on BLK-5 (host) while G-06 was TODO.
+
+**Decision (made to keep the build moving, not to ask the owner):** the host choice is a §12-class decision, but a _host-agnostic_ default removes the blocker without pre-empting it. Ship a compose file that runs on any Docker host, a workflow that builds and publishes the image to GHCR and is one tap in the GitHub mobile app, and a chat command that fires that workflow. The owner points it at whichever host he picks later; nothing changes.
+
+**Scope:** new `deploy/friday/{docker-compose.yml,.env.friday.example,README.md}`; new `.github/workflows/friday-deploy.yml`; new `extensions/friday/src/ops/deploy.ts` (+ test); `extensions/friday/index.ts` (`/deploy` command + handler); `index.test.ts`; `docs/contracts/friday-core.md`, `TASKBOARD.md`, `OWNER_REQUIREMENTS.md`. No engine internals.
+
+**Execution:**
+
+- `ops/deploy.ts` — pure `planDeploy(env)` resolves `FRIDAY_DEPLOY_REPO`/`FRIDAY_DEPLOY_TOKEN` (+ optional workflow/ref) and builds the GitHub workflow-dispatch request; a missing or malformed value returns `ok: false` with a reason, never a half-formed request. `deployReply` never contains the token.
+- `index.ts` — owner-only `/deploy` performs the `POST …/actions/workflows/friday-deploy.yml/dispatches` via the engine's dispatcher-aware fetch (`fetchWithRuntimeDispatcher`), wrapped in `captureEffectAuthority`. 204 is success.
+- `.github/workflows/friday-deploy.yml` — builds the repo's `Dockerfile`, pushes `ghcr.io/<owner>/friday:<branch>`, and optionally pings `FRIDAY_DEPLOY_HOOK`. Runs on push to main and on `workflow_dispatch` (the phone button). All actions pinned to the same SHAs the rest of the repo uses.
+- `deploy/friday/docker-compose.yml` — runs the published image with `restart: unless-stopped` + healthcheck (the managed-host equivalent of the G-05 systemd watchdog), a durable state volume, and `cap_drop`/`no-new-privileges`. `README.md` is the phone-only runbook.
+- Deliberately **not** wired: `/secret` chat intake. The pure half (`secrets.ts`, `policy/secret-intake.ts`) is built and tested, but the second half — deleting the paste so the token does not linger in chat — needs a plugin-facing message-delete seam the engine does not expose (channels can delete; no plugin SDK/runtime seam does). Wiring it would either leave the token in history or silently drop the value, so it stays unwired and is recorded as BLK-9 rather than shipping a dishonest path.
+
+**Verification (exact commands + actual results):**
+
+- `node scripts/run-vitest.mjs run extensions/friday` → **35 files / 319 tests passed** (was 34/310; +9: `deploy.test.ts` 7, `index.test.ts` +2).
+- `node scripts/run-tsgo.mjs -p tsconfig.extensions.json` → exit 0.
+- `node scripts/run-oxlint.mjs --tsconfig extensions/tsconfig.json extensions/friday` → exit 0 (after a `curly` fix); `oxfmt --check` clean on all changed files.
+- `python3 -c "import yaml; yaml.safe_load(...)"` → both new YAML files parse; no tabs (workflow-sanity rule).
+- Pushed the 15 prior commits to `origin/main` (`0616e26f0..f5617692a`) at the owner's request before this increment.
+
+**Side effects:** one new command (`/deploy`); new workflow; new deploy artifacts. No new config fields (deploy config is env-only, host-side).
+
+**Outcome:** G-04 and G-05 are done at the managed-host level; G-06 is half-wired (deploy half done, secret half blocked on BLK-9). Phase 0's phone-only operational path is now real: the owner can deploy, watch, restart, and read health entirely from the phone.
+
+**Known risks:** `/deploy` holds a GitHub token with `actions:write` in the host env; it is never logged or echoed, but a host compromise would expose it — accepted, recorded here. The workflow publishes to GHCR under the owner's account, so the owner must enable "Read and write" workflow permissions once (step 1 of the README). The compose file is not yet exercised on a real host (no host chosen); it is validated structurally, not by a live `docker compose up`.
+
+**Next action:** the remaining Phase 0 item is the `/secret` half of G-06 (needs the engine's message-delete seam, BLK-9); F-04 secret-store wiring is the same blocker. BLK-1/2/3/5 remain owner-supplied and are deliberately not surfaced until the owner asks.
+
+---
+
 ## 2026-11-18T09:54Z — Lane 13 · E-01/E-04 task lifecycle — finish + close out an interrupted increment
 
 **Goal:** Close E-01/E-04 — give the owner a chat surface over the durable task ledger. The pure record (`createTask`/`resume`/`renderDebrief`) existed but had no store and no commands, so "FRIDAY keeps a durable task record" was a claim with no way to make or read one.

@@ -1,0 +1,64 @@
+# FRIDAY — always-on host compose file (Product Specification §6.1, §11; G-04/G-05).
+#
+# This is what runs on the always-on host. The owner is phone-only, so nothing here is
+# meant to be typed on a laptop: the image is built and published by the `friday-deploy`
+# GitHub Actions workflow, and the host pulls it. See docs/contracts/phone-only.md.
+#
+# Configuration lives in .env (copy from .env.friday.example). The one required value is
+# the image reference the workflow publishes; everything else has a safe default.
+#
+# Bring up / update from a phone: tap the "FRIDAY Deploy" workflow in the GitHub mobile
+# app (or send /deploy in chat). The host then runs `docker compose pull && up -d`.
+services:
+  friday-gateway:
+    image: ${FRIDAY_IMAGE:?set FRIDAY_IMAGE in .env to the published image, e.g. ghcr.io/OWNER/friday:main}
+    container_name: friday-gateway
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      HOME: /home/node
+      OPENCLAW_HOME: /home/node
+      TERM: xterm-256color
+      # Pin container-side state/config paths so host values in .env cannot leak into
+      # runtime path resolution inside the container (matches the upstream compose).
+      OPENCLAW_STATE_DIR: /home/node/.openclaw
+      OPENCLAW_CONFIG_PATH: /home/node/.openclaw/openclaw.json
+      OPENCLAW_CONFIG_DIR: /home/node/.openclaw
+      OPENCLAW_WORKSPACE_DIR: /home/node/.openclaw/workspace
+      OPENCLAW_GATEWAY_PORT: "18789"
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN:-}
+      # FRIDAY's owner set + persona live in the mounted config; the plugin is enabled
+      # in openclaw.json (see deploy/friday/README.md step 3), not here.
+      TZ: ${FRIDAY_TZ:-UTC}
+    volumes:
+      # All FRIDAY state (config, memory, tasks, ledger, continuity) is durable here.
+      # Back this up; it is the whole brain. Bind-mount source is the host's choice.
+      - "${FRIDAY_STATE_DIR:-./state}:/home/node/.openclaw"
+    # No published ports: the Gateway is reached over the Telegram channel and, for
+    # admin, through the host's own access method. Publishing 18789 is optional and
+    # should be firewalled if enabled.
+    cap_drop:
+      - NET_RAW
+      - NET_ADMIN
+    security_opt:
+      - no-new-privileges:true
+    init: true
+    # Survive host reboots and crashes without a human: the whole point of "Alive".
+    restart: unless-stopped
+    command:
+      [
+        "node",
+        "dist/index.js",
+        "gateway",
+        "--bind",
+        "lan",
+        "--port",
+        "18789",
+      ]
+    healthcheck:
+      test: ["CMD", "node", "dist/docker-healthcheck.js"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s

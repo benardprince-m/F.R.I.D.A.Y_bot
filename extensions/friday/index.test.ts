@@ -57,6 +57,7 @@ describe("friday plugin entry", () => {
       "tool_result_persist",
     ]);
     expect([...commands.keys()].toSorted()).toEqual([
+      "deploy",
       "doctor",
       "forget",
       "lockdown",
@@ -293,6 +294,42 @@ describe("friday plugin entry", () => {
       const result = await commands.get("unlock")!.handler({ senderIsOwner: false } as never);
       expect(result).toEqual({ text: "Owner only." });
       expect(mutateConfigFile).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("/deploy (G-06)", () => {
+    function deployCommand(pluginConfig: unknown = {}) {
+      const { on } = captureHooks();
+      const { commands, registerCommand } = captureCommands();
+      plugin.register(createTestPluginApi({ on, registerCommand, pluginConfig }));
+      return commands.get("deploy")!;
+    }
+
+    it("refuses a non-owner", async () => {
+      const result = await deployCommand().handler({ senderIsOwner: false } as never);
+      expect(result).toEqual({ text: "Owner only." });
+    });
+
+    it("tells the owner how to configure deploy when it is unset", async () => {
+      const saved = {
+        repo: process.env.FRIDAY_DEPLOY_REPO,
+        token: process.env.FRIDAY_DEPLOY_TOKEN,
+      };
+      delete process.env.FRIDAY_DEPLOY_REPO;
+      delete process.env.FRIDAY_DEPLOY_TOKEN;
+      try {
+        const result = await deployCommand().handler({ senderIsOwner: true } as never);
+        expect(result).toMatchObject({
+          text: expect.stringContaining("FRIDAY_DEPLOY_REPO"),
+        });
+      } finally {
+        if (saved.repo !== undefined) {
+          process.env.FRIDAY_DEPLOY_REPO = saved.repo;
+        }
+        if (saved.token !== undefined) {
+          process.env.FRIDAY_DEPLOY_TOKEN = saved.token;
+        }
+      }
     });
   });
 

@@ -420,6 +420,19 @@ function secretStoredReply(name: string): string;
 
 Contract: the name is strictly `[A-Z][A-Z0-9_]{1,63}` and the file is `<secretDir>/<NAME>.secret`; a rejected name returns `ok: false` rather than a path that could escape `secretDir`. The reply never contains the value. The atomic write and the chat-message deletion are the caller's job.
 
+## G-06 · Phone-only deploy trigger (`extensions/friday/src/ops/deploy.ts`)
+
+The phone-only deploy half of the control path (§14; `docs/contracts/phone-only.md`).
+
+```ts
+function planDeploy(env: Record<string, string | undefined>): DeployPlan;
+function deployReply(outcome: { ok: boolean; detail: string }): string;
+```
+
+Contract: `planDeploy` reads `FRIDAY_DEPLOY_REPO` (`owner/repo`) and `FRIDAY_DEPLOY_TOKEN` (a GitHub token with `actions:write`) from the environment, plus optional `FRIDAY_DEPLOY_WORKFLOW` (default `friday-deploy.yml`) and `FRIDAY_DEPLOY_REF` (default `main`). A missing or malformed value returns `ok: false` with a reason, never a half-formed request. It builds the `POST /repos/{repo}/actions/workflows/{workflow}/dispatches` call that runs `.github/workflows/friday-deploy.yml`, which builds and publishes the image to GHCR. The token is read only to sign the request and never appears in a reply or a log. Wired as the owner-only `/deploy` command in `index.ts` using the engine's dispatcher-aware fetch; proven in `deploy.test.ts` and `index.test.ts`.
+
+**Not wired (honest gap):** the `/secret` chat intake (`secrets.ts` + `policy/secret-intake.ts`) is pure and tested, but the second half — deleting the originating chat message — needs a plugin-facing channel message-delete surface the engine does not yet expose. Until it does, wiring `/secret` would either leave the token in chat history or silently drop the value, so it stays unwired rather than shipping a dishonest path (BLK-9).
+
 ## E-04 → D-01 · Skill promotion (`extensions/friday/src/skills/promotion.ts`)
 
 The debrief-to-skill loop (§5.1, §7.6).
@@ -473,5 +486,6 @@ carries the owner bit.
 | C-04 spend ledger    | `llm_output` hook (per-call token usage)            | WS-C       | WIRED — `index.ts`; durable `friday-ledger` store; `/spend`; proven in `index.test.ts`, `ledger-store.test.ts`               |
 | C-05 budget ceiling  | `before_model_resolve` (router `budgetAllowed`)     | WS-C       | WIRED — `index.ts`; a spent ceiling refuses paid escalation; proven in `index.test.ts`                                       |
 | E-01/E-04            | task start / completion + chat reply                | WS-E       | WIRED — `index.ts` (`/task`,`/tasks`,`/task-status`) over the durable `friday-tasks` store; `index.test.ts`, `store.test.ts` |
+| G-06 deploy trigger  | `/deploy` chat command → GitHub workflow dispatch   | WS-G       | WIRED — `index.ts` (`/deploy`) over `ops/deploy.ts`; owner-gated; proven in `deploy.test.ts`, `index.test.ts`                |
 
 Each wiring is proven by a test that exercises the real entry point, not just the pure function.

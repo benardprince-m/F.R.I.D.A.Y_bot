@@ -32,6 +32,14 @@
 | 6b  | Deploy / update trigger | A chat command (`/deploy`, `/update`) that fires the host deploy hook, or a one-tap host web-UI button                                |
 | 6c  | Secret intake           | Pasted into chat → secret store → message deleted; never echoed back                                                                  |
 
+**Decided by FRIDAY (2026-11-18), reversible — no owner action needed to proceed.** To keep the build moving without waiting on the owner, the phone-only deploy path ships with a working default rather than a new question:
+
+- **Host-agnostic deploy.** `deploy/friday/docker-compose.yml` runs on any Docker host; the image is built and published by `.github/workflows/friday-deploy.yml`, which is a one-tap **Run workflow** in the GitHub mobile app. The owner can point it at Fly.io, Railway, Render, a VPS, or a home box without changing anything.
+- **Chat deploy trigger.** `/deploy` (owner-only) fires the workflow via the GitHub API. It needs two host env vars, which the owner sets **once** on the host (not asked for now): `FRIDAY_DEPLOY_REPO` (`owner/repo`) and `FRIDAY_DEPLOY_TOKEN` (a GitHub token with `actions:write`).
+- **Restart / watchdog.** `restart: unless-stopped` + the container healthcheck give the managed-host equivalent of the G-05 systemd watchdog; a host-level restart is available from the host's own web UI or SSH app.
+
+These are recorded here so they can be revisited; none blocks Phase 0.
+
 ## Priority 3 — decisions that must not be made silently (§12)
 
 | #   | Decision                                                                                       | Notes                                                                                                   |
