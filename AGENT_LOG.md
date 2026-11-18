@@ -6,6 +6,38 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-18T09:54Z — Lane 13 · E-01/E-04 task lifecycle — finish + close out an interrupted increment
+
+**Goal:** Close E-01/E-04 — give the owner a chat surface over the durable task ledger. The pure record (`createTask`/`resume`/`renderDebrief`) existed but had no store and no commands, so "FRIDAY keeps a durable task record" was a claim with no way to make or read one.
+
+**Recon / why this entry is a completion:** this shared checkout is driven by sequential OpenHands lanes. A prior lane had written the E-01/E-04 increment (commands + `src/tasks/store.ts` + ledger helpers + tests) but the host restarted mid-run, leaving it uncommitted and unclosed. I verified the working tree, found no live writer, and finished the increment rather than starting overlapping work. I also confirmed the C-01 router wiring my own session had begun was already committed by lane `698f26e5f`, so nothing of mine was lost.
+
+**Scope:** `extensions/friday/index.ts` (`/task`,`/tasks`,`/task-status`; import the ledger helpers + store), new `src/tasks/store.ts` (+ test), `src/tasks/ledger.ts` (`isTaskStatus`/`withStatus`/`renderTaskList`), `ledger.test.ts`, `index.test.ts`, `test/vitest/vitest.extension-database-workers-paths.mjs` (register the store test), `docs/contracts/friday-core.md`, `TASKBOARD.md`. No engine internals.
+
+**Execution:**
+
+- `store.ts` opens the `friday-tasks` namespace (`maxEntries: 10_000`, `reject-new`) and keys one row per task by id, so a restart re-reads every accepted task (E-02 "no silent loss"). `loadTasks` validates each row with `isTaskRecord` and drops a malformed row rather than trusting it — the read is a trust boundary. A missing host store degrades to a visible "unavailable" message, never a silent no-op.
+- `ledger.ts` gains `isTaskStatus` (chat-input parse guard), `withStatus` (append-only evidence), and `renderTaskList` (newest first, with id and status).
+- `index.ts`: `/task <goal>` records a planned task; `/tasks` lists them; `/task-status <id> [status] [evidence]` reads a debrief or applies a status change. All three are owner-gated (`isOwner`).
+- `oxfmt` was run to fix formatting in the new `index.test.ts` block (a pre-existing format miss, not a behavior change).
+
+**Verification (exact commands + actual results):**
+
+- `node scripts/run-vitest.mjs run extensions/friday` → **34 files / 310 tests passed** (extensions lane).
+- `node scripts/run-vitest.mjs run --config test/vitest/vitest.extension-database-workers.config.ts extensions/friday` → **4 files / 18 tests passed** (continuity + memory + ledger + task stores).
+- `node scripts/run-tsgo.mjs -p tsconfig.extensions.json` → exit 0 (after clearing a stale `dist-artifacts.lock` whose owner PID was dead).
+- `oxlint extensions/friday` → exit 0; `oxfmt --check extensions/friday` clean.
+
+**Side effects:** three new commands (`/task`,`/tasks`,`/task-status`); new state: the `friday-tasks` namespace. No new config fields.
+
+**Outcome:** Completed — E-01 and E-04 are now wired and proven at the command entry point, with persistence proven over a real store in the database-workers lane.
+
+**Known risks:** the store `register` is last-write-wins per id; two concurrent `/task-status` updates to one task could lose one — acceptable for a single-owner chat surface and recorded here rather than coded around. `/task` records an owner-assigned task manually; automatic task creation from the agent loop (E-01's other half) still needs a plugin-facing task-lifecycle hook.
+
+**Next action:** the remaining unblocked Phase 0 items are F-04 (secret store wiring, needs a delete surface) and G-06 (phone-only control path). C-06 stays parked on BLK-8.
+
+---
+
 ## 2026-11-17T11:40Z — Lane 11 · C-04/C-05 spend ledger + budget ceiling (durable + wired)
 
 **Goal:** Close C-04/C-05 — make model spend real and bounded. The pure ledger existed (`costOf`/`recordUsage`/`decideBudget`/`spendLine`) but nothing fed it real usage and nothing enforced the ceiling, so "don't waste resources" was a claim with no evidence behind it.

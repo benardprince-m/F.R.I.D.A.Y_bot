@@ -27,7 +27,8 @@
 // Plus a background heartbeat service (G-01): a beat every minute that runs the F-05 integrity
 // check, bound to the Gateway's lifetime so it stops cleanly. Commands: `/doctor` (G-03),
 // `/trust-persona` (F-05), `/lockdown` + `/unlock` (F-03), `/remember` + `/memory` + `/forget`
-// (B-02/B-04) over FRIDAY's own bounded memory store, and `/spend` (C-04).
+// (B-02/B-04) over FRIDAY's own bounded memory store, `/spend` (C-04), and `/task` + `/tasks` +
+// `/task-status` (E-01/E-04) over the durable task store.
 // `/secret` and the response cache are not wired yet: they need a secret-store/delete surface
 // and careful reply-hook semantics, so wiring them now would be a dishonest stub. See TASKBOARD
 // C-06 / G-06.
@@ -63,6 +64,14 @@ import { decideBudget, recordUsage, spendLine, type BudgetDecision } from "./src
 import { effectiveChain, resolveModelChain, splitModelRef } from "./src/ops/model-chain.js";
 import { routeTurn } from "./src/ops/router.js";
 import { loadSystemContext, readProtectedFiles } from "./src/persona.js";
+import {
+  createTask,
+  isTaskStatus,
+  renderDebrief,
+  renderTaskList,
+  withStatus,
+} from "./src/tasks/ledger.js";
+import { loadTasks, openTaskStore, saveTask } from "./src/tasks/store.js";
 import { prepareTurn } from "./src/turn.js";
 
 const HOOK_PRIORITY = 100;
@@ -246,6 +255,63 @@ async function forgetText(api: OpenClawPluginApi, args: string): Promise<string>
     remainingMatches: after.remainingMatches,
     complete: after.remainingMatches.length === 0,
   });
+}
+
+const NO_TASK_STORE = "Tasks are unavailable: this host has no plugin-state store.";
+
+/** `/task <goal>` — record a manual task the owner assigned (E-01). */
+async function taskStartText(
+  api: OpenClawPluginApi,
+  ctx: PluginCommandContext,
+  args: string,
+): Promise<string> {
+  const goal = args.trim();
+  if (!goal) {
+    return "Usage: /task <what to do>. Nothing recorded.";
+  }
+  const store = openTaskStore(api.runtime);
+  if (!store) {
+    return NO_TASK_STORE;
+  }
+  const now = new Date().toISOString();
+  const task = createTask({ owner: ctx.senderId ?? "owner", goal, approvedTools: [] }, now);
+  await saveTask(store, task);
+  return `Recorded task ${task.id}: ${goal}\nUse /tasks to list, /task-status <id> <status> to update.`;
+}
+
+/** `/tasks` — list recorded tasks, newest first (E-01). */
+async function taskListText(api: OpenClawPluginApi): Promise<string> {
+  const store = openTaskStore(api.runtime);
+  if (!store) {
+    return NO_TASK_STORE;
+  }
+  return renderTaskList(await loadTasks(store));
+}
+
+/** `/task-status <id> [status] [evidence]` — read or update one task's status + proof (E-01/E-04). */
+async function taskStatusText(api: OpenClawPluginApi, args: string): Promise<string> {
+  const trimmed = args.trim();
+  if (!trimmed) {
+    return "Usage: /task-status <id> [status] [evidence]. Nothing changed.";
+  }
+  const [id, status, ...rest] = trimmed.split(/\s+/);
+  const store = openTaskStore(api.runtime);
+  if (!store) {
+    return NO_TASK_STORE;
+  }
+  const task = (await loadTasks(store)).find((t) => t.id === id);
+  if (!task) {
+    return `No task with id ${id}.`;
+  }
+  if (!status) {
+    return renderDebrief(task);
+  }
+  if (!isTaskStatus(status)) {
+    return `Unknown status "${status}". Use one of: planned, running, waiting-owner, done, partial, failed, blocked.`;
+  }
+  const updated = withStatus(task, status, rest.join(" "));
+  await saveTask(store, updated);
+  return renderDebrief(updated);
 }
 
 async function setLockdown(
@@ -498,6 +564,40 @@ export default definePluginEntry({
       exposeSenderIsOwner: true,
       handler: async (ctx) =>
         isOwner(ctx) ? { text: await spendText(api) } : { text: "Owner only." },
+    });
+
+    api.registerCommand({
+      name: "task",
+      description: "Record a task for FRIDAY: /task <what to do> (E-01).",
+      acceptsArgs: true,
+      requireAuth: true,
+      exposeSenderIsOwner: true,
+      handler: async (ctx) =>
+        isOwner(ctx)
+          ? { text: await taskStartText(api, ctx, ctx.args ?? "") }
+          : { text: "Owner only." },
+    });
+
+    api.registerCommand({
+      name: "tasks",
+      description: "List the tasks FRIDAY has recorded, newest first (E-01).",
+      acceptsArgs: false,
+      requireAuth: true,
+      exposeSenderIsOwner: true,
+      handler: async (ctx) =>
+        isOwner(ctx) ? { text: await taskListText(api) } : { text: "Owner only." },
+    });
+
+    api.registerCommand({
+      name: "task-status",
+      description: "Read or update a task: /task-status <id> [status] [evidence] (E-01/E-04).",
+      acceptsArgs: true,
+      requireAuth: true,
+      exposeSenderIsOwner: true,
+      handler: async (ctx) =>
+        isOwner(ctx)
+          ? { text: await taskStatusText(api, ctx.args ?? "") }
+          : { text: "Owner only." },
     });
 
     api.registerService({

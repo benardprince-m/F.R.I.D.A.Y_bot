@@ -58,6 +58,52 @@ export function resume(task: TaskRecord, checkpoint: string): TaskRecord {
   return { ...task, status: "running", checkpoint };
 }
 
+const TASK_STATUSES: readonly TaskStatus[] = [
+  "planned",
+  "running",
+  "waiting-owner",
+  "done",
+  "partial",
+  "failed",
+  "blocked",
+];
+
+/** Whether `value` is one of the record's statuses (a parse guard for chat input). */
+export function isTaskStatus(value: string): value is TaskStatus {
+  return (TASK_STATUSES as readonly string[]).includes(value);
+}
+
+/**
+ * Apply a status change, optionally attaching one more piece of evidence (E-01).
+ *
+ * Evidence is append-only and never overwritten, so the proof trail survives later updates. A
+ * blank/absent note leaves the evidence unchanged.
+ */
+export function withStatus(task: TaskRecord, status: TaskStatus, evidence?: string): TaskRecord {
+  const note = evidence?.trim();
+  return {
+    ...task,
+    status,
+    evidence: note ? [...task.evidence, note] : task.evidence,
+  };
+}
+
+/**
+ * Render a compact, newest-first list of tasks for chat (E-01).
+ *
+ * Ordered by `startedAt` (then id) so the most recent task is first; ids are shown so the owner
+ * can copy one and reference it in a later command.
+ */
+export function renderTaskList(tasks: readonly TaskRecord[]): string {
+  if (tasks.length === 0) {
+    return "No tasks recorded.";
+  }
+  const ordered = [...tasks].toSorted((a, b) =>
+    a.startedAt === b.startedAt ? b.id.localeCompare(a.id) : b.startedAt.localeCompare(a.startedAt),
+  );
+  return ordered.map((t) => `[${t.status}] ${t.goal} — ${t.id}`).join("\n");
+}
+
 /**
  * Render the owner-facing debrief: outcome, proof, cost, failures, next action (§5.1).
  *

@@ -1,6 +1,6 @@
 // FRIDAY core tests: task ledger + honest debrief (E-01/E-04).
 import { describe, expect, it } from "vitest";
-import { createTask, renderDebrief, resume } from "./ledger.js";
+import { createTask, renderDebrief, renderTaskList, resume } from "./ledger.js";
 
 const now = "2026-11-13T12:00:00Z";
 
@@ -58,5 +58,23 @@ describe("task ledger", () => {
       costUsd: 0.35,
     };
     expect(renderDebrief(t)).toContain("$0.35 of $2.00 budget");
+  });
+
+  it("lists tasks newest first with status and id", () => {
+    const older = createTask({ owner: "benard", goal: "Older", approvedTools: [] }, now);
+    const newer = {
+      ...createTask({ owner: "benard", goal: "Newer", approvedTools: [] }, "2026-11-14T12:00:00Z"),
+      status: "done" as const,
+      evidence: ["x"],
+    };
+    const text = renderTaskList([older, newer]);
+    expect(text.split("\n")).toEqual([
+      `[done] Newer — ${newer.id}`,
+      `[planned] Older — ${older.id}`,
+    ]);
+  });
+
+  it("says so when there are no tasks", () => {
+    expect(renderTaskList([])).toBe("No tasks recorded.");
   });
 });

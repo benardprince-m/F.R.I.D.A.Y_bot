@@ -301,8 +301,15 @@ function createTask(
   now: Iso8601,
 ): TaskRecord;
 function resume(task: TaskRecord, checkpoint: string): TaskRecord;
+function isTaskStatus(value: string): value is TaskStatus;
+function withStatus(task: TaskRecord, status: TaskStatus, evidence?: string): TaskRecord;
+function renderTaskList(tasks: readonly TaskRecord[]): string;
 function renderDebrief(task: TaskRecord): string;
 ```
+
+Persistence lives in `extensions/friday/src/tasks/store.ts` (namespace `friday-tasks`, `maxEntries: 10_000`, `overflowPolicy: "reject-new"`): one row per task keyed by id, so a restart re-reads every accepted task rather than losing it (E-02 "no silent loss"). `loadTasks` validates every row with `isTaskRecord` and drops a malformed row rather than trusting it — the store read is a trust boundary.
+
+Chat surface (E-01/E-04): `/task <goal>` records a planned task; `/tasks` lists them newest first; `/task-status <id> [status] [evidence]` reads a debrief or applies a status change, appending evidence (append-only, never overwritten).
 
 Contract: `renderDebrief` never claims success without at least one `evidence` entry; a `done` task with no evidence renders as `partial` with an explicit note.
 
@@ -450,21 +457,21 @@ carries the owner bit.
 
 ## Engine wiring points (per workstream, surgical)
 
-| Contract             | Engine entry point                                  | Workstream | Status                                                                                                          |
-| -------------------- | --------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- |
-| F-01 redactForEgress | `before_message_write` hook (pre-model user text)   | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                                                                   |
-| C-01 routeTurn       | `before_model_resolve` hook (model selection)       | WS-C       | WIRED — `index.ts`; proven in `index.test.ts`; no-op until a local pair is set                                  |
-| C-02 model chain     | `before_model_resolve` hook (`fallbacksOverride`)   | WS-C       | WIRED — `index.ts`; DeepSeek v4.1 Flash + free-tier chain; proven in `index.test.ts`                            |
-| C-03 breaker         | `model_call_ended` hook (per-call outcome)          | WS-C       | WIRED — `index.ts`; open breaker skips the provider; proven in `index.test.ts`                                  |
-| F-02 guardContent    | `tool_result_persist` hook (tool/web/file results)  | WS-F       | WIRED — `index.ts` (`fenceToolResultMessage`); proven in `index.test.ts`                                        |
-| A-01 decideAdmission | `before_agent_run` hook (channel admission)         | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                                                                   |
-| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)      | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test                                             |
-| F-07 prepareTurn     | `before_agent_run` hook (the single turn seam)      | WS-F       | WIRED — `index.ts`; composes A-01/F-03 decision + F-02 label; proven in `index.test.ts`                         |
-| F-05 checkIntegrity  | `/doctor` + `/trust-persona` baseline (state store) | WS-F       | WIRED — `index.ts`; baseline persisted; proven in `index.test.ts`                                               |
-| G-01 heartbeat       | `registerService` v2 + `PluginServiceSchedulerV1`   | WS-G       | WIRED — `index.ts`; 60s loop, F-05 check on a beat; proven in `heartbeat-service.test.ts`                       |
-| B-02/B-04            | memory write + forget commands                      | WS-B       | WIRED — `index.ts` (`/remember`,`/memory`,`/forget`) + owner-scoped retrieval; `index.test.ts`, `store.test.ts` |
-| C-04 spend ledger    | `llm_output` hook (per-call token usage)            | WS-C       | WIRED — `index.ts`; durable `friday-ledger` store; `/spend`; proven in `index.test.ts`, `ledger-store.test.ts`  |
-| C-05 budget ceiling  | `before_model_resolve` (router `budgetAllowed`)     | WS-C       | WIRED — `index.ts`; a spent ceiling refuses paid escalation; proven in `index.test.ts`                          |
-| E-01/E-04            | task start / completion + chat reply                | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                                                              |
+| Contract             | Engine entry point                                  | Workstream | Status                                                                                                                       |
+| -------------------- | --------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| F-01 redactForEgress | `before_message_write` hook (pre-model user text)   | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                                                                                |
+| C-01 routeTurn       | `before_model_resolve` hook (model selection)       | WS-C       | WIRED — `index.ts`; proven in `index.test.ts`; no-op until a local pair is set                                               |
+| C-02 model chain     | `before_model_resolve` hook (`fallbacksOverride`)   | WS-C       | WIRED — `index.ts`; DeepSeek v4.1 Flash + free-tier chain; proven in `index.test.ts`                                         |
+| C-03 breaker         | `model_call_ended` hook (per-call outcome)          | WS-C       | WIRED — `index.ts`; open breaker skips the provider; proven in `index.test.ts`                                               |
+| F-02 guardContent    | `tool_result_persist` hook (tool/web/file results)  | WS-F       | WIRED — `index.ts` (`fenceToolResultMessage`); proven in `index.test.ts`                                                     |
+| A-01 decideAdmission | `before_agent_run` hook (channel admission)         | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                                                                                |
+| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)      | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test                                                          |
+| F-07 prepareTurn     | `before_agent_run` hook (the single turn seam)      | WS-F       | WIRED — `index.ts`; composes A-01/F-03 decision + F-02 label; proven in `index.test.ts`                                      |
+| F-05 checkIntegrity  | `/doctor` + `/trust-persona` baseline (state store) | WS-F       | WIRED — `index.ts`; baseline persisted; proven in `index.test.ts`                                                            |
+| G-01 heartbeat       | `registerService` v2 + `PluginServiceSchedulerV1`   | WS-G       | WIRED — `index.ts`; 60s loop, F-05 check on a beat; proven in `heartbeat-service.test.ts`                                    |
+| B-02/B-04            | memory write + forget commands                      | WS-B       | WIRED — `index.ts` (`/remember`,`/memory`,`/forget`) + owner-scoped retrieval; `index.test.ts`, `store.test.ts`              |
+| C-04 spend ledger    | `llm_output` hook (per-call token usage)            | WS-C       | WIRED — `index.ts`; durable `friday-ledger` store; `/spend`; proven in `index.test.ts`, `ledger-store.test.ts`               |
+| C-05 budget ceiling  | `before_model_resolve` (router `budgetAllowed`)     | WS-C       | WIRED — `index.ts`; a spent ceiling refuses paid escalation; proven in `index.test.ts`                                       |
+| E-01/E-04            | task start / completion + chat reply                | WS-E       | WIRED — `index.ts` (`/task`,`/tasks`,`/task-status`) over the durable `friday-tasks` store; `index.test.ts`, `store.test.ts` |
 
 Each wiring is proven by a test that exercises the real entry point, not just the pure function.

@@ -63,6 +63,9 @@ describe("friday plugin entry", () => {
       "memory",
       "remember",
       "spend",
+      "task",
+      "task-status",
+      "tasks",
       "trust-persona",
       "unlock",
     ]);
@@ -390,6 +393,101 @@ describe("friday plugin entry", () => {
         { senderId: "999", channel: "telegram" },
       )) as { appendContext?: string } | undefined;
       expect(result?.appendContext).toBeUndefined();
+    });
+  });
+
+  describe("/task, /tasks, /task-status (E-01/E-04)", () => {
+    /** In-memory keyed store matching the plugin-state contract. */
+    function taskRuntime() {
+      const map = new Map<string, unknown>();
+      const store = {
+        lookup: async (key: string) => map.get(key),
+        entries: async () => [...map.entries()].map(([key, value]) => ({ key, value })),
+        register: async (key: string, value: unknown) => {
+          map.set(key, value);
+        },
+      };
+      return { state: { openKeyedStoreV2: () => store } };
+    }
+
+    function commandsFor(pluginConfig: unknown, runtime?: unknown) {
+      const { hooks, on } = captureHooks();
+      const { commands, registerCommand } = captureCommands();
+      plugin.register(
+        createTestPluginApi({ on, registerCommand, pluginConfig, runtime: runtime as never }),
+      );
+      return { commands, hooks };
+    }
+
+    const run = (c: { handler: (ctx: never) => unknown }, args = "") =>
+      c.handler({ senderIsOwner: true, senderId: "1", args } as never) as Promise<{ text: string }>;
+
+    it("records a task on /task and lists it on /tasks", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, taskRuntime());
+      const created = await run(commands.get("task")!, "Draft a revision timetable");
+      expect(created.text).toContain("Recorded task task-");
+      const listed = await run(commands.get("tasks")!);
+      expect(listed.text).toContain("Draft a revision timetable");
+      expect(listed.text).toContain("[planned]");
+    });
+
+    it("requires a goal for /task", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, taskRuntime());
+      expect((await run(commands.get("task")!)).text).toContain("Usage: /task");
+    });
+
+    it("reports honestly when the host has no task store", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] });
+      expect((await run(commands.get("task")!, "x")).text).toContain("unavailable");
+      expect((await run(commands.get("tasks")!)).text).toContain("unavailable");
+    });
+
+    it("updates status with evidence and renders an honest debrief", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, taskRuntime());
+      const created = await run(commands.get("task")!, "Check the build");
+      const id = created.text.match(/task-\d+-\d+/)![0];
+      const updated = await run(commands.get("task-status")!, `${id} done pnpm build exit 0`);
+      expect(updated.text).toContain("Outcome: done");
+      expect(updated.text).toContain("pnpm build exit 0");
+    });
+
+    it("demotes a done task with no evidence to partial in the chat debrief", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, taskRuntime());
+      const created = await run(commands.get("task")!, "Do the thing");
+      const id = created.text.match(/task-\d+-\d+/)![0];
+      const updated = await run(commands.get("task-status")!, `${id} done`);
+      expect(updated.text).toContain("Outcome: partial");
+      expect(updated.text).toContain("marked done without evidence");
+    });
+
+    it("reads one task's debrief when no status is given", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, taskRuntime());
+      const created = await run(commands.get("task")!, "Read me back");
+      const id = created.text.match(/task-\d+-\d+/)![0];
+      expect((await run(commands.get("task-status")!, id)).text).toContain("Read me back");
+    });
+
+    it("rejects an unknown status and an unknown id", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, taskRuntime());
+      const created = await run(commands.get("task")!, "A task");
+      const id = created.text.match(/task-\d+-\d+/)![0];
+      expect((await run(commands.get("task-status")!, `${id} finished`)).text).toContain(
+        "Unknown status",
+      );
+      expect((await run(commands.get("task-status")!, "task-nope")).text).toContain(
+        "No task with id",
+      );
+    });
+
+    it("refuses a non-owner for every task command", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, taskRuntime());
+      for (const name of ["task", "tasks", "task-status"]) {
+        expect(
+          await (commands
+            .get(name)!
+            .handler({ senderIsOwner: false } as never) as Promise<unknown>),
+        ).toEqual({ text: "Owner only." });
+      }
     });
   });
 
