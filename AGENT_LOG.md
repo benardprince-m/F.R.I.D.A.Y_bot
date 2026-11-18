@@ -6,6 +6,45 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-18T13:20Z — Lane 15 · RED TEAM engagement (adversarial drill; 13 cracks found + fixed)
+
+**Goal:** owner-requested breach-and-attack drill. Attack FRIDAY, try to trick it into leaking credentials, find bugs/cracks/open windows, run a "system under cyber attack" scenario, and report findings in plain language.
+
+**Scope:** the FRIDAY plugin under `extensions/friday/` (identity, commands, credential egress, injection, deploy, secret store, budget, stores). Two new test suites; four defensive fixes. No engine internals.
+
+**Plan:** read every defence module first, then write attacks against the REAL code paths (no mocks), then fix each crack at its owner and keep the attack as a regression test. Finally, a staged 12-wave "under attack" scenario.
+
+**Execution — attacks (60 cases, families A–H):**
+
+- A identity/admission, B command privilege, C credential egress, D prompt injection, E deploy trigger, F secret intake/store, G budget/lockdown/breaker, H store trust boundary.
+- First run: **13 failures** — 13 real cracks.
+
+**Execution — fixes (root, at the owning module):**
+
+1. **Privilege escalation (highest severity).** `index.ts` `isOwner()` accepted `isAuthorizedSender` (the host _allowlist_ bit) as owner authority. An allowlisted guest could run `/lockdown`, `/remember`, `/forget`, `/deploy`, and read `/doctor`. Fixed: owner commands require the host _owner_ bit (`senderIsOwner === true`) only; the `ownerIds` pin narrows the turn gate where identity is available.
+2. **Missing key shapes.** `policy/redaction.ts` had no rule for Google `AIza…` or Groq `gsk_…` keys, and its `Bearer` rule was case-sensitive. Fixed: added both shapes and made the bearer rule case-insensitive.
+3. **Fence bypass.** `policy/injection-guard.ts` `isFencedContent()` returned true if the envelope markers appeared _anywhere_, so content that merely embedded a marker (or forged an envelope then appended orders) skipped fencing. Fixed: only content that both starts with the open marker and ends with the close marker counts.
+4. **Deploy injection.** `ops/deploy.ts` validated the repo and ref loosely and did not validate the workflow name, so `../../evil.yml` and `..`-refs were accepted. Fixed: workflow must match `^[A-Za-z0-9._-]+\.ya?ml$`; refs reject `.`/`..` segments and stray slashes.
+
+**Execution — scenario (`scenario-under-attack.test.ts`, 12 stages):** recon → phishing → tool-result injection → identity spoof → privilege escalation → key exposure → provider outage → spend-burn → lockdown drawbridge → Constitution tamper → hijacked deploy → honest `/doctor`. All 12 hold. FRIDAY defends (refuse, fence, fail over, cap spend, lock down, detect tamper, report truth) and never counter-attacks (spec §4.3).
+
+**Verification (exact commands + actual results):**
+
+- `node scripts/run-vitest.mjs run extensions/friday/red-team.test.ts` → first run **13 failed / 47 passed**; after fixes **60 passed**.
+- `node scripts/run-vitest.mjs run extensions/friday` → **37 files / 391 tests passed** (was 35/319; +2 suites / +72 tests).
+- `node scripts/run-tsgo.mjs -p tsconfig.extensions.json` → exit 0.
+- `node scripts/run-oxlint.mjs --tsconfig extensions/tsconfig.json extensions/friday` → exit 0; `oxfmt --check` clean.
+
+**Side effects:** two new test suites; four defensive fixes; new `docs/security/RED_TEAM_REPORT.md`. No behaviour change for the legitimate owner (all prior tests still pass).
+
+**Outcome:** 13 cracks found and fixed; every attack retained as a permanent regression test; 72 adversarial cases green.
+
+**Known risks:** this proves the _logic_, not a live body — no live Telegram/Discord, model, or host (BLK-1/2/3/5), so it is not a live-fire result. The redaction filter is only as good as its pattern list; each newly adopted provider key shape must be added (recorded in the report).
+
+**Next action:** wire the live messaging channel (the body) once the owner supplies the host + tokens; add a key-shape test whenever a new provider is adopted.
+
+---
+
 ## 2026-11-18T11:50Z — Lane 14 · G-04/G-05/G-06 phone-only deploy path (host-agnostic, tap-to-deploy)
 
 **Goal:** Make FRIDAY deployable and controllable from a phone, with no laptop and no terminal. The owner is phone-only (binding constraint, `docs/contracts/phone-only.md`), and G-04/G-05 were parked on BLK-5 (host) while G-06 was TODO.

@@ -21,7 +21,20 @@ export type DeployPlan =
   | { ok: false; reason: string };
 
 const REPO_RE = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
+// A workflow is dispatched by file name or numeric id: no slashes, no query/fragment, no "..".
+const WORKFLOW_RE = /^[A-Za-z0-9._-]+\.ya?ml$/;
 const REF_RE = /^[A-Za-z0-9._/-]+$/;
+
+/** Reject any ref containing a ".." path segment (traversal) or a leading/trailing slash. */
+function isSafeRef(ref: string): boolean {
+  if (!REF_RE.test(ref)) {
+    return false;
+  }
+  if (ref.startsWith("/") || ref.endsWith("/") || ref.includes("//")) {
+    return false;
+  }
+  return !ref.split("/").some((segment) => segment === ".." || segment === ".");
+}
 
 const NOT_CONFIGURED =
   "Deploy is not configured. Set FRIDAY_DEPLOY_REPO (owner/repo), FRIDAY_DEPLOY_TOKEN " +
@@ -46,8 +59,14 @@ export function planDeploy(env: Record<string, string | undefined>): DeployPlan 
   }
   const workflow = (env.FRIDAY_DEPLOY_WORKFLOW ?? "friday-deploy.yml").trim();
   const ref = (env.FRIDAY_DEPLOY_REF ?? "main").trim();
-  if (!workflow || !ref || !REF_RE.test(ref)) {
-    return { ok: false, reason: "FRIDAY_DEPLOY_WORKFLOW and FRIDAY_DEPLOY_REF must be non-empty." };
+  if (!WORKFLOW_RE.test(workflow)) {
+    return {
+      ok: false,
+      reason: "FRIDAY_DEPLOY_WORKFLOW must be a workflow file name like friday-deploy.yml.",
+    };
+  }
+  if (!isSafeRef(ref)) {
+    return { ok: false, reason: "FRIDAY_DEPLOY_REF must be a valid branch or tag name." };
   }
   return {
     ok: true,

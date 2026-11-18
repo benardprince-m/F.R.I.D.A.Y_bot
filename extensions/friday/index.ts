@@ -108,10 +108,6 @@ function personaDir(api: OpenClawPluginApi): string {
   return dir ? path.resolve(dir) : process.cwd();
 }
 
-function isOwner(ctx: PluginCommandContext): boolean {
-  return ctx.senderIsOwner === true || ctx.isAuthorizedSender;
-}
-
 /** Whether a hook turn belongs to the configured owner (scopes memory retrieval, B-04). */
 function isOwnerTurn(
   api: OpenClawPluginApi,
@@ -382,6 +378,16 @@ export default definePluginEntry({
   register(api: OpenClawPluginApi) {
     // Fresh per registration, so a re-register (or a test) never inherits stale health.
     breakers = new Map();
+
+    /**
+     * Owner-only command gate, fail-closed. `isAuthorizedSender` is the host *allowlist* bit
+     * ("this sender may run commands"); `senderIsOwner` is the host *owner* bit ("this sender
+     * is the owner"). FRIDAY's privileged commands require the owner bit specifically, so an
+     * allowlisted guest can never /lockdown, /remember, /forget, /deploy, or read /doctor.
+     * The host owner bit is the authoritative owner authority; the `ownerIds` pin narrows the
+     * turn gate (where sender identity is available), not this one.
+     */
+    const isOwner = (ctx: PluginCommandContext): boolean => ctx.senderIsOwner === true;
 
     api.on(
       "before_agent_run",

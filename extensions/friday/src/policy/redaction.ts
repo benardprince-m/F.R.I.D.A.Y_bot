@@ -54,7 +54,12 @@ const PATTERNS: readonly Pattern[] = [
     kind: "password-assignment",
     regex: /\b(?:password|passwd|pwd|secret)\s*[:=]\s*["']?([^\s"',;]{4,})["']?/gi,
   },
-  { kind: "bearer-token", regex: /\bBearer\s+([A-Za-z0-9._~+/-]{16,}=*)/g },
+  {
+    kind: "bearer-token",
+    regex: /\bBearer\s+([A-Za-z0-9._~+/-]{16,}=*)/gi,
+  },
+  { kind: "api-key", regex: /\bAIza[0-9A-Za-z_-]{30,}\b/g },
+  { kind: "api-key", regex: /\bgsk_[A-Za-z0-9]{20,}\b/g },
   { kind: "api-key", regex: /\b(?:sk|rk|pk|api[_-]?key|xox[baprs])[-_][A-Za-z0-9_-]{12,}\b/gi },
   { kind: "api-key", regex: /\b(?:AKIA|ASIA)[0-9A-Z]{16}\b/g },
   { kind: "api-key", regex: /\bgh[pousr]_[A-Za-z0-9]{20,}\b/g },
