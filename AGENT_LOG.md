@@ -6,6 +6,37 @@ Format per entry: goal · scope · plan · execution · verification (exact comm
 
 ---
 
+## 2026-11-17T09:20Z — Lane 10 · B-02/B-04 memory surface (records + keyed store + commands)
+
+**Goal:** Close BLK-7 — give the owner a working memory surface. The engine's memory-core has no plugin-facing read/write/delete API, so `/remember` (Librarian writes, B-02), `/forget` (purge with evidence, B-04), and retrieval into the prompt were all unwired; the pure modules existed but nothing could reach them from chat.
+
+**Owner decision (this session):** FRIDAY owns the semantic memory layer in its own bounded keyed store (namespace `friday-memory`), the same plugin-state store the continuity checkpoint uses — one row per record, never a JSON sidecar. This is the resolution of BLK-7.
+
+**Recon:** `before_prompt_build` is async-capable — `runModifyingHook` awaits handlers and merges `appendSystemContext`/`appendContext`/`toolsAllow`, so bounded retrieval can be injected there. Hook context carries `senderId`/`channel` (`PluginHookAgentContext`), so retrieval can be scoped to the configured owner. Command args arrive via `ctx.args` (`PluginCommandContext`). The keyed store is `api.runtime.state.openKeyedStoreV2({ namespace, maxEntries, overflowPolicy })` with `register`/`lookup`/`entries`/`delete`. A store-opening test needs the main-thread broker, so its file belongs in the `database-worker` lane.
+
+**Scope:** new `src/memory/records.ts` (+ test), `src/memory/store.ts` (+ test), `index.ts` (3 commands + retrieval in `before_prompt_build`), `index.test.ts`, `docs/contracts/friday-core.md`, `TASKBOARD.md`, `test/vitest/vitest.extension-database-workers-paths.mjs` (register the store test).
+
+**Execution:**
+
+- `records.ts` composes the existing pure modules: `applyCandidate` folds a candidate through `classify` (B-02) into the stored set; `forgetMemories` reuses `forget` (B-04) over the semantic layer; `selectForContext` ranks records by prompt-word overlap then importance (bounded, never negative-scored); `renderMemoryContext`/`renderMemoryList`/`renderRememberAck` render provenance-labelled text. `isStoredMemory` validates a row read back from the store — the read is a trust boundary.
+- `store.ts` opens the `friday-memory` namespace (`maxEntries: 5000`, `reject-new`, so a full store is a visible condition, not silent eviction) and loads only rows that pass `isStoredMemory`, dropping malformed rows rather than trusting them.
+- `index.ts`: `/remember <fact>` (owner-gated) folds through the Librarian and persists; `/memory` lists; `/forget <text>` purges and re-scans the real post-purge store so `complete` is measured, not claimed. `before_prompt_build` appends the persona/Constitution as cached system context (unchanged) and, **only for the configured owner's own turns**, a bounded memory block; retrieval is best-effort and never fails the turn.
+- `openclaw.plugin.json` unchanged (no new config fields).
+
+**Verification (exact commands + actual results):**
+
+- `./node_modules/.bin/vitest run extensions/friday` → **36 files / 303 tests passed** (was 34/277; +26). New: `records.test.ts` (14), `store.test.ts` (4, in the database-worker lane); extended `index.test.ts` (commands + retrieval + hook-list).
+- `./node_modules/.bin/vitest run --config test/vitest/vitest.extension-database-workers.config.ts extensions/friday` → 2 files / 10 tests passed (continuity + memory stores).
+- `node scripts/run-tsgo.mjs -p tsconfig.extensions.json` → exit 0; `oxlint` on changed files → exit 0; `oxfmt --check` clean after `--write`.
+
+**Side effects:** `before_prompt_build` now returns an object on owner turns when persona files exist **or** memory matches; the hook is async. Non-owner turns are unchanged. The store is new state under the engine's plugin-state DB.
+
+**Known risks:** Retrieval is lexical overlap, not embeddings — a fact phrased with different words may not surface; acceptable for Phase 0 and cheap. The store is `reject-new` at 5000 rows, so a full store refuses writes loudly (owner clears via `/forget`) rather than evicting silently. No cross-layer purge: only FRIDAY's own semantic layer exists as plugin-facing state.
+
+**Next action:** Owner supplies provider keys (BLK-2) and Telegram identity (BLK-1) to run end-to-end; next unwired surfaces are C-04/C-05 (spend ledger) and G-06 (response cache), each needing a bounded store + read surface.
+
+---
+
 ## 2026-11-17T08:05Z — Lane 9 · C-02 model default + fallback layering (and C-03 wiring)
 
 **Goal:** Make FRIDAY's reply path use a real model. The owner chose DeepSeek v4.1 Flash as the default; C-02 (the free-tier fallback chain) was still unconfigured and C-03 (the breaker) had no live input, so a single provider outage would have stopped owner messaging.

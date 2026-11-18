@@ -15,17 +15,19 @@
 //   * `before_message_write`  — PII/secret scrub of the owner's inbound text before the model
 //                               ever sees it (§7.15, §6.3, F-01).
 //   * `before_prompt_build`   — inject the FRIDAY persona + Constitution as cached system
-//                               context, deterministically (§6.1).
+//                               context, deterministically (§6.1), and, for owner turns, a
+//                               bounded block of retrieved memory facts (B-04/B-03).
 //   * `tool_result_persist`   — fence untrusted tool/web/file results before they enter the
 //                               transcript, so injected instructions stay data (§7.15, F-02).
 //
 // Plus a background heartbeat service (G-01): a beat every minute that runs the F-05 integrity
-// check, bound to the Gateway's lifetime so it stops cleanly. And the `/doctor` (G-03),
-// `/trust-persona` (F-05), `/lockdown` + `/unlock` commands (F-03).
-// `/forget`, `/secret`, the spend ledger, and the response cache are not wired yet: the first two
-// have no plugin-facing memory-purge or secret-store/delete surface, and the ledger/cache need a
-// bounded store plus a phone-readable read surface, so wiring them now would be a dishonest stub.
-// See TASKBOARD C-04 / C-05 / F-04 / B-04 / G-06.
+// check, bound to the Gateway's lifetime so it stops cleanly. Commands: `/doctor` (G-03),
+// `/trust-persona` (F-05), `/lockdown` + `/unlock` (F-03), and `/remember` + `/memory` +
+// `/forget` (B-02/B-04) over FRIDAY's own bounded memory store (the engine has no plugin-facing
+// memory API, so FRIDAY owns the semantic layer — see src/memory/).
+// `/secret`, the spend ledger, and the response cache are not wired yet: they need a
+// secret-store/delete surface and a bounded store plus a phone-readable read surface, so wiring
+// them now would be a dishonest stub. See TASKBOARD C-04 / C-05 / G-06.
 
 import path from "node:path";
 import {
@@ -38,6 +40,17 @@ import {
 import manifest from "./openclaw.plugin.json" with { type: "json" };
 import { readFridayConfig, type FridayConfig } from "./src/config.js";
 import { redactUserMessage, fenceToolResultMessage } from "./src/gate.js";
+import { renderForgetReport } from "./src/memory/forget.js";
+import {
+  applyCandidate,
+  forgetMemories,
+  ownerCandidate,
+  renderMemoryContext,
+  renderMemoryList,
+  renderRememberAck,
+  selectForContext,
+} from "./src/memory/records.js";
+import { deleteMemories, loadMemories, openMemoryStore, saveMemories } from "./src/memory/store.js";
 import { newBreaker, recordOutcome, type BreakerState } from "./src/ops/breaker.js";
 import { buildDoctorReport } from "./src/ops/doctor.js";
 import { HeartbeatService } from "./src/ops/heartbeat-service.js";
@@ -82,6 +95,19 @@ function isOwner(ctx: PluginCommandContext): boolean {
   return ctx.senderIsOwner === true || ctx.isAuthorizedSender;
 }
 
+/** Whether a hook turn belongs to the configured owner (scopes memory retrieval, B-04). */
+function isOwnerTurn(
+  api: OpenClawPluginApi,
+  ctx: { senderId?: string; channel?: string } | undefined,
+): boolean {
+  if (!ctx?.senderId || !ctx.channel) {
+    return false;
+  }
+  return resolveConfig(api).ownerIds.some(
+    (o) => o.channel === ctx.channel && o.senderId === ctx.senderId,
+  );
+}
+
 /** Best-effort check that the durable continuity store can be opened on this host. */
 function continuityStoreAvailable(api: OpenClawPluginApi): boolean {
   return (
@@ -120,6 +146,61 @@ async function trustPersona(api: OpenClawPluginApi): Promise<string> {
   return recorded
     ? `Baseline recorded for: ${files.map((f) => f.path).join(", ")}. /doctor will now flag unexpected changes.`
     : "Could not record a baseline: this host has no plugin-state store.";
+}
+
+const NO_MEMORY_STORE = "Memory is unavailable: this host has no plugin-state store.";
+
+/** `/remember <text>` — fold the owner's fact into memory through the Librarian (B-02). */
+async function rememberText(api: OpenClawPluginApi, args: string): Promise<string> {
+  const text = args.trim();
+  if (!text) {
+    return "Usage: /remember <fact>. Nothing stored.";
+  }
+  const store = openMemoryStore(api.runtime);
+  if (!store) {
+    return NO_MEMORY_STORE;
+  }
+  const now = new Date().toISOString();
+  const result = applyCandidate(await loadMemories(store), ownerCandidate(text, now), now);
+  await saveMemories(store, result.changed);
+  return renderRememberAck(result);
+}
+
+/** `/memory` — list the owner's stored facts, newest first (B-04). */
+async function memoryList(api: OpenClawPluginApi): Promise<string> {
+  const store = openMemoryStore(api.runtime);
+  if (!store) {
+    return NO_MEMORY_STORE;
+  }
+  return renderMemoryList(await loadMemories(store));
+}
+
+/** `/forget <query>` — purge matching memories and report the evidence (B-04). */
+async function forgetText(api: OpenClawPluginApi, args: string): Promise<string> {
+  const query = args.trim();
+  if (!query) {
+    return "Usage: /forget <text to forget>. Nothing purged.";
+  }
+  const store = openMemoryStore(api.runtime);
+  if (!store) {
+    return NO_MEMORY_STORE;
+  }
+  const { report } = forgetMemories(await loadMemories(store), query);
+  if (report.totalPurged === 0) {
+    return renderForgetReport(report);
+  }
+  await deleteMemories(
+    store,
+    report.purged.flatMap((p) => p.ids),
+  );
+  // Re-scan the real post-purge store so `complete` is evidence, not a claim; keep the purge
+  // counts from the report that actually drove the deletion.
+  const after = forgetMemories(await loadMemories(store), query).report;
+  return renderForgetReport({
+    ...report,
+    remainingMatches: after.remainingMatches,
+    complete: after.remainingMatches.length === 0,
+  });
 }
 
 async function setLockdown(
@@ -238,9 +319,29 @@ export default definePluginEntry({
 
     api.on(
       "before_prompt_build",
-      () => {
+      async (event, ctx) => {
         const context = loadSystemContext(path.resolve(personaDir(api)));
-        return context ? { appendSystemContext: context } : undefined;
+        const result: { appendSystemContext?: string; appendContext?: string } = {};
+        if (context) {
+          result.appendSystemContext = context;
+        }
+        // B-04/B-03: inject a bounded block of the owner's stored facts, only for the owner's
+        // own turns (never a forwarded/untrusted turn), and never let retrieval break the turn.
+        if (isOwnerTurn(api, ctx)) {
+          const store = openMemoryStore(api.runtime);
+          if (store) {
+            try {
+              const facts = selectForContext(await loadMemories(store), event.prompt);
+              const block = renderMemoryContext(facts);
+              if (block) {
+                result.appendContext = block;
+              }
+            } catch {
+              // Retrieval is best-effort: a store hiccup must not fail the prompt build.
+            }
+          }
+        }
+        return result.appendSystemContext || result.appendContext ? result : undefined;
       },
       { priority: HOOK_PRIORITY },
     );
@@ -290,6 +391,36 @@ export default definePluginEntry({
       requireAuth: true,
       exposeSenderIsOwner: true,
       handler: (ctx) => (isOwner(ctx) ? setLockdown(api, ctx, false) : { text: "Owner only." }),
+    });
+
+    api.registerCommand({
+      name: "remember",
+      description: "Store a fact in FRIDAY's memory: /remember <fact>.",
+      acceptsArgs: true,
+      requireAuth: true,
+      exposeSenderIsOwner: true,
+      handler: async (ctx) =>
+        isOwner(ctx) ? { text: await rememberText(api, ctx.args ?? "") } : { text: "Owner only." },
+    });
+
+    api.registerCommand({
+      name: "memory",
+      description: "List the facts FRIDAY has stored about you.",
+      acceptsArgs: false,
+      requireAuth: true,
+      exposeSenderIsOwner: true,
+      handler: async (ctx) =>
+        isOwner(ctx) ? { text: await memoryList(api) } : { text: "Owner only." },
+    });
+
+    api.registerCommand({
+      name: "forget",
+      description: "Purge matching memories across every layer, with evidence: /forget <text>.",
+      acceptsArgs: true,
+      requireAuth: true,
+      exposeSenderIsOwner: true,
+      handler: async (ctx) =>
+        isOwner(ctx) ? { text: await forgetText(api, ctx.args ?? "") } : { text: "Owner only." },
     });
 
     api.registerService({

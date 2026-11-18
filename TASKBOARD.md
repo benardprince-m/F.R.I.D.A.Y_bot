@@ -32,14 +32,14 @@ Owner-agent convention: `OpenHands` builds; `Manus` reviews (does not build).
 
 ### WS-B · Memory — five-layer model, Librarian, forget-with-evidence
 
-| ID   | Task                                                                          | Spec      | Owner     | Status                                   | Proof                                                                                                                 |
-| ---- | ----------------------------------------------------------------------------- | --------- | --------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| B-01 | Map FRIDAY's five memory layers onto the engine's memory subsystem (contract) | §7.4      | OpenHands | DONE-PROOF (unit)                        | `extensions/friday/src/memory/layers.ts` · tests pass                                                                 |
-| B-02 | Librarian classify: ADD / UPDATE / MERGE / NOOP with importance×recency×use   | §7.4      | OpenHands | DONE-PROOF (unit)                        | `extensions/friday/src/memory/librarian.ts` · commit b7ae3617 · tests pass                                            |
-| B-03 | Provenance on every memory (source + date); confidence labels                 | §7.4      | OpenHands | DONE-PROOF (unit)                        | `Provenance`/`Confidence` types · `docs/contracts/friday-core.md`                                                     |
-| B-04 | "Forget X" purge across all layers + verifiable evidence report               | §7.4, §14 | OpenHands | DONE-PROOF (unit) · wiring BLOCKED-INPUT | `extensions/friday/src/memory/forget.ts` · tests pass · no plugin-facing memory read/write/delete surface yet (BLK-7) |
-| B-05 | Correction path: update fact, keep audit trail, no revival                    | §7.4      | OpenHands | DONE-PROOF (unit)                        | `extensions/friday/src/memory/correction.ts` · tests pass                                                             |
-| B-06 | Nightly consolidation: merge/compress/decay, idempotent                       | §7.4      | OpenHands | DEFERRED (Phase 1 heartbeat)             | —                                                                                                                     |
+| ID   | Task                                                                          | Spec      | Owner     | Status                       | Proof                                                                                                                    |
+| ---- | ----------------------------------------------------------------------------- | --------- | --------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| B-01 | Map FRIDAY's five memory layers onto the engine's memory subsystem (contract) | §7.4      | OpenHands | DONE-PROOF (unit)            | `extensions/friday/src/memory/layers.ts` · tests pass                                                                    |
+| B-02 | Librarian classify: ADD / UPDATE / MERGE / NOOP with importance×recency×use   | §7.4      | OpenHands | DONE-PROOF (unit + wired)    | `extensions/friday/src/memory/librarian.ts` · `records.ts` · `/remember` command wired · tests pass                      |
+| B-03 | Provenance on every memory (source + date); confidence labels                 | §7.4      | OpenHands | DONE-PROOF (unit + wired)    | `Provenance`/`Confidence` types · retrieval injects provenance · `docs/contracts/friday-core.md`                         |
+| B-04 | "Forget X" purge across all layers + verifiable evidence report               | §7.4, §14 | OpenHands | DONE-PROOF (unit + wired)    | `extensions/friday/src/memory/forget.ts` · `/forget` wired over `friday-memory` store · `index.test.ts`, `store.test.ts` |
+| B-05 | Correction path: update fact, keep audit trail, no revival                    | §7.4      | OpenHands | DONE-PROOF (unit)            | `extensions/friday/src/memory/correction.ts` · tests pass                                                                |
+| B-06 | Nightly consolidation: merge/compress/decay, idempotent                       | §7.4      | OpenHands | DEFERRED (Phase 1 heartbeat) | —                                                                                                                        |
 
 ### WS-C · Model Router — free-tier chain, failover, cost tracking
 
@@ -111,14 +111,14 @@ Fingerprint spoofing / human-mouse-path evasion · privileged Kali/Metasploit of
 
 ## Blocked-input register (feeds the consolidated owner report)
 
-| Ref   | Need                                                                                                                                | Unblocks         |
-| ----- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| BLK-1 | Telegram bot token + owner Telegram user id                                                                                         | A-02, A-03       |
-| BLK-2 | Provider keys for the chosen chain (default model = DeepSeek v4.1 Flash; free-tier fallbacks Gemini→Groq→Mistral→Cohere→Cloudflare) | C-02 live calls  |
-| BLK-3 | Hard monthly budget ceiling                                                                                                         | C-05, §7.10 gate |
-| BLK-4 | Vault factor design + recovery model                                                                                                | F-06             |
-| BLK-5 | Host for systemd + Docker deployment                                                                                                | G-04, G-05       |
-| BLK-6 | Agent-Reach source + permitted backends                                                                                             | D-03             |
-| BLK-7 | Owner decision: memory surface for `/forget` + Librarian writes (engine memory-core has no plugin-facing read/write/delete API)     | B-02/B-04 wiring |
+| Ref   | Need                                                                                                                                                                                | Unblocks         |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| BLK-1 | Telegram bot token + owner Telegram user id                                                                                                                                         | A-02, A-03       |
+| BLK-2 | Provider keys for the chosen chain (default model = DeepSeek v4.1 Flash; free-tier fallbacks Gemini→Groq→Mistral→Cohere→Cloudflare)                                                 | C-02 live calls  |
+| BLK-3 | Hard monthly budget ceiling                                                                                                                                                         | C-05, §7.10 gate |
+| BLK-4 | Vault factor design + recovery model                                                                                                                                                | F-06             |
+| BLK-5 | Host for systemd + Docker deployment                                                                                                                                                | G-04, G-05       |
+| BLK-6 | Agent-Reach source + permitted backends                                                                                                                                             | D-03             |
+| BLK-7 | ~~Owner decision: memory surface for `/forget` + Librarian writes~~ RESOLVED — FRIDAY owns a bounded `friday-memory` keyed store; `/remember`+`/memory`+`/forget` wired (B-02/B-04) | B-02/B-04 wiring |
 
 Full detail: `OWNER_REQUIREMENTS.md`.

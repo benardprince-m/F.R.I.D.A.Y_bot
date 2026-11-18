@@ -57,7 +57,10 @@ describe("friday plugin entry", () => {
     ]);
     expect([...commands.keys()].toSorted()).toEqual([
       "doctor",
+      "forget",
       "lockdown",
+      "memory",
+      "remember",
       "trust-persona",
       "unlock",
     ]);
@@ -210,13 +213,15 @@ describe("friday plugin entry", () => {
     ).toBeUndefined();
   });
 
-  it("injects the persona and constitution as appended system context", () => {
+  it("injects the persona and constitution as appended system context", async () => {
     writeFileSync(path.join(dir, "PERSONA.md"), "persona body");
     writeFileSync(path.join(dir, "CONSTITUTION.md"), "constitution body");
     const { hooks, on } = captureHooks();
     plugin.register(createTestPluginApi({ on, pluginConfig: { personaDir: dir } }));
     const handler = hooks.get("before_prompt_build")!;
-    expect(handler({})).toEqual({ appendSystemContext: "persona body\n\nconstitution body" });
+    expect(await handler({ prompt: "hi" })).toEqual({
+      appendSystemContext: "persona body\n\nconstitution body",
+    });
   });
 
   describe("tool_result_persist fencing (F-02)", () => {
@@ -283,6 +288,106 @@ describe("friday plugin entry", () => {
       const result = await commands.get("unlock")!.handler({ senderIsOwner: false } as never);
       expect(result).toEqual({ text: "Owner only." });
       expect(mutateConfigFile).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("/remember, /memory, /forget and retrieval (B-02/B-04)", () => {
+    /** A keyed store backed by a Map, matching the plugin-state contract. */
+    function memoryRuntime() {
+      const map = new Map<string, unknown>();
+      const store = {
+        lookup: async (key: string) => map.get(key),
+        entries: async () => [...map.entries()].map(([key, value]) => ({ key, value })),
+        register: async (key: string, value: unknown) => {
+          map.set(key, value);
+        },
+        delete: async (key: string) => map.delete(key),
+      };
+      return { state: { openKeyedStoreV2: () => store } };
+    }
+
+    function commandsFor(pluginConfig: unknown, runtime?: unknown) {
+      const { hooks, on } = captureHooks();
+      const { commands, registerCommand } = captureCommands();
+      plugin.register(
+        createTestPluginApi({ on, registerCommand, pluginConfig, runtime: runtime as never }),
+      );
+      return { commands, hooks };
+    }
+
+    const run = (c: { handler: (ctx: never) => unknown }, args = "") =>
+      c.handler({ senderIsOwner: true, args } as never) as Promise<{ text: string }>;
+
+    it("stores a fact on /remember and lists it on /memory", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, memoryRuntime());
+      const stored = await run(commands.get("remember")!, "Prince likes espresso");
+      expect(stored.text).toBe("Stored.");
+      const listed = await run(commands.get("memory")!);
+      expect(listed.text).toContain("Prince likes espresso");
+    });
+
+    it("forgets a matching fact and reports the evidence (B-04)", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, memoryRuntime());
+      await run(commands.get("remember")!, "Prince likes espresso");
+      const report = await run(commands.get("forget")!, "espresso");
+      expect(report.text).toContain("Purged 1 record");
+      expect(report.text).toContain("no matches remain");
+      const listed = await run(commands.get("memory")!);
+      expect(listed.text).not.toContain("espresso");
+    });
+
+    it("says nothing matched for a non-matching /forget", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, memoryRuntime());
+      await run(commands.get("remember")!, "Prince likes espresso");
+      const report = await run(commands.get("forget")!, "zzz");
+      expect(report.text).toContain("Nothing matched");
+    });
+
+    it("refuses a non-owner for every memory command", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, memoryRuntime());
+      for (const name of ["remember", "memory", "forget"]) {
+        expect(
+          await (commands
+            .get(name)!
+            .handler({ senderIsOwner: false } as never) as Promise<unknown>),
+        ).toEqual({ text: "Owner only." });
+      }
+    });
+
+    it("reports honestly when the host has no memory store", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] });
+      expect((await run(commands.get("remember")!, "a fact")).text).toContain("unavailable");
+    });
+
+    it("requires text for /remember and /forget", async () => {
+      const { commands } = commandsFor({ ownerIds: ["telegram:1"] }, memoryRuntime());
+      expect((await run(commands.get("remember")!)).text).toContain("Usage: /remember");
+      expect((await run(commands.get("forget")!)).text).toContain("Usage: /forget");
+    });
+
+    it("retrieves owner facts into the prompt for an owner turn", async () => {
+      const runtime = memoryRuntime();
+      const { commands, hooks } = commandsFor(
+        { ownerIds: ["telegram:1"], personaDir: dir },
+        runtime,
+      );
+      writeFileSync(path.join(dir, "PERSONA.md"), "persona body");
+      await run(commands.get("remember")!, "Prince likes espresso");
+      const result = (await hooks.get("before_prompt_build")!(
+        { prompt: "what espresso does Prince like" },
+        { senderId: "1", channel: "telegram" },
+      )) as { appendContext?: string };
+      expect(result.appendContext).toContain("espresso");
+      expect(result.appendContext).toContain("FRIDAY memory");
+    });
+
+    it("does not inject memory for a non-owner turn", async () => {
+      const { hooks } = commandsFor({ ownerIds: ["telegram:1"], personaDir: dir }, memoryRuntime());
+      const result = (await hooks.get("before_prompt_build")!(
+        { prompt: "what espresso does Prince like" },
+        { senderId: "999", channel: "telegram" },
+      )) as { appendContext?: string } | undefined;
+      expect(result?.appendContext).toBeUndefined();
     });
   });
 

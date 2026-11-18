@@ -230,6 +230,27 @@ function forget(
 
 Contract: `complete` is true only when `remainingMatches` is empty across all layers; the report is the evidence, not a claim.
 
+### The FRIDAY memory surface (`extensions/friday/src/memory/records.ts`, `store.ts`)
+
+The engine has no plugin-facing memory read/write/delete API, so FRIDAY owns a small, bounded
+store for the semantic layer it curates — the same plugin-state store the continuity checkpoint
+uses (namespace `friday-memory`, `reject-new`), one row per record, never a JSON sidecar.
+
+```ts
+function applyCandidate(records, candidate, now, confirmed?): { records; op; reason };
+function forgetMemories(records, query): { records; report };
+function selectForContext(records, prompt, limit?): StoredMemory[];
+function renderMemoryContext(records): string | undefined;
+```
+
+Wiring (`index.ts`): `/remember <text>` folds an owner fact through the Librarian (B-02) and
+persists; `/memory` lists the store; `/forget <text>` purges matching rows and reports the
+evidence, re-scanning the real post-purge store so `complete` is measured, not claimed.
+`before_prompt_build` injects a bounded, provenance-labelled block of the best-matching records
+**only for the configured owner's own turns** — never a forwarded/untrusted turn. Every command
+is owner-gated, and retrieval is best-effort (a store hiccup never fails the turn). Proven in
+`index.test.ts` (commands + retrieval) and `store.test.ts` (durability + trust boundary).
+
 ---
 
 ## E-02 · Durable continuity store (`extensions/friday/src/continuity-store.ts`)
@@ -410,19 +431,19 @@ Contract: the key is case- and whitespace-insensitive; the store is TTL- and siz
 
 ## Engine wiring points (per workstream, surgical)
 
-| Contract             | Engine entry point                                  | Workstream | Status                                                                                    |
-| -------------------- | --------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------- |
-| F-01 redactForEgress | `before_message_write` hook (pre-model user text)   | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                                             |
-| C-01 routeTurn       | `before_model_resolve` hook (model selection)       | WS-C       | WIRED — `index.ts`; proven in `index.test.ts`; no-op until a local pair is set            |
-| C-02 model chain     | `before_model_resolve` hook (`fallbacksOverride`)   | WS-C       | WIRED — `index.ts`; DeepSeek v4.1 Flash + free-tier chain; proven in `index.test.ts`      |
-| C-03 breaker         | `model_call_ended` hook (per-call outcome)          | WS-C       | WIRED — `index.ts`; open breaker skips the provider; proven in `index.test.ts`            |
-| F-02 guardContent    | `tool_result_persist` hook (tool/web/file results)  | WS-F       | WIRED — `index.ts` (`fenceToolResultMessage`); proven in `index.test.ts`                  |
-| A-01 decideAdmission | `before_agent_run` hook (channel admission)         | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                                             |
-| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)      | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test                       |
-| F-07 prepareTurn     | `before_agent_run` hook (the single turn seam)      | WS-F       | WIRED — `index.ts`; composes A-01/F-03 decision + F-02 label; proven in `index.test.ts`   |
-| F-05 checkIntegrity  | `/doctor` + `/trust-persona` baseline (state store) | WS-F       | WIRED — `index.ts`; baseline persisted; proven in `index.test.ts`                         |
-| G-01 heartbeat       | `registerService` v2 + `PluginServiceSchedulerV1`   | WS-G       | WIRED — `index.ts`; 60s loop, F-05 check on a beat; proven in `heartbeat-service.test.ts` |
-| B-02/B-04            | memory write + forget commands                      | WS-B       | PENDING — no plugin-facing purge surface yet (see TASKBOARD F-04/B-04)                    |
-| E-01/E-04            | task start / completion + chat reply                | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                                        |
+| Contract             | Engine entry point                                  | Workstream | Status                                                                                                          |
+| -------------------- | --------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------- |
+| F-01 redactForEgress | `before_message_write` hook (pre-model user text)   | WS-F       | WIRED — `index.ts`; proven in `index.test.ts`                                                                   |
+| C-01 routeTurn       | `before_model_resolve` hook (model selection)       | WS-C       | WIRED — `index.ts`; proven in `index.test.ts`; no-op until a local pair is set                                  |
+| C-02 model chain     | `before_model_resolve` hook (`fallbacksOverride`)   | WS-C       | WIRED — `index.ts`; DeepSeek v4.1 Flash + free-tier chain; proven in `index.test.ts`                            |
+| C-03 breaker         | `model_call_ended` hook (per-call outcome)          | WS-C       | WIRED — `index.ts`; open breaker skips the provider; proven in `index.test.ts`                                  |
+| F-02 guardContent    | `tool_result_persist` hook (tool/web/file results)  | WS-F       | WIRED — `index.ts` (`fenceToolResultMessage`); proven in `index.test.ts`                                        |
+| A-01 decideAdmission | `before_agent_run` hook (channel admission)         | WS-A       | WIRED — `index.ts`; proven in `index.test.ts`                                                                   |
+| F-03 decideEgress    | `before_agent_run` hook (non-essential egress)      | WS-F       | WIRED — `index.ts`; `/lockdown` + `/unlock` commands proven in test                                             |
+| F-07 prepareTurn     | `before_agent_run` hook (the single turn seam)      | WS-F       | WIRED — `index.ts`; composes A-01/F-03 decision + F-02 label; proven in `index.test.ts`                         |
+| F-05 checkIntegrity  | `/doctor` + `/trust-persona` baseline (state store) | WS-F       | WIRED — `index.ts`; baseline persisted; proven in `index.test.ts`                                               |
+| G-01 heartbeat       | `registerService` v2 + `PluginServiceSchedulerV1`   | WS-G       | WIRED — `index.ts`; 60s loop, F-05 check on a beat; proven in `heartbeat-service.test.ts`                       |
+| B-02/B-04            | memory write + forget commands                      | WS-B       | WIRED — `index.ts` (`/remember`,`/memory`,`/forget`) + owner-scoped retrieval; `index.test.ts`, `store.test.ts` |
+| E-01/E-04            | task start / completion + chat reply                | WS-E       | PENDING — no plugin-facing task lifecycle hook yet                                                              |
 
 Each wiring is proven by a test that exercises the real entry point, not just the pure function.
